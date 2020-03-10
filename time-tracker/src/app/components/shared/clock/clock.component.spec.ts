@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TimeclockComponent } from './timeclock.component';
+import { ClockComponent } from './clock.component';
 
-describe('TimeclockComponent', () => {
-  let component: TimeclockComponent;
-  let fixture: ComponentFixture<TimeclockComponent>;
+describe('ClockComponent', () => {
+  let component: ClockComponent;
+  let fixture: ComponentFixture<ClockComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimeclockComponent ]
+      declarations: [ ClockComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TimeclockComponent);
+    fixture = TestBed.createComponent(ClockComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
