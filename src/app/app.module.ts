@@ -24,3 +24,4 @@ import { ClockComponent } from './components/shared/clock/clock.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
