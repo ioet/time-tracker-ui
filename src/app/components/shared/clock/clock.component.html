@@ -1,9 +1,8 @@
 <div class="row">
     <div class="col mt-1  time-clock-color">
-        <!-- fa fa-spin -->
-        <i class="fas fa-sync-alt "></i>
+        <i *ngIf="!displayTime" class="fas fa-sync-alt fa fa-spin"></i>
     </div>
-    <div class="col time-clock-color">
-        <h3>{{ hour | number }}:{{ minutes | number }}:{{ seconds | number }}</h3>
+    <div *ngIf="displayTime" class="col time-clock-color">
+        <h3>{{ hour | number: '2.0-2' }}:{{ minutes | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</h3>
     </div>
 </div>
