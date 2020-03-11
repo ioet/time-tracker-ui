@@ -24,16 +24,6 @@ export class ClockComponent implements OnInit {
     }, 3000);
    }
 
-    horatTest() {
-      this.currentDate = new Date();
-      this.hour = this.currentDate.getHours();
-      this.minutes = this.currentDate.getMinutes();
-      this.seconds = this.currentDate.getSeconds();
-      this.displayTime = false;
-      setTimeout( 'horatTest()' , 3000);
-    }
-
-
   ngOnInit(): void {
   }
 
