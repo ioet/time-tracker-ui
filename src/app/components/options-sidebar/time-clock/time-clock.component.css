@@ -1,0 +1,10 @@
+.content-ClockIn {
+  padding: 2.1rem 1rem;
+}
+
+.timer {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}

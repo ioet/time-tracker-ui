@@ -1,0 +1,14 @@
+.content-projects {
+  max-height: 10rem;
+  overflow-x: auto;
+}
+
+.content-projects > li {
+  font-size: 0.8rem;
+  padding: 0.5rem 0.8rem;
+}
+
+.button-clockIn {
+  font-size: 0.7rem;
+  padding: 0 0.3rem;
+}
