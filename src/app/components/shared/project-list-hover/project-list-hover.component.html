@@ -1,0 +1,17 @@
+<ul class="list-group content-projects">
+  <li
+    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+    *ngFor="let item of projects; let i = index"
+    (mouseenter)="showButton = i"
+    (mouseleave)="showButton = -1"
+    (click)="clockIn(item.id)"
+    [ngClass]="{ active: selectedId === item.id }"
+  >
+    {{ item.name }}
+    <span
+      *ngIf="showButton === i && selectedId !== item.id"
+      class="badge badge-light"
+      >Clock In</span
+    >
+  </li>
+</ul>

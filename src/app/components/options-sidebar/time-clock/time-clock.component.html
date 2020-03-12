@@ -1,5 +1,20 @@
-<div class="text-center mt-5">
-
-    <p>time-clock works!</p>
-
+<div class="container">
+  <div class="row">
+    <div class="col content-ClockIn">
+      <h5>PROJECTS</h5>
+      <app-project-list-hover
+        [projects]="projects"
+        (showFields)="setShowFields($event)"
+      ></app-project-list-hover>
+      <br />
+      <div *ngIf="showFields">
+        <app-details-fields></app-details-fields>
+      </div>
+    </div>
+    <div class="col content-ClockIn">
+      <div class="timer">
+        <h5>Timer Here!</h5>
+      </div>
+    </div>
+  </div>
 </div>

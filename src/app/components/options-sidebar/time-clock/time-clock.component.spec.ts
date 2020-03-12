@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TimeClockComponent } from './time-clock.component';
+import { TimeClockComponent } from "./time-clock.component";
 
-describe('TimeClockComponent', () => {
+describe("TimeClockComponent", () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
 
@@ -15,9 +15,8 @@ describe('TimeClockComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimeClockComponent ]
-    })
-    .compileComponents();
+      declarations: [TimeClockComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -26,7 +25,7 @@ describe('TimeClockComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(component).toBeTruthy();
   });
 
@@ -39,4 +38,10 @@ describe('TimeClockComponent', () => {
     expect(h1tag.textContent).toBe('time-clock works!');
   }));
 
+  it("should set showfileds as true", () => {
+    const show = true;
+    component.showFields = show;
+    component.setShowFields(show);
+    expect(component.showFields).toBe(true);
+  });
 });
