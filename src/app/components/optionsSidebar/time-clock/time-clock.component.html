@@ -1,5 +1,75 @@
 <div class="text-center mt-5">
 
-    <p>time-clock works!</p>
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-2 text-left">
+                    <strong>Time clock</strong>
+                </div>
+                <div class="col-10 text-right">
+                    <i class="far fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
 
-</div>
+        <div class="card-body">
+            <p class="card-title text-left"><strong>Dario</strong> clocked out at <strong>hh:mm:ss</strong></p>
+            <h6 class="text-left"><strong>Totals</strong></h6>
+            <hr>
+            <div class="row">
+                <div class="col-4">
+                    <h6>Current</h6>
+                    <h3>-</h3>
+                </div>
+                <div class="col-4">
+                    <h6>Day</h6>
+                    <h3>4:22</h3>
+
+                </div>
+                <div class="col-4">
+                    <h6>Week</h6>
+                    <h3>14:00</h3>
+                </div>
+            </div>
+            <h6 class="text-left"><strong>Projects</strong></h6>
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="&#xF002; Search project" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, FontAwesome">
+                </div>
+            </form>
+            <p class="text-left"><i class="fas fa-folder"></i><strong>  Top</strong></p>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Customer › ernst-and-young
+                    <button type="button" class="btn btn-success btn-sm">Clock In</button>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Customer
+                    <i class="fas fa-chevron-right"></i>
+
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Training
+                    <i class="fas fa-chevron-right"></i>
+                </li>
+            </ul>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col text-left">
+                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Options
+                          </button>
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-success btn-lg" type="button">Clock In</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
