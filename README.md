@@ -2,6 +2,21 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 9.0.4.
 
+## Prerequisites
+
+### Node.js
+
+We can install Node.js from [https://nodejs.org/en/download/] but we recommend that you install it using Node Version Management [https://github.com/nvm-sh/nvm] (v12.16.1 LTS).
+
+### Angular CLI
+Angular CLI is a Command Line Interface (CLI) to speed up your development with Angular.
+
+Run `npm install -g @angular/cli` for install Angular CLI
+
+## Install Node Modules
+
+Run `npm install` for install the node_modules.
+
 ## Development server
 
 Run `ng serve` to run the app in a dev mode, after executing this command you can navigate to `http://localhost:4200/` to see the app working.
