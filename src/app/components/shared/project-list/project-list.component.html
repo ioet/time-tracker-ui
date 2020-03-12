@@ -4,15 +4,14 @@
     *ngFor="let item of projects; let i = index"
     (mouseenter)="showButton = i"
     (mouseleave)="showButton = -1"
+    (click)="clockIn(item.id)"
     [ngClass]="{ active: selectedId === item.id }"
   >
     {{ item.name }}
-    <button
+    <span
       *ngIf="showButton === i && selectedId !== item.id"
-      class="btn btn-primary btn-sm button-clockIn"
-      (click)="clockIn(item.id)"
+      class="badge badge-light"
+      >Clock In</span
     >
-      Clock In
-    </button>
   </li>
 </ul>
