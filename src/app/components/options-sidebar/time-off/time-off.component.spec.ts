@@ -6,6 +6,13 @@ describe('TimeOffComponent', () => {
   let component: TimeOffComponent;
   let fixture: ComponentFixture<TimeOffComponent>;
 
+  function setup() {
+    // tslint:disable-next-line: no-shadowed-variable
+    const fixture = TestBed.createComponent(TimeOffComponent);
+    const app = fixture.debugElement.componentInstance;
+    return { fixture, app };
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TimeOffComponent ]
@@ -22,4 +29,13 @@ describe('TimeOffComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have p tag as \'time-off works!\'', async(() => {
+    // tslint:disable-next-line: no-shadowed-variable
+    const { app, fixture } = setup();
+    fixture.detectChanges();
+    const compile = fixture.debugElement.nativeElement;
+    const h1tag = compile.querySelector('p');
+    expect(h1tag.textContent).toBe('time-off works!');
+  }));
 });
