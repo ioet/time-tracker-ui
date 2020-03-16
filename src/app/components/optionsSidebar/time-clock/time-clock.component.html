@@ -1,4 +1,4 @@
-<div class="text-center mt-5">
+<div class="text-center mt-3">
 
     <div class="card">
         <div class="card-header">
@@ -53,9 +53,7 @@
                 </li>
             </ul>
             <br>
-
-
-            <form>
+            <form *ngIf="!isClockIn">
                 <div class="form-group row">
                     <label for="inputActivity" class="col-sm-2 col-form-label text-center"><strong>Activity</strong></label>
                     <div class="col-sm-10">
@@ -75,9 +73,7 @@
                     </div>
                 </div>
             </form>
-
             <hr>
-
             <div class="container">
                 <div class="row">
                     <div class="col text-left">
@@ -86,13 +82,10 @@
                           </button>
                     </div>
                     <div class="col text-right">
-                        <button class="btn btn-success btn-lg" type="button" (click)="employeClockIn()">Clock In</button>
+                        <button *ngIf="isClockIn" class="btn btn-success btn-lg" type="button" (click)="employeClockIn()">Clock In</button>
+                        <button *ngIf="!isClockIn" class="btn btn-danger btn-lg" type="button" (click)="employeClockIn()">Clock Out</button>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>

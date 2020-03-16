@@ -5,21 +5,17 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './time-clock.component.html',
   styleUrls: ['./time-clock.component.css']
 })
-export class TimeClockComponent implements OnInit {
+export class TimeClockComponent {
 
   isClockIn: boolean;
 
   constructor() {
-    this.isClockIn = false;
+    this.isClockIn = true;
    }
 
    employeClockIn(): boolean {
-     this.isClockIn = true;
+     this.isClockIn = !this.isClockIn;
      console.log('valor es' + this.isClockIn);
      return this.isClockIn;
    }
-
-  ngOnInit(): void {
-  }
-
 }
