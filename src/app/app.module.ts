@@ -7,7 +7,7 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { UserComponent } from './components/shared/user/user.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import { ClockComponent } from './components/shared/clock/clock.component';
-import { TimeClockComponent } from './components/optionsSidebar/time-clock/time-clock.component';
+import { TimeClockComponent } from './components/options-sidebar/time-clock/time-clock.component';
 
 
 @NgModule({
