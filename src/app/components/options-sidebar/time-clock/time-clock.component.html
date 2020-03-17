@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-4">
                     <h6>Current</h6>
-                    <h3>-</h3>
+                    <h3>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</h3>
                 </div>
                 <div class="col-4">
                     <h6>Day</h6>
