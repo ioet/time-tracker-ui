@@ -16,8 +16,8 @@
         </div>
 
         <div class="card-body">
-            <p *ngIf="!isClockIn" class="card-title text-left"><strong>Dario</strong> clocked <strong class="text-success">in</strong> at <strong>hh:mm:ss</strong></p>
-            <p *ngIf="isClockIn" class="card-title text-left"><strong>Dario</strong> clocked <strong class="text-danger">out</strong> at <strong>hh:mm:ss</strong></p>
+            <p *ngIf="!isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at <strong>{{ clockInUsername }}</strong></p>
+            <p *ngIf="isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-danger">out</strong> at <strong>{{ clockOutUsername }}</strong></p>
             <h6 class="text-left"><strong>Totals</strong></h6>
             <hr>
             <div class="row">

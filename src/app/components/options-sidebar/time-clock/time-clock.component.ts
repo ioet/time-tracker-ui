@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TimeClockComponent {
 
+  username = 'Dario';
+  clockInUsername = 'hh:mm:ss';
+  clockOutUsername = 'hh:mm:ss';
+
   isClockIn: boolean;
   isEnterTechnology: boolean;
   showAlertEnterTecnology: boolean;
