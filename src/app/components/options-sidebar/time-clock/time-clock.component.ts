@@ -31,6 +31,7 @@ export class TimeClockComponent {
        this.showAlertEnterTecnology = true;
      } else {
        this.isClockIn = true;
+       this.isEnterTechnology = false;
        this.showAlertEnterTecnology = false;
      }
    }
