@@ -8,14 +8,34 @@ import { Component, OnInit } from '@angular/core';
 export class TimeClockComponent {
 
   isClockIn: boolean;
+  isEnterTechnology: boolean;
+  showAlertEnterTecnology: boolean;
 
   constructor() {
     this.isClockIn = true;
+    this.isEnterTechnology = false;
    }
 
    employeClockIn(): boolean {
      this.isClockIn = !this.isClockIn;
-     console.log('valor es' + this.isClockIn);
      return this.isClockIn;
+   }
+
+   employeClockOut() {
+     if ( this.isEnterTechnology === false ) {
+       this.isClockIn = false;
+       this.showAlertEnterTecnology = true;
+     } else {
+       this.isClockIn = true;
+       this.showAlertEnterTecnology = false;
+     }
+   }
+
+   enterTechnology(data: string) {
+     if ( data.length > 0 ) {
+      this.isEnterTechnology = true;
+     } else {
+       this.isEnterTechnology = false;
+     }
    }
 }

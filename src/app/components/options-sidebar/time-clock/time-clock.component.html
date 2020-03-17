@@ -1,4 +1,8 @@
 <div class="text-center mt-3">
+    <div *ngIf="showAlertEnterTecnology" class="alert alert-danger" role="alert">
+        Field technology is requiered. Enter this field for clock out.
+    </div>
+
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -12,7 +16,8 @@
         </div>
 
         <div class="card-body">
-            <p class="card-title text-left"><strong>Dario</strong> clocked out at <strong>hh:mm:ss</strong></p>
+            <p *ngIf="!isClockIn" class="card-title text-left"><strong>Dario</strong> clocked <strong class="text-success">in</strong> at <strong>hh:mm:ss</strong></p>
+            <p *ngIf="isClockIn" class="card-title text-left"><strong>Dario</strong> clocked <strong class="text-danger">out</strong> at <strong>hh:mm:ss</strong></p>
             <h6 class="text-left"><strong>Totals</strong></h6>
             <hr>
             <div class="row">
@@ -68,7 +73,7 @@
                 <div class="form-group row">
                     <label for="inputTechnology" class="col-sm-2 col-form-label text-center"><strong>Technology</strong></label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control">
+                        <input #data type="text" (keyup)="enterTechnology(data.value)" class="form-control">
                     </div>
                 </div>
             </form>
@@ -82,7 +87,7 @@
                     </div>
                     <div class="col text-right">
                         <button *ngIf="isClockIn" class="btn btn-success btn-sm" type="button" (click)="employeClockIn()">Clock In</button>
-                        <button *ngIf="!isClockIn" class="btn btn-danger btn-sm" type="button" (click)="employeClockIn()">Clock Out</button>
+                        <button *ngIf="!isClockIn" class="btn btn-danger btn-sm" type="button" (click)="employeClockOut()">Clock Out</button>
                     </div>
                 </div>
             </div>
