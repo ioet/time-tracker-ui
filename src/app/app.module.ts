@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -16,8 +17,7 @@ import { ProjectListComponent } from './components/shared/project-list/project-l
 import { CreateProjectComponent } from './components/shared/create-project/create-project.component';
 import { DetailsFieldsComponent } from './components/shared/details-fields/details-fields.component';
 import { ProjectListHoverComponent } from './components/shared/project-list-hover/project-list-hover.component';
-
-
+import { ModalComponent } from './components/shared/modal/modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,13 +32,15 @@ import { ProjectListHoverComponent } from './components/shared/project-list-hove
     TimeClockComponent,
     DetailsFieldsComponent,
     ProjectListHoverComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
