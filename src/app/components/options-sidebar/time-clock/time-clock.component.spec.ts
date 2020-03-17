@@ -6,6 +6,13 @@ describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
 
+  function setup() {
+    // tslint:disable-next-line: no-shadowed-variable
+    const fixture = TestBed.createComponent(TimeClockComponent);
+    const app = fixture.debugElement.componentInstance;
+    return { fixture, app };
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TimeClockComponent ]
@@ -19,7 +26,17 @@ describe('TimeClockComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have p tag as \'time-clock works!\'', async(() => {
+    // tslint:disable-next-line: no-shadowed-variable
+    const { app, fixture } = setup();
+    fixture.detectChanges();
+    const compile = fixture.debugElement.nativeElement;
+    const h1tag = compile.querySelector('p');
+    expect(h1tag.textContent).toBe('time-clock works!');
+  }));
+
 });

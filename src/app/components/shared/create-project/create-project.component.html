@@ -1,0 +1,38 @@
+<div class="card">
+  <form class="card-body" [formGroup]="projectForm" (ngSubmit)="onSubmit(projectForm.value)">
+    <h1 class="card-title">Create a new project</h1>
+
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input class="form-control" id="name" type="text" formControlName="name" required>
+      <p class="alert alert-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">Name Project is required.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="details">Details:</label>
+      <textarea class="form-control" rows="3" id="details" type="text" formControlName="details" required></textarea>
+      <p class="alert alert-danger" *ngIf="(details.dirty || details.touched) && details.invalid && details.errors.required">Details Project is required.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="status">Status:</label>
+      <select class="form-control" formControlName="status">
+        <option *ngFor="let status of projectStatus" [value]="status">{{status}}</option>
+      </select>
+      <p class="alert alert-danger" *ngIf="(status.dirty || status.touched) && status.invalid && status.errors.required">Status Project is required.</p>
+    </div>
+
+    <div class="form-group form-check" [hidden]="!projectToEdit">
+      <input type="checkbox" class="form-check-input" id="completedProject" formControlName="completed">
+      <label class="form-check-label" for="completedProject">Completed project</label>
+    </div>
+    <div class="btn-toolbar" role="toolbar">
+      <div class="btn-group mr-2" role="group">
+        <button class="btn btn-primary mb-2" type="submit" [disabled]="!projectForm.valid">Save</button>
+      </div>
+      <div class="btn-group mr-2" role="group">
+        <button class="btn btn-primary mb-2" type="reset" [hidden]="!projectToEdit" (click)="reset()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

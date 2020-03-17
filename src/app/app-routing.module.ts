@@ -5,16 +5,17 @@ import { ReportsComponent } from './components/options-sidebar/reports/reports.c
 import { TimeClockComponent } from './components/options-sidebar/time-clock/time-clock.component';
 import { TimeEntriesComponent } from './components/options-sidebar/time-entries/time-entries.component';
 import { TimeOffComponent } from './components/options-sidebar/time-off/time-off.component';
-
+import { ProjectManagementComponent } from './components/options-sidebar/project-management/project-management.component';
 
 const routes: Routes = [
-  {path: 'gettingStarted', component: GettingStartedComponent},
+  {path: 'getting-started', component: GettingStartedComponent},
   {path: 'reports', component: ReportsComponent},
-  {path: 'timeClock', component: TimeClockComponent},
-  {path: 'timeEntries', component: TimeEntriesComponent},
-  {path: 'timeOff', component: TimeOffComponent},
-  {path: '', pathMatch: 'full', redirectTo: 'gettingStarted'},
-  {path: '**', pathMatch: 'full', redirectTo: 'gettingStarted'},
+  {path: 'time-clock', component: TimeClockComponent},
+  {path: 'time-entries', component: TimeEntriesComponent},
+  {path: 'time-off', component: TimeOffComponent},
+  {path: 'project-management', component: ProjectManagementComponent},
+  {path: '', pathMatch: 'full', redirectTo: 'getting-started'},
+  {path: '**', pathMatch: 'full', redirectTo: 'getting-started'},
 ];
 
 @NgModule({

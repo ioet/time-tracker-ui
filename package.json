@@ -19,11 +19,14 @@
     "@angular/platform-browser": "~9.0.3",
     "@angular/platform-browser-dynamic": "~9.0.3",
     "@angular/router": "~9.0.3",
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "minimist": "^1.2.5",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
- "devDependencies": {
+  "devDependencies": {
     "@angular-devkit/build-angular": "^0.900.5",
     "@angular/cli": "~9.0.4",
     "@angular/compiler-cli": "~9.0.3",

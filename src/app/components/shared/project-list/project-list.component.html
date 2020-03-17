@@ -1,0 +1,28 @@
+<div class="card-body">
+  <h1 class="card-title">Project List</h1>
+  <div class="scroll">
+    <div class="accordion" id="accordionExample">
+      <div class="card" *ngFor="let project of projects; let rowIndex = index">
+        <div class="card-header">
+          <h2 class="mb-0">
+            <a type="button" data-toggle="collapse" [attr.data-target]="'#row'+rowIndex" [attr.aria-controls]="'row'+rowIndex">
+              {{project.name}}
+            </a>
+            <button (click)="editProject.emit(project.id)" class="btn btn-outline-primary float-right">edit</button>
+          </h2>
+        </div>
+
+        <div [id]="'row'+rowIndex" class="collapse" data-parent="#accordionExample">
+          <div class="card-body">
+            <h5>Details:</h5>
+            <p>{{project.details}}</p>
+            <h5>Status:</h5>
+            <p>{{project.status}}</p>
+            <h5>Completed project:</h5>
+            <p>{{project.completed ? 'Yes' : 'No'}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
