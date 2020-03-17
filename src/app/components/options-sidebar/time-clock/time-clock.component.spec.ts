@@ -1,11 +1,10 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { DebugElement } from "@angular/core";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+import { TimeClockComponent } from './time-clock.component';
+import { ProjectListHoverComponent } from '../../shared/project-list-hover/project-list-hover.component';
 
-import { TimeClockComponent } from "./time-clock.component";
-import { ProjectListHoverComponent } from "../../shared/project-list-hover/project-list-hover.component";
-
-describe("TimeClockComponent", () => {
+describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
   let de: DebugElement;
@@ -30,7 +29,7 @@ describe("TimeClockComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should be created", () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
@@ -43,7 +42,7 @@ describe("TimeClockComponent", () => {
     expect(ptag.textContent).toBe('Dario clocked out at hh:mm:ss');
   }));
 
-  it("should set showfileds as true", () => {
+  it('should set showfileds as true', () => {
     const show = true;
     component.setShowFields(show);
     expect(component.showFields).toBe(true);
