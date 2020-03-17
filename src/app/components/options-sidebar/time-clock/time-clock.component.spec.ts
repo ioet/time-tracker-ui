@@ -30,13 +30,13 @@ describe('TimeClockComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have p tag as \'time-clock works!\'', async(() => {
+  it('should have p tag as \'Dario clocked out at hh:mm:ss\'', async(() => {
     // tslint:disable-next-line: no-shadowed-variable
     const { app, fixture } = setup();
     fixture.detectChanges();
     const compile = fixture.debugElement.nativeElement;
     const ptag = compile.querySelector('p');
-    expect(ptag.textContent).toBe('time-clock works!');
+    expect(ptag.textContent).toBe('Dario clocked out at hh:mm:ss');
   }));
 
 });
