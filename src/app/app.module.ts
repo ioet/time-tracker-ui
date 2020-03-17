@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +14,10 @@ import { TimeClockComponent } from './components/options-sidebar/time-clock/time
 import { ProjectManagementComponent } from './components/options-sidebar/project-management/project-management.component';
 import { ProjectListComponent } from './components/shared/project-list/project-list.component';
 import { CreateProjectComponent } from './components/shared/create-project/create-project.component';
+import { TimeClockComponent } from './components/options-sidebar/time-clock/time-clock.component';
+import { DetailsFieldsComponent } from './components/shared/details-fields/details-fields.component';
+import { ProjectListHoverComponent } from './components/shared/project-list-hover/project-list-hover.component';
+
 
 @NgModule({
   declarations: [
@@ -24,9 +29,13 @@ import { CreateProjectComponent } from './components/shared/create-project/creat
     TimeClockComponent,
     ProjectManagementComponent,
     ProjectListComponent,
-    CreateProjectComponent
+    CreateProjectComponent,
+    TimeClockComponent,
+    DetailsFieldsComponent,
+    ProjectListHoverComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
