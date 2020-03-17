@@ -6,6 +6,7 @@ describe('ClockComponent', () => {
   let component: ClockComponent;
   let fixture: ComponentFixture<ClockComponent>;
 
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ClockComponent ]
@@ -22,4 +23,15 @@ describe('ClockComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should show the current hour of day', () => {
+    const currentHour = 11;
+    expect(component.currentDate.getHours()).toEqual(currentHour);
+  });
+
+  it('should show the current minutes of day', () => {
+    const currenMinutes = 5;
+    expect(component.currentDate.getMinutes()).toEqual(currenMinutes);
+  });
+
 });

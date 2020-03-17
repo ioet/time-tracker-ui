@@ -1,6 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { interval, timer } from 'rxjs';
-
 
 @Component({
   selector: 'app-time-clock',
@@ -15,12 +13,9 @@ export class TimeClockComponent implements OnInit {
   isClockIn: boolean;
   isEnterTechnology: boolean;
   showAlertEnterTecnology: boolean;
-
   hour: number;
   minute: number;
   seconds: number;
-
-  public timer;
 
   constructor() {
     this.isClockIn = true;
@@ -32,7 +27,6 @@ export class TimeClockComponent implements OnInit {
 
    employeClockIn(): boolean {
      this.isClockIn = !this.isClockIn;
-     this.enableTimer();
      return this.isClockIn;
    }
 
@@ -44,7 +38,6 @@ export class TimeClockComponent implements OnInit {
        this.isClockIn = true;
        this.isEnterTechnology = false;
        this.showAlertEnterTecnology = false;
-       console.log('Disble Timer');
      }
    }
 
@@ -56,26 +49,7 @@ export class TimeClockComponent implements OnInit {
      }
    }
 
-   enableTimer() {
-    this.timer = interval(1000);
-    this.timer.subscribe( (data) => {
-      this.seconds += 1;
-      if ( this.seconds === 59 ) {
-        this.minute += 1;
-        this.seconds = 0;
-        if ( this.minute === 59 ) {
-          this.hour += 1;
-          this.minute = 0;
-        }
-      }
-      // console.log(this.hour + ' : ' + this.minute + ' : ' + this.seconds);
-    });
-
-   }
-
-
    ngOnInit(): void {
   }
-
 
 }
