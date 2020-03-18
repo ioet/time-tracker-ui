@@ -16,7 +16,6 @@ export class ProjectManagementComponent implements OnInit {
   projects: Project[] = [];
 
   constructor(private projectService: ProjectService) {
-    this.getProjects();
   }
 
   ngOnInit(): void {
