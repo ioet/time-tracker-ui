@@ -5,7 +5,15 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './time-clock.component.html',
   styleUrls: ['./time-clock.component.css']
 })
-export class TimeClockComponent {
+export class TimeClockComponent  implements OnInit {
+  projects = [
+    { id: 'P1', name: 'Project 1' },
+    { id: 'P2', name: 'Project 2' },
+    { id: 'P3', name: 'Project 3' },
+    { id: 'P4', name: 'Project 4' }
+  ];
+
+  showFields: boolean;
 
   username = 'Dario';
   clockInUsername = 'hh:mm:ss';
@@ -43,4 +51,10 @@ export class TimeClockComponent {
        this.isEnterTechnology = false;
      }
    }
+
+   setShowFields(show: boolean) {
+    this.showFields = show;
+  }
+
+  ngOnInit(): void {}
 }
