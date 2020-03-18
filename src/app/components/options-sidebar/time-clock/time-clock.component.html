@@ -42,10 +42,7 @@
             </form>
             <p class="text-left"><i class="fas fa-folder"></i><strong>  Top</strong></p>
             <ul class="list-group">
-
                 <app-project-list-hover [projects]="projects" (showFields)="setShowFields($event)"></app-project-list-hover>
-
-
             </ul>
             <br>
             <form *ngIf="!isClockIn || showFields ">
