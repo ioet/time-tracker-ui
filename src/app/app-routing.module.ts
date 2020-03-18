@@ -7,7 +7,6 @@ import { TimeEntriesComponent } from './components/options-sidebar/time-entries/
 import { TimeOffComponent } from './components/options-sidebar/time-off/time-off.component';
 import { ProjectManagementComponent } from './components/options-sidebar/project-management/project-management.component';
 
-
 const routes: Routes = [
   {path: 'getting-started', component: GettingStartedComponent},
   {path: 'reports', component: ReportsComponent},

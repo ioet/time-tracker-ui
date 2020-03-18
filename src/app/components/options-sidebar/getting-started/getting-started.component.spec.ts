@@ -35,8 +35,8 @@ describe('GettingStartedComponent', () => {
     const { app, fixture } = setup();
     fixture.detectChanges();
     const compile = fixture.debugElement.nativeElement;
-    const h1tag = compile.querySelector('p');
-    expect(h1tag.textContent).toBe('getting-started works!');
+    const ptag = compile.querySelector('p');
+    expect(ptag.textContent).toBe('getting-started works!');
   }));
 
 
