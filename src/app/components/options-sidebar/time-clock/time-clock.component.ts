@@ -1,16 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: "app-time-clock",
-  templateUrl: "./time-clock.component.html",
-  styleUrls: ["./time-clock.component.css"]
+  selector: 'app-time-clock',
+  templateUrl: './time-clock.component.html',
+  styleUrls: ['./time-clock.component.css']
 })
-export class TimeClockComponent implements OnInit {
+
+export class TimeClockComponent  implements OnInit {
+
   projects = [
-    { id: "P1", name: "Project 1" },
-    { id: "P2", name: "Project 2" },
-    { id: "P3", name: "Project 3" },
-    { id: "P4", name: "Project 4" }
+    { id: 'P1', name: 'Project 1' },
+    { id: 'P2', name: 'Project 2' },
+    { id: 'P3', name: 'Project 3' },
+    { id: 'P4', name: 'Project 4' }
   ];
 
   username = 'Dario';
@@ -19,9 +21,11 @@ export class TimeClockComponent implements OnInit {
   isClockIn: boolean;
   isEnterTechnology: boolean;
   showAlertEnterTecnology: boolean;
+
   hour: number;
   minute: number;
   seconds: number;
+
   showFields: boolean;
 
   constructor() {
@@ -55,12 +59,12 @@ export class TimeClockComponent implements OnInit {
        this.isEnterTechnology = false;
      }
    }
-  
-    setShowFields(show: boolean) {
+
+   setShowFields(show: boolean) {
+    this.isClockIn = false;
     this.showFields = show;
   }
 
-   ngOnInit(): void {
-  }
-  
+  ngOnInit(): void {}
+
 }
