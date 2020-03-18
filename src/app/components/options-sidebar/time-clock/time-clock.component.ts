@@ -6,14 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./time-clock.component.css']
 })
 export class TimeClockComponent  implements OnInit {
+
   projects = [
     { id: 'P1', name: 'Project 1' },
     { id: 'P2', name: 'Project 2' },
     { id: 'P3', name: 'Project 3' },
     { id: 'P4', name: 'Project 4' }
   ];
-
-  showFields: boolean;
 
   username = 'Dario';
   clockInUsername = 'hh:mm:ss';
@@ -22,6 +21,7 @@ export class TimeClockComponent  implements OnInit {
   isClockIn: boolean;
   isEnterTechnology: boolean;
   showAlertEnterTecnology: boolean;
+  showFields: boolean;
 
   constructor() {
     this.isClockIn = true;
