@@ -53,7 +53,7 @@ export class TimeClockComponent  implements OnInit {
    }
 
    setShowFields(show: boolean) {
-    this.isClockIn = !this.isClockIn;
+    this.isClockIn = false;
     this.showFields = show;
   }
 
