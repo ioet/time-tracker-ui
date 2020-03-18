@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectListHoverComponent } from '../../shared/project-list-hover/project-list-hover.component';
 
@@ -41,7 +40,6 @@ describe('TimeClockComponent', () => {
     const compile = fixture.debugElement.nativeElement;
     const ptag = compile.querySelector('p');
     expect(ptag.textContent).toBe('Dario clocked out at hh:mm:ss');
-
   }));
 
   it('should set showfileds as true', () => {
