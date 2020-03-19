@@ -15,13 +15,15 @@ export class TimeClockComponent  implements OnInit {
     { id: 'P4', name: 'Project 4' }
   ];
 
+  currentDate: Date = new Date();
   username = 'Dario';
-  clockInUsername = 'hh:mm:ss';
-  clockOutUsername = 'hh:mm:ss';
   isClockIn: boolean;
   isEnterTechnology: boolean;
   showAlertEnterTecnology: boolean;
   showFields: boolean;
+  hourCounterRealTime: number;
+  minuteCounterRealTime: number;
+  secondsCounterRealTime: number;
   hour: number;
   minute: number;
   seconds: number;
@@ -30,6 +32,9 @@ export class TimeClockComponent  implements OnInit {
   constructor() {
     this.isClockIn = true;
     this.isEnterTechnology = false;
+    this.hourCounterRealTime = 0;
+    this.minuteCounterRealTime = 0;
+    this.secondsCounterRealTime = 0;
     this.hour = 0;
     this.minute = 0;
     this.seconds = 0;
@@ -38,6 +43,7 @@ export class TimeClockComponent  implements OnInit {
    employeClockIn(): boolean {
      this.isClockIn = !this.isClockIn;
      this.startTimer();
+     this.setTimeToInOut();
      return this.isClockIn;
    }
 
@@ -50,6 +56,7 @@ export class TimeClockComponent  implements OnInit {
        this.isEnterTechnology = false;
        this.showAlertEnterTecnology = false;
        this.pauseTimer();
+       this.setTimeToInOut();
      }
    }
 
@@ -73,19 +80,26 @@ export class TimeClockComponent  implements OnInit {
    }
 
    pauseTimer() {
-    clearInterval(this.interval);
+     clearInterval(this.interval);
    }
 
    timer() {
-    this.seconds += 1;
-    if ( this.seconds === 59 ) {
-      this.minute += 1;
-      this.seconds = 0;
-      if ( this.minute === 59 ) {
-        this.hour += 1;
-        this.minute = 0;
+    this.secondsCounterRealTime += 1;
+    if ( this.secondsCounterRealTime === 59 ) {
+      this.minuteCounterRealTime += 1;
+      this.secondsCounterRealTime = 0;
+      if ( this.minuteCounterRealTime === 59 ) {
+        this.hourCounterRealTime += 1;
+        this.minuteCounterRealTime = 0;
       }
     }
+  }
+
+  setTimeToInOut(){
+    this.currentDate = new Date();
+    this.hour = this.currentDate.getHours();
+    this.minute = this.currentDate.getMinutes();
+    this.seconds = this.currentDate.getSeconds();
   }
 
   ngOnInit(): void {}

@@ -17,14 +17,14 @@
         </div>
 
         <div class="card-body">
-            <p *ngIf="!isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at <strong>{{ clockInUsername }}</strong></p>
-            <p *ngIf="isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-danger">out</strong> at <strong>{{ clockOutUsername }}</strong></p>
+            <p *ngIf="!isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong></p>
+            <p *ngIf="isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-danger">out</strong> at <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong></p>
             <h6 class="text-left"><strong>Totals</strong></h6>
             <hr>
             <div class="row">
                 <div class="col-4">
                     <h6>Current</h6>
-                    <h3>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</h3>
+                    <h3>{{ hourCounterRealTime | number: '2.0-2' }}:{{ minuteCounterRealTime | number: '2.0-2' }}:{{ secondsCounterRealTime | number: '2.0-2' }}</h3>
                 </div>
                 <div class="col-4">
                     <h6>Day</h6>
