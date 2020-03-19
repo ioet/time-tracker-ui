@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "GoSpace",
+    "details": "This app help to improve your workspace.",
+    "status": "Active",
+    "completed": false
+  },
+  {
+    "id": 2,
+    "name": "MidoPlay",
+    "details": "It's a good app to play Lottery",
+    "status": "Inactive",
+    "completed": true
+  }
+]

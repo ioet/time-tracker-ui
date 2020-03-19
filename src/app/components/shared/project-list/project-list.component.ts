@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core';
+import { Project } from '../../../interfaces/project';
 
 @Component({
   selector: 'app-project-list',
@@ -9,11 +10,25 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class ProjectListComponent implements OnInit {
 
-  @Input() projects: any[];
+  @Input() projects: Project[] = [];
   @Output() editProject = new EventEmitter();
+  @Output() deleteProject = new EventEmitter();
+
+  projectToDelete: Project;
+  openDeleteModal: Boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  openModal(projectData) {
+    this.projectToDelete = projectData;
+    this.openDeleteModal = true;
+  }
+
+  removeProject(projectId) {
+    this.deleteProject.emit(projectId);
+    this.projectToDelete = null;
   }
 }
