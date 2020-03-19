@@ -21,12 +21,11 @@ export class TimeClockComponent  implements OnInit {
   isClockIn: boolean;
   isEnterTechnology: boolean;
   showAlertEnterTecnology: boolean;
-
+  showFields: boolean;
   hour: number;
   minute: number;
   seconds: number;
-
-  showFields: boolean;
+  interval;
 
   constructor() {
     this.isClockIn = true;
@@ -38,6 +37,7 @@ export class TimeClockComponent  implements OnInit {
 
    employeClockIn(): boolean {
      this.isClockIn = !this.isClockIn;
+     this.startTimer();
      return this.isClockIn;
    }
 
@@ -49,6 +49,7 @@ export class TimeClockComponent  implements OnInit {
        this.isClockIn = true;
        this.isEnterTechnology = false;
        this.showAlertEnterTecnology = false;
+       this.pauseTimer();
      }
    }
 
@@ -63,6 +64,28 @@ export class TimeClockComponent  implements OnInit {
    setShowFields(show: boolean) {
     this.isClockIn = false;
     this.showFields = show;
+  }
+
+  startTimer() {
+    this.interval = setInterval(() => {
+      this.timer();
+    }, 1000 );
+   }
+
+   pauseTimer() {
+    clearInterval(this.interval);
+   }
+
+   timer() {
+    this.seconds += 1;
+    if ( this.seconds === 59 ) {
+      this.minute += 1;
+      this.seconds = 0;
+      if ( this.minute === 59 ) {
+        this.hour += 1;
+        this.minute = 0;
+      }
+    }
   }
 
   ngOnInit(): void {}
