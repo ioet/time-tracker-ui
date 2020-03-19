@@ -6,7 +6,6 @@ describe('ClockComponent', () => {
   let component: ClockComponent;
   let fixture: ComponentFixture<ClockComponent>;
 
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ClockComponent ]
@@ -25,13 +24,18 @@ describe('ClockComponent', () => {
   });
 
   it('should show the current hour of day', () => {
-    const currentHour = 11;
-    expect(component.currentDate.getHours()).toEqual(currentHour);
+    const currentDate: Date = new Date();
+    expect(component.currentDate.getHours()).toEqual(currentDate.getHours());
   });
 
   it('should show the current minutes of day', () => {
-    const currenMinutes = 5;
-    expect(component.currentDate.getMinutes()).toEqual(currenMinutes);
+    const currentDate: Date = new Date();
+    expect(component.currentDate.getMinutes()).toEqual(currentDate.getMinutes());
+  });
+
+  it('should show the current seconds of day', () => {
+    const currentDate: Date = new Date();
+    expect(component.currentDate.getSeconds()).toEqual(currentDate.getSeconds());
   });
 
 });
