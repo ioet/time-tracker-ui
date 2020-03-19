@@ -28,6 +28,7 @@ export class TimeClockComponent  implements OnInit {
   minute: number;
   seconds: number;
   interval;
+  dataTechnology: string;
 
   constructor() {
     this.isClockIn = true;
@@ -52,6 +53,7 @@ export class TimeClockComponent  implements OnInit {
        this.isClockIn = false;
        this.showAlertEnterTecnology = true;
      } else {
+       this.dataTechnology = '';
        this.isClockIn = true;
        this.isEnterTechnology = false;
        this.showAlertEnterTecnology = false;
@@ -61,6 +63,7 @@ export class TimeClockComponent  implements OnInit {
    }
 
    enterTechnology(data: string) {
+     this.dataTechnology = data;
      if ( data.length > 0 ) {
       this.isEnterTechnology = true;
      } else {
