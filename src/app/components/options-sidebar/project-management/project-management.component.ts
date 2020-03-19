@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from '../../../interfaces/project';
-import { Input } from '@angular/core';
-import { Output, EventEmitter } from '@angular/core';
+import { ProjectService } from '../../../services/project.service';
+
 @Component({
   selector: 'app-project-management',
   templateUrl: './project-management.component.html',
@@ -13,14 +13,13 @@ export class ProjectManagementComponent implements OnInit {
 
   project: Project;
 
-  projects: Project[] = [
-    { id: 1, name: 'GoSpace', details: 'Improve workspaces', status: 'Active', completed: false},
-    { id: 2, name: 'MidoPlay', details: 'Lottery', status: 'Inactive', completed: true}
-  ];
+  projects: Project[] = [];
 
-  constructor() { }
+  constructor(private projectService: ProjectService) {
+  }
 
   ngOnInit(): void {
+    this.getProjects();
   }
 
   updateProject(projectData): void {
@@ -44,7 +43,17 @@ export class ProjectManagementComponent implements OnInit {
     this.project = this.projects.filter((project) => project.id === projectId)[0];
   }
 
+  deleteProject(projectId): void {
+    this.projects = this.projects.filter((project) => project.id !== projectId);
+  }
+
   cancelForm() {
     this.project = null;
+  }
+
+   getProjects() {
+    this.projectService.getProjects().subscribe(data => {
+      this.projects = data;
+    });
   }
 }
