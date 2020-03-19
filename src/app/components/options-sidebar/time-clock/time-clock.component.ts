@@ -74,6 +74,7 @@ export class TimeClockComponent  implements OnInit {
    setShowFields(show: boolean) {
     this.isClockIn = false;
     this.showFields = show;
+    this.startTimer();
     this.setTimeToInOut();
   }
 
