@@ -38,11 +38,10 @@ describe('ClockComponent', () => {
     const currentSeconds = component.currentDate.getSeconds();
     expect(component.currentDate.getSeconds()).toEqual(currentSeconds);
   });
-
+  
   it('should startTimer called', () => {
     spyOn(component, 'showClock');
     component.showClock();
     expect(component.showClock).toHaveBeenCalled();
   });
-
 });

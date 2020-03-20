@@ -6,7 +6,7 @@ import { interval, timer } from 'rxjs';
   templateUrl: './clock.component.html',
   styleUrls: ['./clock.component.css']
 })
-export class ClockComponent implements OnInit {
+export class ClockComponent {
 
   currentDate: Date = new Date();
   hour: number;
@@ -31,8 +31,4 @@ export class ClockComponent implements OnInit {
       this.seconds = this.currentDate.getSeconds();
     });
    }
-
-  ngOnInit(): void {
-  }
-
 }

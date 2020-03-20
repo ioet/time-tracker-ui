@@ -22,6 +22,8 @@ import { MonthPickerComponent } from './components/shared/month-picker/month-pic
 import { EmptyStateComponent } from './components/shared/empty-state/empty-state.component';
 import { GroupByDatePipe } from './components/shared/pipes/group-by-date/group-by-date.pipe';
 
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { GroupByDatePipe } from './components/shared/pipes/group-by-date/group-b
     TimeEntriesComponent,
     MonthPickerComponent,
     EmptyStateComponent,
-    GroupByDatePipe
+    GroupByDatePipe,
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

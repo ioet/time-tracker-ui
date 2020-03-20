@@ -1,9 +1,10 @@
 <div>
   <a class="nav-link dropdown-toggle help-color" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <i class="far fa-user-circle"></i> Dario Herrera
+    <i class="far fa-user-circle"></i>
+    <span>{{name}}</span>
   </a>
 
   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-    <a class="dropdown-item">Sign Out</a>
+    <a class="dropdown-item" (click) = "logout()">Sign Out</a>
   </div>
 </div>
