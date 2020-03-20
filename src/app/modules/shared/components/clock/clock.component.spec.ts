@@ -43,5 +43,4 @@ describe('ClockComponent', () => {
     component.showClock();
     expect(component.showClock).toHaveBeenCalled();
   });
-
 });

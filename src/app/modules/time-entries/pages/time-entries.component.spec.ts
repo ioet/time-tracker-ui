@@ -61,7 +61,7 @@ describe('TimeEntriesComponent', () => {
 
   it('should call dataByMonth in ngOnInit()', async(() => {
     component.ngOnInit();
-    expect(component.dataByMonth.length).toEqual(3);
+    expect(component.dataByMonth.length).toEqual(1);
   }));
 
   it('should open Delete Modal', () => {
@@ -91,9 +91,9 @@ describe('TimeEntriesComponent', () => {
   });
 
   it('should delete a Entry', () => {
-    const entryId = 'entry_2';
+    const entryId = 'entry_5';
     component.removeEntry(entryId);
-    expect(component.dataByMonth.length).toBe(2);
+    expect(component.dataByMonth.length).toBe(0);
   });
 
   it('should get the entry List by Month', () => {

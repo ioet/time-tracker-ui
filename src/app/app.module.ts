@@ -25,6 +25,8 @@ import { ActivitiesManagementComponent } from './modules/activities-management/p
 import { ActivityListComponent } from './modules/activities-management/components/activity-list/activity-list.component';
 import { CreateActivityComponent } from './modules/activities-management/components/create-activity/create-activity.component';
 
+import { HomeComponent } from './modules/home/home.component';
+import { LoginComponent } from './modules/login/login.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { CreateActivityComponent } from './modules/activities-management/compone
     GroupByDatePipe,
     ActivitiesManagementComponent,
     CreateActivityComponent,
-    ActivityListComponent
+    ActivityListComponent,
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

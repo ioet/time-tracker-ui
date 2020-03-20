@@ -23,8 +23,12 @@ Run `npm install` to install the required node_modules for this project.
 Run `ng serve` to run the app in dev mode. After executing this command, you can navigate to `http://localhost:4200/` to see the app working.
 The app will automatically reload if you change anything in the source files.
 
-## Prepare your environment for vscode
+## Prepare your environment 
 
+### Set environment variables
+Create file .keys.json from keys.example.ts into environments folder with the content pinned in our slack channel
+
+### Prepare your environment for vscode
 Install the following extensions:
 
 - `EditorConfig for Visual Studio Code`.
