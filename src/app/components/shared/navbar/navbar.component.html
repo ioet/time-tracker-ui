@@ -1,9 +1,21 @@
-<nav class="navbar navbar-dark bg-dark ">
-    <a class="navbar-brand" href="/">
-        <img src="assets/img/ioet.png" width="20" height="35" class="d-inline-block align-top" alt="">
-    </a>
+<nav class="navbar navbar-dark bg-dark">
 
-    <app-clock class="text-center"></app-clock>
-    <app-user></app-user>
+    <div class="container-fluid row">
+
+        <div class="col text-left">
+            <a class="navbar-brand" href="/">
+                <img src="assets/img/ioet.png" width="20" height="35" class="align-top" alt="">
+            </a>
+        </div>
+
+        <div class="col text-center">
+            <app-clock></app-clock>
+        </div>
+
+        <div class="col text-right" style="background-color: sienna;">
+            <app-user></app-user>
+        </div>
+
+    </div>
 
 </nav>

@@ -18,7 +18,7 @@ import { CreateProjectComponent } from './components/shared/create-project/creat
 import { DetailsFieldsComponent } from './components/shared/details-fields/details-fields.component';
 import { ProjectListHoverComponent } from './components/shared/project-list-hover/project-list-hover.component';
 import { ModalComponent } from './components/shared/modal/modal.component';
-import { HighlightedDirective } from './directives/highlighted.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +34,6 @@ import { HighlightedDirective } from './directives/highlighted.directive';
     DetailsFieldsComponent,
     ProjectListHoverComponent,
     ModalComponent,
-    HighlightedDirective
   ],
   imports: [
     CommonModule,
