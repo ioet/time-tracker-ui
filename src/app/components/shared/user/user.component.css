@@ -1,3 +1,23 @@
-.help-color {
-    color: white;
+.user-hover :hover {
+    cursor: pointer;
+    color: #16BAC5 !important
+}
+
+.notifications-hover :hover {
+    cursor: pointer;
+    color: #FF3948 !important
+}
+
+.help-hover :hover {
+    cursor: pointer;
+    color: #861388 !important
+}
+
+.text-items-black :hover {
+    cursor: pointer;
+    color: black !important;
+}
+
+.black-item {
+    color: black !important;
 }
