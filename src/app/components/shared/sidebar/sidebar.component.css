@@ -11,7 +11,7 @@ body {
 }
 
 #sidebar-wrapper {
-    min-height: 100vh;
+    min-height: 91.8vh;
     margin-left: -15rem;
     -webkit-transition: margin .25s ease-out;
     -moz-transition: margin .25s ease-out;
