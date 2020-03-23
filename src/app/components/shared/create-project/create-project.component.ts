@@ -34,8 +34,10 @@ export class CreateProjectComponent implements OnInit {
   ngOnChanges(): void {
     if (this.projectToEdit) {
       this.editProjectId = this.projectToEdit.id;
-      this.projectForm.setValue({name: this.projectToEdit.name, details: this.projectToEdit.details,
-        status: this.projectToEdit.status, completed: this.projectToEdit.completed});
+      this.projectForm.setValue({
+        name: this.projectToEdit.name, details: this.projectToEdit.details,
+        status: this.projectToEdit.status, completed: this.projectToEdit.completed
+      });
     }
   }
 

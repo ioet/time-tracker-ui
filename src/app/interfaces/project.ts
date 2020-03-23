@@ -5,3 +5,4 @@ export interface Project {
   status: string;
   completed: boolean;
 }
+
