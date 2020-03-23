@@ -29,6 +29,9 @@ export class TimeClockComponent  implements OnInit {
   seconds: number;
   interval;
   dataTechnology: string;
+  execOnlyOneTimeCounter = 0;
+  execOnlyOneTimeClockIn = 0;
+  isClockInEnable = false;
 
   constructor() {
     this.isClockIn = true;
@@ -42,6 +45,7 @@ export class TimeClockComponent  implements OnInit {
    }
 
    employeClockIn(): boolean {
+     this.isClockInEnable = true;
      this.isClockIn = !this.isClockIn;
      this.startTimer();
      this.setTimeToInOut();
@@ -53,12 +57,10 @@ export class TimeClockComponent  implements OnInit {
        this.isClockIn = false;
        this.showAlertEnterTecnology = true;
      } else {
-       this.dataTechnology = '';
-       this.isClockIn = true;
-       this.isEnterTechnology = false;
-       this.showAlertEnterTecnology = false;
+       this.setVarToEmpty();
        this.pauseTimer();
        this.setTimeToInOut();
+
      }
    }
 
@@ -72,15 +74,20 @@ export class TimeClockComponent  implements OnInit {
    }
 
    setShowFields(show: boolean) {
-    this.isClockIn = false;
-    this.showFields = show;
-    this.startTimer();
-    this.setTimeToInOut();
+     if ( this.isClockInEnable !== true ) {
+      this.isClockIn = false;
+      this.showFields = show;
+      if (  this.execOnlyOneTimeCounter === 0 ) {
+        this.startTimer();
+        this.execOnlyOneTimeCounter++;
+      }
+      this.setTimeToInOut();
+     }
   }
 
   startTimer() {
     this.interval = setInterval(() => {
-      this.timer();
+        this.timer();
     }, 1000 );
    }
 
@@ -101,10 +108,24 @@ export class TimeClockComponent  implements OnInit {
   }
 
   setTimeToInOut() {
-    this.currentDate = new Date();
-    this.hour = this.currentDate.getHours();
-    this.minute = this.currentDate.getMinutes();
-    this.seconds = this.currentDate.getSeconds();
+    if ( this.execOnlyOneTimeClockIn === 0 ) {
+      this.currentDate = new Date();
+      this.hour = this.currentDate.getHours();
+      this.minute = this.currentDate.getMinutes();
+      this.seconds = this.currentDate.getSeconds();
+      this.execOnlyOneTimeClockIn++;
+    }
+
+  }
+
+  setVarToEmpty() {
+    this.dataTechnology = '';
+    this.isClockIn = true;
+    this.isEnterTechnology = false;
+    this.showAlertEnterTecnology = false;
+    this.execOnlyOneTimeClockIn = 0;
+    this.execOnlyOneTimeCounter = 0;
+    this.isClockInEnable = false;
   }
 
   ngOnInit(): void {}
