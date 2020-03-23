@@ -1,13 +1,6 @@
 name: CI process for time-tracker app
 
 on:
-  # Trigger the workflow on push or pull request
-  push:
-    branches:
-      - '*'
-      - '*/*'
-      - '!master'
-
   pull_request:
     types: [opened, edited, reopened, synchronize]
     branches:
