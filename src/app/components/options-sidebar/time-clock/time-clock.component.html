@@ -58,7 +58,7 @@
                     <label for="inputTechnology" class="col-sm-2 col-form-label text-center"><strong>Technology</strong></label>
                     <div class="col-sm-10">
                         <input *ngIf="!showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control">
-                        <input *ngIf="showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control border-danger placeholder-danger " placeholder="Field technology is requiered. Enter this field for clock out.">
+                        <input *ngIf="showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control border-danger placeholder-danger " placeholder="Field technology is required. Enter this field for clock out.">
                     </div>
                 </div>
             </form>
