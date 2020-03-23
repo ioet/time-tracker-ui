@@ -1,30 +1,33 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - time-tracker-ui
+name: CD process to deploy to App-Service service
 
 on:
-  push:
+  # Trigger the workflow on pull request but only for the master branch
+  pull_request:
+    types: [closed]
     branches:
       - master
 
 jobs:
   build-and-deploy:
+    name: Deploy to Azure
     runs-on: ubuntu-latest
-
+    timeout-minutes: 60
     steps:
-    - uses: actions/checkout@master
+    - name: Checkout of master
+      uses: actions/checkout@master
 
     - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
 
-    - name: npm install, build, and test
+    - name: 'run: npm install and build'
       run: |
         npm install
-        npm run build --if-present
-#        npm run test --if-present
+        npm run build --prod --if-present
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1
