@@ -1,9 +1,4 @@
-<div class="text-center mt-3">
-
-    <div *ngIf="showAlertEnterTecnology" class="alert alert-danger" role="alert">
-        Field technology is requiered. Enter this field for clock out.
-    </div>
-
+<div class="text-center mt-5">
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -17,14 +12,14 @@
         </div>
 
         <div class="card-body">
-            <p *ngIf="!isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at <strong>{{ clockInUsername }}</strong></p>
-            <p *ngIf="isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-danger">out</strong> at <strong>{{ clockOutUsername }}</strong></p>
+            <p *ngIf="!isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong></p>
+            <p *ngIf="isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-danger">out</strong> at <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong></p>
             <h6 class="text-left"><strong>Totals</strong></h6>
             <hr>
             <div class="row">
                 <div class="col-4">
                     <h6>Current</h6>
-                    <h3>-</h3>
+                    <h3>{{ hourCounterRealTime | number: '2.0-2' }}:{{ minuteCounterRealTime | number: '2.0-2' }}:{{ secondsCounterRealTime | number: '2.0-2' }}</h3>
                 </div>
                 <div class="col-4">
                     <h6>Day</h6>
@@ -62,7 +57,8 @@
                 <div class="form-group row">
                     <label for="inputTechnology" class="col-sm-2 col-form-label text-center"><strong>Technology</strong></label>
                     <div class="col-sm-10">
-                        <input #data type="text" (keyup)="enterTechnology(data.value)" class="form-control">
+                        <input *ngIf="!showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control">
+                        <input *ngIf="showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control border-danger placeholder-danger " placeholder="Field technology is requiered. Enter this field for clock out.">
                     </div>
                 </div>
             </form>
