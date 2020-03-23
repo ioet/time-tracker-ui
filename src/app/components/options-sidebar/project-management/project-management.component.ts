@@ -35,7 +35,6 @@ export class ProjectManagementComponent implements OnInit {
       };
       this.projects = this.projects.concat(newProject);
     }
-    console.log(this.projects);
   }
 
   editProject(projectId) {
