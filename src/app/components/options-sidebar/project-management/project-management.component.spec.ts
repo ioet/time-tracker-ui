@@ -1,9 +1,11 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-
 import { ProjectManagementComponent } from './project-management.component';
 import { Project } from '../../../interfaces/project';
 import { ProjectService } from '../../../services/project.service';
 import { of } from 'rxjs';
+import { CreateProjectComponent } from '../../../components/shared/create-project/create-project.component';
+import { ProjectListComponent } from '../../../components/shared/project-list/project-list.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('ProjectManagementComponent', () => {
   let component: ProjectManagementComponent;
@@ -42,8 +44,12 @@ describe('ProjectManagementComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProjectManagementComponent ],
-      providers: [ { provide: ProjectService, useValue: projectServiceStub }]
+      declarations: [ ProjectManagementComponent, CreateProjectComponent, ProjectListComponent ],
+      providers: [ { provide: ProjectService, useValue: projectServiceStub }],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule
+      ]
     })
     .compileComponents();
   }));
