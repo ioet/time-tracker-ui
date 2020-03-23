@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Project } from '../../../interfaces/project';
+import { Project } from '../../../interfaces';
 import { Output, EventEmitter } from '@angular/core';
 import { ProjectListComponent } from '../project-list/project-list.component';
 

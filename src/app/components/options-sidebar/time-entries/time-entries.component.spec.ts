@@ -1,20 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TimeEntriesComponent } from './time-entries.component';
 import { GroupByDatePipe } from '../../shared/pipes/group-by-date/group-by-date.pipe';
+import { MonthPickerComponent } from '../../shared/month-picker/month-picker.component';
+import { DetailsFieldsComponent } from '../../shared/details-fields/details-fields.component';
+import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 
 describe('TimeEntriesComponent', () => {
   let component: TimeEntriesComponent;
   let fixture: ComponentFixture<TimeEntriesComponent>;
   const entry = {
-    id: "entry_1",
-    project: "Mido - 05 de Febrero",
-    startDate: "2020-02-05T15:36:15.887Z",
-    endDate: "2020-02-05T18:36:15.887Z",
-    activity: "development",
-    technology: "Angular, TypeScript",
-    comments: "No comments",
-    ticket: "EY-25"
+    id: 'entry_1',
+    project: 'Mido - 05 de Febrero',
+    startDate: '2020-02-05T15:36:15.887Z',
+    endDate: '2020-02-05T18:36:15.887Z',
+    activity: 'development',
+    technology: 'Angular, TypeScript',
+    comments: 'No comments',
+    ticket: 'EY-25'
   };
 
   function setup() {
@@ -26,7 +31,18 @@ describe('TimeEntriesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimeEntriesComponent, GroupByDatePipe ]
+      declarations: [
+        EmptyStateComponent,
+        DetailsFieldsComponent,
+        GroupByDatePipe,
+        ModalComponent,
+        MonthPickerComponent,
+        TimeEntriesComponent
+      ],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule
+      ]
     })
     .compileComponents();
   }));
@@ -41,16 +57,16 @@ describe('TimeEntriesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  /* it('should have p tag as \'time-entries works!\'', async(() => {
+  it('should have p tag as \'time-entries works!\'', async(() => {
     // tslint:disable-next-line: no-shadowed-variable
     const { app, fixture } = setup();
     fixture.detectChanges();
     const compile = fixture.debugElement.nativeElement;
     const ptag = compile.querySelector('p');
     expect(ptag.textContent).toBe('time-entries works!');
-  })); */
+  }));
 
-  it('should call filter entry', async(() => {
+  it('should call dataByMonth in ngOnInit()', async(() => {
     component.ngOnInit();
     expect(component.dataByMonth.length).toEqual(3);
   }));

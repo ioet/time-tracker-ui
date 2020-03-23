@@ -15,15 +15,8 @@ export class GroupByDatePipe implements PipeTransform {
       const endDate = this.getDate(current.endDate);
       const startDate = this.getDate(current.startDate);
 
-      // console.log("previous[endDate] >>", previous[endDate]);
-      // console.log("previous[startDate] >>", previous[startDate]);
-
       if (!previous[endDate]) previous[endDate] = [];
       if (!previous[startDate]) previous[startDate] = []
-      /* if (!previous[endDate] || !previous[startDate]) {
-        previous[endDate] = [];
-        previous[startDate] = []
-      } */
 
       if (startDate !== endDate) previous[startDate].push(current);
       previous[endDate].push(current);
