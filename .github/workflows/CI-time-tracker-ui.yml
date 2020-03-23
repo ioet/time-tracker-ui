@@ -28,7 +28,7 @@ jobs:
           node-version: '12.x'
 
       - name: Security Audit
-        run: npm audit
+        run: npm audit --audit-level=moderate
 
   ci-test:
     name: Running unit tests
