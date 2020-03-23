@@ -6,6 +6,7 @@ import { TimeClockComponent } from './components/options-sidebar/time-clock/time
 import { TimeEntriesComponent } from './components/options-sidebar/time-entries/time-entries.component';
 import { TimeOffComponent } from './components/options-sidebar/time-off/time-off.component';
 import { ProjectManagementComponent } from './components/options-sidebar/project-management/project-management.component';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
 
 const routes: Routes = [
   {path: 'getting-started', component: GettingStartedComponent},
@@ -19,7 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
