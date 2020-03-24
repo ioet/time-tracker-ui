@@ -1,11 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ClockComponent } from './clock.component';
+import { interval, timer } from 'rxjs';
 
 describe('ClockComponent', () => {
   let component: ClockComponent;
   let fixture: ComponentFixture<ClockComponent>;
 
+  function setup() {
+    // tslint:disable-next-line: no-shadowed-variable
+    const fixture = TestBed.createComponent(ClockComponent);
+    const app = fixture.debugElement.componentInstance;
+    return { fixture, app };
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,13 +32,19 @@ describe('ClockComponent', () => {
   });
 
   it('should show the current hour of day', () => {
-    const currentHour = 11;
-    expect(component.currentDate.getHours()).toEqual(currentHour);
+    const currentDate: Date = new Date();
+    expect(component.currentDate.getHours()).toEqual(currentDate.getHours());
   });
 
   it('should show the current minutes of day', () => {
-    const currenMinutes = 5;
-    expect(component.currentDate.getMinutes()).toEqual(currenMinutes);
+    const currentDate: Date = new Date();
+    expect(component.currentDate.getMinutes()).toEqual(currentDate.getMinutes());
   });
+
+  it('should show the current seconds of day', () => {
+    const currentDate: Date = new Date();
+    expect(component.currentDate.getSeconds()).toEqual(currentDate.getSeconds());
+  });
+
 
 });

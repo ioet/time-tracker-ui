@@ -15,29 +15,42 @@ export class TimeClockComponent  implements OnInit {
     { id: 'P4', name: 'Project 4' }
   ];
 
+  currentDate: Date = new Date();
   username = 'Dario';
-  clockInUsername = 'hh:mm:ss';
-  clockOutUsername = 'hh:mm:ss';
   isClockIn: boolean;
   isEnterTechnology: boolean;
   showAlertEnterTecnology: boolean;
-
+  showFields: boolean;
+  hourCounterRealTime: number;
+  minuteCounterRealTime: number;
+  secondsCounterRealTime: number;
   hour: number;
   minute: number;
   seconds: number;
-
-  showFields: boolean;
+  interval;
+  dataTechnology: string[] = new Array();
+  execOnlyOneTimeCounter = false;
+  execOnlyOneTimeClockIn = false;
+  isClockInEnable = false;
+  isHidenForm = true;
 
   constructor() {
     this.isClockIn = true;
     this.isEnterTechnology = false;
+    this.hourCounterRealTime = 0;
+    this.minuteCounterRealTime = 0;
+    this.secondsCounterRealTime = 0;
     this.hour = 0;
     this.minute = 0;
     this.seconds = 0;
    }
 
    employeClockIn(): boolean {
+     this.isClockInEnable = true;
      this.isClockIn = !this.isClockIn;
+     this.isHidenForm = false;
+     this.startTimer();
+     this.setArrivalAndDepartureTimes();
      return this.isClockIn;
    }
 
@@ -46,9 +59,9 @@ export class TimeClockComponent  implements OnInit {
        this.isClockIn = false;
        this.showAlertEnterTecnology = true;
      } else {
-       this.isClockIn = true;
-       this.isEnterTechnology = false;
-       this.showAlertEnterTecnology = false;
+       this.setDefaultValuesToFields();
+       this.pauseTimer();
+       this.setArrivalAndDepartureTimes();
      }
    }
 
@@ -61,10 +74,62 @@ export class TimeClockComponent  implements OnInit {
    }
 
    setShowFields(show: boolean) {
-    this.isClockIn = false;
-    this.showFields = show;
+     this.isHidenForm = false;
+     if ( this.isClockInEnable !== true ) {
+      this.isClockIn = false;
+      this.showFields = show;
+      if (  !this.execOnlyOneTimeCounter  ) {
+        this.startTimer();
+        this.execOnlyOneTimeCounter = true;
+      }
+      this.setArrivalAndDepartureTimes();
+     }
   }
 
-  ngOnInit(): void {}
+  startTimer() {
+    this.interval = setInterval(() => {
+        this.timer();
+    }, 1000 );
+   }
+
+   pauseTimer() {
+     clearInterval(this.interval);
+   }
+
+   timer() {
+    this.secondsCounterRealTime += 1;
+    if ( this.secondsCounterRealTime === 59 ) {
+      this.minuteCounterRealTime += 1;
+      this.secondsCounterRealTime = 0;
+      if ( this.minuteCounterRealTime === 59 ) {
+        this.hourCounterRealTime += 1;
+        this.minuteCounterRealTime = 0;
+      }
+    }
+  }
+
+  setArrivalAndDepartureTimes() {
+    if ( !this.execOnlyOneTimeClockIn ) {
+      this.currentDate = new Date();
+      this.hour = this.currentDate.getHours();
+      this.minute = this.currentDate.getMinutes();
+      this.seconds = this.currentDate.getSeconds();
+      this.execOnlyOneTimeClockIn = true;
+    }
+
+  }
+
+  setDefaultValuesToFields() {
+    this.isHidenForm = true;
+    this.isClockIn = true;
+    this.isEnterTechnology = false;
+    this.showAlertEnterTecnology = false;
+    this.execOnlyOneTimeClockIn = false;
+    this.execOnlyOneTimeCounter = false;
+    this.isClockInEnable = false;
+  }
+
+  ngOnInit(): void {
+  }
 
 }
