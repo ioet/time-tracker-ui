@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, Component } from '@angular/core';
 import { TimeClockComponent } from './time-clock.component';
@@ -101,28 +101,5 @@ describe('TimeClockComponent', () => {
     component.enterTechnology('');
     expect(component.enterTechnology).toHaveBeenCalled();
   });
-
-  // it('show init state of vars', () => {
-  //   spyOn(component, 'employeClockIn');
-  //   const isClockIn = true;
-  //   const isEnterTechnology = false;
-  //   const hourCounterRealTime = 0;
-  //   const minuteCounterRealTime = 0;
-  //   const secondsCounterRealTime = 0;
-  //   const hour = 0;
-  //   const minute = 0;
-  //   const seconds = 0;
-  //   expect(component.isClockIn).toBe(isClockIn);
-  //   expect(component.isEnterTechnology).toBe(isEnterTechnology);
-  //   expect(component.hourCounterRealTime).toBe(hourCounterRealTime);
-  //   expect(component.minuteCounterRealTime).toBe(minuteCounterRealTime);
-  //   expect(component.secondsCounterRealTime).toBe(secondsCounterRealTime);
-  //   expect(component.hour).toBe(hour);
-  //   expect(component.minute).toBe(minute);
-  //   expect(component.seconds).toBe(hour);
-  // });
-
-
-
 
 });

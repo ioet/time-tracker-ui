@@ -59,7 +59,7 @@
                     <div class="col-sm-10">
                         <input *ngIf="!showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control">
                         <input *ngIf="showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control border-danger">
-                        <div class="">
+                        <div>
                             <h6 *ngIf="showAlertEnterTecnology" class="text-danger text-left">Technology field is required. Enter this field to clock out.</h6>
                         </div>
                     </div>
