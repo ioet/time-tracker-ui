@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Project } from '../../../interfaces/project';
+import { Project } from '../../../interfaces';
 import { ProjectService } from '../../../services/project.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class ProjectManagementComponent implements OnInit {
       this.projects[projectIndex].status = projectData.status;
       this.projects[projectIndex].completed = projectData.completed;
     } else {
-      const newProject: Project = { id: this.projects.length + 1, name: projectData.name,
+      const newProject: Project = { id: (this.projects.length + 1).toString(), name: projectData.name,
         details: projectData.details, status: projectData.status, completed: false
       };
       this.projects = this.projects.concat(newProject);

@@ -24,19 +24,24 @@ describe('ModalComponent', () => {
   });
 
   it('should emit removeProject event #removedProject', () => {
-    const project = {
-      id: 1,
+    const merged = {
+      id: '1',
       name: 'app 4',
       details: 'It is a good app',
       status: 'inactive',
-      completed: true
+      completed: true,
+      project: 'ErnstYoung',
+      startDate: '2020-02-05T15:36:15.887Z',
+      endDate: '2020-02-05T18:36:15.887Z',
+      activity: 'development',
+      technology: 'Angular, TypeScript',
     };
 
-    spyOn(component.removeProject, 'emit');
-    component.project = project;
+    spyOn(component.removeList, 'emit');
+    component.list = merged;
     fixture.detectChanges();
-    component.removedProject(project.id);
-    expect(component.removeProject.emit).toHaveBeenCalled();
+    component.removeListById(merged.id);
+    expect(component.removeList.emit).toHaveBeenCalled();
     component.cancelDeleteModal.nativeElement.click();
   });
 });

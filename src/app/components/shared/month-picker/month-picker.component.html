@@ -1,0 +1,10 @@
+<div class="container-month d-flex">
+  <div
+    class="month w-100 text-center text-white"
+    *ngFor="let month of months; let i = index "
+    (click)="getMonth(i)"
+    [ngClass]="{ active: activeMonth === i }"
+  >
+    <div>{{ month }}</div>
+  </div>
+</div>

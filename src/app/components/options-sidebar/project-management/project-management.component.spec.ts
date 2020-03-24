@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { ProjectManagementComponent } from './project-management.component';
-import { Project } from '../../../interfaces/project';
+import { Project } from '../../../interfaces';
 import { ProjectService } from '../../../services/project.service';
 import { of } from 'rxjs';
 import { CreateProjectComponent } from '../../../components/shared/create-project/create-project.component';
 import { ProjectListComponent } from '../../../components/shared/project-list/project-list.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('ProjectManagementComponent', () => {
   let component: ProjectManagementComponent;
@@ -13,21 +14,21 @@ describe('ProjectManagementComponent', () => {
   let projectService: ProjectService;
 
   const projects: Project[] = [{
-    id: 1,
+    id: '1',
     name: 'app 1',
     details: 'It is a good app',
     status: 'inactive',
     completed: true
   },
   {
-    id: 2,
+    id: '2',
     name: 'app 2',
     details: 'It is a good app',
     status: 'inactive',
     completed: false
   },
   {
-    id: 3,
+    id: '3',
     name: 'app 3',
     details: 'It is a good app',
     status: 'active',
@@ -89,14 +90,14 @@ describe('ProjectManagementComponent', () => {
 
   it('should edit a project #updateProject', () => {
     const project = {
-      id: 1,
+      id: '1',
       name: 'app test',
       details: 'It is a excelent app',
       status: 'inactive',
       completed: true
     };
 
-    component.editedProjectId = 1;
+    component.editedProjectId = '1';
     component.updateProject(project);
     expect(component.projects.length).toEqual(3);
     expect(component.projects[0].name).toBe('app test');
@@ -106,14 +107,14 @@ describe('ProjectManagementComponent', () => {
   });
 
   it('should filter the project to edit #editProject', () => {
-    const editProjectId = 2;
+    const editProjectId = '2';
     component.editProject(editProjectId);
     expect(component.project.name).toBe('app 2');
   });
 
   it('should clean the project #cancelForm', () => {
     const project = {
-      id: 1,
+      id: '1',
       name: 'app 1',
       details: 'It is a good app',
       status: 'inactive',
@@ -149,7 +150,7 @@ describe('ProjectManagementComponent', () => {
   }));
 
   it('should delete a project #deleteProject', () => {
-    const projectId = 1;
+    const projectId = '1';
 
     component.deleteProject(projectId);
     expect(component.projects.length).toEqual(2);
