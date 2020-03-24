@@ -1,10 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ClockComponent } from './clock.component';
+import { interval, timer } from 'rxjs';
 
 describe('ClockComponent', () => {
   let component: ClockComponent;
   let fixture: ComponentFixture<ClockComponent>;
+
+  function setup() {
+    // tslint:disable-next-line: no-shadowed-variable
+    const fixture = TestBed.createComponent(ClockComponent);
+    const app = fixture.debugElement.componentInstance;
+    return { fixture, app };
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,5 +45,6 @@ describe('ClockComponent', () => {
     const currentDate: Date = new Date();
     expect(component.currentDate.getSeconds()).toEqual(currentDate.getSeconds());
   });
+
 
 });

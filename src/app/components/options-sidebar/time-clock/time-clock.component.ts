@@ -28,10 +28,11 @@ export class TimeClockComponent  implements OnInit {
   minute: number;
   seconds: number;
   interval;
-  dataTechnology: string;
-  execOnlyOneTimeCounter = 0;
-  execOnlyOneTimeClockIn = 0;
+  dataTechnology: string[] = new Array();
+  execOnlyOneTimeCounter = false;
+  execOnlyOneTimeClockIn = false;
   isClockInEnable = false;
+  isHidenForm = true;
 
   constructor() {
     this.isClockIn = true;
@@ -47,8 +48,9 @@ export class TimeClockComponent  implements OnInit {
    employeClockIn(): boolean {
      this.isClockInEnable = true;
      this.isClockIn = !this.isClockIn;
+     this.isHidenForm = false;
      this.startTimer();
-     this.setTimeToInOut();
+     this.setArrivalAndDepartureTimes();
      return this.isClockIn;
    }
 
@@ -57,15 +59,13 @@ export class TimeClockComponent  implements OnInit {
        this.isClockIn = false;
        this.showAlertEnterTecnology = true;
      } else {
-       this.setVarToEmpty();
+       this.setDefaultValuesToFields();
        this.pauseTimer();
-       this.setTimeToInOut();
-
+       this.setArrivalAndDepartureTimes();
      }
    }
 
    enterTechnology(data: string) {
-     this.dataTechnology = data;
      if ( data.length > 0 ) {
       this.isEnterTechnology = true;
      } else {
@@ -74,14 +74,15 @@ export class TimeClockComponent  implements OnInit {
    }
 
    setShowFields(show: boolean) {
+     this.isHidenForm = false;
      if ( this.isClockInEnable !== true ) {
       this.isClockIn = false;
       this.showFields = show;
-      if (  this.execOnlyOneTimeCounter === 0 ) {
+      if (  !this.execOnlyOneTimeCounter  ) {
         this.startTimer();
-        this.execOnlyOneTimeCounter++;
+        this.execOnlyOneTimeCounter = true;
       }
-      this.setTimeToInOut();
+      this.setArrivalAndDepartureTimes();
      }
   }
 
@@ -107,27 +108,28 @@ export class TimeClockComponent  implements OnInit {
     }
   }
 
-  setTimeToInOut() {
-    if ( this.execOnlyOneTimeClockIn === 0 ) {
+  setArrivalAndDepartureTimes() {
+    if ( !this.execOnlyOneTimeClockIn ) {
       this.currentDate = new Date();
       this.hour = this.currentDate.getHours();
       this.minute = this.currentDate.getMinutes();
       this.seconds = this.currentDate.getSeconds();
-      this.execOnlyOneTimeClockIn++;
+      this.execOnlyOneTimeClockIn = true;
     }
 
   }
 
-  setVarToEmpty() {
-    this.dataTechnology = '';
+  setDefaultValuesToFields() {
+    this.isHidenForm = true;
     this.isClockIn = true;
     this.isEnterTechnology = false;
     this.showAlertEnterTecnology = false;
-    this.execOnlyOneTimeClockIn = 0;
-    this.execOnlyOneTimeCounter = 0;
+    this.execOnlyOneTimeClockIn = false;
+    this.execOnlyOneTimeCounter = false;
     this.isClockInEnable = false;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
 }

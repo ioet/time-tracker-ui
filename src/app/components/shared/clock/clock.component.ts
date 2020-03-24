@@ -15,14 +15,14 @@ export class ClockComponent implements OnInit {
   displayTime: boolean;
 
   constructor() {
-    this.showClcok();
+    this.showClock();
     this.displayTime = false;
     setTimeout(() => {
       this.displayTime = true;
     }, 3000);
    }
 
-   showClcok() {
+   showClock() {
     const timenInterval = interval(1000);
     timenInterval.subscribe( (data) => {
       this.currentDate = new Date();

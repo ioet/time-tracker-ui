@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Component } from '@angular/core';
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectListHoverComponent } from '../../shared/project-list-hover/project-list-hover.component';
 
@@ -10,7 +10,6 @@ describe('TimeClockComponent', () => {
   let de: DebugElement;
 
   function setup() {
-    // tslint:disable-next-line: no-shadowed-variable
     const fixture = TestBed.createComponent(TimeClockComponent);
     const app = fixture.debugElement.componentInstance;
     return { fixture, app };
@@ -34,8 +33,7 @@ describe('TimeClockComponent', () => {
   });
 
   it('should have p tag as \'Dario clocked out at 00:00:00\'', async(() => {
-    // tslint:disable-next-line: no-shadowed-variable
-    const { app, fixture } = setup();
+    const { fixture } = setup();
     fixture.detectChanges();
     const compile = fixture.debugElement.nativeElement;
     const ptag = compile.querySelector('p');
@@ -63,4 +61,68 @@ describe('TimeClockComponent', () => {
     li.nativeElement.click();
     expect(component.setShowFields).toHaveBeenCalledWith(true);
   });
+
+  it('should have button text as Options', async(() => {
+    const { fixture } = setup();
+    fixture.detectChanges();
+    const x = document.getElementById('optionsContainer');
+    const ptag = x.querySelector('button');
+    expect(ptag.textContent).toBe(' Options ');
+  }));
+
+  it('should set Clock In', () => {
+    const { fixture } = setup();
+    fixture.detectChanges();
+    const x = document.getElementById('clockInOutContainer');
+    const ptag = x.querySelector('button');
+    expect(ptag.textContent).toBe('Clock In');
+  });
+
+  it('should setVartToEmpty called', () => {
+    spyOn(component, 'setDefaultValuesToFields');
+    component.setDefaultValuesToFields();
+    expect(component.setDefaultValuesToFields).toHaveBeenCalled();
+  });
+
+  it('should employeClockIn called', () => {
+    spyOn(component, 'employeClockIn');
+    component.employeClockIn();
+    expect(component.employeClockIn).toHaveBeenCalled();
+  });
+
+  it('should employeClockOut called', () => {
+    spyOn(component, 'employeClockOut');
+    component.employeClockOut();
+    expect(component.employeClockOut).toHaveBeenCalled();
+  });
+
+  it('should enterTechnolofy called', () => {
+    spyOn(component, 'enterTechnology');
+    component.enterTechnology('');
+    expect(component.enterTechnology).toHaveBeenCalled();
+  });
+
+  // it('show init state of vars', () => {
+  //   spyOn(component, 'employeClockIn');
+  //   const isClockIn = true;
+  //   const isEnterTechnology = false;
+  //   const hourCounterRealTime = 0;
+  //   const minuteCounterRealTime = 0;
+  //   const secondsCounterRealTime = 0;
+  //   const hour = 0;
+  //   const minute = 0;
+  //   const seconds = 0;
+  //   expect(component.isClockIn).toBe(isClockIn);
+  //   expect(component.isEnterTechnology).toBe(isEnterTechnology);
+  //   expect(component.hourCounterRealTime).toBe(hourCounterRealTime);
+  //   expect(component.minuteCounterRealTime).toBe(minuteCounterRealTime);
+  //   expect(component.secondsCounterRealTime).toBe(secondsCounterRealTime);
+  //   expect(component.hour).toBe(hour);
+  //   expect(component.minute).toBe(minute);
+  //   expect(component.seconds).toBe(hour);
+  // });
+
+
+
+
 });
