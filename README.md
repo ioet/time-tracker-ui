@@ -17,6 +17,8 @@ Run `npm install -g @angular/cli` for install Angular CLI
 
 Run `npm install` for install the node_modules.
 
+Create file .keys.json from keys.example.ts into environments folder
+
 ## Development server
 
 Run `ng serve` to run the app in a dev mode, after executing this command you can navigate to `http://localhost:4200/` to see the app working.
