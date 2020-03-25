@@ -59,7 +59,7 @@ jobs:
           data["scopes"] = str(os.environ['SCOPES']).split(",")
           data["client_id"] = os.environ['CLIENT_ID']
           data["authority"] = os.environ['AUTHORITY']
-        with open(base_path + "keys.json", "w+") as jsonFileWrite:
+        with open(base_path + ".keys.json", "w+") as jsonFileWrite:
           json.dump(data, jsonFileWrite)
 
     - name: Run the test
