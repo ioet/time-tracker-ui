@@ -1,6 +1,6 @@
 import { TestBed, inject, async } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Project } from '../interfaces/project';
+import { Project } from '../interfaces';
 import { ProjectService } from './project.service';
 
 describe('ProjectService', () => {
@@ -8,21 +8,21 @@ describe('ProjectService', () => {
   let httpMock: HttpTestingController;
 
   const projects: Project[] = [{
-    id: 1,
+    id: '1',
     name: 'app 1',
     details: 'It is a good app',
     status: 'inactive',
     completed: true
   },
   {
-    id: 2,
+    id: '2',
     name: 'app 2',
     details: 'It is a good app',
     status: 'inactive',
     completed: false
   },
   {
-    id: 3,
+    id: '3',
     name: 'app 3',
     details: 'It is a good app',
     status: 'active',

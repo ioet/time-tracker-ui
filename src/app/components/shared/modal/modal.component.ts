@@ -1,7 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Output, EventEmitter } from '@angular/core';
-import { Input } from '@angular/core';
-import { Project } from '../../../interfaces/project'
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  EventEmitter,
+  Output,
+  Input
+} from '@angular/core';
+import { Project, Entry } from '../../../interfaces'
+
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
@@ -9,18 +16,17 @@ import { Project } from '../../../interfaces/project'
 })
 export class ModalComponent implements OnInit {
 
-  @Input() project: Project;
-  @Output() removeProject = new EventEmitter();
+  @Input() list: Project & Entry;
+  @Output() removeList = new EventEmitter();
 
   @ViewChild('cancelDeleteModal') cancelDeleteModal: ElementRef;
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
-  removedProject(projectId) {
-    this.removeProject.emit(projectId);
+  removeListById(projectId: string) {
+    this.removeList.emit(projectId);
     this.cancelDeleteModal.nativeElement.click();
   }
 }

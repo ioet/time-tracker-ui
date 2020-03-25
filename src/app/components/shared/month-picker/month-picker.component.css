@@ -1,0 +1,16 @@
+.month {
+  background-color: #0093dc;
+  cursor: pointer;
+}
+
+.month:hover {
+  opacity: 0.7;
+}
+
+.month:last-child {
+  margin-right: 0;
+}
+
+.active {
+  background-color: #005ce0;
+}

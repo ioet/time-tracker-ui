@@ -25,7 +25,7 @@ describe('ProjectListComponent', () => {
 
   it('should emit deleteProject event #removeProject', () => {
     const project = {
-      id: 1,
+      id: '1',
       name: 'app 4',
       details: 'It is a good app',
       status: 'inactive',
@@ -41,7 +41,7 @@ describe('ProjectListComponent', () => {
 
   it('should open delete modal #openModal', () => {
     const project = {
-      id: 1,
+      id: '1',
       name: 'app 4',
       details: 'It is a good app',
       status: 'inactive',
@@ -49,7 +49,7 @@ describe('ProjectListComponent', () => {
     };
 
     component.openModal(project);
-    expect(component.projectToDelete.id).toBe(1);
+    expect(component.projectToDelete.id).toBe('1');
     expect(component.projectToDelete.name).toBe('app 4');
     expect(component.projectToDelete.details).toBe('It is a good app');
     expect(component.projectToDelete.status).toBe('inactive');

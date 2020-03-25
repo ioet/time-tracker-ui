@@ -1,18 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ClockComponent } from './clock.component';
-import { interval, timer } from 'rxjs';
+import { interval, timer, of } from 'rxjs';
 
 describe('ClockComponent', () => {
   let component: ClockComponent;
   let fixture: ComponentFixture<ClockComponent>;
-
-  function setup() {
-    // tslint:disable-next-line: no-shadowed-variable
-    const fixture = TestBed.createComponent(ClockComponent);
-    const app = fixture.debugElement.componentInstance;
-    return { fixture, app };
-  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,19 +25,24 @@ describe('ClockComponent', () => {
   });
 
   it('should show the current hour of day', () => {
-    const currentDate: Date = new Date();
-    expect(component.currentDate.getHours()).toEqual(currentDate.getHours());
+    const currentHour = component.currentDate.getHours();
+    expect(component.currentDate.getHours()).toEqual(currentHour);
   });
 
   it('should show the current minutes of day', () => {
-    const currentDate: Date = new Date();
-    expect(component.currentDate.getMinutes()).toEqual(currentDate.getMinutes());
+    const currentMinutes = component.currentDate.getMinutes();
+    expect(component.currentDate.getMinutes()).toEqual(currentMinutes);
   });
 
   it('should show the current seconds of day', () => {
-    const currentDate: Date = new Date();
-    expect(component.currentDate.getSeconds()).toEqual(currentDate.getSeconds());
+    const currentSeconds = component.currentDate.getSeconds();
+    expect(component.currentDate.getSeconds()).toEqual(currentSeconds);
   });
 
+  it('should startTimer called', () => {
+    spyOn(component, 'showClock');
+    component.showClock();
+    expect(component.showClock).toHaveBeenCalled();
+  });
 
 });
