@@ -30,11 +30,6 @@ jobs:
     name: Running unit tests
     runs-on: ubuntu-latest
     timeout-minutes: 90
-    env:
-      SCOPES: {{ $secrets.scopes }}
-      CLIENT_ID: {{ $secrets.client_id }}
-      AUTHORITY: {{ $secrets.authority }}
-      BASE_PATH: "src/environments/"
     steps:
     - name: Clone and checkout branch
       uses: actions/checkout@master
@@ -49,6 +44,11 @@ jobs:
 
     - name: Inject Secrets
       shell: python
+      env:
+        SCOPES: ${{ $secrets.scopes }}
+        CLIENT_ID: ${{ $secrets.client_id }}
+        AUTHORITY: ${{ $secrets.authority }}
+        BASE_PATH: "src/environments/"
       run: |
         import os
         import json
