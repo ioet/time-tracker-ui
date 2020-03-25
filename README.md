@@ -38,6 +38,15 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
+## Deploy the app on Azure
+
+The app deploy is automatic after each pull request is merged in master. For this, it is necessary that each pull
+request meets at least 80% of the coverage tests.
+
+You can see the app in the next link:
+
+[Time-Tracker](https://time-tracker-ui.azurewebsites.net/)
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
