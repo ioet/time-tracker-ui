@@ -25,12 +25,18 @@ describe('ClockComponent', () => {
   });
 
   it('should show the current hour of day', () => {
-    const currentHour = 11;
+    const currentHour = component.currentDate.getHours();
     expect(component.currentDate.getHours()).toEqual(currentHour);
   });
 
   it('should show the current minutes of day', () => {
-    const currenMinutes = 5;
-    expect(component.currentDate.getMinutes()).toEqual(currenMinutes);
+    const currentMinutes = component.currentDate.getMinutes();
+    expect(component.currentDate.getMinutes()).toEqual(currentMinutes);
   });
+
+  it('should show the current seconds of day', () => {
+    const currentSeconds = component.currentDate.getSeconds();
+    expect(component.currentDate.getSeconds()).toEqual(currentSeconds);
+  });
+
 });

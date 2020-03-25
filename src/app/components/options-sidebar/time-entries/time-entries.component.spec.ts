@@ -57,15 +57,6 @@ describe('TimeEntriesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have p tag as \'time-entries works!\'', async(() => {
-    // tslint:disable-next-line: no-shadowed-variable
-    const { app, fixture } = setup();
-    fixture.detectChanges();
-    const compile = fixture.debugElement.nativeElement;
-    const ptag = compile.querySelector('p');
-    expect(ptag.textContent).toBe('time-entries works!');
-  }));
-
   it('should call dataByMonth in ngOnInit()', async(() => {
     component.ngOnInit();
     expect(component.dataByMonth.length).toEqual(3);
@@ -77,7 +68,7 @@ describe('TimeEntriesComponent', () => {
     expect(component.showModal).toBe(true);
   });
 
- it('should filter the Entry to edit', () => {
+  it('should filter the Entry to edit', () => {
     const entryId = "entry_1"
     component.editEntry(entryId);
     expect(component.entry.project).toBe(entry.project);
