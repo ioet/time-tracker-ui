@@ -9,12 +9,6 @@ describe('TimeClockComponent', () => {
   let fixture: ComponentFixture<TimeClockComponent>;
   let de: DebugElement;
 
-  function setup() {
-    const fixture = TestBed.createComponent(TimeClockComponent);
-    const app = fixture.debugElement.componentInstance;
-    return { fixture, app };
-  }
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TimeClockComponent, ProjectListHoverComponent]
@@ -31,14 +25,6 @@ describe('TimeClockComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should have p tag as \'Dario clocked out at 00:00:00\'', async(() => {
-    const { fixture } = setup();
-    fixture.detectChanges();
-    const compile = fixture.debugElement.nativeElement;
-    const ptag = compile.querySelector('p');
-    expect(ptag.textContent).toBe('Dario clocked out at 00:00:00');
-  }));
 
   it('should set showfileds as true', () => {
     const show = true;
@@ -62,21 +48,60 @@ describe('TimeClockComponent', () => {
     expect(component.setShowFields).toHaveBeenCalledWith(true);
   });
 
-  it('should have button text as Options', async(() => {
-    const { fixture } = setup();
-    fixture.detectChanges();
-    const x = document.getElementById('optionsContainer');
-    const ptag = x.querySelector('button');
-    expect(ptag.textContent).toBe(' Options ');
-  }));
+  it('should internt methods employeClockIn called', () => {
+    spyOn(component, 'startTimer');
+    spyOn(component, 'setArrivalAndDepartureTimes');
 
-  it('should set Clock In', () => {
-    const { fixture } = setup();
-    fixture.detectChanges();
-    const x = document.getElementById('clockInOutContainer');
-    const ptag = x.querySelector('button');
-    expect(ptag.textContent).toBe('Clock In');
+    component.employeClockIn();
+    expect(component.startTimer).toHaveBeenCalled();
+    expect(component.setArrivalAndDepartureTimes).toHaveBeenCalled();
+
   });
+
+  it('called intern method setArrivalAndDepartureTimes', () => {
+    const show = true;
+
+    component.isClockInEnable = false;
+    component.execOnlyOneTimeCounter = true;
+
+    spyOn(component, 'setArrivalAndDepartureTimes');
+    spyOn(component, 'startTimer');
+    component.setShowFields(show);
+
+    expect(component.showFields).toBe(true);
+    expect(component.setArrivalAndDepartureTimes).toHaveBeenCalled();
+    expect(component.startTimer).not.toHaveBeenCalled();
+  });
+
+  it('called intern methods of employeClockOut ', () => {
+    component.isEnterTechnology = true;
+
+    spyOn(component, 'setDefaultValuesToFields');
+    spyOn(component, 'pauseTimer');
+    spyOn(component, 'setArrivalAndDepartureTimes');
+
+    component.employeClockOut();
+
+    expect(component.setArrivalAndDepartureTimes).toHaveBeenCalled();
+    expect(component.pauseTimer).toHaveBeenCalled();
+    expect(component.setArrivalAndDepartureTimes).toHaveBeenCalled();
+  });
+
+
+  it('not called intern methods of employeClockOut ', () => {
+    component.isEnterTechnology = false;
+
+    spyOn(component, 'setDefaultValuesToFields');
+    spyOn(component, 'pauseTimer');
+    spyOn(component, 'setArrivalAndDepartureTimes');
+
+    component.employeClockOut();
+
+    expect(component.setArrivalAndDepartureTimes).not.toHaveBeenCalled();
+    expect(component.pauseTimer).not.toHaveBeenCalled();
+    expect(component.setArrivalAndDepartureTimes).not.toHaveBeenCalled();
+  });
+
 
   it('should setVartToEmpty called', () => {
     spyOn(component, 'setDefaultValuesToFields');
@@ -84,11 +109,6 @@ describe('TimeClockComponent', () => {
     expect(component.setDefaultValuesToFields).toHaveBeenCalled();
   });
 
-  it('should employeClockIn called', () => {
-    spyOn(component, 'employeClockIn');
-    component.employeClockIn();
-    expect(component.employeClockIn).toHaveBeenCalled();
-  });
 
   it('should employeClockOut called', () => {
     spyOn(component, 'employeClockOut');
@@ -103,3 +123,5 @@ describe('TimeClockComponent', () => {
   });
 
 });
+
+
