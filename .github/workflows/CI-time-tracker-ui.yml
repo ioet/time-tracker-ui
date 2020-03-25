@@ -45,9 +45,9 @@ jobs:
     - name: Inject Secrets
       shell: python
       env:
-        SCOPES: ${{ $secrets.scopes }}
-        CLIENT_ID: ${{ $secrets.client_id }}
-        AUTHORITY: ${{ $secrets.authority }}
+        SCOPES: ${{ secrets.scopes }}
+        CLIENT_ID: ${{ secrets.client_id }}
+        AUTHORITY: ${{ secrets.authority }}
         BASE_PATH: "src/environments/"
       run: |
         import os
