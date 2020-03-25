@@ -44,11 +44,6 @@ jobs:
 
     - name: Inject Secrets
       shell: python
-      env:
-        SCOPES: {{ $secrets.scopes }}
-        CLIENT_ID: {{ $secrets.client_id }}
-        AUTHORITY: {{ $secrets.authority }}
-        BASE_PATH: "src/environments/"
       run: |
         import os
         import json
@@ -61,6 +56,11 @@ jobs:
           data["authority"] = os.environ['AUTHORITY']
         with open(base_path + "keys.json", "w+") as jsonFileWrite:
           json.dump(data, jsonFileWrite)
-
+      env:
+        SCOPES: {{ $secrets.scopes }}
+        CLIENT_ID: {{ $secrets.client_id }}
+        AUTHORITY: {{ $secrets.authority }}
+        BASE_PATH: "src/environments/"
+        
     - name: Run the test
       run: npm run ci-test --if-present
