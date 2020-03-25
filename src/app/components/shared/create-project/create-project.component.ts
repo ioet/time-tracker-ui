@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Project } from '../../../interfaces/project';
+import { Project } from '../../../interfaces';
 import { Output, EventEmitter } from '@angular/core';
 import { ProjectListComponent } from '../project-list/project-list.component';
 
@@ -34,8 +34,10 @@ export class CreateProjectComponent implements OnInit {
   ngOnChanges(): void {
     if (this.projectToEdit) {
       this.editProjectId = this.projectToEdit.id;
-      this.projectForm.setValue({name: this.projectToEdit.name, details: this.projectToEdit.details,
-        status: this.projectToEdit.status, completed: this.projectToEdit.completed});
+      this.projectForm.setValue({
+        name: this.projectToEdit.name, details: this.projectToEdit.details,
+        status: this.projectToEdit.status, completed: this.projectToEdit.completed
+      });
     }
   }
 

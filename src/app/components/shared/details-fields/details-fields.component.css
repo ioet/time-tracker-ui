@@ -1,3 +1,7 @@
 .span-width {
   width: 6rem;
 }
+
+.hidden {
+  display: none;
+}

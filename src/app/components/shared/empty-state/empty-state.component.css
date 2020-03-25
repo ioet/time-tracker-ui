@@ -1,0 +1,8 @@
+.container-empty-state {
+  opacity: 0.3;
+  padding: 5rem;
+}
+
+.container-empty-state i {
+  font-size: 5rem;
+}
