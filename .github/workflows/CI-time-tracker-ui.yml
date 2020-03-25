@@ -30,6 +30,11 @@ jobs:
     name: Running unit tests
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    env:
+      SCOPES: {{ $secrets.scopes }}
+      CLIENT_ID: {{ $secrets.client_id }}
+      AUTHORITY: {{ $secrets.authority }}
+      BASE_PATH: "src/environments/"
     steps:
     - name: Clone and checkout branch
       uses: actions/checkout@master
@@ -56,11 +61,6 @@ jobs:
           data["authority"] = os.environ['AUTHORITY']
         with open(base_path + "keys.json", "w+") as jsonFileWrite:
           json.dump(data, jsonFileWrite)
-      env:
-        SCOPES: {{ $secrets.scopes }}
-        CLIENT_ID: {{ $secrets.client_id }}
-        AUTHORITY: {{ $secrets.authority }}
-        BASE_PATH: "src/environments/"
-        
+
     - name: Run the test
       run: npm run ci-test --if-present
