@@ -1,3 +1,5 @@
+// tslint:disable-next-line:max-line-length
+import { ActivitiesManagementComponent } from './components/options-sidebar/activities/activities-management/activities-management.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ReportsComponent } from './components/options-sidebar/reports/reports.component';
@@ -10,6 +12,7 @@ const routes: Routes = [
   {path: 'time-clock', component: TimeClockComponent},
   {path: 'time-entries', component: TimeEntriesComponent},
   {path: 'project-management', component: ProjectManagementComponent},
+  {path: 'activities-management', component: ActivitiesManagementComponent},
   {path: '', pathMatch: 'full', redirectTo: 'time-clock'},
   {path: '**', pathMatch: 'full', redirectTo: 'time-clock'},
 ];

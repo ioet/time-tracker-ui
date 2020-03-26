@@ -1,3 +1,5 @@
+import { ActivityListComponent } from './components/options-sidebar/activities/activity-list/activity-list.component';
+import { CreateActivityComponent } from './components/options-sidebar/activities/create-activity/create-activity.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -21,6 +23,8 @@ import { ModalComponent } from './components/shared/modal/modal.component';
 import { MonthPickerComponent } from './components/shared/month-picker/month-picker.component';
 import { EmptyStateComponent } from './components/shared/empty-state/empty-state.component';
 import { GroupByDatePipe } from './components/shared/pipes/group-by-date/group-by-date.pipe';
+// tslint:disable-next-line:max-line-length
+import { ActivitiesManagementComponent } from './components/options-sidebar/activities/activities-management/activities-management.component';
 
 
 @NgModule({
@@ -41,7 +45,10 @@ import { GroupByDatePipe } from './components/shared/pipes/group-by-date/group-b
     TimeEntriesComponent,
     MonthPickerComponent,
     EmptyStateComponent,
-    GroupByDatePipe
+    GroupByDatePipe,
+    ActivitiesManagementComponent,
+    CreateActivityComponent,
+    ActivityListComponent
   ],
   imports: [
     CommonModule,
