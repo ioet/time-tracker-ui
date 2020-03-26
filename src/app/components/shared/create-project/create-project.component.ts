@@ -7,7 +7,7 @@ import { ProjectListComponent } from '../project-list/project-list.component';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
-  styleUrls: ['./create-project.component.css']
+  styleUrls: ['./create-project.component.scss']
 })
 export class CreateProjectComponent implements OnInit {
 
