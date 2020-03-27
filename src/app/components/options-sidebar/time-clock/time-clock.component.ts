@@ -99,8 +99,9 @@ export class TimeClockComponent  implements OnInit {
    timer() {
     this.secondsCounterRealTime += 1;
     if ( this.secondsCounterRealTime === 59 ) {
-      this.minuteCounterRealTime += 1;
-      this.secondsCounterRealTime = 0;
+      console.log('entroooo');
+      this.minuteCounterRealTime += 1; //1
+      this.secondsCounterRealTime = 0; //0
       if ( this.minuteCounterRealTime === 59 ) {
         this.hourCounterRealTime += 1;
         this.minuteCounterRealTime = 0;

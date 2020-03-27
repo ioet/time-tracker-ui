@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement, Component } from '@angular/core';
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectListHoverComponent } from '../../shared/project-list-hover/project-list-hover.component';
+import { FilterProjectPipe } from 'src/app/components/shared/pipes/filter-project/filter-project.pipe';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -11,7 +12,7 @@ describe('TimeClockComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TimeClockComponent, ProjectListHoverComponent]
+      declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe]
     }).compileComponents();
   }));
 
@@ -196,6 +197,13 @@ describe('TimeClockComponent', () => {
       component.timer();
       expect(component.secondsCounterRealTime).not.toEqual(0);
     });
+
+  it('inside timer first if' , () => {
+    component.secondsCounterRealTime = component.secondsCounterRealTime + 58;
+    component.timer();
+    expect(component.minuteCounterRealTime).toEqual(1);
+    expect(component.secondsCounterRealTime).toEqual(0);
+  });
 
     /* ---------------------- ARRIVALS ------------------------------------- */
   it('should execute intern methods of arrivals' , () => {

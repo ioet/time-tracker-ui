@@ -17,6 +17,9 @@ export class ClockComponent implements OnInit {
   constructor() {
     this.showClock();
     this.displayTime = false;
+    this.hour = 0;
+    this.minutes = 0;
+    this.seconds = 0;
     setTimeout(() => {
       this.displayTime = true;
     }, 3000);

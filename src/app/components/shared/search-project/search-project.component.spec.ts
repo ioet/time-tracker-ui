@@ -22,4 +22,11 @@ describe('SearchProjectComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('called method' , () => {
+    component.changeFilterProject.emit('angular');
+    component.filterProject = 'angular';
+    component.changeFilterValue();
+    expect(component.filterProject).toEqual('angular');
+  });
 });

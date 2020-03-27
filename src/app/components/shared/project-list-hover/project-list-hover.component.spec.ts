@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ProjectListHoverComponent } from "./project-list-hover.component";
+import { FilterProjectPipe } from 'src/app/components/shared/pipes/filter-project/filter-project.pipe';
 
 describe("ProjectListHoverComponent", () => {
   let component: ProjectListHoverComponent;
@@ -8,7 +9,7 @@ describe("ProjectListHoverComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProjectListHoverComponent]
+      declarations: [ProjectListHoverComponent, FilterProjectPipe]
     }).compileComponents();
   }));
 
