@@ -21,6 +21,8 @@ import { ModalComponent } from './components/shared/modal/modal.component';
 import { MonthPickerComponent } from './components/shared/month-picker/month-picker.component';
 import { EmptyStateComponent } from './components/shared/empty-state/empty-state.component';
 import { GroupByDatePipe } from './components/shared/pipes/group-by-date/group-by-date.pipe';
+import { SearchProjectComponent } from './components/shared/search-project/search-project.component';
+import { FilterProjectPipe } from './components/shared/pipes/filter-project/filter-project.pipe';
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { GroupByDatePipe } from './components/shared/pipes/group-by-date/group-b
     TimeEntriesComponent,
     MonthPickerComponent,
     EmptyStateComponent,
-    GroupByDatePipe
+    GroupByDatePipe,
+    SearchProjectComponent,
+    FilterProjectPipe
   ],
   imports: [
     CommonModule,

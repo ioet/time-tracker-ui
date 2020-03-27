@@ -13,11 +13,12 @@ export class ProjectListComponent implements OnInit {
   @Input() projects: Project[] = [];
   @Output() editProject = new EventEmitter();
   @Output() deleteProject = new EventEmitter();
+  filterProjects = '';
 
   projectToDelete: Project;
   openDeleteModal: Boolean = false;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
   }

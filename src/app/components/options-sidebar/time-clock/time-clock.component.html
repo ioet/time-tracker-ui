@@ -31,11 +31,7 @@
                 </div>
             </div>
             <h6 class="text-left"><strong>Projects</strong></h6>
-            <form>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="&#xF002; Search project" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, FontAwesome">
-                </div>
-            </form>
+            <app-search-project></app-search-project>
             <p class="text-left"><i class="fas fa-folder"></i><strong>  Top</strong></p>
             <ul class="list-group">
                 <app-project-list-hover [projects]="projects" (showFields)="setShowFields($event)"></app-project-list-hover>
