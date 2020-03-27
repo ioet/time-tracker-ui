@@ -25,7 +25,6 @@ import { EmptyStateComponent } from './components/shared/empty-state/empty-state
 import { GroupByDatePipe } from './components/shared/pipes/group-by-date/group-by-date.pipe';
 import { SearchProjectComponent } from './components/shared/search-project/search-project.component';
 import { FilterProjectPipe } from './components/shared/pipes/filter-project/filter-project.pipe';
-// tslint:disable-next-line:max-line-length
 import { ActivitiesManagementComponent } from './components/options-sidebar/activities/activities-management/activities-management.component';
 
 @NgModule({
@@ -48,7 +47,7 @@ import { ActivitiesManagementComponent } from './components/options-sidebar/acti
     EmptyStateComponent,
     GroupByDatePipe,
     SearchProjectComponent,
-    FilterProjectPipe
+    FilterProjectPipe,
     ActivitiesManagementComponent,
     CreateActivityComponent,
     ActivityListComponent
