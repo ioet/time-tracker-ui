@@ -12,7 +12,7 @@ import { Project, Entry } from '../../../interfaces'
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
 

@@ -1,3 +1,5 @@
+import { ActivityListComponent } from './components/options-sidebar/activities/activity-list/activity-list.component';
+import { CreateActivityComponent } from './components/options-sidebar/activities/create-activity/create-activity.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -23,7 +25,8 @@ import { EmptyStateComponent } from './components/shared/empty-state/empty-state
 import { GroupByDatePipe } from './components/shared/pipes/group-by-date/group-by-date.pipe';
 import { SearchProjectComponent } from './components/shared/search-project/search-project.component';
 import { FilterProjectPipe } from './components/shared/pipes/filter-project/filter-project.pipe';
-
+// tslint:disable-next-line:max-line-length
+import { ActivitiesManagementComponent } from './components/options-sidebar/activities/activities-management/activities-management.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +49,9 @@ import { FilterProjectPipe } from './components/shared/pipes/filter-project/filt
     GroupByDatePipe,
     SearchProjectComponent,
     FilterProjectPipe
+    ActivitiesManagementComponent,
+    CreateActivityComponent,
+    ActivityListComponent
   ],
   imports: [
     CommonModule,

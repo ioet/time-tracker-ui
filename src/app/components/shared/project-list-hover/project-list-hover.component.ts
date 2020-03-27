@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 @Component({
   selector: "app-project-list-hover",
   templateUrl: "./project-list-hover.component.html",
-  styleUrls: ["./project-list-hover.component.css"]
+  styleUrls: ["./project-list-hover.component.scss"]
 })
 export class ProjectListHoverComponent implements OnInit {
   @Input() projects: any;

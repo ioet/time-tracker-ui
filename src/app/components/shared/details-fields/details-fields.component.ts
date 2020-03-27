@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-details-fields',
   templateUrl: './details-fields.component.html',
-  styleUrls: ['./details-fields.component.css']
+  styleUrls: ['./details-fields.component.scss']
 })
 export class DetailsFieldsComponent implements OnInit {
   @Input() entryToEdit;

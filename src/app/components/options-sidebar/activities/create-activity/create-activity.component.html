@@ -1,0 +1,22 @@
+<div class="card">
+  <form class="card-body" [formGroup]="activityForm" (ngSubmit)="onSubmit(activityForm.value)">
+    <h1 class="card-title">Activity</h1>
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input class="form-control" id="name" type="text" formControlName="name" required>
+      <div class="alert alert-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
+        Activity name is required.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="details">Description:</label>
+      <textarea class="form-control" rows="3" id="description" type="text" formControlName="description"></textarea>
+    </div>
+
+    <div class="btn-toolbar" role="toolbar">
+      <div class="btn-group mr-2" role="group">
+        <button class="btn btn-primary mb-2" type="submit" [disabled]="!activityForm.valid">Save</button>
+      </div>
+    </div>
+  </form>
+</div>
