@@ -11,6 +11,7 @@ export class ProjectListHoverComponent implements OnInit {
 
   selectedId: string;
   showButton: number;
+  filterProjects = '';
 
   constructor() {
     this.showButton = -1;
