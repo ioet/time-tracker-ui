@@ -11,11 +11,9 @@
       </div>
     </div>
     <div class="card-body">
-      <p *ngIf="!isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong
-          class="text-success">in</strong> at
+      <p *ngIf="!isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at
         <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong></p>
-      <p *ngIf="isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong
-          class="text-danger">out</strong> at
+      <p *ngIf="isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-danger">out</strong> at
         <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong></p>
       <h6 class="text-left"><strong>Totals</strong></h6>
       <hr>
@@ -36,7 +34,6 @@
         </div>
       </div>
       <h6 class="text-left"><strong>Projects</strong></h6>
-      <p class="text-left"><i class="fas fa-folder"></i><strong> Top</strong></p>
       <ul class="list-group">
         <app-project-list-hover [projects]="projects" (showFields)="setShowFields($event)"></app-project-list-hover>
       </ul>
@@ -57,10 +54,8 @@
         <div class="form-group row">
           <label for="inputTechnology" class="col-sm-2 col-form-label text-center"><strong>Technology</strong></label>
           <div class="col-sm-10">
-            <input *ngIf="!showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)"
-              class="form-control">
-            <input *ngIf="showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)"
-              class="form-control border-danger">
+            <input *ngIf="!showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control">
+            <input *ngIf="showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control border-danger">
             <div>
               <h6 *ngIf="showAlertEnterTecnology" class="text-danger text-left">Technology field is required. Enter this
                 field to clock out.</h6>
@@ -72,8 +67,7 @@
       <div class="container">
         <div class="row">
           <div class="col text-left" id="optionsContainer">
-            <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Options
             </button>
           </div>
