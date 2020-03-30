@@ -6,6 +6,7 @@ import { CreateProjectComponent, ProjectListComponent } from '../components';
 import { Project } from '../../shared/models';
 import { ProjectManagementComponent } from './project-management.component';
 import { ProjectService } from '../services/project.service';
+import { FilterProjectPipe } from '../../shared/pipes/filter-project/filter-project.pipe';
 
 describe('ProjectManagementComponent', () => {
   let component: ProjectManagementComponent;
@@ -44,14 +45,14 @@ describe('ProjectManagementComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProjectManagementComponent, CreateProjectComponent, ProjectListComponent ],
-      providers: [ { provide: ProjectService, useValue: projectServiceStub }],
+      declarations: [ProjectManagementComponent, CreateProjectComponent, ProjectListComponent, FilterProjectPipe],
+      providers: [{ provide: ProjectService, useValue: projectServiceStub }],
       imports: [
         FormsModule,
         ReactiveFormsModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

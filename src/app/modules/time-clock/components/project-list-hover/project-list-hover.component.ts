@@ -12,11 +12,13 @@ export class ProjectListHoverComponent implements OnInit {
   selectedId: string;
   showButton: number;
 
+  filterProjects: string = '';
+
   constructor() {
     this.showButton = -1;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   clockIn(id: string) {
     this.selectedId = id;
