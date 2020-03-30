@@ -1,37 +1,35 @@
 <div class="card-body">
-    <div class="scroll">
-        <div class="accordion" id="accordionActivities">
-            <div *ngIf="activities?.length > 0; else notShow">
-                <div class="card" *ngFor="let activity of activities; let rowIndex = index">
-                    <div class="card-header">
-                        <h2 class="mb-0">
-                            <a type="button" data-toggle="collapse" [attr.data-target]="'#row'+rowIndex">
-                                {{activity.name}}
-                            </a>
-                            <div class="btn-group float-right" role="group">
-                                <i class="far fa-edit btn btn-link"></i>
-                                <i class="far fa-trash-alt btn btn-link"></i>
-                            </div>
-                        </h2>
-                    </div>
-
-                    <div [id]="'row'+rowIndex" class="collapse" data-parent="#accordionActivities">
-                        <div class="card-body">
-                            <h5>Description:</h5>
-                            <p>{{activity.description}}</p>
-                        </div>
-                    </div>
-
-                </div>
+  <div class="scroll">
+    <div class="accordion" id="accordionActivities">
+      <div *ngIf="activities?.length > 0; else notShow">
+        <div class="card" *ngFor="let activity of activities; let rowIndex = index">
+          <div class="card-header">
+            <h2 class="mb-0">
+              <a type="button" data-toggle="collapse" [attr.data-target]="'#row'+rowIndex">
+                {{activity.name}}
+              </a>
+              <div class="btn-group float-right" role="group">
+                <i class="far fa-edit btn btn-link"></i>
+                <i class="far fa-trash-alt btn btn-link"></i>
+              </div>
+            </h2>
+          </div>
+          <div [id]="'row'+rowIndex" class="collapse" data-parent="#accordionActivities">
+            <div class="card-body">
+              <h5>Description:</h5>
+              <p>{{activity.description}}</p>
             </div>
-            <ng-template #notShow>
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-text">There are no activities.</h4>
-                        <h5 class="card-text">Please, create one.</h5>
-                    </div>
-                </div>
-            </ng-template>
+          </div>
         </div>
+      </div>
+      <ng-template #notShow>
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-text">There are no activities.</h4>
+            <h5 class="card-text">Please, create one.</h5>
+          </div>
+        </div>
+      </ng-template>
     </div>
+  </div>
 </div>

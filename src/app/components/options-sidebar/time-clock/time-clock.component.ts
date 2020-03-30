@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./time-clock.component.scss']
 })
 
-export class TimeClockComponent  implements OnInit {
+export class TimeClockComponent implements OnInit {
 
   projects = [
     { id: 'P1', name: 'Project 1' },
@@ -43,66 +43,65 @@ export class TimeClockComponent  implements OnInit {
     this.hour = 0;
     this.minute = 0;
     this.seconds = 0;
-   }
+  }
 
-   employeClockIn(): boolean {
-     this.isClockInEnable = true;
-     this.isClockIn = !this.isClockIn;
-     this.isHidenForm = false;
-     this.startTimer();
-     this.setArrivalAndDepartureTimes();
-     return this.isClockIn;
-   }
+  employeClockIn(): boolean {
+    this.isClockInEnable = true;
+    this.isClockIn = !this.isClockIn;
+    this.isHidenForm = false;
+    this.startTimer();
+    this.setArrivalAndDepartureTimes();
+    return this.isClockIn;
+  }
 
-   employeClockOut() {
-     if ( this.isEnterTechnology === false ) {
-       this.isClockIn = false;
-       this.showAlertEnterTecnology = true;
-     } else {
-       this.setDefaultValuesToFields();
-       this.pauseTimer();
-       this.setArrivalAndDepartureTimes();
-     }
-   }
+  employeClockOut() {
+    if (this.isEnterTechnology === false) {
+      this.isClockIn = false;
+      this.showAlertEnterTecnology = true;
+    } else {
+      this.setDefaultValuesToFields();
+      this.pauseTimer();
+      this.setArrivalAndDepartureTimes();
+    }
+  }
 
-   enterTechnology(data: string) {
-     if ( data.length > 0 ) {
+  enterTechnology(data: string) {
+    if (data.length > 0) {
       this.isEnterTechnology = true;
-     } else {
-       this.isEnterTechnology = false;
-     }
-   }
+    } else {
+      this.isEnterTechnology = false;
+    }
+  }
 
-   setShowFields(show: boolean) {
-     this.isHidenForm = false;
-     if ( this.isClockInEnable !== true ) {
+  setShowFields(show: boolean) {
+    this.isHidenForm = false;
+    if (this.isClockInEnable !== true) {
       this.isClockIn = false;
       this.showFields = show;
-      if (  !this.execOnlyOneTimeCounter  ) {
+      if (!this.execOnlyOneTimeCounter) {
         this.startTimer();
         this.execOnlyOneTimeCounter = true;
       }
       this.setArrivalAndDepartureTimes();
-     }
+    }
   }
 
   startTimer() {
     this.interval = setInterval(() => {
-        this.timer();
-    }, 1000 );
-   }
+      this.timer();
+    }, 1000);
+  }
 
-   pauseTimer() {
-     clearInterval(this.interval);
-   }
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
 
-   timer() {
+  timer() {
     this.secondsCounterRealTime += 1;
-    if ( this.secondsCounterRealTime === 59 ) {
-      console.log('entroooo');
-      this.minuteCounterRealTime += 1; //1
-      this.secondsCounterRealTime = 0; //0
-      if ( this.minuteCounterRealTime === 59 ) {
+    if (this.secondsCounterRealTime === 59) {
+      this.minuteCounterRealTime += 1;
+      this.secondsCounterRealTime = 0;
+      if (this.minuteCounterRealTime === 59) {
         this.hourCounterRealTime += 1;
         this.minuteCounterRealTime = 0;
       }
@@ -110,7 +109,7 @@ export class TimeClockComponent  implements OnInit {
   }
 
   setArrivalAndDepartureTimes() {
-    if ( !this.execOnlyOneTimeClockIn ) {
+    if (!this.execOnlyOneTimeClockIn) {
       this.currentDate = new Date();
       this.hour = this.currentDate.getHours();
       this.minute = this.currentDate.getMinutes();
