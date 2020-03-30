@@ -5,18 +5,16 @@ import { ProjectService } from '../services/project.service';
 @Component({
   selector: 'app-project-management',
   templateUrl: './project-management.component.html',
-  styleUrls: ['./project-management.component.scss']
+  styleUrls: ['./project-management.component.scss'],
 })
 export class ProjectManagementComponent implements OnInit {
-
   editedProjectId;
 
   project: Project;
 
   projects: Project[] = [];
 
-  constructor(private projectService: ProjectService) {
-  }
+  constructor(private projectService: ProjectService) {}
 
   ngOnInit(): void {
     this.getProjects();
@@ -24,14 +22,18 @@ export class ProjectManagementComponent implements OnInit {
 
   updateProject(projectData): void {
     if (this.editedProjectId) {
-      const projectIndex = this.projects.findIndex((project => project.id === this.editedProjectId));
+      const projectIndex = this.projects.findIndex((project) => project.id === this.editedProjectId);
       this.projects[projectIndex].name = projectData.name;
       this.projects[projectIndex].details = projectData.details;
       this.projects[projectIndex].status = projectData.status;
       this.projects[projectIndex].completed = projectData.completed;
     } else {
-      const newProject: Project = { id: (this.projects.length + 1).toString(), name: projectData.name,
-        details: projectData.details, status: projectData.status, completed: false
+      const newProject: Project = {
+        id: (this.projects.length + 1).toString(),
+        name: projectData.name,
+        details: projectData.details,
+        status: projectData.status,
+        completed: false,
       };
       this.projects = this.projects.concat(newProject);
     }
@@ -50,8 +52,8 @@ export class ProjectManagementComponent implements OnInit {
     this.project = null;
   }
 
-   getProjects() {
-    this.projectService.getProjects().subscribe(data => {
+  getProjects() {
+    this.projectService.getProjects().subscribe((data) => {
       this.projects = data;
     });
   }

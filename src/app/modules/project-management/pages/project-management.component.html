@@ -4,14 +4,12 @@
     [projectToEdit]="project"
     (savedProject)="updateProject($event)"
     (cancelForm)="cancelForm()"
-  >
-  </app-create-project>
+  ></app-create-project>
 
   <app-project-list
     class="item"
     [projects]="projects"
     (editProject)="editProject($event)"
     (deleteProject)="deleteProject($event)"
-  >
-  </app-project-list>
+  ></app-project-list>
 </div>
