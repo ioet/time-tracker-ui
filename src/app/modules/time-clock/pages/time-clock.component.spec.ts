@@ -3,8 +3,6 @@ import { DebugElement, inject } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectListHoverComponent } from '../components';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ProjectService } from '../../project-management/services/project.service';
 import { FilterProjectPipe } from '../../shared/pipes/filter-project/filter-project.pipe';
 
 describe('TimeClockComponent', () => {
@@ -14,9 +12,7 @@ describe('TimeClockComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe],
-      providers: [ProjectService]
+      declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe]
     }).compileComponents();
   }));
 
@@ -27,15 +23,6 @@ describe('TimeClockComponent', () => {
     fixture.detectChanges();
   });
 
-  it('service should be created', () => {
-    const service: ProjectService = TestBed.get(ProjectService);
-    expect(service).toBeTruthy();
-  });
-
-  it('should have getProject function', () => {
-    const service: ProjectService = TestBed.get(ProjectService);
-    expect(service.getProjects).toBeTruthy();
-  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
