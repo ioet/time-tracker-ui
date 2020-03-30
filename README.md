@@ -6,20 +6,20 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ### Node.js
 
-We can install Node.js from [https://nodejs.org/en/download/] but we recommend that you install it using Node Version Management [https://github.com/nvm-sh/nvm] (v12.16.1 LTS).
+Install Node.js from [https://nodejs.org/en/download/] but we recommend that you install it using Node Version Management [https://github.com/nvm-sh/nvm] (v12.16.1 LTS).
 
 ### Angular CLI
 Angular CLI is a Command Line Interface (CLI) to speed up your development with Angular.
 
-Run `npm install -g @angular/cli` for install Angular CLI
+Run `npm install -g @angular/cli` to install Angular CLI
 
 ## Install Node Modules
 
-Run `npm install` for install the node_modules.
+Run `npm install` to install the required node_modules for this project.
 
 ## Development server
 
-Run `ng serve` to run the app in a dev mode, after executing this command you can navigate to `http://localhost:4200/` to see the app working.
+Run `ng serve` to run the app in dev mode. After executing this command, you can navigate to `http://localhost:4200/` to see the app working.
 The app will automatically reload if you change anything in the source files.
 
 ## Code scaffolding
@@ -40,10 +40,9 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 ## Deploy the app on Azure
 
-The app deploy is automatic after each pull request is merged in master. For this, it is necessary that each pull
-request meets at least 80% of the coverage tests.
+The app deployment is automatically executed after each pull request is merged in master. That's wht it is necessary that each pull request meets at least 80% of test coverage.
 
-You can see the app in the next link:
+You can visit the app in the following link:
 
 [Time-Tracker](https://time-tracker-ui.azurewebsites.net/)
 
