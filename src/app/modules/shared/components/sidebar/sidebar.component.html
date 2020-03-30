@@ -1,17 +1,9 @@
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
-  <div class="bg-light border-right" id="sidebar-wrapper">
+  <div class="bg-light border-right" id="sidebar-wrapper" *ngIf="itemsSidebar?.length > 0">
     <div class="list-group list-group-flush">
-      <a [routerLink]="['/time-clock']" routerLinkActive="dark"
-        class="list-group-item list-group-item-action bg-light"><i class="far fa-clock"></i> Time Clock</a>
-      <a [routerLink]="['/time-entries']" routerLinkActive="dark"
-        class="list-group-item list-group-item-action bg-light"><i class="far fa-list-alt"></i> Time Entries</a>
-      <a [routerLink]="['/reports']" routerLinkActive="dark" class="list-group-item list-group-item-action bg-light"><i
-          class="fas fa-chart-pie"></i> Reports</a>
-      <a [routerLink]="['/project-management']" routerLinkActive="dark"
-        class="list-group-item list-group-item-action bg-light"><i class="far fa-folder-open"></i> Projects</a>
-      <a [routerLink]="['/activities-management']" routerLinkActive="dark"
-        class="list-group-item list-group-item-action bg-light"><i class="far fa-file-alt"></i> Activities</a>
+      <a *ngFor="let item of itemsSidebar" [routerLink]="item.route"  routerLinkActive="dark"
+          class="list-group-item list-group-item-action bg-light"><i class="{{item.icon}}"></i> {{item.text}}</a>
     </div>
   </div>
   <!-- /#sidebar-wrapper -->
