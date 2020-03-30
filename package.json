@@ -21,7 +21,6 @@
     "@angular/platform-browser-dynamic": "~9.0.3",
     "@angular/router": "~9.0.3",
     "bootstrap": "^4.4.1",
-    "commit-message-validator": "^0.1.11",
     "jquery": "^3.4.1",
     "minimist": "^1.2.5",
     "rxjs": "~6.5.4",
@@ -37,6 +36,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
+    "commit-message-validator": "^0.1.11",
     "husky": "^4.2.3",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -57,8 +57,8 @@
   },
   "config": {
     "commit-message-validator": {
-        "pattern": "^(#([0-9]+).*)",
-        "errorMessage": "Your commit message must start with issue number e.g. #39"
+      "pattern": "^(#([0-9]+).*)",
+      "errorMessage": "Your commit message must start with issue number e.g. #39"
     }
   }
 }
