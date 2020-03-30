@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Activity } from '../models';
+import { Activity } from '../../shared/models';
 import { ActivityService } from './activity.service';
 
 describe('Activity Service', () => {

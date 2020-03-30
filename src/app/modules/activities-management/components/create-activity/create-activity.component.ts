@@ -1,6 +1,6 @@
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Component, Input } from '@angular/core';
-import { Activity } from '../../models';
+import { Activity } from '../../../shared/models';
 
 @Component({
   selector: 'app-create-activity',

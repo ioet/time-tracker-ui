@@ -1,6 +1,6 @@
 import { Input } from '@angular/core';
 import { Component } from '@angular/core';
-import { Activity } from '../../models';
+import { Activity } from '../../../shared/models';
 
 @Component({
   selector: 'app-activity-list',

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { async, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { Activity } from '../models';
+import { Activity } from '../../shared/models';
 import { ActivityService } from './../services/activity.service';
 import { ActivitiesManagementComponent } from './activities-management.component';
 
