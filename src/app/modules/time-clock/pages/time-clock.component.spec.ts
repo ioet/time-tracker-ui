@@ -3,6 +3,7 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectListHoverComponent } from '../components';
+import { FilterProjectPipe } from '../../shared/pipes/filter-project/filter-project.pipe';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -11,7 +12,7 @@ describe('TimeClockComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TimeClockComponent, ProjectListHoverComponent]
+      declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe]
     }).compileComponents();
   }));
 
@@ -49,7 +50,7 @@ describe('TimeClockComponent', () => {
   });
 
   /* ---------------------- EMPLOYE CLOCK IN ------------------------------------- */
-  it('should be verify the init state of vars' , () => {
+  it('should be verify the init state of vars', () => {
     expect(component.isClockIn).toBeTruthy();
     expect(component.isEnterTechnology).toBeFalsy();
     expect(component.showAlertEnterTecnology).toBeFalsy();
@@ -68,17 +69,17 @@ describe('TimeClockComponent', () => {
     expect(component.seconds).toEqual(0);
   });
 
-  it('should be change state of isClockInEnale, isClockIn, isHidenForm when function is called' , () => {
+  it('should be change state of isClockInEnale, isClockIn, isHidenForm when function is called', () => {
     component.employeClockIn();
     expect(component.isClockInEnable).toBeTruthy();
     expect(component.isClockIn).toBeFalsy();
   });
 
-  it('the function should return false' , () => {
+  it('the function should return false', () => {
     expect(component.employeClockIn()).toEqual(false);
   });
 
-  it('should be called to intern methods of employeClockIn' , () => {
+  it('should be called to intern methods of employeClockIn', () => {
     spyOn(component, 'startTimer');
     spyOn(component, 'setArrivalAndDepartureTimes');
 
@@ -89,14 +90,14 @@ describe('TimeClockComponent', () => {
   });
 
   /* ---------------------- EMPLOYE CLOCK OUT ------------------------------------- */
-  it('should enter if and assign the value to vars' , () => {
+  it('should enter if and assign the value to vars', () => {
     component.isEnterTechnology = false;
     component.employeClockOut();
     expect(component.isClockIn).toBeFalsy();
     expect(component.showAlertEnterTecnology).toBeTruthy();
   });
 
-  it('should enter if and not called to intern methods' , () => {
+  it('should enter if and not called to intern methods', () => {
     component.isEnterTechnology = false;
     spyOn(component, 'setDefaultValuesToFields');
     spyOn(component, 'pauseTimer');
@@ -105,9 +106,10 @@ describe('TimeClockComponent', () => {
     expect(component.setDefaultValuesToFields).not.toHaveBeenCalled();
     expect(component.pauseTimer).not.toHaveBeenCalled();
     expect(component.setArrivalAndDepartureTimes).not.toHaveBeenCalled();
+
   });
 
-  it('should enter else and execute internal methods' , () => {
+  it('should enter else and execute internal methods', () => {
     component.isEnterTechnology = true;
 
     spyOn(component, 'setDefaultValuesToFields');
@@ -119,23 +121,24 @@ describe('TimeClockComponent', () => {
     expect(component.setDefaultValuesToFields).toHaveBeenCalled();
     expect(component.pauseTimer).toHaveBeenCalled();
     expect(component.setArrivalAndDepartureTimes).toHaveBeenCalled();
+
   });
 
-/* ---------------------- ENTER TECHNOLOGY ------------------------------------- */
-  it('should enter if and assign the value to var' , () => {
+  /* ---------------------- ENTER TECHNOLOGY ------------------------------------- */
+  it('should enter if and assign the value to var', () => {
     const dataTechnology = 'Angular';
     component.enterTechnology(dataTechnology);
     expect(component.isEnterTechnology).toBeTruthy();
   });
 
-  it('should enter else and assign the value to var ' , () => {
+  it('should enter else and assign the value to var ', () => {
     const dataTechnology = '';
     component.enterTechnology(dataTechnology);
     expect(component.isEnterTechnology).toBeFalsy();
   });
 
   /* ---------------------- SET SHOW FIELDS ------------------------------------- */
-  it('should execute all internal methods' , () => {
+  it('should execute all internal methods', () => {
     const show = true;
     component.isClockInEnable = false;
     component.execOnlyOneTimeCounter = false;
@@ -153,7 +156,7 @@ describe('TimeClockComponent', () => {
     expect(component.setArrivalAndDepartureTimes).toHaveBeenCalled();
   });
 
-  it('should not call nested if internal methods' , () => {
+  it('should not call nested if internal methods', () => {
     const show = true;
     component.isClockInEnable = false;
     component.execOnlyOneTimeCounter = true;
@@ -171,7 +174,7 @@ describe('TimeClockComponent', () => {
     expect(component.setArrivalAndDepartureTimes).toHaveBeenCalled();
   });
 
-  it('shouldn not execute any main if method' , () => {
+  it('shouldn not execute any main if method', () => {
     const show = true;
     component.isClockInEnable = true;
     component.execOnlyOneTimeCounter = true;
@@ -190,13 +193,20 @@ describe('TimeClockComponent', () => {
   });
 
   /* ---------------------- TIMER ------------------------------------- */
-  it('should be var not equal to zero' , () => {
+  it('should be var not equal to zero', () => {
     component.timer();
     expect(component.secondsCounterRealTime).not.toEqual(0);
   });
 
+  it('inside timer first if', () => {
+    component.secondsCounterRealTime = component.secondsCounterRealTime + 58;
+    component.timer();
+    expect(component.minuteCounterRealTime).toEqual(1);
+    expect(component.secondsCounterRealTime).toEqual(0);
+  });
+
   /* ---------------------- ARRIVALS ------------------------------------- */
-  it('should execute intern methods of arrivals' , () => {
+  it('should execute intern methods of arrivals', () => {
     const currentDate = new Date();
     component.execOnlyOneTimeClockIn = false;
     component.setArrivalAndDepartureTimes();
@@ -204,9 +214,10 @@ describe('TimeClockComponent', () => {
     expect(component.minute).toEqual(currentDate.getMinutes());
     expect(component.seconds).toEqual(currentDate.getSeconds());
     expect(component.execOnlyOneTimeClockIn).toEqual(true);
+
   });
 
-  it('should not execute intern methods of arrivals' , () => {
+  it('should not execute intern methods of arrivals', () => {
     component.execOnlyOneTimeClockIn = true;
     component.setArrivalAndDepartureTimes();
     expect(component.hour).toEqual(0);
@@ -216,7 +227,7 @@ describe('TimeClockComponent', () => {
   });
 
   /* ---------------------- DEFAULT FIELDS ------------------------------------- */
-  it('set values to empty' , () => {
+  it('set values to empty', () => {
     component.setDefaultValuesToFields();
     expect(component.isHidenForm).toBeTruthy();
     expect(component.isClockIn).toBeTruthy();
@@ -225,5 +236,6 @@ describe('TimeClockComponent', () => {
     expect(component.execOnlyOneTimeClockIn).toBeFalsy();
     expect(component.execOnlyOneTimeCounter).toBeFalsy();
     expect(component.isClockInEnable).toBeFalsy();
+
   });
 });

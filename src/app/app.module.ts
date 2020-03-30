@@ -24,6 +24,8 @@ import { GroupByDatePipe } from './modules/shared/pipes/group-by-date/group-by-d
 import { ActivitiesManagementComponent } from './modules/activities-management/pages/activities-management.component';
 import { ActivityListComponent } from './modules/activities-management/components/activity-list/activity-list.component';
 import { CreateActivityComponent } from './modules/activities-management/components/create-activity/create-activity.component';
+import { FilterProjectPipe } from './modules/shared/pipes/filter-project/filter-project.pipe';
+import { SearchProjectComponent } from './modules/shared/components/search-project/search-project.component';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { CreateActivityComponent } from './modules/activities-management/compone
     GroupByDatePipe,
     ActivitiesManagementComponent,
     CreateActivityComponent,
-    ActivityListComponent
+    ActivityListComponent,
+    FilterProjectPipe,
+    SearchProjectComponent
   ],
   imports: [
     CommonModule,
