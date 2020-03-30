@@ -1,5 +1,3 @@
-import { ActivityListComponent } from './components/options-sidebar/activities/activity-list/activity-list.component';
-import { CreateActivityComponent } from './components/options-sidebar/activities/create-activity/create-activity.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -8,23 +6,24 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/shared/navbar/navbar.component';
-import { UserComponent } from './components/shared/user/user.component';
-import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
-import { ClockComponent } from './components/shared/clock/clock.component';
-import { TimeClockComponent } from './components/options-sidebar/time-clock/time-clock.component';
-import { ProjectManagementComponent } from './components/options-sidebar/project-management/project-management.component';
-import { TimeEntriesComponent } from './components/options-sidebar/time-entries/time-entries.component';
-import { ProjectListComponent } from './components/shared/project-list/project-list.component';
-import { CreateProjectComponent } from './components/shared/create-project/create-project.component';
-import { DetailsFieldsComponent } from './components/shared/details-fields/details-fields.component';
-import { ProjectListHoverComponent } from './components/shared/project-list-hover/project-list-hover.component';
-import { ModalComponent } from './components/shared/modal/modal.component';
-import { MonthPickerComponent } from './components/shared/month-picker/month-picker.component';
-import { EmptyStateComponent } from './components/shared/empty-state/empty-state.component';
-import { GroupByDatePipe } from './components/shared/pipes/group-by-date/group-by-date.pipe';
-// tslint:disable-next-line:max-line-length
-import { ActivitiesManagementComponent } from './components/options-sidebar/activities/activities-management/activities-management.component';
+import { NavbarComponent } from './modules/shared/components/navbar/navbar.component';
+import { UserComponent } from './modules/shared/components/user/user.component';
+import { SidebarComponent } from './modules/shared/components/sidebar/sidebar.component';
+import { ClockComponent } from './modules/shared/components/clock/clock.component';
+import { TimeClockComponent } from './modules/time-clock/pages/time-clock.component';
+import { ProjectManagementComponent } from './modules/project-management/pages/project-management.component';
+import { TimeEntriesComponent } from './modules/time-entries/pages/time-entries.component';
+import { ProjectListComponent } from './modules/project-management/components/project-list/project-list.component';
+import { CreateProjectComponent } from './modules/project-management/components/create-project/create-project.component';
+import { DetailsFieldsComponent } from './modules/shared/components/details-fields/details-fields.component';
+import { ProjectListHoverComponent } from './modules/time-clock/components/project-list-hover/project-list-hover.component';
+import { ModalComponent } from './modules/shared/components/modal/modal.component';
+import { MonthPickerComponent } from './modules/shared/components/month-picker/month-picker.component';
+import { EmptyStateComponent } from './modules/shared/components/empty-state/empty-state.component';
+import { GroupByDatePipe } from './modules/shared/pipes/group-by-date/group-by-date.pipe';
+import { ActivitiesManagementComponent } from './modules/activities-management/pages/activities-management.component';
+import { ActivityListComponent } from './modules/activities-management/components/activity-list/activity-list.component';
+import { CreateActivityComponent } from './modules/activities-management/components/create-activity/create-activity.component';
 
 
 @NgModule({

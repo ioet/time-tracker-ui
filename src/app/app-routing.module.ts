@@ -1,11 +1,10 @@
-// tslint:disable-next-line:max-line-length
-import { ActivitiesManagementComponent } from './components/options-sidebar/activities/activities-management/activities-management.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ReportsComponent } from './components/options-sidebar/reports/reports.component';
-import { TimeClockComponent } from './components/options-sidebar/time-clock/time-clock.component';
-import { TimeEntriesComponent } from './components/options-sidebar/time-entries/time-entries.component';
-import { ProjectManagementComponent } from './components/options-sidebar/project-management/project-management.component';
+import { ReportsComponent } from './modules/reports/pages/reports.component';
+import { TimeClockComponent } from './modules/time-clock/pages/time-clock.component';
+import { TimeEntriesComponent } from './modules/time-entries/pages/time-entries.component';
+import { ProjectManagementComponent } from './modules/project-management/pages/project-management.component';
+import { ActivitiesManagementComponent } from './modules/activities-management/pages/activities-management.component';
 
 const routes: Routes = [
   {path: 'reports', component: ReportsComponent},
