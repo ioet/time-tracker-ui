@@ -9,6 +9,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 Install Node.js from [https://nodejs.org/en/download/] but we recommend that you install it using Node Version Management [https://github.com/nvm-sh/nvm] (v12.16.1 LTS).
 
 ### Angular CLI
+
 Angular CLI is a Command Line Interface (CLI) to speed up your development with Angular.
 
 Run `npm install -g @angular/cli` to install Angular CLI
@@ -21,6 +22,15 @@ Run `npm install` to install the required node_modules for this project.
 
 Run `ng serve` to run the app in dev mode. After executing this command, you can navigate to `http://localhost:4200/` to see the app working.
 The app will automatically reload if you change anything in the source files.
+
+## Prepare your environment for vscode
+
+Install the following extensions:
+
+- `EditorConfig for Visual Studio Code`.
+- `TSLint`
+- `Prettier - Code formatter`.
+- Go to user settings (`settings.json`) and enable formatting on save: `"editor.formatOnSave": true`.
 
 ## Code scaffolding
 
