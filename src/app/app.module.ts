@@ -29,6 +29,13 @@ import { SearchProjectComponent } from './modules/shared/components/search-proje
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { ActivityEffects } from './modules/activities-management/store/activity-management.effects';
+import { activityManagementReducer } from './modules/activities-management/store';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +63,19 @@ import { LoginComponent } from './modules/login/login.component';
     FilterProjectPipe,
     SearchProjectComponent,
   ],
-  imports: [CommonModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    StoreModule.forRoot({ activities: activityManagementReducer }),
+    EffectsModule.forRoot([ActivityEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 15, // Retains last 15 states
+    }),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
