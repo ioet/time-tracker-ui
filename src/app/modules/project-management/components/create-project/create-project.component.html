@@ -4,15 +4,14 @@
 
     <div class="form-group">
       <label for="name">Name:</label>
-      <input class="form-control" id="name" type="text" formControlName="name" required>
-      <p class="alert alert-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">NameProject is required.</p>
+      <input class="form-control" [class.is-invalid]="(name.invalid && name.touched)" id="name" type="text" formControlName="name" required>
+      <p class="text-form text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">Name project is required.</p>
     </div>
 
     <div class="form-group">
       <label for="details">Details:</label>
-      <textarea class="form-control" rows="3" id="details" type="text" formControlName="details" required></textarea>
-      <p class="alert alert-danger" *ngIf="(details.dirty || details.touched) && details.invalid && details.errors.required">Details Project is
-        required.</p>
+      <textarea class="form-control" [class.is-invalid]="(details.invalid && details.touched)" rows="3" id="details" type="text" formControlName="details" required></textarea>
+      <p class="text-danger" *ngIf="(details.dirty || details.touched) && details.invalid && details.errors.required">Details project is required.</p>
     </div>
 
     <div class="form-group">
@@ -20,8 +19,7 @@
       <select class="form-control" [class.is-invalid]="(status.invalid && status.touched)" formControlName="status">
         <option *ngFor="let status of projectStatus" [value]="status">{{status}}</option>
       </select>
-      <p class="alert alert-danger" *ngIf="(status.dirty || status.touched) && status.invalid && status.errors.required">Status Project is required.
-      </p>
+      <p class="text-danger" *ngIf="(status.dirty || status.touched) && status.invalid && status.errors.required">Status project is required.</p>
     </div>
 
     <div class="form-group form-check" [hidden]="!projectToEdit">
