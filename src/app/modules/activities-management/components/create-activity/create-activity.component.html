@@ -3,9 +3,10 @@
     <h1 class="card-title">Activity</h1>
     <div class="form-group">
       <label for="name">Name:</label>
-      <input class="form-control" id="name" type="text" formControlName="name" required>
-      <div class="alert alert-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
-        Activity name is required.</div>
+      <input class="form-control" [class.is-invalid]="(name.invalid && name.touched)" id="name" type="text" formControlName="name" required>
+      <p class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
+        Activity name is required.
+      </p>
     </div>
 
     <div class="form-group">
