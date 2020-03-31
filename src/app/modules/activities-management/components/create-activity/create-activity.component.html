@@ -11,7 +11,9 @@
 
     <div class="form-group">
       <label for="details">Description:</label>
-      <textarea class="form-control" rows="3" id="description" type="text" formControlName="description"></textarea>
+      <textarea class="form-control" [class.is-invalid]="(description.invalid && description.touched)" rows="3" id="description" type="text" formControlName="description"></textarea>
+      <p class="text-danger" *ngIf="(description.dirty || description.touched) && description.invalid && description.errors.required">Details project is required.</p>
+
     </div>
 
     <div class="btn-toolbar" role="toolbar">
