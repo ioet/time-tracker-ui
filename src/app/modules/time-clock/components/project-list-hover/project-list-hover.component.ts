@@ -16,11 +16,13 @@ export class ProjectListHoverComponent implements OnInit {
   filterProjects: string = '';
   listProjects: Project[] = [];
 
-  constructor() {
+  constructor(private projectService: ProjectService) {
     this.showButton = -1;
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.projectService.getProjects().subscribe(data => this.listProjects = data);
+  }
 
   clockIn(id: string) {
     this.selectedId = id;

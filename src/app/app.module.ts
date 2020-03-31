@@ -49,7 +49,7 @@ import { SearchProjectComponent } from './modules/shared/components/search-proje
     CreateActivityComponent,
     ActivityListComponent,
     FilterProjectPipe,
-    SearchProjectComponent
+    SearchProjectComponent,
   ],
   imports: [
     CommonModule,
