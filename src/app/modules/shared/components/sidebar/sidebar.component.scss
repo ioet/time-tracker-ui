@@ -4,7 +4,7 @@ body {
 
 #sidebar-wrapper {
   min-height: 100vh;
-  margin-left: -15rem;
+  margin-left: -15vw;
   -webkit-transition: margin .25s ease-out;
   -moz-transition: margin .25s ease-out;
   -o-transition: margin .25s ease-out;
@@ -39,4 +39,27 @@ body {
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
   }
+}
+
+.items-navbar-style {
+  border-color: transparent;
+  background-color: transparent;
+  font-weight: bold;
+  color: white;
+}
+
+.sidebar-background {
+  background-color: #FC5630 ;
+}
+
+.bg-item-active {
+  background-color: #FD927D;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.items-sidebar-hover :hover {
+  background-color: #FD927D;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
 }
