@@ -8,9 +8,9 @@ describe('ClockComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ClockComponent ]
+      declarations: [ClockComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -42,6 +42,20 @@ describe('ClockComponent', () => {
     spyOn(component, 'showClock');
     component.showClock();
     expect(component.showClock).toHaveBeenCalled();
+  });
+
+  it('should be verify the init state of vars', () => {
+    expect(component.hour).toEqual(0);
+    expect(component.minutes).toEqual(0);
+    expect(component.seconds).toEqual(0);
+    expect(component.displayTime).toBeFalsy();
+  });
+
+  it('should enter if and assign the value to vars', () => {
+    component.showClock();
+    expect(component.hour).toEqual(0);
+    expect(component.minutes).toEqual(0);
+    expect(component.seconds).toEqual(0);
   });
 
 });

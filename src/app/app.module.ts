@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './modules/shared/components/navbar/navbar.component';
@@ -26,7 +25,6 @@ import { ActivityListComponent } from './modules/activities-management/component
 import { CreateActivityComponent } from './modules/activities-management/components/create-activity/create-activity.component';
 import { FilterProjectPipe } from './modules/shared/pipes/filter-project/filter-project.pipe';
 import { SearchProjectComponent } from './modules/shared/components/search-project/search-project.component';
-
 
 @NgModule({
   declarations: [
@@ -51,7 +49,7 @@ import { SearchProjectComponent } from './modules/shared/components/search-proje
     CreateActivityComponent,
     ActivityListComponent,
     FilterProjectPipe,
-    SearchProjectComponent
+    SearchProjectComponent,
   ],
   imports: [
     CommonModule,
