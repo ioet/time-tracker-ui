@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, inject } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectListHoverComponent } from '../components';
-import { FilterProjectPipe } from '../../shared/pipes/filter-project/filter-project.pipe';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ProjectService } from '../../project-management/services/project.service';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -12,7 +13,9 @@ describe('TimeClockComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe]
+      imports: [HttpClientTestingModule],
+      declarations: [TimeClockComponent, ProjectListHoverComponent],
+      providers: [ProjectService]
     }).compileComponents();
   }));
 
@@ -21,6 +24,16 @@ describe('TimeClockComponent', () => {
     component = fixture.componentInstance;
     de = fixture.debugElement;
     fixture.detectChanges();
+  });
+
+  it('should be created', () => {
+    const service: ProjectService = TestBed.get(ProjectService);
+    expect(service).toBeTruthy();
+  });
+
+  it('should have add function', () => {
+    const service: ProjectService = TestBed.get(ProjectService);
+    expect(service.getProjects).toBeTruthy();
   });
 
   it('should be created', () => {
@@ -38,14 +51,6 @@ describe('TimeClockComponent', () => {
     const showFields = de.query(By.directive(ProjectListHoverComponent));
     const cmp = showFields.componentInstance;
     cmp.showFields.emit(true);
-    expect(component.setShowFields).toHaveBeenCalledWith(true);
-  });
-
-  it('should be called the setShowFields event #2', () => {
-    spyOn(component, 'setShowFields');
-    const showFields = de.query(By.directive(ProjectListHoverComponent));
-    const li = showFields.query(By.css('li'));
-    li.nativeElement.click();
     expect(component.setShowFields).toHaveBeenCalledWith(true);
   });
 

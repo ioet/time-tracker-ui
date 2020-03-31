@@ -5,4 +5,8 @@ describe('FilterProjectPipe', () => {
     const pipe = new FilterProjectPipe();
     expect(pipe).toBeTruthy();
   });
+
+  it('test method of pipe', () => {
+    expect(new FilterProjectPipe().transform([], '')).toEqual([]);
+  });
 });
