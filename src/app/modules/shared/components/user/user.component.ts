@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
 
 @Component({
   selector: 'app-user',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
-  constructor() { }
+  name: string;
+
+  constructor(private azureAdB2CService: AzureAdB2CService) { }
 
   ngOnInit(): void {
+    if (this.azureAdB2CService.isLogin()) {
+      this.name = this.azureAdB2CService.getName();
+    }
+  }
+
+  logout() {
+    this.azureAdB2CService.logout();
   }
 
 }

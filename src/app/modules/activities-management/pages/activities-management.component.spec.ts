@@ -16,7 +16,7 @@ describe('ActivitiesManagementComponent', () => {
       providers: [ ActivityService, HttpClient, HttpHandler ]
     });
     component = TestBed.createComponent(ActivitiesManagementComponent).componentInstance;
-    activityService = TestBed.get(ActivityService);
+    activityService = TestBed.inject(ActivityService);
     spyOn(activityService, 'getActivities').and.returnValue(of(activitiesFromApi));
   }));
 
