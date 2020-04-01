@@ -1,12 +1,9 @@
-<app-search-project (changeFilterProject)="filterProjects = $event"></app-search-project>
 <div class="container-fluid border rounded">
   <ul class="list-group list-group-flush content-projects mt-2 mb-2">
-    <div *ngFor="let item of listProjects | filterProject:filterProjects;  let i = index" class="container">
-      <li *ngIf="item.status === 'Active'" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" (mouseenter)="showButton = i" (mouseleave)="showButton = -1" (click)="clockIn(item.id)" [ngClass]="{ active: selectedId === item.id }">
-        {{ item.name }}
-        <span *ngIf="showButton != i" class="badge badge-success">{{ item.status }}</span>
-        <span *ngIf="showButton === i && selectedId !== item.id" class="badge badge-light">Clock In</span>
-      </li>
-    </div>
+    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" *ngFor="let item of projects; let i = index"
+      (mouseenter)="showButton = i" (mouseleave)="showButton = -1" (click)="clockIn(item.id)" [ngClass]="{ active: selectedId === item.id }">
+      {{ item.name }}
+      <span *ngIf="showButton === i && selectedId !== item.id" class="badge badge-light">Clock In</span>
+    </li>
   </ul>
 </div>

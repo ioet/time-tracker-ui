@@ -3,14 +3,14 @@
     <div class="accordion" id="accordionActivities">
       <div *ngIf="activities?.length > 0; else notShow">
         <div class="card" *ngFor="let activity of activities; let rowIndex = index">
-          <div class="card-header">
+          <div class="card-header list-color">
             <h2 class="mb-0">
               <a type="button" data-toggle="collapse" [attr.data-target]="'#row'+rowIndex">
                 {{activity.name}}
               </a>
               <div class="btn-group float-right" role="group">
-                <i class="far fa-edit btn btn-link"></i>
-                <i class="far fa-trash-alt btn btn-link"></i>
+                <i class="far fa-edit btn text-white"></i>
+                <i class="far fa-trash-alt btn text-white"></i>
               </div>
             </h2>
           </div>

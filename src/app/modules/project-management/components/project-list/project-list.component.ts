@@ -21,8 +21,6 @@ export class ProjectListComponent implements OnInit {
   projectToDelete: Project;
   openDeleteModal = false;
 
-  filterProjects: string = '';
-
   constructor() { }
 
   ngOnInit(): void {

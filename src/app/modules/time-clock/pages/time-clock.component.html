@@ -8,10 +8,18 @@
       </div>
     </div>
     <div class="card-body">
-      <p *ngIf="!isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at
-        <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong></p>
-      <p *ngIf="isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-danger">out</strong> at
-        <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong></p>
+      <p *ngIf="!isClockIn" class="card-title text-left">
+        <strong>{{ username }}</strong> clocked
+        <strong class="text-info">in</strong>
+        at
+        <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong>
+      </p>
+      <p *ngIf="isClockIn" class="card-title text-left">
+        <strong>{{ username }}</strong> clocked
+        <strong class="text-danger">out</strong>
+        at
+        <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong>
+      </p>
       <hr>
       <div class="row">
         <div class="col-4">
@@ -30,40 +38,53 @@
         </div>
       </div>
       <hr>
+      <form>
+        <div class="form-group">
+          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="&#xF002; Search project"
+            style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, FontAwesome">
+        </div>
+      </form>
+      <hr>
       <ul class="list-group container-fluid">
-        <app-project-list-hover [projects]="projects" (showFields)="setShowFields($event)"></app-project-list-hover>
+        <app-project-list-hover [projects]="projects" (showFields)="setShowFields($event)">
+        </app-project-list-hover>
       </ul>
       <form *ngIf="(!isClockIn || showFields) && !isHidenForm">
         <div class="container mt-3 mr-2">
 
-          <div class="input-group ">
+          <div class="input-group input-group-sm ">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-default">Activity</span>
+              <span class="input-group-text input-color" id="inputGroup-sizing-default">Activity</span>
             </div>
             <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
           </div>
-          <div class="input-group mt-1">
+          <div class="input-group input-group-sm mt-1">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-default">Jira Ticket</span>
+              <span class="input-group-text input-color" id="inputGroup-sizing-default">Jira
+                Ticket</span>
             </div>
             <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
           </div>
-          <div class="input-group mt-1">
+          <div class="input-group input-group-sm mt-1">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-default">Technology</span>
+              <span class="input-group-text input-color" id="inputGroup-sizing-default">Technology</span>
             </div>
             <input *ngIf="!showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control">
             <input *ngIf="showAlertEnterTecnology" #data type="text" (keyup)="enterTechnology(data.value)" class="form-control border-danger">
           </div>
           <div>
-            <h6 *ngIf="showAlertEnterTecnology" class="text-danger text-left">Technology field is required. Enter thisfield to clock out.</h6>
+            <h6 *ngIf="showAlertEnterTecnology" class="text-danger text-left">
+              Technology field is required. Enter
+              thisfield to clock out.</h6>
           </div>
         </div>
       </form>
       <br>
       <div class="container">
-        <button *ngIf="isClockIn" class="btn btn-success btn-sm" type="button" (click)="employeClockIn()">Clock In</button>
-        <button *ngIf="!isClockIn" class="btn btn-danger btn-sm" type="button" (click)="employeClockOut()">Clock Out</button>
+        <button *ngIf="isClockIn" class="btn button-color btn-sm" type="button" (click)="employeClockIn()">Clock
+          In</button>
+        <button *ngIf="!isClockIn" class="btn btn-danger btn-sm" type="button" (click)="employeClockOut()">Clock
+          Out</button>
       </div>
     </div>
   </div>

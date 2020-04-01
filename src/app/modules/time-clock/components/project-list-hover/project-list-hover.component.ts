@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Project } from 'src/app/modules/shared/models/project.model';
-import { ProjectService } from 'src/app/modules/project-management/services/project.service';
 
 @Component({
   selector: 'app-project-list-hover',
@@ -13,16 +11,12 @@ export class ProjectListHoverComponent implements OnInit {
 
   selectedId: string;
   showButton: number;
-  filterProjects: string = '';
-  listProjects: Project[] = [];
 
-  constructor(private projectService: ProjectService) {
+  constructor() {
     this.showButton = -1;
   }
 
-  ngOnInit(): void {
-    this.projectService.getProjects().subscribe(data => this.listProjects = data);
-  }
+  ngOnInit(): void { }
 
   clockIn(id: string) {
     this.selectedId = id;

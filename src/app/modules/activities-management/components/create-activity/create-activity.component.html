@@ -3,23 +3,15 @@
     <h1 class="card-title">Activity</h1>
     <div class="form-group">
       <label for="name">Name:</label>
-      <input class="form-control" [class.is-invalid]="(name.invalid && name.touched)" id="name" type="text" formControlName="name" required>
-      <p class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
-        Activity name is required.
-      </p>
+      <input class="form-control" id="name" type="text" formControlName="name" required>
+      <div class="alert alert-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
+        Activity name is required.</div>
     </div>
 
     <div class="form-group">
       <label for="details">Description:</label>
-      <textarea class="form-control" [class.is-invalid]="(description.invalid && description.touched)" rows="3" id="description" type="text" formControlName="description"></textarea>
-      <p class="text-danger" *ngIf="(description.dirty || description.touched) && description.invalid && description.errors.required">Details project is required.</p>
-
+      <textarea class="form-control" rows="3" id="description" type="text" formControlName="description"></textarea>
     </div>
-
-    <div class="btn-toolbar" role="toolbar">
-      <div class="btn-group mr-2" role="group">
-        <button class="btn btn-primary mb-2" type="submit" [disabled]="!activityForm.valid">Save</button>
-      </div>
-    </div>
+    <button class="btn btn-block button-color  mb-2" type="submit" [disabled]="!activityForm.valid">Save</button>
   </form>
 </div>

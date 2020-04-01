@@ -1,22 +1,19 @@
 <div class="card-body">
-  <app-search-project (changeFilterProject)="filterProjects = $event"></app-search-project>
-  <hr>
   <div class="scroll">
     <div class="accordion" id="accordionProject">
       <div *ngIf="projects?.length > 0; else notShow">
-        <div class="card" *ngFor="let project of projects | filterProject:filterProjects; let rowIndex = index">
-          <div class="card-header">
+        <div class="card" *ngFor="let project of projects; let rowIndex = index">
+          <div class="card-header list-color">
             <h2 class="mb-0">
               <a type="button" data-toggle="collapse" [attr.data-target]="'#row'+rowIndex" [attr.aria-controls]="'row'+rowIndex">
                 {{project.name}}
               </a>
               <div class="btn-group float-right" role="group">
-                <i (click)="editProject.emit(project.id)" class="far fa-edit btn btn-link"></i>
-                <i (click)="openModal(project)" data-toggle="modal" data-target="#deleteModal" class="far fa-trash-alt btn btn-link"></i>
+                <i (click)="editProject.emit(project.id)" class="far fa-edit btn text-white"></i>
+                <i (click)="openModal(project)" data-toggle="modal" data-target="#deleteModal" class="far fa-trash-alt btn text-white"></i>
               </div>
             </h2>
           </div>
-
           <div [id]="'row'+rowIndex" class="collapse" data-parent="#accordionProject">
             <div class="card-body">
               <h5>Details:</h5>
@@ -24,7 +21,9 @@
               <h5>Status:</h5>
               <p>{{project.status}}</p>
               <h5>Completed project:</h5>
-              <p>{{project.completed ? 'Yes' : 'No'}}</p>
+              <p>
+                {{project.completed ? 'Yes' : 'No'}}
+              </p>
             </div>
           </div>
         </div>
@@ -36,5 +35,6 @@
   </div>
 </div>
 
-<app-modal *ngIf="openDeleteModal" class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true" [list]="projectToDelete" (removeList)="removeProject($event)">
+<app-modal *ngIf="openDeleteModal" class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true" [list]="projectToDelete"
+  (removeList)="removeProject($event)">
 </app-modal>
