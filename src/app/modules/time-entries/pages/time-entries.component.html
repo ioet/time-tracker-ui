@@ -1,6 +1,6 @@
 <div class="container-time-entries">
   <div class="card">
-    <div class="card-header">Time Entries</div>
+    <div class="card-header title-card text-white">Time Entries</div>
     <app-month-picker (monthSelected)="getMonth($event)"></app-month-picker>
     <div class="row m-0 header-entries">
       <div class="col">Project</div>
@@ -8,21 +8,19 @@
       <div class="col-2">Actions</div>
     </div>
     <!--Accordion wrapper-->
-    <div *ngIf="dataByMonth.length > 0; else emptyState" class="accordion accordion-container" role="tablist"
-      aria-multiselectable="true">
+    <div *ngIf="dataByMonth.length > 0; else emptyState" class="accordion accordion-container" role="tablist" aria-multiselectable="true">
       <div class="card" *ngFor="let entry of dataByMonth | groupByDate; let rowIndex = index">
         <!-- Card header -->
-        <div class="date-header" role="tab" id="heading10">
+        <div class="date-header title-card" role="tab" id="heading10">
           <a data-toggle="collapse" [href]="'#entry' + rowIndex">
-            <div class="mb-0">
+            <div class="mb-0 text-white">
               {{ entry.date }}
             </div>
           </a>
         </div>
 
         <!-- Card body -->
-        <div *ngFor="let item of entry.details" [id]="'entry' + rowIndex" class="collapse show" role="tabpanel"
-          aria-labelledby="heading10">
+        <div *ngFor="let item of entry.details" [id]="'entry' + rowIndex" class="collapse show" role="tabpanel" aria-labelledby="heading10">
           <div class="row m-0 entries">
             <div class="col">
               {{ item.project }}
@@ -31,12 +29,10 @@
               {{ item.duration }}
             </div>
             <div class="col-2">
-              <button class="btn btn-sm btn-small" data-toggle="modal" data-target="#editRecordsByDate"
-                (click)="editEntry(item.id)">
+              <button class="btn btn-sm btn-small" data-toggle="modal" data-target="#editRecordsByDate" (click)="editEntry(item.id)">
                 <i class="fa fa-edit"></i>
               </button>
-              <button class="btn btn-sm btn-small" data-toggle="modal" data-target="#deleteModal"
-                (click)="openModal(item)">
+              <button class="btn btn-sm btn-small" data-toggle="modal" data-target="#deleteModal" (click)="openModal(item)">
                 <i class="fa fa-trash"></i>
               </button>
             </div>
@@ -61,6 +57,5 @@
     </div>
   </div>
 </div>
-<app-modal *ngIf="showModal" class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true" [list]="entryToDelete"
-  (removeList)="removeEntry($event)">
+<app-modal *ngIf="showModal" class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true" [list]="entryToDelete" (removeList)="removeEntry($event)">
 </app-modal>
