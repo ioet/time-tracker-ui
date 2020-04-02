@@ -24,7 +24,8 @@ import { GroupByDatePipe } from './modules/shared/pipes/group-by-date/group-by-d
 import { ActivitiesManagementComponent } from './modules/activities-management/pages/activities-management.component';
 import { ActivityListComponent } from './modules/activities-management/components/activity-list/activity-list.component';
 import { CreateActivityComponent } from './modules/activities-management/components/create-activity/create-activity.component';
-
+import { FilterProjectPipe } from './modules/shared/pipes/filter-project/filter-project.pipe';
+import { SearchProjectComponent } from './modules/shared/components/search-project/search-project.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 
@@ -51,17 +52,12 @@ import { LoginComponent } from './modules/login/login.component';
     CreateActivityComponent,
     ActivityListComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    FilterProjectPipe,
+    SearchProjectComponent,
   ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule
-  ],
+  imports: [CommonModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

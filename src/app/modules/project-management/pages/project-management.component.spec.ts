@@ -6,52 +6,50 @@ import { CreateProjectComponent, ProjectListComponent } from '../components';
 import { Project } from '../../shared/models';
 import { ProjectManagementComponent } from './project-management.component';
 import { ProjectService } from '../services/project.service';
+import { FilterProjectPipe } from '../../shared/pipes';
 
 describe('ProjectManagementComponent', () => {
   let component: ProjectManagementComponent;
   let fixture: ComponentFixture<ProjectManagementComponent>;
   let projectService: ProjectService;
 
-  const projects: Project[] = [{
-    id: '1',
-    name: 'app 1',
-    details: 'It is a good app',
-    status: 'inactive',
-    completed: true
-  },
-  {
-    id: '2',
-    name: 'app 2',
-    details: 'It is a good app',
-    status: 'inactive',
-    completed: false
-  },
-  {
-    id: '3',
-    name: 'app 3',
-    details: 'It is a good app',
-    status: 'active',
-    completed: true
-  }
+  const projects: Project[] = [
+    {
+      id: '1',
+      name: 'app 1',
+      details: 'It is a good app',
+      status: 'inactive',
+      completed: true,
+    },
+    {
+      id: '2',
+      name: 'app 2',
+      details: 'It is a good app',
+      status: 'inactive',
+      completed: false,
+    },
+    {
+      id: '3',
+      name: 'app 3',
+      details: 'It is a good app',
+      status: 'active',
+      completed: true,
+    },
   ];
 
   const projectServiceStub = {
     getProjects() {
       const projectsMock = projects;
       return of(projectsMock);
-    }
+    },
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProjectManagementComponent, CreateProjectComponent, ProjectListComponent ],
-      providers: [ { provide: ProjectService, useValue: projectServiceStub }],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule
-      ]
-    })
-    .compileComponents();
+      declarations: [ProjectManagementComponent, CreateProjectComponent, ProjectListComponent, FilterProjectPipe],
+      providers: [{ provide: ProjectService, useValue: projectServiceStub }],
+      imports: [FormsModule, ReactiveFormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -63,12 +61,12 @@ describe('ProjectManagementComponent', () => {
     component.projects = projects;
   });
 
-
-  it('Service injected via inject(...) and TestBed.get(...) should be the same instance',
-    inject([ProjectService], (injectService: ProjectService) => {
+  it('Service injected via inject(...) and TestBed.get(...) should be the same instance', inject(
+    [ProjectService],
+    (injectService: ProjectService) => {
       expect(injectService).toBe(projectService);
-    })
-  );
+    }
+  ));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -79,7 +77,7 @@ describe('ProjectManagementComponent', () => {
       name: 'app 4',
       details: 'It is a good app',
       status: 'inactive',
-      completed: true
+      completed: true,
     };
 
     component.editedProjectId = null;
@@ -93,7 +91,7 @@ describe('ProjectManagementComponent', () => {
       name: 'app test',
       details: 'It is a excelent app',
       status: 'inactive',
-      completed: true
+      completed: true,
     };
 
     component.editedProjectId = '1';
@@ -117,7 +115,7 @@ describe('ProjectManagementComponent', () => {
       name: 'app 1',
       details: 'It is a good app',
       status: 'inactive',
-      completed: true
+      completed: true,
     };
 
     component.project = project;
@@ -138,9 +136,7 @@ describe('ProjectManagementComponent', () => {
     expect(componentSpy).toHaveBeenCalledTimes(1);
   });
 
-
   it('should call getProjects and return a list of projects', async(() => {
-
     spyOn(projectService, 'getProjects').and.returnValue(of(projects));
 
     component.ngOnInit();

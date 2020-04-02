@@ -1,5 +1,4 @@
 <div class="text-center mt-3">
-
   <div *ngIf="showAlertEnterTecnology" class="alert alert-danger" role="alert">
     Field technology is requiered. Enter this field for clock out.
   </div>
@@ -17,10 +16,16 @@
     </div>
 
     <div class="card-body">
-      <p *ngIf="!isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong></p>
-      <p *ngIf="isClockIn" class="card-title text-left"><strong>{{ username }}</strong> clocked <strong class="text-danger">out</strong> at <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong></p>
+      <p *ngIf="!isClockIn" class="card-title text-left">
+        <strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at
+        <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong>
+      </p>
+      <p *ngIf="isClockIn" class="card-title text-left">
+        <strong>{{ username }}</strong> clocked <strong class="text-danger">out</strong> at
+        <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong>
+      </p>
       <h6 class="text-left"><strong>Totals</strong></h6>
-      <hr>
+      <hr />
       <div class="row">
         <div class="col-4">
           <h6>Current</h6>
@@ -36,51 +41,51 @@
         </div>
       </div>
       <h6 class="text-left"><strong>Projects</strong></h6>
-      <form>
-        <div class="form-group">
-          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="&#xF002; Search project"
-            style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, FontAwesome">
-        </div>
-      </form>
-      <p class="text-left"><i class="fas fa-folder"></i><strong> Top</strong></p>
       <ul class="list-group">
         <app-project-list-hover [projects]="projects" (showFields)="setShowFields($event)"></app-project-list-hover>
       </ul>
-      <br>
+      <br />
       <form *ngIf="!isClockIn || showFields">
         <div class="form-group row">
           <label for="inputActivity" class="col-sm-2 col-form-label text-center"><strong>Activity</strong></label>
           <div class="col-sm-10">
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" />
           </div>
         </div>
         <div class="form-group row">
           <label for="inputJiraTicket" class="col-sm-2 col-form-label text-center"><strong>Jira Ticket</strong></label>
           <div class="col-sm-10">
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" />
           </div>
         </div>
         <div class="form-group row">
           <label for="inputTechnology" class="col-sm-2 col-form-label text-center"><strong>Technology</strong></label>
           <div class="col-sm-10">
-            <input #data type="text" (keyup)="enterTechnology(data.value)" class="form-control">
+            <input #data type="text" (keyup)="enterTechnology(data.value)" class="form-control" />
           </div>
         </div>
       </form>
-      <hr>
+      <hr />
       <div class="container">
         <div class="row">
           <div class="col text-left">
-            <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+            <button
+              class="btn btn-light btn-sm dropdown-toggle"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
               Options
             </button>
           </div>
           <div class="col text-right">
-            <button *ngIf="isClockIn" class="btn btn-success btn-sm" type="button" (click)="employeClockIn()">Clock
-              In</button>
-            <button *ngIf="!isClockIn" class="btn btn-danger btn-sm" type="button" (click)="employeClockOut()">Clock
-              Out</button>
+            <button *ngIf="isClockIn" class="btn btn-success btn-sm" type="button" (click)="employeClockIn()">
+              Clock In
+            </button>
+            <button *ngIf="!isClockIn" class="btn btn-danger btn-sm" type="button" (click)="employeClockOut()">
+              Clock Out
+            </button>
           </div>
         </div>
       </div>
