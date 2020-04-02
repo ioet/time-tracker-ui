@@ -1,17 +1,14 @@
+<app-search-project (changeFilterProject)="filterProjects = $event"></app-search-project>
 <ul class="list-group content-projects">
   <li
-    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-    *ngFor="let item of projects; let i = index"
+    class="list-group-item list-group-item-action justify-content-between align-items-center"
+    *ngFor="let item of listProjects | filterProject: filterProjects; let i = index"
     (mouseenter)="showButton = i"
     (mouseleave)="showButton = -1"
     (click)="clockIn(item.id)"
-    [ngClass]="{ active: selectedId === item.id }"
+    [ngClass]="{ active: selectedId === item.id, hiddenList: item.status !== 'Active' }"
   >
     {{ item.name }}
-    <span
-      *ngIf="showButton === i && selectedId !== item.id"
-      class="badge badge-light"
-      >Clock In</span
-    >
+    <span *ngIf="showButton === i && selectedId !== item.id" class="badge badge-light">Clock In</span>
   </li>
 </ul>

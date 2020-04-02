@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProjectListComponent } from './project-list.component';
+import { FilterProjectPipe } from '../../../shared/pipes';
 
 describe('ProjectListComponent', () => {
   let component: ProjectListComponent;
@@ -8,9 +9,8 @@ describe('ProjectListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProjectListComponent ]
-    })
-    .compileComponents();
+      declarations: [ProjectListComponent, FilterProjectPipe],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -29,7 +29,7 @@ describe('ProjectListComponent', () => {
       name: 'app 4',
       details: 'It is a good app',
       status: 'inactive',
-      completed: true
+      completed: true,
     };
 
     component.projectToDelete = project;
@@ -45,7 +45,7 @@ describe('ProjectListComponent', () => {
       name: 'app 4',
       details: 'It is a good app',
       status: 'inactive',
-      completed: true
+      completed: true,
     };
 
     component.openModal(project);
