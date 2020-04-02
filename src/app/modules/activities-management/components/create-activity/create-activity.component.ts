@@ -16,7 +16,7 @@ export class CreateActivityComponent {
   constructor(private formBuilder: FormBuilder) {
     this.activityForm = this.formBuilder.group({
       name: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
     });
   }
 

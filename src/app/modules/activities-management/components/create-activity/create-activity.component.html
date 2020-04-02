@@ -18,21 +18,7 @@
 
     <div class="form-group">
       <label for="details">Description:</label>
-      <textarea
-        class="form-control"
-        rows="3"
-        id="description"
-        type="text"
-        formControlName="description"
-        [class.is-invalid]="description.invalid && description.touched"
-        required
-      ></textarea>
-      <p
-        class="text-danger"
-        *ngIf="(description.dirty || description.touched) && description.invalid && description.errors.required"
-      >
-        Details activity is required.
-      </p>
+      <textarea class="form-control" rows="3" id="description" type="text" formControlName="description"></textarea>
     </div>
 
     <div class="btn-toolbar" role="toolbar">

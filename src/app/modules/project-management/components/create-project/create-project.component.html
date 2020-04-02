@@ -13,7 +13,7 @@
         required
       />
       <p class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
-        Name Project is required.
+        Project name is required.
       </p>
     </div>
 
@@ -29,7 +29,7 @@
         required
       ></textarea>
       <p class="text-danger" *ngIf="(details.dirty || details.touched) && details.invalid && details.errors.required">
-        Details Project is required.
+        Project details are required.
       </p>
     </div>
 
@@ -44,7 +44,7 @@
         >
       </select>
       <p class="text-danger" *ngIf="(status.dirty || status.touched) && status.invalid && status.errors.required">
-        Status Project is required.
+        Project status is required.
       </p>
     </div>
 
