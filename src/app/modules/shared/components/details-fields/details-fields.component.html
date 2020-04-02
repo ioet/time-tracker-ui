@@ -3,38 +3,59 @@
     <div class="input-group-prepend">
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
     </div>
-    <input id="project" formControlName="project" type="text" class="form-control" aria-label="Small"
-      aria-describedby="inputGroup-sizing-sm" />
+    <input
+      id="project"
+      formControlName="project"
+      type="text"
+      class="form-control"
+      aria-label="Small"
+      aria-describedby="inputGroup-sizing-sm"
+    />
   </div>
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Activity</span>
     </div>
-    <input formControlName="activity" type="text" class="form-control" aria-label="Small"
-      aria-describedby="inputGroup-sizing-sm" />
+    <input
+      formControlName="activity"
+      type="text"
+      class="form-control"
+      aria-label="Small"
+      aria-describedby="inputGroup-sizing-sm"
+    />
   </div>
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Jira Ticket</span>
     </div>
-    <input formControlName="ticket" type="text" class="form-control" aria-label="Small"
-      aria-describedby="inputGroup-sizing-sm" />
+    <input
+      formControlName="ticket"
+      type="text"
+      class="form-control"
+      aria-label="Small"
+      aria-describedby="inputGroup-sizing-sm"
+    />
   </div>
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Technology</span>
     </div>
-    <input formControlName="technology" type="text" class="form-control" aria-label="Small"
-      aria-describedby="inputGroup-sizing-sm" />
+    <input
+      formControlName="technology"
+      type="text"
+      class="form-control"
+      aria-label="Small"
+      aria-describedby="inputGroup-sizing-sm"
+    />
   </div>
   <div class="form-group">
     <label for="NotesTextarea">Notes</label>
     <textarea formControlName="comments" class="form-control" id="NotesTextarea" rows="3"></textarea>
   </div>
   <div [ngClass]="{ hidden: formType !== 'entries' }" class="modal-footer">
-    <button #closeModal type="button" class="btn btn-secondary" data-dismiss="modal">
+    <button #closeModal type="button" class="btn close-button-style" data-dismiss="modal">
       Close
     </button>
-    <button type="submit" class="btn btn-primary">Save changes</button>
+    <button type="submit" class="btn save-button-style">Save changes</button>
   </div>
 </form>

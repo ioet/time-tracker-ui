@@ -1,7 +1,9 @@
-.help-color {
-  color: white;
+.user-profile {
+  color: black;
+  cursor: pointer;
 }
 
 .dropdown-menu {
-  margin: 0 1rem;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }

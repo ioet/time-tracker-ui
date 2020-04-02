@@ -1,3 +1,5 @@
+@import '../../../../styles/colors.scss';
+
 .content-ClockIn {
   padding: 2.1rem 1rem;
 }
@@ -7,4 +9,14 @@
   display: flex;
   height: 100%;
   justify-content: center;
+}
+
+.button-clock-in-style {
+  background-image: $button-primary-color;
+  color: white;
+}
+
+.button-clock-out-style {
+  background: $button-secondary-color;
+  color: white;
 }

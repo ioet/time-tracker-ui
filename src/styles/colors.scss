@@ -1,0 +1,71 @@
+$danger-color: #ff3948;
+
+$secondary-pantone: #fd927d;
+
+$background-pantone: linear-gradient(
+  to right top,
+  #ff3663,
+  #ff3b5a,
+  #ff4051,
+  #ff4748,
+  #ff4d3e,
+  #fe5039,
+  #fd5335,
+  #fc5630,
+  #fc5630,
+  #fc5630,
+  #fc5630,
+  #fc5630
+);
+
+$background-gradient-items: linear-gradient(
+  to right,
+  #ff3948,
+  #ff384d,
+  #ff3752,
+  #ff3657,
+  #ff365c,
+  #ff385a,
+  #ff3b59,
+  #ff3d57,
+  #ff434e,
+  #ff4944,
+  #fe4f3a,
+  #fc5630
+);
+
+$succes-color: linear-gradient(
+  to left bottom,
+  #ff3948,
+  #ff3f44,
+  #fe443f,
+  #fe4a3b,
+  #fd4f36,
+  #fd5134,
+  #fc5432,
+  #fc5630,
+  #fc5630,
+  #fc5630,
+  #fc5630,
+  #fc5630
+);
+
+// ** user directly
+
+$background-gradient-pantone: $background-pantone;
+
+$item-background: $secondary-pantone;
+
+$title-card-header-background: $background-pantone;
+
+$button-primary-color: $succes-color;
+
+$button-secondary-color: $danger-color;
+
+$list-item-selected: $background-gradient-items;
+
+$header: $danger-color;
+
+$modal-button-primary: $button-secondary-color;
+
+$modal-button-secondary: #00bcbd;

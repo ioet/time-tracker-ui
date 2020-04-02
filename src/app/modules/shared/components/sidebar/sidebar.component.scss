@@ -1,3 +1,5 @@
+@import '../../../../../styles/colors.scss';
+
 body {
   overflow-x: hidden;
 }
@@ -5,10 +7,11 @@ body {
 #sidebar-wrapper {
   min-height: 100vh;
   margin-left: -15rem;
-  -webkit-transition: margin .25s ease-out;
-  -moz-transition: margin .25s ease-out;
-  -o-transition: margin .25s ease-out;
-  transition: margin .25s ease-out;
+  -webkit-transition: margin 0.25s ease-out;
+  -moz-transition: margin 0.25s ease-out;
+  -o-transition: margin 0.25s ease-out;
+  transition: margin 0.25s ease-out;
+  background-image: $background-gradient-pantone;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -39,4 +42,16 @@ body {
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
   }
+}
+
+.content-sidebar-style {
+  background-color: transparent;
+  color: white;
+  font-weight: bold;
+  border: 0px;
+}
+
+.background-item-sidebar-active,
+.item-hover:hover {
+  background-color: $item-background;
 }
