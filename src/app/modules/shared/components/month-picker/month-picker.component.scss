@@ -1,5 +1,8 @@
+@import '../../../../../styles/colors.scss';
+
 .month {
-  background-color: #0093dc;
+  background: $header;
+  color: white;
   cursor: pointer;
 
   &:hover {
@@ -8,5 +11,5 @@
 }
 
 .active {
-  background-color: #005ce0;
+  background-color: $item-background;
 }

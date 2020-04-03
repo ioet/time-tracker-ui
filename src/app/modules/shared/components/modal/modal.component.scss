@@ -1,0 +1,11 @@
+@import '../../../../../styles/colors.scss';
+
+.delete-button-style {
+  background-color: $modal-button-primary;
+  color: white;
+}
+
+.cancel-button-style {
+  background-color: $modal-button-secondary;
+  color: white;
+}

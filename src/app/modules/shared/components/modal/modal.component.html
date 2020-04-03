@@ -10,8 +10,8 @@
       Are you sure you want to delete <b>{{ list.name || list.project }}</b> entry?
     </div>
     <div class="modal-footer">
-      <button #cancelDeleteModal type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-      <button (click)="removeListById(list.id)" type="button" class="btn btn-primary">Delete</button>
+      <button #cancelDeleteModal type="button" class="btn cancel-button-style" data-dismiss="modal">Cancel</button>
+      <button (click)="removeListById(list.id)" type="button" class="btn delete-button-style">Delete</button>
     </div>
   </div>
 </div>

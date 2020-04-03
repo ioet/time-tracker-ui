@@ -1,7 +1,16 @@
-.help-color {
-  color: white;
+@import '../../../../../styles/colors.scss';
+
+.user-profile {
+  color: black;
+  cursor: pointer;
 }
 
 .dropdown-menu {
-  margin: 0 1rem;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.style-click:active {
+  background-image: $button-primary-color;
+  color: white;
 }

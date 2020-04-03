@@ -1,7 +1,20 @@
+@import '../../../../../styles/colors.scss';
 .span-width {
   width: 6rem;
+  background-image: $background-pantone;
+  color: white;
 }
 
 .hidden {
   display: none;
+}
+
+.save-button-style {
+  background-color: $modal-button-primary;
+  color: white;
+}
+
+.close-button-style {
+  background-color: $modal-button-secondary;
+  color: white;
 }

@@ -1,3 +1,5 @@
+@import '../../../../../styles/colors.scss';
+
 .content-projects {
   max-height: 10rem;
   overflow-x: auto;
@@ -17,4 +19,9 @@
 .button-clockIn {
   font-size: 0.7rem;
   padding: 0 0.3rem;
+}
+
+.active {
+  background-image: $list-item-selected;
+  border-color: transparent;
 }

@@ -1,3 +1,5 @@
+@import '../../../../styles/colors.scss';
+
 .container-time-entries {
   padding: 1rem;
 }
@@ -17,7 +19,7 @@
 }
 
 .date-header {
-  background-color: #e6e6e6;
+  background-image: $background-gradient-items;
   border-radius: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   font-size: small;

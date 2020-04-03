@@ -1,0 +1,15 @@
+@import '../../../../../styles/colors.scss';
+
+.save-button-style {
+  background-image: $button-primary-color;
+  color: white;
+}
+
+.cancel-button-style {
+  background-color: $modal-button-secondary;
+  color: white;
+}
+
+.item-list-hover:link {
+  background-color: green;
+}

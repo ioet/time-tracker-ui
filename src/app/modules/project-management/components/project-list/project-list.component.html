@@ -5,7 +5,7 @@
     <div class="accordion" id="accordionProject">
       <div *ngIf="projects?.length > 0; else notShow">
         <div class="card" *ngFor="let project of projects | filterProject: filterProjects; let rowIndex = index">
-          <div class="card-header">
+          <div class="card-header style-list-project">
             <h2 class="mb-0">
               <a
                 type="button"
@@ -16,12 +16,12 @@
                 {{ project.name }}
               </a>
               <div class="btn-group float-right" role="group">
-                <i (click)="editProject.emit(project.id)" class="far fa-edit btn btn-link"></i>
+                <i (click)="editProject.emit(project.id)" class="far fa-edit btn btn-link text-white"></i>
                 <i
                   (click)="openModal(project)"
                   data-toggle="modal"
                   data-target="#deleteModal"
-                  class="far fa-trash-alt btn btn-link"
+                  class="far fa-trash-alt btn btn-link text-white"
                 ></i>
               </div>
             </h2>

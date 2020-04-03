@@ -4,20 +4,9 @@
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <div class="row">
-        <div class="col-2 text-left">
-          <strong>Time clock</strong>
-        </div>
-        <div class="col-10 text-right">
-          <i class="far fa-question-circle"></i>
-        </div>
-      </div>
-    </div>
-
     <div class="card-body">
       <p *ngIf="!isClockIn" class="card-title text-left">
-        <strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at
+        <strong>{{ username }}</strong> clocked <strong class="text-clock-in-color">in</strong> at
         <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong>
       </p>
       <p *ngIf="isClockIn" class="card-title text-left">
@@ -80,10 +69,15 @@
             </button>
           </div>
           <div class="col text-right">
-            <button *ngIf="isClockIn" class="btn btn-success btn-sm" type="button" (click)="employeClockIn()">
+            <button *ngIf="isClockIn" class="btn button-clock-in-style btn-sm" type="button" (click)="employeClockIn()">
               Clock In
             </button>
-            <button *ngIf="!isClockIn" class="btn btn-danger btn-sm" type="button" (click)="employeClockOut()">
+            <button
+              *ngIf="!isClockIn"
+              class="btn button-clock-out-style btn-sm"
+              type="button"
+              (click)="employeClockOut()"
+            >
               Clock Out
             </button>
           </div>
