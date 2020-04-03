@@ -5,10 +5,9 @@ import { Activity } from '../../../shared/models';
 @Component({
   selector: 'app-create-activity',
   templateUrl: './create-activity.component.html',
-  styleUrls: ['./create-activity.component.scss']
+  styleUrls: ['./create-activity.component.scss'],
 })
 export class CreateActivityComponent {
-
   activityForm: FormGroup;
 
   @Input()
@@ -17,7 +16,7 @@ export class CreateActivityComponent {
   constructor(private formBuilder: FormBuilder) {
     this.activityForm = this.formBuilder.group({
       name: ['', Validators.required],
-      description: ['']
+      description: [''],
     });
   }
 
@@ -35,5 +34,4 @@ export class CreateActivityComponent {
   get description() {
     return this.activityForm.get('description');
   }
-
 }
