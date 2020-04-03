@@ -1,5 +1,6 @@
-import { ActivityState } from './activity-management.reducers';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+
+import { ActivityState } from './activity-management.reducers';
 
 const getActivityState = createFeatureSelector<ActivityState>('activities');
 

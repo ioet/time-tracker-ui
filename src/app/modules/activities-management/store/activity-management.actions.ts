@@ -1,5 +1,6 @@
-import { Activity } from './../../shared/models/activity.model';
 import { Action } from '@ngrx/store';
+
+import { Activity } from './../../shared/models/activity.model';
 
 export enum ActivityManagementActionTypes {
     LoadActivities = '[ActivityManagement] Load Activities',

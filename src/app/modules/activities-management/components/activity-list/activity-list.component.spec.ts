@@ -1,11 +1,9 @@
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+
 import { allActivities } from './../../store/activity-management.selectors';
-import { Activity } from './../../../shared/models/activity.model';
 import { ActivityState } from './../../store/activity-management.reducers';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { ActivityListComponent } from './activity-list.component';
-import { MemoizedSelector, State } from '@ngrx/store';
 
 describe('ActivityListComponent', () => {
   let component: ActivityListComponent;

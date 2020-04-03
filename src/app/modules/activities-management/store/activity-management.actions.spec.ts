@@ -1,5 +1,6 @@
 import { LoadActivitiesFail } from './activity-management.actions';
 import { LoadActivitiesSuccess, ActivityManagementActionTypes } from './activity-management.actions';
+
 describe('LoadActivitiesSuccess', () => {
 
   it('LoadActivitiesSuccess type is ActivityManagementActionTypes.LoadActivitiesSuccess', () => {

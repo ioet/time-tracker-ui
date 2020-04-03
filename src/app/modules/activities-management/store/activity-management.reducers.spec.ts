@@ -2,8 +2,8 @@ import { Activity } from './../../shared/models/activity.model';
 import { LoadActivitiesFail, LoadActivities } from './activity-management.actions';
 import { LoadActivitiesSuccess } from './activity-management.actions';
 import { activityManagementReducer, ActivityState } from './activity-management.reducers';
-describe('activityManagementReducer', () => {
 
+describe('activityManagementReducer', () => {
   const initialState: ActivityState = { data: [], isLoading: false, message: '' };
 
   it('on LoadActivities, isLoading is true', () => {
