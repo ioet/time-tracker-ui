@@ -4,7 +4,8 @@
 import * as keys from './.keys.json';
 
 export const environment = {
-  production: false
+  production: false,
+  timeTrackerApiUrl: 'https://timetracker-api.azurewebsites.net'
 };
 
 export const AUTHORITY = keys.authority;

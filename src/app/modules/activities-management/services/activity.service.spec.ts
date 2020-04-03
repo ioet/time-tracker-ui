@@ -1,5 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+
 import { Activity } from '../../shared/models';
 import { ActivityService } from './activity.service';
 
@@ -28,14 +29,15 @@ describe('Activity Service', () => {
     expect(httpClient).toBeTruthy();
   }));
 
-  it('activities are read using GET from assets/activities.json URL', () => {
+  it('activities are read using GET from baseUrl', () => {
     const activitiesFoundSize = activities.length;
+    service.baseUrl = 'foo';
     service
       .getActivities()
       .subscribe(activitiesInResponse => {
         expect(activitiesInResponse.length).toBe(activitiesFoundSize);
       });
-    const getActivitiesRequest = httpMock.expectOne('assets/activities.json');
+    const getActivitiesRequest = httpMock.expectOne(service.baseUrl);
     expect(getActivitiesRequest.request.method).toBe('GET');
     getActivitiesRequest.flush(activities);
   });

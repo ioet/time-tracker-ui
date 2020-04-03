@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +31,8 @@ import { FilterProjectPipe } from './modules/shared/pipes/filter-project/filter-
 import { SearchProjectComponent } from './modules/shared/components/search-project/search-project.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
+import { ActivityEffects } from './modules/activities-management/store/activity-management.effects';
+import { activityManagementReducer } from './modules/activities-management/store';
 
 @NgModule({
   declarations: [
@@ -56,7 +61,19 @@ import { LoginComponent } from './modules/login/login.component';
     FilterProjectPipe,
     SearchProjectComponent,
   ],
-  imports: [CommonModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    StoreModule.forRoot({ activities: activityManagementReducer }),
+    EffectsModule.forRoot([ActivityEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 15, // Retains last 15 states
+    }),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

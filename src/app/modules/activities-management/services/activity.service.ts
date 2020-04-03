@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+import { environment } from './../../../../environments/environment';
 import { Activity } from '../../shared/models';
 
 @Injectable({
@@ -8,11 +10,11 @@ import { Activity } from '../../shared/models';
 })
 export class ActivityService {
 
-  url = 'assets/activities.json';
+  baseUrl = `${environment.timeTrackerApiUrl}/activities`;
 
   constructor(private http: HttpClient) {}
 
   getActivities(): Observable<Activity[]> {
-    return this.http.get<Activity[]>(this.url);
+    return this.http.get<Activity[]>(this.baseUrl);
   }
 }
