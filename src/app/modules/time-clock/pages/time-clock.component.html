@@ -6,7 +6,7 @@
   <div class="card">
     <div class="card-body">
       <p *ngIf="!isClockIn" class="card-title text-left">
-        <strong>{{ username }}</strong> clocked <strong class="text-success">in</strong> at
+        <strong>{{ username }}</strong> clocked <strong class="text-clock-in-color">in</strong> at
         <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong>
       </p>
       <p *ngIf="isClockIn" class="card-title text-left">
