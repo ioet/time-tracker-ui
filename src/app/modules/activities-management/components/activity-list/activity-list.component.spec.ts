@@ -4,26 +4,27 @@ import { allActivities } from './../../store/activity-management.selectors';
 import { ActivityState } from './../../store/activity-management.reducers';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivityListComponent } from './activity-list.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ActivityListComponent', () => {
   let component: ActivityListComponent;
   let fixture: ComponentFixture<ActivityListComponent>;
   let mockActivitiesSelector;
+  const activityToDelete = { id: '1', name: 'X', description: 'ABC' };
 
-  const state = { data: [{id: 'id', name: 'name', description: 'description'}], isLoading: false, message: '' };
+  const state = { data: [{ id: 'id', name: 'name', description: 'description' }], isLoading: false, message: '' };
 
   let store: MockStore<ActivityState>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActivityListComponent ],
-      providers: [ provideMockStore({ initialState: state }) ]
-    })
-    .compileComponents();
+      declarations: [ActivityListComponent],
+      providers: [provideMockStore({ initialState: state })],
+    }).compileComponents();
 
     store = TestBed.inject(MockStore);
 
-    mockActivitiesSelector = store.overrideSelector( allActivities, state );
+    mockActivitiesSelector = store.overrideSelector(allActivities, state);
   }));
 
   beforeEach(() => {
@@ -34,6 +35,16 @@ describe('ActivityListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('deleteActivity is dispatched in onClick event', () => {
+    const activityId = 'abcd';
+
+    spyOn(store, 'dispatch');
+
+    component.deleteActivity(activityId);
+
+    expect(store.dispatch).toHaveBeenCalled();
   });
 
   it('onInit, LoadActivities action is dispatched', () => {
@@ -50,6 +61,7 @@ describe('ActivityListComponent', () => {
     expect(component.activities).toBe(state.data);
   });
 
-  afterEach(() => { fixture.destroy(); });
-
+  afterEach(() => {
+    fixture.destroy();
+  });
 });

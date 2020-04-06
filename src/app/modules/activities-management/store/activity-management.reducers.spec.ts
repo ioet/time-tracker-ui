@@ -1,5 +1,6 @@
+import { NavbarComponent } from './../../shared/components/navbar/navbar.component';
 import { Activity } from './../../shared/models/activity.model';
-import { LoadActivitiesFail, LoadActivities } from './activity-management.actions';
+import { LoadActivitiesFail, LoadActivities, DeleteActivity } from './activity-management.actions';
 import { LoadActivitiesSuccess } from './activity-management.actions';
 import { activityManagementReducer, ActivityState } from './activity-management.reducers';
 
@@ -29,6 +30,15 @@ describe('activityManagementReducer', () => {
     const state = activityManagementReducer(initialState, action);
 
     expect(state.message).toEqual('Something went wrong fetching activities!');
+  });
+
+  it('on DeleteActivity, message equal to Activity removed successfully!', () => {
+    const activityToDeleteId = '1';
+    const action = new DeleteActivity(activityToDeleteId);
+
+    const state = activityManagementReducer(initialState, action);
+
+    expect(state.message).toEqual('Activity removed successfully!');
   });
 
 });

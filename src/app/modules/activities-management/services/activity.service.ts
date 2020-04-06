@@ -6,15 +6,19 @@ import { environment } from './../../../../environments/environment';
 import { Activity } from '../../shared/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ActivityService {
-
   baseUrl = `${environment.timeTrackerApiUrl}/activities`;
 
   constructor(private http: HttpClient) {}
 
   getActivities(): Observable<Activity[]> {
     return this.http.get<Activity[]>(this.baseUrl);
+  }
+
+  deleteActivity(acitivityId: string) {
+    const url = `${this.baseUrl}/${acitivityId}`;
+    return this.http.delete<void>(url);
   }
 }
