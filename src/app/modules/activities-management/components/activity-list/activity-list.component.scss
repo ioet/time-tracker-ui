@@ -4,3 +4,8 @@
   background-image: $background-gradient-items;
   color: white;
 }
+
+.scroll {
+  max-height: 400px;
+  overflow-y: auto;
+}

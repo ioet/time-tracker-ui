@@ -1,8 +1,13 @@
 import { Activity } from './../../shared/models/activity.model';
-import { LoadActivitiesFail, LoadActivities } from './activity-management.actions';
+import {
+  LoadActivitiesFail,
+  LoadActivities,
+  CreateActivitySuccess,
+  CreateActivityFail,
+  CreateActivity,
+} from './activity-management.actions';
 import { LoadActivitiesSuccess } from './activity-management.actions';
 import { activityManagementReducer, ActivityState } from './activity-management.reducers';
-
 describe('activityManagementReducer', () => {
   const initialState: ActivityState = { data: [], isLoading: false, message: '' };
 
@@ -15,7 +20,7 @@ describe('activityManagementReducer', () => {
   });
 
   it('on LoadActivitiesSuccess, activitiesFound are saved in the store', () => {
-    const activitiesFound: Activity[] = [{id: '', name: '', description: ''}];
+    const activitiesFound: Activity[] = [{ id: '', name: '', description: '' }];
     const action = new LoadActivitiesSuccess(activitiesFound);
 
     const state = activityManagementReducer(initialState, action);
@@ -31,4 +36,31 @@ describe('activityManagementReducer', () => {
     expect(state.message).toEqual('Something went wrong fetching activities!');
   });
 
+  it('on CreateActivity, isLoading is true', () => {
+    const activity: Activity = { id: '1', name: 'Training', description: 'It is good for learning' };
+    const action = new CreateActivity(activity);
+
+    const state = activityManagementReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(true);
+  });
+
+  it('on CreateActivitySuccess, activitiesFound are saved in the store', () => {
+    const activity: Activity = { id: '1', name: 'Training', description: 'It is good for learning' };
+    const action = new CreateActivitySuccess(activity);
+
+    const state = activityManagementReducer(initialState, action);
+
+    expect(state.data).toEqual([activity]);
+    expect(state.isLoading).toEqual(false);
+  });
+
+  it('on CreateActivityFail, message equal to Something went wrong creating activities!', () => {
+    const action = new CreateActivityFail('error');
+
+    const state = activityManagementReducer(initialState, action);
+
+    expect(state.message).toEqual('Something went wrong creating activities!');
+    expect(state.isLoading).toEqual(false);
+  });
 });

@@ -8,12 +8,12 @@ import { ActivitiesManagementComponent } from './activities-management.component
 describe('ActivitiesManagementComponent', () => {
   let component: ActivitiesManagementComponent;
   let activityService: ActivityService;
-  const activitiesFromApi: Activity[] = [{id: '123', name: 'aaa', description: 'xxx'}];
+  const activitiesFromApi: Activity[] = [{ id: '123', name: 'aaa', description: 'xxx' }];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActivitiesManagementComponent],
-      providers: [ ActivityService, HttpClient, HttpHandler ]
+      declarations: [ActivitiesManagementComponent],
+      providers: [ActivityService, HttpClient, HttpHandler],
     });
     component = TestBed.createComponent(ActivitiesManagementComponent).componentInstance;
     activityService = TestBed.inject(ActivityService);
@@ -22,10 +22,5 @@ describe('ActivitiesManagementComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should load activities', () => {
-    component.ngOnInit();
-    expect(component.activities).toBe(activitiesFromApi);
   });
 });

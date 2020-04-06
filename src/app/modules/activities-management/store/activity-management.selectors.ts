@@ -5,5 +5,5 @@ import { ActivityState } from './activity-management.reducers';
 const getActivityState = createFeatureSelector<ActivityState>('activities');
 
 export const allActivities = createSelector(getActivityState, (state: ActivityState) => {
-    return state;
+  return state;
 });

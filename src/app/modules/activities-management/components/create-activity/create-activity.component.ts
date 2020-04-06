@@ -1,6 +1,9 @@
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 import { Activity } from '../../../shared/models';
+import { ActivityState } from './../../store/activity-management.reducers';
+import { CreateActivity, allActivities } from '../../store';
 
 @Component({
   selector: 'app-create-activity',
@@ -9,11 +12,9 @@ import { Activity } from '../../../shared/models';
 })
 export class CreateActivityComponent {
   activityForm: FormGroup;
+  isLoading: boolean;
 
-  @Input()
-  activityToEdit: Activity;
-
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private store: Store<ActivityState>) {
     this.activityForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: [''],
@@ -21,10 +22,8 @@ export class CreateActivityComponent {
   }
 
   onSubmit(activityData) {
-    // TODO: add proper interaction with API to save this info
-    // see https://github.com/ioet/time-tracker-ui/issues/44
-    console.log(activityData);
     this.activityForm.reset();
+    this.store.dispatch(new CreateActivity(activityData));
   }
 
   get name() {
