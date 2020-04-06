@@ -6,10 +6,9 @@ import { environment } from './../../../../environments/environment';
 import { Activity } from '../../shared/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ActivityService {
-
   baseUrl = `${environment.timeTrackerApiUrl}/activities`;
 
   constructor(private http: HttpClient) {}
@@ -18,7 +17,8 @@ export class ActivityService {
     return this.http.get<Activity[]>(this.baseUrl);
   }
 
-  deleteActivity(acitivityId) {
-    throw new Error('Method not implemented.');
+  deleteActivity(acitivityId: string) {
+    const url = `${this.baseUrl}/${acitivityId}`;
+    return this.http.delete<void>(url);
   }
 }
