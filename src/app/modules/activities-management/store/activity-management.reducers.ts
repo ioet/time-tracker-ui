@@ -13,17 +13,33 @@ const initialState: ActivityState = {
   message: ''
 };
 
-export function activityManagementReducer(state = initialState, action: ActivityManagementActions): ActivityState {
+export function activityManagementReducer(state: ActivityState = initialState, action: ActivityManagementActions): ActivityState {
 
   switch (action.type) {
-    case(ActivityManagementActionTypes.LoadActivities): {
+    case(ActivityManagementActionTypes.DELETE_ACTIVITY): {
+      return {
+        ...state,
+        message: 'Activity removed successfully!'
+      };
+    }
+
+    case(ActivityManagementActionTypes.DELETE_ACTIVITY_SUCCESS): {
+      const stateWithDeletedActivity = initialState;
+      stateWithDeletedActivity.data = state.data.filter(activity => activity.id !== action.activityId);
+      return {
+        ...stateWithDeletedActivity,
+        message: 'Activity removed successfully!'
+      };
+    }
+
+    case(ActivityManagementActionTypes.LOAD_ACTIVITIES): {
         return {
           ...state,
           isLoading: true
         };
       }
 
-    case ActivityManagementActionTypes.LoadActivitiesSuccess: {
+    case ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS: {
         return {
           ...state,
           data: action.payload,
@@ -31,7 +47,7 @@ export function activityManagementReducer(state = initialState, action: Activity
           message: 'Data fetch successfully!'
         };
       }
-    case ActivityManagementActionTypes.LoadActivitiesFail: {
+    case ActivityManagementActionTypes.LOAD_ACTIVITIES_FAIL: {
         return { data: [], isLoading: false, message: 'Something went wrong fetching activities!' };
       }
   }

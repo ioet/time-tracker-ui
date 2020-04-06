@@ -17,4 +17,8 @@ export class ActivityService {
   getActivities(): Observable<Activity[]> {
     return this.http.get<Activity[]>(this.baseUrl);
   }
+
+  deleteActivity(acitivityId) {
+    throw new Error('Method not implemented.');
+  }
 }
