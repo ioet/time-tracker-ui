@@ -16,7 +16,7 @@ describe('LoadActivitiesSuccess', () => {
     const createActivitySuccess = new CreateActivitySuccess({
       id: '1',
       name: 'Training',
-      description: 'It is goof for learning',
+      description: 'It is good for learning',
     });
     expect(createActivitySuccess.type).toEqual(ActivityManagementActionTypes.CREATE_ACTIVITY_SUCCESS);
   });
