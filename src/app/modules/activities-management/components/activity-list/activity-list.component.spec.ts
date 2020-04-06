@@ -9,6 +9,7 @@ describe('ActivityListComponent', () => {
   let component: ActivityListComponent;
   let fixture: ComponentFixture<ActivityListComponent>;
   let mockActivitiesSelector;
+  const activityToDelete = { id: '1', name: 'X', description: 'ABC'};
 
   const state = { data: [{id: 'id', name: 'name', description: 'description'}], isLoading: false, message: '' };
 
@@ -34,6 +35,35 @@ describe('ActivityListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('showModal is true onSelectActivityToDelete', () => {
+    component.onSelectActivityToDelete(activityToDelete);
+
+    expect(component.showModal).toBeTruthy();
+  });
+
+  it('selectedActivity is propulated onSelectActivityToDelete', () => {
+    component.onSelectActivityToDelete(activityToDelete);
+
+    expect(component.selectedActivity).toEqual(activityToDelete);
+  });
+
+  it('deleteActivity is dispatched onConfirmDeleteActivity', () => {
+    spyOn(store, 'dispatch');
+    component.selectedActivity = activityToDelete;
+
+    component.onConfirmDeleteActivity();
+
+    expect(store.dispatch).toHaveBeenCalled();
+  });
+
+  it('showModal is false and selectedProject is null onConfirmDeleteActivity', () => {
+    component.selectedActivity = activityToDelete;
+    component.onConfirmDeleteActivity();
+
+    expect(component.showModal).toBeFalsy();
+    expect(component.selectedActivity).toBe(null);
   });
 
   it('onInit, LoadActivities action is dispatched', () => {
