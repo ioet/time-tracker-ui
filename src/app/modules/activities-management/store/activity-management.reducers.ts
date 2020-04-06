@@ -1,5 +1,5 @@
-import {ActivityManagementActions, ActivityManagementActionTypes} from './activity-management.actions';
-import {Activity} from './../../shared/models/activity.model';
+import { ActivityManagementActions, ActivityManagementActionTypes } from './activity-management.actions';
+import { Activity } from './../../shared/models/activity.model';
 
 export interface ActivityState {
   data: Activity[];
@@ -7,32 +7,56 @@ export interface ActivityState {
   message: string;
 }
 
-const initialState: ActivityState = {
+export const initialState: ActivityState = {
   data: [],
   isLoading: false,
-  message: ''
+  message: '',
 };
 
-export function activityManagementReducer(state = initialState, action: ActivityManagementActions): ActivityState {
-
+export function activityManagementReducer(state: ActivityState = initialState, action: ActivityManagementActions) {
   switch (action.type) {
-    case(ActivityManagementActionTypes.LoadActivities): {
-        return {
-          ...state,
-          isLoading: true
-        };
-      }
+    case ActivityManagementActionTypes.LOAD_ACTIVITIES: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
 
-    case ActivityManagementActionTypes.LoadActivitiesSuccess: {
-        return {
-          ...state,
-          data: action.payload,
-          isLoading: false,
-          message: 'Data fetch successfully!'
-        };
-      }
-    case ActivityManagementActionTypes.LoadActivitiesFail: {
-        return { data: [], isLoading: false, message: 'Something went wrong fetching activities!' };
-      }
+    case ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS: {
+      return {
+        ...state,
+        data: action.payload,
+        isLoading: false,
+        message: 'Data fetch successfully!',
+      };
+    }
+    case ActivityManagementActionTypes.LOAD_ACTIVITIES_FAIL: {
+      return { data: [], isLoading: false, message: 'Something went wrong fetching activities!' };
+    }
+
+    case ActivityManagementActionTypes.CREATE_ACTIVITY: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case ActivityManagementActionTypes.CREATE_ACTIVITY_SUCCESS: {
+      return {
+        ...state,
+        data: [...state.data, action.payload],
+        isLoading: false,
+        message: 'Data created successfully!',
+      };
+    }
+    case ActivityManagementActionTypes.CREATE_ACTIVITY_FAIL: {
+      return {
+        data: [],
+        isLoading: false,
+        message: 'Something went wrong creating activities!',
+      };
+    }
+    default:
+      return state;
   }
 }
