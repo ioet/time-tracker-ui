@@ -1,9 +1,11 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { TimeClockComponent } from './time-clock.component';
+import { ProjectState } from '../../project-management/store/project.reducer';
 import { ProjectListHoverComponent } from '../components';
 import { ProjectService } from '../../project-management/services/project.service';
 import { FilterProjectPipe } from '../../shared/pipes';
@@ -12,14 +14,27 @@ describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
   let de: DebugElement;
+  let store: MockStore<ProjectState>;
   let projectService: ProjectService;
+  const state = {
+    projects: {
+      projectList: [{ id: 'id', name: 'name', description: 'description' }],
+      isLoading: false,
+    },
+    activities: {
+      data: [{ id: 'id', name: 'name', description: 'description' }],
+      isLoading: false,
+      message: 'message',
+    },
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe],
-      providers: [ProjectService],
+      providers: [ProjectService, provideMockStore({ initialState: state })],
     }).compileComponents();
+    store = TestBed.inject(MockStore);
   }));
 
   beforeEach(() => {

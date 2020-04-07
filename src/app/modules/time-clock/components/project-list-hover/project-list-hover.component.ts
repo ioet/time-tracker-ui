@@ -1,6 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 import { Project } from 'src/app/modules/shared/models';
-import { ProjectService } from 'src/app/modules/project-management/services/project.service';
+import { allProjects } from '../../../project-management/store/project.selectors';
+import { ProjectState } from '../../../project-management/store/project.reducer';
+import * as actions from '../../../project-management/store/project.actions';
 
 @Component({
   selector: 'app-project-list-hover',
@@ -8,20 +11,26 @@ import { ProjectService } from 'src/app/modules/project-management/services/proj
   styleUrls: ['./project-list-hover.component.scss'],
 })
 export class ProjectListHoverComponent implements OnInit {
-  @Input() projects: any;
   @Output() showFields = new EventEmitter<boolean>();
 
   selectedId: string;
   showButton: number;
   filterProjects = '';
   listProjects: Project[] = [];
+  isLoading: boolean;
 
-  constructor(private projectService: ProjectService) {
+  constructor(private store: Store<ProjectState>) {
     this.showButton = -1;
   }
 
   ngOnInit(): void {
-    this.projectService.getProjects().subscribe((data) => (this.listProjects = data));
+    this.store.dispatch(new actions.LoadProjects());
+    const projects$ = this.store.pipe(select(allProjects));
+
+    projects$.subscribe((response) => {
+      this.isLoading = response.isLoading;
+      this.listProjects = response.projectList;
+    });
   }
 
   clockIn(id: string) {

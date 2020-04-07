@@ -1,8 +1,7 @@
 export interface Project {
   id: string;
+  customer_id?: string;
+  tenant_id?: string;
   name: string;
-  details: string;
-  status: string;
-  completed: boolean;
+  description: string;
 }
-

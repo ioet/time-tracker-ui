@@ -16,7 +16,7 @@
                 {{ project.name }}
               </a>
               <div class="btn-group float-right" role="group">
-                <i (click)="editProject.emit(project.id)" class="far fa-edit btn btn-link text-white"></i>
+                <i (click)="editProject.emit(project)" class="far fa-edit btn btn-link text-white"></i>
                 <i
                   (click)="openModal(project)"
                   data-toggle="modal"
@@ -29,12 +29,8 @@
 
           <div [id]="'row' + rowIndex" class="collapse" data-parent="#accordionProject">
             <div class="card-body">
-              <h5>Details:</h5>
-              <p>{{ project.details }}</p>
-              <h5>Status:</h5>
-              <p>{{ project.status }}</p>
-              <h5>Completed project:</h5>
-              <p>{{ project.completed ? 'Yes' : 'No' }}</p>
+              <h5>Description:</h5>
+              <p>{{ project.description }}</p>
             </div>
           </div>
         </div>

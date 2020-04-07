@@ -1,44 +1,39 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { Project } from '../../../shared/models';
+import { ProjectState } from '../../store/project.reducer';
+import * as actions from '../../store/project.actions';
 
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
-  styleUrls: ['./create-project.component.scss']
+  styleUrls: ['./create-project.component.scss'],
 })
-export class CreateProjectComponent implements OnChanges {
-
+export class CreateProjectComponent implements OnChanges, OnInit {
   projectForm;
   editProjectId;
-  projectStatus = ['', 'Active', 'Inactive'];
+  isUpdating = false;
 
   @Input() projectToEdit: Project;
-  @Output() savedProject = new EventEmitter();
   @Output() cancelForm = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private store: Store<ProjectState>) {
     this.projectForm = this.formBuilder.group({
       name: ['', Validators.required],
-      details: ['', Validators.required],
-      status: ['', Validators.required],
-      completed: [false]
+      description: ['', Validators.required],
     });
   }
 
+  ngOnInit(): void {}
+
   ngOnChanges(): void {
     if (this.projectToEdit) {
-      this.editProjectId = this.projectToEdit.id;
-      this.projectForm.setValue({
-        name: this.projectToEdit.name, details: this.projectToEdit.details,
-        status: this.projectToEdit.status, completed: this.projectToEdit.completed
-      });
+      this.projectForm.patchValue(this.projectToEdit);
+      this.isUpdating = true;
+    } else {
+      this.projectForm.reset();
+      this.isUpdating = false;
     }
   }
 
@@ -46,21 +41,22 @@ export class CreateProjectComponent implements OnChanges {
     return this.projectForm.get('name');
   }
 
-  get details() {
-    return this.projectForm.get('details');
+  get description() {
+    return this.projectForm.get('description');
   }
 
-  get status() {
-    return this.projectForm.get('status');
-  }
-
-  onSubmit(projectData) {
+  onSubmit(formData) {
+    const projectData = { ...this.projectToEdit, ...formData };
+    if (this.isUpdating) {
+      this.store.dispatch(new actions.UpdateProject(projectData));
+    } else {
+      this.store.dispatch(new actions.CreateProject(projectData));
+    }
     this.reset();
-    this.savedProject.emit(projectData);
   }
+
   reset() {
     this.projectForm.reset();
     this.cancelForm.emit();
   }
-
 }
