@@ -6,6 +6,7 @@ import {
   CreateActivityFail,
   CreateActivity,
   DeleteActivity,
+  DeleteActivitySuccess,
 } from './activity-management.actions';
 import { LoadActivitiesSuccess } from './activity-management.actions';
 import { activityManagementReducer, ActivityState } from './activity-management.reducers';
