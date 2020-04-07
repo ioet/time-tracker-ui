@@ -51,6 +51,7 @@
     "karma-jasmine-html-reporter": "^1.4.2",
     "prettier": "^2.0.2",
     "protractor": "~5.4.3",
+    "semantic-release": "^17.0.4",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
     "typescript": "~3.7.5"
@@ -66,5 +67,9 @@
       "pattern": "^(#([0-9]+).*)",
       "errorMessage": "Your commit message must start with issue number e.g. #39"
     }
+  },
+  "release": {
+    "branches": ["master", "48-implement-semantic-version"],
+    "repositoryUrl": "https://github.com/ioet/time-tracker-ui.git"
   }
 }
