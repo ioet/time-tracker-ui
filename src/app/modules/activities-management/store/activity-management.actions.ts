@@ -9,6 +9,8 @@ export enum ActivityManagementActionTypes {
   CREATE_ACTIVITY = '[ActivityManagement] CREATE_ACTIVITY',
   CREATE_ACTIVITY_SUCCESS = '[ActivityManagement] CREATE_ACTIVITY_SUCCESS',
   CREATE_ACTIVITY_FAIL = '[ActivityManagement] CREATE_ACTIVITY_FAIL',
+  DELETE_ACTIVITY = '[ActivityManagement] Delete Activity',
+  DELETE_ACTIVITY_SUCCESS = '[ActivityManagement] Delete Activity Success',
 }
 
 export class LoadActivities implements Action {
@@ -45,10 +47,24 @@ export class CreateActivityFail implements Action {
   constructor(public error: string) {}
 }
 
+export class DeleteActivity implements Action {
+  public readonly type = ActivityManagementActionTypes.DELETE_ACTIVITY;
+
+  constructor(public activityId: string) {}
+}
+
+export class DeleteActivitySuccess implements Action {
+  public readonly type = ActivityManagementActionTypes.DELETE_ACTIVITY_SUCCESS;
+
+  constructor(public activityId: string) {}
+}
+
 export type ActivityManagementActions =
   | LoadActivities
   | LoadActivitiesSuccess
   | LoadActivitiesFail
   | CreateActivity
   | CreateActivitySuccess
-  | CreateActivityFail;
+  | CreateActivityFail
+  | DeleteActivity
+  | DeleteActivitySuccess;

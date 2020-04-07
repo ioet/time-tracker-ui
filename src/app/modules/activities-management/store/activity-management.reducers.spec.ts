@@ -5,6 +5,7 @@ import {
   CreateActivitySuccess,
   CreateActivityFail,
   CreateActivity,
+  DeleteActivity,
 } from './activity-management.actions';
 import { LoadActivitiesSuccess } from './activity-management.actions';
 import { activityManagementReducer, ActivityState } from './activity-management.reducers';
@@ -62,5 +63,14 @@ describe('activityManagementReducer', () => {
 
     expect(state.message).toEqual('Something went wrong creating activities!');
     expect(state.isLoading).toEqual(false);
+  });
+
+  it('on DeleteActivity, message equal to Activity removed successfully!', () => {
+    const activityToDeleteId = '1';
+    const action = new DeleteActivity(activityToDeleteId);
+
+    const state = activityManagementReducer(initialState, action);
+
+    expect(state.message).toEqual('Activity removed successfully!');
   });
 });
