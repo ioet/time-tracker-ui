@@ -10,6 +10,7 @@ import {
   LoadActivitiesFail,
   DeleteActivitySuccess,
 } from './activity-management.actions';
+import * as actions from './activity-management.actions';
 import { Activity } from './../../shared/models/activity.model';
 import { ActivityService } from './../services/activity.service';
 
@@ -35,7 +36,7 @@ export class ActivityEffects {
   @Effect()
   deleteActivity$: Observable<Action> = this.actions$.pipe(
     ofType(ActivityManagementActionTypes.DELETE_ACTIVITY),
-    map((action) => action[this.parameterFieldName]),
+    map((action: actions.DeleteActivity) => action.activityId),
     mergeMap((activityId) =>
       this.activityService.deleteActivity(activityId).pipe(
         map(() => {
