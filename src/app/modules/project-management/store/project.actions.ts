@@ -2,9 +2,9 @@ import { Action } from '@ngrx/store';
 import { Project } from '../../shared/models';
 
 export enum ProjectActionTypes {
-  GET_PROJECTS = '[Projects] GET_PROJECTS',
-  GET_PROJECTS_SUCCESS = '[Projects] GET_PROJECTS_SUCCESS',
-  GET_PROJECTS_FAIL = '[Projects] GET_PROJECTS_FAIL',
+  LOAD_PROJECTS = '[Projects] LOAD_PROJECTS',
+  LOAD_PROJECTS_SUCCESS = '[Projects] LOAD_PROJECTS_SUCCESS',
+  LOAD_PROJECTS_FAIL = '[Projects] LOAD_PROJECTS_FAIL',
   CREATE_PROJECT = '[Projects] CREATE_PROJECT',
   CREATE_PROJECT_SUCCESS = '[Projects] CREATE_PROJECT_SUCCESS',
   CREATE_PROJECT_FAIL = '[Projects] CREATE_PROJECT_FAIL',
@@ -13,17 +13,17 @@ export enum ProjectActionTypes {
   UPDATE_PROJECT_FAIL = '[Projects] UPDATE_PROJECT_FAIL',
 }
 
-export class GetProjectsLoad implements Action {
-  public readonly type = ProjectActionTypes.GET_PROJECTS;
+export class LoadProjects implements Action {
+  public readonly type = ProjectActionTypes.LOAD_PROJECTS;
 }
 
-export class GetProjectsSuccess implements Action {
-  readonly type = ProjectActionTypes.GET_PROJECTS_SUCCESS;
+export class LoadProjectsSuccess implements Action {
+  readonly type = ProjectActionTypes.LOAD_PROJECTS_SUCCESS;
   constructor(readonly payload: Project[]) {}
 }
 
-export class GetProjectsFail implements Action {
-  public readonly type = ProjectActionTypes.GET_PROJECTS_FAIL;
+export class LoadProjectsFail implements Action {
+  public readonly type = ProjectActionTypes.LOAD_PROJECTS_FAIL;
 
   constructor(public error: string) {}
 }
@@ -65,9 +65,9 @@ export class UpdateProjectFail implements Action {
 }
 
 export type ProjectActions =
-  | GetProjectsLoad
-  | GetProjectsSuccess
-  | GetProjectsFail
+  | LoadProjects
+  | LoadProjectsSuccess
+  | LoadProjectsFail
   | CreateProject
   | CreateProjectSuccess
   | CreateProjectFail

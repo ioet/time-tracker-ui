@@ -24,7 +24,7 @@ export class ProjectListHoverComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new actions.GetProjectsLoad());
+    this.store.dispatch(new actions.LoadProjects());
     const projects$ = this.store.pipe(select(allProjects));
 
     projects$.subscribe((response) => {

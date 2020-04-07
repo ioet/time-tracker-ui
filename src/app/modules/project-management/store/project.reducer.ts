@@ -14,20 +14,20 @@ export const initialState = {
 export const projectReducer = (state: ProjectState = initialState, action: ProjectActions) => {
   const projects = [...state.projectList];
   switch (action.type) {
-    case ProjectActionTypes.GET_PROJECTS: {
+    case ProjectActionTypes.LOAD_PROJECTS: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case ProjectActionTypes.GET_PROJECTS_SUCCESS:
+    case ProjectActionTypes.LOAD_PROJECTS_SUCCESS:
       return {
         ...state,
         projectList: action.payload,
         isLoading: false,
       };
 
-    case ProjectActionTypes.GET_PROJECTS_FAIL: {
+    case ProjectActionTypes.LOAD_PROJECTS_FAIL: {
       return {
         projectList: [],
         isLoading: false,

@@ -11,14 +11,14 @@ export class ProjectEffects {
   constructor(private actions$: Actions, private projectService: ProjectService, private store: Store<any>) {}
 
   @Effect()
-  getProjects$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.ProjectActionTypes.GET_PROJECTS),
+  loadProjects$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ProjectActionTypes.LOAD_PROJECTS),
     mergeMap(() =>
       this.projectService.getProjects().pipe(
         map((project) => {
-          return new actions.GetProjectsSuccess(project);
+          return new actions.LoadProjectsSuccess(project);
         }),
-        catchError((error) => of(new actions.GetProjectsFail(error)))
+        catchError((error) => of(new actions.LoadProjectsFail(error)))
       )
     )
   );

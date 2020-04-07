@@ -5,21 +5,21 @@ import { projectReducer, ProjectState } from './project.reducer';
 describe('projectReducer', () => {
   const initialState: ProjectState = { projectList: [], isLoading: false };
 
-  it('on GetProjects, isLoading is true', () => {
-    const action = new actions.GetProjectsLoad();
+  it('on LoadProjects, isLoading is true', () => {
+    const action = new actions.LoadProjects();
     const state = projectReducer(initialState, action);
     expect(state.isLoading).toEqual(true);
   });
 
-  it('on GetProjectsSuccess, projectsFound are saved in the store', () => {
+  it('on LoadProjectsSuccess, projectsFound are saved in the store', () => {
     const projectsFound: Project[] = [{ id: '', name: '', description: '' }];
-    const action = new actions.GetProjectsSuccess(projectsFound);
+    const action = new actions.LoadProjectsSuccess(projectsFound);
     const state = projectReducer(initialState, action);
     expect(state.projectList).toEqual(projectsFound);
   });
 
-  it('on GetProjectsFail, projectList equal []', () => {
-    const action = new actions.GetProjectsFail('error');
+  it('on LoadProjectsFail, projectList equal []', () => {
+    const action = new actions.LoadProjectsFail('error');
     const state = projectReducer(initialState, action);
     expect(state.projectList).toEqual([]);
   });
