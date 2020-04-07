@@ -1,7 +1,7 @@
 import { ProjectActions, ProjectActionTypes } from './project.actions';
 import { Project } from '../../shared/models';
 
-export interface AppState {
+export interface ProjectState {
   projectList: Project[];
   isLoading: boolean;
 }
@@ -11,7 +11,7 @@ export const initialState = {
   isLoading: false,
 };
 
-export const projectReducer = (state: AppState = initialState, action: ProjectActions) => {
+export const projectReducer = (state: ProjectState = initialState, action: ProjectActions) => {
   const projects = [...state.projectList];
   switch (action.type) {
     case ProjectActionTypes.GET_PROJECTS: {
@@ -34,14 +34,14 @@ export const projectReducer = (state: AppState = initialState, action: ProjectAc
       };
     }
 
-    case ProjectActionTypes.POST_PROJECT: {
+    case ProjectActionTypes.CREATE_PROJECT: {
       return {
         ...state,
         isLoading: true,
       };
     }
 
-    case ProjectActionTypes.POST_PROJECT_SUCCESS: {
+    case ProjectActionTypes.CREATE_PROJECT_SUCCESS: {
       return {
         ...state,
         projectList: [...state.projectList, action.payload],
@@ -49,21 +49,21 @@ export const projectReducer = (state: AppState = initialState, action: ProjectAc
       };
     }
 
-    case ProjectActionTypes.POST_PROJECT_FAIL: {
+    case ProjectActionTypes.CREATE_PROJECT_FAIL: {
       return {
         projectList: [],
         isLoading: false,
       };
     }
 
-    case ProjectActionTypes.PUT_PROJECT: {
+    case ProjectActionTypes.UPDATE_PROJECT: {
       return {
         ...state,
         isLoading: true,
       };
     }
 
-    case ProjectActionTypes.PUT_PROJECT_SUCCESS: {
+    case ProjectActionTypes.UPDATE_PROJECT_SUCCESS: {
       const index = projects.findIndex((project) => project.id === action.payload.id);
       projects[`${index}`] = action.payload;
 
@@ -74,7 +74,7 @@ export const projectReducer = (state: AppState = initialState, action: ProjectAc
       };
     }
 
-    case ProjectActionTypes.PUT_PROJECT_FAIL: {
+    case ProjectActionTypes.UPDATE_PROJECT_FAIL: {
       return {
         projectList: [],
         isLoading: false,

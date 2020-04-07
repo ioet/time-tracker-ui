@@ -11,31 +11,31 @@ describe('Actions for Projects', () => {
     expect(getProjectsFail.type).toEqual(actions.ProjectActionTypes.GET_PROJECTS_FAIL);
   });
 
-  it('PostProjectSuccess type is ProjectActionTypes.POST_PROJECT_SUCCESS', () => {
-    const postProjectSuccess = new actions.PostProjectSuccess({
+  it('CreateProjectSuccess type is ProjectActionTypes.CREATE_PROJECT_SUCCESS', () => {
+    const createProjectSuccess = new actions.CreateProjectSuccess({
       id: '1',
       name: 'Training',
       description: 'It is good for learning',
     });
-    expect(postProjectSuccess.type).toEqual(actions.ProjectActionTypes.POST_PROJECT_SUCCESS);
+    expect(createProjectSuccess.type).toEqual(actions.ProjectActionTypes.CREATE_PROJECT_SUCCESS);
   });
 
-  it('PostProjectFail type is ProjectActionTypes.POST_PROJECT_FAIL', () => {
-    const postProjectFail = new actions.PostProjectFail('error');
-    expect(postProjectFail.type).toEqual(actions.ProjectActionTypes.POST_PROJECT_FAIL);
+  it('CreateProjectFail type is ProjectActionTypes.CREATE_PROJECT_FAIL', () => {
+    const createProjectFail = new actions.CreateProjectFail('error');
+    expect(createProjectFail.type).toEqual(actions.ProjectActionTypes.CREATE_PROJECT_FAIL);
   });
 
-  it('PutProjectSuccess type is ProjectActionTypes.POST_PROJECT_SUCCESS', () => {
-    const putProjectSuccess = new actions.PutProjectSuccess({
+  it('UpdateProjectSuccess type is ProjectActionTypes.UPDATE_PROJECT_SUCCESS', () => {
+    const updateProjectSuccess = new actions.UpdateProjectSuccess({
       id: '1',
       name: 'Training',
       description: 'It is good for learning',
     });
-    expect(putProjectSuccess.type).toEqual(actions.ProjectActionTypes.PUT_PROJECT_SUCCESS);
+    expect(updateProjectSuccess.type).toEqual(actions.ProjectActionTypes.UPDATE_PROJECT_SUCCESS);
   });
 
-  it('PutProjectFail type is ProjectActionTypes.POST_PROJECT_FAIL', () => {
-    const putProjectFail = new actions.PutProjectFail('error');
-    expect(putProjectFail.type).toEqual(actions.ProjectActionTypes.PUT_PROJECT_FAIL);
+  it('UpdateProjectFail type is ProjectActionTypes.UPDATE_PROJECT_FAIL', () => {
+    const updateProjectFail = new actions.UpdateProjectFail('error');
+    expect(updateProjectFail.type).toEqual(actions.ProjectActionTypes.UPDATE_PROJECT_FAIL);
   });
 });

@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Project } from 'src/app/modules/shared/models';
 import { allProjects } from '../../../project-management/store/project.selectors';
+import { ProjectState } from '../../../project-management/store/project.reducer';
 import * as actions from '../../../project-management/store/project.actions';
 
 @Component({
@@ -18,7 +19,7 @@ export class ProjectListHoverComponent implements OnInit {
   listProjects: Project[] = [];
   isLoading: boolean;
 
-  constructor(private store: Store<any>) {
+  constructor(private store: Store<ProjectState>) {
     this.showButton = -1;
   }
 

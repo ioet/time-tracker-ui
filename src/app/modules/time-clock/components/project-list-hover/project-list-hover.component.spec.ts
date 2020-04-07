@@ -3,14 +3,14 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { ProjectListHoverComponent } from './project-list-hover.component';
-import { AppState } from '../../../project-management/store/project.reducer';
+import { ProjectState } from '../../../project-management/store/project.reducer';
 import { allProjects } from '../../../project-management/store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
 
 describe('ProjectListHoverComponent', () => {
   let component: ProjectListHoverComponent;
   let fixture: ComponentFixture<ProjectListHoverComponent>;
-  let store: MockStore<AppState>;
+  let store: MockStore<ProjectState>;
   let mockProjectsSelector;
 
   const state = {

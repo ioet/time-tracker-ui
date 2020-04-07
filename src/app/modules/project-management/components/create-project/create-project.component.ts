@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, Output, EventEmitter } from '@angu
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Project } from '../../../shared/models';
+import { ProjectState } from '../../store/project.reducer';
 import * as actions from '../../store/project.actions';
 
 @Component({
@@ -12,12 +13,12 @@ import * as actions from '../../store/project.actions';
 export class CreateProjectComponent implements OnChanges, OnInit {
   projectForm;
   editProjectId;
-  isEdit = false;
+  isUpdating = false;
 
   @Input() projectToEdit: Project;
   @Output() cancelForm = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder, private store: Store<any>) {
+  constructor(private formBuilder: FormBuilder, private store: Store<ProjectState>) {
     this.projectForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -29,10 +30,10 @@ export class CreateProjectComponent implements OnChanges, OnInit {
   ngOnChanges(): void {
     if (this.projectToEdit) {
       this.projectForm.patchValue(this.projectToEdit);
-      this.isEdit = true;
+      this.isUpdating = true;
     } else {
       this.projectForm.reset();
-      this.isEdit = false;
+      this.isUpdating = false;
     }
   }
 
@@ -46,10 +47,10 @@ export class CreateProjectComponent implements OnChanges, OnInit {
 
   onSubmit(formData) {
     const projectData = { ...this.projectToEdit, ...formData };
-    if (!this.isEdit) {
-      this.store.dispatch(new actions.PostProject(projectData));
+    if (this.isUpdating) {
+      this.store.dispatch(new actions.UpdateProject(projectData));
     } else {
-      this.store.dispatch(new actions.PutProject(projectData));
+      this.store.dispatch(new actions.CreateProject(projectData));
     }
     this.reset();
   }

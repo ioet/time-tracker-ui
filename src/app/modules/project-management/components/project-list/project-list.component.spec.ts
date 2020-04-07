@@ -2,14 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { ProjectListComponent } from './project-list.component';
-import { AppState } from '../../store/project.reducer';
+import { ProjectState } from '../../store/project.reducer';
 import { allProjects } from '../../store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
 
 describe('ProjectListComponent', () => {
   let component: ProjectListComponent;
   let fixture: ComponentFixture<ProjectListComponent>;
-  let store: MockStore<AppState>;
+  let store: MockStore<ProjectState>;
   let mockProjectsSelector;
 
   const state = {

@@ -24,29 +24,29 @@ export class ProjectEffects {
   );
 
   @Effect()
-  postProject$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.ProjectActionTypes.POST_PROJECT),
-    map((action: actions.PostProject) => action.payload),
+  createProject$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ProjectActionTypes.CREATE_PROJECT),
+    map((action: actions.CreateProject) => action.payload),
     mergeMap((project) =>
       this.projectService.createProject(project).pipe(
         map((projectData) => {
-          return new actions.PostProjectSuccess(projectData);
+          return new actions.CreateProjectSuccess(projectData);
         }),
-        catchError((error) => of(new actions.PostProjectFail(error)))
+        catchError((error) => of(new actions.CreateProjectFail(error)))
       )
     )
   );
 
   @Effect()
-  putProject$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.ProjectActionTypes.PUT_PROJECT),
-    map((action: actions.PutProject) => action.payload),
+  updateProject$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ProjectActionTypes.UPDATE_PROJECT),
+    map((action: actions.UpdateProject) => action.payload),
     mergeMap((project) =>
       this.projectService.updateProject(project).pipe(
         map((projectData) => {
-          return new actions.PutProjectSuccess(projectData);
+          return new actions.UpdateProjectSuccess(projectData);
         }),
-        catchError((error) => of(new actions.PutProjectFail(error)))
+        catchError((error) => of(new actions.UpdateProjectFail(error)))
       )
     )
   );

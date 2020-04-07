@@ -5,12 +5,12 @@ export enum ProjectActionTypes {
   GET_PROJECTS = '[Projects] GET_PROJECTS',
   GET_PROJECTS_SUCCESS = '[Projects] GET_PROJECTS_SUCCESS',
   GET_PROJECTS_FAIL = '[Projects] GET_PROJECTS_FAIL',
-  POST_PROJECT = '[Projects] POST_PROJECT',
-  POST_PROJECT_SUCCESS = '[Projects] POST_PROJECT_SUCCESS',
-  POST_PROJECT_FAIL = '[Projects] POST_PROJECT_FAIL',
-  PUT_PROJECT = '[Projects] PUT_PROJECT',
-  PUT_PROJECT_SUCCESS = '[Projects] PUT_PROJECT_SUCCESS',
-  PUT_PROJECT_FAIL = '[Projects] PUT_PROJECT_FAIL',
+  CREATE_PROJECT = '[Projects] CREATE_PROJECT',
+  CREATE_PROJECT_SUCCESS = '[Projects] CREATE_PROJECT_SUCCESS',
+  CREATE_PROJECT_FAIL = '[Projects] CREATE_PROJECT_FAIL',
+  UPDATE_PROJECT = '[Projects] UPDATE_PROJECT',
+  UPDATE_PROJECT_SUCCESS = '[Projects] UPDATE_PROJECT_SUCCESS',
+  UPDATE_PROJECT_FAIL = '[Projects] UPDATE_PROJECT_FAIL',
 }
 
 export class GetProjectsLoad implements Action {
@@ -28,38 +28,38 @@ export class GetProjectsFail implements Action {
   constructor(public error: string) {}
 }
 
-export class PostProject implements Action {
-  public readonly type = ProjectActionTypes.POST_PROJECT;
+export class CreateProject implements Action {
+  public readonly type = ProjectActionTypes.CREATE_PROJECT;
 
   constructor(public payload: Project) {}
 }
 
-export class PostProjectSuccess implements Action {
-  public readonly type = ProjectActionTypes.POST_PROJECT_SUCCESS;
+export class CreateProjectSuccess implements Action {
+  public readonly type = ProjectActionTypes.CREATE_PROJECT_SUCCESS;
 
   constructor(public payload: Project) {}
 }
 
-export class PostProjectFail implements Action {
-  public readonly type = ProjectActionTypes.POST_PROJECT_FAIL;
+export class CreateProjectFail implements Action {
+  public readonly type = ProjectActionTypes.CREATE_PROJECT_FAIL;
 
   constructor(public error: string) {}
 }
 
-export class PutProject implements Action {
-  public readonly type = ProjectActionTypes.PUT_PROJECT;
+export class UpdateProject implements Action {
+  public readonly type = ProjectActionTypes.UPDATE_PROJECT;
 
   constructor(public payload: Project) {}
 }
 
-export class PutProjectSuccess implements Action {
-  public readonly type = ProjectActionTypes.PUT_PROJECT_SUCCESS;
+export class UpdateProjectSuccess implements Action {
+  public readonly type = ProjectActionTypes.UPDATE_PROJECT_SUCCESS;
 
   constructor(public payload: Project) {}
 }
 
-export class PutProjectFail implements Action {
-  public readonly type = ProjectActionTypes.PUT_PROJECT_FAIL;
+export class UpdateProjectFail implements Action {
+  public readonly type = ProjectActionTypes.UPDATE_PROJECT_FAIL;
 
   constructor(public error: string) {}
 }
@@ -68,9 +68,9 @@ export type ProjectActions =
   | GetProjectsLoad
   | GetProjectsSuccess
   | GetProjectsFail
-  | PostProject
-  | PostProjectSuccess
-  | PostProjectFail
-  | PutProject
-  | PutProjectSuccess
-  | PutProjectFail;
+  | CreateProject
+  | CreateProjectSuccess
+  | CreateProjectFail
+  | UpdateProject
+  | UpdateProjectSuccess
+  | UpdateProjectFail;

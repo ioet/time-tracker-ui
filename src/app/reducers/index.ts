@@ -1,4 +1,4 @@
-import { ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from '@ngrx/store';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { projectReducer } from '../modules/project-management/store/project.reducer';
 import { activityManagementReducer } from '../modules/activities-management/store/activity-management.reducers';
 import { environment } from '../../environments/environment';

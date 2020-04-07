@@ -73,11 +73,12 @@ import { environment } from '../environments/environment';
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    !environment.production
+      ? StoreDevtoolsModule.instrument({
+          maxAge: 15, // Retains last 15 states
+        })
+      : [],
     EffectsModule.forRoot([ProjectEffects, ActivityEffects]),
-    StoreDevtoolsModule.instrument({
-      maxAge: 15, // Retains last 15 states
-    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

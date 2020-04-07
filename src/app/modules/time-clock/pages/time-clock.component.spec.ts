@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { TimeClockComponent } from './time-clock.component';
-import { AppState } from '../../project-management/store/project.reducer';
+import { ProjectState } from '../../project-management/store/project.reducer';
 import { ProjectListHoverComponent } from '../components';
 import { ProjectService } from '../../project-management/services/project.service';
 import { FilterProjectPipe } from '../../shared/pipes';
@@ -14,7 +14,7 @@ describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
   let de: DebugElement;
-  let store: MockStore<AppState>;
+  let store: MockStore<ProjectState>;
   let projectService: ProjectService;
   const state = {
     projects: {
