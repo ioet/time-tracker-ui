@@ -68,7 +68,7 @@ describe('activityManagementReducer', () => {
 
   it('on DeleteActivity, message equal to Activity removed successfully!', () => {
     const activityToDeleteId = '1';
-    const action = new DeleteActivity(activityToDeleteId);
+    const action = new DeleteActivitySuccess(activityToDeleteId);
 
     const state = activityManagementReducer(initialState, action);
 
