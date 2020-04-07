@@ -3,8 +3,14 @@
     <h1 class="card-title">Activity</h1>
     <div class="form-group">
       <label for="name">Name:</label>
-      <input class="form-control" id="name" type="text" formControlName="name"
-        [class.is-invalid]="name.invalid && name.touched" required />
+      <input
+        class="form-control"
+        id="name"
+        type="text"
+        formControlName="name"
+        [class.is-invalid]="name.invalid && name.touched"
+        required
+      />
       <div class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
         Activity name is required.
       </div>
@@ -16,7 +22,14 @@
     </div>
 
     <div class="btn-toolbar" role="toolbar">
-      <button class="btn btn-primary" type="submit" [disabled]="!activityForm.valid">Save</button>
+      <div class="btn-group mr-2" role="group">
+        <button class="btn save-button-style mb-2" type="submit" [disabled]="!activityForm.valid">Save</button>
+      </div>
+      <div class="btn-group mr-2" role="group">
+        <button class="btn cancel-button-style mb-2" type="reset" [hidden]="!activityToEdit" (click)="cancelButton()">
+          Cancel
+        </button>
+      </div>
     </div>
   </form>
 </div>

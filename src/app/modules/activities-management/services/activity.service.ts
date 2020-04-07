@@ -30,4 +30,15 @@ export class ActivityService {
     const url = `${this.baseUrl}/${acitivityId}`;
     return this.http.delete(url);
   }
+
+  updateActivity(activityData): Observable<any> {
+    const url = `${this.baseUrl}/${activityData.id}`;
+
+    const body = {
+      ...activityData,
+      tenant_id: '4225ab1e-1033-4a5f-8650-0dd4950f38c8',
+    };
+
+    return this.http.put(url, body);
+  }
 }

@@ -1,17 +1,19 @@
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+
+import { Activity } from '../../../shared/models';
 import { ActivityState } from './../../store/activity-management.reducers';
-import { CreateActivity } from '../../store';
+import { CreateActivity, UpdateActivity, getActivityById, ResetActivityToEdit } from '../../store';
 
 @Component({
   selector: 'app-create-activity',
   templateUrl: './create-activity.component.html',
   styleUrls: ['./create-activity.component.scss'],
 })
-export class CreateActivityComponent {
+export class CreateActivityComponent implements OnInit {
   activityForm: FormGroup;
-  isLoading: boolean;
+  activityToEdit: Activity;
 
   constructor(private formBuilder: FormBuilder, private store: Store<ActivityState>) {
     this.activityForm = this.formBuilder.group({
@@ -20,9 +22,12 @@ export class CreateActivityComponent {
     });
   }
 
-  onSubmit(activityData) {
-    this.activityForm.reset();
-    this.store.dispatch(new CreateActivity(activityData));
+  ngOnInit() {
+    const activities$ = this.store.pipe(select(getActivityById));
+    activities$.subscribe((activity) => {
+      this.activityToEdit = activity;
+      this.setDataToUpdate(this.activityToEdit);
+    });
   }
 
   get name() {
@@ -31,5 +36,32 @@ export class CreateActivityComponent {
 
   get description() {
     return this.activityForm.get('description');
+  }
+
+  setDataToUpdate(activityData: Activity) {
+    if (activityData) {
+      this.activityForm.setValue({
+        name: activityData.name,
+        description: activityData.description,
+      });
+    }
+  }
+
+  onSubmit(activityData) {
+    this.activityForm.reset();
+
+    if (this.activityToEdit) {
+      const activity = {
+        ...activityData,
+        id: this.activityToEdit.id,
+      };
+      this.store.dispatch(new UpdateActivity(activity));
+    } else {
+      this.store.dispatch(new CreateActivity(activityData));
+    }
+  }
+
+  cancelButton() {
+    this.store.dispatch(new ResetActivityToEdit());
   }
 }

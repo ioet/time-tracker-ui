@@ -8,28 +8,31 @@ import { ActivityListComponent } from './activity-list.component';
 describe('ActivityListComponent', () => {
   let component: ActivityListComponent;
   let fixture: ComponentFixture<ActivityListComponent>;
+  let store: MockStore<ActivityState>;
   let mockActivitiesSelector;
 
-  const state = { data: [{id: 'id', name: 'name', description: 'description'}], isLoading: false, message: '' };
-
-  let store: MockStore<ActivityState>;
+  const state = {
+    data: [{ id: 'id', name: 'name', description: 'description' }],
+    isLoading: false,
+    message: '',
+    activityIdToEdit: '',
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActivityListComponent ],
-      providers: [ provideMockStore({ initialState: state }) ]
-    })
-    .compileComponents();
-
-    store = TestBed.inject(MockStore);
-
-    mockActivitiesSelector = store.overrideSelector( allActivities, state );
+      declarations: [ActivityListComponent],
+      providers: [provideMockStore({ initialState: state })],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ActivityListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    store = TestBed.inject(MockStore);
+    store.setState(state);
+    mockActivitiesSelector = store.overrideSelector(allActivities, state.data);
   });
 
   it('should create', () => {
@@ -50,6 +53,7 @@ describe('ActivityListComponent', () => {
     expect(component.activities).toBe(state.data);
   });
 
-  afterEach(() => { fixture.destroy(); });
-
+  afterEach(() => {
+    fixture.destroy();
+  });
 });
