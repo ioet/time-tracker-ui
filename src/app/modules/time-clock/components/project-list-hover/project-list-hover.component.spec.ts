@@ -1,28 +1,37 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { ProjectListHoverComponent } from './project-list-hover.component';
-import { ProjectService } from '../../../project-management/services/project.service';
+import { AppState } from '../../../project-management/store/project.reducer';
+import { allProjects } from '../../../project-management/store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
 
 describe('ProjectListHoverComponent', () => {
   let component: ProjectListHoverComponent;
   let fixture: ComponentFixture<ProjectListHoverComponent>;
-  let projectService: ProjectService;
+  let store: MockStore<AppState>;
+  let mockProjectsSelector;
+
+  const state = {
+    projectList: [{ id: 'id', name: 'name', description: 'description' }],
+    isLoading: false,
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProjectListHoverComponent, FilterProjectPipe],
+      providers: [provideMockStore({ initialState: state })],
       imports: [HttpClientTestingModule],
-      providers: [ProjectService],
     }).compileComponents();
+    store = TestBed.inject(MockStore);
+    mockProjectsSelector = store.overrideSelector(allProjects, state);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProjectListHoverComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    projectService = TestBed.inject(ProjectService);
   });
 
   it('should create', () => {
@@ -40,11 +49,4 @@ describe('ProjectListHoverComponent', () => {
     component.showFields.subscribe((showFields: boolean) => expect(showFields).toEqual(true));
     component.clockIn(id);
   });
-
-  it('Service injected via inject(...) and TestBed.get(...) should be the same instance', inject(
-    [ProjectService],
-    (injectService: ProjectService) => {
-      expect(injectService).toBe(projectService);
-    }
-  ));
 });

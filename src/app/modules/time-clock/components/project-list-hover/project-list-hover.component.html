@@ -6,7 +6,7 @@
     (mouseenter)="showButton = i"
     (mouseleave)="showButton = -1"
     (click)="clockIn(item.id)"
-    [ngClass]="{ active: selectedId === item.id, hiddenList: item.status !== 'Active' }"
+    [ngClass]="{ active: selectedId === item.id }"
   >
     {{ item.name }}
     <span *ngIf="showButton === i && selectedId !== item.id" class="badge badge-light">Clock In</span>

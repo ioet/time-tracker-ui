@@ -7,55 +7,74 @@ describe('ProjectService', () => {
   let service: ProjectService;
   let httpMock: HttpTestingController;
 
-  const projectsList: Project[] = [{
-    id: '1',
-    name: 'app 1',
-    details: 'It is a good app',
-    status: 'inactive',
-    completed: true
-  },
-  {
-    id: '2',
-    name: 'app 2',
-    details: 'It is a good app',
-    status: 'inactive',
-    completed: false
-  },
-  {
-    id: '3',
-    name: 'app 3',
-    details: 'It is a good app',
-    status: 'active',
-    completed: true
-  }
+  const projectsList: Project[] = [
+    {
+      id: '1',
+      name: 'app 1',
+      description: 'It is a good app',
+    },
+    {
+      id: '2',
+      name: 'app 2',
+      description: 'It is a good app',
+    },
+    {
+      id: '3',
+      name: 'app 3',
+      description: 'It is a good app',
+    },
   ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(ProjectService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
-  afterEach (() => {
-    httpMock.verify ();
+  afterEach(() => {
+    httpMock.verify();
   });
 
-  it('should create', inject([HttpClientTestingModule, ProjectService],
+  it('should create', inject(
+    [HttpClientTestingModule, ProjectService],
     (httpClient: HttpClientTestingModule, apiService: ProjectService) => {
       expect(apiService).toBeTruthy();
       expect(httpClient).toBeTruthy();
-  }));
+    }
+  ));
 
-  it('should get projects  API/GET #getProjects', () => {
-    service.getProjects().subscribe(projects => {
-        expect(projects.length).toBe(3);
-        expect(projects).toEqual(projects);
+  it('projects are read using GET from url', () => {
+    const projectsFoundSize = projectsList.length;
+    service.url = '/projects';
+    service.getProjects().subscribe((projectsInResponse) => {
+      expect(projectsInResponse.length).toBe(projectsFoundSize);
     });
-    const request = httpMock.expectOne('assets/project.json');
-    expect(request.request.method).toBe('GET');
-    request.flush(projectsList);
-    });
+    const getProjectsRequest = httpMock.expectOne(service.url);
+    expect(getProjectsRequest.request.method).toBe('GET');
+    getProjectsRequest.flush(projectsList);
+  });
 
+  it('create project using POST from url', () => {
+    const project: Project[] = [{ id: '1', name: 'ccc', description: 'xxx' }];
+    service.url = 'projects';
+    service.createProject(project).subscribe((response) => {
+      expect(response.length).toBe(1);
+    });
+    const createProjectsRequest = httpMock.expectOne(service.url);
+    expect(createProjectsRequest.request.method).toBe('POST');
+    createProjectsRequest.flush(project);
+  });
+
+  it('update project using PUT from url', () => {
+    const project: Project = { id: '1', name: 'new name', description: 'description' };
+    service.url = 'projects';
+    service.updateProject(project).subscribe((response) => {
+      expect(response.name).toBe('new name');
+    });
+    const updateProjectRequest = httpMock.expectOne(`${service.url}/${project.id}`);
+    expect(updateProjectRequest.request.method).toBe('PUT');
+    updateProjectRequest.flush(project);
+  });
 });

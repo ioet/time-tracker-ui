@@ -5,7 +5,7 @@ import { Project } from 'src/app/modules/shared/models/project.model';
   name: 'filterProject',
 })
 export class FilterProjectPipe implements PipeTransform {
-  transform(value: Project[] = [], arg: string): string[] {
+  transform(value: Project[] = [], arg: string): Project[] {
     const restultProjects = [];
     for (const project of value) {
       if (project.name.toLowerCase().indexOf(arg.toLowerCase()) > -1) {

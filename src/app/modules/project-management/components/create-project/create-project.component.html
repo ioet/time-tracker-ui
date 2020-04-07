@@ -18,39 +18,22 @@
     </div>
 
     <div class="form-group">
-      <label for="details">Details:</label>
+      <label for="description">Description:</label>
       <textarea
         class="form-control"
         rows="3"
-        id="details"
+        id="description"
         type="text"
-        formControlName="details"
-        [class.is-invalid]="details.invalid && details.touched"
+        formControlName="description"
+        [class.is-invalid]="description.invalid && description.touched"
         required
       ></textarea>
-      <p class="text-danger" *ngIf="(details.dirty || details.touched) && details.invalid && details.errors.required">
-        Project details are required.
+      <p
+        class="text-danger"
+        *ngIf="(description.dirty || description.touched) && description.invalid && description.errors.required"
+      >
+        Project description is required.
       </p>
-    </div>
-
-    <div class="form-group">
-      <label for="status">Status:</label>
-      <select class="form-control" formControlName="status">
-        <option
-          *ngFor="let status of projectStatus"
-          [class.is-invalid]="status.invalid && status.touched"
-          [value]="status"
-          >{{ status }}</option
-        >
-      </select>
-      <p class="text-danger" *ngIf="(status.dirty || status.touched) && status.invalid && status.errors.required">
-        Project status is required.
-      </p>
-    </div>
-
-    <div class="form-group form-check" [hidden]="!projectToEdit">
-      <input type="checkbox" class="form-check-input" id="completedProject" formControlName="completed" />
-      <label class="form-check-label" for="completedProject">Completed project</label>
     </div>
     <div class="btn-toolbar" role="toolbar">
       <div class="btn-group mr-2" role="group">

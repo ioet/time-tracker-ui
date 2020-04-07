@@ -6,23 +6,17 @@ describe('FilterProjectPipe', () => {
     {
       id: '1',
       name: 'app 1',
-      details: 'It is a good app',
-      status: 'inactive',
-      completed: true,
+      description: 'It is a good app',
     },
     {
       id: '2',
       name: 'app 2',
-      details: 'It is a good app',
-      status: 'inactive',
-      completed: false,
+      description: 'It is a good app',
     },
     {
       id: '3',
       name: 'app 3',
-      details: 'It is a good app',
-      status: 'active',
-      completed: true,
+      description: 'It is a good app',
     },
   ];
 

@@ -32,7 +32,9 @@ import { SearchProjectComponent } from './modules/shared/components/search-proje
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 import { ActivityEffects } from './modules/activities-management/store/activity-management.effects';
-import { activityManagementReducer } from './modules/activities-management/store';
+import { ProjectEffects } from './modules/project-management/store/project.effects';
+import { reducers, metaReducers } from './reducers';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -68,8 +70,11 @@ import { activityManagementReducer } from './modules/activities-management/store
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({ activities: activityManagementReducer }),
-    EffectsModule.forRoot([ActivityEffects]),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([ProjectEffects, ActivityEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 15, // Retains last 15 states
     }),

@@ -8,9 +8,8 @@ describe('ModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalComponent ]
-    })
-    .compileComponents();
+      declarations: [ModalComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -27,7 +26,7 @@ describe('ModalComponent', () => {
     const merged = {
       id: '1',
       name: 'app 4',
-      details: 'It is a good app',
+      description: 'It is a good app',
       status: 'inactive',
       completed: true,
       project: 'ErnstYoung',
@@ -45,4 +44,3 @@ describe('ModalComponent', () => {
     component.cancelDeleteModal.nativeElement.click();
   });
 });
-
