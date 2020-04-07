@@ -9,9 +9,9 @@ export enum ActivityManagementActionTypes {
   CREATE_ACTIVITY = '[ActivityManagement] CREATE_ACTIVITY',
   CREATE_ACTIVITY_SUCCESS = '[ActivityManagement] CREATE_ACTIVITY_SUCCESS',
   CREATE_ACTIVITY_FAIL = '[ActivityManagement] CREATE_ACTIVITY_FAIL',
-  DELETE_ACTIVITY = '[ActivityManagement] Delete Activity',
-  DELETE_ACTIVITY_SUCCESS = '[ActivityManagement] Delete Activity Success',
-  DELETE_ACTIVITY_FAIL = '[ActivityManagement] Delete Activity Fail',
+  DELETE_ACTIVITY = '[ActivityManagement] DELETE_ACTIVITY',
+  DELETE_ACTIVITY_SUCCESS = '[ActivityManagement] DELETE_ACTIVITY_SUCESS',
+  DELETE_ACTIVITY_FAIL = '[ActivityManagement] DELETE_ACTIVITY_FAIL',
 }
 
 export class LoadActivities implements Action {
