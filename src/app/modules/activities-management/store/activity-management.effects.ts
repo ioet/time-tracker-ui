@@ -7,7 +7,6 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as actions from './activity-management.actions';
 import { Activity } from './../../shared/models/activity.model';
 import { ActivityService } from './../services/activity.service';
-import { ActivityManagementActionTypes, DeleteActivitySuccess } from './activity-management.actions';
 
 @Injectable()
 export class ActivityEffects {
@@ -42,13 +41,14 @@ export class ActivityEffects {
 
   @Effect()
   deleteActivity$: Observable<Action> = this.actions$.pipe(
-    ofType(ActivityManagementActionTypes.DELETE_ACTIVITY),
+    ofType(actions.ActivityManagementActionTypes.DELETE_ACTIVITY),
     map((action: actions.DeleteActivity) => action.activityId),
     mergeMap((activityId) =>
       this.activityService.deleteActivity(activityId).pipe(
         map(() => {
-          return new DeleteActivitySuccess(activityId);
-        })
+          return new actions.DeleteActivitySuccess(activityId);
+        }),
+        catchError((error) => of(new actions.DeleteActivityFail(error)))
       )
     )
   );

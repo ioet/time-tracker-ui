@@ -59,6 +59,7 @@ export function activityManagementReducer(state: ActivityState = initialState, a
     case ActivityManagementActionTypes.DELETE_ACTIVITY: {
       return {
         ...state,
+        isLoading: true,
         message: 'Activity removed successfully!',
       };
     }
@@ -69,6 +70,14 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         data: activites,
         isLoading: false,
         message: 'Activity removed successfully!',
+      };
+    }
+
+    case ActivityManagementActionTypes.DELETE_ACTIVITY_FAIL: {
+      return {
+        data: [],
+        isLoading: false,
+        message: 'Something went wrong creating activities!',
       };
     }
     default:
