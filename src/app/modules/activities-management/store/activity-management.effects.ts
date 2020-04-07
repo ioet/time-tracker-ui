@@ -38,4 +38,18 @@ export class ActivityEffects {
       )
     )
   );
+
+  @Effect()
+  deleteActivity$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActivityManagementActionTypes.DELETE_ACTIVITY),
+    map((action: actions.DeleteActivity) => action.activityId),
+    mergeMap((activityId) =>
+      this.activityService.deleteActivity(activityId).pipe(
+        map(() => {
+          return new actions.DeleteActivitySuccess(activityId);
+        }),
+        catchError((error) => of(new actions.DeleteActivityFail(error)))
+      )
+    )
+  );
 }

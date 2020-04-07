@@ -56,6 +56,29 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         message: 'Something went wrong creating activities!',
       };
     }
+    case ActivityManagementActionTypes.DELETE_ACTIVITY: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case ActivityManagementActionTypes.DELETE_ACTIVITY_SUCCESS: {
+      const activites = state.data.filter((activity) => activity.id !== action.activityId);
+      return {
+        data: activites,
+        isLoading: false,
+        message: 'Activity removed successfully!',
+      };
+    }
+
+    case ActivityManagementActionTypes.DELETE_ACTIVITY_FAIL: {
+      return {
+        data: [],
+        isLoading: false,
+        message: 'Something went wrong deleting activity!',
+      };
+    }
     default:
       return state;
   }

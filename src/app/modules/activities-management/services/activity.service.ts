@@ -25,4 +25,9 @@ export class ActivityService {
 
     return this.http.post(this.baseUrl, body);
   }
+
+  deleteActivity(acitivityId: string): Observable<any> {
+    const url = `${this.baseUrl}/${acitivityId}`;
+    return this.http.delete(url);
+  }
 }

@@ -2,7 +2,7 @@ import { Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
-import { LoadActivities } from './../../store/activity-management.actions';
+import { LoadActivities, DeleteActivity } from './../../store/activity-management.actions';
 import { ActivityState } from './../../store/activity-management.reducers';
 import { allActivities } from '../../store';
 import { Activity } from '../../../shared/models';
@@ -26,5 +26,9 @@ export class ActivityListComponent implements OnInit {
       this.isLoading = response.isLoading;
       this.activities = response.data;
     });
+  }
+
+  deleteActivity(activityId: string) {
+    this.store.dispatch(new DeleteActivity(activityId));
   }
 }
