@@ -60,7 +60,6 @@ export function activityManagementReducer(state: ActivityState = initialState, a
       return {
         ...state,
         isLoading: true,
-        message: 'Activity removed successfully!',
       };
     }
 
@@ -77,7 +76,7 @@ export function activityManagementReducer(state: ActivityState = initialState, a
       return {
         data: [],
         isLoading: false,
-        message: 'Something went wrong creating activities!',
+        message: 'Something went wrong deleting activity!',
       };
     }
     default:
