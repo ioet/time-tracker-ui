@@ -42,16 +42,18 @@ describe('CreateProjectComponent', () => {
       name: 'Project Test 13',
       description: 'description',
     };
-
     component.projectToEdit = newData;
+
     component.ngOnChanges();
+
     expect(component.projectForm.value.name).toEqual(newData.name);
     expect(component.projectForm.value.description).toEqual(newData.description);
     expect(component.isUpdating).toEqual(true);
   });
 
-  it('should emit ngOnChange and reset ProjectForm', () => {
+  it('on ngOnChange with projectToEdit=null should reset projectForm', () => {
     component.projectToEdit = null;
+
     component.ngOnChanges();
 
     expect(component.projectForm.value.name).toEqual(null);
@@ -59,41 +61,44 @@ describe('CreateProjectComponent', () => {
     expect(component.isUpdating).toEqual(false);
   });
 
-  it('should dispatch CreateProject action #onSubmit', () => {
+  it('should dispatch CreateProject action #onSubmit if isUpdating=false', () => {
     const project = {
       id: '1',
       name: 'app 4',
       description: 'It is a good app',
     };
-
     component.isUpdating = false;
     spyOn(store, 'dispatch');
+
     component.onSubmit(project);
+
     expect(store.dispatch).toHaveBeenCalledWith(new actions.CreateProject(project));
   });
 
-  it('should dispatch UpdateProject action #onSubmit', () => {
+  it('should dispatch UpdateProject action #onSubmit if isUpdating=true', () => {
     const project = {
       id: '1',
       name: 'app 4',
       description: 'It is a good app',
     };
-
     component.isUpdating = true;
     spyOn(store, 'dispatch');
+
     component.onSubmit(project);
+
     expect(store.dispatch).toHaveBeenCalledWith(new actions.UpdateProject(project));
   });
 
-  it('should clean the form and send a cancelForm event #reset', () => {
+  it('should clean the form and emmit a cancelForm event on #reset', () => {
     const project = {
       name: 'app 4',
       description: 'It is a good app',
     };
-
     component.projectForm.setValue(project);
     spyOn(component.cancelForm, 'emit');
+
     component.reset();
+
     expect(component.projectForm.value.name).toEqual(null);
     expect(component.projectForm.value.description).toEqual(null);
     expect(component.cancelForm.emit).toHaveBeenCalled();
