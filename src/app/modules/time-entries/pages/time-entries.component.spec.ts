@@ -5,7 +5,7 @@ import {
   MonthPickerComponent,
   DetailsFieldsComponent,
   EmptyStateComponent,
-  ModalComponent
+  ModalComponent,
 } from '../../shared/components';
 import { GroupByDatePipe } from '../../shared/pipes';
 import { TimeEntriesComponent } from './time-entries.component';
@@ -21,15 +21,8 @@ describe('TimeEntriesComponent', () => {
     activity: 'development',
     technology: 'Angular, TypeScript',
     comments: 'No comments',
-    ticket: 'EY-25'
+    ticket: 'EY-25',
   };
-
-  function setup() {
-    // tslint:disable-next-line: no-shadowed-variable
-    const fixture = TestBed.createComponent(TimeEntriesComponent);
-    const app = fixture.debugElement.componentInstance;
-    return { fixture, app };
-  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,14 +32,10 @@ describe('TimeEntriesComponent', () => {
         GroupByDatePipe,
         ModalComponent,
         MonthPickerComponent,
-        TimeEntriesComponent
+        TimeEntriesComponent,
       ],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule
-      ]
-    })
-    .compileComponents();
+      imports: [FormsModule, ReactiveFormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
