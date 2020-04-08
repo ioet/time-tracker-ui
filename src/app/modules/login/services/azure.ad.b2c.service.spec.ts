@@ -4,30 +4,24 @@ import { UserAgentApplication, Account } from 'msal';
 
 describe('AzureAdB2CService', () => {
   let service: AzureAdB2CService;
-  const msalStub = {
-    loginPopup() {
-      return {};
-    }
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: []
+      imports: [],
     });
     service = TestBed.inject(AzureAdB2CService);
   });
 
-  it('should be created', inject([AzureAdB2CService],
-    ( apiService: AzureAdB2CService) => {
-      expect(apiService).toBeTruthy();
+  it('should be created', inject([AzureAdB2CService], (apiService: AzureAdB2CService) => {
+    expect(apiService).toBeTruthy();
   }));
 
   it('on signIn should call msal loginPopup', () => {
-    spyOn(UserAgentApplication.prototype, 'loginPopup').and.returnValue((
+    spyOn(UserAgentApplication.prototype, 'loginPopup').and.returnValue(
       new Promise((resolve) => {
-          resolve();
+        resolve();
       })
-    ));
+    );
     service.signIn();
     expect(UserAgentApplication.prototype.loginPopup).toHaveBeenCalled();
   });
@@ -47,7 +41,7 @@ describe('AzureAdB2CService', () => {
       idToken: {},
       idTokenClaims: {},
       sid: 'abc',
-      environment: 'abc'
+      environment: 'abc',
     };
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValues(account);
 
@@ -66,7 +60,7 @@ describe('AzureAdB2CService', () => {
       idToken: {},
       idTokenClaims: {},
       sid: 'abc',
-      environment: 'abc'
+      environment: 'abc',
     };
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
 
@@ -82,5 +76,4 @@ describe('AzureAdB2CService', () => {
     expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
     expect(isLogin).toEqual(false);
   });
-
 });

@@ -1,9 +1,8 @@
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { Activity } from '../../../shared/models';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { ActivityState } from './../../store/activity-management.reducers';
-import { CreateActivity, allActivities } from '../../store';
+import { CreateActivity } from '../../store';
 
 @Component({
   selector: 'app-create-activity',
