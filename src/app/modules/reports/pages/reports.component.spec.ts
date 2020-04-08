@@ -15,9 +15,8 @@ describe('ReportsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReportsComponent ]
-    })
-    .compileComponents();
+      declarations: [ReportsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -30,13 +29,12 @@ describe('ReportsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have p tag as \'reports works!\'', async(() => {
+  it('should have p tag as "reports works!"', async(() => {
     // tslint:disable-next-line: no-shadowed-variable
-    const { app, fixture } = setup();
+    const { fixture } = setup();
     fixture.detectChanges();
     const compile = fixture.debugElement.nativeElement;
     const ptag = compile.querySelector('p');
     expect(ptag.textContent).toBe('reports works!');
   }));
-
 });

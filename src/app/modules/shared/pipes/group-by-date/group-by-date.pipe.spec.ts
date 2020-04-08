@@ -1,5 +1,4 @@
 import { GroupByDatePipe } from './group-by-date.pipe';
-import { Pipe } from '@angular/core';
 
 describe('GroupByDatePipe', () => {
   it('create an instance', () => {
@@ -24,7 +23,7 @@ describe('GroupByDatePipe', () => {
         activity: 'development',
         technology: 'Angular, TypeScript',
         comments: 'No comments',
-        ticket: 'EY-25'
+        ticket: 'EY-25',
       },
       {
         id: 'entry_2',
@@ -34,7 +33,7 @@ describe('GroupByDatePipe', () => {
         activity: 'development',
         technology: 'Angular, TypeScript',
         comments: 'No comments',
-        ticket: 'EY-38'
+        ticket: 'EY-38',
       },
       {
         id: 'entry_3',
@@ -44,7 +43,7 @@ describe('GroupByDatePipe', () => {
         activity: 'development',
         technology: 'Angular, TypeScript',
         comments: 'No comments',
-        ticket: 'EY-225'
+        ticket: 'EY-225',
       },
       {
         id: 'entry_4',
@@ -54,7 +53,7 @@ describe('GroupByDatePipe', () => {
         activity: 'development',
         technology: 'Angular, TypeScript',
         comments: 'No comments',
-        ticket: 'EY-89'
+        ticket: 'EY-89',
       },
       {
         id: 'entry_5',
@@ -64,8 +63,8 @@ describe('GroupByDatePipe', () => {
         activity: 'development',
         technology: 'Angular, TypeScript',
         comments: 'No comments',
-        ticket: 'EY-59'
-      }
+        ticket: 'EY-59',
+      },
     ];
     const pipe = new GroupByDatePipe();
     const result = pipe.transform(entryList);

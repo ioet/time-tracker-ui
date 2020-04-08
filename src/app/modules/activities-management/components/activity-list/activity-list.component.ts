@@ -1,4 +1,4 @@
-import { Input, OnInit } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
