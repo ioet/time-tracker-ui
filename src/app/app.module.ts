@@ -7,6 +7,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './modules/shared/components/navbar/navbar.component';
@@ -35,6 +37,15 @@ import { ActivityEffects } from './modules/activities-management/store/activity-
 import { ProjectEffects } from './modules/project-management/store/project.effects';
 import { reducers, metaReducers } from './reducers';
 import { environment } from '../environments/environment';
+import { CustomerComponent } from './modules/customer/pages/customer.component';
+import { CustomerTableListComponent } from './modules/customer/components/customer-table-list/customer-table-list.component';
+import { SearchComponent } from './modules/customer/components/search/search.component';
+import { ManagmentCustomerProjectsComponent } from './modules/customer/components/managment-customer-projects/managment-customer-projects.component';
+import { InputCustomerComponent } from './modules/customer/components/input-customer/input-customer';
+import { InputProjectComponent } from './modules/customer/components/input-project/input-project.component';
+import { ProjectTableListComponent } from './modules/customer/components/project-table-list/project-table-list.component';
+import { ProjectTypeTableListComponent } from './modules/customer/components/project-type-table-list/project-type-table-list.component';
+import { InputProjectTypeComponent } from './modules/customer/components/input-project-type/input-project-type.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +73,15 @@ import { environment } from '../environments/environment';
     LoginComponent,
     FilterProjectPipe,
     SearchProjectComponent,
+    CustomerComponent,
+    CustomerTableListComponent,
+    SearchComponent,
+    ManagmentCustomerProjectsComponent,
+    InputCustomerComponent,
+    InputProjectComponent,
+    ProjectTableListComponent,
+    ProjectTypeTableListComponent,
+    InputProjectTypeComponent,
   ],
   imports: [
     CommonModule,
@@ -70,6 +90,7 @@ import { environment } from '../environments/environment';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgxPaginationModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),

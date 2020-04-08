@@ -1,0 +1,8 @@
+@import '../../../../../styles/colors.scss';
+
+.nav-active {
+  color: $modal-button-secondary;
+}
+.nav-item > a:hover {
+  opacity: 0.6;
+}
