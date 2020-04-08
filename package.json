@@ -77,8 +77,7 @@
         {
           "npmPublish": false
         }
-      ],
-      "@semantic-release/github"
+      ]
     ],
     "repositoryUrl": "https://github.com/ioet/time-tracker-ui.git"
   }
