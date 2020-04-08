@@ -27,3 +27,14 @@ $dark:#5c4e63;
         #fc5630
       );
 }
+
+.bg-secondary,
+.btn-secondary,
+.badge-secondary,
+.alert-secondary {
+    background-image: linear-gradient(
+        to right,
+        #FF3663,
+        #A50D8A
+      );
+}
