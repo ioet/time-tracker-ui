@@ -2,6 +2,14 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 9.0.4.
 
+## Metrics
+
+[![codecov](https://codecov.io/gh/ioet/time-tracker-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/ioet/time-tracker-ui)
+<br/>Code Coverage Status
+
+![CD process to deploy to App-Service service](https://github.com/ioet/time-tracker-ui/workflows/CD%20process%20to%20deploy%20to%20App-Service%20service/badge.svg)
+<br/>CD Pipeline Status
+
 ## Prerequisites
 
 ### Node.js
