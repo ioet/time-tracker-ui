@@ -34,9 +34,9 @@ jobs:
           import os
           base_path = os.environ.get('BASE_PATH', 'src/environments/')
           with open(base_path + "keys.ts", "w") as fileWithKeys:
-              fileWithKeys.write('export const AUTHORITY = ') + str(os.environ['SCOPES']).split(",") + ';';
+              fileWithKeys.write('export const SCOPES = ') + str(os.environ['SCOPES']).split(",") + ';';
               fileWithKeys.write('\nexport const CLIENT_ID = ' + os.environ['CLIENT_ID']) + ';';
-              fileWithKeys.write('\nexport const SCOPES = ' + os.environ['AUTHORITY']) + ';';
+              fileWithKeys.write('\nexport const AUTHORITY = ' + os.environ['AUTHORITY']) + ';';
 
       - name: Run the test
         run: npm run ci-test --if-present
