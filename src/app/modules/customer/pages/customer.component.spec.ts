@@ -21,4 +21,10 @@ describe('CustomerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should change te value of var when method is called', () => {
+    component.showCustomerForm = false;
+    component.activateCustomerForm();
+    expect(component.showCustomerForm).toBeTruthy();
+  });
 });
