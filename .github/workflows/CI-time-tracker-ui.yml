@@ -8,21 +8,6 @@ on:
       - 48-implement-semantic-version
 
 jobs:
-  # security-audit:
-    # name: Running npm audit
-    # runs-on: ubuntu-latest
-    # timeout-minutes: 60
-    # steps:
-  #     # - name: Clone and checkout branch
-  #     #   uses: actions/checkout@master
-
-  #     # - name: Set up Node.js version
-  #     #   uses: actions/setup-node@v1
-  #     #   with:
-  #     #     node-version: '12.x'
-
-  #     - name: Security Audit
-  #       run: npm audit --audit-level=moderate
 
   ci-test:
     name: Running unit tests
@@ -31,9 +16,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-    # - name: Clone and checkout branch
-    #   uses: actions/checkout@master
-
     - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
@@ -41,31 +23,6 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-
-
-    # - name: Inject Secrets
-    #   shell: python
-    #   env:
-    #     SCOPES: ${{ secrets.scopes }}
-    #     CLIENT_ID: ${{ secrets.client_id }}
-    #     AUTHORITY: ${{ secrets.authority }}
-    #     BASE_PATH: "src/environments/"
-    #   run: |
-    #     import os
-    #     import json
-    #     data = {}
-    #     base_path = os.environ.get('BASE_PATH', 'src/environments/')
-    #     with open(base_path + "keys.example.json", "r+") as jsonFileRead:
-    #       data = json.load(jsonFileRead)
-    #       data["scopes"] = str(os.environ['SCOPES']).split(",")
-    #       data["client_id"] = os.environ['CLIENT_ID']
-    #       data["authority"] = os.environ['AUTHORITY']
-    #     with open(base_path + ".keys.json", "w+") as jsonFileWrite:
-    #       json.dump(data, jsonFileWrite)
-
-    # - name: Run the test
-    #   run: npm run ci-test --if-present
-
 
 
     - name: Run Semantic-release
