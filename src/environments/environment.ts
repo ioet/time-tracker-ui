@@ -1,16 +1,16 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import * as keys from './.keys.json';
+import * as keys from './keys';
 
 export const environment = {
   production: false,
   timeTrackerApiUrl: 'https://timetracker-api.azurewebsites.net'
 };
 
-export const AUTHORITY = keys.authority;
-export const CLIENT_ID = keys.client_id;
-export const SCOPES = keys.scopes;
+export const AUTHORITY = keys.AUTHORITY;
+export const CLIENT_ID = keys.CLIENT_ID;
+export const SCOPES = keys.SCOPES;
 
 /*
  * For easier debugging in development mode, you can import the following file
