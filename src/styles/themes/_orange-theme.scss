@@ -1,0 +1,36 @@
+$primary:#fc5630;
+$secondary:#ff3f56;
+$success:#16bac5;
+$info:#30bced;
+$warning:#fc5630;
+$danger:#ff3663;
+$light:#ffffff;
+$dark:#5c4e63;
+
+.bg-primary,
+.btn-primary,
+.badge-primary,
+.alert-primary {
+  background-image: linear-gradient(to right,
+      #ff3948,
+      #ff384d,
+      #ff3752,
+      #ff3657,
+      #ff365c,
+      #ff385a,
+      #ff3b59,
+      #ff3d57,
+      #ff434e,
+      #ff4944,
+      #fe4f3a,
+      #fc5630);
+}
+
+.bg-secondary,
+.btn-secondary,
+.badge-secondary,
+.alert-secondary {
+  background-image: linear-gradient(to right,
+      #FF3663,
+      #A50D8A);
+}
