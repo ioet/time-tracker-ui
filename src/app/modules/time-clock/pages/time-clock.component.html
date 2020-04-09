@@ -57,24 +57,13 @@
       <hr />
       <div class="container">
         <div class="row">
-          <div class="col text-left">
-            <button
-              class="btn btn-light btn-sm dropdown-toggle"
-              type="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Options
-            </button>
-          </div>
           <div class="col text-right">
-            <button *ngIf="isClockIn" class="btn button-clock-in-style btn-sm" type="button" (click)="employeClockIn()">
+            <button *ngIf="isClockIn" class="btn btn-primary" type="button" (click)="employeClockIn()">
               Clock In
             </button>
             <button
               *ngIf="!isClockIn"
-              class="btn button-clock-out-style btn-sm"
+              class="btn btn-primary"
               type="button"
               (click)="employeClockOut()"
             >
