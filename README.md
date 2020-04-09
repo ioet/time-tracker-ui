@@ -56,6 +56,20 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
+## Running mutation tests
+Mutation tests have been enabled using stryker. You can run those tests locally, it takes ~4 hours to have the results. If you want to run them locally please install stryker locally:
+```
+npm install -g stryker-cli
+```
+
+Now, run stryker:
+```
+stryker run
+```
+
+Stryker is also executed on GitHub actions with the following cron expresion:
+
+
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).

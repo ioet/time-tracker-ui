@@ -41,6 +41,12 @@ yarn-error.log
 testem.log
 /typings
 .keys.json
+**keys.ts
+src/environments/keys.ts
+
 # System Files
 .DS_Store
 Thumbs.db
+
+# stryker temp files
+.stryker-tmp

@@ -48,16 +48,14 @@ jobs:
         BASE_PATH: "src/environments/"
       run: |
         import os
-        import json
-        data = {}
         base_path = os.environ.get('BASE_PATH', 'src/environments/')
-        with open(base_path + "keys.example.json", "r+") as jsonFileRead:
-          data = json.load(jsonFileRead)
-          data["scopes"] = str(os.environ['SCOPES']).split(",")
-          data["client_id"] = os.environ['CLIENT_ID']
-          data["authority"] = os.environ['AUTHORITY']
-        with open(base_path + ".keys.json", "w+") as jsonFileWrite:
-          json.dump(data, jsonFileWrite)
+        with open(base_path + "keys.ts", "w") as fileWithKeys:
+            scopes = str(os.environ['SCOPES']).split(",")
+            client_id = os.environ['CLIENT_ID']
+            authority = os.environ['AUTHORITY']
+            fileWithKeys.write(f'export const SCOPES = {scopes};')
+            fileWithKeys.write(f'\nexport const CLIENT_ID = {client_id};')
+            fileWithKeys.write(f'\nexport const AUTHORITY = {authority};')
 
     - name: Run the test
       run: npm run ci-test --if-present
