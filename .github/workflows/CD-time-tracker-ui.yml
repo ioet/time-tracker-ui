@@ -25,24 +25,11 @@ jobs:
         node-version: '12.x'
 
     - name: Inject Secrets
-      shell: python
       env:
         SCOPES: ${{ secrets.scopes }}
         CLIENT_ID: ${{ secrets.client_id }}
         AUTHORITY: ${{ secrets.authority }}
-        BASE_PATH: "src/environments/"
-      run: |
-        import os
-        import json
-        data = {}
-        base_path = os.environ.get('BASE_PATH', 'src/environments/')
-        with open(base_path + "keys.example.json", "r+") as jsonFileRead:
-          data = json.load(jsonFileRead)
-          data["scopes"] = str(os.environ['SCOPES']).split(",")
-          data["client_id"] = os.environ['CLIENT_ID']
-          data["authority"] = os.environ['AUTHORITY']
-        with open(base_path + ".keys.json", "w+") as jsonFileWrite:
-          json.dump(data, jsonFileWrite)
+      run:  sudo sh scripts/populate-keys.sh
 
     - name: 'run: npm install and build'
       run: |
