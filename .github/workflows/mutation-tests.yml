@@ -1,0 +1,40 @@
+name: Running mutation tests
+
+on:
+  schedule:
+    - cron: '* 13 * * 1'
+    branches:
+      - master
+
+jobs:
+  configuring-stryker:
+    name: Running stryker
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Clone and checkout branch
+        uses: actions/checkout@master
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Inject Secrets
+        env:
+          SCOPES: ${{ secrets.scopes }}
+          CLIENT_ID: ${{ secrets.client_id }}
+          AUTHORITY: ${{ secrets.authority }}
+        run:  sudo sh scripts/populate-keys.sh
+
+      - name: Run the test
+        run: npm run ci-test --if-present
+
+      - name: Installing stryker-cli
+        run: npm install -g stryker-cli
+
+      - name: Running stryker
+        run: stryker run
