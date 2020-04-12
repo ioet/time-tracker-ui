@@ -1,10 +1,10 @@
 name: Running mutation tests
 
 on:
-  schedule:
-    - cron: '* 13 * * 1'
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
     branches:
-      - master
+      - stryker
 
 jobs:
   configuring-stryker:
