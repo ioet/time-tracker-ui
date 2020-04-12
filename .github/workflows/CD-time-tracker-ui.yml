@@ -25,19 +25,11 @@ jobs:
         node-version: '12.x'
 
     - name: Inject Secrets
-      shell: python
       env:
         SCOPES: ${{ secrets.scopes }}
         CLIENT_ID: ${{ secrets.client_id }}
         AUTHORITY: ${{ secrets.authority }}
-        BASE_PATH: "src/environments/"
-      run: |
-        import os
-        base_path = os.environ.get('BASE_PATH', 'src/environments/')
-        with open(base_path + "keys.ts", "w") as fileWithKeys:
-            fileWithKeys.write('export const AUTHORITY = ') + str(os.environ['SCOPES']).split(",") + ';';
-            fileWithKeys.write('\nexport const CLIENT_ID = ' + os.environ['CLIENT_ID']) + ';';
-            fileWithKeys.write('\nexport const SCOPES = ' + os.environ['AUTHORITY']) + ';';
+      run:  sudo sh scripts/populate-keys.sh
 
     - name: 'run: npm install and build'
       run: |
