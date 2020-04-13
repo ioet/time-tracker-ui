@@ -1,12 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ITEMS_PER_PAGE } from 'src/environments/environment';
 
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss'],
 })
-export class CustomerListComponent implements OnInit {
+export class CustomerListComponent {
   initPage1 = 1;
+  itemsPerPage = ITEMS_PER_PAGE;
 
   customers = [
     {
@@ -31,8 +33,6 @@ export class CustomerListComponent implements OnInit {
   @Output() changeShowCustomerForm = new EventEmitter<boolean>();
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   activateCustomerForm() {
     this.showCustomerForm = true;

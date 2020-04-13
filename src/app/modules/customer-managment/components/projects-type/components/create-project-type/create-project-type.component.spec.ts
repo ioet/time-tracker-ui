@@ -18,7 +18,7 @@ describe('InputProjectTypeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('component should create', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -2,7 +2,7 @@
   <h4>Customers</h4>
   <div class="row">
     <div class="col">
-      <button (click)="activateCustomerForm()" type="button" class="btn btn-primary btn-hover">Add new customer</button>
+      <button (click)="activateCustomerForm()" type="button" class="btn btn-primary">Add new customer</button>
     </div>
     <app-search></app-search>
   </div>
@@ -12,7 +12,7 @@
   ></app-customer-list>
   <div class="row" *ngIf="showCustomerForm">
     <div class="col">
-      <app-managment-customer-projects></app-managment-customer-projects>
+      <app-management-customer-projects></app-management-customer-projects>
     </div>
   </div>
 </div>

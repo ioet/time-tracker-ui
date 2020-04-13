@@ -8,7 +8,7 @@
   <tbody>
     <tr
       class="d-flex"
-      *ngFor="let customer of customers | paginate: { itemsPerPage: 5, currentPage: initPage1, id: 'first' }"
+      *ngFor="let customer of customers | paginate: { itemsPerPage: itemsPerPage, currentPage: initPage1, id: 'first' }"
     >
       <td class="col-sm-9">{{ customer.name }}</td>
       <td class="col-sm-3 text-center">

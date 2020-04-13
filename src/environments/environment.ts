@@ -5,12 +5,13 @@ import * as keys from './keys';
 
 export const environment = {
   production: false,
-  timeTrackerApiUrl: 'https://timetracker-api.azurewebsites.net'
+  timeTrackerApiUrl: 'https://timetracker-api.azurewebsites.net',
 };
 
 export const AUTHORITY = keys.AUTHORITY;
 export const CLIENT_ID = keys.CLIENT_ID;
 export const SCOPES = keys.SCOPES;
+export const ITEMS_PER_PAGE = 5;
 
 /*
  * For easier debugging in development mode, you can import the following file

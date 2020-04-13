@@ -16,10 +16,7 @@ import { UserComponent } from './modules/shared/components/user/user.component';
 import { SidebarComponent } from './modules/shared/components/sidebar/sidebar.component';
 import { ClockComponent } from './modules/shared/components/clock/clock.component';
 import { TimeClockComponent } from './modules/time-clock/pages/time-clock.component';
-import { ProjectManagementComponent } from './modules/project-management/pages/project-management.component';
 import { TimeEntriesComponent } from './modules/time-entries/pages/time-entries.component';
-import { ProjectListComponent } from './modules/project-management/components/project-list/project-list.component';
-import { CreateProjectComponent } from './modules/project-management/components/create-project/create-project.component';
 import { DetailsFieldsComponent } from './modules/shared/components/details-fields/details-fields.component';
 import { ProjectListHoverComponent } from './modules/time-clock/components/project-list-hover/project-list-hover.component';
 import { ModalComponent } from './modules/shared/components/modal/modal.component';
@@ -42,11 +39,11 @@ import { CustomerComponent } from './modules/customer-managment/pages/customer.c
 import { CustomerListComponent } from './modules/customer-managment/components/customer-info/components/customer-list/customer-list.component';
 import { SearchComponent } from './modules/customer-managment/components/search/search.component';
 // tslint:disable-next-line: max-line-length
-import { ManagmentCustomerProjectsComponent } from './modules/customer-managment/components/managment-customer-projects/managment-customer-projects.component';
+import { ManagementCustomerProjectsComponent } from './modules/customer-managment/components/management-customer-projects/management-customer-projects.component';
 import { CreateCustomerComponent } from './modules/customer-managment/components/customer-info/components/create-customer/create-customer';
 // tslint:disable-next-line: max-line-length
-import { CreateeProjectComponent } from './modules/customer-managment/components/projects/components/create-project/createe-project.component';
-import { ProjectLiistComponent } from './modules/customer-managment/components/projects/components/project-liist/project-liist.component';
+import { CreateProjectComponent } from './modules/customer-managment/components/projects/components/create-project/create-project.component';
+import { ProjectListComponent } from './modules/customer-managment/components/projects/components/project-list/project-list.component';
 // tslint:disable-next-line: max-line-length
 import { ProjectTypeListComponent } from './modules/customer-managment/components/projects-type/components/project-type-list/project-type-list.component';
 // tslint:disable-next-line: max-line-length
@@ -60,8 +57,6 @@ import { CreateProjectTypeComponent } from './modules/customer-managment/compone
     SidebarComponent,
     ClockComponent,
     TimeClockComponent,
-    ProjectManagementComponent,
-    ProjectListComponent,
     CreateProjectComponent,
     TimeClockComponent,
     DetailsFieldsComponent,
@@ -81,10 +76,10 @@ import { CreateProjectTypeComponent } from './modules/customer-managment/compone
     CustomerComponent,
     CustomerListComponent,
     SearchComponent,
-    ManagmentCustomerProjectsComponent,
+    ManagementCustomerProjectsComponent,
     CreateCustomerComponent,
-    CreateeProjectComponent,
-    ProjectLiistComponent,
+    CreateProjectComponent,
+    ProjectListComponent,
     ProjectTypeListComponent,
     CreateProjectTypeComponent,
   ],

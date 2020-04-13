@@ -1,26 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProjectLiistComponent } from './project-liist.component';
+import { ProjectListComponent } from './project-list.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 describe('ProjectTableListComponent', () => {
-  let component: ProjectLiistComponent;
-  let fixture: ComponentFixture<ProjectLiistComponent>;
+  let component: ProjectListComponent;
+  let fixture: ComponentFixture<ProjectListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgxPaginationModule],
-      declarations: [ProjectLiistComponent],
+      declarations: [ProjectListComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProjectLiistComponent);
+    fixture = TestBed.createComponent(ProjectListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('component should create', () => {
     expect(component).toBeTruthy();
   });
 });

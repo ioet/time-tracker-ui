@@ -8,7 +8,9 @@
   <tbody>
     <tr
       class="d-flex"
-      *ngFor="let projectType of projectsType | paginate: { itemsPerPage: 3, currentPage: initPage2, id: 'second' }"
+      *ngFor="
+        let projectType of projectsType | paginate: { itemsPerPage: itemsPerPage, currentPage: initPage2, id: 'second' }
+      "
     >
       <td class="col-sm-9">{{ projectType.name }}</td>
       <td class="col-sm-3 text-center">
