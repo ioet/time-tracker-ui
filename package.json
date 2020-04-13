@@ -103,13 +103,6 @@
     "parserOpts": {
       "mergePattern": "Merged PR .*:"
     },
-
-
-
-
-
-
-
     "repositoryUrl": "https://github.com/ioet/time-tracker-ui.git"
   }
 }
