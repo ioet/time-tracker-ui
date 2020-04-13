@@ -1,6 +1,6 @@
 {
   "name": "time-tracker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -76,7 +76,8 @@
       "48-implement-semantic-version"
     ],
     "plugins": [
-      "@semantic-release/commit-analyzer",{
+      "@semantic-release/commit-analyzer",
+      {
         "preset": "angular"
       },
       [
