@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+
+import { LoadActivities, ActivityState, allActivities } from '../../activities-management/store/';
+import { Activity } from 'src/app/modules/shared/models';
+
 
 @Component({
   selector: 'app-time-clock',
@@ -25,7 +30,9 @@ export class TimeClockComponent implements OnInit {
   isClockInEnable = false;
   isHidenForm = true;
 
-  constructor() {
+  activities: Activity[] = [];
+
+  constructor(private store: Store<ActivityState>) {
     this.isClockIn = true;
     this.isEnterTechnology = false;
     this.hourCounterRealTime = 0;
@@ -34,6 +41,14 @@ export class TimeClockComponent implements OnInit {
     this.hour = 0;
     this.minute = 0;
     this.seconds = 0;
+  }
+
+  ngOnInit() {
+    this.store.dispatch(new LoadActivities());
+    const activities$ = this.store.pipe(select(allActivities));
+    activities$.subscribe((response) => {
+      this.activities = response;
+    });
   }
 
   employeClockIn(): boolean {
@@ -119,5 +134,4 @@ export class TimeClockComponent implements OnInit {
     this.isClockInEnable = false;
   }
 
-  ngOnInit(): void {}
 }
