@@ -1,0 +1,1413 @@
+17:56:37 (16239) INFO ConfigReader Using stryker.conf.json
+17:56:38 (16239) DEBUG BroadcastReporter Broadcasting to reporters ["progress","clear-text","html"]
+17:56:37 (16239) DEBUG ConfigReader Loading config /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json
+17:56:37 (16239) DEBUG ConfigReader Loaded config: {
+  "mutate": [
+    "src/**/*.ts",
+    "!src/**/*.spec.ts",
+    "!src/test.ts",
+    "!src/environments/*.ts"
+  ],
+  "logLevel": "debug",
+  "fileLogLevel": "trace",
+  "timeoutMS": 5000,
+  "timeoutFactor": 1.5,
+  "plugins": [
+    "@stryker-mutator/*"
+  ],
+  "reporters": [
+    "progress",
+    "clear-text",
+    "html"
+  ],
+  "coverageAnalysis": "off",
+  "testRunner": "karma",
+  "mutator": "typescript",
+  "transpilers": [],
+  "maxConcurrentTestRunners": 2,
+  "symlinkNodeModules": true,
+  "thresholds": {
+    "break": null,
+    "high": 80,
+    "low": 60
+  },
+  "allowConsoleColors": true,
+  "dashboard": {
+    "baseUrl": "https://dashboard.stryker-mutator.io/api/reports",
+    "reportType": "full"
+  },
+  "tempDirName": ".stryker-tmp",
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker/master/packages/api/schema/stryker-core.json",
+  "comment": "This config was generated using a preset. Please see the handbook for more information: https://github.com/stryker-mutator/stryker-handbook/blob/master/stryker/guides/angular.md#angular",
+  "karma": {
+    "configFile": "karma.conf.js",
+    "projectType": "angular-cli",
+    "config": {
+      "browsers": [
+        "ChromeHeadless"
+      ]
+    }
+  },
+  "maxConcurrentTestRunners_comment": "Recommended to use about half of your available cores when running stryker with angular",
+  "configFile": "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json"
+}
+17:56:37 (16239) DEBUG PluginLoader Loading @stryker-mutator/* from /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator
+17:56:37 (16239) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner" (matched with expression @stryker-mutator/*)
+17:56:37 (16239) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript" (matched with expression @stryker-mutator/*)
+17:56:37 (16239) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner
+17:56:38 (16239) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript
+17:56:38 (16239) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/reporters/index.js
+17:56:38 (16239) DEBUG TypescriptConfigEditor No 'tsconfigFile' specified, not loading any config
+17:56:38 (16239) INFO InputFileResolver Found 52 of 175 file(s) to be mutated.
+17:56:38 (16239) DEBUG InputFileResolver All input files: [
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.log",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.editorconfig",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.github/workflows/CD-time-tracker-ui.yml",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.github/workflows/CI-time-tracker-ui.yml",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.gitignore",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.prettierrc",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/README.md",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/angular.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/browserslist",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/protractor.conf.js",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/src/app.e2e-spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/src/app.po.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/tsconfig.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/karma.conf.js",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/package-lock.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/package.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app-routing.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/components/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/models/item-sidebar.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/activity.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/entry.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/project.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/components/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/reducers/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/img/ioet-logo-light.png",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/img/ioet.png",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/project.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/environment.prod.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/environment.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/keys.example.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/favicon.ico",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/index.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/main.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/polyfills.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/styles.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/styles/colors.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/test.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.app.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.spec.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tslint.json"
+]
+17:56:38 (16239) DEBUG InputFileResolver Files to mutate: [
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app-routing.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/models/item-sidebar.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/activity.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/entry.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/project.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/reducers/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/main.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/polyfills.ts"
+]
+17:56:38 (16239) DEBUG TemporaryDirectory Using temp directory "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp"
+17:56:38 (16239) DEBUG TestFrameworkOrchestrator The `coverageAnalysis` setting is "off", not hooking into the test framework to achieve performance benefits.
+17:56:38 (16239) INFO InitialTestExecutor Starting initial test run. This may take a while.
+17:56:38 (16239) DEBUG Sandbox Creating a sandbox for files in /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox1243773
+17:56:38 (16239) DEBUG Sandbox Creating test runner 0
+17:56:38 (16239) DEBUG ChildProcessProxy Starting /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/test-runner/ChildProcessTestRunnerWorker.js in child process 16248
+17:56:39 (16248) DEBUG ChildProcessProxyWorker Changing current working directory for this process to /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox1243773
+17:56:39 (16248) DEBUG PluginLoader Loading @stryker-mutator/* from /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator
+17:56:39 (16248) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner" (matched with expression @stryker-mutator/*)
+17:56:39 (16248) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript" (matched with expression @stryker-mutator/*)
+17:56:39 (16248) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner
+17:56:42 (16248) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript
+17:56:42 (16248) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/reporters/index.js
+17:56:44 (16248) DEBUG angularStarter.js Starting Angular tests: ng test --progress=false --karma-config=/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner/src/starters/stryker-karma.conf.js
+17:56:47 (16248) DEBUG stryker-karma.conf.js Importing config from "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox1243773/karma.conf.js"
+17:56:59 (16239) TRACE ChildProcessProxy [32m08 04 2020 17:56:59.046:INFO [karma-server]: [39mKarma v4.3.0 server started at http://0.0.0.0:9876/
+
+17:56:59 (16239) TRACE ChildProcessProxy [32m08 04 2020 17:56:59.049:INFO [launcher]: [39mLaunching browsers ChromeHeadless with concurrency unlimited
+
+17:56:59 (16239) TRACE ChildProcessProxy [32m08 04 2020 17:56:59.055:INFO [launcher]: [39mStarting browser ChromeHeadless
+
+17:57:00 (16239) TRACE ChildProcessProxy 
+ERROR in src/environments/environment.ts:4:23 - error TS2307: Cannot find module './.keys.json'.
+
+4 import * as keys from './.keys.json';
+                        ~~~~~~~~~~~~~~
+
+
+17:57:01 (16239) TRACE ChildProcessProxy [32m08 04 2020 17:57:01.703:INFO [HeadlessChrome 80.0.3987 (Mac OS X 10.13.6)]: [39mConnected on socket 9AQnHdel1lpdP-3PAAAA with id 93608614
+
+17:57:01 (16239) DEBUG TimeoutDecorator Starting timeout timer (300000 ms) for a test run
+17:57:01 (16239) TRACE ChildProcessProxy HeadlessChrome 80.0.3987 (Mac OS X 10.13.6): Executed 0 of 0 SUCCESS (0 secs / 0 secs)
+
+17:57:01 (16239) TRACE ChildProcessProxy [1A[2KHeadlessChrome 80.0.3987 (Mac OS X 10.13.6): Executed 0 of 0 ERROR (0.014 secs / 0 secs)
+
+17:57:01 (16239) TRACE ChildProcessProxy 
+=============================== Coverage summary ===============================
+
+17:57:01 (16239) TRACE ChildProcessProxy Statements   : Unknown% ( 0/0 )
+Branches     : Unknown% ( 0/0 )
+Functions    : Unknown% ( 0/0 )
+
+17:57:01 (16239) TRACE ChildProcessProxy Lines        : Unknown% ( 0/0 )
+
+17:57:01 (16239) TRACE ChildProcessProxy ================================================================================
+
+17:57:01 (16248) DEBUG KarmaTestRunner karma run done with  0
+17:57:01 (16239) DEBUG ChildProcessProxy Disposing of worker process 16248
+17:57:01 (16239) DEBUG ChildProcessProxy Kill 16248
+17:57:02 (16239) ERROR InitialTestExecutor One or more tests resulted in an error:
+	[96msrc/environments/environment.ts[0m:[93m4[0m:[93m23[0m - [91merror[0m[90m TS2307: [0mCannot find module './.keys.json'.
+
+[7m4[0m import * as keys from './.keys.json';
+[7m [0m [91m                      ~~~~~~~~~~~~~~[0m
+
+17:57:02 (16239) ERROR StrykerCli an error occurred Error: Something went wrong in the initial test run
+    at InitialTestExecutor.validateResult (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/process/InitialTestExecutor.js:86:15)
+    at InitialTestExecutor.run (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/process/InitialTestExecutor.js:41:14)
+    at Stryker.runMutationTest (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/Stryker.js:53:38)
+19:04:23 (17084) INFO ConfigReader Using stryker.conf.json
+19:04:23 (17084) DEBUG BroadcastReporter Broadcasting to reporters ["progress","clear-text","html"]
+19:04:23 (17084) DEBUG ConfigReader Loading config /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json
+19:04:23 (17084) DEBUG ConfigReader Loaded config: {
+  "mutate": [
+    "src/**/*.ts",
+    "!src/**/*.spec.ts",
+    "!src/test.ts",
+    "!src/environments/*.ts"
+  ],
+  "logLevel": "debug",
+  "fileLogLevel": "trace",
+  "timeoutMS": 5000,
+  "timeoutFactor": 1.5,
+  "plugins": [
+    "@stryker-mutator/*"
+  ],
+  "reporters": [
+    "progress",
+    "clear-text",
+    "html"
+  ],
+  "coverageAnalysis": "off",
+  "testRunner": "karma",
+  "mutator": "typescript",
+  "transpilers": [],
+  "maxConcurrentTestRunners": 2,
+  "symlinkNodeModules": true,
+  "thresholds": {
+    "break": null,
+    "high": 80,
+    "low": 60
+  },
+  "allowConsoleColors": true,
+  "dashboard": {
+    "baseUrl": "https://dashboard.stryker-mutator.io/api/reports",
+    "reportType": "full"
+  },
+  "tempDirName": ".stryker-tmp",
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker/master/packages/api/schema/stryker-core.json",
+  "comment": "This config was generated using a preset. Please see the handbook for more information: https://github.com/stryker-mutator/stryker-handbook/blob/master/stryker/guides/angular.md#angular",
+  "files-to-exclude": [
+    "src/environments/*.ts"
+  ],
+  "karma": {
+    "configFile": "karma.conf.js",
+    "projectType": "angular-cli",
+    "config": {
+      "browsers": [
+        "ChromeHeadless"
+      ]
+    }
+  },
+  "maxConcurrentTestRunners_comment": "Recommended to use about half of your available cores when running stryker with angular",
+  "configFile": "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json"
+}
+19:04:23 (17084) DEBUG PluginLoader Loading @stryker-mutator/* from /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator
+19:04:23 (17084) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner" (matched with expression @stryker-mutator/*)
+19:04:23 (17084) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript" (matched with expression @stryker-mutator/*)
+19:04:23 (17084) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner
+19:04:23 (17084) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript
+19:04:23 (17084) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/reporters/index.js
+19:04:23 (17084) DEBUG TypescriptConfigEditor No 'tsconfigFile' specified, not loading any config
+19:04:24 (17084) INFO InputFileResolver Found 52 of 175 file(s) to be mutated.
+19:04:24 (17084) DEBUG InputFileResolver All input files: [
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.log",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.editorconfig",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.github/workflows/CD-time-tracker-ui.yml",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.github/workflows/CI-time-tracker-ui.yml",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.gitignore",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.prettierrc",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/README.md",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/angular.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/browserslist",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/protractor.conf.js",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/src/app.e2e-spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/src/app.po.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/tsconfig.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/karma.conf.js",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/package-lock.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/package.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app-routing.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/components/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/models/item-sidebar.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/activity.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/entry.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/project.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/components/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/reducers/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/img/ioet-logo-light.png",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/img/ioet.png",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/project.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/environment.prod.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/environment.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/keys.example.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/favicon.ico",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/index.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/main.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/polyfills.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/styles.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/styles/colors.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/test.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.app.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.spec.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tslint.json"
+]
+19:04:24 (17084) DEBUG InputFileResolver Files to mutate: [
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app-routing.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/models/item-sidebar.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/activity.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/entry.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/project.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/reducers/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/main.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/polyfills.ts"
+]
+19:04:24 (17084) DEBUG TemporaryDirectory Using temp directory "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp"
+19:04:24 (17084) DEBUG TestFrameworkOrchestrator The `coverageAnalysis` setting is "off", not hooking into the test framework to achieve performance benefits.
+19:04:24 (17084) INFO InitialTestExecutor Starting initial test run. This may take a while.
+19:04:24 (17084) DEBUG Sandbox Creating a sandbox for files in /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox316716
+19:04:24 (17084) DEBUG Sandbox Creating test runner 0
+19:04:24 (17084) DEBUG ChildProcessProxy Starting /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/test-runner/ChildProcessTestRunnerWorker.js in child process 17087
+19:04:24 (17087) DEBUG ChildProcessProxyWorker Changing current working directory for this process to /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox316716
+19:04:24 (17087) DEBUG PluginLoader Loading @stryker-mutator/* from /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator
+19:04:24 (17087) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner" (matched with expression @stryker-mutator/*)
+19:04:24 (17087) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript" (matched with expression @stryker-mutator/*)
+19:04:24 (17087) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner
+19:04:27 (17087) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript
+19:04:27 (17087) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/reporters/index.js
+19:04:30 (17087) DEBUG angularStarter.js Starting Angular tests: ng test --progress=false --karma-config=/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner/src/starters/stryker-karma.conf.js
+19:04:34 (17087) DEBUG stryker-karma.conf.js Importing config from "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox316716/karma.conf.js"
+19:04:44 (17084) TRACE ChildProcessProxy [32m08 04 2020 19:04:44.249:INFO [karma-server]: [39mKarma v4.3.0 server started at http://0.0.0.0:9876/
+
+19:04:44 (17084) TRACE ChildProcessProxy [32m08 04 2020 19:04:44.252:INFO [launcher]: [39mLaunching browsers ChromeHeadless with concurrency unlimited
+
+19:04:44 (17084) TRACE ChildProcessProxy [32m08 04 2020 19:04:44.259:INFO [launcher]: [39mStarting browser ChromeHeadless
+
+19:04:45 (17084) TRACE ChildProcessProxy 
+ERROR in src/environments/environment.ts:4:23 - error TS2307: Cannot find module './.keys.json'.
+
+4 import * as keys from './.keys.json';
+                        ~~~~~~~~~~~~~~
+
+
+19:04:46 (17084) TRACE ChildProcessProxy [32m08 04 2020 19:04:46.970:INFO [HeadlessChrome 80.0.3987 (Mac OS X 10.13.6)]: [39mConnected on socket -55Ww9FcbSAbTL0CAAAA with id 28204433
+
+19:04:46 (17084) DEBUG TimeoutDecorator Starting timeout timer (300000 ms) for a test run
+19:04:47 (17084) TRACE ChildProcessProxy HeadlessChrome 80.0.3987 (Mac OS X 10.13.6): Executed 0 of 0 SUCCESS (0 secs / 0 secs)
+
+19:04:47 (17084) TRACE ChildProcessProxy [1A[2KHeadlessChrome 80.0.3987 (Mac OS X 10.13.6): Executed 0 of 0 ERROR (0.017 secs / 0 secs)
+
+19:04:47 (17084) TRACE ChildProcessProxy 
+=============================== Coverage summary ===============================
+
+19:04:47 (17084) TRACE ChildProcessProxy Statements   : Unknown% ( 0/0 )
+Branches     : Unknown% ( 0/0 )
+Functions    : Unknown% ( 0/0 )
+Lines        : Unknown% ( 0/0 )
+
+19:04:47 (17084) TRACE ChildProcessProxy ================================================================================
+
+19:04:47 (17087) DEBUG KarmaTestRunner karma run done with  0
+19:04:47 (17084) DEBUG ChildProcessProxy Disposing of worker process 17087
+19:04:47 (17084) DEBUG ChildProcessProxy Kill 17087
+19:04:47 (17084) ERROR InitialTestExecutor One or more tests resulted in an error:
+	[96msrc/environments/environment.ts[0m:[93m4[0m:[93m23[0m - [91merror[0m[90m TS2307: [0mCannot find module './.keys.json'.
+
+[7m4[0m import * as keys from './.keys.json';
+[7m [0m [91m                      ~~~~~~~~~~~~~~[0m
+
+19:04:47 (17084) ERROR StrykerCli an error occurred Error: Something went wrong in the initial test run
+    at InitialTestExecutor.validateResult (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/process/InitialTestExecutor.js:86:15)
+    at InitialTestExecutor.run (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/process/InitialTestExecutor.js:41:14)
+    at Stryker.runMutationTest (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/Stryker.js:53:38)
+19:34:39 (17631) INFO ConfigReader Using stryker.conf.json
+19:34:40 (17631) DEBUG BroadcastReporter Broadcasting to reporters ["progress","clear-text","html"]
+19:34:39 (17631) DEBUG ConfigReader Loading config /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json
+19:34:39 (17631) DEBUG ConfigReader Loaded config: {
+  "mutate": [
+    "src/**/*.ts",
+    "!src/**/*.spec.ts",
+    "!src/test.ts",
+    "!src/environments/*.ts"
+  ],
+  "logLevel": "debug",
+  "fileLogLevel": "trace",
+  "timeoutMS": 5000,
+  "timeoutFactor": 1.5,
+  "plugins": [
+    "@stryker-mutator/*"
+  ],
+  "reporters": [
+    "progress",
+    "clear-text",
+    "html"
+  ],
+  "coverageAnalysis": "off",
+  "testRunner": "karma",
+  "mutator": "typescript",
+  "transpilers": [],
+  "maxConcurrentTestRunners": 2,
+  "symlinkNodeModules": true,
+  "thresholds": {
+    "break": null,
+    "high": 80,
+    "low": 60
+  },
+  "allowConsoleColors": true,
+  "dashboard": {
+    "baseUrl": "https://dashboard.stryker-mutator.io/api/reports",
+    "reportType": "full"
+  },
+  "tempDirName": ".stryker-tmp",
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker/master/packages/api/schema/stryker-core.json",
+  "comment": "This config was generated using a preset. Please see the handbook for more information: https://github.com/stryker-mutator/stryker-handbook/blob/master/stryker/guides/angular.md#angular",
+  "files-to-exclude": [
+    "src/environments/*.ts"
+  ],
+  "karma": {
+    "configFile": "karma.conf.js",
+    "projectType": "angular-cli",
+    "config": {
+      "browsers": [
+        "ChromeHeadless"
+      ]
+    }
+  },
+  "maxConcurrentTestRunners_comment": "Recommended to use about half of your available cores when running stryker with angular",
+  "configFile": "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json"
+}
+19:34:39 (17631) DEBUG PluginLoader Loading @stryker-mutator/* from /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator
+19:34:39 (17631) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner" (matched with expression @stryker-mutator/*)
+19:34:39 (17631) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript" (matched with expression @stryker-mutator/*)
+19:34:39 (17631) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner
+19:34:40 (17631) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript
+19:34:40 (17631) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/reporters/index.js
+19:34:40 (17631) DEBUG TypescriptConfigEditor No 'tsconfigFile' specified, not loading any config
+19:34:40 (17631) INFO InputFileResolver Found 52 of 175 file(s) to be mutated.
+19:34:40 (17631) DEBUG InputFileResolver All input files: [
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.log",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.editorconfig",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.github/workflows/CD-time-tracker-ui.yml",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.github/workflows/CI-time-tracker-ui.yml",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.gitignore",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.prettierrc",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/README.md",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/angular.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/browserslist",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/protractor.conf.js",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/src/app.e2e-spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/src/app.po.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/tsconfig.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/karma.conf.js",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/package-lock.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/package.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app-routing.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/components/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/models/item-sidebar.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/activity.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/entry.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/project.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/components/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/reducers/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/img/ioet-logo-light.png",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/img/ioet.png",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/project.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/environment.prod.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/environment.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/keys.example.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/favicon.ico",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/index.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/main.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/polyfills.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/styles.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/styles/colors.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/test.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.app.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.spec.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tslint.json"
+]
+19:34:40 (17631) DEBUG InputFileResolver Files to mutate: [
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app-routing.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/models/item-sidebar.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/activity.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/entry.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/project.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/reducers/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/main.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/polyfills.ts"
+]
+19:34:40 (17631) DEBUG TemporaryDirectory Using temp directory "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp"
+19:34:40 (17631) DEBUG TestFrameworkOrchestrator The `coverageAnalysis` setting is "off", not hooking into the test framework to achieve performance benefits.
+19:34:40 (17631) INFO InitialTestExecutor Starting initial test run. This may take a while.
+19:34:40 (17631) DEBUG Sandbox Creating a sandbox for files in /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox847968
+19:34:40 (17631) DEBUG Sandbox Creating test runner 0
+19:34:40 (17631) DEBUG ChildProcessProxy Starting /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/test-runner/ChildProcessTestRunnerWorker.js in child process 17633
+19:34:41 (17633) DEBUG ChildProcessProxyWorker Changing current working directory for this process to /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox847968
+19:34:41 (17633) DEBUG PluginLoader Loading @stryker-mutator/* from /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator
+19:34:41 (17633) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner" (matched with expression @stryker-mutator/*)
+19:34:41 (17633) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript" (matched with expression @stryker-mutator/*)
+19:34:41 (17633) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner
+19:34:45 (17633) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript
+19:34:45 (17633) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/reporters/index.js
+19:34:46 (17633) DEBUG angularStarter.js Starting Angular tests: ng test --progress=false --karma-config=/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner/src/starters/stryker-karma.conf.js
+19:34:52 (17633) DEBUG stryker-karma.conf.js Importing config from "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox847968/karma.conf.js"
+19:35:01 (17631) TRACE ChildProcessProxy [32m08 04 2020 19:35:01.620:INFO [karma-server]: [39mKarma v4.3.0 server started at http://0.0.0.0:9876/
+
+19:35:01 (17631) TRACE ChildProcessProxy [32m08 04 2020 19:35:01.623:INFO [launcher]: [39mLaunching browsers ChromeHeadless with concurrency unlimited
+
+19:35:01 (17631) TRACE ChildProcessProxy [32m08 04 2020 19:35:01.631:INFO [launcher]: [39mStarting browser ChromeHeadless
+
+19:35:03 (17631) TRACE ChildProcessProxy 
+ERROR in src/environments/environment.ts:4:23 - error TS2307: Cannot find module './.keys.json'.
+
+4 import * as keys from './.keys.json';
+                        ~~~~~~~~~~~~~~
+
+
+19:35:04 (17631) TRACE ChildProcessProxy [32m08 04 2020 19:35:04.226:INFO [HeadlessChrome 80.0.3987 (Mac OS X 10.13.6)]: [39mConnected on socket cGuaUEcWAsE3wXCYAAAA with id 33206174
+
+19:35:04 (17631) DEBUG TimeoutDecorator Starting timeout timer (300000 ms) for a test run
+19:35:04 (17631) TRACE ChildProcessProxy HeadlessChrome 80.0.3987 (Mac OS X 10.13.6): Executed 0 of 0 SUCCESS (0 secs / 0 secs)
+
+19:35:04 (17631) TRACE ChildProcessProxy [1A[2KHeadlessChrome 80.0.3987 (Mac OS X 10.13.6): Executed 0 of 0 ERROR (0.014 secs / 0 secs)
+
+19:35:04 (17631) TRACE ChildProcessProxy 
+
+19:35:04 (17631) TRACE ChildProcessProxy =============================== Coverage summary ===============================
+
+19:35:04 (17631) TRACE ChildProcessProxy Statements   : Unknown% ( 0/0 )
+
+19:35:04 (17631) TRACE ChildProcessProxy Branches     : Unknown% ( 0/0 )
+Functions    : Unknown% ( 0/0 )
+Lines        : Unknown% ( 0/0 )
+================================================================================
+
+19:35:04 (17633) DEBUG KarmaTestRunner karma run done with  0
+19:35:04 (17631) DEBUG ChildProcessProxy Disposing of worker process 17633
+19:35:04 (17631) DEBUG ChildProcessProxy Kill 17633
+19:35:04 (17631) ERROR InitialTestExecutor One or more tests resulted in an error:
+	[96msrc/environments/environment.ts[0m:[93m4[0m:[93m23[0m - [91merror[0m[90m TS2307: [0mCannot find module './.keys.json'.
+
+[7m4[0m import * as keys from './.keys.json';
+[7m [0m [91m                      ~~~~~~~~~~~~~~[0m
+
+19:35:04 (17631) ERROR StrykerCli an error occurred Error: Something went wrong in the initial test run
+    at InitialTestExecutor.validateResult (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/process/InitialTestExecutor.js:86:15)
+    at InitialTestExecutor.run (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/process/InitialTestExecutor.js:41:14)
+    at Stryker.runMutationTest (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/Stryker.js:53:38)
+19:55:29 (17919) INFO ConfigReader Using stryker.conf.json
+19:55:30 (17919) DEBUG BroadcastReporter Broadcasting to reporters ["progress","clear-text","html"]
+19:55:29 (17919) DEBUG ConfigReader Loading config /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json
+19:55:29 (17919) DEBUG ConfigReader Loaded config: {
+  "mutate": [
+    "src/**/*.ts",
+    "!src/**/*.spec.ts",
+    "!src/test.ts",
+    "!src/environments/*.ts"
+  ],
+  "logLevel": "debug",
+  "fileLogLevel": "trace",
+  "timeoutMS": 5000,
+  "timeoutFactor": 1.5,
+  "plugins": [
+    "@stryker-mutator/*"
+  ],
+  "reporters": [
+    "progress",
+    "clear-text",
+    "html"
+  ],
+  "coverageAnalysis": "off",
+  "testRunner": "karma",
+  "mutator": "typescript",
+  "transpilers": [],
+  "maxConcurrentTestRunners": 2,
+  "symlinkNodeModules": true,
+  "thresholds": {
+    "break": null,
+    "high": 80,
+    "low": 60
+  },
+  "allowConsoleColors": true,
+  "dashboard": {
+    "baseUrl": "https://dashboard.stryker-mutator.io/api/reports",
+    "reportType": "full"
+  },
+  "tempDirName": ".stryker-tmp",
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker/master/packages/api/schema/stryker-core.json",
+  "comment": "This config was generated using a preset. Please see the handbook for more information: https://github.com/stryker-mutator/stryker-handbook/blob/master/stryker/guides/angular.md#angular",
+  "files-to-exclude": [
+    "src/environments/*.ts"
+  ],
+  "karma": {
+    "configFile": "karma.conf.js",
+    "projectType": "angular-cli",
+    "config": {
+      "browsers": [
+        "ChromeHeadless"
+      ]
+    }
+  },
+  "maxConcurrentTestRunners_comment": "Recommended to use about half of your available cores when running stryker with angular",
+  "configFile": "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json"
+}
+19:55:29 (17919) DEBUG PluginLoader Loading @stryker-mutator/* from /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator
+19:55:29 (17919) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner" (matched with expression @stryker-mutator/*)
+19:55:29 (17919) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript" (matched with expression @stryker-mutator/*)
+19:55:29 (17919) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner
+19:55:30 (17919) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript
+19:55:30 (17919) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/reporters/index.js
+19:55:30 (17919) DEBUG TypescriptConfigEditor No 'tsconfigFile' specified, not loading any config
+19:55:30 (17919) INFO InputFileResolver Found 52 of 175 file(s) to be mutated.
+19:55:30 (17919) DEBUG InputFileResolver All input files: [
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.conf.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/stryker.log",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.editorconfig",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.github/workflows/CD-time-tracker-ui.yml",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.github/workflows/CI-time-tracker-ui.yml",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.gitignore",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.prettierrc",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/README.md",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/angular.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/browserslist",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/protractor.conf.js",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/src/app.e2e-spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/src/app.po.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/e2e/tsconfig.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/karma.conf.js",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/package-lock.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/package.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app-routing.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/components/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/models/item-sidebar.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/activity.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/entry.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/project.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/components/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/models/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.spec.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/services/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/store/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/reducers/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/.gitkeep",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/img/ioet-logo-light.png",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/img/ioet.png",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/assets/project.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/environment.prod.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/environment.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/environments/keys.example.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/favicon.ico",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/index.html",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/main.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/polyfills.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/styles.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/styles/colors.scss",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/test.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.app.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tsconfig.spec.json",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/tslint.json"
+]
+19:55:30 (17919) DEBUG InputFileResolver Files to mutate: [
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app-routing.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/app.module.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/guards/azure-guard.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/activity-list/activity-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/create-activity/create-activity.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/pages/activities-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/services/activity.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.reducers.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/activity-management.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/activities-management/store/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/home/home.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/login.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/login/services/azure.ad.b2c.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/create-project/create-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/components/project-list/project-list.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/pages/project-management.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/services/project.service.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.actions.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.effects.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.reducer.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/project-management/store/project.selectors.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/reports/pages/reports.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/clock/clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/details-fields/details-fields.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/empty-state/empty-state.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/modal/modal.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/month-picker/month-picker.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/navbar/navbar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/search-project/search-project.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/models/item-sidebar.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/sidebar/sidebar.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/components/user/user.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/activity.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/entry.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/models/project.model.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/filter-project/filter-project.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/group-by-date/group-by-date.pipe.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/shared/pipes/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/components/project-list-hover/project-list-hover.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-clock/pages/time-clock.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/modules/time-entries/pages/time-entries.component.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/app/reducers/index.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/main.ts",
+  "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/src/polyfills.ts"
+]
+19:55:30 (17919) DEBUG TemporaryDirectory Using temp directory "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp"
+19:55:30 (17919) DEBUG TestFrameworkOrchestrator The `coverageAnalysis` setting is "off", not hooking into the test framework to achieve performance benefits.
+19:55:30 (17919) INFO InitialTestExecutor Starting initial test run. This may take a while.
+19:55:30 (17919) DEBUG Sandbox Creating a sandbox for files in /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox1794926
+19:55:30 (17919) DEBUG Sandbox Creating test runner 0
+19:55:30 (17919) DEBUG ChildProcessProxy Starting /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/test-runner/ChildProcessTestRunnerWorker.js in child process 17921
+19:55:30 (17921) DEBUG ChildProcessProxyWorker Changing current working directory for this process to /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox1794926
+19:55:30 (17921) DEBUG PluginLoader Loading @stryker-mutator/* from /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator
+19:55:30 (17921) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner" (matched with expression @stryker-mutator/*)
+19:55:30 (17921) DEBUG PluginLoader Loading plugin "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript" (matched with expression @stryker-mutator/*)
+19:55:30 (17921) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner
+19:55:36 (17921) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/typescript
+19:55:36 (17921) DEBUG PluginLoader Loading plugins /Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/reporters/index.js
+19:55:37 (17921) DEBUG angularStarter.js Starting Angular tests: ng test --progress=false --karma-config=/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/karma-runner/src/starters/stryker-karma.conf.js
+19:55:41 (17921) DEBUG stryker-karma.conf.js Importing config from "/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/.stryker-tmp/sandbox1794926/karma.conf.js"
+19:55:51 (17919) TRACE ChildProcessProxy [32m08 04 2020 19:55:51.109:INFO [karma-server]: [39mKarma v4.3.0 server started at http://0.0.0.0:9876/
+
+19:55:51 (17919) TRACE ChildProcessProxy [32m08 04 2020 19:55:51.112:INFO [launcher]: [39mLaunching browsers ChromeHeadless with concurrency unlimited
+
+19:55:51 (17919) TRACE ChildProcessProxy [32m08 04 2020 19:55:51.123:INFO [launcher]: [39mStarting browser ChromeHeadless
+
+19:55:53 (17919) TRACE ChildProcessProxy 
+ERROR in src/environments/environment.ts:4:23 - error TS2307: Cannot find module './.keys.json'.
+
+4 import * as keys from './.keys.json';
+                        ~~~~~~~~~~~~~~
+
+
+19:55:53 (17919) TRACE ChildProcessProxy [32m08 04 2020 19:55:53.740:INFO [HeadlessChrome 80.0.3987 (Mac OS X 10.13.6)]: [39mConnected on socket _3Fkmf050ZCJuxhjAAAA with id 64536871
+
+19:55:53 (17919) DEBUG TimeoutDecorator Starting timeout timer (300000 ms) for a test run
+19:55:53 (17919) TRACE ChildProcessProxy HeadlessChrome 80.0.3987 (Mac OS X 10.13.6): Executed 0 of 0 SUCCESS (0 secs / 0 secs)
+
+19:55:53 (17919) TRACE ChildProcessProxy [1A[2KHeadlessChrome 80.0.3987 (Mac OS X 10.13.6): Executed 0 of 0 ERROR (0.005 secs / 0 secs)
+
+19:55:53 (17919) TRACE ChildProcessProxy 
+
+19:55:53 (17919) TRACE ChildProcessProxy =============================== Coverage summary ===============================
+
+19:55:53 (17919) TRACE ChildProcessProxy Statements   : Unknown% ( 0/0 )
+Branches     : Unknown% ( 0/0 )
+Functions    : Unknown% ( 0/0 )
+
+19:55:53 (17919) TRACE ChildProcessProxy Lines        : Unknown% ( 0/0 )
+================================================================================
+
+19:55:54 (17921) DEBUG KarmaTestRunner karma run done with  0
+19:55:54 (17919) DEBUG ChildProcessProxy Disposing of worker process 17921
+19:55:54 (17919) DEBUG ChildProcessProxy Kill 17921
+19:55:54 (17919) ERROR InitialTestExecutor One or more tests resulted in an error:
+	[96msrc/environments/environment.ts[0m:[93m4[0m:[93m23[0m - [91merror[0m[90m TS2307: [0mCannot find module './.keys.json'.
+
+[7m4[0m import * as keys from './.keys.json';
+[7m [0m [91m                      ~~~~~~~~~~~~~~[0m
+
+19:55:54 (17919) ERROR StrykerCli an error occurred Error: Something went wrong in the initial test run
+    at InitialTestExecutor.validateResult (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/process/InitialTestExecutor.js:86:15)
+    at InitialTestExecutor.run (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/process/InitialTestExecutor.js:41:14)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Stryker.runMutationTest (/Users/moe/Documents/IOET/ernst-young/time-tracker-ui/node_modules/@stryker-mutator/core/src/Stryker.js:53:38)
