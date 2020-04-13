@@ -1,9 +1,9 @@
-import { LoadActivities } from '../../activities-management/store/activity-management.actions';
-import { ActivityState } from '../../activities-management/store/activity-management.reducers';
-import { Store, select } from '@ngrx/store';
-import { allActivities } from '../../activities-management/store';
-import { Activity } from 'src/app/modules/shared/models';
 import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+
+import { LoadActivities, ActivityState, allActivities } from '../../activities-management/store/';
+import { Activity } from 'src/app/modules/shared/models';
+
 
 @Component({
   selector: 'app-time-clock',
