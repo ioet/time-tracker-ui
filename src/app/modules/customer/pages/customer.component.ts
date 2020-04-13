@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./customer.component.scss'],
 })
 export class CustomerComponent implements OnInit {
-  showCustomerForm: boolean = false;
+  showCustomerForm = false;
 
   constructor() {}
 

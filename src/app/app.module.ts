@@ -40,7 +40,9 @@ import { environment } from '../environments/environment';
 import { CustomerComponent } from './modules/customer/pages/customer.component';
 import { CustomerTableListComponent } from './modules/customer/components/customer-table-list/customer-table-list.component';
 import { SearchComponent } from './modules/customer/components/search/search.component';
-import { ManagmentCustomerProjectsComponent } from './modules/customer/components/managment-customer-projects/managment-customer-projects.component';
+// tslint:disable-next-line:import-spacing
+import { ManagmentCustomerProjectsComponent }
+from './modules/customer/components/managment-customer-projects/managment-customer-projects.component';
 import { InputCustomerComponent } from './modules/customer/components/input-customer/input-customer';
 import { InputProjectComponent } from './modules/customer/components/input-project/input-project.component';
 import { ProjectTableListComponent } from './modules/customer/components/project-table-list/project-table-list.component';
