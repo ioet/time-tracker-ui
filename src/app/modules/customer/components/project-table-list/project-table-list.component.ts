@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./project-table-list.component.scss'],
 })
 export class ProjectTableListComponent implements OnInit {
-  initPage3: number = 1;
+  initPage3 = 1;
 
   projects = [
     {

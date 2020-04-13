@@ -6,7 +6,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./customer-table-list.component.scss'],
 })
 export class CustomerTableListComponent implements OnInit {
-  initPage1: number = 1;
+  initPage1 = 1;
 
   customers = [
     {
