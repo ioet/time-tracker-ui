@@ -34,7 +34,13 @@ The app will automatically reload if you change anything in the source files.
 ## Prepare your environment 
 
 ### Set environment variables
-Create file .keys.json from keys.example.ts into environments folder with the content pinned in our slack channel
+Create a file keys.ts with the content pinned in our slack channel:
+
+```
+export const AUTHORITY = 'XXX';
+export const CLIENT_ID = 'XXX';
+export const SCOPES = ['XXX'];
+```
 
 ### Prepare your environment for vscode
 Install the following extensions:
@@ -55,6 +61,20 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running mutation tests
+Mutation tests have been enabled using stryker. You can run those tests locally, it takes ~4 hours to have the results. If you want to run them locally please install stryker locally:
+```
+npm install -g stryker-cli
+```
+
+Now, run stryker:
+```
+stryker run
+```
+
+Stryker is also executed on GitHub actions with the following cron expresion:
+
 
 ## Running end-to-end tests
 
