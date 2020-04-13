@@ -1,11 +1,11 @@
 @import '../colors.scss';
 
-$primary:#fc5630;
-$secondary:#16bac5;
-$success:#16bac5;
-$info:#30bced;
-$light:#ffffff;
-$dark:#5c4e63;
+$primary: #fc5630;
+$secondary: #16bac5;
+$success: #16bac5;
+$info: #30bced;
+$light: #ffffff;
+$dark: #5c4e63;
 
 .bg-primary,
 .btn-primary,
@@ -18,5 +18,15 @@ $dark:#5c4e63;
 .btn-secondary,
 .badge-secondary,
 .alert-secondary {
-  background-image: linear-gradient(to right, #00CC6C,#00BCBD);
+  background-image: linear-gradient(to right, #00cc6c, #00bcbd);
+}
+
+.thead-orange {
+  background-image: $background-pantone;
+  color: white;
+}
+
+.custom-pagination ::ng-deep .ngx-pagination .current {
+  background-image: $background-pantone !important;
+  border-radius: 8px;
 }

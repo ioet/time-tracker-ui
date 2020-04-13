@@ -9,7 +9,7 @@ import { ProjectManagementComponent } from './modules/project-management/pages/p
 import { ActivitiesManagementComponent } from './modules/activities-management/pages/activities-management.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
-import { CustomerComponent } from './modules/customer/pages/customer.component';
+import { CustomerComponent } from './modules/customer-managment/pages/customer.component';
 
 const routes: Routes = [
   {

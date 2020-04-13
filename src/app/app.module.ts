@@ -37,17 +37,20 @@ import { ActivityEffects } from './modules/activities-management/store/activity-
 import { ProjectEffects } from './modules/project-management/store/project.effects';
 import { reducers, metaReducers } from './reducers';
 import { environment } from '../environments/environment';
-import { CustomerComponent } from './modules/customer/pages/customer.component';
-import { CustomerTableListComponent } from './modules/customer/components/customer-table-list/customer-table-list.component';
-import { SearchComponent } from './modules/customer/components/search/search.component';
-// tslint:disable-next-line:import-spacing
-import { ManagmentCustomerProjectsComponent }
-from './modules/customer/components/managment-customer-projects/managment-customer-projects.component';
-import { InputCustomerComponent } from './modules/customer/components/input-customer/input-customer';
-import { InputProjectComponent } from './modules/customer/components/input-project/input-project.component';
-import { ProjectTableListComponent } from './modules/customer/components/project-table-list/project-table-list.component';
-import { ProjectTypeTableListComponent } from './modules/customer/components/project-type-table-list/project-type-table-list.component';
-import { InputProjectTypeComponent } from './modules/customer/components/input-project-type/input-project-type.component';
+import { CustomerComponent } from './modules/customer-managment/pages/customer.component';
+// tslint:disable-next-line: max-line-length
+import { CustomerListComponent } from './modules/customer-managment/components/customer-info/components/customer-list/customer-list.component';
+import { SearchComponent } from './modules/customer-managment/components/search/search.component';
+// tslint:disable-next-line: max-line-length
+import { ManagmentCustomerProjectsComponent } from './modules/customer-managment/components/managment-customer-projects/managment-customer-projects.component';
+import { CreateCustomerComponent } from './modules/customer-managment/components/customer-info/components/create-customer/create-customer';
+// tslint:disable-next-line: max-line-length
+import { CreateeProjectComponent } from './modules/customer-managment/components/projects/components/create-project/createe-project.component';
+import { ProjectLiistComponent } from './modules/customer-managment/components/projects/components/project-liist/project-liist.component';
+// tslint:disable-next-line: max-line-length
+import { ProjectTypeListComponent } from './modules/customer-managment/components/projects-type/components/project-type-list/project-type-list.component';
+// tslint:disable-next-line: max-line-length
+import { CreateProjectTypeComponent } from './modules/customer-managment/components/projects-type/components/create-project-type/create-project-type.component';
 
 @NgModule({
   declarations: [
@@ -76,14 +79,14 @@ import { InputProjectTypeComponent } from './modules/customer/components/input-p
     FilterProjectPipe,
     SearchProjectComponent,
     CustomerComponent,
-    CustomerTableListComponent,
+    CustomerListComponent,
     SearchComponent,
     ManagmentCustomerProjectsComponent,
-    InputCustomerComponent,
-    InputProjectComponent,
-    ProjectTableListComponent,
-    ProjectTypeTableListComponent,
-    InputProjectTypeComponent,
+    CreateCustomerComponent,
+    CreateeProjectComponent,
+    ProjectLiistComponent,
+    ProjectTypeListComponent,
+    CreateProjectTypeComponent,
   ],
   imports: [
     CommonModule,
