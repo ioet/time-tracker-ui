@@ -3,23 +3,30 @@ import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { CreateActivityComponent } from './create-activity.component';
-import { ActivityState, CreateActivity } from '../../store';
+import {
+  ActivityState,
+  CreateActivity,
+  UpdateActivity,
+  activityIdtoEdit,
+  allActivities,
+  ResetActivityToEdit,
+} from '../../store';
 import { Activity } from 'src/app/modules/shared/models';
 
 describe('CreateActivityComponent', () => {
   let component: CreateActivityComponent;
   let fixture: ComponentFixture<CreateActivityComponent>;
   let store: MockStore<ActivityState>;
+  let activityIdtoEditMock;
+  let allActivitiesMock;
+  let getActivityByIdMock;
 
-  const state = { data: [{ id: 'id', name: 'name', description: 'description' }], isLoading: false, message: '' };
-
-  const data: Activity[] = [
-    {
-      id: '1',
-      name: 'Training',
-      description: 'It is good for learning',
-    },
-  ];
+  const state = {
+    data: [{ id: '', name: '', description: '' }],
+    isLoading: false,
+    message: '',
+    activityIdToEdit: '',
+  };
 
   const activity: Activity = {
     id: '1',
@@ -43,16 +50,60 @@ describe('CreateActivityComponent', () => {
     store.setState(state);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should reset form onSubmit', () => {
-    spyOn(component.activityForm, 'reset');
+  it('should reset form onSubmit and dispatch UpdateActivity action', () => {
+    const currentState = {
+      data: [{ id: '1', name: 'xxx', description: 'xxxx' }],
+      isLoading: false,
+      message: '',
+      activityIdToEdit: '1',
+    };
 
-    component.onSubmit(data);
+    activityIdtoEditMock = store.overrideSelector(activityIdtoEdit, currentState.activityIdToEdit);
+    allActivitiesMock = store.overrideSelector(allActivities, currentState.data);
+    getActivityByIdMock = store.overrideSelector(allActivitiesMock, activityIdtoEditMock);
+
+    component.activityToEdit = getActivityByIdMock;
+
+    const activityForm = {
+      name: 'Develop',
+      description: 'xxx',
+    };
+
+    const activityUpdated = {
+      id: component.activityToEdit.id,
+      name: 'Develop',
+      description: 'xxx',
+    };
+
+    spyOn(component.activityForm, 'reset');
+    spyOn(store, 'dispatch');
+
+    component.onSubmit(activityForm);
 
     expect(component.activityForm.reset).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(new UpdateActivity(activityUpdated));
+  });
+
+  it('should reset form onSubmit and dispatch CreateActivity action', () => {
+    component.activityToEdit = undefined;
+
+    spyOn(component.activityForm, 'reset');
+    spyOn(store, 'dispatch');
+
+    component.onSubmit(activity);
+
+    expect(component.activityForm.reset).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(new CreateActivity(activity));
   });
 
   it('should get name using activityForm', () => {
@@ -71,10 +122,25 @@ describe('CreateActivityComponent', () => {
     expect(component.activityForm.get).toHaveBeenCalledWith('description');
   });
 
-  it('should dispatch createActivity action #onSubmit', () => {
+  it('should set data in activityForm', () => {
+    const activityDataForm = {
+      name: 'Training',
+      description: 'It is good for learning',
+    };
+
+    spyOn(component.activityForm, 'setValue');
+
+    component.setDataToUpdate(activity);
+    expect(component.activityForm.setValue).toHaveBeenCalledTimes(1);
+    expect(component.activityForm.setValue).toHaveBeenCalledWith(activityDataForm);
+  });
+
+  it('should dispatch a ResetActivityToEdit action', () => {
     spyOn(store, 'dispatch');
-    component.onSubmit(activity);
+
+    component.cancelButton();
+
     expect(store.dispatch).toHaveBeenCalledTimes(1);
-    expect(store.dispatch).toHaveBeenCalledWith(new CreateActivity(activity));
+    expect(store.dispatch).toHaveBeenCalledWith(new ResetActivityToEdit());
   });
 });

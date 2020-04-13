@@ -52,4 +52,18 @@ export class ActivityEffects {
       )
     )
   );
+
+  @Effect()
+  updateActivity$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActivityManagementActionTypes.UPDATE_ACTIVITY),
+    map((action: actions.UpdateActivity) => action.payload),
+    mergeMap((activity) =>
+      this.activityService.updateActivity(activity).pipe(
+        map((activityData) => {
+          return new actions.UpdateActivitySuccess(activityData);
+        }),
+        catchError((error) => of(new actions.UpdateActivityFail(error)))
+      )
+    )
+  );
 }
