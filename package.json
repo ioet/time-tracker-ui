@@ -1,6 +1,6 @@
 {
   "name": "time-tracker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -88,7 +88,6 @@
       "@semantic-release/changelog",
       "@semantic-release/npm",
       {
-
         "path": "@semantic-release/git",
         "assets": [
           "package.json",
