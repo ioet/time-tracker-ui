@@ -34,7 +34,13 @@ The app will automatically reload if you change anything in the source files.
 ## Prepare your environment 
 
 ### Set environment variables
-Create file .keys.json from keys.example.ts into environments folder with the content pinned in our slack channel
+Create a file keys.ts with the content pinned in our slack channel:
+
+```
+export const AUTHORITY = 'XXX';
+export const CLIENT_ID = 'XXX';
+export const SCOPES = ['XXX'];
+```
 
 ### Prepare your environment for vscode
 Install the following extensions:
