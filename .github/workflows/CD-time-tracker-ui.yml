@@ -15,15 +15,15 @@ on:
 
 jobs:
   build-and-deploy:
+    name: Deploy to Azure
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v2
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2.0.0
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    # name: Deploy to Azure
-    # runs-on: ubuntu-latest
-    # timeout-minutes: 60
     # steps:
     # - name: Checkout of master
     #   uses: actions/checkout@master
