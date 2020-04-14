@@ -50,5 +50,5 @@ jobs:
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_ICON: https://avatars.slack-edge.com/2020-04-14/1055222096486_7b0bf047c32f9f666b69_48.jpg
-        SLACK_TITLE: 'New deployment guys:'
+        SLACK_TITLE: 'A new version has been cooked:'
         SLACK_USERNAME: 'heisenberg-says:'
