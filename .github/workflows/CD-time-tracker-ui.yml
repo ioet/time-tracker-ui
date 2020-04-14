@@ -44,10 +44,12 @@ jobs:
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_728dc744f9384bf38e8a0446aaaee29d }}
         package: dist/time-tracker
 
+    - uses: actions/checkout@v2
     - name: Slack Notification
-      uses: wei/curl@v1
+      uses: rtCamp/action-slack-notify@v2.0.0
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      with:
-        args: -X POST '$env:SLACK_WEBHOOK' --data '{"message":"A new deployment has been successfully executed"}'
-
+        SLACK_ICON: https://avatars.slack-edge.com/2020-04-14/1055222096486_7b0bf047c32f9f666b69_48.jpg
+        SLACK_TITLE: 'Guess what?'
+        SLACK_USERNAME: 'heisenberg-says:'
+        SLACK_MESSAGE: 'A new deployment has been executed successfully'
