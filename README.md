@@ -50,8 +50,17 @@ Install the following extensions:
 - `Prettier - Code formatter`.
 - Go to user settings (`settings.json`) and enable formatting on save: `"editor.formatOnSave": true`.
 
-## Code scaffolding
+### Commit message format
+  A commit message needs to start with one of the following words to bump the application version
+  properly (This application is following a semver strategy for versioning https://semver.org/)
+  ### Sumary
+  - **fix** is equal to Patch Release example: 1.0.1
+  - **feat** is equal to Feature Release example: 1.1.0
+  - **perf** is equal to Breaking Release example: 2.0.0
+  ### Example
+    fix: #48 implement semantic version.
 
+## Code scaffolding
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
