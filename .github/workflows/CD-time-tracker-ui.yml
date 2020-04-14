@@ -19,12 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v2
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2.0.0
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    # steps:
     # - name: Checkout of master
     #   uses: actions/checkout@master
 
@@ -52,3 +46,14 @@ jobs:
     #     slot-name: 'production'
     #     publish-profile: ${{ secrets.AzureAppService_PublishProfile_728dc744f9384bf38e8a0446aaaee29d }}
     #     package: dist/time-tracker
+
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2.0.0
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_ICON: https://avatars.slack-edge.com/2020-04-14/1055222096486_7b0bf047c32f9f666b69_48.jpg
+        SLACK_TITLE: 'New deployment'
+        SLACK_USERNAME: 'heisenberg-says:'
+        SLACK_TITLE: 'New deployment...'
+        SLACK_MESSAGE: 'A new deployment has been executed successfully'
