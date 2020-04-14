@@ -9,7 +9,7 @@ export const environment = {
 };
 
 export const AUTHORITY = keys.AUTHORITY;
-export const CLIENT_ID = keys.CLIENT_ID;
+export const CLIENT_ID = keys.CLIENT;
 export const SCOPES = keys.SCOPES;
 export const ITEMS_PER_PAGE = 5;
 
