@@ -4,11 +4,13 @@
 name: CD process to deploy to App-Service service
 
 on:
+  push:
+    branches: 130-fix-missing-client_id2
   # Trigger the workflow on pull request but only for the master branch
-  pull_request:
-    types: [closed]
-    branches:
-      - master
+  # pull_request:
+  #   types: [closed]
+  #   branches:
+  #     - master
 
 jobs:
   build-and-deploy:
@@ -19,17 +21,17 @@ jobs:
     - name: Checkout of master
       uses: actions/checkout@master
 
-    - name: Set up Node.js version
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-
     - name: Inject Secrets
       env:
         SCOPES: ${{ secrets.scopes }}
         CLIENT_ID: ${{ secrets.client_id }}
         AUTHORITY: ${{ secrets.authority }}
       run:  sudo sh scripts/populate-keys.sh
+
+    - name: Set up Node.js version
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
 
     - name: 'run: npm install and build'
       run: |
