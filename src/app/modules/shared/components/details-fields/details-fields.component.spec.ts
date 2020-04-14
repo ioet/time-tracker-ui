@@ -88,8 +88,29 @@ describe('DetailsFieldsComponent', () => {
     const name = 'ngrx';
     component.selectedTechnology = ['java', 'javascript'];
     component.selectedTechnology.indexOf(name);
+    length = component.selectedTechnology.length;
     component.setTechnology(name);
     expect(component.selectedTechnology.length).toBe(3);
+  });
+
+  it('should NOT add a new tag #setTechnology', () => {
+    const name = 'ngrx';
+    component.selectedTechnology = [
+      'java',
+      'javascript',
+      'angular',
+      'angular-ui',
+      'typescript',
+      'scss',
+      'bootstrap',
+      'jasmine',
+      'karme',
+      'github',
+    ];
+    component.selectedTechnology.indexOf(name);
+    length = component.selectedTechnology.length;
+    component.setTechnology(name);
+    expect(component.selectedTechnology.length).toBe(10);
   });
 
   it('should call the removeTag function #setTechnology', () => {
