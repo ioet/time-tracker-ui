@@ -12,13 +12,16 @@ import { GroupByDatePipe } from '../../shared/pipes';
 import { TechnologyState } from '../../shared/store/technology.reducers';
 import { allTechnologies } from '../../shared/store/technology.selectors';
 import { TimeEntriesComponent } from './time-entries.component';
-import { FilterProjectPipe } from '../../shared/pipes';
+import { ProjectState } from '../../project-management/store/project.reducer';
+import { allProjects } from '../../project-management/store/project.selectors';
 
 describe('TimeEntriesComponent', () => {
+  type Merged = TechnologyState & ProjectState;
   let component: TimeEntriesComponent;
   let fixture: ComponentFixture<TimeEntriesComponent>;
-  let store: MockStore<TechnologyState>;
+  let store: MockStore<Merged>;
   let mockTechnologySelector;
+  let mockProjectsSelector;
 
   const state = {
     projects: {
@@ -30,8 +33,10 @@ describe('TimeEntriesComponent', () => {
       isLoading: false,
       message: 'message',
     },
-    technologyList: { items: [{ name: 'test' }] },
-    isLoading: false,
+    technologies: {
+      technologyList: { items: [{ name: 'test' }] },
+      isLoading: false,
+    },
   };
 
   const entry = {
@@ -50,7 +55,6 @@ describe('TimeEntriesComponent', () => {
       declarations: [
         EmptyStateComponent,
         DetailsFieldsComponent,
-        FilterProjectPipe,
         GroupByDatePipe,
         ModalComponent,
         MonthPickerComponent,
@@ -60,7 +64,8 @@ describe('TimeEntriesComponent', () => {
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
-    mockTechnologySelector = store.overrideSelector(allTechnologies, state);
+    mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
+    mockProjectsSelector = store.overrideSelector(allProjects, state.projects);
   }));
 
   beforeEach(() => {

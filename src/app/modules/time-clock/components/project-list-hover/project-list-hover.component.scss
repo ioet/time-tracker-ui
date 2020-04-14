@@ -17,7 +17,21 @@
   padding: 0 0.3rem;
 }
 
-.active {
-  background-image: $list-item-selected;
-  border-color: transparent;
+.ng-autocomplete {
+  width: 100%;
+}
+
+.autocomplete::ng-deep .autocomplete-container {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  box-shadow: none;
+
+  .input-container {
+    height: 100%;
+
+    input {
+      border-radius: 0.25rem;
+      height: 100%;
+    }
+  }
 }

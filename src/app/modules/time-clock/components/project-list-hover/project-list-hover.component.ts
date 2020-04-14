@@ -14,14 +14,13 @@ export class ProjectListHoverComponent implements OnInit {
   @Output() showFields = new EventEmitter<boolean>();
 
   selectedId: string;
-  showButton: number;
-  filterProjects = '';
   listProjects: Project[] = [];
   isLoading: boolean;
+  filterProjects = '';
+  showButton = '';
+  keyword = 'name';
 
-  constructor(private store: Store<ProjectState>) {
-    this.showButton = -1;
-  }
+  constructor(private store: Store<ProjectState>) {}
 
   ngOnInit(): void {
     this.store.dispatch(new actions.LoadProjects());
