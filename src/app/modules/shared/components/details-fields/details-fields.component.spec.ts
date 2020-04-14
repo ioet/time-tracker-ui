@@ -83,7 +83,6 @@ describe('DetailsFieldsComponent', () => {
     const name = 'ngrx';
     component.selectedTechnology = ['java', 'javascript'];
     component.selectedTechnology.indexOf(name);
-    component.selectedTechnology.length = 2;
     component.setTechnology(name);
     expect(component.selectedTechnology.length).toBe(3);
   });

@@ -13,7 +13,8 @@ export const AUTHORITY = keys.AUTHORITY;
 export const CLIENT_ID = keys.CLIENT_ID;
 export const SCOPES = keys.SCOPES;
 export const ITEMS_PER_PAGE = 5;
-export const KEY = keys.KEY_TECHNOLOGY;
+export const STACK_EXCHANGE_ID = keys.STACK_EXCHANGE_ID;
+export const STACK_EXCHANGE_ACCESS_TOKEN = keys.STACK_EXCHANGE_ACCESS_TOKEN;
 
 /*
  * For easier debugging in development mode, you can import the following file

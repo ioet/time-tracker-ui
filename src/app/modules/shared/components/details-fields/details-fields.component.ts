@@ -62,10 +62,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     const index = this.selectedTechnology.indexOf(name);
     if (index > -1) {
       this.removeTag(index);
-    } else {
-      if (this.selectedTechnology.length < 10) {
-        this.selectedTechnology = [...this.selectedTechnology, name];
-      }
+    } else if (this.selectedTechnology.length < 10) {
+      this.selectedTechnology = [...this.selectedTechnology, name];
     }
   }
 
