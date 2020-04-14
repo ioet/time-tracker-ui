@@ -36,18 +36,41 @@
       aria-describedby="inputGroup-sizing-sm"
     />
   </div>
+
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Technology</span>
     </div>
     <input
-      formControlName="technology"
+      (keypress)="getTechnologies($event.target.value)"
       type="text"
       class="form-control"
       aria-label="Small"
       aria-describedby="inputGroup-sizing-sm"
     />
   </div>
+
+  <app-search-project (changeFilterProject)="filterTechnology = $event"></app-search-project>
+  <div *ngIf="isLoading">LOADING...</div>
+  <div *ngIf="technologies" class="d-flex flex-column technology-content">
+    <div
+      *ngFor="let technology of technologies.items | filterProject: filterTechnology"
+      (click)="setTechnology(technology.name)"
+      class="technology-list"
+      [ngClass]="{ active: selectedTechnology.includes(technology.name) }"
+    >
+      {{ technology.name }}
+    </div>
+  </div>
+  <div class="tags-content d-flex flex-wrap">
+    <span
+      *ngFor="let technology of selectedTechnology; let tagIndex = index"
+      (click)="removeTag(tagIndex)"
+      class="tag"
+      >{{ technology }}</span
+    >
+  </div>
+
   <div class="form-group">
     <label for="NotesTextarea">Notes</label>
     <textarea formControlName="comments" class="form-control" id="NotesTextarea" rows="3"></textarea>

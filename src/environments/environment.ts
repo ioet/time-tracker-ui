@@ -6,12 +6,14 @@ import * as keys from './keys';
 export const environment = {
   production: false,
   timeTrackerApiUrl: 'https://tsheets-apim.azure-api.net',
+  stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 
 export const AUTHORITY = keys.AUTHORITY;
 export const CLIENT_ID = keys.CLIENT_ID;
 export const SCOPES = keys.SCOPES;
 export const ITEMS_PER_PAGE = 5;
+export const KEY = keys.KEY_TECHNOLOGY;
 
 /*
  * For easier debugging in development mode, you can import the following file

@@ -4,10 +4,9 @@ import { Entry } from '../../shared/models';
 @Component({
   selector: 'app-time-entries',
   templateUrl: './time-entries.component.html',
-  styleUrls: ['./time-entries.component.scss']
+  styleUrls: ['./time-entries.component.scss'],
 })
 export class TimeEntriesComponent implements OnInit {
-
   showModal = false;
   entryId: string;
   entry: Entry;
@@ -21,9 +20,9 @@ export class TimeEntriesComponent implements OnInit {
       startDate: '2020-02-05T15:36:15.887Z',
       endDate: '2020-02-05T18:36:15.887Z',
       activity: 'development',
-      technology: 'Angular, TypeScript',
+      technology: ['Angular', 'TypeScript'],
       comments: 'No comments',
-      ticket: 'EY-25'
+      ticket: 'EY-25',
     },
     {
       id: 'entry_2',
@@ -31,9 +30,9 @@ export class TimeEntriesComponent implements OnInit {
       startDate: '2020-03-15T20:36:15.887Z',
       endDate: '2020-03-15T23:36:15.887Z',
       activity: 'development',
-      technology: 'Angular, TypeScript',
+      technology: ['Angular', 'TypeScript'],
       comments: 'No comments',
-      ticket: 'EY-38'
+      ticket: 'EY-38',
     },
     {
       id: 'entry_3',
@@ -41,9 +40,9 @@ export class TimeEntriesComponent implements OnInit {
       startDate: '2020-03-15T23:36:15.887Z',
       endDate: '2020-03-16T05:36:15.887Z',
       activity: 'development',
-      technology: 'Angular, TypeScript',
+      technology: ['Angular', 'TypeScript'],
       comments: 'No comments',
-      ticket: 'EY-225'
+      ticket: 'EY-225',
     },
     {
       id: 'entry_4',
@@ -51,9 +50,9 @@ export class TimeEntriesComponent implements OnInit {
       startDate: '2020-03-16T15:36:15.887Z',
       endDate: '2020-03-16T18:36:15.887Z',
       activity: 'development',
-      technology: 'Angular, TypeScript',
+      technology: ['javascript', 'java-stream'],
       comments: 'No comments',
-      ticket: 'EY-89'
+      ticket: 'EY-89',
     },
     {
       id: 'entry_5',
@@ -61,16 +60,16 @@ export class TimeEntriesComponent implements OnInit {
       startDate: '2020-04-01T09:36:15.887Z',
       endDate: '2020-04-01T15:36:15.887Z',
       activity: 'development',
-      technology: 'Angular, TypeScript',
+      technology: ['javascript', 'java', 'java-stream'],
       comments: 'No comments',
-      ticket: 'EY-59'
-    }
+      ticket: 'EY-59',
+    },
   ];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-    this.dataByMonth = this.entryList.filter(entry => new Date(entry.startDate).getMonth() === new Date().getMonth());
+    this.dataByMonth = this.entryList.filter((entry) => new Date(entry.startDate).getMonth() === new Date().getMonth());
   }
 
   openModal(itemToDelete: Entry) {
@@ -84,7 +83,7 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   saveEntry(newData): void {
-    const entryIndex = this.entryList.findIndex((entry => entry.id === this.entryId));
+    const entryIndex = this.entryList.findIndex((entry) => entry.id === this.entryId);
     this.entryList[entryIndex].project = newData.project;
     this.entryList[entryIndex].activity = newData.activity;
     this.entryList[entryIndex].technology = newData.technology;
@@ -97,6 +96,6 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   getMonth(month: number) {
-    this.dataByMonth = this.entryList.filter(entry => new Date(entry.startDate).getMonth() === month);
+    this.dataByMonth = this.entryList.filter((entry) => new Date(entry.startDate).getMonth() === month);
   }
 }

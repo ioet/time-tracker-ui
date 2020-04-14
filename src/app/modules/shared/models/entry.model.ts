@@ -4,7 +4,7 @@ export interface Entry {
   startDate: string;
   endDate: string;
   activity: string;
-  technology: string;
+  technology: string[];
   comments?: string;
   ticket?: string;
 }

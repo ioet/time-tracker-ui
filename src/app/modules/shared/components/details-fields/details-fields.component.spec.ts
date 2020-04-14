@@ -1,35 +1,46 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { TechnologyState } from '../../store/technology.reducers';
+import { allTechnologies } from '../../store/technology.selectors';
 import { DetailsFieldsComponent } from './details-fields.component';
+import { FilterProjectPipe } from '../../../shared/pipes';
+import * as actions from '../../store/technology.actions';
 
 describe('DetailsFieldsComponent', () => {
   let component: DetailsFieldsComponent;
   let fixture: ComponentFixture<DetailsFieldsComponent>;
+  let store: MockStore<TechnologyState>;
+  let mockTechnologySelector;
+
+  const state = {
+    technologyList: { items: [{ name: 'java' }] },
+    isLoading: false,
+  };
+
   const initialData = {
     project: '',
     activity: '',
     ticket: '',
-    technology: '',
-    comments: ''
+    comments: '',
   };
 
   const newData = {
     project: 'Ernst&Young',
     activity: 'development',
     ticket: 'WA-15',
-    technology: 'Angular',
-    comments: 'No notes'
+    comments: 'No notes',
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DetailsFieldsComponent],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule
-      ],
+      declarations: [DetailsFieldsComponent, FilterProjectPipe],
+      providers: [provideMockStore({ initialState: state })],
+      imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
+    store = TestBed.inject(MockStore);
+    mockTechnologySelector = store.overrideSelector(allTechnologies, state);
   }));
 
   beforeEach(() => {
@@ -58,5 +69,38 @@ describe('DetailsFieldsComponent', () => {
     component.entryToEdit = newData;
     component.ngOnChanges();
     expect(component.entryForm.value).toEqual(newData);
+  });
+
+  it('should dispatch LoadTechnology action #getTechnologies', () => {
+    const value = 'java';
+    spyOn(store, 'dispatch');
+    component.getTechnologies(value);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new actions.LoadTechnology(value));
+  });
+
+  it('should add a new tag #setTechnology', () => {
+    const name = 'ngrx';
+    component.selectedTechnology = ['java', 'javascript'];
+    component.selectedTechnology.indexOf(name);
+    component.selectedTechnology.length = 2;
+    component.setTechnology(name);
+    expect(component.selectedTechnology.length).toBe(3);
+  });
+
+  it('should call the removeTag function #setTechnology', () => {
+    const name = 'java';
+    component.selectedTechnology = ['java', 'javascript'];
+    const index = component.selectedTechnology.indexOf(name);
+    spyOn(component, 'removeTag');
+    component.setTechnology(name);
+    expect(component.removeTag).toHaveBeenCalledWith(index);
+  });
+
+  it('should call the removeTag() function #removeTag', () => {
+    const index = 1;
+    component.selectedTechnology = ['java', 'angular'];
+    component.removeTag(index);
+    expect(component.selectedTechnology.length).toBe(1);
   });
 });
