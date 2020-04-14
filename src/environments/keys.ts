@@ -1,3 +1,3 @@
-export const AUTHORITY = 'XXX';
-export const CLIENT_ID = 'XXX';
-export const SCOPES = ['XXX'];
+export const AUTHORITY = 'XYZ';
+export const CLIENT_ID = 'XYZ';
+export const SCOPES = ['XYZ'];
