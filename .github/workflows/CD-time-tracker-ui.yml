@@ -29,7 +29,9 @@ jobs:
         SCOPES: ${{ secrets.scopes }}
         CLIENT_ID: ${{ secrets.client_id }}
         AUTHORITY: ${{ secrets.authority }}
-      run:  sudo sh scripts/populate-keys.sh
+      run: |
+        chmod +x ./scripts/populate-keys.sh
+        sh ./scripts/populate-keys.sh
 
     - name: 'run: npm install and build'
       run: |
