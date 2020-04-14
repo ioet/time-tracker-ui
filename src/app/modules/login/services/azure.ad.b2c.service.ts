@@ -11,7 +11,7 @@ export class AzureAdB2CService {
 
   msalConfig = {
     auth: {
-      clientId: CLIENT_ID,
+      client_id: CLIENT_ID,
       authority: AUTHORITY,
       validateAuthority: false
     }
