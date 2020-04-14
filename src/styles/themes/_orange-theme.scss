@@ -29,7 +29,7 @@ $dark: #5c4e63;
 }
 
 .custom-pagination ::ng-deep .ngx-pagination .current {
-  background-image: $background-pantone !important;
+  background-image: $background-pantone;
   border-radius: 8px;
 }
 
