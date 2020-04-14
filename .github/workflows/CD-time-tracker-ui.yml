@@ -50,4 +50,5 @@ jobs:
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_TITLE: 'New deployment: '
+        SLACK_MESSAGE: 'A new version has been deployed.'
 
