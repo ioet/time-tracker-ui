@@ -49,5 +49,5 @@ jobs:
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       with:
-        args: -X POST $SLACK_WEBHOOK --data '{"message":"A new deployment has been successfully executed"}'
+        args: -X POST '$env:SLACK_WEBHOOK' --data '{"message":"A new deployment has been successfully executed"}'
 
