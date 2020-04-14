@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.scss'],
 })
-export class CustomerComponent implements OnInit {
+export class CustomerComponent {
   showCustomerForm = false;
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   activateCustomerForm(): boolean {
     this.showCustomerForm = true;

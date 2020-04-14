@@ -20,7 +20,7 @@ const routes: Routes = [
       { path: 'time-clock', component: TimeClockComponent },
       { path: 'time-entries', component: TimeEntriesComponent },
       { path: 'activities-management', component: ActivitiesManagementComponent },
-      { path: 'customer-managment', component: CustomerComponent },
+      { path: 'customers-management', component: CustomerComponent },
       { path: '', pathMatch: 'full', redirectTo: 'time-clock' },
     ],
   },

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { ITEMS_PER_PAGE } from 'src/environments/environment';
 
 @Component({
@@ -29,13 +29,6 @@ export class CustomerListComponent {
     },
   ];
 
-  @Input() showCustomerForm;
-  @Output() changeShowCustomerForm = new EventEmitter<boolean>();
-
   constructor() {}
 
-  activateCustomerForm() {
-    this.showCustomerForm = true;
-    this.changeShowCustomerForm.emit(this.showCustomerForm);
-  }
 }

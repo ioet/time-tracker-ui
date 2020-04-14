@@ -20,7 +20,7 @@ describe('ProjectTableListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('component should create', () => {
+  it('component should be created', () => {
     expect(component).toBeTruthy();
   });
 });

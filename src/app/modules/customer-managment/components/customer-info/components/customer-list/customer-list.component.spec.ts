@@ -20,14 +20,8 @@ describe('CustomerTableListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('component should create', () => {
+  it('component should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('changeShowCustomerForm should listen form changes', () => {
-    component.showCustomerForm = true;
-    spyOn(component.changeShowCustomerForm, 'emit');
-    component.activateCustomerForm();
-    expect(component.changeShowCustomerForm.emit).toHaveBeenCalled();
-  });
 });
