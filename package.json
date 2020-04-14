@@ -37,6 +37,10 @@
     "@angular/cli": "~9.0.4",
     "@angular/compiler-cli": "~9.0.3",
     "@angular/language-service": "~9.0.3",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/npm": "^7.0.5",
     "@stryker-mutator/core": "^3.1.0",
     "@stryker-mutator/karma-runner": "^3.1.0",
     "@stryker-mutator/typescript": "^3.1.0",
@@ -56,6 +60,7 @@
     "karma-json-fixtures-preprocessor": "0.0.6",
     "prettier": "^2.0.2",
     "protractor": "~5.4.3",
+    "semantic-release": "^17.0.4",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
     "typescript": "~3.7.5"
@@ -68,8 +73,42 @@
   },
   "config": {
     "commit-message-validator": {
-      "pattern": "^(#([0-9]+).*)",
-      "errorMessage": "Your commit message must start with issue number e.g. #39"
+      "pattern": "^(fix: #|feat: #|perf: #)[0-9].*",
+      "errorMessage": "Your commit message needs to start with fix:, feat:, or perf: followed by issue number, e.g. fix: #43 any commit message"
     }
+  },
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "angular"
+      },
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ]
+    ],
+    "prepare": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      {
+        "path": "@semantic-release/git",
+        "assets": [
+          "package.json",
+          "package-lock.json",
+          "CHANGELOG.md"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]nn${nextRelease.notes}"
+      }
+    ],
+    "parserOpts": {
+      "mergePattern": "Merged PR .*:"
+    },
+    "repositoryUrl": "https://github.com/ioet/time-tracker-ui.git"
   }
 }
