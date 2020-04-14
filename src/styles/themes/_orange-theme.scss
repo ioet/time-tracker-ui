@@ -1,36 +1,32 @@
-$primary:#fc5630;
-$secondary:#ff3f56;
-$success:#16bac5;
-$info:#30bced;
-$warning:#fc5630;
-$danger:#ff3663;
-$light:#ffffff;
-$dark:#5c4e63;
+@import '../colors.scss';
+
+$primary: #fc5630;
+$secondary: #16bac5;
+$success: #16bac5;
+$info: #30bced;
+$light: #ffffff;
+$dark: #5c4e63;
 
 .bg-primary,
 .btn-primary,
 .badge-primary,
 .alert-primary {
-  background-image: linear-gradient(to right,
-      #ff3948,
-      #ff384d,
-      #ff3752,
-      #ff3657,
-      #ff365c,
-      #ff385a,
-      #ff3b59,
-      #ff3d57,
-      #ff434e,
-      #ff4944,
-      #fe4f3a,
-      #fc5630);
+  background-image: $background-pantone;
 }
 
 .bg-secondary,
 .btn-secondary,
 .badge-secondary,
 .alert-secondary {
-  background-image: linear-gradient(to right,
-      #FF3663,
-      #A50D8A);
+  background-image: linear-gradient(to right, #00cc6c, #00bcbd);
+}
+
+.thead-orange {
+  background-image: $background-pantone;
+  color: white;
+}
+
+.custom-pagination ::ng-deep .ngx-pagination .current {
+  background-image: $background-pantone !important;
+  border-radius: 8px;
 }
