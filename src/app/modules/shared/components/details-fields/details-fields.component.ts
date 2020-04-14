@@ -17,7 +17,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   @Output() saveEntry = new EventEmitter();
   @ViewChild('closeModal') closeModal: ElementRef;
   entryForm: FormGroup;
-  technologies: Technology;
+  technology: Technology;
   filterTechnology = '';
   selectedTechnology: string[] = [];
   isLoading = false;
@@ -35,13 +35,13 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     const technologies$ = this.store.pipe(select(allTechnologies));
     technologies$.subscribe((response) => {
       this.isLoading = response.isLoading;
-      this.technologies = response.technologyList;
+      this.technology = response.technologyList;
     });
   }
 
   ngOnChanges(): void {
     if (this.entryToEdit) {
-      this.selectedTechnology = this.entryToEdit.technology;
+      this.selectedTechnology = this.entryToEdit.technologies;
 
       this.entryForm.setValue({
         project: this.entryToEdit.project,
@@ -54,7 +54,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   getTechnologies(value) {
     if (value.length >= 2) {
-      this.store.dispatch(new actions.LoadTechnology(value));
+      this.store.dispatch(new actions.FindTechnology(value));
     }
   }
 

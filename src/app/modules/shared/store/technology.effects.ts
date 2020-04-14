@@ -11,15 +11,15 @@ export class TechnologyEffects {
   constructor(private actions$: Actions, private technologyService: TechnologyService) {}
 
   @Effect()
-  loadTechnology$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.TechnologyActionTypes.LOAD_TECHNOLOGY),
-    map((action: actions.LoadTechnology) => action.payload),
+  findTechnology$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.TechnologyActionTypes.FIND_TECHNOLOGIES),
+    map((action: actions.FindTechnology) => action.payload),
     mergeMap((value) =>
       this.technologyService.getTechnologies(value).pipe(
         map((technology) => {
-          return new actions.LoadTechnologySuccess(technology);
+          return new actions.FindTechnologySuccess(technology);
         }),
-        catchError((error) => of(new actions.LoadTechnologyFail(error)))
+        catchError((error) => of(new actions.FindTechnologyFail(error)))
       )
     )
   );

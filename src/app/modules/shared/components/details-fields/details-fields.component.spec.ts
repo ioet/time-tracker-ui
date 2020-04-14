@@ -13,6 +13,7 @@ describe('DetailsFieldsComponent', () => {
   let fixture: ComponentFixture<DetailsFieldsComponent>;
   let store: MockStore<TechnologyState>;
   let mockTechnologySelector;
+  let length;
 
   const state = {
     technologyList: { items: [{ name: 'java' }] },
@@ -53,12 +54,6 @@ describe('DetailsFieldsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit saveEntry event', () => {
-    spyOn(component.saveEntry, 'emit');
-    component.onSubmit();
-    expect(component.saveEntry.emit).toHaveBeenCalledWith(initialData);
-  });
-
   it('should emit ngOnChange without data', () => {
     component.entryToEdit = null;
     component.ngOnChanges();
@@ -71,12 +66,22 @@ describe('DetailsFieldsComponent', () => {
     expect(component.entryForm.value).toEqual(newData);
   });
 
-  it('should dispatch LoadTechnology action #getTechnologies', () => {
+  it('should dispatch FindTechnology action #getTechnologies', () => {
     const value = 'java';
     spyOn(store, 'dispatch');
+    length = value.length;
     component.getTechnologies(value);
 
-    expect(store.dispatch).toHaveBeenCalledWith(new actions.LoadTechnology(value));
+    expect(store.dispatch).toHaveBeenCalledWith(new actions.FindTechnology(value));
+  });
+
+  it('should NOT dispatch FindTechnology action #getTechnologies', () => {
+    const value = 'j';
+    spyOn(store, 'dispatch');
+    length = value.length;
+    component.getTechnologies(value);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(new actions.FindTechnology(value));
   });
 
   it('should add a new tag #setTechnology', () => {
@@ -101,5 +106,11 @@ describe('DetailsFieldsComponent', () => {
     component.selectedTechnology = ['java', 'angular'];
     component.removeTag(index);
     expect(component.selectedTechnology.length).toBe(1);
+  });
+
+  it('should emit saveEntry event', () => {
+    spyOn(component.saveEntry, 'emit');
+    component.onSubmit();
+    expect(component.saveEntry.emit).toHaveBeenCalledWith(initialData);
   });
 });

@@ -20,7 +20,7 @@ export class TimeEntriesComponent implements OnInit {
       startDate: '2020-02-05T15:36:15.887Z',
       endDate: '2020-02-05T18:36:15.887Z',
       activity: 'development',
-      technology: ['Angular', 'TypeScript'],
+      technologies: ['Angular', 'TypeScript'],
       comments: 'No comments',
       ticket: 'EY-25',
     },
@@ -30,7 +30,7 @@ export class TimeEntriesComponent implements OnInit {
       startDate: '2020-03-15T20:36:15.887Z',
       endDate: '2020-03-15T23:36:15.887Z',
       activity: 'development',
-      technology: ['Angular', 'TypeScript'],
+      technologies: ['Angular', 'TypeScript'],
       comments: 'No comments',
       ticket: 'EY-38',
     },
@@ -40,7 +40,7 @@ export class TimeEntriesComponent implements OnInit {
       startDate: '2020-03-15T23:36:15.887Z',
       endDate: '2020-03-16T05:36:15.887Z',
       activity: 'development',
-      technology: ['Angular', 'TypeScript'],
+      technologies: ['Angular', 'TypeScript'],
       comments: 'No comments',
       ticket: 'EY-225',
     },
@@ -50,7 +50,7 @@ export class TimeEntriesComponent implements OnInit {
       startDate: '2020-03-16T15:36:15.887Z',
       endDate: '2020-03-16T18:36:15.887Z',
       activity: 'development',
-      technology: ['javascript', 'java-stream'],
+      technologies: ['javascript', 'java-stream'],
       comments: 'No comments',
       ticket: 'EY-89',
     },
@@ -60,7 +60,7 @@ export class TimeEntriesComponent implements OnInit {
       startDate: '2020-04-01T09:36:15.887Z',
       endDate: '2020-04-01T15:36:15.887Z',
       activity: 'development',
-      technology: ['javascript', 'java', 'java-stream'],
+      technologies: ['javascript', 'java', 'java-stream'],
       comments: 'No comments',
       ticket: 'EY-59',
     },
@@ -86,7 +86,6 @@ export class TimeEntriesComponent implements OnInit {
     const entryIndex = this.entryList.findIndex((entry) => entry.id === this.entryId);
     this.entryList[entryIndex].project = newData.project;
     this.entryList[entryIndex].activity = newData.activity;
-    this.entryList[entryIndex].technology = newData.technology;
     this.entryList[entryIndex].ticket = newData.jiraTicket;
     this.entryList[entryIndex].comments = newData.notes;
   }

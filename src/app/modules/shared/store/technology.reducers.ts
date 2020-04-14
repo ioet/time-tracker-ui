@@ -13,21 +13,21 @@ export const initialState = {
 
 export const technologyReducer = (state: TechnologyState = initialState, action: TechnologyActions) => {
   switch (action.type) {
-    case TechnologyActionTypes.LOAD_TECHNOLOGY: {
+    case TechnologyActionTypes.FIND_TECHNOLOGIES: {
       return {
         ...state,
         isLoading: true,
       };
     }
 
-    case TechnologyActionTypes.LOAD_TECHNOLOGY_SUCCESS:
+    case TechnologyActionTypes.FIND_TECHNOLOGIES_SUCESS:
       return {
         ...state,
         technologyList: action.payload,
         isLoading: false,
       };
 
-    case TechnologyActionTypes.LOAD_TECHNOLOGY_FAIL: {
+    case TechnologyActionTypes.FIND_TECHNOLOGIES_FAIL: {
       return {
         technologyList: [],
         isLoading: false,

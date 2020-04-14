@@ -40,7 +40,7 @@ describe('TimeEntriesComponent', () => {
     startDate: '2020-02-05T15:36:15.887Z',
     endDate: '2020-02-05T18:36:15.887Z',
     activity: 'development',
-    technology: ['Angular', 'TypeScript'],
+    technologies: ['Angular', 'TypeScript'],
     comments: 'No comments',
     ticket: 'EY-25',
   };
@@ -91,7 +91,7 @@ describe('TimeEntriesComponent', () => {
     expect(component.entry.startDate).toBe(entry.startDate);
     expect(component.entry.endDate).toBe(entry.endDate);
     expect(component.entry.activity).toBe(entry.activity);
-    expect(component.entry.technology).toEqual(entry.technology);
+    expect(component.entry.technologies).toEqual(entry.technologies);
   });
 
   it('should save an Entry', () => {
@@ -101,7 +101,6 @@ describe('TimeEntriesComponent', () => {
     expect(component.entryList[0].startDate).toBe('2020-02-05T15:36:15.887Z');
     expect(component.entryList[0].endDate).toBe('2020-02-05T18:36:15.887Z');
     expect(component.entryList[0].activity).toBe('development');
-    expect(component.entryList[0].technology).toEqual(['Angular', 'TypeScript']);
   });
 
   it('should delete a Entry', () => {

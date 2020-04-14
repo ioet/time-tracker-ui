@@ -33,7 +33,7 @@ describe('ModalComponent', () => {
       startDate: '2020-02-05T15:36:15.887Z',
       endDate: '2020-02-05T18:36:15.887Z',
       activity: 'development',
-      technology: ['Angular', 'TypeScript'],
+      technologies: ['Angular', 'TypeScript'],
     };
 
     spyOn(component.removeList, 'emit');

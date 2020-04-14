@@ -52,14 +52,14 @@
 
   <app-search-project (changeFilterProject)="filterTechnology = $event"></app-search-project>
   <div *ngIf="isLoading">LOADING...</div>
-  <div *ngIf="technologies" class="d-flex flex-column technology-content">
+  <div *ngIf="technology" class="d-flex flex-column technology-content">
     <div
-      *ngFor="let technology of technologies.items | filterProject: filterTechnology"
-      (click)="setTechnology(technology.name)"
+      *ngFor="let item of technology.items | filterProject: filterTechnology"
+      (click)="setTechnology(item.name)"
       class="technology-list"
-      [ngClass]="{ active: selectedTechnology.includes(technology.name) }"
+      [ngClass]="{ active: selectedTechnology.includes(item.name) }"
     >
-      {{ technology.name }}
+      {{ item.name }}
     </div>
   </div>
   <div class="tags-content d-flex flex-wrap">
