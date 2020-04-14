@@ -12,6 +12,7 @@ $dark: #5c4e63;
 .badge-primary,
 .alert-primary {
   background-image: $background-pantone;
+  border: none;
 }
 
 .bg-secondary,
@@ -19,6 +20,7 @@ $dark: #5c4e63;
 .badge-secondary,
 .alert-secondary {
   background-image: linear-gradient(to right, #00cc6c, #00bcbd);
+  border: none;
 }
 
 .thead-orange {
@@ -27,6 +29,11 @@ $dark: #5c4e63;
 }
 
 .custom-pagination ::ng-deep .ngx-pagination .current {
-  background-image: $background-pantone !important;
+  background-image: $background-pantone;
   border-radius: 8px;
+}
+
+.btn:focus,
+.btn:active {
+  border: none;
 }
