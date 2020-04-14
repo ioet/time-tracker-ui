@@ -27,12 +27,12 @@ jobs:
       with:
         node-version: '12.x'
 
-    - name: Inject Secrets
-      env:
-        SCOPES: ${{ secrets.scopes }}
-        CLIENT_ID: ${{ secrets.client_id }}
-        AUTHORITY: ${{ secrets.authority }}
-      run:  sudo sh scripts/populate-keys.sh
+    # - name: Inject Secrets
+    #   env:
+    #     SCOPES: ${{ secrets.scopes }}
+    #     CLIENT_ID: ${{ secrets.client_id }}
+    #     AUTHORITY: ${{ secrets.authority }}
+    #   run:  sudo sh scripts/populate-keys.sh
 
     - name: 'run: npm install and build'
       run: |
