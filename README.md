@@ -10,6 +10,9 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 ![CD process to deploy to App-Service service](https://github.com/ioet/time-tracker-ui/workflows/CD%20process%20to%20deploy%20to%20App-Service%20service/badge.svg)
 <br/>CD Pipeline Status
 
+![Running mutation tests](https://github.com/ioet/time-tracker-ui/workflows/Running%20mutation%20tests/badge.svg)
+<br/>Mutation tests
+
 ## Prerequisites
 
 ### Node.js
