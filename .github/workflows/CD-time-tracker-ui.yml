@@ -4,42 +4,51 @@
 name: CD process to deploy to App-Service service
 
 on:
-  # Trigger the workflow on pull request but only for the master branch
-  pull_request:
-    types: [closed]
+  push:
     branches:
-      - master
+      - 47-notify-deployments
+  # Trigger the workflow on pull request but only for the master branch
+  # pull_request:
+  #   types: [closed]
+  #   branches:
+  #     - master
 
 jobs:
   build-and-deploy:
-    name: Deploy to Azure
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
     steps:
-    - name: Checkout of master
-      uses: actions/checkout@master
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2.0.0
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    # name: Deploy to Azure
+    # runs-on: ubuntu-latest
+    # timeout-minutes: 60
+    # steps:
+    # - name: Checkout of master
+    #   uses: actions/checkout@master
 
-    - name: Set up Node.js version
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
+    # - name: Set up Node.js version
+    #   uses: actions/setup-node@v1
+    #   with:
+    #     node-version: '12.x'
 
-    - name: Inject Secrets
-      env:
-        SCOPES: ${{ secrets.scopes }}
-        CLIENT_ID: ${{ secrets.client_id }}
-        AUTHORITY: ${{ secrets.authority }}
-      run:  sudo sh scripts/populate-keys.sh
+    # - name: Inject Secrets
+    #   env:
+    #     SCOPES: ${{ secrets.scopes }}
+    #     CLIENT_ID: ${{ secrets.client_id }}
+    #     AUTHORITY: ${{ secrets.authority }}
+    #   run:  sudo sh scripts/populate-keys.sh
 
-    - name: 'run: npm install and build'
-      run: |
-        npm install
-        npm run build --prod --if-present
+    # - name: 'run: npm install and build'
+    #   run: |
+    #     npm install
+    #     npm run build --prod --if-present
 
-    - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v1
-      with:
-        app-name: 'time-tracker-ui'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_728dc744f9384bf38e8a0446aaaee29d }}
-        package: dist/time-tracker
+    # - name: 'Deploy to Azure Web App'
+    #   uses: azure/webapps-deploy@v1
+    #   with:
+    #     app-name: 'time-tracker-ui'
+    #     slot-name: 'production'
+    #     publish-profile: ${{ secrets.AzureAppService_PublishProfile_728dc744f9384bf38e8a0446aaaee29d }}
+    #     package: dist/time-tracker
