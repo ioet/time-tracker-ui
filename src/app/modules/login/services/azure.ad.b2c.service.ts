@@ -4,21 +4,19 @@ import { CLIENT_ID, AUTHORITY, SCOPES } from '../../../../environments/environme
 import { UserAgentApplication } from 'msal';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class AzureAdB2CService {
-
   msalConfig = {
     auth: {
       clientId: CLIENT_ID,
       authority: AUTHORITY,
-      validateAuthority: false
-    }
+      validateAuthority: false,
+    },
   };
 
   tokenRequest = {
-    scopes: SCOPES
+    scopes: SCOPES,
   };
 
   msal = new UserAgentApplication(this.msalConfig);
@@ -37,5 +35,20 @@ export class AzureAdB2CService {
 
   isLogin() {
     return this.msal.getAccount() ? true : false;
+  }
+
+  setTenantId() {
+    if (this.msal.getAccount() && this.msal.getAccount().idToken) {
+      const pathArray = this.msal.getAccount().idToken.iss.split('/');
+      const tenantId = pathArray[3];
+      sessionStorage.setItem('tenant_id', tenantId);
+    }
+  }
+
+  getTenantId(): string {
+    return sessionStorage.getItem('tenant_id');
+  }
+  getBearerToken(): string {
+    return sessionStorage.getItem('msal.idtoken');
   }
 }

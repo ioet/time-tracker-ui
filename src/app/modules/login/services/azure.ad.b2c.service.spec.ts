@@ -5,6 +5,19 @@ import { UserAgentApplication, Account } from 'msal';
 describe('AzureAdB2CService', () => {
   let service: AzureAdB2CService;
 
+  const account: Account = {
+    accountIdentifier: 'abc',
+    homeAccountIdentifier: 'abc',
+    userName: 'abc',
+    name: 'abc',
+    idToken: {
+      iss: ' http://hostname.com/12345/v0/',
+    },
+    idTokenClaims: {},
+    sid: 'abc',
+    environment: 'abc',
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
@@ -33,16 +46,6 @@ describe('AzureAdB2CService', () => {
   });
 
   it('should get Account name from UserAgentApplication', () => {
-    const account: Account = {
-      accountIdentifier: 'abc',
-      homeAccountIdentifier: 'abc',
-      userName: 'abc',
-      name: 'abc',
-      idToken: {},
-      idTokenClaims: {},
-      sid: 'abc',
-      environment: 'abc',
-    };
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValues(account);
 
     const name = service.getName();
@@ -52,16 +55,6 @@ describe('AzureAdB2CService', () => {
   });
 
   it('isLogin returns true if UserAgentApplication has a defined Account', () => {
-    const account: Account = {
-      accountIdentifier: 'abc',
-      homeAccountIdentifier: 'abc',
-      userName: 'abc',
-      name: 'abc',
-      idToken: {},
-      idTokenClaims: {},
-      sid: 'abc',
-      environment: 'abc',
-    };
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
 
     const isLogin = service.isLogin();
@@ -75,5 +68,46 @@ describe('AzureAdB2CService', () => {
     const isLogin = service.isLogin();
     expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
     expect(isLogin).toEqual(false);
+  });
+
+  it('setTenantId should save a tenantId in session storage', () => {
+    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
+    spyOn(sessionStorage, 'setItem').withArgs('tenant_id', '12345');
+
+    const isLogin = service.isLogin();
+    service.setTenantId();
+
+    expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
+    expect(isLogin).toEqual(true);
+    expect(sessionStorage.setItem).toHaveBeenCalledWith('tenant_id', '12345');
+  });
+
+  it('setTenantId should not save tenantId if login is false ', () => {
+    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(null);
+    spyOn(sessionStorage, 'setItem');
+    const isLogin = service.isLogin();
+    expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
+    expect(isLogin).toEqual(false);
+    expect(sessionStorage.setItem).not.toHaveBeenCalled();
+  });
+
+  it('getTenantId should get the tenantId from session storage', () => {
+    const tenantId = '12345';
+    spyOn(sessionStorage, 'getItem').and.returnValue(tenantId);
+
+    const resp = service.getTenantId();
+
+    expect(sessionStorage.getItem).toHaveBeenCalled();
+    expect(resp).toEqual(tenantId);
+  });
+
+  it('getBearerToken should get the bearer token from session storage', () => {
+    const token = '12345abc';
+    spyOn(sessionStorage, 'getItem').and.returnValue(token);
+
+    const resp = service.getBearerToken();
+
+    expect(sessionStorage.getItem).toHaveBeenCalled();
+    expect(resp).toEqual(token);
   });
 });

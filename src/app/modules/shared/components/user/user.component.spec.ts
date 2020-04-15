@@ -14,17 +14,14 @@ describe('UserComponent', () => {
     },
     signIn() {
       return of();
-    }
+    },
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserComponent ],
-      providers: [
-        { providers: AzureAdB2CService, useValue: azureAdB2CServiceStub}
-      ]
-    })
-    .compileComponents();
+      declarations: [UserComponent],
+      providers: [{ providers: AzureAdB2CService, useValue: azureAdB2CServiceStub }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -38,20 +35,24 @@ describe('UserComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('onInit checks if isLogin and gets the name', () => {
+  it('onInit checks if isLogin and gets the name and set tenantIn in the storage', () => {
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
     spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
+    spyOn(azureAdB2CService, 'setTenantId');
     component.ngOnInit();
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();
     expect(azureAdB2CService.getName).toHaveBeenCalled();
+    expect(azureAdB2CService.setTenantId).toHaveBeenCalled();
   });
 
   it('onInit does not get the name if isLogin false', () => {
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
+    spyOn(azureAdB2CService, 'setTenantId');
     component.ngOnInit();
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();
     expect(azureAdB2CService.getName).toHaveBeenCalledTimes(0);
+    expect(azureAdB2CService.setTenantId).not.toHaveBeenCalled();
   });
 
   it('uses the Azure service on logout', () => {
@@ -61,5 +62,4 @@ describe('UserComponent', () => {
 
     expect(azureAdB2CService.logout).toHaveBeenCalled();
   });
-
 });
