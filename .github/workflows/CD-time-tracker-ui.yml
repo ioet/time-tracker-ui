@@ -15,6 +15,9 @@ jobs:
     name: Deploy to Azure
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      BUILD_PATH: 'dist/time-tracker'
+
     steps:
     - name: Checkout of master
       uses: actions/checkout@master
@@ -37,6 +40,7 @@ jobs:
       run: |
         npm install
         npm run build --prod --if-present
+        cp scripts/default-static-site.js ${BUILD_PATH}
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1
@@ -44,7 +48,7 @@ jobs:
         app-name: 'time-tracker-ui'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_728dc744f9384bf38e8a0446aaaee29d }}
-        package: dist/time-tracker
+        package: ${BUILD_PATH}
 
     - uses: actions/checkout@v2
     - name: Slack Notification
