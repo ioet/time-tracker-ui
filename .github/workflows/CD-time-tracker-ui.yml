@@ -32,6 +32,8 @@ jobs:
         SCOPES: ${{ secrets.scopes }}
         CLIENT_ID: ${{ secrets.client_id }}
         AUTHORITY: ${{ secrets.authority }}
+        STACK_EXCHANGE_ID: ${{ secrets.stack_exchange_id }}
+        STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.stack_exchange_access_token }}
       run: |
         chmod +x ./scripts/populate-keys.sh
         sh ./scripts/populate-keys.sh

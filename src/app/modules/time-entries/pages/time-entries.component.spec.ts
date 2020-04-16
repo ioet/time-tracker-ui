@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
@@ -8,18 +9,38 @@ import {
   ModalComponent,
 } from '../../shared/components';
 import { GroupByDatePipe } from '../../shared/pipes';
+import { TechnologyState } from '../../shared/store/technology.reducers';
+import { allTechnologies } from '../../shared/store/technology.selectors';
 import { TimeEntriesComponent } from './time-entries.component';
+import { FilterProjectPipe } from '../../shared/pipes';
 
 describe('TimeEntriesComponent', () => {
   let component: TimeEntriesComponent;
   let fixture: ComponentFixture<TimeEntriesComponent>;
+  let store: MockStore<TechnologyState>;
+  let mockTechnologySelector;
+
+  const state = {
+    projects: {
+      projectList: [{ id: 'id', name: 'name', description: 'description' }],
+      isLoading: false,
+    },
+    activities: {
+      data: [{ id: 'id', name: 'name', description: 'description' }],
+      isLoading: false,
+      message: 'message',
+    },
+    technologyList: { items: [{ name: 'test' }] },
+    isLoading: false,
+  };
+
   const entry = {
     id: 'entry_1',
     project: 'Mido - 05 de Febrero',
     startDate: '2020-02-05T15:36:15.887Z',
     endDate: '2020-02-05T18:36:15.887Z',
     activity: 'development',
-    technology: 'Angular, TypeScript',
+    technologies: ['Angular', 'TypeScript'],
     comments: 'No comments',
     ticket: 'EY-25',
   };
@@ -29,13 +50,17 @@ describe('TimeEntriesComponent', () => {
       declarations: [
         EmptyStateComponent,
         DetailsFieldsComponent,
+        FilterProjectPipe,
         GroupByDatePipe,
         ModalComponent,
         MonthPickerComponent,
         TimeEntriesComponent,
       ],
+      providers: [provideMockStore({ initialState: state })],
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
+    store = TestBed.inject(MockStore);
+    mockTechnologySelector = store.overrideSelector(allTechnologies, state);
   }));
 
   beforeEach(() => {
@@ -66,7 +91,7 @@ describe('TimeEntriesComponent', () => {
     expect(component.entry.startDate).toBe(entry.startDate);
     expect(component.entry.endDate).toBe(entry.endDate);
     expect(component.entry.activity).toBe(entry.activity);
-    expect(component.entry.technology).toBe(entry.technology);
+    expect(component.entry.technologies).toEqual(entry.technologies);
   });
 
   it('should save an Entry', () => {
@@ -76,7 +101,6 @@ describe('TimeEntriesComponent', () => {
     expect(component.entryList[0].startDate).toBe('2020-02-05T15:36:15.887Z');
     expect(component.entryList[0].endDate).toBe('2020-02-05T18:36:15.887Z');
     expect(component.entryList[0].activity).toBe('development');
-    expect(component.entryList[0].technology).toBe('Angular, TypeScript');
   });
 
   it('should delete a Entry', () => {
