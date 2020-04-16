@@ -23,6 +23,7 @@
     "@ngrx/effects": "^9.0.0",
     "@ngrx/store": "^9.0.0",
     "@ngrx/store-devtools": "^9.0.0",
+    "angular-ng-autocomplete": "^2.0.1",
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
     "minimist": "^1.2.5",

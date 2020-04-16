@@ -5,19 +5,28 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TechnologyState } from '../../store/technology.reducers';
 import { allTechnologies } from '../../store/technology.selectors';
 import { DetailsFieldsComponent } from './details-fields.component';
-import { FilterProjectPipe } from '../../../shared/pipes';
 import * as actions from '../../store/technology.actions';
+import { ProjectState } from '../../../project-management/store/project.reducer';
+import { allProjects } from '../../../project-management/store/project.selectors';
 
 describe('DetailsFieldsComponent', () => {
+  type Merged = TechnologyState & ProjectState;
   let component: DetailsFieldsComponent;
   let fixture: ComponentFixture<DetailsFieldsComponent>;
-  let store: MockStore<TechnologyState>;
+  let store: MockStore<Merged>;
   let mockTechnologySelector;
+  let mockProjectsSelector;
   let length;
 
   const state = {
-    technologyList: { items: [{ name: 'java' }] },
-    isLoading: false,
+    projects: {
+      projectList: [{ id: 'id', name: 'name', description: 'description' }],
+      isLoading: false,
+    },
+    technologies: {
+      technologyList: { items: [{ name: 'java' }] },
+      isLoading: false,
+    },
   };
 
   const initialData = {
@@ -36,12 +45,13 @@ describe('DetailsFieldsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DetailsFieldsComponent, FilterProjectPipe],
+      declarations: [DetailsFieldsComponent],
       providers: [provideMockStore({ initialState: state })],
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
-    mockTechnologySelector = store.overrideSelector(allTechnologies, state);
+    mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
+    mockProjectsSelector = store.overrideSelector(allProjects, state.projects);
   }));
 
   beforeEach(() => {

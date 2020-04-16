@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -92,6 +93,7 @@ import { CreateProjectTypeComponent } from './modules/customer-managment/compone
     ReactiveFormsModule,
     HttpClientModule,
     NgxPaginationModule,
+    AutocompleteLibModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),

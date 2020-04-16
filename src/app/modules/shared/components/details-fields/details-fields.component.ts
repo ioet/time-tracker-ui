@@ -4,7 +4,14 @@ import { Store, select } from '@ngrx/store';
 import * as actions from '../../store/technology.actions';
 
 import { allTechnologies } from '../../store/technology.selectors';
-import { Technology } from '../../models';
+import { Technology, Project } from '../../models';
+
+import { ProjectState } from '../../../project-management/store/project.reducer';
+import { TechnologyState } from '../../store/technology.reducers';
+import { allProjects } from '../../../project-management/store/project.selectors';
+import * as projectActions from '../../../project-management/store/project.actions';
+
+type Merged = TechnologyState & ProjectState;
 
 @Component({
   selector: 'app-details-fields',
@@ -20,8 +27,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   technology: Technology;
   selectedTechnology: string[] = [];
   isLoading = false;
+  listProjects: Project[] = [];
+  keyword = 'name';
 
-  constructor(private formBuilder: FormBuilder, private store: Store<Technology>) {
+  constructor(private formBuilder: FormBuilder, private store: Store<Merged>) {
     this.entryForm = this.formBuilder.group({
       project: '',
       activity: '',
@@ -35,6 +44,12 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     technologies$.subscribe((response) => {
       this.isLoading = response.isLoading;
       this.technology = response.technologyList;
+    });
+
+    this.store.dispatch(new projectActions.LoadProjects());
+    const projects$ = this.store.pipe(select(allProjects));
+    projects$.subscribe((response) => {
+      this.listProjects = response.projectList;
     });
   }
 

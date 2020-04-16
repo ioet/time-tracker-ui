@@ -1,14 +1,26 @@
-<app-search-project (changeFilterProject)="filterProjects = $event"></app-search-project>
-<ul class="list-group content-projects">
-  <li
-    class="list-group-item list-group-item-action justify-content-between align-items-center"
-    *ngFor="let item of listProjects | filterProject: filterProjects; let i = index"
-    (mouseenter)="showButton = i"
-    (mouseleave)="showButton = -1"
-    (click)="clockIn(item.id)"
-    [ngClass]="{ active: selectedId === item.id }"
+<div class="ng-autocomplete">
+  <ng-autocomplete
+    class="autocomplete"
+    (selected)="showButton = ''"
+    [data]="listProjects && listProjects"
+    [searchKeyword]="keyword"
+    [itemTemplate]="itemTemplate"
+    [notFoundTemplate]="notFoundTemplate"
   >
-    {{ item.name }}
-    <span *ngIf="showButton === i && selectedId !== item.id" class="badge badge-light">Clock In</span>
-  </li>
-</ul>
+  </ng-autocomplete>
+  <ng-template #itemTemplate let-item>
+    <div class="d-flex">
+      <div
+        [innerHTML]="item.name"
+        (mouseenter)="showButton = item.name"
+        (mouseleave)="showButton = ''"
+        (click)="clockIn(item.id)"
+        class="text-left w-100 py-2 px-3"
+      ></div>
+      <span *ngIf="showButton === item.name" class="badge badge-light d-flex align-items-center m-2">Clock In</span>
+    </div>
+  </ng-template>
+  <ng-template #notFoundTemplate let-notFound>
+    <div [innerHTML]="notFound"></div>
+  </ng-template>
+</div>

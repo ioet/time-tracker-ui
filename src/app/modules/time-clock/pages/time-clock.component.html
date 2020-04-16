@@ -29,17 +29,18 @@
           <h3>14:00</h3>
         </div>
       </div>
-      <h6 class="text-left"><strong>Projects</strong></h6>
-      <ul class="list-group">
-        <app-project-list-hover (showFields)="setShowFields($event)"></app-project-list-hover>
-      </ul>
-      <br />
+      <div class="form-group row">
+        <label for="activitiesSelect" class="col-sm-2 col-form-label text-center"><strong>Project</strong></label>
+        <div class="col-sm-10">
+          <app-project-list-hover (showFields)="setShowFields($event)"></app-project-list-hover>
+        </div>
+      </div>
       <form *ngIf="!isClockIn || showFields">
         <div class="form-group row">
           <label for="activitiesSelect" class="col-sm-2 col-form-label text-center"><strong>Activity</strong></label>
           <div class="col-sm-10">
             <select id="activitiesSelect" class="form-control">
-              <option *ngFor="let activity of activities;">{{activity.name}}</option>
+              <option *ngFor="let activity of activities">{{ activity.name }}</option>
             </select>
           </div>
         </div>
