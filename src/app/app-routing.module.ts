@@ -8,7 +8,7 @@ import { TimeEntriesComponent } from './modules/time-entries/pages/time-entries.
 import { ActivitiesManagementComponent } from './modules/activities-management/pages/activities-management.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
-import { CustomerComponent } from './modules/customer-managment/pages/customer.component';
+import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 
 const routes: Routes = [
   {

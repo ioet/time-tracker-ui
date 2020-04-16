@@ -12,8 +12,10 @@
       >
     </li>
     <li class="nav-item">
+      <!--nav-active-->
       <a
-        class="nav-link nav-active text-black font-weight-bold"
+        class="nav-link text-black font-weight-bold"
+        [ngClass]="{ 'nav-active': isActiveNavsItemTabs, disabled: !isActiveNavsItemTabs }"
         id="projects-type-tab"
         data-toggle="tab"
         href="#projectsType"
@@ -24,7 +26,8 @@
     </li>
     <li class="nav-item">
       <a
-        class="nav-link nav-active text-black font-weight-bold"
+        class="nav-link text-black font-weight-bold"
+        [ngClass]="{ 'nav-active': isActiveNavsItemTabs, disabled: !isActiveNavsItemTabs }"
         id="projects-tab"
         data-toggle="tab"
         href="#projects"
@@ -41,7 +44,10 @@
       role="tabpanel"
       aria-labelledby="customer-information-tab"
     >
-      <app-create-customer></app-create-customer>
+      <app-create-customer
+        [isActiveItemTabs]="isActiveNavsItemTabs"
+        (changeValueIsActiveItemTabs)="isActiveNavsItemTabs = $event"
+      ></app-create-customer>
     </div>
     <div class="tab-pane fade mt-3" id="projects" role="tabpanel" aria-labelledby="projects-tab">
       <app-create-project></app-create-project>

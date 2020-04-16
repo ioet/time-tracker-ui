@@ -1,0 +1,43 @@
+<div class="container">
+  <form style="width: 600px;" [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm.value)">
+    <div class="form-group">
+      <div
+        *ngIf="messageToShow != ''"
+        [ngClass]="{'bg-secondary': messageToShow == 'Data create successfully!', 'bg-primary': messageToShow != 'Data create successfully!'}"
+        class="alert alert-dismissible fade fade-in show text-white"
+        role="alert"
+      >
+        <strong>{{ messageToShow }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <input
+        class="form-control form-control-sm"
+        id="name"
+        type="text"
+        formControlName="name"
+        placeholder="Customer name"
+        [class.is-invalid]="customerForm.invalid && customerForm.touched"
+        required
+      />
+      <span
+        class="badge badge-pill badge-light text-danger"
+        *ngIf="(customerForm.dirty || customerForm.touched) && customerForm.invalid"
+        >Activity name is required</span
+      >
+      <textarea
+        class="form-control form-control-sm mt-2"
+        id="description"
+        rows="3"
+        formControlName="description"
+        placeholder="Customer description"
+      ></textarea>
+      <button type="submit" class="btn btn-sm btn-primary" [disabled]="!customerForm.valid">Save</button>
+      <button (click)="resetCustomerForm()" id="cancel" type="button" class="btn btn-sm btn-secondary mb-2 ml-2 mt-2">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
