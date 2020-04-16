@@ -9,6 +9,9 @@ on:
     types: [closed]
     branches:
       - master
+  push:
+    branchs:
+      - fix-reload-page
 
 jobs:
   build-and-deploy:
@@ -50,11 +53,11 @@ jobs:
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_728dc744f9384bf38e8a0446aaaee29d }}
         package: ${BUILD_PATH}
 
-    - uses: actions/checkout@v2
-    - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2.0.0
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_ICON: https://avatars.slack-edge.com/2020-04-14/1055222096486_7b0bf047c32f9f666b69_48.jpg
-        SLACK_TITLE: 'A new version has been cooked:'
-        SLACK_USERNAME: 'heisenberg-says:'
+#    - uses: actions/checkout@v2
+#    - name: Slack Notification
+#      uses: rtCamp/action-slack-notify@v2.0.0
+#      env:
+#        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#        SLACK_ICON: https://avatars.slack-edge.com/2020-04-14/1055222096486_7b0bf047c32f9f666b69_48.jpg
+#        SLACK_TITLE: 'A new version has been cooked:'
+#        SLACK_USERNAME: 'heisenberg-says:'
