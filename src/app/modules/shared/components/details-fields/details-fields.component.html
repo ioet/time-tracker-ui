@@ -37,7 +37,7 @@
     />
   </div>
 
-  <div class="input-group input-group-sm mb-3">
+  <div class="input-group input-group-sm">
     <div class="input-group-prepend">
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Technology</span>
     </div>
@@ -50,11 +50,10 @@
     />
   </div>
 
-  <app-search-project (changeFilterProject)="filterTechnology = $event"></app-search-project>
   <div *ngIf="isLoading">LOADING...</div>
   <div *ngIf="technology" class="d-flex flex-column technology-content">
     <div
-      *ngFor="let item of technology.items | filterProject: filterTechnology"
+      *ngFor="let item of technology.items"
       (click)="setTechnology(item.name)"
       class="technology-list"
       [ngClass]="{ active: selectedTechnology.includes(item.name) }"
@@ -63,12 +62,10 @@
     </div>
   </div>
   <div class="tags-content d-flex flex-wrap">
-    <span
-      *ngFor="let technology of selectedTechnology; let tagIndex = index"
-      (click)="removeTag(tagIndex)"
-      class="tag"
-      >{{ technology }}</span
-    >
+    <div *ngFor="let technology of selectedTechnology; let tagIndex = index" class="tag">
+      <span class="mr-3">{{ technology }}</span>
+      <i class="fas fa-times text-white" (click)="removeTag(tagIndex)"></i>
+    </div>
   </div>
 
   <div class="form-group">

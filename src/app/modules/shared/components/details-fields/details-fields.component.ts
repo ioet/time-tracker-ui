@@ -18,7 +18,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   @ViewChild('closeModal') closeModal: ElementRef;
   entryForm: FormGroup;
   technology: Technology;
-  filterTechnology = '';
   selectedTechnology: string[] = [];
   isLoading = false;
 
