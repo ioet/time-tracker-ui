@@ -51,7 +51,7 @@ jobs:
         app-name: 'time-tracker-ui'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_728dc744f9384bf38e8a0446aaaee29d }}
-        package: ${BUILD_PATH}
+        package: dist/time-tracker
 
 #    - uses: actions/checkout@v2
 #    - name: Slack Notification
