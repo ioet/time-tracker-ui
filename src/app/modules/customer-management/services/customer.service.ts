@@ -18,7 +18,6 @@ export class CustomerService {
       ...customerData,
       tenant_id: this.service.getTenantId(),
     };
-    console.log(this.service.getTenantId());
     return this.http.post(this.baseUrl, body);
   }
 }
