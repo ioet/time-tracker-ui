@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { environment } from './../../../../environments/environment';
 import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.service';
