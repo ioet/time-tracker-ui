@@ -59,7 +59,7 @@
   </div>
 
   <div *ngIf="isLoading">LOADING...</div>
-  <div *ngIf="technology" class="d-flex flex-column technology-content">
+  <div #list *ngIf="technology && showlist" class="d-flex flex-column technology-content">
     <div
       *ngFor="let item of technology.items"
       (click)="setTechnology(item.name)"
