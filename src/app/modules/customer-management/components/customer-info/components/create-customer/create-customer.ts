@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
+
 import { Subscription } from 'rxjs';
+import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
 import { getStatusMessage } from 'src/app/modules/customer-management/store/customer-management.selectors';
 
 @Component({
@@ -12,8 +13,8 @@ import { getStatusMessage } from 'src/app/modules/customer-management/store/cust
 })
 export class CreateCustomerComponent implements OnInit, OnDestroy {
   customerForm: FormGroup;
-  @Input() isActiveItemTabs: boolean;
-  @Output() changeValueIsActiveItemTabs = new EventEmitter<boolean>();
+  @Input() areTabsActive: boolean;
+  @Output() changeValueAreTabsActives = new EventEmitter<boolean>();
   showAlert = false;
   messageToShow = '';
   saveSubscription: Subscription;
@@ -29,12 +30,11 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     const messages$ = this.store.pipe(select(getStatusMessage));
     this.saveSubscription = messages$.subscribe((valueMessage) => {
       this.setStatusOnScreen(valueMessage);
-      console.log(valueMessage);
     });
   }
 
   ngOnDestroy() {
-    this.isActiveItemTabs = false;
+    this.areTabsActive = false;
     this.saveSubscription.unsubscribe();
   }
 
@@ -44,14 +44,14 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   }
 
   setStatusOnScreen(message: string) {
-    if (message === 'Customer create successfully!') {
+    if (message === 'Customer created successfully!') {
       this.messageToShow = message;
-      this.isActiveItemTabs = true;
-      this.changeValueIsActiveItemTabs.emit(this.isActiveItemTabs);
-    } else if (message === 'Something went wrong creating customer!') {
+      this.areTabsActive = true;
+      this.changeValueAreTabsActives.emit(this.areTabsActive);
+    } else if (message === 'An error occurred, try again later.') {
       this.messageToShow = message;
-      this.isActiveItemTabs = false;
-      this.changeValueIsActiveItemTabs.emit(this.isActiveItemTabs);
+      this.areTabsActive = false;
+      this.changeValueAreTabsActives.emit(this.areTabsActive);
     }
   }
 

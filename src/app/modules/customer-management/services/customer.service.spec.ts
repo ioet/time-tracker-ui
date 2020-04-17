@@ -1,7 +1,7 @@
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { CustomerService } from './customer.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Customer } from '../../shared/models/customer.model';
 
 describe('CustomerService', () => {

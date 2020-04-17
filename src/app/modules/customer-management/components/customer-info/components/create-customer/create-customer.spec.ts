@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { CreateCustomerComponent } from './create-customer';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
-import { FormBuilder } from '@angular/forms';
-import { Customer } from 'src/app/modules/shared/models/customer.model';
+import * as models from 'src/app/modules/shared/models/index';
 
 describe('CreateCustomerComponent', () => {
   let component: CreateCustomerComponent;
@@ -17,7 +17,7 @@ describe('CreateCustomerComponent', () => {
     message: '',
   };
 
-  const customerData: Customer = {
+  const customerData: models.Customer = {
     name: 'aa',
     description: 'bb',
     tenant_id: 'cc',
@@ -72,8 +72,8 @@ describe('CreateCustomerComponent', () => {
     expect(component.customerForm.reset).toHaveBeenCalled();
   });
 
-  it('should be enable tabs and show message Customer create successfully! ', () => {
-    component.isActiveItemTabs = false;
+  it('should be enable tabs and show message Customer created successfully! ', () => {
+    component.areTabsActive = false;
     component.messageToShow = '';
 
     spyOn(store, 'dispatch');
@@ -82,14 +82,14 @@ describe('CreateCustomerComponent', () => {
 
     component.onSubmit(customerData);
 
-    component.setStatusOnScreen('Customer create successfully!');
+    component.setStatusOnScreen('Customer created successfully!');
 
-    expect(component.messageToShow).toEqual('Customer create successfully!');
-    expect(component.isActiveItemTabs).toBeTrue();
+    expect(component.messageToShow).toEqual('Customer created successfully!');
+    expect(component.areTabsActive).toBeTrue();
   });
 
-  it('should be disabled tabs and show message Something went wrong creating customer! ', () => {
-    component.isActiveItemTabs = false;
+  it('should be disabled tabs and show message An error occurred, try again later. ', () => {
+    component.areTabsActive = false;
     component.messageToShow = '';
 
     spyOn(store, 'dispatch');
@@ -98,9 +98,9 @@ describe('CreateCustomerComponent', () => {
 
     component.onSubmit(customerData);
 
-    component.setStatusOnScreen('Something went wrong creating customer!');
+    component.setStatusOnScreen('An error occurred, try again later.');
 
-    expect(component.messageToShow).toEqual('Something went wrong creating customer!');
-    expect(component.isActiveItemTabs).toBeFalse();
+    expect(component.messageToShow).toEqual('An error occurred, try again later.');
+    expect(component.areTabsActive).toBeFalse();
   });
 });

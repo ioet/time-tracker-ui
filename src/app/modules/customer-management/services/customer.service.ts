@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { environment } from './../../../../environments/environment';
 import { Observable } from 'rxjs';
 
@@ -7,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CustomerService {
-  baseUrl = `${environment.timeTrackerApiUrl}/customers`;
+  baseUrl = `https://private-8c3d21-ts32.apiary-mock.com/customers`;
 
   constructor(private http: HttpClient) {}
 

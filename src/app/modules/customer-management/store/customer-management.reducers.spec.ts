@@ -21,11 +21,11 @@ describe('customerManagementReducer', () => {
     expect(state.isLoading).toEqual(false);
   });
 
-  it('on CreateCustomerFail, message equal to Something went wrong creating customer! ', () => {
+  it('on CreateCustomerFail, message equal to An error occurred, try again later. ', () => {
     const action = new actions.CreateCustomerFail('error');
     const state = customerManagementReducer(initialState, action);
 
-    expect(state.message).toEqual('Something went wrong creating customer!');
+    expect(state.message).toEqual('An error occurred, try again later.');
     expect(state.isLoading).toEqual(false);
   });
 });

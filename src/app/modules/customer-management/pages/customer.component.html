@@ -4,7 +4,9 @@
     <div class="col">
       <button (click)="activateCustomerForm()" type="button" class="btn btn-primary">Add new customer</button>
     </div>
-    <app-search></app-search>
+    <div class="col-5 text-right">
+      <app-search-project></app-search-project>
+    </div>
   </div>
   <app-customer-list></app-customer-list>
   <div class="row" *ngIf="showCustomerForm">

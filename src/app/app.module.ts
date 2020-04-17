@@ -39,7 +39,6 @@ import { environment } from '../environments/environment';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 // tslint:disable-next-line: max-line-length
 import { CustomerListComponent } from './modules/customer-management/components/customer-info/components/customer-list/customer-list.component';
-import { SearchComponent } from './modules/customer-management/components/search/search.component';
 // tslint:disable-next-line: max-line-length
 import { ManagementCustomerProjectsComponent } from './modules/customer-management/components/management-customer-projects/management-customer-projects.component';
 import { CreateCustomerComponent } from './modules/customer-management/components/customer-info/components/create-customer/create-customer';
@@ -78,7 +77,6 @@ import { CustomerEffects } from './modules/customer-management/store/customer-ma
     SearchProjectComponent,
     CustomerComponent,
     CustomerListComponent,
-    SearchComponent,
     ManagementCustomerProjectsComponent,
     CreateCustomerComponent,
     CreateProjectComponent,
