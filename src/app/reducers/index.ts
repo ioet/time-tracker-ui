@@ -15,8 +15,8 @@ export interface State {
 export const reducers: ActionReducerMap<State> = {
   projects: projectReducer,
   activities: activityManagementReducer,
-  technologies: technologyReducer,
   customers: customerManagementReducer,
+  technologies: technologyReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

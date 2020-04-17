@@ -2,15 +2,12 @@
   <form style="width: 600px;" [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm.value)">
     <div class="form-group">
       <div
-        *ngIf="messageToShow != ''"
-        [ngClass]="{'bg-secondary': messageToShow == 'Data create successfully!', 'bg-primary': messageToShow != 'Data create successfully!'}"
+        *ngIf="showAlert && messageToShow !== ''"
+        [ngClass]="{'bg-secondary': messageToShow == 'Customer create successfully!', 'bg-primary': messageToShow != 'Customer create successfully!'}"
         class="alert alert-dismissible fade fade-in show text-white"
         role="alert"
       >
         <strong>{{ messageToShow }}</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
 
       <input

@@ -30,7 +30,7 @@ export function customerManagementReducer(
         ...state,
         data: [action.payload],
         isLoading: false,
-        message: 'Data create successfully!',
+        message: 'Customer create successfully!',
       };
     }
 
@@ -42,5 +42,8 @@ export function customerManagementReducer(
         message: 'Something went wrong creating customer!',
       };
     }
+
+    default:
+      return state;
   }
 }
