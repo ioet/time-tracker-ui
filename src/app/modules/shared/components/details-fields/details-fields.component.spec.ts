@@ -82,6 +82,7 @@ describe('DetailsFieldsComponent', () => {
     length = value.length;
     component.getTechnologies(value);
 
+    expect(component.showlist).toBe(true);
     expect(store.dispatch).toHaveBeenCalledWith(new actions.FindTechnology(value));
   });
 
