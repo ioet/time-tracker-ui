@@ -36,20 +36,20 @@ import { ProjectEffects } from './modules/project-management/store/project.effec
 import { TechnologyEffects } from './modules/shared/store/technology.effects';
 import { reducers, metaReducers } from './reducers';
 import { environment } from '../environments/environment';
-import { CustomerComponent } from './modules/customer-managment/pages/customer.component';
+import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 // tslint:disable-next-line: max-line-length
-import { CustomerListComponent } from './modules/customer-managment/components/customer-info/components/customer-list/customer-list.component';
-import { SearchComponent } from './modules/customer-managment/components/search/search.component';
+import { CustomerListComponent } from './modules/customer-management/components/customer-info/components/customer-list/customer-list.component';
 // tslint:disable-next-line: max-line-length
-import { ManagementCustomerProjectsComponent } from './modules/customer-managment/components/management-customer-projects/management-customer-projects.component';
-import { CreateCustomerComponent } from './modules/customer-managment/components/customer-info/components/create-customer/create-customer';
+import { ManagementCustomerProjectsComponent } from './modules/customer-management/components/management-customer-projects/management-customer-projects.component';
+import { CreateCustomerComponent } from './modules/customer-management/components/customer-info/components/create-customer/create-customer';
 // tslint:disable-next-line: max-line-length
-import { CreateProjectComponent } from './modules/customer-managment/components/projects/components/create-project/create-project.component';
-import { ProjectListComponent } from './modules/customer-managment/components/projects/components/project-list/project-list.component';
+import { CreateProjectComponent } from './modules/customer-management/components/projects/components/create-project/create-project.component';
+import { ProjectListComponent } from './modules/customer-management/components/projects/components/project-list/project-list.component';
 // tslint:disable-next-line: max-line-length
-import { ProjectTypeListComponent } from './modules/customer-managment/components/projects-type/components/project-type-list/project-type-list.component';
+import { ProjectTypeListComponent } from './modules/customer-management/components/projects-type/components/project-type-list/project-type-list.component';
 // tslint:disable-next-line: max-line-length
-import { CreateProjectTypeComponent } from './modules/customer-managment/components/projects-type/components/create-project-type/create-project-type.component';
+import { CreateProjectTypeComponent } from './modules/customer-management/components/projects-type/components/create-project-type/create-project-type.component';
+import { CustomerEffects } from './modules/customer-management/store/customer-management.effects';
 
 @NgModule({
   declarations: [
@@ -77,7 +77,6 @@ import { CreateProjectTypeComponent } from './modules/customer-managment/compone
     SearchProjectComponent,
     CustomerComponent,
     CustomerListComponent,
-    SearchComponent,
     ManagementCustomerProjectsComponent,
     CreateCustomerComponent,
     CreateProjectComponent,
@@ -102,7 +101,7 @@ import { CreateProjectTypeComponent } from './modules/customer-managment/compone
           maxAge: 15, // Retains last 15 states
         })
       : [],
-    EffectsModule.forRoot([ProjectEffects, ActivityEffects, TechnologyEffects]),
+    EffectsModule.forRoot([ProjectEffects, ActivityEffects, CustomerEffects, TechnologyEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],

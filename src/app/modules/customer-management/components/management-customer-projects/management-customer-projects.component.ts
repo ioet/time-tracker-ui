@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./management-customer-projects.component.scss'],
 })
 export class ManagementCustomerProjectsComponent {
+  areTabsActive = false;
+
   constructor() {}
 }
