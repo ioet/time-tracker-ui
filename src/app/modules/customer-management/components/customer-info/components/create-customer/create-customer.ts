@@ -1,3 +1,4 @@
+import { LoadCustomers } from './../../../../store/customer-management.actions';
 import { Component, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
@@ -40,6 +41,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
 
   onSubmit(customerData) {
     this.store.dispatch(new CreateCustomer(customerData));
+    this.store.dispatch(new LoadCustomers());
     this.showAlert = true;
   }
 

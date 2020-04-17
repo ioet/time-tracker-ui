@@ -5,12 +5,14 @@ export interface CustomerState {
   data: Customer[];
   isLoading: boolean;
   message: string;
+  customers: Customer[];
 }
 
 export const initialState: CustomerState = {
   data: [],
   isLoading: false,
   message: '',
+  customers: [],
 };
 
 export function customerManagementReducer(
@@ -18,6 +20,27 @@ export function customerManagementReducer(
   action: CustomerManagementActions
 ): CustomerState {
   switch (action.type) {
+    case CustomerManagementActionTypes.LOAD_CUSTOMERS: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS: {
+      return {
+        ...state,
+        customers: action.payload,
+        isLoading: false,
+      };
+    }
+    case CustomerManagementActionTypes.LOAD_CUSTOMERS_FAIL: {
+      return {
+        ...state,
+        customers: [],
+        isLoading: false,
+      };
+    }
+
     case CustomerManagementActionTypes.CREATE_CUSTOMER: {
       return {
         ...state,

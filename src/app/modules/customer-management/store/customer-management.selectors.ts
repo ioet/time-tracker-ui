@@ -8,3 +8,7 @@ export const getStatusMessage = createSelector(getCustomerState, (messageState) 
     return messageState.message;
   }
 });
+
+export const allCustomers = createSelector(getCustomerState, (state: CustomerState) => {
+  return state.customers;
+});

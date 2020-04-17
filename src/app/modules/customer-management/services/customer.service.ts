@@ -20,4 +20,8 @@ export class CustomerService {
     };
     return this.http.post(this.baseUrl, body);
   }
+
+  getCustomers(): Observable<any> {
+    return this.http.get(this.baseUrl);
+  }
 }
