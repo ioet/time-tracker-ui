@@ -2,11 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateCustomerComponent } from './create-customer';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { CustomerState, CreateCustomer, CreateCustomerSuccess } from 'src/app/modules/customer-management/store';
+import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { Customer } from 'src/app/modules/shared/models/customer.model';
-import { of } from 'rxjs';
 
 describe('CreateCustomerComponent', () => {
   let component: CreateCustomerComponent;
@@ -17,13 +15,6 @@ describe('CreateCustomerComponent', () => {
     data: [],
     isLoading: false,
     message: '',
-  };
-
-  const message = {
-    message() {
-      const messageValue = 'Sucess';
-      return messageValue;
-    },
   };
 
   beforeEach(async(() => {

@@ -25,18 +25,16 @@ export class CreateCustomerComponent {
 
   onSubmit(customerData) {
     this.store.dispatch(new CreateCustomer(customerData));
-    this.store
-      .select((state) => state)
-      .subscribe((state) => {
-        this.response = Object.values(state)[2].message;
-        if (this.response === 'Data create successfully!') {
-          this.isActiveItemTabs = true;
-          this.changeValueIsActiveItemTabs.emit(this.isActiveItemTabs);
-          this.messageToShow = this.response;
-        } else {
-          this.messageToShow = this.response;
-        }
-      });
+    this.store.subscribe((state) => {
+      this.response = Object.values(state)[2].message;
+      if (this.response === 'Data create successfully!' || undefined) {
+        this.isActiveItemTabs = true;
+        this.changeValueIsActiveItemTabs.emit(this.isActiveItemTabs);
+        this.messageToShow = this.response;
+      } else {
+        this.messageToShow = this.response;
+      }
+    });
     this.messageToShow = '';
   }
 
