@@ -29,14 +29,14 @@ export function customerManagementReducer(
     case CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS: {
       return {
         ...state,
-        customers: action.payload,
+        data: action.payload,
         isLoading: false,
       };
     }
     case CustomerManagementActionTypes.LOAD_CUSTOMERS_FAIL: {
       return {
         ...state,
-        customers: [],
+        data: [],
         isLoading: false,
       };
     }
@@ -51,7 +51,7 @@ export function customerManagementReducer(
     case CustomerManagementActionTypes.CREATE_CUSTOMER_SUCCESS: {
       return {
         ...state,
-        data: [action.payload],
+        data: [...state.data, action.payload],
         isLoading: false,
         message: 'Customer created successfully!',
       };

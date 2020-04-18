@@ -10,5 +10,5 @@ export const getStatusMessage = createSelector(getCustomerState, (messageState) 
 });
 
 export const allCustomers = createSelector(getCustomerState, (state: CustomerState) => {
-  return state.customers;
+  return state.data;
 });
