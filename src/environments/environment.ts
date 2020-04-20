@@ -5,7 +5,7 @@ import * as keys from './keys';
 
 export const environment = {
   production: false,
-  timeTrackerApiUrl: 'https://tsheets-apim.azure-api.net',
+  timeTrackerApiUrl: 'https://timetracker-api.azurewebsites.net',
   stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 
