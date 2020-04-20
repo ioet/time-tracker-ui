@@ -34,6 +34,7 @@ import { LoginComponent } from './modules/login/login.component';
 import { ActivityEffects } from './modules/activities-management/store/activity-management.effects';
 import { ProjectEffects } from './modules/project-management/store/project.effects';
 import { TechnologyEffects } from './modules/shared/store/technology.effects';
+import { ProjectTypeEffects } from './modules/customer-management/components/projects-type/store/project-type.effects';
 import { reducers, metaReducers } from './reducers';
 import { environment } from '../environments/environment';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
@@ -101,7 +102,7 @@ import { CustomerEffects } from './modules/customer-management/store/customer-ma
           maxAge: 15, // Retains last 15 states
         })
       : [],
-    EffectsModule.forRoot([ProjectEffects, ActivityEffects, CustomerEffects, TechnologyEffects]),
+    EffectsModule.forRoot([ProjectEffects, ActivityEffects, CustomerEffects, TechnologyEffects, ProjectTypeEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],
