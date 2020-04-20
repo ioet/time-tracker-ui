@@ -5,6 +5,24 @@ export enum CustomerManagementActionTypes {
   CREATE_CUSTOMER = '[CustomerManagement] CREATE_CUSTOMER',
   CREATE_CUSTOMER_SUCCESS = '[CustomerManagement] CREATE_CUSTOMER_SUCCESS',
   CREATE_CUSTOMER_FAIL = '[CustomerManagement] CREATE_CUSTOMER_FAIL',
+  LOAD_CUSTOMERS = '[CustomerManagement] LOAD_CUSTOMERS',
+  LOAD_CUSTOMERS_SUCCESS = '[CustomerManagement] LOAD_CUSTOMERS_SUCCESS',
+  LOAD_CUSTOMERS_FAIL = '[CustomerManagement] LOAD_CUSTOMERS_FAIL',
+}
+
+export class LoadCustomers implements Action {
+  public readonly type = CustomerManagementActionTypes.LOAD_CUSTOMERS;
+}
+
+export class LoadCustomersSuccess implements Action {
+  readonly type = CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS;
+  constructor(readonly payload: Customer[]) {}
+}
+
+export class LoadCustomersFail implements Action {
+  public readonly type = CustomerManagementActionTypes.LOAD_CUSTOMERS_FAIL;
+
+  constructor(public error: string) {}
 }
 
 export class CreateCustomer implements Action {
@@ -25,4 +43,6 @@ export class CreateCustomerFail implements Action {
   constructor(public error: string) {}
 }
 
-export type CustomerManagementActions = CreateCustomer | CreateCustomerSuccess | CreateCustomerFail;
+export type CustomerManagementActions =
+  CreateCustomer | CreateCustomerSuccess | CreateCustomerFail |
+  LoadCustomers | LoadCustomersFail | LoadCustomersSuccess;

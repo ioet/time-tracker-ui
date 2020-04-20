@@ -23,4 +23,14 @@ describe('CustomerManagmentActions', () => {
     const createActivityFail = new actions.CreateCustomerFail('error');
     expect(createActivityFail.type).toEqual(actions.CustomerManagementActionTypes.CREATE_CUSTOMER_FAIL);
   });
+
+  it('LoadCustomersSuccess type is CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS', () => {
+    const action = new actions.LoadCustomersSuccess([]);
+    expect(action.type).toEqual(actions.CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS);
+  });
+
+  it('LoadCustomersFail type is CustomerManagementActionTypes.LOAD_CUSTOMERS_FAIL', () => {
+    const action = new actions.LoadCustomersFail('error');
+    expect(action.type).toEqual(actions.CustomerManagementActionTypes.LOAD_CUSTOMERS_FAIL);
+  });
 });

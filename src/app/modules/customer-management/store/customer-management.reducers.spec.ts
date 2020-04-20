@@ -6,6 +6,30 @@ describe('customerManagementReducer', () => {
   const initialState: CustomerState = { data: [], isLoading: false, message: '' };
   const customer: Customer = { name: 'aa', description: 'bb', tenant_id: 'cc' };
 
+  it('on LoadCustomer, isLoading is true ', () => {
+    const action = new actions.LoadCustomers();
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(true);
+  });
+
+  it('on LoadCustomerSucess, isLoading is false and state has data', () => {
+    const data = [];
+    const action = new actions.LoadCustomersSuccess(data);
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(false);
+    expect(state.data).toEqual(data);
+  });
+
+  it('on LoadCustomerFail, isLoading is false and state has empty data', () => {
+    const action = new actions.LoadCustomersFail('doh!!!');
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(false);
+    expect(state.data.length).toBe(0);
+  });
+
   it('on CreateCustomer, isLoading is true ', () => {
     const action = new actions.CreateCustomer(customer);
     const state = customerManagementReducer(initialState, action);

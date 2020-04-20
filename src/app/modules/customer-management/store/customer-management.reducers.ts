@@ -18,6 +18,27 @@ export function customerManagementReducer(
   action: CustomerManagementActions
 ): CustomerState {
   switch (action.type) {
+    case CustomerManagementActionTypes.LOAD_CUSTOMERS: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS: {
+      return {
+        ...state,
+        data: action.payload,
+        isLoading: false,
+      };
+    }
+    case CustomerManagementActionTypes.LOAD_CUSTOMERS_FAIL: {
+      return {
+        ...state,
+        data: [],
+        isLoading: false,
+      };
+    }
+
     case CustomerManagementActionTypes.CREATE_CUSTOMER: {
       return {
         ...state,
@@ -28,7 +49,7 @@ export function customerManagementReducer(
     case CustomerManagementActionTypes.CREATE_CUSTOMER_SUCCESS: {
       return {
         ...state,
-        data: [action.payload],
+        data: [...state.data, action.payload],
         isLoading: false,
         message: 'Customer created successfully!',
       };
@@ -42,8 +63,5 @@ export function customerManagementReducer(
         message: 'An error occurred, try again later.',
       };
     }
-
-    default:
-      return state;
   }
 }

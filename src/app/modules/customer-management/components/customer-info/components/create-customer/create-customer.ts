@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
-import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
-import { getStatusMessage } from 'src/app/modules/customer-management/store/customer-management.selectors';
+import { CustomerState, CreateCustomer, LoadCustomers } from 'src/app/modules/customer-management/store';
+import { getStatusMessage } from './../../../../store/customer-management.selectors';
 
 @Component({
   selector: 'app-create-customer',
@@ -40,6 +40,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
 
   onSubmit(customerData) {
     this.store.dispatch(new CreateCustomer(customerData));
+    this.store.dispatch(new LoadCustomers());
     this.showAlert = true;
   }
 

@@ -12,6 +12,19 @@ export class CustomerEffects {
   constructor(private actions$: Actions, private customerService: CustomerService) {}
 
   @Effect()
+  loadCustomers$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.CustomerManagementActionTypes.LOAD_CUSTOMERS),
+    mergeMap(() =>
+      this.customerService.getCustomers().pipe(
+        map((customers) => {
+          return new actions.LoadCustomersSuccess(customers);
+        }),
+        catchError((error) => of(new actions.LoadCustomersFail(error)))
+      )
+    )
+  );
+
+  @Effect()
   createCustomer$: Observable<Action> = this.actions$.pipe(
     ofType(actions.CustomerManagementActionTypes.CREATE_CUSTOMER),
     map((action: actions.CreateCustomer) => action.payload),
