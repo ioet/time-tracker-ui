@@ -5,6 +5,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CreateCustomerComponent } from './create-customer';
 import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
 import * as models from 'src/app/modules/shared/models/index';
+import { LoadCustomers } from './../../../../store/customer-management.actions';
 
 describe('CreateCustomerComponent', () => {
   let component: CreateCustomerComponent;
@@ -55,13 +56,14 @@ describe('CreateCustomerComponent', () => {
     expect(component.customerForm.reset).toHaveBeenCalled();
   });
 
-  it('onSubmit and dispatch CreateCustomer action', () => {
+  it('onSubmit, dispatch CreateCustomer and LoadCustomers actions', () => {
     spyOn(store, 'dispatch');
 
     component.onSubmit(customerData);
 
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledTimes(2);
     expect(store.dispatch).toHaveBeenCalledWith(new CreateCustomer(customerData));
+    expect(store.dispatch).toHaveBeenCalledWith(new LoadCustomers());
   });
 
   it('should call resetCustomerForm', () => {

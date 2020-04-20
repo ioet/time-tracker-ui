@@ -1,7 +1,7 @@
-import { allCustomers } from './../../../../store/customer-management.selectors';
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
+import { allCustomers } from './../../../../store/customer-management.selectors';
 import { LoadCustomers } from './../../../../store/customer-management.actions';
 import { Customer } from './../../../../../shared/models/customer.model';
 import { ITEMS_PER_PAGE } from 'src/environments/environment';

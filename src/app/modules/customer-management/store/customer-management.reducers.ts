@@ -5,14 +5,12 @@ export interface CustomerState {
   data: Customer[];
   isLoading: boolean;
   message: string;
-  customers: Customer[];
 }
 
 export const initialState: CustomerState = {
   data: [],
   isLoading: false,
   message: '',
-  customers: [],
 };
 
 export function customerManagementReducer(
@@ -65,8 +63,5 @@ export function customerManagementReducer(
         message: 'An error occurred, try again later.',
       };
     }
-
-    default:
-      return state;
   }
 }
