@@ -1,4 +1,3 @@
-import { LoadActivities } from '../../activities-management/store/activity-management.actions';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -48,14 +47,6 @@ describe('TimeClockComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('onInit, LoadActivities action is dispatched', () => {
-    spyOn(store, 'dispatch');
-
-    component.ngOnInit();
-
-    expect(store.dispatch).toHaveBeenCalledWith(new LoadActivities());
   });
 
   it('Service injected via inject(...) and TestBed.get(...) should be the same instance', inject(
