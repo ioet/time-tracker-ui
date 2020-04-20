@@ -1,29 +1,26 @@
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
-  <div class="mt-1 ml-1 rounded-lg" id="sidebar-wrapper" *ngIf="itemsSidebar?.length > 0">
-    <div class="text-center mt-5 mb-5">
-      <img
-        src="assets/img/ioet-logo-light.png"
-        width="100"
-        height="100"
-        class="img-fluid text-center"
-        alt="Ioet logo"
-      />
+  <div id="sidebar-wrapper" *ngIf="itemsSidebar?.length > 0">
+    <div class="text-center my-5">
+      <img src="assets/img/ioet-logo-light.png" width="70" height="auto" class="img-fluid" alt="Ioet logo" />
     </div>
-    <div class="list-group list-group-flush rounded-lg">
+    <div class="d-flex flex-column">
       <a
         *ngFor="let item of itemsSidebar"
         [routerLink]="item.route"
         routerLinkActive="background-item-sidebar-active"
-        class="list-group-item list-group-item-action content-sidebar-style item-hover"
-        ><i class="{{ item.icon }} mr-3 ml-3"></i> {{ item.text }}</a
+        class="item-hover text-white p-3 text-decoration-none"
+      >
+        <i class="{{ item.icon }} mr-3 ml-3"></i> {{ item.text }}</a
       >
     </div>
   </div>
   <!-- /#sidebar-wrapper -->
-  <div class="container-fluid mt-1">
-    <app-navbar></app-navbar>
-    <div class="container">
+  <div class="main_app">
+    <div class="header_app">
+      <app-navbar></app-navbar>
+    </div>
+    <div class="content_app">
       <!-- Page Content -->
       <router-outlet></router-outlet>
     </div>
