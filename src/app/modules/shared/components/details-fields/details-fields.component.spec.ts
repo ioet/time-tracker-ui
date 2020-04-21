@@ -27,6 +27,12 @@ describe('DetailsFieldsComponent', () => {
       technologyList: { items: [{ name: 'java' }] },
       isLoading: false,
     },
+    activities: {
+      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'Training 2' }],
+      isLoading: false,
+      message: 'Data fetch successfully!',
+      activityIdToEdit: '',
+    },
   };
 
   const initialData = {

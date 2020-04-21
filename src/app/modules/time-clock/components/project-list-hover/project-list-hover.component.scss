@@ -23,8 +23,9 @@
 
 .autocomplete::ng-deep .autocomplete-container {
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  border-radius: 0 0.25rem 0.25rem 0;
   box-shadow: none;
+  height: 2rem;
 
   .input-container {
     height: 100%;
