@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -50,6 +50,7 @@ import { ProjectTypeListComponent } from './modules/customer-management/componen
 // tslint:disable-next-line: max-line-length
 import { CreateProjectTypeComponent } from './modules/customer-management/components/projects-type/components/create-project-type/create-project-type.component';
 import { CustomerEffects } from './modules/customer-management/store/customer-management.effects';
+import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.token.interceptor';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,11 @@ import { CustomerEffects } from './modules/customer-management/store/customer-ma
       : [],
     EffectsModule.forRoot([ProjectEffects, ActivityEffects, CustomerEffects, TechnologyEffects]),
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: InjectTokenInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
