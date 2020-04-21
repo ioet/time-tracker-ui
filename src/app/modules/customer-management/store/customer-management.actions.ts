@@ -8,6 +8,13 @@ export enum CustomerManagementActionTypes {
   LOAD_CUSTOMERS = '[CustomerManagement] LOAD_CUSTOMERS',
   LOAD_CUSTOMERS_SUCCESS = '[CustomerManagement] LOAD_CUSTOMERS_SUCCESS',
   LOAD_CUSTOMERS_FAIL = '[CustomerManagement] LOAD_CUSTOMERS_FAIL',
+  DELETE_CUSTOMER = '[CustomerManagement] DELETE_CUSTOMER',
+  DELETE_CUSTOMER_SUCCESS = '[CustomerManagement] DELETE_CUSTOMER_SUCCESS',
+  DELETE_CUSTOMER_FAIL = '[CustomerManagement] DELETE_CUSTOMER_FAIL',
+  UPDATE_CUSTOMER = '[CustomerManagement] UPDATE_CUSTOMER',
+  UPDATE_CUSTOMER_SUCCESS = '[CustomerManagement] UPDATE_CUSTOMER_SUCCESS',
+  UPDATE_CUSTOMER_FAIL = '[CustomerManagement] UPDATE_CUSTOMER_FAIL',
+  SET_CUSTOMER_ID_TO_EDIT = '[CustomerManagement] SET_CUSTOMER_ID_TO_EDIT',
 }
 
 export class LoadCustomers implements Action {
@@ -43,6 +50,59 @@ export class CreateCustomerFail implements Action {
   constructor(public error: string) {}
 }
 
+export class DeleteCustomer implements Action {
+  public readonly type = CustomerManagementActionTypes.DELETE_CUSTOMER;
+
+  constructor(public customerId: string) {}
+}
+
+export class DeleteCustomerSuccesss implements Action {
+  public readonly type = CustomerManagementActionTypes.DELETE_CUSTOMER_SUCCESS;
+
+  constructor(public customerId: string) {}
+}
+
+export class DeleteCustomerFail implements Action {
+  public readonly type = CustomerManagementActionTypes.DELETE_CUSTOMER_FAIL;
+
+  constructor(public error: string) {}
+}
+
+export class UpdateCustomer implements Action {
+  public readonly type = CustomerManagementActionTypes.UPDATE_CUSTOMER;
+
+  constructor(public payload: Customer) {}
+}
+
+export class UpdateCustomerSuccess implements Action {
+  public readonly type = CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS;
+
+  constructor(public payload: Customer) {}
+}
+
+export class UpdateCustomerFail implements Action {
+  public readonly type = CustomerManagementActionTypes.UPDATE_CUSTOMER_FAIL;
+
+  constructor(public error: string) {}
+}
+
+export class SetCustomerToEdit implements Action {
+  public readonly type = CustomerManagementActionTypes.SET_CUSTOMER_ID_TO_EDIT;
+
+  constructor(public payload: string) {}
+}
+
 export type CustomerManagementActions =
-  CreateCustomer | CreateCustomerSuccess | CreateCustomerFail |
-  LoadCustomers | LoadCustomersFail | LoadCustomersSuccess;
+  | CreateCustomer
+  | CreateCustomerSuccess
+  | CreateCustomerFail
+  | LoadCustomers
+  | LoadCustomersFail
+  | LoadCustomersSuccess
+  | DeleteCustomer
+  | DeleteCustomerSuccesss
+  | DeleteCustomerFail
+  | UpdateCustomer
+  | UpdateCustomerSuccess
+  | UpdateCustomerFail
+  | SetCustomerToEdit;

@@ -3,8 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
-import { CustomerState, CreateCustomer, LoadCustomers } from 'src/app/modules/customer-management/store';
-import { getStatusMessage } from './../../../../store/customer-management.selectors';
+import { getStatusMessage, getCustomerById } from './../../../../store/customer-management.selectors';
+import { Customer } from 'src/app/modules/shared/models/index';
+import {
+  CustomerState,
+  CreateCustomer,
+  LoadCustomers,
+  UpdateCustomer,
+} from 'src/app/modules/customer-management/store';
 
 @Component({
   selector: 'app-create-customer',
@@ -17,7 +23,9 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   @Output() changeValueAreTabsActives = new EventEmitter<boolean>();
   showAlert = false;
   messageToShow = '';
+  customerToEdit: Customer;
   saveSubscription: Subscription;
+  editSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder, private store: Store<CustomerState>) {
     this.customerForm = this.formBuilder.group({
@@ -31,17 +39,35 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     this.saveSubscription = messages$.subscribe((valueMessage) => {
       this.setStatusOnScreen(valueMessage);
     });
+
+    const customers$ = this.store.pipe(select(getCustomerById));
+    this.editSubscription = customers$.subscribe((customer) => {
+      this.customerToEdit = customer;
+      this.setDataToUpdate(this.customerToEdit);
+    });
   }
 
   ngOnDestroy() {
     this.areTabsActive = false;
     this.saveSubscription.unsubscribe();
+    this.editSubscription.unsubscribe();
   }
 
   onSubmit(customerData) {
-    this.store.dispatch(new CreateCustomer(customerData));
-    this.store.dispatch(new LoadCustomers());
+    const key = 'id';
+    if (this.customerToEdit) {
+      const customer = {
+        ...customerData,
+        id: this.customerToEdit[key],
+      };
+      this.store.dispatch(new UpdateCustomer(customer));
+      this.customerForm.reset();
+    } else {
+      this.store.dispatch(new CreateCustomer(customerData));
+      this.store.dispatch(new LoadCustomers());
+    }
     this.showAlert = true;
+    setTimeout(() => (this.showAlert = false), 3000);
   }
 
   setStatusOnScreen(message: string) {
@@ -53,6 +79,16 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       this.messageToShow = message;
       this.areTabsActive = false;
       this.changeValueAreTabsActives.emit(this.areTabsActive);
+    }
+    this.messageToShow = message;
+  }
+
+  setDataToUpdate(customerData: Customer) {
+    if (customerData) {
+      this.customerForm.setValue({
+        name: customerData.name,
+        description: customerData.description,
+      });
     }
   }
 

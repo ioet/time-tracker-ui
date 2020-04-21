@@ -12,3 +12,14 @@ export const getStatusMessage = createSelector(getCustomerState, (messageState) 
 export const allCustomers = createSelector(getCustomerState, (state: CustomerState) => {
   return state.data;
 });
+
+export const customerIdtoEdit = createSelector(getCustomerState, (state: CustomerState) => {
+  return state.customerIdToEdit;
+});
+
+export const getCustomerById = createSelector(allCustomers, customerIdtoEdit, (customers, customerId) => {
+  const key = 'id';
+  return customers.find((customer) => {
+    return customer[key] === customerId;
+  });
+});

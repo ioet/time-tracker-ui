@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed, inject } from '@angular/core/testing';
 
 import { CustomerService } from './customer.service';
-import { Customer } from '../../shared/models/customer.model';
+import { Customer } from '../../shared/models/index';
 
 describe('CustomerService', () => {
   let service: CustomerService;
@@ -38,5 +38,51 @@ describe('CustomerService', () => {
     const createCustomerRequest = httpMock.expectOne(service.baseUrl);
     expect(createCustomerRequest.request.method).toBe('POST');
     createCustomerRequest.flush(customer);
+  });
+
+  it('delete customer using DELETE from baseUrl', () => {
+    const customer: any[] = [
+      { name: 'aa', description: 'bb', tenant_id: 'cc', id: '1' },
+      { name: 'xx', description: 'yy', tenant_id: 'zz', id: '2' },
+    ];
+    const key = 'id';
+    const url = `${service.baseUrl}/1`;
+    service.deleteCustomer(customer[0].id).subscribe((customerResponse) => {
+      expect(customerResponse.filter((customers) => customers[key] !== customers[0].id)).toEqual([customer[1]]);
+    });
+    const getCustomerRequest = httpMock.expectOne(url);
+
+    expect(getCustomerRequest.request.method).toBe('DELETE');
+    getCustomerRequest.flush(customer);
+  });
+
+  it('update customer using PUT from baseUrl', () => {
+    const customer = { id: '1', name: 'aaa', description: 'bbb' };
+    service.baseUrl = 'customers' + '/' + customer.id;
+
+    service.updateCustomer(customer).subscribe((response) => {
+      expect(response.name).toBe('aaa');
+    });
+
+    const updateCustomerRequest = httpMock.expectOne(`${service.baseUrl}/${customer.id}`);
+
+    expect(updateCustomerRequest.request.method).toBe('PUT');
+    updateCustomerRequest.flush(customer);
+  });
+
+  it('customers are read using GET from baseUrl', () => {
+    const customer: any[] = [
+      { name: 'aa', description: 'bb', tenant_id: 'cc', id: '1' },
+      { name: 'xx', description: 'yy', tenant_id: 'zz', id: '2' },
+    ];
+    const customersFoundSize = customer.length;
+    service.baseUrl = 'foo';
+    service.getCustomers().subscribe((customerResponse) => {
+      expect(customerResponse.length).toBe(customersFoundSize);
+    });
+    const getActivitiesRequest = httpMock.expectOne(service.baseUrl);
+
+    expect(getActivitiesRequest.request.method).toBe('GET');
+    getActivitiesRequest.flush(customer);
   });
 });
