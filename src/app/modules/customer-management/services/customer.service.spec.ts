@@ -47,9 +47,7 @@ describe('CustomerService', () => {
     ];
     const key = 'id';
     const url = `${service.baseUrl}/1`;
-    service.deleteCustomer(customer[0].id).subscribe((customerResponse) => {
-      expect(customerResponse.filter((customers) => customers[key] !== customers[0].id)).toEqual([customer[1]]);
-    });
+    service.deleteCustomer(customer[0].id).subscribe();
     const getCustomerRequest = httpMock.expectOne(url);
 
     expect(getCustomerRequest.request.method).toBe('DELETE');

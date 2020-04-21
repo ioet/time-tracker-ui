@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
 import { getStatusMessage, getCustomerById } from './../../../../store/customer-management.selectors';
-import { Customer } from 'src/app/modules/shared/models/index';
+import { Customer } from 'src/app/modules/shared/models';
 import {
   CustomerState,
   CreateCustomer,

@@ -5,7 +5,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CreateCustomerComponent } from './create-customer';
 import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
 import { LoadCustomers } from './../../../../store/customer-management.actions';
-import * as models from 'src/app/modules/shared/models/index';
+import { Customer } from 'src/app/modules/shared/models';
 
 describe('CreateCustomerComponent', () => {
   let component: CreateCustomerComponent;
@@ -19,7 +19,7 @@ describe('CreateCustomerComponent', () => {
     customerIdToEdit: '',
   };
 
-  const customerData: models.Customer = {
+  const customerData: Customer = {
     name: 'aa',
     description: 'bb',
     tenant_id: 'cc',

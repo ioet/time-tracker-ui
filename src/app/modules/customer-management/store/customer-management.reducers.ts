@@ -1,5 +1,5 @@
 import { CustomerManagementActions, CustomerManagementActionTypes } from './customer-management.actions';
-import { Customer } from '../../shared/models/index';
+import { Customer } from 'src/app/modules/shared/models';
 
 export interface CustomerState {
   data: Customer[];
