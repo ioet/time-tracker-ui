@@ -5,7 +5,7 @@ describe('FilterProjectPipe', () => {
   const projects: Project[] = [
     {
       id: '1',
-      name: 'app 1',
+      name: 'App 1',
       description: 'It is a good app',
     },
     {
@@ -15,7 +15,7 @@ describe('FilterProjectPipe', () => {
     },
     {
       id: '3',
-      name: 'app 3',
+      name: 'App 3',
       description: 'It is a good app',
     },
   ];
@@ -30,5 +30,12 @@ describe('FilterProjectPipe', () => {
     const searchProject = 'app 1';
     const result = new FilterProjectPipe().transform(restultProjects, searchProject);
     expect(result.length).toEqual(1);
+  });
+
+  it('test method of pipe #transform without element', () => {
+    const restultProjects = projects;
+    const searchProject = 'app 4';
+    const result = new FilterProjectPipe().transform(restultProjects, searchProject);
+    expect(result.length).toEqual(0);
   });
 });

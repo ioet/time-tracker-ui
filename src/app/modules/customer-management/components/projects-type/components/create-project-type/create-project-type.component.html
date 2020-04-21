@@ -1,13 +1,35 @@
-<div class="container">
-  <form style="width: 600px;">
+
+  <form style="width: 600px;" [formGroup]="projectTypeForm" (ngSubmit)="onSubmit(projectTypeForm.value)">
     <div class="form-group">
-      <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Name" />
-      <textarea class="form-control form-control-sm mt-2" id="descriptionTextArea" rows="3"
-        placeholder="Description"></textarea>
-      <button type="submit" class="btn btn-sm btn-primary">Save</button>
-      <button type="submit" class="btn btn-sm btn-secondary mb-2 ml-2 mt-2">Cancel</button>
+      <input
+        type="text"
+        class="form-control form-control-sm"
+        id="name"
+        formControlName="name"
+        aria-describedby=""
+        [class.is-invalid]="name.invalid && name.touched"
+        required
+        placeholder="Name"
+      />
+      <div class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
+        Name is required.
+      </div>
+      <textarea
+        class="form-control form-control-sm mt-2"
+        id="descriptionTextArea"
+        rows="3"
+        placeholder="Description"
+        formControlName="description"
+      ></textarea>
+      <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group mr-2" role="group">
+          <button type="submit" class="btn btn-sm btn-primary mb-2 ml-2 mt-2" [disabled]="!projectTypeForm.valid">Save</button>
+        </div>
+        <div class="btn-group mr-2" role="group">
+           <button class="btn btn-sm btn-secondary mb-2 ml-2 mt-2" type="reset" [hidden]="!projectTypeToEdit" (click)="cancelButton()">Cancel</button>
+        </div>
+      </div>
     </div>
   </form>
   <hr />
-  <app-project-type-list></app-project-type-list>
-</div>
+

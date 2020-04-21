@@ -41,7 +41,7 @@ yarn-error.log
 testem.log
 /typings
 .keys.json
-**keys.ts
+keys.ts
 src/environments/keys.ts
 
 # System Files
