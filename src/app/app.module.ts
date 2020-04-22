@@ -28,11 +28,11 @@ import { ActivitiesManagementComponent } from './modules/activities-management/p
 import { ActivityListComponent } from './modules/activities-management/components/activity-list/activity-list.component';
 import { CreateActivityComponent } from './modules/activities-management/components/create-activity/create-activity.component';
 import { FilterProjectPipe } from './modules/shared/pipes/filter-project/filter-project.pipe';
-import { SearchProjectComponent } from './modules/shared/components/search-project/search-project.component';
+import { SearchComponent } from './modules/shared/components/search/search.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 import { ActivityEffects } from './modules/activities-management/store/activity-management.effects';
-import { ProjectEffects } from './modules/project-management/store/project.effects';
+import { ProjectEffects } from './modules/customer-management/components/projects/components/store/project.effects';
 import { TechnologyEffects } from './modules/shared/store/technology.effects';
 import { ProjectTypeEffects } from './modules/customer-management/components/projects-type/store/project-type.effects';
 import { reducers, metaReducers } from './reducers';
@@ -51,6 +51,7 @@ import { ProjectTypeListComponent } from './modules/customer-management/componen
 // tslint:disable-next-line: max-line-length
 import { CreateProjectTypeComponent } from './modules/customer-management/components/projects-type/components/create-project-type/create-project-type.component';
 import { CustomerEffects } from './modules/customer-management/store/customer-management.effects';
+import { EntryEffects } from './modules/time-clock/store/entry.effects';
 import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.token.interceptor';
 
 @NgModule({
@@ -76,7 +77,7 @@ import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.tok
     HomeComponent,
     LoginComponent,
     FilterProjectPipe,
-    SearchProjectComponent,
+    SearchComponent,
     CustomerComponent,
     CustomerListComponent,
     ManagementCustomerProjectsComponent,
@@ -103,13 +104,22 @@ import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.tok
           maxAge: 15, // Retains last 15 states
         })
       : [],
-    EffectsModule.forRoot([ProjectEffects, ActivityEffects, CustomerEffects, TechnologyEffects, ProjectTypeEffects]),
+    EffectsModule.forRoot([
+      ProjectEffects,
+      ActivityEffects,
+      CustomerEffects,
+      TechnologyEffects,
+      ProjectTypeEffects,
+      EntryEffects,
+    ]),
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: InjectTokenInterceptor,
-    multi: true,
-  }],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InjectTokenInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

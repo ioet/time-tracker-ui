@@ -6,8 +6,8 @@ import { TechnologyState } from '../../store/technology.reducers';
 import { allTechnologies } from '../../store/technology.selectors';
 import { DetailsFieldsComponent } from './details-fields.component';
 import * as actions from '../../store/technology.actions';
-import { ProjectState } from '../../../project-management/store/project.reducer';
-import { allProjects } from '../../../project-management/store/project.selectors';
+import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
+import { allProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 
 describe('DetailsFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState;
@@ -20,8 +20,10 @@ describe('DetailsFieldsComponent', () => {
 
   const state = {
     projects: {
-      projectList: [{ id: 'id', name: 'name', description: 'description' }],
+      projectList: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
       isLoading: false,
+      message: '',
+      projectToEdit: undefined,
     },
     technologies: {
       technologyList: { items: [{ name: 'java' }] },

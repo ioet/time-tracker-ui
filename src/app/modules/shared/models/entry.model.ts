@@ -8,3 +8,8 @@ export interface Entry {
   comments?: string;
   ticket?: string;
 }
+
+export interface NewEntry {
+  project_id: string;
+  start_date: string;
+}

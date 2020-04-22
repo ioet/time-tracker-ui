@@ -12,10 +12,14 @@ export const projectTypeIdToEdit = createSelector(getProjectTypeState, (state: P
   return state.projectTypeIdToEdit;
 });
 
-export const getProjectTypeById = createSelector(allProjectTypes, projectTypeIdToEdit, (projectType, projectTypeId) => {
-  if (projectType && projectTypeId) {
-    return projectType.find((activity) => {
-      return activity.id === projectTypeId;
-    });
+export const getProjectTypeById = createSelector(
+  allProjectTypes,
+  projectTypeIdToEdit,
+  (projectTypes, projectTypeId) => {
+    if (projectTypes && projectTypeId) {
+      return projectTypes.find((projectType) => {
+        return projectType.id === projectTypeId;
+      });
+    }
   }
-});
+);

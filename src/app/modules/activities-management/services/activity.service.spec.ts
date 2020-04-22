@@ -60,9 +60,9 @@ describe('Activity Service', () => {
     service.deleteActivity(activities[0].id).subscribe((activitiesInResponse) => {
       expect(activitiesInResponse.filter((activity) => activity.id !== activities[0].id)).toEqual([activities[1]]);
     });
-    const getActivitiesRequest = httpMock.expectOne(url);
-    expect(getActivitiesRequest.request.method).toBe('DELETE');
-    getActivitiesRequest.flush(activities);
+    const deleteActivitiesRequest = httpMock.expectOne(url);
+    expect(deleteActivitiesRequest.request.method).toBe('DELETE');
+    deleteActivitiesRequest.flush(activities);
   });
 
   it('update activity using PUT from baseUrl', () => {

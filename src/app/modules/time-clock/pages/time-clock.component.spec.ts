@@ -5,9 +5,9 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { TimeClockComponent } from './time-clock.component';
-import { ProjectState } from '../../project-management/store/project.reducer';
+import { ProjectState } from '../../customer-management/components/projects/components/store/project.reducer';
 import { ProjectListHoverComponent } from '../components';
-import { ProjectService } from '../../project-management/services/project.service';
+import { ProjectService } from '../../customer-management/components/projects/components/services/project.service';
 import { FilterProjectPipe } from '../../shared/pipes';
 
 describe('TimeClockComponent', () => {
