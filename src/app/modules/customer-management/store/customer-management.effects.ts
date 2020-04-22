@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-
-import * as actions from './customer-management.actions';
-import { CustomerService } from '../services/customer.service';
 import { map, catchError, mergeMap } from 'rxjs/operators';
+
+import { CustomerService } from '../services/customer.service';
+import * as actions from './customer-management.actions';
 
 @Injectable()
 export class CustomerEffects {
@@ -34,6 +34,34 @@ export class CustomerEffects {
           return new actions.CreateCustomerSuccess(customerData);
         }),
         catchError((error) => of(new actions.CreateCustomerFail(error)))
+      )
+    )
+  );
+
+  @Effect()
+  deleteCustomer$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.CustomerManagementActionTypes.DELETE_CUSTOMER),
+    map((action: actions.DeleteCustomer) => action.customerId),
+    mergeMap((customerId) =>
+      this.customerService.deleteCustomer(customerId).pipe(
+        map(() => {
+          return new actions.DeleteCustomerSuccesss(customerId);
+        }),
+        catchError((error) => of(new actions.DeleteCustomerFail(error)))
+      )
+    )
+  );
+
+  @Effect()
+  updateCustomer$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.CustomerManagementActionTypes.UPDATE_CUSTOMER),
+    map((action: actions.UpdateCustomer) => action.payload),
+    mergeMap((customer) =>
+      this.customerService.updateCustomer(customer).pipe(
+        map((customerData) => {
+          return new actions.UpdateCustomerSuccess(customerData);
+        }),
+        catchError((error) => of(new actions.UpdateCustomerFail(error)))
       )
     )
   );

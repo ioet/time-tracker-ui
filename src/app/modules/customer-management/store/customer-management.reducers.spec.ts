@@ -1,9 +1,9 @@
 import { CustomerState, customerManagementReducer } from './customer-management.reducers';
-import { Customer } from '../../shared/models/customer.model';
+import { Customer } from '../../shared/models/index';
 import * as actions from './customer-management.actions';
 
 describe('customerManagementReducer', () => {
-  const initialState: CustomerState = { data: [], isLoading: false, message: '' };
+  const initialState: CustomerState = { data: [], isLoading: false, message: '', customerIdToEdit: '' };
   const customer: Customer = { name: 'aa', description: 'bb', tenant_id: 'cc' };
 
   it('on LoadCustomer, isLoading is true ', () => {
@@ -51,5 +51,84 @@ describe('customerManagementReducer', () => {
 
     expect(state.message).toEqual('An error occurred, try again later.');
     expect(state.isLoading).toEqual(false);
+  });
+
+  it('on DeleteCustomer, isLoading is true', () => {
+    const customerToDeleteId = '1';
+    const action = new actions.DeleteCustomer(customerToDeleteId);
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(true);
+  });
+
+  it('on DeleteCustomerSuccess, message equal to Customer removed successfully!', () => {
+    const currentState = {
+      data: [{ name: 'aa', description: 'bb', tenant_id: 'cc', id: '1' }],
+      isLoading: false,
+      message: '',
+      customerIdToEdit: '',
+    };
+    const customerToDeleteId = '1';
+    const action = new actions.DeleteCustomerSuccesss(customerToDeleteId);
+    const state = customerManagementReducer(currentState, action);
+
+    expect(state.isLoading).toEqual(false);
+    expect(state.data.length).toEqual(0);
+    expect(state.message).toEqual('Customer removed successfully!');
+  });
+
+  it('on DeleteCustomeryFail, message equal to Something went wrong deleting customer!', () => {
+    const customerToDeleteId = '1';
+    const action = new actions.DeleteCustomerFail(customerToDeleteId);
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(false);
+    expect(state.message).toEqual('Something went wrong deleting customer!');
+  });
+
+  it('on UpdateCustomer, isLoading is true', () => {
+    const action = new actions.UpdateCustomer(customer);
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(true);
+  });
+
+  it('on UpdateCustomerySuccess, customerFound are saved in the store', () => {
+    const currentState = {
+      data: [{ name: 'aa', description: 'bb', tenant_id: 'cc', id: '1' }],
+      isLoading: false,
+      message: '',
+      customerIdToEdit: '1',
+    };
+    const customerEdited = { name: 'xx', description: 'yy', tenant_id: 'cc', id: '1' };
+    const action = new actions.UpdateCustomerSuccess(customerEdited);
+    const state = customerManagementReducer(currentState, action);
+
+    expect(state.data).toEqual([customerEdited]);
+    expect(state.isLoading).toEqual(false);
+    expect(state.message).toEqual('Customer updated successfully!');
+  });
+
+  it('on UpdateCustomeryFail, message equal to Something went wrong updating customer!', () => {
+    const action = new actions.UpdateCustomerFail('error');
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.message).toEqual('Something went wrong updating customer!');
+    expect(state.isLoading).toEqual(false);
+  });
+
+  it('on SetCustomerToEdit, should save the customerId to edit', () => {
+    const action = new actions.SetCustomerToEdit('1');
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.customerIdToEdit).toEqual('1');
+  });
+
+  it('on ResetCustomerToEdit, should clean the customerIdToEdit variable', () => {
+    const action = new actions.ResetCustomerToEdit();
+
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.customerIdToEdit).toEqual('');
   });
 });

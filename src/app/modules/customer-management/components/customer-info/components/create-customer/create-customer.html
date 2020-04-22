@@ -3,7 +3,8 @@
     <div class="form-group">
       <div
         *ngIf="showAlert && messageToShow !== ''"
-        [ngClass]="{'bg-secondary': messageToShow == 'Customer created successfully!', 'bg-primary': messageToShow != 'Customer created successfully!'}"
+        [ngClass]="{'bg-secondary': messageToShow == 'Customer created successfully!' || messageToShow == 'Customer updated successfully!', 
+                    'bg-primary': messageToShow !== 'Customer created successfully!' }"
         class="alert alert-dismissible fade fade-in show text-white"
         role="alert"
       >
@@ -12,7 +13,7 @@
 
       <input
         class="form-control form-control-sm"
-        id="name"
+        id="customerName"
         type="text"
         formControlName="name"
         placeholder="Customer name"
@@ -26,7 +27,7 @@
       >
       <textarea
         class="form-control form-control-sm mt-2"
-        id="description"
+        id="customerDescription"
         rows="3"
         formControlName="description"
         placeholder="Customer description"

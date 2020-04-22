@@ -4,8 +4,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { CreateCustomerComponent } from './create-customer';
 import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
-import * as models from 'src/app/modules/shared/models/index';
-import { LoadCustomers } from './../../../../store/customer-management.actions';
+import { LoadCustomers, ResetCustomerToEdit } from './../../../../store/customer-management.actions';
+import { Customer } from 'src/app/modules/shared/models';
 
 describe('CreateCustomerComponent', () => {
   let component: CreateCustomerComponent;
@@ -16,9 +16,10 @@ describe('CreateCustomerComponent', () => {
     data: [],
     isLoading: false,
     message: '',
+    customerIdToEdit: '',
   };
 
-  const customerData: models.Customer = {
+  const customerData: Customer = {
     name: 'aa',
     description: 'bb',
     tenant_id: 'cc',
@@ -35,7 +36,6 @@ describe('CreateCustomerComponent', () => {
     fixture = TestBed.createComponent(CreateCustomerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     store = TestBed.inject(MockStore);
     store.setState(state);
   });
@@ -68,9 +68,12 @@ describe('CreateCustomerComponent', () => {
 
   it('should call resetCustomerForm', () => {
     spyOn(component.customerForm, 'reset');
+    spyOn(store, 'dispatch');
 
     component.resetCustomerForm();
 
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(new ResetCustomerToEdit());
     expect(component.customerForm.reset).toHaveBeenCalled();
   });
 
@@ -81,9 +84,7 @@ describe('CreateCustomerComponent', () => {
     spyOn(store, 'dispatch');
 
     component.ngOnInit();
-
     component.onSubmit(customerData);
-
     component.setStatusOnScreen('Customer created successfully!');
 
     expect(component.messageToShow).toEqual('Customer created successfully!');
@@ -97,12 +98,19 @@ describe('CreateCustomerComponent', () => {
     spyOn(store, 'dispatch');
 
     component.ngOnInit();
-
     component.onSubmit(customerData);
-
     component.setStatusOnScreen('An error occurred, try again later.');
 
     expect(component.messageToShow).toEqual('An error occurred, try again later.');
     expect(component.areTabsActive).toBeFalse();
+  });
+
+  it('set data to update ', () => {
+    spyOn(store, 'dispatch');
+
+    component.ngOnInit();
+    component.setDataToUpdate(customerData);
+
+    expect(component.messageToShow).toEqual(undefined);
   });
 });

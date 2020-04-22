@@ -8,7 +8,10 @@
       <app-search></app-search>
     </div>
   </div>
-  <app-customer-list></app-customer-list>
+  <app-customer-list
+    [showCustomerForm]="showCustomerForm"
+    (changeValueShowCustomerForm)="showCustomerForm = $event"
+  ></app-customer-list>
   <div class="row" *ngIf="showCustomerForm">
     <div class="col">
       <app-management-customer-projects></app-management-customer-projects>

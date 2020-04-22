@@ -33,4 +33,52 @@ describe('CustomerManagmentActions', () => {
     const action = new actions.LoadCustomersFail('error');
     expect(action.type).toEqual(actions.CustomerManagementActionTypes.LOAD_CUSTOMERS_FAIL);
   });
+
+  it('DeleteCustomer type is CustomerManagementActionTypes.DELETE_CUSTOMER', () => {
+    const deleteCustomer = new actions.DeleteCustomer('abc');
+    expect(deleteCustomer.type).toEqual(actions.CustomerManagementActionTypes.DELETE_CUSTOMER);
+  });
+
+  it('DeleteCustomerSucess type is CustomerManagementActionTypes.DELETE_CUSTOMER_SUCCESS', () => {
+    const deleteCustomerSucess = new actions.DeleteCustomerSuccesss('abc');
+    expect(deleteCustomerSucess.type).toEqual(actions.CustomerManagementActionTypes.DELETE_CUSTOMER_SUCCESS);
+  });
+
+  it('DeleteCustomerFail type is CustomerManagementActionTypes.DELETE_CUSTOMER_FAIL', () => {
+    const deleteCustomerFail = new actions.DeleteCustomerFail('error');
+    expect(deleteCustomerFail.type).toEqual(actions.CustomerManagementActionTypes.DELETE_CUSTOMER_FAIL);
+  });
+
+  it('UpdateCustomer type is CustomerManagementActionTypes.UPDATE_CUSTOMER', () => {
+    const updateCustomer = new actions.UpdateCustomer({
+      name: 'aa',
+      description: 'bb',
+      tenant_id: 'cc',
+    });
+    expect(updateCustomer.type).toEqual(actions.CustomerManagementActionTypes.UPDATE_CUSTOMER);
+  });
+
+  it('UpdateCustomerSucess type is CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS', () => {
+    const updateCustomerSucess = new actions.UpdateCustomerSuccess({
+      name: 'aa',
+      description: 'bb',
+      tenant_id: 'cc',
+    });
+    expect(updateCustomerSucess.type).toEqual(actions.CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS);
+  });
+
+  it('UpdateCustomerFail type is CustomerManagementActionTypes.UPDATE_CUSTOMER_FAIL', () => {
+    const updateCustomerFail = new actions.UpdateCustomerFail('error');
+    expect(updateCustomerFail.type).toEqual(actions.CustomerManagementActionTypes.UPDATE_CUSTOMER_FAIL);
+  });
+
+  it('SetCustomerToEdit type is CustomerManagementActionTypes.SET_CUSTOMER_ID_TO_EDIT', () => {
+    const setCustomerToEdit = new actions.SetCustomerToEdit('abc');
+    expect(setCustomerToEdit.type).toEqual(actions.CustomerManagementActionTypes.SET_CUSTOMER_ID_TO_EDIT);
+  });
+
+  it('ResetCustomerToEdit type is CustomerManagementActionTypes.RESET_CustomerId_ID_TO_EDIT', () => {
+    const resetCustomerIdToEdit = new actions.ResetCustomerToEdit();
+    expect(resetCustomerIdToEdit.type).toEqual(actions.CustomerManagementActionTypes.RESET_CUSTOMER_ID_TO_EDIT);
+  });
 });

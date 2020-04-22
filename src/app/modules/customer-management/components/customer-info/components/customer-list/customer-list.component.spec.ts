@@ -1,10 +1,10 @@
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { CustomerListComponent } from './customer-list.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CustomerListComponent } from './customer-list.component';
 import { allCustomers } from './../../../../store/customer-management.selectors';
-import { CustomerState } from 'src/app/modules/customer-management/store';
+import { CustomerState, SetCustomerToEdit, DeleteCustomer } from 'src/app/modules/customer-management/store';
 
 describe('CustomerTableListComponent', () => {
   let component: CustomerListComponent;
@@ -12,11 +12,11 @@ describe('CustomerTableListComponent', () => {
   let store: MockStore<CustomerState>;
   let mockCustomerSelector;
 
-
   const state = {
     data: [{ tenant_id: 'id', name: 'name', description: 'description' }],
     isLoading: false,
     message: '',
+    customerIdToEdit: '',
   };
 
   beforeEach(async(() => {
@@ -50,8 +50,25 @@ describe('CustomerTableListComponent', () => {
     expect(component.customers).toEqual(state.data);
   });
 
+  it('onClick edit, dispatch SetCustomerToEdit and enable customer form', () => {
+    spyOn(store, 'dispatch');
+
+    component.editCustomer('1');
+
+    expect(store.dispatch).toHaveBeenCalledWith(new SetCustomerToEdit('1'));
+    expect(component.showCustomerForm).toBeTruthy();
+  });
+
+  it('onClick delete, dispatch DeleteCustomer and enable show alert', () => {
+    spyOn(store, 'dispatch');
+
+    component.deleteCustomer('1');
+
+    expect(store.dispatch).toHaveBeenCalledWith(new DeleteCustomer('1'));
+    expect(component.showAlert).toBeTruthy();
+  });
+
   afterEach(() => {
     fixture.destroy();
   });
-
 });
