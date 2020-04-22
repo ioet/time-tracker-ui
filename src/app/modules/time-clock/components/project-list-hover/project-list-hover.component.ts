@@ -4,6 +4,7 @@ import { Project } from 'src/app/modules/shared/models';
 import { allProjects } from '../../../project-management/store/project.selectors';
 import { ProjectState } from '../../../project-management/store/project.reducer';
 import * as actions from '../../../project-management/store/project.actions';
+import * as entryActions from '../../store/entry.actions';
 
 @Component({
   selector: 'app-project-list-hover',
@@ -33,6 +34,8 @@ export class ProjectListHoverComponent implements OnInit {
   }
 
   clockIn(id: string) {
+    const newEntry = { project_id: id, start_date: new Date().toISOString() };
+    this.store.dispatch(new entryActions.CreateEntry(newEntry));
     this.selectedId = id;
     this.showFields.emit(true);
   }
