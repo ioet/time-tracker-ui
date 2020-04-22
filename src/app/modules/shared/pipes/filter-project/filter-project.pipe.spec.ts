@@ -7,16 +7,19 @@ describe('FilterProjectPipe', () => {
       id: '1',
       name: 'App 1',
       description: 'It is a good app',
+      project_type_id: '123',
     },
     {
       id: '2',
       name: 'app 2',
       description: 'It is a good app',
+      project_type_id: '124',
     },
     {
       id: '3',
       name: 'App 3',
       description: 'It is a good app',
+      project_type_id: '125',
     },
   ];
 

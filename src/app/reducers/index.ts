@@ -1,5 +1,5 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { projectReducer } from '../modules/project-management/store/project.reducer';
+import { projectReducer } from '../modules/customer-management/components/projects/components/store/project.reducer';
 import { activityManagementReducer } from '../modules/activities-management/store/activity-management.reducers';
 import { technologyReducer } from '../modules/shared/store/technology.reducers';
 import { customerManagementReducer } from '../modules/customer-management/store/customer-management.reducers';

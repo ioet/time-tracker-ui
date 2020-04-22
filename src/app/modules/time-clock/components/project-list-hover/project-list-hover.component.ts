@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Project } from 'src/app/modules/shared/models';
-import { allProjects } from '../../../project-management/store/project.selectors';
-import { ProjectState } from '../../../project-management/store/project.reducer';
-import * as actions from '../../../project-management/store/project.actions';
+import { allProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
+import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
+import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
 import * as entryActions from '../../store/entry.actions';
 
 @Component({

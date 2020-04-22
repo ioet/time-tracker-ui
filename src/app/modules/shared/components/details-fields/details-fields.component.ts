@@ -16,11 +16,11 @@ import * as actions from '../../store/technology.actions';
 import { allTechnologies } from '../../store/technology.selectors';
 import { Technology, Project, Activity } from '../../models';
 
-import { ProjectState } from '../../../project-management/store/project.reducer';
+import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { TechnologyState } from '../../store/technology.reducers';
 import { LoadActivities, ActivityState, allActivities } from '../../../activities-management/store';
-import { allProjects } from '../../../project-management/store/project.selectors';
-import * as projectActions from '../../../project-management/store/project.actions';
+import { allProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
+import * as projectActions from '../../../customer-management/components/projects/components/store/project.actions';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 

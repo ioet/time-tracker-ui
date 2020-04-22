@@ -1,28 +1,36 @@
-<div class="container mb-1">
-  <form style="width: 600px;">
-    <div class="form-group">
-      <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Project name" />
-      <textarea
-        class="form-control form-control-sm mt-2"
-        id="exampleFormControlTextarea1"
-        rows="3"
-        placeholder="Description"
-      ></textarea>
-      <select class="form-group custom-select custom-select-sm mt-2">
-        <option selected>Select project type</option>
-        <option value="1">a..</option>
-        <option value="2">b..</option>
-      </select>
-      <button type="submit" class="btn btn-sm btn-primary">Save</button>
-      <button type="submit" class="btn btn-sm btn-secondary mb-2 ml-2 mt-2">Cancel</button>
-    </div>
-  </form>
-  <hr />
-  <div class="row text-right">
-    <hr />
-    <div class="col-5 text-right">
-      <app-search-project></app-search-project>
+<form style="width: 600px;" [formGroup]="projectForm" (ngSubmit)="onSubmit(projectForm.value)">
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control form-control-sm"
+      placeholder="Project name"
+      formControlName="name"
+      [class.is-invalid]="name.invalid && name.touched"
+    />
+    <div class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
+      Project name is required.
     </div>
   </div>
-  <app-project-list></app-project-list>
-</div>
+  <textarea
+    class="form-control form-control-sm mt-2"
+    rows="3"
+    formControlName="description"
+    placeholder="Description"
+  ></textarea>
+  <div class="form-group">
+    <select class="custom-select custom-select-sm mt-2" formControlName="project_type_id">
+      <option [value]="" disabled selected>Select project type</option>
+      <option *ngFor="let type of projectsTypes" [value]="type.id">{{ type.name }}</option>
+    </select>
+  </div>
+  <button type="submit" [disabled]="!projectForm.valid" class="btn btn-sm btn-primary">Save</button>
+  <button
+    type="reset"
+    [hidden]="!projectToEdit"
+    (click)="cancelButton()"
+    class="btn btn-sm btn-secondary mb-2 ml-2 mt-2"
+  >
+    Cancel
+  </button>
+</form>
+<hr />
