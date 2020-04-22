@@ -4,7 +4,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { CreateCustomerComponent } from './create-customer';
 import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
-import { LoadCustomers } from './../../../../store/customer-management.actions';
+import { LoadCustomers, ResetCustomerToEdit } from './../../../../store/customer-management.actions';
 import { Customer } from 'src/app/modules/shared/models';
 
 describe('CreateCustomerComponent', () => {
@@ -68,9 +68,12 @@ describe('CreateCustomerComponent', () => {
 
   it('should call resetCustomerForm', () => {
     spyOn(component.customerForm, 'reset');
+    spyOn(store, 'dispatch');
 
     component.resetCustomerForm();
 
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(new ResetCustomerToEdit());
     expect(component.customerForm.reset).toHaveBeenCalled();
   });
 

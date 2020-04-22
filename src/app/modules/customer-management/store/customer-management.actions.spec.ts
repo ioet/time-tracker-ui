@@ -76,4 +76,9 @@ describe('CustomerManagmentActions', () => {
     const setCustomerToEdit = new actions.SetCustomerToEdit('abc');
     expect(setCustomerToEdit.type).toEqual(actions.CustomerManagementActionTypes.SET_CUSTOMER_ID_TO_EDIT);
   });
+
+  it('ResetCustomerToEdit type is CustomerManagementActionTypes.RESET_CustomerId_ID_TO_EDIT', () => {
+    const resetCustomerIdToEdit = new actions.ResetCustomerToEdit();
+    expect(resetCustomerIdToEdit.type).toEqual(actions.CustomerManagementActionTypes.RESET_CUSTOMER_ID_TO_EDIT);
+  });
 });

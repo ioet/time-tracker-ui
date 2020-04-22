@@ -15,6 +15,7 @@ export enum CustomerManagementActionTypes {
   UPDATE_CUSTOMER_SUCCESS = '[CustomerManagement] UPDATE_CUSTOMER_SUCCESS',
   UPDATE_CUSTOMER_FAIL = '[CustomerManagement] UPDATE_CUSTOMER_FAIL',
   SET_CUSTOMER_ID_TO_EDIT = '[CustomerManagement] SET_CUSTOMER_ID_TO_EDIT',
+  RESET_CUSTOMER_ID_TO_EDIT = '[CustomerManagement] RESET_CUSTOMER_ID_TO_EDIT',
 }
 
 export class LoadCustomers implements Action {
@@ -92,6 +93,10 @@ export class SetCustomerToEdit implements Action {
   constructor(public payload: string) {}
 }
 
+export class ResetCustomerToEdit implements Action {
+  public readonly type = CustomerManagementActionTypes.RESET_CUSTOMER_ID_TO_EDIT;
+}
+
 export type CustomerManagementActions =
   | CreateCustomer
   | CreateCustomerSuccess
@@ -105,4 +110,5 @@ export type CustomerManagementActions =
   | UpdateCustomer
   | UpdateCustomerSuccess
   | UpdateCustomerFail
-  | SetCustomerToEdit;
+  | SetCustomerToEdit
+  | ResetCustomerToEdit;

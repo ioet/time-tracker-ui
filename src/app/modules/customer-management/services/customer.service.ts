@@ -14,11 +14,7 @@ export class CustomerService {
   constructor(private http: HttpClient, private service: AzureAdB2CService) {}
 
   createCustomer(customerData): Observable<any> {
-    const body = {
-      ...customerData,
-      tenant_id: this.service.getTenantId(),
-    };
-    return this.http.post(this.baseUrl, body);
+    return this.http.post(this.baseUrl, customerData);
   }
 
   getCustomers(): Observable<any> {
@@ -32,9 +28,6 @@ export class CustomerService {
 
   updateCustomer(customerData): Observable<any> {
     const url = `${this.baseUrl}/${customerData.id}`;
-    const body = {
-      ...customerData,
-    };
-    return this.http.put(url, body);
+    return this.http.put(url, customerData);
   }
 }

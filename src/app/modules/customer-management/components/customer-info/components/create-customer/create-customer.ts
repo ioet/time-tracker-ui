@@ -10,6 +10,7 @@ import {
   CreateCustomer,
   LoadCustomers,
   UpdateCustomer,
+  ResetCustomerToEdit,
 } from 'src/app/modules/customer-management/store';
 
 @Component({
@@ -92,7 +93,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   }
 
   resetCustomerForm() {
-    this.showAlert = false;
     this.customerForm.reset();
+    this.store.dispatch(new ResetCustomerToEdit());
   }
 }

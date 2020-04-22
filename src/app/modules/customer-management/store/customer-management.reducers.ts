@@ -61,6 +61,7 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
         data: state.data,
         isLoading: false,
         message: 'An error occurred, try again later.',
+        customerIdToEdit: '',
       };
     }
 
@@ -87,6 +88,7 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
         data: state.data,
         isLoading: false,
         message: 'Something went wrong deleting customer!',
+        customerIdToEdit: '',
       };
     }
 
@@ -123,6 +125,13 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
       return {
         ...state,
         customerIdToEdit: action.payload,
+      };
+    }
+
+    case CustomerManagementActionTypes.RESET_CUSTOMER_ID_TO_EDIT: {
+      return {
+        ...state,
+        customerIdToEdit: '',
       };
     }
 

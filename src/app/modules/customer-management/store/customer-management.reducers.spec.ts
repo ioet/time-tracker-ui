@@ -123,4 +123,12 @@ describe('customerManagementReducer', () => {
 
     expect(state.customerIdToEdit).toEqual('1');
   });
+
+  it('on ResetCustomerToEdit, should clean the customerIdToEdit variable', () => {
+    const action = new actions.ResetCustomerToEdit();
+
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.customerIdToEdit).toEqual('');
+  });
 });
