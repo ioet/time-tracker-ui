@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Project } from '../../shared/models';
+import { Project } from '../../../../../shared/models';
 import { ProjectService } from './project.service';
 
 describe('ProjectService', () => {
@@ -12,16 +12,19 @@ describe('ProjectService', () => {
       id: '1',
       name: 'app 1',
       description: 'It is a good app',
+      project_type_id: '123',
     },
     {
       id: '2',
       name: 'app 2',
       description: 'It is a good app',
+      project_type_id: '123',
     },
     {
       id: '3',
       name: 'app 3',
       description: 'It is a good app',
+      project_type_id: '123',
     },
   ];
 
@@ -57,7 +60,7 @@ describe('ProjectService', () => {
   });
 
   it('create project using POST from url', () => {
-    const project: Project[] = [{ id: '1', name: 'ccc', description: 'xxx' }];
+    const project: Project[] = [{ id: '1', name: 'ccc', description: 'xxx', project_type_id: '123' }];
     service.url = 'projects';
     service.createProject(project).subscribe((response) => {
       expect(response.length).toBe(1);
@@ -68,7 +71,7 @@ describe('ProjectService', () => {
   });
 
   it('update project using PUT from url', () => {
-    const project: Project = { id: '1', name: 'new name', description: 'description' };
+    const project: Project = { id: '1', name: 'new name', description: 'description', project_type_id: '123' };
     service.url = 'projects';
     service.updateProject(project).subscribe((response) => {
       expect(response.name).toBe('new name');
@@ -76,5 +79,15 @@ describe('ProjectService', () => {
     const updateProjectRequest = httpMock.expectOne(`${service.url}/${project.id}`);
     expect(updateProjectRequest.request.method).toBe('PUT');
     updateProjectRequest.flush(project);
+  });
+
+  it('delete project using DELETE from baseUrl', () => {
+    const url = `${service.url}/1`;
+    service.deleteProject(projectsList[0].id).subscribe((projectsInResponse) => {
+      expect(projectsInResponse.filter((project) => project.id !== projectsList[0].id).length).toEqual(2);
+    });
+    const deleteActivitiesRequest = httpMock.expectOne(url);
+    expect(deleteActivitiesRequest.request.method).toBe('DELETE');
+    deleteActivitiesRequest.flush(projectsList);
   });
 });

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ofType, Actions, Effect } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import { Action } from '@ngrx/store';
+import { ofType, Actions, Effect } from '@ngrx/effects';
 import { ProjectService } from '../services/project.service';
 import * as actions from './project.actions';
 
@@ -47,6 +47,20 @@ export class ProjectEffects {
           return new actions.UpdateProjectSuccess(projectData);
         }),
         catchError((error) => of(new actions.UpdateProjectFail(error)))
+      )
+    )
+  );
+
+  @Effect()
+  deleteProject$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ProjectActionTypes.DELETE_PROJECT),
+    map((action: actions.DeleteProject) => action.projectId),
+    mergeMap((projectId) =>
+      this.projectService.deleteProject(projectId).pipe(
+        map(() => {
+          return new actions.DeleteProjectSuccess(projectId);
+        }),
+        catchError((error) => of(new actions.DeleteProjectFail(error)))
       )
     )
   );

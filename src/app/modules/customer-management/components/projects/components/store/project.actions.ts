@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Project } from '../../shared/models';
+import { Project } from '../../../../../shared/models';
 
 export enum ProjectActionTypes {
   LOAD_PROJECTS = '[Projects] LOAD_PROJECTS',
@@ -11,6 +11,11 @@ export enum ProjectActionTypes {
   UPDATE_PROJECT = '[Projects] UPDATE_PROJECT',
   UPDATE_PROJECT_SUCCESS = '[Projects] UPDATE_PROJECT_SUCCESS',
   UPDATE_PROJECT_FAIL = '[Projects] UPDATE_PROJECT_FAIL',
+  SET_PROJECT_TO_EDIT = '[Projects] SET_PROJECT_TO_EDIT',
+  RESET_PROJECT_TO_EDIT = '[Projects] RESET_PROJECT_TO_EDIT',
+  DELETE_PROJECT = '[Projects] DELETE_PROJECT',
+  DELETE_PROJECT_SUCCESS = '[Projects] DELETE_PROJECT_SUCESS',
+  DELETE_PROJECT_FAIL = '[Projects] DELETE_PROJECT_FAIL',
 }
 
 export class LoadProjects implements Action {
@@ -64,6 +69,34 @@ export class UpdateProjectFail implements Action {
   constructor(public error: string) {}
 }
 
+export class SetProjectToEdit implements Action {
+  public readonly type = ProjectActionTypes.SET_PROJECT_TO_EDIT;
+
+  constructor(public payload: Project) {}
+}
+
+export class ResetProjectToEdit implements Action {
+  public readonly type = ProjectActionTypes.RESET_PROJECT_TO_EDIT;
+}
+
+export class DeleteProject implements Action {
+  public readonly type = ProjectActionTypes.DELETE_PROJECT;
+
+  constructor(public projectId: string) {}
+}
+
+export class DeleteProjectSuccess implements Action {
+  public readonly type = ProjectActionTypes.DELETE_PROJECT_SUCCESS;
+
+  constructor(public projectId: string) {}
+}
+
+export class DeleteProjectFail implements Action {
+  public readonly type = ProjectActionTypes.DELETE_PROJECT_FAIL;
+
+  constructor(public error: string) {}
+}
+
 export type ProjectActions =
   | LoadProjects
   | LoadProjectsSuccess
@@ -73,4 +106,9 @@ export type ProjectActions =
   | CreateProjectFail
   | UpdateProject
   | UpdateProjectSuccess
-  | UpdateProjectFail;
+  | UpdateProjectFail
+  | SetProjectToEdit
+  | ResetProjectToEdit
+  | DeleteProject
+  | DeleteProjectSuccess
+  | DeleteProjectFail;

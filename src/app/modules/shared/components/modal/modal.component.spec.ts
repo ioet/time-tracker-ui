@@ -27,7 +27,7 @@ describe('ModalComponent', () => {
       id: '1',
       name: 'app 4',
       description: 'It is a good app',
-      status: 'inactive',
+      project_type_id: '123',
       completed: true,
       project: 'ErnstYoung',
       startDate: '2020-02-05T15:36:15.887Z',

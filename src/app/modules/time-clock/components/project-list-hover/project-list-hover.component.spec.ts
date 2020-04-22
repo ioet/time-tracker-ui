@@ -3,8 +3,8 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { ProjectListHoverComponent } from './project-list-hover.component';
-import { ProjectState } from '../../../project-management/store/project.reducer';
-import { allProjects } from '../../../project-management/store/project.selectors';
+import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
+import { allProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
 import { NewEntry } from '../../../shared/models';
 import * as action from '../../store/entry.actions';
@@ -16,8 +16,10 @@ describe('ProjectListHoverComponent', () => {
   let mockProjectsSelector;
 
   const state = {
-    projectList: [{ id: 'id', name: 'name', description: 'description' }],
+    projectList: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
     isLoading: false,
+    message: '',
+    projectToEdit: undefined,
   };
 
   beforeEach(async(() => {
