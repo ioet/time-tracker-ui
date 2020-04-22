@@ -9,6 +9,7 @@ import { ProjectState } from '../../customer-management/components/projects/comp
 import { ProjectListHoverComponent } from '../components';
 import { ProjectService } from '../../customer-management/components/projects/components/services/project.service';
 import { FilterProjectPipe } from '../../shared/pipes';
+import {AzureAdB2CService} from '../../login/services/azure.ad.b2c.service';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -16,6 +17,7 @@ describe('TimeClockComponent', () => {
   let de: DebugElement;
   let store: MockStore<ProjectState>;
   let projectService: ProjectService;
+  let azureAdB2CService: AzureAdB2CService;
   const state = {
     projects: {
       projectList: [{ id: 'id', name: 'name', description: 'description' }],
@@ -32,7 +34,7 @@ describe('TimeClockComponent', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe],
-      providers: [ProjectService, provideMockStore({ initialState: state })],
+      providers: [ProjectService, AzureAdB2CService, provideMockStore({ initialState: state })],
     }).compileComponents();
     store = TestBed.inject(MockStore);
   }));
@@ -43,10 +45,27 @@ describe('TimeClockComponent', () => {
     de = fixture.debugElement;
     fixture.detectChanges();
     projectService = TestBed.inject(ProjectService);
+    azureAdB2CService = TestBed.inject(AzureAdB2CService);
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('onInit checks if isLogin and gets the userName', () => {
+    spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
+    spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
+    component.ngOnInit();
+    expect(azureAdB2CService.isLogin).toHaveBeenCalled();
+    expect(azureAdB2CService.getName).toHaveBeenCalled();
+  });
+
+  it('onInit does not get the name if isLogin false', () => {
+    spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
+    spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
+    component.ngOnInit();
+    expect(azureAdB2CService.isLogin).toHaveBeenCalled();
+    expect(azureAdB2CService.getName).toHaveBeenCalledTimes(0);
   });
 
   it('Service injected via inject(...) and TestBed.get(...) should be the same instance', inject(

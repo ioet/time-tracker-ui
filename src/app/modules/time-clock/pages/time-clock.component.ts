@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 
 @Component({
   selector: 'app-time-clock',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TimeClockComponent implements OnInit {
   currentDate: Date = new Date();
-  username = 'Dario';
+  username: string;
   isClockIn: boolean;
   isEnterTechnology: boolean;
   showAlertEnterTecnology: boolean;
@@ -25,7 +26,7 @@ export class TimeClockComponent implements OnInit {
   isClockInEnable = false;
   isHidenForm = true;
 
-  constructor() {
+  constructor(private azureAdB2CService: AzureAdB2CService) {
     this.isClockIn = true;
     this.isEnterTechnology = false;
     this.hourCounterRealTime = 0;
@@ -36,7 +37,9 @@ export class TimeClockComponent implements OnInit {
     this.seconds = 0;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
+  }
 
   employeClockIn(): boolean {
     this.isClockInEnable = true;
