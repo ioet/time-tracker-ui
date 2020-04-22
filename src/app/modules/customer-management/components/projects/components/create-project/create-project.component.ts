@@ -34,14 +34,14 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const projectToEditSubscription = this.store.pipe(select(getProjectToEdit));
-    projectToEditSubscription.subscribe((project) => {
+    const projectToEdit$ = this.store.pipe(select(getProjectToEdit));
+    this.projectToEditSubscription = projectToEdit$.subscribe((project) => {
       this.projectToEdit = project;
       this.setDataToUpdate(this.projectToEdit);
     });
 
-    const projectTypesSubscription = this.projectTypeStore.pipe(select(allProjectTypes));
-    projectTypesSubscription.subscribe((projectsType) => {
+    const projectsTypes$ = this.projectTypeStore.pipe(select(allProjectTypes));
+    this.projectTypesSubscription = projectsTypes$.subscribe((projectsType) => {
       this.projectsTypes = projectsType;
     });
   }

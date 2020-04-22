@@ -3,5 +3,5 @@ export interface Project {
   customer_id?: string;
   name: string;
   description?: string;
-  project_type_id: string;
+  project_type_id?: string;
 }
