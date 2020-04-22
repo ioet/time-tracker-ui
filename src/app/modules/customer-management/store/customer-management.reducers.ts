@@ -15,12 +15,8 @@ export const initialState: CustomerState = {
   customerIdToEdit: '',
 };
 
-export function customerManagementReducer(
-  state: CustomerState = initialState,
-  action: CustomerManagementActions
-): CustomerState {
+export const customerManagementReducer = (state: CustomerState = initialState, action: CustomerManagementActions) => {
   const customersList = [...state.data];
-  const key = 'id';
   switch (action.type) {
     case CustomerManagementActionTypes.LOAD_CUSTOMERS: {
       return {
@@ -76,7 +72,7 @@ export function customerManagementReducer(
     }
 
     case CustomerManagementActionTypes.DELETE_CUSTOMER_SUCCESS: {
-      const customers = state.data.filter((customer) => customer[key] !== action.customerId);
+      const customers = state.data.filter((customer) => customer.id !== action.customerId);
       return {
         ...state,
         data: customers,
@@ -102,7 +98,7 @@ export function customerManagementReducer(
     }
 
     case CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS: {
-      const index = customersList.findIndex((customer) => customer[key] === action.payload[key]);
+      const index = customersList.findIndex((customer) => customer.id === action.payload.id);
       customersList[index] = action.payload;
       return {
         ...state,
@@ -133,4 +129,4 @@ export function customerManagementReducer(
     default:
       return state;
   }
-}
+};

@@ -54,11 +54,10 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(customerData) {
-    const key = 'id';
     if (this.customerToEdit) {
       const customer = {
         ...customerData,
-        id: this.customerToEdit[key],
+        id: this.customerToEdit.id,
       };
       this.store.dispatch(new UpdateCustomer(customer));
       this.customerForm.reset();
