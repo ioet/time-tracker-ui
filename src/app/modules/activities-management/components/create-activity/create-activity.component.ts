@@ -58,6 +58,7 @@ export class CreateActivityComponent implements OnInit {
       this.store.dispatch(new UpdateActivity(activity));
     } else {
       this.store.dispatch(new CreateActivity(activityData));
+      this.activityForm.get('description').setValue('');
     }
   }
 
