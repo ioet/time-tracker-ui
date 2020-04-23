@@ -38,7 +38,7 @@ describe('ProjectListComponent', () => {
 
     store = TestBed.inject(MockStore);
     store.setState(state);
-    allProjectsSelectorMock = store.overrideSelector(allProjects, state.projectToEdit);
+    allProjectsSelectorMock = store.overrideSelector(allProjects, state);
     component.projectsSubscription = new Subscription();
   });
 

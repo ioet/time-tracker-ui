@@ -11,6 +11,7 @@ import {
   allActivities,
   ResetActivityToEdit,
 } from '../../store';
+import { getActivityById } from '../../store/activity-management.selectors';
 import { Activity } from 'src/app/modules/shared/models';
 
 describe('CreateActivityComponent', () => {
@@ -20,6 +21,7 @@ describe('CreateActivityComponent', () => {
   let activityIdtoEditMock;
   let allActivitiesMock;
   let getActivityByIdMock;
+  let getActivityByIdSelectorMock;
 
   const state = {
     data: [{ id: '', name: '', description: '' }],
@@ -56,6 +58,12 @@ describe('CreateActivityComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('onInit, LoadActivitys action is despatched', () => {
+    getActivityByIdSelectorMock = store.overrideSelector(getActivityById, activity);
+    component.ngOnInit();
+    expect(component.activityToEdit).toEqual(activity);
   });
 
   it('should reset form onSubmit and dispatch UpdateActivity action', () => {

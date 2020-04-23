@@ -10,6 +10,7 @@ import {
   projectTypeIdToEdit,
   allProjectTypes,
   ResetProjectTypeToEdit,
+  getProjectTypeById,
 } from '../../store';
 import { ProjectType } from '../../../../../shared/models/project-type.model';
 
@@ -20,6 +21,7 @@ describe('InputProjectTypeComponent', () => {
   let projectTypeIdToEditMock;
   let allProjectTypesMock;
   let getProjectTypeByIdMock;
+  let getProjectTypeByIdSelectorMock;
 
   const state = {
     data: [{ id: '', name: '', description: '' }],
@@ -45,7 +47,6 @@ describe('InputProjectTypeComponent', () => {
     fixture = TestBed.createComponent(CreateProjectTypeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     store = TestBed.inject(MockStore);
     store.setState(state);
   });
@@ -56,6 +57,13 @@ describe('InputProjectTypeComponent', () => {
 
   it('component should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('onInit, LoadProjectsType action is dispatched', () => {
+    getProjectTypeByIdSelectorMock = store.overrideSelector(getProjectTypeById, projectType);
+    component.ngOnInit();
+
+    expect(component.projectTypeToEdit).toEqual(projectType);
   });
 
   it('should reset form onSubmit and dispatch UpdateProjectType action', () => {
