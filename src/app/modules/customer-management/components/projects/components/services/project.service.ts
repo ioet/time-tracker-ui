@@ -12,7 +12,7 @@ export class ProjectService {
   projects: Project[] = [];
   url = `${environment.timeTrackerApiUrl}/projects`;
 
-  constructor(private http: HttpClient, private azureAdB2CService: AzureAdB2CService) {}
+  constructor(private http: HttpClient) {}
 
   getProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(this.url);

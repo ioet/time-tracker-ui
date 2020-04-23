@@ -45,7 +45,6 @@ describe('CustomerService', () => {
       { name: 'aa', description: 'bb', tenant_id: 'cc', id: '1' },
       { name: 'xx', description: 'yy', tenant_id: 'zz', id: '2' },
     ];
-    const key = 'id';
     const url = `${service.baseUrl}/1`;
     service.deleteCustomer(customer[0].id).subscribe();
     const getCustomerRequest = httpMock.expectOne(url);
