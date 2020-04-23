@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../../environments/environment';
 import { Project } from '../../../../../shared/models';
-import { AzureAdB2CService } from '../../../../../login/services/azure.ad.b2c.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +11,7 @@ export class ProjectService {
   projects: Project[] = [];
   url = `${environment.timeTrackerApiUrl}/projects`;
 
-  constructor(private http: HttpClient, private azureAdB2CService: AzureAdB2CService) {}
+  constructor(private http: HttpClient) {}
 
   getProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(this.url);

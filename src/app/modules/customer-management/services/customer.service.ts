@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { environment } from './../../../../environments/environment';
-import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +10,7 @@ import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.s
 export class CustomerService {
   baseUrl = `${environment.timeTrackerApiUrl}/customers`;
 
-  constructor(private http: HttpClient, private service: AzureAdB2CService) {}
+  constructor(private http: HttpClient) {}
 
   createCustomer(customerData): Observable<any> {
     return this.http.post(this.baseUrl, customerData);
