@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../../environments/environment';
 import { Project } from '../../../../../shared/models';
-import { AzureAdB2CService } from '../../../../../login/services/azure.ad.b2c.service';
 
 @Injectable({
   providedIn: 'root',
