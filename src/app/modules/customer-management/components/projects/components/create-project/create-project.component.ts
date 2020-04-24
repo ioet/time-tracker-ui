@@ -29,7 +29,7 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
     this.projectForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: [''],
-      project_type_id: [''],
+      project_type_id: [null],
     });
   }
 
@@ -52,6 +52,9 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(formData) {
+    if (formData.project_type_id === '') {
+      formData.project_type_id = null;
+    }
     this.projectForm.reset();
     if (this.projectToEdit) {
       const projectData = { id: this.projectToEdit.id, ...formData };
@@ -59,6 +62,7 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new actions.CreateProject(formData));
     }
+    this.resetValuesForm();
   }
 
   get name() {
@@ -85,5 +89,13 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
 
   cancelButton() {
     this.store.dispatch(new actions.ResetProjectToEdit());
+  }
+
+  resetValuesForm() {
+    this.projectForm.setValue({
+      name: '',
+      description: '',
+      project_type_id: null,
+    });
   }
 }
