@@ -109,17 +109,77 @@ describe('InputProjectComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new UpdateProject(projectUpdated));
   });
 
+  it('should reset form #onSubmit and dispatch UpdateProject action with null project_type_id', () => {
+    const currentState = {
+      data: [project],
+      isLoading: false,
+      message: '',
+      projectToEdit: project,
+    };
+
+    const dataForm = {
+      name: 'Test',
+      description: 'xxx',
+      project_type_id: '',
+    };
+
+    getProjectToEditMock = store.overrideSelector(getProjectToEdit, currentState.projectToEdit);
+    component.projectToEdit = getProjectToEditMock;
+
+    const projectUpdated = {
+      id: component.projectToEdit.id,
+      name: 'Test',
+      description: 'xxx',
+      project_type_id: null,
+    };
+
+    component.projectToEditSubscription = new Subscription();
+    component.projectTypesSubscription = new Subscription();
+    spyOn(component.projectForm, 'reset');
+    spyOn(store, 'dispatch');
+    const subscription = spyOn(component.projectToEditSubscription, 'unsubscribe');
+    const projectTypeSubscription = spyOn(component.projectTypesSubscription, 'unsubscribe');
+
+    component.onSubmit(dataForm);
+    component.ngOnDestroy();
+
+    expect(subscription).toHaveBeenCalledTimes(1);
+    expect(projectTypeSubscription).toHaveBeenCalledTimes(1);
+    expect(dataForm.project_type_id).toBe(null);
+    expect(component.projectForm.reset).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(new UpdateProject(projectUpdated));
+  });
+
   it('should reset form onSubmit and dispatch CreateProject action', () => {
     component.projectToEdit = undefined;
 
     spyOn(component.projectForm, 'reset');
     spyOn(store, 'dispatch');
 
-    component.onSubmit(project);
+    component.onSubmit(projectForm);
 
     expect(component.projectForm.reset).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledTimes(1);
-    expect(store.dispatch).toHaveBeenCalledWith(new CreateProject(project));
+    expect(store.dispatch).toHaveBeenCalledWith(new CreateProject(projectForm));
+  });
+
+  it('should reset form onSubmit and dispatch CreateProject action with null project_type_id', () => {
+    const dataForm = {
+      name: 'Test',
+      description: 'xxx',
+      project_type_id: '',
+    };
+    component.projectToEdit = undefined;
+
+    spyOn(component.projectForm, 'reset');
+    spyOn(store, 'dispatch');
+
+    component.onSubmit(dataForm);
+    expect(dataForm.project_type_id).toBe(null);
+    expect(component.projectForm.reset).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(new CreateProject(dataForm));
   });
 
   it('should set data in projectForm', () => {
