@@ -19,7 +19,7 @@
   ></textarea>
   <div class="form-group">
     <select class="custom-select custom-select-sm mt-2" formControlName="project_type_id">
-      <option [value]="" disabled selected>Select project type</option>
+      <option value="" selected>Select project type</option>
       <option *ngFor="let type of projectsTypes" [value]="type.id">{{ type.name }}</option>
     </select>
   </div>
