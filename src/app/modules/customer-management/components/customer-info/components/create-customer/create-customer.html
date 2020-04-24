@@ -3,7 +3,7 @@
     <div class="form-group">
       <div
         *ngIf="showAlert && messageToShow !== ''"
-        [ngClass]="{'bg-secondary': messageToShow == 'Customer created successfully!' || messageToShow == 'Customer updated successfully!', 
+        [ngClass]="{'bg-secondary': messageToShow == 'Customer created successfully!' || messageToShow == 'Customer updated successfully!',
                     'bg-primary': messageToShow !== 'Customer created successfully!' }"
         class="alert alert-dismissible fade fade-in show text-white"
         role="alert"
@@ -23,7 +23,7 @@
       <span
         class="badge badge-pill badge-light text-danger"
         *ngIf="(customerForm.dirty || customerForm.touched) && customerForm.invalid"
-        >Activity name is required</span
+        >Customer name is required</span
       >
       <textarea
         class="form-control form-control-sm mt-2"
@@ -32,6 +32,11 @@
         formControlName="description"
         placeholder="Customer description"
       ></textarea>
+      <span
+        class="badge badge-pill badge-light text-danger"
+        *ngIf="(customerForm.dirty || customerForm.touched) && customerForm.invalid"
+        >Customer description is required</span
+      >
       <button type="submit" class="btn btn-sm btn-primary" [disabled]="!customerForm.valid">Save</button>
       <button (click)="resetCustomerForm()" id="cancel" type="button" class="btn btn-sm btn-secondary mb-2 ml-2 mt-2">
         Cancel
