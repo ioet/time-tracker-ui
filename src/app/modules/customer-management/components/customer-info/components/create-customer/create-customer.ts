@@ -85,6 +85,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
 
   setDataToUpdate(customerData: Customer) {
     if (customerData) {
+      this.changeValueAreTabsActives.emit(true);
       this.customerForm.setValue({
         name: customerData.name,
         description: customerData.description,
