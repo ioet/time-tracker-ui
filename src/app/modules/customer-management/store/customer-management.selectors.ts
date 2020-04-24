@@ -1,5 +1,4 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Customer } from 'src/app/modules/shared/models/customer.model';
 
 import { CustomerState } from './customer-management.reducers';
 export const getCustomerState = createFeatureSelector<CustomerState>('customers');

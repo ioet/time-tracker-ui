@@ -53,6 +53,11 @@
       aria-describedby="inputGroup-sizing-sm"
     />
   </div>
+  <div *ngIf="needSelectTechnology" class="row">
+    <div class="col">
+      <span class="text-danger">You must select at least one technology before Clock Out</span>
+    </div>
+  </div>
 
   <div *ngIf="isLoading">LOADING...</div>
   <div #list *ngIf="technology && showlist" class="d-flex flex-column technology-content">

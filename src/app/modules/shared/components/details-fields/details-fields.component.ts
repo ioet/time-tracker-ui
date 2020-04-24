@@ -32,7 +32,9 @@ type Merged = TechnologyState & ProjectState & ActivityState;
 export class DetailsFieldsComponent implements OnChanges, OnInit {
   @Input() entryToEdit;
   @Input() formType: string;
+  @Input() needSelectTechnology: boolean;
   @Output() saveEntry = new EventEmitter();
+  @Output() technologiesSelected = new EventEmitter<number>();
   @ViewChild('closeModal') closeModal: ElementRef;
   @ViewChild('list') list: ElementRef;
   entryForm: FormGroup;
@@ -104,6 +106,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       this.removeTag(index);
     } else if (this.selectedTechnology.length < 10) {
       this.selectedTechnology = [...this.selectedTechnology, name];
+      this.technologiesSelected.emit(this.selectedTechnology.length);
     }
   }
 

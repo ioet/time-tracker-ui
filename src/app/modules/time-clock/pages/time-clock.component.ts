@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
+import { EntryService } from '../services/entry.service';
+import { Store, select } from '@ngrx/store';
+import { Entry } from '../../shared/models';
+import { LoadTimeEntriesRunning, StopTimeEntriesRunning } from '../store/entry.actions';
+import { getIdEntryRunning, getStatusMessage } from '../store/entry.selectors';
 
 @Component({
   selector: 'app-time-clock',
@@ -7,12 +12,18 @@ import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
   styleUrls: ['./time-clock.component.scss'],
 })
 export class TimeClockComponent implements OnInit {
+  idEntry: string;
+  message: string;
+  isClockIn = false;
+  showFields = false;
+  technologiesSelected = 0;
+  needSelectTechnology = false;
+
   currentDate: Date = new Date();
   username: string;
-  isClockIn: boolean;
-  isEnterTechnology: boolean;
+
   showAlertEnterTecnology: boolean;
-  showFields: boolean;
+
   hourCounterRealTime: number;
   minuteCounterRealTime: number;
   secondsCounterRealTime: number;
@@ -20,15 +31,16 @@ export class TimeClockComponent implements OnInit {
   minute: number;
   seconds: number;
   interval;
+
   dataTechnology: string[] = new Array();
+
   execOnlyOneTimeCounter = false;
   execOnlyOneTimeClockIn = false;
   isClockInEnable = false;
   isHidenForm = true;
 
-  constructor(private azureAdB2CService: AzureAdB2CService) {
+  constructor(private azureAdB2CService: AzureAdB2CService, private store: Store<Entry>) {
     this.isClockIn = true;
-    this.isEnterTechnology = false;
     this.hourCounterRealTime = 0;
     this.minuteCounterRealTime = 0;
     this.secondsCounterRealTime = 0;
@@ -39,48 +51,39 @@ export class TimeClockComponent implements OnInit {
 
   ngOnInit() {
     this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
+
+    this.store.pipe(select(getIdEntryRunning)).subscribe((idEntryRunning) => {
+      this.idEntry = idEntryRunning;
+    });
+
+    this.store.pipe(select(getStatusMessage)).subscribe((valueMessage) => {
+      this.message = valueMessage;
+      if (this.message !== '') {
+        this.store.dispatch(new LoadTimeEntriesRunning());
+        this.isClockIn = false;
+        this.showFields = true;
+      }
+    });
   }
 
-  employeClockIn(): boolean {
-    this.isClockInEnable = true;
-    this.isClockIn = !this.isClockIn;
-    this.isHidenForm = false;
-    this.startTimer();
-    this.setArrivalAndDepartureTimes();
-    return this.isClockIn;
+  employeClockIn() {
+    this.store.dispatch(new LoadTimeEntriesRunning());
+    this.isClockIn = true;
   }
 
   employeClockOut() {
-    if (this.isEnterTechnology === false) {
+    if (this.technologiesSelected > 0) {
+      this.store.dispatch(new StopTimeEntriesRunning(this.idEntry));
       this.isClockIn = false;
-      this.showAlertEnterTecnology = true;
+      this.needSelectTechnology = false;
     } else {
-      this.setDefaultValuesToFields();
-      this.pauseTimer();
-      this.setArrivalAndDepartureTimes();
+      this.needSelectTechnology = true;
     }
   }
 
-  enterTechnology(data: string) {
-    if (data.length > 0) {
-      this.isEnterTechnology = true;
-    } else {
-      this.isEnterTechnology = false;
-    }
-  }
+  enterTechnology(data: string) {}
 
-  setShowFields(show: boolean) {
-    this.isHidenForm = false;
-    if (this.isClockInEnable !== true) {
-      this.isClockIn = false;
-      this.showFields = show;
-      if (!this.execOnlyOneTimeCounter) {
-        this.startTimer();
-        this.execOnlyOneTimeCounter = true;
-      }
-      this.setArrivalAndDepartureTimes();
-    }
-  }
+  setShowFields(show: boolean) {}
 
   startTimer() {
     this.interval = setInterval(() => {
@@ -117,7 +120,6 @@ export class TimeClockComponent implements OnInit {
   setDefaultValuesToFields() {
     this.isHidenForm = true;
     this.isClockIn = true;
-    this.isEnterTechnology = false;
     this.showAlertEnterTecnology = false;
     this.execOnlyOneTimeClockIn = false;
     this.execOnlyOneTimeCounter = false;

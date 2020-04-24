@@ -3,6 +3,10 @@
     Field technology is requiered. Enter this field for clock out.
   </div>
 
+  <h4>Id entry == {{ idEntry }}</h4>
+  <h4>Message == {{ message }}</h4>
+  <h4>Tech == {{ technologiesSelected }}</h4>
+
   <div class="card">
     <div class="card-body">
       <p *ngIf="!isClockIn" class="card-title text-left">
@@ -33,22 +37,30 @@
         <div class="input-group-prepend">
           <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
         </div>
-        <app-project-list-hover class="w-100" (showFields)="setShowFields($event)"></app-project-list-hover>
+        <app-project-list-hover class="w-100" (showFields)="showFields = $event"></app-project-list-hover>
       </div>
-      <form *ngIf="!isClockIn || showFields">
-        <app-details-fields></app-details-fields>
+      <form *ngIf="showFields">
+        <app-details-fields
+          (technologiesSelected)="technologiesSelected = $event"
+          [needSelectTechnology]="needSelectTechnology"
+        ></app-details-fields>
       </form>
       <hr />
-      <div class="container">
-        <div class="row">
-          <div class="col text-right">
-            <button *ngIf="isClockIn" class="btn btn-primary" type="button" (click)="employeClockIn()">
-              Clock In
-            </button>
-            <button *ngIf="!isClockIn" class="btn btn-primary" type="button" (click)="employeClockOut()">
-              Clock Out
-            </button>
-          </div>
+      <div class="row">
+        <div class="col text-right">
+          <button
+            *ngIf="isClockIn"
+            [ngClass]="{ disabled: !showFields }"
+            [disabled]="!showFields"
+            class="btn btn-primary"
+            type="button"
+            (click)="employeClockIn()"
+          >
+            Clock In
+          </button>
+          <button *ngIf="!isClockIn" class="btn btn-primary" type="button" (click)="employeClockOut()">
+            Clock Out
+          </button>
         </div>
       </div>
     </div>

@@ -9,7 +9,7 @@ import { ProjectState } from '../../customer-management/components/projects/comp
 import { ProjectListHoverComponent } from '../components';
 import { ProjectService } from '../../customer-management/components/projects/components/services/project.service';
 import { FilterProjectPipe } from '../../shared/pipes';
-import {AzureAdB2CService} from '../../login/services/azure.ad.b2c.service';
+import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -92,7 +92,7 @@ describe('TimeClockComponent', () => {
   /* ---------------------- EMPLOYE CLOCK IN ------------------------------------- */
   it('should be verify the init state of vars', () => {
     expect(component.isClockIn).toBeTruthy();
-    expect(component.isEnterTechnology).toBeFalsy();
+    expect(component.technologiesSelected).toBeFalsy();
     expect(component.showAlertEnterTecnology).toBeFalsy();
     expect(component.showFields).toBeFalsy();
     expect(component.execOnlyOneTimeCounter).toBeFalsy();
@@ -131,14 +131,14 @@ describe('TimeClockComponent', () => {
 
   /* ---------------------- EMPLOYE CLOCK OUT ------------------------------------- */
   it('should enter if and assign the value to vars', () => {
-    component.isEnterTechnology = false;
+    component.technologiesSelected = 0;
     component.employeClockOut();
     expect(component.isClockIn).toBeFalsy();
     expect(component.showAlertEnterTecnology).toBeTruthy();
   });
 
   it('should enter if and not called to intern methods', () => {
-    component.isEnterTechnology = false;
+    component.technologiesSelected = 0;
     spyOn(component, 'setDefaultValuesToFields');
     spyOn(component, 'pauseTimer');
     spyOn(component, 'setArrivalAndDepartureTimes');
@@ -149,7 +149,7 @@ describe('TimeClockComponent', () => {
   });
 
   it('should enter else and execute internal methods', () => {
-    component.isEnterTechnology = true;
+    component.technologiesSelected = 0;
 
     spyOn(component, 'setDefaultValuesToFields');
     spyOn(component, 'pauseTimer');
@@ -166,13 +166,13 @@ describe('TimeClockComponent', () => {
   it('should enter if and assign the value to var', () => {
     const dataTechnology = 'Angular';
     component.enterTechnology(dataTechnology);
-    expect(component.isEnterTechnology).toBeTruthy();
+    expect(component.technologiesSelected).toBeTruthy();
   });
 
   it('should enter else and assign the value to var ', () => {
     const dataTechnology = '';
     component.enterTechnology(dataTechnology);
-    expect(component.isEnterTechnology).toBeFalsy();
+    expect(component.technologiesSelected).toBeFalsy();
   });
 
   /* ---------------------- SET SHOW FIELDS ------------------------------------- */
@@ -261,7 +261,7 @@ describe('TimeClockComponent', () => {
     component.setDefaultValuesToFields();
     expect(component.isHidenForm).toBeTruthy();
     expect(component.isClockIn).toBeTruthy();
-    expect(component.isEnterTechnology).toBeFalsy();
+    expect(component.technologiesSelected).toBeFalsy();
     expect(component.showAlertEnterTecnology).toBeFalsy();
     expect(component.execOnlyOneTimeClockIn).toBeFalsy();
     expect(component.execOnlyOneTimeCounter).toBeFalsy();

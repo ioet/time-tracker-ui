@@ -15,4 +15,14 @@ export class EntryService {
   createEntry(entryData): Observable<any> {
     return this.http.post(this.baseUrl, entryData);
   }
+
+  getTimeEntriesRunning(): Observable<any> {
+    const url = `${this.baseUrl}/running`;
+    return this.http.get(url);
+  }
+
+  stopEntryRunning(idEntry: string): Observable<any> {
+    const url = `${this.baseUrl}/${idEntry}/stop`;
+    return this.http.post(url, null);
+  }
 }
