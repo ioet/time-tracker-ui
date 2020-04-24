@@ -21,4 +21,12 @@ describe('ManagmentCustomerProjectsComponent', () => {
   it('component should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should be enable tabs', () => {
+    component.areTabsActive = false;
+    component.activeTabs(true);
+    setTimeout(() => {
+      expect(component.areTabsActive).toBeTrue();
+    }, 1);
+  });
 });

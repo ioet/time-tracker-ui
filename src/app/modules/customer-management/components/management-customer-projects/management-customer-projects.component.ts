@@ -6,7 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./management-customer-projects.component.scss'],
 })
 export class ManagementCustomerProjectsComponent {
-  areTabsActive = false;
+  areTabsActive: boolean;
 
   constructor() {}
+
+  activeTabs($areTabsActive: boolean) {
+    setTimeout(() => this.areTabsActive = $areTabsActive, 1);
+  }
 }
