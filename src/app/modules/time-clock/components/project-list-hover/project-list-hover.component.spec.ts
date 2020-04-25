@@ -16,10 +16,22 @@ describe('ProjectListHoverComponent', () => {
   let mockProjectsSelector;
 
   const state = {
-    projectList: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
-    isLoading: false,
-    message: '',
-    projectToEdit: undefined,
+    projects: {
+      projectList: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
+      isLoading: false,
+      message: '',
+      projectToEdit: undefined,
+    },
+    entries: {
+      active: {
+        project_id: '2b87372b-3d0d-4dc0-832b-ae5863cd39e5',
+        start_date: '2020-04-23T16:11:06.455000+00:00',
+        technologies: ['java', 'typescript'],
+      },
+      entryList: [],
+      isLoading: false,
+      message: '',
+    },
   };
 
   beforeEach(async(() => {
@@ -29,7 +41,7 @@ describe('ProjectListHoverComponent', () => {
       imports: [HttpClientTestingModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
-    mockProjectsSelector = store.overrideSelector(allProjects, state);
+    mockProjectsSelector = store.overrideSelector(allProjects, state.projects);
   }));
 
   beforeEach(() => {

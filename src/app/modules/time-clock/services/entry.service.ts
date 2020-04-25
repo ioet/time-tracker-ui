@@ -12,7 +12,16 @@ export class EntryService {
 
   constructor(private http: HttpClient) {}
 
+  loadActiveEntry(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/running`);
+  }
+
   createEntry(entryData): Observable<any> {
     return this.http.post(this.baseUrl, entryData);
+  }
+
+  updateActiveEntry(entryData): Observable<any> {
+    const { id } = entryData;
+    return this.http.put(`${this.baseUrl}/${id}`, entryData);
   }
 }

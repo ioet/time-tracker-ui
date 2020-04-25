@@ -9,7 +9,7 @@ import { ProjectState } from '../../customer-management/components/projects/comp
 import { ProjectListHoverComponent } from '../components';
 import { ProjectService } from '../../customer-management/components/projects/components/services/project.service';
 import { FilterProjectPipe } from '../../shared/pipes';
-import {AzureAdB2CService} from '../../login/services/azure.ad.b2c.service';
+import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -27,6 +27,16 @@ describe('TimeClockComponent', () => {
       data: [{ id: 'id', name: 'name', description: 'description' }],
       isLoading: false,
       message: 'message',
+    },
+    entries: {
+      active: {
+        project_id: '2b87372b-3d0d-4dc0-832b-ae5863cd39e5',
+        start_date: '2020-04-23T16:11:06.455000+00:00',
+        technologies: ['java', 'typescript'],
+      },
+      entryList: [],
+      isLoading: false,
+      message: '',
     },
   };
 

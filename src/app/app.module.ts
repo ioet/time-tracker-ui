@@ -29,6 +29,7 @@ import { ActivityListComponent } from './modules/activities-management/component
 import { CreateActivityComponent } from './modules/activities-management/components/create-activity/create-activity.component';
 import { FilterProjectPipe } from './modules/shared/pipes/filter-project/filter-project.pipe';
 import { SearchComponent } from './modules/shared/components/search/search.component';
+import { EntryFieldsComponent } from './modules/time-clock/components/entry-fields/entry-fields.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 import { ActivityEffects } from './modules/activities-management/store/activity-management.effects';
@@ -86,6 +87,7 @@ import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.tok
     ProjectListComponent,
     ProjectTypeListComponent,
     CreateProjectTypeComponent,
+    EntryFieldsComponent,
   ],
   imports: [
     CommonModule,

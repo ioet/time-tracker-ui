@@ -6,10 +6,13 @@ export interface Entry {
   activity: string;
   technologies: string[];
   comments?: string;
-  ticket?: string;
+  uri?: string;
 }
 
 export interface NewEntry {
   project_id: string;
-  start_date: string;
+  start_date?: string;
+  description?: string;
+  technologies?: string[];
+  uri?: string;
 }
