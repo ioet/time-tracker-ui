@@ -35,9 +35,10 @@
         </div>
         <app-project-list-hover class="w-100" (showFields)="setShowFields($event)"></app-project-list-hover>
       </div>
-      <form *ngIf="!isClockIn || showFields">
-        <app-details-fields></app-details-fields>
-      </form>
+      <div *ngIf="!isClockIn || showFields">
+        <!--<app-details-fields></app-details-fields>-->
+        <app-entry-fields></app-entry-fields>
+      </div>
       <hr />
       <div class="container">
         <div class="row">

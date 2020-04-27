@@ -1,0 +1,58 @@
+<form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+  <div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Activity</span>
+    </div>
+    <select id="activitiesSelect" (blur)="onSubmit()" class="form-control">
+      <option *ngFor="let activity of activities">{{ activity.name }}</option>
+    </select>
+  </div>
+  <div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Ticket URI</span>
+    </div>
+    <input (blur)="onSubmit()" type="text" id="uri" formControlName="uri" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
+  </div>
+
+  <div class="input-group input-group-sm">
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Technology</span>
+    </div>
+    <input
+      (keypress)="getTechnologies($event.target.value)"
+      type="text"
+      class="form-control"
+      aria-label="Small"
+      aria-describedby="inputGroup-sizing-sm"
+    />
+  </div>
+
+  <div *ngIf="isLoading">LOADING...</div>
+  <div #list *ngIf="technology && showlist" class="d-flex flex-column technology-content">
+    <div
+      *ngFor="let item of technology.items"
+      (click)="setTechnology(item.name)"
+      class="technology-list"
+      [ngClass]="{ active: selectedTechnology && selectedTechnology.includes(item.name) }"
+    >
+      {{ item.name }}
+    </div>
+  </div>
+  <div class="tags-content d-flex flex-wrap">
+    <div *ngFor="let technology of selectedTechnology; let tagIndex = index" class="tag">
+      <span class="mr-3">{{ technology }}</span>
+      <i class="fas fa-times text-white" (click)="removeTag(tagIndex)"></i>
+    </div>
+  </div>
+
+  <div class="form-group text-left">
+    <label for="NotesTextarea">Description</label>
+    <textarea
+      (blur)="onSubmit()"
+      formControlName="description"
+      class="form-control"
+      id="NotesTextarea"
+      rows="3"
+    ></textarea>
+  </div>
+</form>

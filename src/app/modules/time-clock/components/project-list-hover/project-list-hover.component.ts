@@ -6,6 +6,8 @@ import { ProjectState } from '../../../customer-management/components/projects/c
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
 import * as entryActions from '../../store/entry.actions';
 
+import { selectActiveEntry } from '../../store/entry.selectors';
+
 @Component({
   selector: 'app-project-list-hover',
   templateUrl: './project-list-hover.component.html',
@@ -20,6 +22,7 @@ export class ProjectListHoverComponent implements OnInit {
   filterProjects = '';
   showButton = '';
   keyword = 'name';
+  nameActiveProject: string;
 
   constructor(private store: Store<ProjectState>) {}
 
@@ -31,12 +34,21 @@ export class ProjectListHoverComponent implements OnInit {
       this.isLoading = response.isLoading;
       this.listProjects = response.projectList;
     });
+
+    this.store.dispatch(new entryActions.LoadActiveEntry());
+    const activeEntry$ = this.store.pipe(select(selectActiveEntry));
+
+    activeEntry$.subscribe((response) => {
+      if (response) {
+        this.nameActiveProject = response.name;
+        this.showFields.emit(true);
+      }
+    });
   }
 
   clockIn(id: string) {
     const newEntry = { project_id: id, start_date: new Date().toISOString() };
     this.store.dispatch(new entryActions.CreateEntry(newEntry));
     this.selectedId = id;
-    this.showFields.emit(true);
   }
 }
