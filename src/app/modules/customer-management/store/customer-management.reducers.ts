@@ -6,6 +6,7 @@ export interface CustomerState {
   isLoading: boolean;
   message: string;
   customerIdToEdit: string;
+  customerId: string;
 }
 
 export const initialState: CustomerState = {
@@ -13,6 +14,7 @@ export const initialState: CustomerState = {
   isLoading: false,
   message: '',
   customerIdToEdit: '',
+  customerId: ''
 };
 
 export const customerManagementReducer = (state: CustomerState = initialState, action: CustomerManagementActions) => {
@@ -50,6 +52,7 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
       return {
         ...state,
         data: [...state.data, action.payload],
+        customerId: action.payload.id,
         isLoading: false,
         message: 'Customer created successfully!',
       };
@@ -124,6 +127,7 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
     case CustomerManagementActionTypes.SET_CUSTOMER_ID_TO_EDIT: {
       return {
         ...state,
+        customerId: action.payload,
         customerIdToEdit: action.payload,
       };
     }

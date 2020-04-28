@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { ActivityManagementActionTypes } from '../store';

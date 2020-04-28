@@ -33,11 +33,11 @@ describe('Activity Service', () => {
 
   it('projectTypes are read using GET from baseUrl', () => {
     const projectTypesFoundSize = projectTypes.length;
-    service.baseUrl = 'foo';
-    service.getProjectTypes().subscribe((projecttypesInResponse) => {
+    service.baseUrl = '/project-types';
+    service.getProjectTypes({ customerId: 'xyz' }).subscribe((projecttypesInResponse) => {
       expect(projecttypesInResponse.length).toBe(projectTypesFoundSize);
     });
-    const getProjectTypesRequest = httpMock.expectOne(service.baseUrl);
+    const getProjectTypesRequest = httpMock.expectOne(`${service.baseUrl}?customer_id=xyz`);
     expect(getProjectTypesRequest.request.method).toBe('GET');
     getProjectTypesRequest.flush(projectTypes);
   });
@@ -58,7 +58,9 @@ describe('Activity Service', () => {
   it('ProjectTypes are delete using DELETE from baseUrl', () => {
     const url = `${service.baseUrl}/1`;
     service.deleteProjectType(projectTypes[0].id).subscribe((projectTypesInResponse) => {
-      expect(projectTypesInResponse.filter((activity) => activity.id !== projectTypes[0].id)).toEqual([projectTypes[1]]);
+      expect(projectTypesInResponse.filter((activity) => activity.id !== projectTypes[0].id)).toEqual([
+        projectTypes[1],
+      ]);
     });
     const getProjectTypesRequest = httpMock.expectOne(url);
     expect(getProjectTypesRequest.request.method).toBe('DELETE');

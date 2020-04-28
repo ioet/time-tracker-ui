@@ -3,8 +3,8 @@ import { Customer } from '../../shared/models/index';
 import * as actions from './customer-management.actions';
 
 describe('customerManagementReducer', () => {
-  const initialState: CustomerState = { data: [], isLoading: false, message: '', customerIdToEdit: '' };
-  const customer: Customer = { name: 'aa', description: 'bb'};
+  const initialState: CustomerState = { data: [], isLoading: false, message: '', customerIdToEdit: '', customerId: '' };
+  const customer: Customer = { name: 'aa', description: 'bb' };
 
   it('on LoadCustomer, isLoading is true ', () => {
     const action = new actions.LoadCustomers();
@@ -67,6 +67,7 @@ describe('customerManagementReducer', () => {
       isLoading: false,
       message: '',
       customerIdToEdit: '',
+      customerId: ''
     };
     const customerToDeleteId = '1';
     const action = new actions.DeleteCustomerSuccesss(customerToDeleteId);
@@ -99,6 +100,7 @@ describe('customerManagementReducer', () => {
       isLoading: false,
       message: '',
       customerIdToEdit: '1',
+      customerId: ''
     };
     const customerEdited = { name: 'xx', description: 'yy', tenant_id: 'cc', id: '1' };
     const action = new actions.UpdateCustomerSuccess(customerEdited);

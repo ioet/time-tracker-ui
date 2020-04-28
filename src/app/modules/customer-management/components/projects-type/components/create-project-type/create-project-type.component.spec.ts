@@ -12,6 +12,7 @@ import {
   ResetProjectTypeToEdit,
   getProjectTypeById,
 } from '../../store';
+import { getCustomerId } from 'src/app/modules/customer-management/store/customer-management.selectors';
 import { ProjectType } from '../../../../../shared/models/project-type.model';
 
 describe('InputProjectTypeComponent', () => {
@@ -19,6 +20,7 @@ describe('InputProjectTypeComponent', () => {
   let fixture: ComponentFixture<CreateProjectTypeComponent>;
   let store: MockStore<ProjectTypeState>;
   let projectTypeIdToEditMock;
+  let getCustomerIdMock;
   let allProjectTypesMock;
   let getProjectTypeByIdMock;
   let getProjectTypeByIdSelectorMock;
@@ -68,12 +70,13 @@ describe('InputProjectTypeComponent', () => {
 
   it('should reset form onSubmit and dispatch UpdateProjectType action', () => {
     const currentState = {
-      data: [{ id: '1', name: 'xxx', description: 'xxxx' }],
+      data: [{ id: '1', name: 'xxx', description: 'xxxx', customerId: component.customerId }],
       isLoading: false,
       message: '',
       projectTypeIdToEdit: '1',
     };
 
+    getCustomerIdMock = store.overrideSelector(getCustomerId, 'xyz');
     projectTypeIdToEditMock = store.overrideSelector(projectTypeIdToEdit, currentState.projectTypeIdToEdit);
     allProjectTypesMock = store.overrideSelector(allProjectTypes, currentState.data);
     getProjectTypeByIdMock = store.overrideSelector(allProjectTypesMock, projectTypeIdToEditMock);
@@ -106,12 +109,16 @@ describe('InputProjectTypeComponent', () => {
 
     spyOn(component.projectTypeForm, 'reset');
     spyOn(store, 'dispatch');
-
+    component.customerId = '';
     component.onSubmit(projectType);
+    const projectTypeData = {
+      ...projectType,
+      customer_id: '',
+    };
 
     expect(component.projectTypeForm.reset).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledTimes(1);
-    expect(store.dispatch).toHaveBeenCalledWith(new CreateProjectType(projectType));
+    expect(store.dispatch).toHaveBeenCalledWith(new CreateProjectType(projectTypeData));
   });
 
   it('should get name using projectTypeForm', () => {

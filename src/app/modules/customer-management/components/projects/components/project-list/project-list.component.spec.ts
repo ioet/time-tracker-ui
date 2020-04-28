@@ -50,14 +50,6 @@ describe('ProjectListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('onInit, LoadProjects action is dispatched', () => {
-    spyOn(store, 'dispatch');
-
-    component.ngOnInit();
-
-    expect(store.dispatch).toHaveBeenCalled();
-  });
-
   it('should destroy the subscriptions', () => {
     component.projectsSubscription = new Subscription();
     const subscription = spyOn(component.projectsSubscription, 'unsubscribe');

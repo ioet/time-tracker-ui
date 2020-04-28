@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ITEMS_PER_PAGE } from 'src/environments/environment';
 import { Store, select } from '@ngrx/store';
 
-import { LoadProjectTypes, DeleteProjectType, SetProjectTypeToEdit, allProjectTypes } from '../../store';
+import { DeleteProjectType, SetProjectTypeToEdit, allProjectTypes } from '../../store';
 import { ProjectTypeState } from '../../store';
 import { ProjectType } from '../../../../../shared/models';
 
@@ -20,7 +20,6 @@ export class ProjectTypeListComponent implements OnInit {
   constructor(private store: Store<ProjectTypeState>) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new LoadProjectTypes());
     const projectTypes$ = this.store.pipe(select(allProjectTypes));
     projectTypes$.subscribe((response) => {
       this.projectTypes = response;

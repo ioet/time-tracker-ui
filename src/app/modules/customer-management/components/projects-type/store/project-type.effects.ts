@@ -15,8 +15,8 @@ export class ProjectTypeEffects {
   @Effect()
   getProjectTypes$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ProjectTypeActionTypes.LOAD_PROJECT_TYPES),
-    mergeMap(() =>
-      this.projectTypeService.getProjectTypes().pipe(
+    mergeMap((customerId) =>
+      this.projectTypeService.getProjectTypes(customerId).pipe(
         map((projectTypes: ProjectType[]) => {
           return new actions.LoadProjectTypesSuccess(projectTypes);
         }),

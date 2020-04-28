@@ -51,10 +51,10 @@ describe('ProjectService', () => {
   it('projects are read using GET from url', () => {
     const projectsFoundSize = projectsList.length;
     service.url = '/projects';
-    service.getProjects().subscribe((projectsInResponse) => {
+    service.getProjects({ customerId: 'xyz' }).subscribe((projectsInResponse) => {
       expect(projectsInResponse.length).toBe(projectsFoundSize);
     });
-    const getProjectsRequest = httpMock.expectOne(service.url);
+    const getProjectsRequest = httpMock.expectOne(`${service.url}?customer_id=xyz`);
     expect(getProjectsRequest.request.method).toBe('GET');
     getProjectsRequest.flush(projectsList);
   });

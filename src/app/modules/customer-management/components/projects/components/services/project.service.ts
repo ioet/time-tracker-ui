@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../../environments/environment';
 import { Project } from '../../../../../shared/models';
@@ -13,15 +13,13 @@ export class ProjectService {
 
   constructor(private http: HttpClient) {}
 
-  getProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(this.url);
+  getProjects(customerId: any): Observable<Project[]> {
+    const params = new HttpParams().set('customer_id', customerId.customerId);
+    return this.http.get<Project[]>(this.url, { params });
   }
 
   createProject(projectData): Observable<any> {
-    return this.http.post<Project[]>(this.url, {
-      ...projectData,
-      customer_id: 'b6e6a2f1-ce5c-49b3-8649-d154b4f3c305',
-    });
+    return this.http.post<Project[]>(this.url, projectData);
   }
 
   updateProject(projectData): Observable<any> {

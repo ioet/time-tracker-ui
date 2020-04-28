@@ -24,7 +24,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   constructor(private store: Store<ProjectState>) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new actions.LoadProjects());
     const projects$ = this.store.pipe(select(allProjects));
     this.projectsSubscription = projects$.subscribe((response) => {
       this.isLoading = response.isLoading;

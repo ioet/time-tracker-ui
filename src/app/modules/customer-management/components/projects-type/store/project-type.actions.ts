@@ -22,6 +22,7 @@ export enum ProjectTypeActionTypes {
 
 export class LoadProjectTypes implements Action {
   public readonly type = ProjectTypeActionTypes.LOAD_PROJECT_TYPES;
+  constructor(public customerId?: string) {}
 }
 
 export class LoadProjectTypesSuccess implements Action {
