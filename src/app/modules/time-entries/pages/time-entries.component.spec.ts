@@ -43,13 +43,13 @@ describe('TimeEntriesComponent', () => {
 
   const entry = {
     id: 'entry_1',
-    project: 'Mido - 05 de Febrero',
-    startDate: '2020-02-05T15:36:15.887Z',
-    endDate: '2020-02-05T18:36:15.887Z',
+    project_id: 'Mido - 05 de Febrero',
+    start_date: new Date('2020-02-05T15:36:15.887Z'),
+    end_date: new Date('2020-02-05T18:36:15.887Z'),
     activity: 'development',
     technologies: ['Angular', 'TypeScript'],
     comments: 'No comments',
-    ticket: 'EY-25',
+    uri: 'EY-25',
   };
 
   beforeEach(async(() => {
@@ -89,31 +89,6 @@ describe('TimeEntriesComponent', () => {
     component.openModal(entry);
     expect(component.entryToDelete).toBe(entry);
     expect(component.showModal).toBe(true);
-  });
-
-  it('should filter the Entry to edit', () => {
-    const entryId = 'entry_1';
-    component.editEntry(entryId);
-    expect(component.entry.project).toBe(entry.project);
-    expect(component.entry.startDate).toBe(entry.startDate);
-    expect(component.entry.endDate).toBe(entry.endDate);
-    expect(component.entry.activity).toBe(entry.activity);
-    expect(component.entry.technologies).toEqual(entry.technologies);
-  });
-
-  it('should save an Entry', () => {
-    component.entryId = 'entry_1';
-    component.saveEntry(entry);
-    expect(component.entryList[0].project).toBe('Mido - 05 de Febrero');
-    expect(component.entryList[0].startDate).toBe('2020-02-05T15:36:15.887Z');
-    expect(component.entryList[0].endDate).toBe('2020-02-05T18:36:15.887Z');
-    expect(component.entryList[0].activity).toBe('development');
-  });
-
-  it('should delete a Entry', () => {
-    const entryId = 'entry_5';
-    component.removeEntry(entryId);
-    expect(component.dataByMonth.length).toBe(0);
   });
 
   it('should get the entry List by Month', () => {

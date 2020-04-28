@@ -11,6 +11,9 @@ export enum EntryActionTypes {
   UDPATE_ACTIVE_ENTRY = '[Entry] UDPATE_ACTIVE_ENTRY',
   UDPATE_ACTIVE_ENTRY_SUCCESS = '[Entry] UDPATE_ACTIVE_ENTRY_SUCCESS',
   UDPATE_ACTIVE_ENTRY_FAIL = '[Entry] UDPATE_ACTIVE_ENTRY_FAIL',
+  STOP_TIME_ENTRY_RUNNING = '[Entry] STOP_TIME_ENTRIES_RUNNING',
+  STOP_TIME_ENTRY_RUNNING_SUCCESS = '[Entry] STOP_TIME_ENTRIES_RUNNING_SUCCESS',
+  STOP_TIME_ENTRY_RUNNING_FAILED = '[Entry] STOP_TIME_ENTRIES_RUNNING_FAILED',
 }
 
 export class LoadActiveEntry implements Action {
@@ -64,6 +67,21 @@ export class UpdateActiveEntryFail implements Action {
   constructor(public error: string) {}
 }
 
+export class StopTimeEntryRunning implements Action {
+  public readonly type = EntryActionTypes.STOP_TIME_ENTRY_RUNNING;
+  constructor(readonly payload: string) {}
+}
+
+export class StopTimeEntryRunningSuccess implements Action {
+  public readonly type = EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS;
+  constructor(readonly payload: string) {}
+}
+
+export class StopTimeEntryRunningFail implements Action {
+  public readonly type = EntryActionTypes.STOP_TIME_ENTRY_RUNNING_FAILED;
+  constructor(public error: string) {}
+}
+
 export type EntryActions =
   | LoadActiveEntry
   | LoadActiveEntrySuccess
@@ -73,4 +91,7 @@ export type EntryActions =
   | CreateEntryFail
   | UpdateActiveEntry
   | UpdateActiveEntrySuccess
-  | UpdateActiveEntryFail;
+  | UpdateActiveEntryFail
+  | StopTimeEntryRunning
+  | StopTimeEntryRunningSuccess
+  | StopTimeEntryRunningFail;

@@ -1,8 +1,9 @@
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { allActivities } from './../../store/activity-management.selectors';
 import { ActivityState } from './../../store/activity-management.reducers';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { DeleteActivity, SetActivityToEdit } from './../../store/activity-management.actions';
 import { ActivityListComponent } from './activity-list.component';
 
 describe('ActivityListComponent', () => {
@@ -45,6 +46,22 @@ describe('ActivityListComponent', () => {
     component.ngOnInit();
 
     expect(store.dispatch).toHaveBeenCalled();
+  });
+
+  it('deleteActivity, dispatchs DeleteActivity action', () => {
+    spyOn(store, 'dispatch');
+
+    component.deleteActivity('id');
+
+    expect(store.dispatch).toHaveBeenCalledWith(new DeleteActivity('id'));
+  });
+
+  it('updateActivity, dispatchs SetActivityToEdit action', () => {
+    spyOn(store, 'dispatch');
+
+    component.updateActivity('id');
+
+    expect(store.dispatch).toHaveBeenCalledWith(new SetActivityToEdit('id'));
   });
 
   it('onInit, activities field is populated with data from store', () => {

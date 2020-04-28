@@ -50,4 +50,18 @@ export class EntryEffects {
       )
     )
   );
+
+  @Effect()
+  stopTimeEntryRunning$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.STOP_TIME_ENTRY_RUNNING),
+    map((action: actions.StopTimeEntryRunning) => action.payload),
+    mergeMap((timeEntryId) =>
+      this.entryService.stopEntryRunning(timeEntryId).pipe(
+        map(() => {
+          return new actions.StopTimeEntryRunningSuccess(timeEntryId);
+        }),
+        catchError((error) => of(new actions.StopTimeEntryRunningFail(error.error.message)))
+      )
+    )
+  );
 }

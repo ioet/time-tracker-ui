@@ -14,10 +14,6 @@ describe('EntryService', () => {
     httpMock = TestBed.inject(HttpTestingController);
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
-
   it('services are ready to be used', inject(
     [HttpClientTestingModule, EntryService],
     (httpClient: HttpClientTestingModule, entryService: EntryService) => {
@@ -27,9 +23,8 @@ describe('EntryService', () => {
   ));
 
   it('create entry using POST from baseUrl', () => {
-    const entry: NewEntry[] = [{ project_id: '1', start_date: new Date().toISOString() }];
-
     service.baseUrl = 'time-entries';
+    const entry: NewEntry[] = [{ project_id: '1', start_date: new Date().toISOString() }];
 
     service.createEntry(entry).subscribe((response) => {
       expect(response.length).toBe(1);
@@ -38,5 +33,34 @@ describe('EntryService', () => {
     const createEntryRequest = httpMock.expectOne(service.baseUrl);
     expect(createEntryRequest.request.method).toBe('POST');
     createEntryRequest.flush(entry);
+  });
+
+
+  it('loads an activeEntry with /running', () => {
+    service.baseUrl = 'time-entries';
+
+    service.loadActiveEntry().subscribe((response) => {
+      const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/running`);
+      expect(loadEntryRequest.request.method).toBe('GET');
+    });
+  });
+
+  it('update an entry using PUT', () => {
+    service.baseUrl = 'time-entries';
+
+    const updatedEntry = {foo: 'bar', id: 'id'};
+    service.updateActiveEntry(updatedEntry).subscribe((response) => {
+      const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id`);
+      expect(updateEntryRequest.request.method).toBe('PUT');
+    });
+  });
+
+  it('stops an entry using POST', () => {
+    service.baseUrl = 'time-entries';
+
+    service.stopEntryRunning('id').subscribe((response) => {
+      const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id/stop`);
+      expect(updateEntryRequest.request.method).toBe('POST');
+    });
   });
 });

@@ -38,11 +38,15 @@
       {{ item.name }}
     </div>
   </div>
-  <div class="tags-content d-flex flex-wrap">
+  <div class="tags-content d-flex flex-wrap" *ngIf="selectedTechnology.length">
     <div *ngFor="let technology of selectedTechnology; let tagIndex = index" class="tag">
       <span class="mr-3">{{ technology }}</span>
       <i class="fas fa-times text-white" (click)="removeTag(tagIndex)"></i>
     </div>
+  </div>
+
+  <div class="form-group" *ngIf="selectedTechnology.length === 0">
+    <!-- empty-space -->
   </div>
 
   <div class="form-group text-left">
@@ -52,7 +56,7 @@
       formControlName="description"
       class="form-control"
       id="NotesTextarea"
-      rows="3"
-    ></textarea>
+      rows="3">
+    </textarea>
   </div>
 </form>

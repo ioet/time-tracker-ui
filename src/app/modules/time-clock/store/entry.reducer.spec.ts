@@ -4,7 +4,9 @@ import { entryReducer, EntryState } from './entry.reducer';
 
 describe('entryReducer', () => {
   const initialState: EntryState = { active: null, entryList: [], isLoading: false, message: '' };
-  const newEntry: NewEntry = { project_id: '112', description: 'aaa', technologies: ['angular', 'typescript'] };
+
+  const entry: NewEntry = { start_date: 'start-date', description:
+  'description', project_id: '112', technologies: ['angular', 'typescript']};
 
   it('on LoadActiveEntry, isLoading is true', () => {
     const action = new actions.LoadActiveEntry();
@@ -28,20 +30,11 @@ describe('entryReducer', () => {
   });
 
   it('on CreateEntry, isLoading is true', () => {
-    const entry: NewEntry = { project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00' };
-    const action = new actions.CreateEntry(entry);
+    const entryToCreate: NewEntry = { project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00' };
+    const action = new actions.CreateEntry(entryToCreate);
     const state = entryReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
-  });
-
-  it('on CreateEntrySuccess, entry is saved in the store', () => {
-    const entry: NewEntry = { project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00' };
-    const action = new actions.CreateEntrySuccess(entry);
-    const state = entryReducer(initialState, action);
-
-    expect(state.entryList).toEqual([entry]);
-    expect(state.isLoading).toEqual(false);
   });
 
   it('on CreateEntryFail, entryList equal []', () => {
@@ -53,23 +46,22 @@ describe('entryReducer', () => {
   });
 
   it('on UpdateActiveEntry, isLoading is true', () => {
-    const action = new actions.UpdateActiveEntry(newEntry);
+    const action = new actions.UpdateActiveEntry(entry);
     const state = entryReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
   });
 
-  it('on UpdateActiveEntrySuccess, active is saved in the store', () => {
+  it('on UpdateActiveEntrySuccess, loading is false', () => {
     const currentState: EntryState = {
-      active: newEntry,
+      active: null,
       entryList: [],
       isLoading: false,
       message: '',
     };
-    const action = new actions.UpdateActiveEntrySuccess(newEntry);
+    const action = new actions.UpdateActiveEntrySuccess(entry);
     const state = entryReducer(currentState, action);
 
-    expect(state.active).toEqual(newEntry);
     expect(state.isLoading).toEqual(false);
   });
 
@@ -80,4 +72,29 @@ describe('entryReducer', () => {
     expect(state.active).toBe(null);
     expect(state.isLoading).toEqual(false);
   });
+
+  it('on StopTimeEntryRunning, is loading false', () => {
+    const action = new actions.StopTimeEntryRunning('id');
+
+    const state = entryReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(true);
+  });
+
+  it('on StopTimeEntryRunningSuccess, active to be null', () => {
+    const action = new actions.StopTimeEntryRunningSuccess('id');
+
+    const state = entryReducer(initialState, action);
+
+    expect(state.active).toEqual(null);
+  });
+
+  it('on UpdateActiveEntryFail, isLoading is false', () => {
+    const action = new actions.StopTimeEntryRunningFail('id');
+
+    const state = entryReducer(initialState, action);
+
+    expect(state.isLoading).toBeFalsy();
+  });
+
 });

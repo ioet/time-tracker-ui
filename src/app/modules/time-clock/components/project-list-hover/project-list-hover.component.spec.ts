@@ -6,7 +6,6 @@ import { ProjectListHoverComponent } from './project-list-hover.component';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { allProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
-import { NewEntry } from '../../../shared/models';
 import * as action from '../../store/entry.actions';
 
 describe('ProjectListHoverComponent', () => {
@@ -54,22 +53,11 @@ describe('ProjectListHoverComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set selectedId with Id and dispatch CreateEntry action', () => {
+  it('clock-in dispatchs a new action', () => {
     spyOn(store, 'dispatch');
-    const id = 'P1';
-    const entryData: NewEntry = {
-      project_id: id,
-      start_date: new Date().toISOString(),
-    };
-    component.clockIn(id);
 
-    expect(store.dispatch).toHaveBeenCalledWith(new action.CreateEntry(entryData));
-    expect(component.selectedId).toBe(id);
-  });
+    component.clockIn('id');
 
-  it('should emit showFields event', () => {
-    const id = 'P1';
-    component.showFields.subscribe((showFields: boolean) => expect(showFields).toEqual(true));
-    component.clockIn(id);
+    expect(store.dispatch).toHaveBeenCalledWith(new action.CreateEntry({project_id: 'id', start_date: new Date().toISOString() }));
   });
 });

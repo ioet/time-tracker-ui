@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { getActiveTimeEntry } from './../../store/entry.selectors';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
@@ -10,7 +11,6 @@ import { ProjectState } from '../../../customer-management/components/projects/c
 import { TechnologyState } from '../../../shared/store/technology.reducers';
 import { LoadActivities, ActivityState, allActivities } from '../../../activities-management/store';
 
-import { allEntries } from '../../store/entry.selectors';
 import * as entryActions from '../../store/entry.actions';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
@@ -21,6 +21,7 @@ type Merged = TechnologyState & ProjectState & ActivityState;
   styleUrls: ['./entry-fields.component.scss'],
 })
 export class EntryFieldsComponent implements OnInit {
+
   @ViewChild('list') list: ElementRef;
   entryForm: FormGroup;
   technology: Technology;
@@ -57,15 +58,17 @@ export class EntryFieldsComponent implements OnInit {
       this.activities = response;
     });
 
-    const activeEntry$ = this.store.pipe(select(allEntries));
+    const activeEntry$ = this.store.pipe(select(getActiveTimeEntry));
     activeEntry$.subscribe((response) => {
-      this.activeEntry = response.active;
-      this.setDataToUpdate(this.activeEntry);
-      this.newData = {
-        id: this.activeEntry.id,
-        project_id: this.activeEntry.project_id,
-        uri: this.activeEntry.uri,
-      };
+      if (response) {
+        this.activeEntry = response;
+        this.setDataToUpdate(this.activeEntry);
+        this.newData = {
+          id: this.activeEntry.id,
+          project_id: this.activeEntry.project_id,
+          uri: this.activeEntry.uri,
+        };
+      }
     });
   }
 
@@ -92,7 +95,6 @@ export class EntryFieldsComponent implements OnInit {
 
   setTechnology(name: string) {
     const index = this.selectedTechnology.indexOf(name);
-
     if (index > -1) {
       this.removeTag(index);
     } else if (this.selectedTechnology.length < 10) {
@@ -111,4 +113,5 @@ export class EntryFieldsComponent implements OnInit {
   onSubmit() {
     this.store.dispatch(new entryActions.UpdateActiveEntry({ ...this.newData, ...this.entryForm.value }));
   }
+
 }

@@ -15,7 +15,7 @@ export class TechnologyEffects {
     ofType(actions.TechnologyActionTypes.FIND_TECHNOLOGIES),
     map((action: actions.FindTechnology) => action.payload),
     mergeMap((value) =>
-      this.technologyService.getTechnologies(value).pipe(
+      this.technologyService.getTechnologies(value.toLowerCase()).pipe(
         map((technology) => {
           return new actions.FindTechnologySuccess(technology);
         }),

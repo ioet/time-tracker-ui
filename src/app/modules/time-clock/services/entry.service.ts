@@ -24,4 +24,9 @@ export class EntryService {
     const { id } = entryData;
     return this.http.put(`${this.baseUrl}/${id}`, entryData);
   }
+
+  stopEntryRunning(idEntry: string): Observable<any> {
+    const url = `${this.baseUrl}/${idEntry}/stop`;
+    return this.http.post(url, null);
+  }
 }
