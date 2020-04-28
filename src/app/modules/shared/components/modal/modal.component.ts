@@ -24,9 +24,4 @@ export class ModalComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void { }
-
-  removeListById(projectId: string) {
-    this.removeList.emit(projectId);
-    this.cancelDeleteModal.nativeElement.click();
-  }
 }

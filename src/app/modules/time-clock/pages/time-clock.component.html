@@ -1,52 +1,53 @@
 <div class="text-center mt-3">
-  <div *ngIf="showAlertEnterTecnology" class="alert alert-danger" role="alert">
-    Field technology is requiered. Enter this field for clock out.
+  <div class="alert alert-danger" role="alert">
+    {{message}}
   </div>
 
   <div class="card">
     <div class="card-body">
-      <p *ngIf="!isClockIn" class="card-title text-left">
-        <strong>{{ username }}</strong> clocked <strong class="text-clock-in-color">in</strong> at
-        <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong>
-      </p>
-      <p *ngIf="isClockIn" class="card-title text-left">
-        <strong>{{ username }}</strong> clocked <strong class="text-danger">out</strong> at
-        <strong>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</strong>
-      </p>
-      <h6 class="text-left"><strong>Totals</strong></h6>
+      <h6 class="text-left"><strong>Summary</strong></h6>
       <hr />
       <div class="row pb-4">
-        <div class="col-4">
-          <h6>Current</h6>
-          <h3>{{ hour | number: '2.0-2' }}:{{ minute | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</h3>
-        </div>
         <div class="col-4">
           <h6>Day</h6>
           <h3>4:22</h3>
         </div>
         <div class="col-4">
           <h6>Week</h6>
-          <h3>14:00</h3>
+          <h3>14:25</h3>
         </div>
+        <div class="col-4">
+          <h6>Month</h6>
+          <h3>49:32</h3>
+        </div>
+      </div>
+      <hr />
+      <div class="row pb-4">
+        <div class="col-12">
+          <p *ngIf="areFieldsVisible" class="card-title text-left">
+            <strong>{{ username }}</strong> clocked <strong class="text-clock-in-color">in</strong> at
+            <strong>{{ activeTimeEntry?.start_date | date:'shortTime' }}</strong>
+          </p>
+          <p *ngIf="!areFieldsVisible" class="card-title text-left">
+            <strong>{{ username }}</strong> you did not clock-in yet.
+          </p>
+        </div>
+
       </div>
       <div class="input-group input-group-sm mb-3 flex-nowrap">
         <div class="input-group-prepend">
           <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
         </div>
-        <app-project-list-hover class="w-100" (showFields)="setShowFields($event)"></app-project-list-hover>
+        <app-project-list-hover class="w-100"></app-project-list-hover>
       </div>
-      <div *ngIf="!isClockIn || showFields">
-        <!--<app-details-fields></app-details-fields>-->
+      <div *ngIf="areFieldsVisible">
         <app-entry-fields></app-entry-fields>
       </div>
       <hr />
       <div class="container">
         <div class="row">
           <div class="col text-right">
-            <button *ngIf="isClockIn" class="btn btn-primary" type="button" (click)="employeClockIn()">
-              Clock In
-            </button>
-            <button *ngIf="!isClockIn" class="btn btn-primary" type="button" (click)="employeClockOut()">
+            <button *ngIf="areFieldsVisible" class="btn btn-primary" type="button" (click)="clockOut()">
               Clock Out
             </button>
           </div>

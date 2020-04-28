@@ -1,8 +1,8 @@
 import { EntryActions, EntryActionTypes } from './entry.actions';
-import { Entry, NewEntry } from '../../shared/models';
+import { Entry } from '../../shared/models';
 
 export interface EntryState {
-  active: NewEntry;
+  active: Entry;
   entryList: Entry[];
   isLoading: boolean;
   message: string;
@@ -49,6 +49,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
     case EntryActionTypes.CREATE_ENTRY_SUCCESS: {
       return {
         ...state,
+        active: action.payload,
         entryList: [...state.entryList, action.payload],
         isLoading: false,
         message: 'Entry Created',
@@ -89,7 +90,28 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
     }
 
-    default:
-      return state;
+    case EntryActionTypes.STOP_TIME_ENTRY_RUNNING: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS: {
+      return {
+        ...state,
+        active: null,
+        isLoading: false,
+        message: 'You just clocked-out successfully',
+      };
+    }
+
+    case EntryActionTypes.STOP_TIME_ENTRY_RUNNING_FAILED: {
+      return {
+        ...state,
+        isLoading: false,
+        message: 'An unexpected error happened, try again later',
+      };
+    }
   }
 };

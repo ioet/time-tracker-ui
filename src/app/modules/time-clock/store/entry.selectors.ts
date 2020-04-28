@@ -11,8 +11,12 @@ export const allEntries = createSelector(getEntryState, (state: EntryState) => {
 export const selectProjects = (state) => state.projects.projectList;
 export const selectEntries = (state) => state.entries.active;
 
-export const selectActiveEntry = createSelector(selectProjects, selectEntries, (selectedProject, selectedEntry) => {
-  if (selectedProject && selectedEntry) {
-    return selectedProject.find((project) => project.id === selectedEntry.project_id);
+export const getActiveTimeEntry = createSelector(getEntryState, (state: EntryState) => {
+  return state.active;
+});
+
+export const getStatusMessage = createSelector(getEntryState, (state: EntryState) => {
+  if (state) {
+    return state.message;
   }
 });

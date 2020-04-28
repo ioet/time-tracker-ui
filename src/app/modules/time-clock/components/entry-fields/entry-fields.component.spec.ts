@@ -7,7 +7,6 @@ import { allTechnologies } from '../../../shared/store/technology.selectors';
 import { EntryFieldsComponent } from './entry-fields.component';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { allProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
-import { allEntries } from '../../store/entry.selectors';
 import * as actions from '../../../shared/store/technology.actions';
 import * as entryActions from '../../store/entry.actions';
 
@@ -18,7 +17,6 @@ describe('EntryFieldsComponent', () => {
   let store: MockStore<Merged>;
   let mockTechnologySelector;
   let mockProjectsSelector;
-  let mockEntrySelector;
   let length;
 
   const state = {
@@ -68,7 +66,6 @@ describe('EntryFieldsComponent', () => {
     store = TestBed.inject(MockStore);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(allProjects, state.projects);
-    mockEntrySelector = store.overrideSelector(allEntries, state.entries);
   }));
 
   beforeEach(() => {

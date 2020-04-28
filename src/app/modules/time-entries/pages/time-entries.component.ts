@@ -17,8 +17,8 @@ export class TimeEntriesComponent implements OnInit {
     {
       id: 'entry_1',
       project: 'Mido - 05 de Febrero',
-      startDate: '2020-02-05T15:36:15.887Z',
-      endDate: '2020-02-05T18:36:15.887Z',
+      start_date: new Date('2020-02-05T15:36:15.887Z'),
+      end_date: new Date('2020-02-05T18:36:15.887Z'),
       activity: 'development',
       technologies: ['Angular', 'TypeScript'],
       comments: 'No comments',
@@ -27,8 +27,8 @@ export class TimeEntriesComponent implements OnInit {
     {
       id: 'entry_2',
       project: 'Mido 15 de Marzo',
-      startDate: '2020-03-15T20:36:15.887Z',
-      endDate: '2020-03-15T23:36:15.887Z',
+      start_date: new Date('2020-03-15T20:36:15.887Z'),
+      end_date: new Date('2020-03-15T23:36:15.887Z'),
       activity: 'development',
       technologies: ['Angular', 'TypeScript'],
       comments: 'No comments',
@@ -37,8 +37,8 @@ export class TimeEntriesComponent implements OnInit {
     {
       id: 'entry_3',
       project: 'GoSpace 15 y 16 de Marzo',
-      startDate: '2020-03-15T23:36:15.887Z',
-      endDate: '2020-03-16T05:36:15.887Z',
+      start_date: new Date('2020-03-15T23:36:15.887Z'),
+      end_date: new Date('2020-03-16T05:36:15.887Z'),
       activity: 'development',
       technologies: ['Angular', 'TypeScript'],
       comments: 'No comments',
@@ -47,8 +47,8 @@ export class TimeEntriesComponent implements OnInit {
     {
       id: 'entry_4',
       project: 'Mido 16 de Marzo',
-      startDate: '2020-03-16T15:36:15.887Z',
-      endDate: '2020-03-16T18:36:15.887Z',
+      start_date: new Date('2020-03-16T15:36:15.887Z'),
+      end_date: new Date('2020-03-16T18:36:15.887Z'),
       activity: 'development',
       technologies: ['javascript', 'java-stream'],
       comments: 'No comments',
@@ -57,8 +57,8 @@ export class TimeEntriesComponent implements OnInit {
     {
       id: 'entry_5',
       project: 'Ernst&Young 01 de Abril',
-      startDate: '2020-04-01T09:36:15.887Z',
-      endDate: '2020-04-01T15:36:15.887Z',
+      start_date: new Date('2020-04-01T09:36:15.887Z'),
+      end_date: new Date('2020-04-01T15:36:15.887Z'),
       activity: 'development',
       technologies: ['javascript', 'java', 'java-stream'],
       comments: 'No comments',
@@ -69,7 +69,7 @@ export class TimeEntriesComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.dataByMonth = this.entryList.filter((entry) => new Date(entry.startDate).getMonth() === new Date().getMonth());
+    this.dataByMonth = this.entryList.filter((entry) => entry.start_date.getMonth() === new Date().getMonth());
   }
 
   openModal(itemToDelete: Entry) {
@@ -78,23 +78,18 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   editEntry(entryId: string) {
-    this.entryId = entryId;
-    this.entry = this.entryList.find((entry) => entry.id === entryId);
+    // TODO: implement the required logic to edit an entry using the API
   }
 
   saveEntry(newData): void {
-    const entryIndex = this.entryList.findIndex((entry) => entry.id === this.entryId);
-    this.entryList[entryIndex].project = newData.project;
-    this.entryList[entryIndex].activity = newData.activity;
-    this.entryList[entryIndex].ticket = newData.jiraTicket;
-    this.entryList[entryIndex].comments = newData.notes;
+    // TODO: implement the required logic to save an entry using the API
   }
 
   removeEntry(entryId: string) {
-    this.dataByMonth = this.dataByMonth.filter((entry: Entry) => entry.id !== entryId);
+    // TODO: implement the required logic to delete an entry using the API
   }
 
   getMonth(month: number) {
-    this.dataByMonth = this.entryList.filter((entry) => new Date(entry.startDate).getMonth() === month);
+    this.dataByMonth = this.entryList.filter((entry) => new Date(entry.start_date).getMonth() === month);
   }
 }

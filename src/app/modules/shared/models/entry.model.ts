@@ -1,12 +1,12 @@
 export interface Entry {
   id: string;
-  project: string;
-  startDate: string;
-  endDate: string;
+  start_date: Date;
+  end_date: Date;
   activity: string;
   technologies: string[];
   comments?: string;
   uri?: string;
+  project_id?: string;
 }
 
 export interface NewEntry {
