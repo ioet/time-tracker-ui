@@ -133,7 +133,5 @@ export function activityManagementReducer(state: ActivityState = initialState, a
       };
     }
 
-    default:
-      return state;
   }
 }

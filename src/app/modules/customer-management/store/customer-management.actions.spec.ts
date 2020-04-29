@@ -5,7 +5,6 @@ describe('CustomerManagmentActions', () => {
     const createActivity = new actions.CreateCustomer({
       name: 'aa',
       description: 'bb',
-      tenant_id: 'cc',
     });
     expect(createActivity.type).toEqual(actions.CustomerManagementActionTypes.CREATE_CUSTOMER);
   });
@@ -14,7 +13,6 @@ describe('CustomerManagmentActions', () => {
     const createActivitySuccess = new actions.CreateCustomerSuccess({
       name: 'aa',
       description: 'bb',
-      tenant_id: 'cc',
     });
     expect(createActivitySuccess.type).toEqual(actions.CustomerManagementActionTypes.CREATE_CUSTOMER_SUCCESS);
   });
@@ -53,7 +51,6 @@ describe('CustomerManagmentActions', () => {
     const updateCustomer = new actions.UpdateCustomer({
       name: 'aa',
       description: 'bb',
-      tenant_id: 'cc',
     });
     expect(updateCustomer.type).toEqual(actions.CustomerManagementActionTypes.UPDATE_CUSTOMER);
   });
@@ -62,7 +59,6 @@ describe('CustomerManagmentActions', () => {
     const updateCustomerSucess = new actions.UpdateCustomerSuccess({
       name: 'aa',
       description: 'bb',
-      tenant_id: 'cc',
     });
     expect(updateCustomerSucess.type).toEqual(actions.CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS);
   });

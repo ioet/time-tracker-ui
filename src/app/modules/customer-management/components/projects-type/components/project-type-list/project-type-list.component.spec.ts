@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
 
+import { DeleteProjectType, SetProjectTypeToEdit } from './../../store/project-type.actions';
 import { allProjectTypes, ProjectTypeState } from '../../store';
 import { ProjectTypeListComponent } from './project-type-list.component';
 
@@ -55,6 +55,22 @@ describe('ProjectTypeTableListComponent', () => {
   it('onInit, projectTypes field is populated with data from store', () => {
     component.ngOnInit();
     expect(component.projectTypes).toBe(state.data);
+  });
+
+  it('dispatchs DeleteProjectType on deleteProjectType', () => {
+    spyOn(store, 'dispatch');
+
+    component.deleteProjectType('id');
+
+    expect(store.dispatch).toHaveBeenCalledWith(new DeleteProjectType('id'));
+  });
+
+  it('dispatchs UpdateProjectType on updateProjectType', () => {
+    spyOn(store, 'dispatch');
+
+    component.updateProjectType('id');
+
+    expect(store.dispatch).toHaveBeenCalledWith(new SetProjectTypeToEdit('id'));
   });
 
 });
