@@ -27,7 +27,7 @@ describe('CustomerService', () => {
   ));
 
   it('create customer using POST from baseUrl', () => {
-    const customer: Customer[] = [{ name: 'aa', description: 'bb', tenant_id: 'cc' }];
+    const customer: Customer[] = [{ name: 'aa', description: 'bb'}];
 
     service.baseUrl = 'customers';
 

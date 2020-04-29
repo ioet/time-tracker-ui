@@ -4,7 +4,7 @@ import * as actions from './customer-management.actions';
 
 describe('customerManagementReducer', () => {
   const initialState: CustomerState = { data: [], isLoading: false, message: '', customerIdToEdit: '' };
-  const customer: Customer = { name: 'aa', description: 'bb', tenant_id: 'cc' };
+  const customer: Customer = { name: 'aa', description: 'bb'};
 
   it('on LoadCustomer, isLoading is true ', () => {
     const action = new actions.LoadCustomers();
