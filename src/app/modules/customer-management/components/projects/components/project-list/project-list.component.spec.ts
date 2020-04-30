@@ -1,8 +1,9 @@
-import { getProjects } from './../store/project.selectors';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Subscription } from 'rxjs';
+
+import { getProjects } from './../store/project.selectors';
 import { ProjectListComponent } from './project-list.component';
 import { ProjectState } from '../store/project.reducer';
 import { getCustomerProjects } from '../store/project.selectors';

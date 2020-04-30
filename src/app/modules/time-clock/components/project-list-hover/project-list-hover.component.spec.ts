@@ -6,7 +6,6 @@ import { ProjectListHoverComponent } from './project-list-hover.component';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
-import * as action from '../../store/entry.actions';
 
 describe('ProjectListHoverComponent', () => {
   let component: ProjectListHoverComponent;
