@@ -4,7 +4,6 @@ import { Store, select } from '@ngrx/store';
 
 import { getActiveTimeEntry } from './../../store/entry.selectors';
 import { Project } from 'src/app/modules/shared/models';
-import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
 import * as entryActions from '../../store/entry.actions';
