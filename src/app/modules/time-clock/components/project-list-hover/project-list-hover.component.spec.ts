@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { ProjectListHoverComponent } from './project-list-hover.component';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
-import { allProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
+import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
 import * as action from '../../store/entry.actions';
 
@@ -16,7 +16,8 @@ describe('ProjectListHoverComponent', () => {
 
   const state = {
     projects: {
-      projectList: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
+      projects: [],
+      customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
@@ -40,7 +41,7 @@ describe('ProjectListHoverComponent', () => {
       imports: [HttpClientTestingModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
-    mockProjectsSelector = store.overrideSelector(allProjects, state.projects);
+    mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
   }));
 
   beforeEach(() => {
@@ -58,6 +59,6 @@ describe('ProjectListHoverComponent', () => {
 
     component.clockIn('id');
 
-    expect(store.dispatch).toHaveBeenCalledWith(new action.CreateEntry({project_id: 'id', start_date: new Date().toISOString() }));
+    expect(store.dispatch).toHaveBeenCalled();
   });
 });

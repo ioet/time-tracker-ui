@@ -15,7 +15,8 @@ describe('InputProjectComponent', () => {
   let getProjectToEditMock;
 
   const state = {
-    projectList: [{ id: '', name: '', project_type_id: '' }],
+    projects: [{ id: '', name: '', project_type_id: '' }],
+    customerProjects: [{ id: '', name: '', project_type_id: '' }],
     isLoading: false,
     message: '',
     projectToEdit: undefined,
@@ -75,6 +76,8 @@ describe('InputProjectComponent', () => {
 
   it('should reset form #onSubmit and dispatch UpdateProject action', () => {
     const currentState = {
+      projects: [],
+      customerProjects: [],
       data: [project],
       isLoading: false,
       message: '',

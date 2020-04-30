@@ -18,6 +18,10 @@ export class ProjectService {
     return this.http.get<Project[]>(this.url, { params });
   }
 
+  getAllProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(this.url);
+  }
+
   createProject(projectData): Observable<any> {
     return this.http.post<Project[]>(this.url, projectData);
   }

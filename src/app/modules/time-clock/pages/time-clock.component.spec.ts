@@ -18,7 +18,8 @@ describe('TimeClockComponent', () => {
   let azureAdB2CService: AzureAdB2CService;
   const state = {
     projects: {
-      projectList: [{ id: 'id', name: 'name', description: 'description' }],
+      projects: [{ id: 'id', name: 'name', project_type_id: '' }],
+      customerProjects: [{ id: 'id', name: 'name', description: 'description' }],
       isLoading: false,
     },
     activities: {

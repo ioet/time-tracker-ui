@@ -5,6 +5,7 @@ import { Activity } from '../../shared/models';
 import { ActivityService } from './../services/activity.service';
 import { ActivitiesManagementComponent } from './activities-management.component';
 import { ActionsSubject } from '@ngrx/store';
+import { ActivityManagementActionTypes } from '../store';
 
 describe('ActivitiesManagementComponent', () => {
   let component: ActivitiesManagementComponent;
@@ -43,6 +44,12 @@ describe('ActivitiesManagementComponent', () => {
 
     component.ngOnInit();
     expect(component.setDataNotification).toHaveBeenCalledWith(action.type);
+  });
+
+  it('has a succesfull message on CREATE_ACTIVITY_SUCCESS', () => {
+    component.setDataNotification(ActivityManagementActionTypes.CREATE_ACTIVITY_SUCCESS);
+
+    expect(component.notificationMsg).toBe('The activity has been saved successfully.');
   });
 
   it('should destroy the subscription', () => {

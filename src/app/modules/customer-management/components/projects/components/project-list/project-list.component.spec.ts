@@ -1,10 +1,11 @@
+import { getProjects } from './../store/project.selectors';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Subscription } from 'rxjs';
 import { ProjectListComponent } from './project-list.component';
 import { ProjectState } from '../store/project.reducer';
-import { allProjects } from '../store/project.selectors';
+import { getCustomerProjects } from '../store/project.selectors';
 import { SetProjectToEdit, DeleteProject } from '../store/project.actions';
 import { FilterProjectPipe } from '../../../../../shared/pipes';
 
@@ -12,10 +13,12 @@ describe('ProjectListComponent', () => {
   let component: ProjectListComponent;
   let fixture: ComponentFixture<ProjectListComponent>;
   let store: MockStore<ProjectState>;
-  let allProjectsSelectorMock;
+  let getCustomerProjectsSelectorMock;
+  let allCustomerProjectsSelectorMock;
 
-  const state = {
-    projectList: [{ id: 'id', name: 'name', project_type_id: '' }],
+  const state: ProjectState = {
+    projects: [],
+    customerProjects: [],
     isLoading: false,
     message: '',
     projectToEdit: undefined,
@@ -23,22 +26,21 @@ describe('ProjectListComponent', () => {
 
   const project = { id: '123', name: 'aaa', description: 'xxx', project_type_id: '1234' };
 
-  beforeEach(async(() => {
+  beforeEach(
+    () => {
     TestBed.configureTestingModule({
       imports: [NgxPaginationModule],
       declarations: [ProjectListComponent, FilterProjectPipe],
       providers: [provideMockStore({ initialState: state })],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ProjectListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
 
     store = TestBed.inject(MockStore);
     store.setState(state);
-    allProjectsSelectorMock = store.overrideSelector(allProjects, state);
+    getCustomerProjectsSelectorMock = store.overrideSelector(getCustomerProjects, state);
+    allCustomerProjectsSelectorMock = store.overrideSelector(getProjects, state.projects);
     component.projectsSubscription = new Subscription();
   });
 
@@ -48,6 +50,12 @@ describe('ProjectListComponent', () => {
 
   it('component should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('loads projects from state onInit', () => {
+    component.ngOnInit();
+
+    expect(component.projects).toBe(state.customerProjects);
   });
 
   it('should destroy the subscriptions', () => {
@@ -60,10 +68,12 @@ describe('ProjectListComponent', () => {
   });
 
   it('updateProject, should dispatch SetProjectToEdit action', () => {
+    spyOn(store, 'dispatch');
     component.projectsSubscription = new Subscription();
     const subscription = spyOn(component.projectsSubscription, 'unsubscribe');
-    spyOn(store, 'dispatch');
+
     component.updateProject(project);
+
     component.ngOnDestroy();
 
     expect(subscription).toHaveBeenCalledTimes(1);
