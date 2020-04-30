@@ -113,5 +113,9 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         message: 'An unexpected error happened, try again later',
       };
     }
+
+    default : {
+      return state;
+    }
   }
 };
