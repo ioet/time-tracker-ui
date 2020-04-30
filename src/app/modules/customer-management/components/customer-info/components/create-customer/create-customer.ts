@@ -8,10 +8,11 @@ import { Customer } from 'src/app/modules/shared/models';
 import {
   CustomerState,
   CreateCustomer,
-  LoadCustomers,
   UpdateCustomer,
   ResetCustomerToEdit,
 } from 'src/app/modules/customer-management/store';
+import { LoadProjectTypes } from '../../../projects-type/store';
+import { LoadProjects } from '../../../projects/components/store/project.actions';
 
 @Component({
   selector: 'app-create-customer',
@@ -64,7 +65,6 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       this.customerForm.reset();
     } else {
       this.store.dispatch(new CreateCustomer(customerData));
-      this.store.dispatch(new LoadCustomers());
     }
     this.showAlert = true;
     setTimeout(() => (this.showAlert = false), 3000);
@@ -85,6 +85,8 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
 
   setDataToUpdate(customerData: Customer) {
     if (customerData) {
+      this.store.dispatch(new LoadProjectTypes(customerData.id));
+      this.store.dispatch(new LoadProjects(customerData.id));
       this.changeValueAreTabsActives.emit(true);
       this.customerForm.setValue({
         name: customerData.name,

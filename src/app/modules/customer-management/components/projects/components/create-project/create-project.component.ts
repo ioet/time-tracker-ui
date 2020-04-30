@@ -8,6 +8,7 @@ import { getProjectToEdit } from '../store/project.selectors';
 import { Project, ProjectType } from 'src/app/modules/shared/models';
 import { allProjectTypes, ProjectTypeState } from '../../../projects-type/store';
 import { Subscription } from 'rxjs';
+import { getCustomerId } from 'src/app/modules/customer-management/store/customer-management.selectors';
 
 @Component({
   selector: 'app-create-project',
@@ -18,9 +19,11 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
   projectForm;
   projectToEdit: Project;
   projectsTypes: ProjectType[] = [];
+  customerId: string;
 
   projectTypesSubscription: Subscription;
   projectToEditSubscription: Subscription;
+  getCustomerIdSubscription: Subscription;
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<ProjectState>,
@@ -44,11 +47,16 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
     this.projectTypesSubscription = projectsTypes$.subscribe((projectsType) => {
       this.projectsTypes = projectsType;
     });
+    const getCustomerId$ = this.store.pipe(select(getCustomerId));
+    this.getCustomerIdSubscription = getCustomerId$.subscribe((customerId) => {
+      this.customerId = customerId;
+    });
   }
 
   ngOnDestroy() {
     this.projectToEditSubscription.unsubscribe();
     this.projectTypesSubscription.unsubscribe();
+    this.getCustomerIdSubscription.unsubscribe();
   }
 
   onSubmit(formData) {
@@ -60,7 +68,7 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
       const projectData = { id: this.projectToEdit.id, ...formData };
       this.store.dispatch(new actions.UpdateProject(projectData));
     } else {
-      this.store.dispatch(new actions.CreateProject(formData));
+      this.store.dispatch(new actions.CreateProject({ ...formData, customer_id: this.customerId }));
     }
     this.resetValuesForm();
   }

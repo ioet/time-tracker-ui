@@ -156,30 +156,39 @@ describe('InputProjectComponent', () => {
 
     spyOn(component.projectForm, 'reset');
     spyOn(store, 'dispatch');
-
+    component.customerId = '';
     component.onSubmit(projectForm);
+    const projectData = {
+      ...projectForm,
+      customer_id: '',
+    };
 
     expect(component.projectForm.reset).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledTimes(1);
-    expect(store.dispatch).toHaveBeenCalledWith(new CreateProject(projectForm));
+    expect(store.dispatch).toHaveBeenCalledWith(new CreateProject(projectData));
   });
 
   it('should reset form onSubmit and dispatch CreateProject action with null project_type_id', () => {
     const dataForm = {
       name: 'Test',
       description: 'xxx',
-      project_type_id: '',
+      project_type_id: null,
     };
     component.projectToEdit = undefined;
 
     spyOn(component.projectForm, 'reset');
     spyOn(store, 'dispatch');
+    component.customerId = '';
+    const projectData = {
+      ...dataForm,
+      customer_id: '',
+    };
 
     component.onSubmit(dataForm);
     expect(dataForm.project_type_id).toBe(null);
     expect(component.projectForm.reset).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledTimes(1);
-    expect(store.dispatch).toHaveBeenCalledWith(new CreateProject(dataForm));
+    expect(store.dispatch).toHaveBeenCalledWith(new CreateProject(projectData));
   });
 
   it('should set data in projectForm', () => {

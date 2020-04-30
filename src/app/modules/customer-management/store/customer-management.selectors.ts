@@ -1,6 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-
 import { CustomerState } from './customer-management.reducers';
 export const getCustomerState = createFeatureSelector<CustomerState>('customers');
 
@@ -22,10 +21,16 @@ export const customerIdtoEdit = createSelector(getCustomerState, (state: Custome
   }
 });
 
-export const getCustomerById = createSelector(allCustomers, customerIdtoEdit, (customers, customerId) => {
+export const getCustomerId = createSelector(getCustomerState, (state: CustomerState) => {
+  if (state) {
+    return state.customerId;
+  }
+});
+
+export const getCustomerById = createSelector(allCustomers, customerIdtoEdit, (customers, customerIdToEdit) => {
   if (customers) {
     return customers.find((customer) => {
-      return customer.id === customerId;
+      return customer.id === customerIdToEdit;
     });
   }
 });

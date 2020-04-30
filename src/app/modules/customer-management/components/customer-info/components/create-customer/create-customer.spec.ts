@@ -4,7 +4,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { CreateCustomerComponent } from './create-customer';
 import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
-import { LoadCustomers, ResetCustomerToEdit, UpdateCustomer } from './../../../../store/customer-management.actions';
+import { ResetCustomerToEdit, UpdateCustomer } from './../../../../store/customer-management.actions';
 import { Customer } from 'src/app/modules/shared/models';
 
 describe('CreateCustomerComponent', () => {
@@ -17,6 +17,7 @@ describe('CreateCustomerComponent', () => {
     isLoading: false,
     message: '',
     customerIdToEdit: '',
+    customerId: '',
   };
 
   const customerData: Customer = {
@@ -69,9 +70,8 @@ describe('CreateCustomerComponent', () => {
 
     component.onSubmit(customerData);
 
-    expect(store.dispatch).toHaveBeenCalledTimes(2);
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(new CreateCustomer(customerData));
-    expect(store.dispatch).toHaveBeenCalledWith(new LoadCustomers());
   });
 
   it('should call resetCustomerForm', () => {

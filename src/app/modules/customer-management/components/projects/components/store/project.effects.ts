@@ -13,8 +13,8 @@ export class ProjectEffects {
   @Effect()
   loadProjects$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ProjectActionTypes.LOAD_PROJECTS),
-    mergeMap(() =>
-      this.projectService.getProjects().pipe(
+    mergeMap((customerId) =>
+      this.projectService.getProjects(customerId).pipe(
         map((project) => {
           return new actions.LoadProjectsSuccess(project);
         }),

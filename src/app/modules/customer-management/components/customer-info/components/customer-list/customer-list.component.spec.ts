@@ -17,6 +17,7 @@ describe('CustomerTableListComponent', () => {
     isLoading: false,
     message: '',
     customerIdToEdit: '',
+    customerId: ''
   };
 
   beforeEach(async(() => {

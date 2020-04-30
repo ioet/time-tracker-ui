@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../../../../environments/environment';
@@ -13,8 +13,9 @@ export class ProjectTypeService {
 
   constructor(private http: HttpClient) {}
 
-  getProjectTypes(): Observable<ProjectType[]> {
-    return this.http.get<ProjectType[]>(this.baseUrl);
+  getProjectTypes(customerId: any): Observable<ProjectType[]> {
+    const params = new HttpParams().set('customer_id', customerId.customerId);
+    return this.http.get<ProjectType[]>(this.baseUrl, { params });
   }
 
   createProjectType(projectTypeData): Observable<any> {

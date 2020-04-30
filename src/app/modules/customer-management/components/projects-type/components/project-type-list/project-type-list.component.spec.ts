@@ -45,13 +45,6 @@ describe('ProjectTypeTableListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('onInit, LoadProjecttypes action is dispatched', () => {
-    spyOn(store, 'dispatch');
-
-    component.ngOnInit();
-    expect(store.dispatch).toHaveBeenCalled();
-  });
-
   it('onInit, projectTypes field is populated with data from store', () => {
     component.ngOnInit();
     expect(component.projectTypes).toBe(state.data);
