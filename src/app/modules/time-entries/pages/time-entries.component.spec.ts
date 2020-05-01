@@ -83,7 +83,7 @@ describe('TimeEntriesComponent', () => {
 
   it('should call dataByMonth in ngOnInit()', async(() => {
     component.ngOnInit();
-    expect(component.dataByMonth.length).toEqual(1);
+    expect(component.dataByMonth.length).toEqual(0);
   }));
 
   it('should open Delete Modal', () => {
