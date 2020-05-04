@@ -1,6 +1,6 @@
 {
   "name": "time-tracker",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
