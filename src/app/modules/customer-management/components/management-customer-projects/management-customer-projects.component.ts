@@ -7,10 +7,18 @@ import { Component } from '@angular/core';
 })
 export class ManagementCustomerProjectsComponent {
   areTabsActive: boolean;
-
+  activeTab: string;
   constructor() {}
 
   activeTabs($areTabsActive: boolean) {
-    setTimeout(() => this.areTabsActive = $areTabsActive, 1);
+    setTimeout(() => {
+      this.areTabsActive = $areTabsActive;
+      this.activeTab = 'customer-information';
+    }, 1);
   }
+
+  showTab(activeTab: string) {
+    this.activeTab = activeTab;
+  }
+
 }
