@@ -1,14 +1,14 @@
 import * as actions from './project.actions';
 
 describe('Actions for Projects', () => {
-  it('LoadProjectsSuccess type is ProjectActionTypes.LOAD_PROJECTS_SUCCESS', () => {
-    const loadProjectsSuccess = new actions.LoadProjectsSuccess([]);
-    expect(loadProjectsSuccess.type).toEqual(actions.ProjectActionTypes.LOAD_PROJECTS_SUCCESS);
+  it('LoadCustomerProjectsSuccess type is ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_SUCCESS', () => {
+    const LoadCustomerProjectsSuccess = new actions.LoadCustomerProjectsSuccess([]);
+    expect(LoadCustomerProjectsSuccess.type).toEqual(actions.ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_SUCCESS);
   });
 
-  it('LoadProjectsFail type is ProjectActionTypes.LOAD_PROJECTS_FAIL', () => {
-    const loadProjectsFail = new actions.LoadProjectsFail('error');
-    expect(loadProjectsFail.type).toEqual(actions.ProjectActionTypes.LOAD_PROJECTS_FAIL);
+  it('LoadCustomerProjectsFail type is ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_FAIL', () => {
+    const LoadCustomerProjectsFail = new actions.LoadCustomerProjectsFail('error');
+    expect(LoadCustomerProjectsFail.type).toEqual(actions.ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_FAIL);
   });
 
   it('CreateProjectSuccess type is ProjectActionTypes.CREATE_PROJECT_SUCCESS', () => {

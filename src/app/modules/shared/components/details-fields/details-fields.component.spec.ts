@@ -7,7 +7,7 @@ import { allTechnologies } from '../../store/technology.selectors';
 import { DetailsFieldsComponent } from './details-fields.component';
 import * as actions from '../../store/technology.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
-import { allProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
+import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 
 describe('DetailsFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState;
@@ -20,7 +20,8 @@ describe('DetailsFieldsComponent', () => {
 
   const state = {
     projects: {
-      projectList: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
+      projects: [{ id: 'id', name: 'name', project_type_id: '' }],
+      customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
@@ -59,7 +60,7 @@ describe('DetailsFieldsComponent', () => {
     }).compileComponents();
     store = TestBed.inject(MockStore);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
-    mockProjectsSelector = store.overrideSelector(allProjects, state.projects);
+    mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
   }));
 
   beforeEach(() => {

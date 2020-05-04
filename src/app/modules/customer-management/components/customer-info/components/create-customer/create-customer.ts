@@ -12,7 +12,7 @@ import {
   ResetCustomerToEdit,
 } from 'src/app/modules/customer-management/store';
 import { LoadProjectTypes } from '../../../projects-type/store';
-import { LoadProjects } from '../../../projects/components/store/project.actions';
+import { LoadCustomerProjects } from '../../../projects/components/store/project.actions';
 
 @Component({
   selector: 'app-create-customer',
@@ -86,7 +86,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   setDataToUpdate(customerData: Customer) {
     if (customerData) {
       this.store.dispatch(new LoadProjectTypes(customerData.id));
-      this.store.dispatch(new LoadProjects(customerData.id));
+      this.store.dispatch(new LoadCustomerProjects(customerData.id));
       this.changeValueAreTabsActives.emit(true);
       this.customerForm.setValue({
         name: customerData.name,

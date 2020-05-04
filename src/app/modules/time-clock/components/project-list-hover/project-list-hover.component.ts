@@ -1,9 +1,9 @@
+import { getProjects } from './../../../customer-management/components/projects/components/store/project.selectors';
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { getActiveTimeEntry } from './../../store/entry.selectors';
 import { Project } from 'src/app/modules/shared/models';
-import { allProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
 import * as entryActions from '../../store/entry.actions';
@@ -17,7 +17,6 @@ export class ProjectListHoverComponent implements OnInit {
 
   selectedId: string;
   listProjects: Project[] = [];
-  isLoading: boolean;
   filterProjects = '';
   showButton = '';
   keyword = 'name';
@@ -27,11 +26,10 @@ export class ProjectListHoverComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new actions.LoadProjects());
-    const projects$ = this.store.pipe(select(allProjects));
+    const projects$ = this.store.pipe(select(getProjects));
 
-    projects$.subscribe((response) => {
-      this.isLoading = response.isLoading;
-      this.listProjects = response.projectList;
+    projects$.subscribe((projects) => {
+      this.listProjects = projects;
       this.loadActiveTimeEntry();
     });
 

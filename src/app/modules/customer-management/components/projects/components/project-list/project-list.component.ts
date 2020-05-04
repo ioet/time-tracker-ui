@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ITEMS_PER_PAGE } from 'src/environments/environment';
 import { Project } from 'src/app/modules/shared/models';
 import { ProjectState } from '../store/project.reducer';
-import { allProjects } from '../store/project.selectors';
+import { getCustomerProjects } from '../store/project.selectors';
 import * as actions from '../store/project.actions';
 
 @Component({
@@ -24,10 +24,10 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   constructor(private store: Store<ProjectState>) {}
 
   ngOnInit(): void {
-    const projects$ = this.store.pipe(select(allProjects));
+    const projects$ = this.store.pipe(select(getCustomerProjects));
     this.projectsSubscription = projects$.subscribe((response) => {
       this.isLoading = response.isLoading;
-      this.projects = response.projectList;
+      this.projects = response.customerProjects;
     });
   }
 

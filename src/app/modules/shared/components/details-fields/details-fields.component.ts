@@ -19,7 +19,7 @@ import { Technology, Project, Activity } from '../../models';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { TechnologyState } from '../../store/technology.reducers';
 import { LoadActivities, ActivityState, allActivities } from '../../../activities-management/store';
-import { allProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
+import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import * as projectActions from '../../../customer-management/components/projects/components/store/project.actions';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
@@ -66,9 +66,9 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     });
 
     this.store.dispatch(new projectActions.LoadProjects());
-    const projects$ = this.store.pipe(select(allProjects));
+    const projects$ = this.store.pipe(select(getCustomerProjects));
     projects$.subscribe((response) => {
-      this.listProjects = response.projectList;
+      this.listProjects = response.customerProjects;
     });
 
     this.store.dispatch(new LoadActivities());

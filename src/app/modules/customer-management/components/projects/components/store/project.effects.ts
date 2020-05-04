@@ -13,12 +13,25 @@ export class ProjectEffects {
   @Effect()
   loadProjects$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ProjectActionTypes.LOAD_PROJECTS),
+    mergeMap(() =>
+      this.projectService.getAllProjects().pipe(
+        map((projects) => {
+          return new actions.LoadProjectsSuccess(projects);
+        }),
+        catchError((error) => of(new actions.LoadProjectsFail(error)))
+      )
+    )
+  );
+
+  @Effect()
+  loadCustomerProjects$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ProjectActionTypes.LOAD_CUSTOMER_PROJECTS),
     mergeMap((customerId) =>
       this.projectService.getProjects(customerId).pipe(
         map((project) => {
-          return new actions.LoadProjectsSuccess(project);
+          return new actions.LoadCustomerProjectsSuccess(project);
         }),
-        catchError((error) => of(new actions.LoadProjectsFail(error)))
+        catchError((error) => of(new actions.LoadCustomerProjectsFail(error)))
       )
     )
   );

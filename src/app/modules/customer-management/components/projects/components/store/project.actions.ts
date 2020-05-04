@@ -5,6 +5,9 @@ export enum ProjectActionTypes {
   LOAD_PROJECTS = '[Projects] LOAD_PROJECTS',
   LOAD_PROJECTS_SUCCESS = '[Projects] LOAD_PROJECTS_SUCCESS',
   LOAD_PROJECTS_FAIL = '[Projects] LOAD_PROJECTS_FAIL',
+  LOAD_CUSTOMER_PROJECTS = '[Projects] LOAD_CUSTOMER_PROJECTS',
+  LOAD_CUSTOMER_PROJECTS_SUCCESS = '[Projects] LOAD_CUSTOMER_PROJECTS_SUCCESS',
+  LOAD_CUSTOMER_PROJECTS_FAIL = '[Projects] LOAD_CUSTOMER_PROJECTS_FAIL',
   CREATE_PROJECT = '[Projects] CREATE_PROJECT',
   CREATE_PROJECT_SUCCESS = '[Projects] CREATE_PROJECT_SUCCESS',
   CREATE_PROJECT_FAIL = '[Projects] CREATE_PROJECT_FAIL',
@@ -20,7 +23,7 @@ export enum ProjectActionTypes {
 
 export class LoadProjects implements Action {
   public readonly type = ProjectActionTypes.LOAD_PROJECTS;
-  constructor(public customerId?: string) {}
+  constructor() {}
 }
 
 export class LoadProjectsSuccess implements Action {
@@ -30,7 +33,22 @@ export class LoadProjectsSuccess implements Action {
 
 export class LoadProjectsFail implements Action {
   public readonly type = ProjectActionTypes.LOAD_PROJECTS_FAIL;
+  constructor(public error: string) {}
+}
 
+
+export class LoadCustomerProjects implements Action {
+  public readonly type = ProjectActionTypes.LOAD_CUSTOMER_PROJECTS;
+  constructor(public customerId: string) {}
+}
+
+export class LoadCustomerProjectsSuccess implements Action {
+  readonly type = ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_SUCCESS;
+  constructor(readonly payload: Project[]) {}
+}
+
+export class LoadCustomerProjectsFail implements Action {
+  public readonly type = ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_FAIL;
   constructor(public error: string) {}
 }
 
@@ -102,6 +120,9 @@ export type ProjectActions =
   | LoadProjects
   | LoadProjectsSuccess
   | LoadProjectsFail
+  | LoadCustomerProjects
+  | LoadCustomerProjectsSuccess
+  | LoadCustomerProjectsFail
   | CreateProject
   | CreateProjectSuccess
   | CreateProjectFail

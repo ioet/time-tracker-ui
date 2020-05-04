@@ -2,40 +2,64 @@ import { ProjectActions, ProjectActionTypes } from './project.actions';
 import { Project } from '../../../../../shared/models';
 
 export interface ProjectState {
-  projectList: Project[];
+  projects: Project[];
+  customerProjects: Project[];
   isLoading: boolean;
   message: string;
   projectToEdit: Project;
 }
 
 export const initialState = {
-  projectList: [],
+  projects: [],
+  customerProjects: [],
   isLoading: false,
   message: '',
   projectToEdit: undefined,
 };
 
 export const projectReducer = (state: ProjectState = initialState, action: ProjectActions) => {
-  const projects = [...state.projectList];
+  const projects = [...state.customerProjects];
   switch (action.type) {
+
     case ProjectActionTypes.LOAD_PROJECTS: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case ProjectActionTypes.LOAD_PROJECTS_SUCCESS:
+      return {
+        ...state,
+        projects: action.payload,
+        isLoading: false
+      };
+
+    case ProjectActionTypes.LOAD_PROJECTS_FAIL: {
+      return {
+        ...state,
+        projects: [],
+        isLoading: false,
+      };
+    }
+
+    case ProjectActionTypes.LOAD_CUSTOMER_PROJECTS: {
       return {
         ...state,
         isLoading: true,
         message: 'Loading projects!',
       };
     }
-    case ProjectActionTypes.LOAD_PROJECTS_SUCCESS:
+    case ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_SUCCESS:
       return {
         ...state,
-        projectList: action.payload,
+        customerProjects: action.payload,
         isLoading: false,
         message: 'Data fetch successfully!',
       };
 
-    case ProjectActionTypes.LOAD_PROJECTS_FAIL: {
+    case ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_FAIL: {
       return {
-        projectList: [],
+        customerProjects: [],
         isLoading: false,
         message: 'Something went wrong fetching projects!',
         projectToEdit: undefined,
@@ -53,7 +77,7 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
     case ProjectActionTypes.CREATE_PROJECT_SUCCESS: {
       return {
         ...state,
-        projectList: [...state.projectList, action.payload],
+        customerProjects: [...state.customerProjects, action.payload],
         isLoading: false,
         message: 'Data created successfully!',
       };
@@ -61,7 +85,7 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
 
     case ProjectActionTypes.CREATE_PROJECT_FAIL: {
       return {
-        projectList: [],
+        ...state,
         isLoading: false,
         message: 'Something went wrong creating projects!',
         projectToEdit: undefined,
@@ -82,7 +106,7 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
 
       return {
         ...state,
-        projectList: projects,
+        customerProjects: projects,
         isLoading: false,
         message: 'Data updated successfully!',
         projectToEdit: undefined,
@@ -91,7 +115,6 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
 
     case ProjectActionTypes.UPDATE_PROJECT_FAIL: {
       return {
-        projectList: [],
         isLoading: false,
         message: 'Something went wrong updating projects!',
         projectToEdit: undefined,
@@ -123,10 +146,10 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
     }
 
     case ProjectActionTypes.DELETE_PROJECT_SUCCESS: {
-      const newProjects = state.projectList.filter((project) => project.id !== action.projectId);
+      const newProjects = state.customerProjects.filter((project) => project.id !== action.projectId);
       return {
         ...state,
-        projectList: newProjects,
+        customerProjects: newProjects,
         isLoading: false,
         message: 'Project removed successfully!',
       };
@@ -134,7 +157,7 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
 
     case ProjectActionTypes.DELETE_PROJECT_FAIL: {
       return {
-        projectList: [],
+        customerProjects: [],
         isLoading: false,
         message: 'Something went wrong deleting the project!',
         projectToEdit: undefined,

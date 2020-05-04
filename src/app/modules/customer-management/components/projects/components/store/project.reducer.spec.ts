@@ -3,26 +3,29 @@ import * as actions from './project.actions';
 import { projectReducer, ProjectState } from './project.reducer';
 
 describe('projectReducer', () => {
-  const initialState: ProjectState = { projectList: [], isLoading: false, message: '', projectToEdit: undefined };
+  const initialState: ProjectState = {
+    projects: [{ id: 'id', name: 'name', project_type_id: '' }],
+    customerProjects: [], isLoading: false, message: '', projectToEdit: undefined
+  };
   const project: Project = { id: '1', name: 'aaa', description: 'bbb', project_type_id: '123' };
 
   it('on LoadProjects, isLoading is true', () => {
-    const action = new actions.LoadProjects();
+    const action = new actions.LoadCustomerProjects('1');
     const state = projectReducer(initialState, action);
     expect(state.isLoading).toEqual(true);
   });
 
-  it('on LoadProjectsSuccess, projectsFound are saved in the store', () => {
+  it('on LoadCustomerProjectsSuccess, projectsFound are saved in the store', () => {
     const projectsFound: Project[] = [{ id: '', name: '', description: '', project_type_id: '123' }];
-    const action = new actions.LoadProjectsSuccess(projectsFound);
+    const action = new actions.LoadCustomerProjectsSuccess(projectsFound);
     const state = projectReducer(initialState, action);
-    expect(state.projectList).toEqual(projectsFound);
+    expect(state.customerProjects).toEqual(projectsFound);
   });
 
-  it('on LoadProjectsFail, projectList equal []', () => {
-    const action = new actions.LoadProjectsFail('error');
+  it('on LoadCustomerProjectsFail, customerProjects equal []', () => {
+    const action = new actions.LoadCustomerProjectsFail('error');
     const state = projectReducer(initialState, action);
-    expect(state.projectList).toEqual([]);
+    expect(state.customerProjects).toEqual([]);
   });
 
   it('on CreateProject, isLoading is true', () => {
@@ -36,15 +39,15 @@ describe('projectReducer', () => {
     const action = new actions.CreateProjectSuccess(project);
     const state = projectReducer(initialState, action);
 
-    expect(state.projectList).toEqual([project]);
+    expect(state.customerProjects).toEqual([project]);
     expect(state.isLoading).toEqual(false);
   });
 
-  it('on CreateProjectFail, projectList equal []', () => {
+  it('on CreateProjectFail, customerProjects equal []', () => {
     const action = new actions.CreateProjectFail('error');
     const state = projectReducer(initialState, action);
 
-    expect(state.projectList).toEqual([]);
+    expect(state.customerProjects).toEqual([]);
     expect(state.isLoading).toEqual(false);
   });
 
@@ -57,7 +60,8 @@ describe('projectReducer', () => {
 
   it('on UpdateProjectSuccess, project is saved in the store', () => {
     const currentState: ProjectState = {
-      projectList: [project],
+      projects: [project],
+      customerProjects: [project],
       isLoading: false,
       message: '',
       projectToEdit: project,
@@ -65,15 +69,15 @@ describe('projectReducer', () => {
     const action = new actions.UpdateProjectSuccess(project);
     const state = projectReducer(currentState, action);
 
-    expect(state.projectList).toEqual([project]);
+    expect(state.customerProjects).toEqual([project]);
     expect(state.isLoading).toEqual(false);
   });
 
-  it('on UpdateProjectFail, projectList equal []', () => {
+  it('on UpdateProjectFail, customerProjects equal []', () => {
     const action = new actions.UpdateProjectFail('error');
     const state = projectReducer(initialState, action);
 
-    expect(state.projectList).toEqual([]);
+    expect(state.customerProjects).toEqual(state.customerProjects);
     expect(state.isLoading).toEqual(false);
   });
 
@@ -106,7 +110,8 @@ describe('projectReducer', () => {
 
   it('on DeleteProjectSuccess, message equal to Project removed successfully!', () => {
     const currentState: ProjectState = {
-      projectList: [project],
+      projects: [project],
+      customerProjects: [project],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
@@ -115,7 +120,7 @@ describe('projectReducer', () => {
     const action = new actions.DeleteProjectSuccess(projectIdToDelete);
 
     const state = projectReducer(currentState, action);
-    expect(state.projectList).toEqual([]);
+    expect(state.customerProjects).toEqual([]);
     expect(state.message).toEqual('Project removed successfully!');
   });
 
@@ -124,7 +129,7 @@ describe('projectReducer', () => {
     const action = new actions.DeleteProjectFail(projectToEdit);
 
     const state = projectReducer(initialState, action);
-    expect(state.projectList).toEqual([]);
+    expect(state.customerProjects).toEqual([]);
     expect(state.isLoading).toEqual(false);
     expect(state.message).toEqual('Something went wrong deleting the project!');
   });

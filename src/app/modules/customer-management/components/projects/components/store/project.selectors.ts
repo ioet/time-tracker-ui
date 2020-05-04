@@ -4,8 +4,12 @@ import { ProjectState } from './project.reducer';
 
 const getProjectState = createFeatureSelector<ProjectState>('projects');
 
-export const allProjects = createSelector(getProjectState, (state: ProjectState) => {
+export const getCustomerProjects = createSelector(getProjectState, (state: ProjectState) => {
   return state;
+});
+
+export const getProjects = createSelector(getProjectState, (state: ProjectState) => {
+  return state.projects;
 });
 
 export const getProjectToEdit = createSelector(getProjectState, (state: ProjectState) => {
