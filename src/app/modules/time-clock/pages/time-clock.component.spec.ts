@@ -6,7 +6,6 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectState } from '../../customer-management/components/projects/components/store/project.reducer';
 import { ProjectListHoverComponent } from '../components';
-import { ProjectService } from '../../customer-management/components/projects/components/services/project.service';
 import { FilterProjectPipe } from '../../shared/pipes';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import {ActionsSubject} from '@ngrx/store';
@@ -15,7 +14,6 @@ describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
   let store: MockStore<ProjectState>;
-  let projectService: ProjectService;
   let azureAdB2CService: AzureAdB2CService;
   const actionSub: ActionsSubject = new ActionsSubject();
   const state = {
@@ -46,7 +44,7 @@ describe('TimeClockComponent', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe],
-      providers: [ProjectService,
+      providers: [
         AzureAdB2CService,
         { provide: ActionsSubject, useValue: actionSub },
         provideMockStore({ initialState: state })],
@@ -58,7 +56,6 @@ describe('TimeClockComponent', () => {
     fixture = TestBed.createComponent(TimeClockComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    projectService = TestBed.inject(ProjectService);
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
   });
 
@@ -81,13 +78,6 @@ describe('TimeClockComponent', () => {
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();
     expect(azureAdB2CService.getName).toHaveBeenCalledTimes(0);
   });
-
-  it('Service injected via inject(...) and TestBed.get(...) should be the same instance', inject(
-    [ProjectService],
-    (injectService: ProjectService) => {
-      expect(injectService).toBe(projectService);
-    }
-  ));
 
   it('clockOut dispatch a StopTimeEntryRunning action', () => {
     spyOn(store, 'dispatch');

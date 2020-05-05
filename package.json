@@ -75,7 +75,7 @@
   },
   "config": {
     "commit-message-validator": {
-      "pattern": "^(fix: #|feat: #|perf: #)[0-9].*",
+      "pattern": "^(fix: #|feat: #|perf: #|style: #)[0-9].*",
       "errorMessage": "Your commit message needs to start with fix:, feat:, or perf: followed by issue number, e.g. fix: #43 any commit message"
     }
   },

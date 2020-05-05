@@ -65,14 +65,14 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
     }
 
-    case EntryActionTypes.UDPATE_ACTIVE_ENTRY: {
+    case EntryActionTypes.UPDATE_ACTIVE_ENTRY: {
       return {
         ...state,
         isLoading: true,
       };
     }
 
-    case EntryActionTypes.UDPATE_ACTIVE_ENTRY_SUCCESS: {
+    case EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS: {
       const activeEntry = { ...state.active, ...action.payload };
 
       return {
@@ -82,7 +82,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
     }
 
-    case EntryActionTypes.UDPATE_ACTIVE_ENTRY_FAIL: {
+    case EntryActionTypes.UPDATE_ACTIVE_ENTRY_FAIL: {
       return {
         ...state,
         active: null,

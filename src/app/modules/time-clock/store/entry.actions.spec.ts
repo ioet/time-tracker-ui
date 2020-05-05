@@ -29,11 +29,11 @@ describe('Actions for Entries', () => {
       project_id: '1',
       description: 'It is good for learning',
     });
-    expect(updateActiveEntrySuccess.type).toEqual(actions.EntryActionTypes.UDPATE_ACTIVE_ENTRY_SUCCESS);
+    expect(updateActiveEntrySuccess.type).toEqual(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS);
   });
 
   it('UpdateActiveEntryFail type is EntryActionTypes.UDPATE_ACTIVE_ENTRY_FAIL', () => {
     const updateActiveEntryFail = new actions.UpdateActiveEntryFail('error');
-    expect(updateActiveEntryFail.type).toEqual(actions.EntryActionTypes.UDPATE_ACTIVE_ENTRY_FAIL);
+    expect(updateActiveEntryFail.type).toEqual(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY_FAIL);
   });
 });
