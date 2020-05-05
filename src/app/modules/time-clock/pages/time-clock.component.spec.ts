@@ -1,4 +1,4 @@
-import { StopTimeEntryRunning } from './../store/entry.actions';
+import {EntryActionTypes, StopTimeEntryRunning } from './../store/entry.actions';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -9,6 +9,7 @@ import { ProjectListHoverComponent } from '../components';
 import { ProjectService } from '../../customer-management/components/projects/components/services/project.service';
 import { FilterProjectPipe } from '../../shared/pipes';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
+import {ActionsSubject} from '@ngrx/store';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -16,6 +17,7 @@ describe('TimeClockComponent', () => {
   let store: MockStore<ProjectState>;
   let projectService: ProjectService;
   let azureAdB2CService: AzureAdB2CService;
+  const actionSub: ActionsSubject = new ActionsSubject();
   const state = {
     projects: {
       projects: [{ id: 'id', name: 'name', project_type_id: '' }],
@@ -44,7 +46,10 @@ describe('TimeClockComponent', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe],
-      providers: [ProjectService, AzureAdB2CService, provideMockStore({ initialState: state })],
+      providers: [ProjectService,
+        AzureAdB2CService,
+        { provide: ActionsSubject, useValue: actionSub },
+        provideMockStore({ initialState: state })],
     }).compileComponents();
     store = TestBed.inject(MockStore);
   }));
@@ -90,6 +95,24 @@ describe('TimeClockComponent', () => {
     component.clockOut();
 
     expect(store.dispatch).toHaveBeenCalledWith(new StopTimeEntryRunning('id'));
+  });
+
+  it('on success create entry, the notification is shown', () => {
+    const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: EntryActionTypes.CREATE_ENTRY_SUCCESS
+    };
+    actionSubject.next(action);
+    expect(component.showNotification).toEqual(true);
+  });
+
+  it('on success stop entry, the notification is shown', () => {
+    const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS
+    };
+    actionSubject.next(action);
+    expect(component.showNotification).toEqual(true);
   });
 
 });

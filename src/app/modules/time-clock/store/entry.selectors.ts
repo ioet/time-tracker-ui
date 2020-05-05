@@ -7,3 +7,5 @@ const getEntryState = createFeatureSelector('entries');
 export const getActiveTimeEntry = createSelector(getEntryState, (state: EntryState) => {
   return state.active;
 });
+
+export const getStatusMessage = createSelector(getEntryState, (state: EntryState) => state.message);

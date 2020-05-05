@@ -52,7 +52,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         active: action.payload,
         entryList: [...state.entryList, action.payload],
         isLoading: false,
-        message: 'Entry Created',
+        message: 'You clocked-in successfully',
       };
     }
 
@@ -102,7 +102,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         ...state,
         active: null,
         isLoading: false,
-        message: 'You just clocked-out successfully',
+        message: 'You clocked-out successfully',
       };
     }
 
