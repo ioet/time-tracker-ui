@@ -42,6 +42,7 @@ export class EntryFieldsComponent implements OnInit {
     this.entryForm = this.formBuilder.group({
       description: '',
       uri: '',
+      technology: '',
     });
   }
 
@@ -102,6 +103,8 @@ export class EntryFieldsComponent implements OnInit {
       this.store.dispatch(
         new entryActions.UpdateActiveEntry({ ...this.newData, technologies: this.selectedTechnology })
       );
+      this.showlist = false;
+      this.entryForm.get('technology').reset();
     }
   }
 

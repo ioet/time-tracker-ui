@@ -56,6 +56,7 @@ describe('EntryFieldsComponent', () => {
     project_id: 'project-id-15',
     description: 'description for active entry',
     uri: 'abc',
+    technology: '',
   };
 
   beforeEach(async(() => {
