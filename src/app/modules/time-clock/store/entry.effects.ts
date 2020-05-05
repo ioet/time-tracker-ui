@@ -39,7 +39,7 @@ export class EntryEffects {
 
   @Effect()
   updateActiveEntry$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.EntryActionTypes.UDPATE_ACTIVE_ENTRY),
+    ofType(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY),
     map((action: actions.UpdateActiveEntry) => action.payload),
     mergeMap((project) =>
       this.entryService.updateActiveEntry(project).pipe(
