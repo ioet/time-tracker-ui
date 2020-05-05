@@ -52,15 +52,24 @@ Install the following extensions:
 - `Prettier - Code formatter`.
 - Go to user settings (`settings.json`) and enable formatting on save: `"editor.formatOnSave": true`.
 
-### Commit message format
-  A commit message needs to start with one of the following words to bump the application version
-  properly (This application is following a semver strategy for versioning https://semver.org/)
-  ### Sumary
-  - **fix** is equal to Patch Release example: 1.0.1
-  - **feat** is equal to Feature Release example: 1.1.0
-  - **perf** is equal to Breaking Release example: 2.0.0
+### Commit messages format
+  Commit messages' format follows the [Conventional Commits guidelines](https://www.conventionalcommits.org/en/v1.0.0/#summary) specification, 
+  and specifically we are relying on the [Angular commit specifications](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines) to bump the [semantic version](https://semver.org/) and generate app change log. 
+  
+  Below there are some common examples you can use for your commit messages:
+
+  - **feat**: A new feature.
+  - **fix**: A bug fix.
+  - **perf**: A code change that improves performance.
+  - **build**: Changes that affect the build system or external dependencies (example scopes: npm, ts configuration).
+  - **ci**: Changes to our CI or CD configuration files and scripts (example scopes: Azure devops, github actions).
+  - **docs**: Documentation only changes.
+  - **refactor**: A code change that neither fixes a bug nor adds a feature.
+  - **style**: Changes that do not affect the meaning of the code (typos, white-space, formatting, missing semi-colons, etc).
+               It is important to mention that this key is not related to css styles. 
+  - **test**: Adding missing tests or correcting existing tests.
   ### Example
-    fix: #48 implement semantic version.
+    fix: #48 implement semantic versioning.
 
 ## Code scaffolding
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
