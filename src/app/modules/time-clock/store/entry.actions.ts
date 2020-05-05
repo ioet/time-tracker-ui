@@ -8,9 +8,9 @@ export enum EntryActionTypes {
   CREATE_ENTRY = '[Entry] CREATE_ENTRY',
   CREATE_ENTRY_SUCCESS = '[Entry] CREATE_ENTRY_SUCCESS',
   CREATE_ENTRY_FAIL = '[Entry] CREATE_ENTRY_FAIL',
-  UDPATE_ACTIVE_ENTRY = '[Entry] UDPATE_ACTIVE_ENTRY',
-  UDPATE_ACTIVE_ENTRY_SUCCESS = '[Entry] UDPATE_ACTIVE_ENTRY_SUCCESS',
-  UDPATE_ACTIVE_ENTRY_FAIL = '[Entry] UDPATE_ACTIVE_ENTRY_FAIL',
+  UPDATE_ACTIVE_ENTRY = '[Entry] UPDATE_ACTIVE_ENTRY',
+  UPDATE_ACTIVE_ENTRY_SUCCESS = '[Entry] UPDATE_ACTIVE_ENTRY_SUCCESS',
+  UPDATE_ACTIVE_ENTRY_FAIL = '[Entry] UPDATE_ACTIVE_ENTRY_FAIL',
   STOP_TIME_ENTRY_RUNNING = '[Entry] STOP_TIME_ENTRIES_RUNNING',
   STOP_TIME_ENTRY_RUNNING_SUCCESS = '[Entry] STOP_TIME_ENTRIES_RUNNING_SUCCESS',
   STOP_TIME_ENTRY_RUNNING_FAILED = '[Entry] STOP_TIME_ENTRIES_RUNNING_FAILED',
@@ -50,19 +50,19 @@ export class CreateEntryFail implements Action {
 }
 
 export class UpdateActiveEntry implements Action {
-  public readonly type = EntryActionTypes.UDPATE_ACTIVE_ENTRY;
+  public readonly type = EntryActionTypes.UPDATE_ACTIVE_ENTRY;
 
   constructor(public payload: NewEntry) {}
 }
 
 export class UpdateActiveEntrySuccess implements Action {
-  public readonly type = EntryActionTypes.UDPATE_ACTIVE_ENTRY_SUCCESS;
+  public readonly type = EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS;
 
   constructor(public payload: NewEntry) {}
 }
 
 export class UpdateActiveEntryFail implements Action {
-  public readonly type = EntryActionTypes.UDPATE_ACTIVE_ENTRY_FAIL;
+  public readonly type = EntryActionTypes.UPDATE_ACTIVE_ENTRY_FAIL;
 
   constructor(public error: string) {}
 }

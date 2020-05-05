@@ -37,6 +37,14 @@ describe('entryReducer', () => {
     expect(state.isLoading).toEqual(true);
   });
 
+  it('on CreateEntrySuccess, message is updated', () => {
+    const entryToCreate: NewEntry = { project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00' };
+    const action = new actions.CreateEntrySuccess(entryToCreate);
+    const state = entryReducer(initialState, action);
+
+    expect(state.message).toEqual('You clocked-in successfully');
+  });
+
   it('on CreateEntryFail, entryList equal []', () => {
     const action = new actions.CreateEntryFail('error');
     const state = entryReducer(initialState, action);
@@ -81,12 +89,13 @@ describe('entryReducer', () => {
     expect(state.isLoading).toEqual(true);
   });
 
-  it('on StopTimeEntryRunningSuccess, active to be null', () => {
+  it('on StopTimeEntryRunningSuccess, active is null and message is updated', () => {
     const action = new actions.StopTimeEntryRunningSuccess('id');
 
     const state = entryReducer(initialState, action);
 
     expect(state.active).toEqual(null);
+    expect(state.message).toEqual('You clocked-out successfully');
   });
 
   it('on UpdateActiveEntryFail, isLoading is false', () => {
