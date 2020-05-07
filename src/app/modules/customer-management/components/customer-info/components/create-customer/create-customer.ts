@@ -62,7 +62,6 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
         id: this.customerToEdit.id,
       };
       this.store.dispatch(new UpdateCustomer(customer));
-      this.customerForm.reset();
     } else {
       this.store.dispatch(new CreateCustomer(customerData));
     }
@@ -93,6 +92,14 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
         description: customerData.description,
       });
     }
+  }
+
+  get name() {
+    return this.customerForm.get('name');
+  }
+
+  get description() {
+    return this.customerForm.get('description');
   }
 
   resetCustomerForm() {
