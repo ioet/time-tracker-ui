@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { ActivityManagementActionTypes } from '../store';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-activities-management',
@@ -9,12 +10,9 @@ import { ActivityManagementActionTypes } from '../store';
   styleUrls: ['./activities-management.component.scss'],
 })
 export class ActivitiesManagementComponent implements OnInit, OnDestroy {
-  notificationMsg = '';
-  showNotification = false;
-  isError = false;
   actionsSubscription: Subscription;
 
-  constructor(private actionsSubject$: ActionsSubject) {}
+  constructor(private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {}
 
   ngOnInit() {
     this.actionsSubscription = this.actionsSubject$.subscribe((action) => {
@@ -27,26 +25,31 @@ export class ActivitiesManagementComponent implements OnInit, OnDestroy {
   }
 
   setDataNotification(action: any) {
-    this.showNotification = true;
     switch (action) {
       case ActivityManagementActionTypes.CREATE_ACTIVITY_SUCCESS: {
-        this.notificationMsg = 'The activity has been saved successfully.';
+        this.toastrService.success('The activity has been saved successfully.');
+        break;
+      }
+      case ActivityManagementActionTypes.UPDATE_ACTIVITY_SUCCESS: {
+        this.toastrService.success('The activity has been saved successfully.');
         break;
       }
       case ActivityManagementActionTypes.DELETE_ACTIVITY_SUCCESS: {
-        this.notificationMsg = 'The activity has been removed successfully.';
+        this.toastrService.success('The activity has been removed successfully.');
         break;
       }
-      case ActivityManagementActionTypes.CREATE_ACTIVITY_FAIL || ActivityManagementActionTypes.DELETE_ACTIVITY_FAIL: {
-        this.notificationMsg = 'An unexpected error happened, please try again later.';
-        this.isError = true;
+      case ActivityManagementActionTypes.CREATE_ACTIVITY_FAIL: {
+        this.toastrService.error('An unexpected error happened, please try again later.');
         break;
       }
-      default: {
-        this.showNotification = false;
+      case ActivityManagementActionTypes.UPDATE_ACTIVITY_FAIL: {
+        this.toastrService.error('An unexpected error happened, please try again later.');
+        break;
+      }
+      case ActivityManagementActionTypes.DELETE_ACTIVITY_FAIL : {
+        this.toastrService.error('An unexpected error happened, please try again later.');
         break;
       }
     }
-    setTimeout(() => ((this.showNotification = false), (this.isError = false)), 3000);
   }
 }

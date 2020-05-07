@@ -1,3 +1,4 @@
+import { ToastrService, IndividualConfig } from 'ngx-toastr';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FormBuilder } from '@angular/forms';
@@ -35,10 +36,19 @@ describe('InputProjectComponent', () => {
     project_type_id: '123',
   };
 
+  const toastrService = {
+    success: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CreateProjectComponent],
-      providers: [FormBuilder, provideMockStore({ initialState: state })],
+      providers: [
+        FormBuilder,
+        provideMockStore({ initialState: state }),
+        { provide: ToastrService, useValue: toastrService },
+      ],
     }).compileComponents();
   }));
 
@@ -60,6 +70,24 @@ describe('InputProjectComponent', () => {
 
   it('component should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('gets description from form', () => {
+    spyOn(component.projectForm, 'get');
+
+    // tslint:disable-next-line:no-unused-expression
+    component.description;
+
+    expect(component.projectForm.get).toHaveBeenCalledWith('description');
+  });
+
+  it('gets project_type_id from form', () => {
+    spyOn(component.projectForm, 'get');
+
+    // tslint:disable-next-line:no-unused-expression
+    component.project_type_id;
+
+    expect(component.projectForm.get).toHaveBeenCalledWith('project_type_id');
   });
 
   it('should destroy the subscriptions', () => {

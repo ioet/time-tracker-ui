@@ -2,10 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angu
 import { Store, select } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
-import { allCustomers, getStatusMessage } from './../../../../store/customer-management.selectors';
+import { allCustomers } from './../../../../store/customer-management.selectors';
 import { LoadCustomers, DeleteCustomer, SetCustomerToEdit } from './../../../../store/customer-management.actions';
 import { Customer } from './../../../../../shared/models/customer.model';
 import { ITEMS_PER_PAGE } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-customer-list',
@@ -19,12 +20,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   @Output() changeValueShowCustomerForm = new EventEmitter<boolean>();
 
   customers: Customer[] = [];
-  messageToShow = '';
-  showAlert = false;
   customerSubscription: Subscription;
-  customerMessageSubscription: Subscription;
 
-  constructor(private store: Store<Customer>) {}
+  constructor(private store: Store<Customer>, private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.store.dispatch(new LoadCustomers());
@@ -32,20 +30,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.customerSubscription = customers$.subscribe((response) => {
       this.customers = response;
     });
-
-    const messages$ = this.store.pipe(select(getStatusMessage));
-    this.customerMessageSubscription = messages$.subscribe((valueMessage) => {
-      this.setStatusOnScreen(valueMessage);
-    });
   }
 
   ngOnDestroy() {
     this.customerSubscription.unsubscribe();
-    this.customerMessageSubscription.unsubscribe();
-  }
-
-  setStatusOnScreen(message: string) {
-    this.messageToShow = message;
   }
 
   editCustomer(customerId: string) {
@@ -55,8 +43,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   deleteCustomer(customerId: string) {
-    this.showAlert = true;
-    setTimeout(() => (this.showAlert = false), 3000);
     this.store.dispatch(new DeleteCustomer(customerId));
+    this.toastrService.success('Customer has been deleted');
   }
 }

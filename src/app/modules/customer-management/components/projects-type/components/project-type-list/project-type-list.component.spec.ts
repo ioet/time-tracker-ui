@@ -1,3 +1,4 @@
+import { IndividualConfig, ToastrService } from 'ngx-toastr';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -19,11 +20,19 @@ describe('ProjectTypeTableListComponent', () => {
     projectTypeIdToEdit: '',
   };
 
+  const toastrService = {
+    success: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgxPaginationModule],
       declarations: [ProjectTypeListComponent],
-      providers: [provideMockStore({ initialState: state })],
+      providers: [
+        provideMockStore({ initialState: state }),
+        { provide: ToastrService, useValue: toastrService },
+      ],
     }).compileComponents();
   }));
 

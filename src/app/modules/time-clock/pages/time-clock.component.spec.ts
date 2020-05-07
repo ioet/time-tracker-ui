@@ -1,21 +1,25 @@
-import {EntryActionTypes, StopTimeEntryRunning } from './../store/entry.actions';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
+import { ToastrService } from 'ngx-toastr';
+import { StopTimeEntryRunning } from './../store/entry.actions';
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectState } from '../../customer-management/components/projects/components/store/project.reducer';
 import { ProjectListHoverComponent } from '../components';
 import { FilterProjectPipe } from '../../shared/pipes';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
-import {ActionsSubject} from '@ngrx/store';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
   let store: MockStore<ProjectState>;
   let azureAdB2CService: AzureAdB2CService;
-  const actionSub: ActionsSubject = new ActionsSubject();
+  let injectedToastrService;
+
+  const toastrService = {
+    success: () => {}
+  };
   const state = {
     projects: {
       projects: [{ id: 'id', name: 'name', project_type_id: '' }],
@@ -46,7 +50,7 @@ describe('TimeClockComponent', () => {
       declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe],
       providers: [
         AzureAdB2CService,
-        { provide: ActionsSubject, useValue: actionSub },
+        { provide: ToastrService, useValue: toastrService },
         provideMockStore({ initialState: state })],
     }).compileComponents();
     store = TestBed.inject(MockStore);
@@ -57,6 +61,7 @@ describe('TimeClockComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
+    injectedToastrService = TestBed.inject(ToastrService);
   });
 
   it('should be created', () => {
@@ -86,23 +91,4 @@ describe('TimeClockComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(new StopTimeEntryRunning('id'));
   });
-
-  it('on success create entry, the notification is shown', () => {
-    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
-    const action = {
-      type: EntryActionTypes.CREATE_ENTRY_SUCCESS
-    };
-    actionSubject.next(action);
-    expect(component.showNotification).toEqual(true);
-  });
-
-  it('on success stop entry, the notification is shown', () => {
-    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
-    const action = {
-      type: EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS
-    };
-    actionSubject.next(action);
-    expect(component.showNotification).toEqual(true);
-  });
-
 });
