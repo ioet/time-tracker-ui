@@ -7,7 +7,7 @@ export interface TechnologyState {
 }
 
 export const initialState = {
-  technologyList: null,
+  technologyList: { items: [] },
   isLoading: false,
 };
 

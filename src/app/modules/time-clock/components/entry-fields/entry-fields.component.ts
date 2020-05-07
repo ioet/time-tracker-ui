@@ -50,7 +50,8 @@ export class EntryFieldsComponent implements OnInit {
     const technologies$ = this.store.pipe(select(allTechnologies));
     technologies$.subscribe((response) => {
       this.isLoading = response.isLoading;
-      this.technology = response.technologyList;
+      const filteredItems = response.technologyList.items.filter(item => !this.selectedTechnology.includes(item.name));
+      this.technology = { items: filteredItems };
     });
 
     this.store.dispatch(new LoadActivities());
