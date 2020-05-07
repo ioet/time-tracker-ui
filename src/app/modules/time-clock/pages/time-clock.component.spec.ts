@@ -1,5 +1,5 @@
 import {EntryActionTypes, StopTimeEntryRunning } from './../store/entry.actions';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
@@ -88,7 +88,7 @@ describe('TimeClockComponent', () => {
   });
 
   it('on success create entry, the notification is shown', () => {
-    const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
     const action = {
       type: EntryActionTypes.CREATE_ENTRY_SUCCESS
     };
@@ -97,7 +97,7 @@ describe('TimeClockComponent', () => {
   });
 
   it('on success stop entry, the notification is shown', () => {
-    const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
     const action = {
       type: EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS
     };
