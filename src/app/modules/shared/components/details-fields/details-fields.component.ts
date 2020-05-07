@@ -88,10 +88,17 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   ngOnChanges(): void {
     if (this.entryToEdit) {
       this.selectedTechnology = this.entryToEdit.technologies;
+<<<<<<< HEAD
       this.project = this.listProjects.find((p) => p.id === this.entryToEdit.project_id);
       const activity = this.activities.find((a) => a.id === this.entryToEdit.activity_id);
       this.projectName = this.project.name;
       this.entryForm.setValue({
+=======
+      const project = this.listProjects.find((p) => p.id === this.entryToEdit.project_id);
+      const activity = this.activities.find((a) => a.id === this.entryToEdit.activity_id);
+      this.entryForm.setValue({
+        project: project ? project.name : '',
+>>>>>>> fix: #172 Create-time-entries-manually
         activity: activity ? activity.name : '',
         description: this.entryToEdit.description,
         start_date: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'yyyy-MM-dd', 'en') : '',
@@ -102,9 +109,14 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       });
     } else {
       this.selectedTechnology = [];
+<<<<<<< HEAD
       this.project = '';
       this.projectName = '';
       this.entryForm.setValue({
+=======
+      this.entryForm.setValue({
+        project: '',
+>>>>>>> fix: #172 Create-time-entries-manually
         activity: '',
         description: '',
         start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
@@ -138,9 +150,14 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   onSubmit() {
     const activity = this.activities.find((a) => a.name === this.entryForm.value.activity);
+<<<<<<< HEAD
     this.project = this.projectName.id ? this.projectName : this.project;
     const entry = {
       project_id: this.project.id,
+=======
+    const entry = {
+      project_id: this.entryForm.value.project.id,
+>>>>>>> fix: #172 Create-time-entries-manually
       activity_id: activity ? activity.id : null,
       technologies: this.selectedTechnology,
       description: this.entryForm.value.description,

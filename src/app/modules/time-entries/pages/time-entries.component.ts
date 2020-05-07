@@ -35,8 +35,7 @@ export class TimeEntriesComponent implements OnInit {
             const duration: any = moment.duration(endDate.diff(startDate));
             time = `${duration._data.hours} hour and ${duration._data.minutes} minutes`;
           }
-          const date = moment(entry.start_date).format('YYYY-MM-DD');
-          const item = { ...entry, time, date };
+          const item = { ...entry, time };
           return [...acc, item];
         }
         return [];
