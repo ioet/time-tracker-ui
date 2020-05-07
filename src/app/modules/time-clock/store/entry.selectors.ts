@@ -9,3 +9,5 @@ export const getActiveTimeEntry = createSelector(getEntryState, (state: EntrySta
 });
 
 export const getStatusMessage = createSelector(getEntryState, (state: EntryState) => state.message);
+
+export const allEntries = createSelector(getEntryState, (state: EntryState) => state.entryList);

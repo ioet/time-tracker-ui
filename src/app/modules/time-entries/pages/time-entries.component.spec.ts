@@ -13,19 +13,22 @@ import { TechnologyState } from '../../shared/store/technology.reducers';
 import { allTechnologies } from '../../shared/store/technology.selectors';
 import { TimeEntriesComponent } from './time-entries.component';
 import { ProjectState } from '../../customer-management/components/projects/components/store/project.reducer';
-import { getCustomerProjects } from '../../customer-management/components/projects/components/store/project.selectors';
+import { getProjects } from '../../customer-management/components/projects/components/store/project.selectors';
+import { EntryState } from '../../time-clock/store/entry.reducer';
+import { allEntries } from '../../time-clock/store/entry.selectors';
 
 describe('TimeEntriesComponent', () => {
-  type Merged = TechnologyState & ProjectState;
+  type Merged = TechnologyState & ProjectState & EntryState;
   let component: TimeEntriesComponent;
   let fixture: ComponentFixture<TimeEntriesComponent>;
   let store: MockStore<Merged>;
   let mockTechnologySelector;
   let mockProjectsSelector;
+  let mockEntriesSelector;
 
   const state = {
     projects: {
-      projects: [{ id: 'id', name: 'name', project_type_id: '' }],
+      projects: [{ id: 'abc', customer_id: 'customerId', name: '', description: '', project_type_id: 'id' }],
       customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
       isLoading: false,
       message: '',
@@ -40,11 +43,14 @@ describe('TimeEntriesComponent', () => {
       technologyList: { items: [{ name: 'test' }] },
       isLoading: false,
     },
+    entries: {
+      entryList: [],
+    },
   };
 
   const entry = {
     id: 'entry_1',
-    project_id: 'Mido - 05 de Febrero',
+    project_id: 'abc',
     start_date: new Date('2020-02-05T15:36:15.887Z'),
     end_date: new Date('2020-02-05T18:36:15.887Z'),
     activity: 'development',
@@ -68,13 +74,18 @@ describe('TimeEntriesComponent', () => {
     }).compileComponents();
     store = TestBed.inject(MockStore);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
-    mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
+    mockProjectsSelector = store.overrideSelector(getProjects, state.projects.projects);
+    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TimeEntriesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should be created', () => {
@@ -86,6 +97,54 @@ describe('TimeEntriesComponent', () => {
     expect(component.dataByMonth.length).toEqual(0);
   }));
 
+  it('should call dataByMonth with data in ngOnInit()', async(() => {
+    const newEntry = {
+      id: 'entry_1',
+      project_id: 'Mido - 05 de Febrero',
+      start_date: new Date(),
+      end_date: new Date(),
+      activity: 'development',
+      technologies: ['Angular', 'TypeScript'],
+      comments: 'No comments',
+      uri: 'EY-25',
+    };
+    mockEntriesSelector = store.overrideSelector(allEntries, [newEntry]);
+    component.ngOnInit();
+    expect(component.dataByMonth.length).toEqual(1);
+  }));
+
+  it('should call dataByMonth with data without end_date in ngOnInit()', async(() => {
+    const newEntry = {
+      id: 'entry_1',
+      project_id: 'Mido - 05 de Febrero',
+      start_date: new Date(),
+      end_date: null,
+      activity: 'development',
+      technologies: ['Angular', 'TypeScript'],
+      comments: 'No comments',
+      uri: 'EY-25',
+    };
+    mockEntriesSelector = store.overrideSelector(allEntries, [newEntry]);
+    component.ngOnInit();
+    expect(component.dataByMonth.length).toEqual(1);
+  }));
+
+  it('should call dataByMonth without new date in ngOnInit()', async(() => {
+    const newEntry = {
+      id: 'entry_1',
+      project_id: 'Mido - 05 de Febrero',
+      start_date: new Date('2020-02-05T15:36:15.887Z'),
+      end_date: new Date('2020-02-05T18:36:15.887Z'),
+      activity: 'development',
+      technologies: ['Angular', 'TypeScript'],
+      comments: 'No comments',
+      uri: 'EY-25',
+    };
+    mockEntriesSelector = store.overrideSelector(allEntries, [newEntry]);
+    component.ngOnInit();
+    expect(component.dataByMonth.length).toEqual(0);
+  }));
+
   it('should open Delete Modal', () => {
     component.openModal(entry);
     expect(component.entryToDelete).toBe(entry);
@@ -93,7 +152,8 @@ describe('TimeEntriesComponent', () => {
   });
 
   it('should get the entry List by Month', () => {
-    const month = 3;
+    const month = 1;
+    component.entryList = [entry];
     component.getMonth(month);
     expect(component.dataByMonth.length).toEqual(1);
   });

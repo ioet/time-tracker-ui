@@ -1,9 +1,23 @@
 <div class="container-time-entries">
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        (click)="newEntry()"
+        data-toggle="modal"
+        data-target="#editRecordsByDate"
+        class="btn btn-primary"
+      >
+        <i class="fa fa-plus-square"></i> New Entry
+      </button>
+    </div>
+  </div>
   <div class="card">
     <app-month-picker (monthSelected)="getMonth($event)"></app-month-picker>
     <div class="row m-0 header-entries">
       <div class="col">Project</div>
       <div class="col">Duration</div>
+      <div class="col">Date</div>
       <div class="col-2">Actions</div>
     </div>
     <!--Accordion wrapper-->
@@ -33,10 +47,13 @@
         >
           <div class="row m-0 entries">
             <div class="col">
-              {{ item.project }}
+              {{ item.id }}
             </div>
             <div class="col">
-              {{ item.duration }}
+              {{ item.time }}
+            </div>
+            <div class="col">
+              {{ item.date }}
             </div>
             <div class="col-2">
               <button

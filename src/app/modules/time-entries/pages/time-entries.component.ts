@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { Entry } from '../../shared/models';
+import { EntryState } from '../../time-clock/store/entry.reducer';
+import { allEntries } from '../../time-clock/store/entry.selectors';
+import { select, Store } from '@ngrx/store';
+import * as entryActions from '../../time-clock/store/entry.actions';
 
 @Component({
   selector: 'app-time-entries',
@@ -12,64 +17,31 @@ export class TimeEntriesComponent implements OnInit {
   entry: Entry;
   entryToDelete: Entry;
   dataByMonth: Entry[];
+  entryList: Entry[];
 
-  entryList = [
-    {
-      id: 'entry_1',
-      project: 'Mido - 05 de Febrero',
-      start_date: new Date('2020-02-05T15:36:15.887Z'),
-      end_date: new Date('2020-02-05T18:36:15.887Z'),
-      activity: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      comments: 'No comments',
-      ticket: 'EY-25',
-    },
-    {
-      id: 'entry_2',
-      project: 'Mido 15 de Marzo',
-      start_date: new Date('2020-03-15T20:36:15.887Z'),
-      end_date: new Date('2020-03-15T23:36:15.887Z'),
-      activity: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      comments: 'No comments',
-      ticket: 'EY-38',
-    },
-    {
-      id: 'entry_3',
-      project: 'GoSpace 15 y 16 de Marzo',
-      start_date: new Date('2020-03-15T23:36:15.887Z'),
-      end_date: new Date('2020-03-16T05:36:15.887Z'),
-      activity: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      comments: 'No comments',
-      ticket: 'EY-225',
-    },
-    {
-      id: 'entry_4',
-      project: 'Mido 16 de Marzo',
-      start_date: new Date('2020-03-16T15:36:15.887Z'),
-      end_date: new Date('2020-03-16T18:36:15.887Z'),
-      activity: 'development',
-      technologies: ['javascript', 'java-stream'],
-      comments: 'No comments',
-      ticket: 'EY-89',
-    },
-    {
-      id: 'entry_5',
-      project: 'Ernst&Young 01 de Abril',
-      start_date: new Date('2020-04-01T09:36:15.887Z'),
-      end_date: new Date('2020-04-01T15:36:15.887Z'),
-      activity: 'development',
-      technologies: ['javascript', 'java', 'java-stream'],
-      comments: 'No comments',
-      ticket: 'EY-59',
-    },
-  ];
-
-  constructor() {}
+  constructor(private store: Store<EntryState>) {}
 
   ngOnInit(): void {
-    this.dataByMonth = this.entryList.filter((entry) => entry.start_date.getMonth() === new Date().getMonth());
+    this.store.dispatch(new entryActions.LoadEntries());
+    const dataByMonth$ = this.store.pipe(select(allEntries));
+    dataByMonth$.subscribe((response) => {
+      this.entryList = response;
+      this.dataByMonth = this.entryList.reduce((acc: any, entry: any) => {
+        if (new Date(entry.start_date).getMonth() === new Date().getMonth()) {
+          let time: any = '-';
+          if (entry.start_date && entry.end_date) {
+            const startDate = moment(entry.start_date, 'YYYY-MM-DD HH:mm:ss');
+            const endDate = moment(entry.end_date, 'YYYY-MM-DD HH:mm:ss');
+            const duration: any = moment.duration(endDate.diff(startDate));
+            time = `${duration._data.hours} hour and ${duration._data.minutes} minutes`;
+          }
+          const date = moment(entry.start_date).format('YYYY-MM-DD');
+          const item = { ...entry, time, date };
+          return [...acc, item];
+        }
+        return [];
+      }, []);
+    });
   }
 
   openModal(itemToDelete: Entry) {
@@ -77,16 +49,27 @@ export class TimeEntriesComponent implements OnInit {
     this.showModal = true;
   }
 
-  editEntry(entryId: string) {
-    // TODO: implement the required logic to edit an entry using the API
+  newEntry() {
+    this.entry = null;
+    this.entryId = null;
   }
 
-  saveEntry(newData): void {
-    // TODO: implement the required logic to save an entry using the API
+  editEntry(entryId: string) {
+    this.entryId = entryId;
+    this.entry = this.entryList.find((entry) => entry.id === entryId);
+  }
+
+  saveEntry(entry): void {
+    if (this.entryId) {
+      entry.id = this.entryId;
+      this.store.dispatch(new entryActions.UpdateActiveEntry(entry));
+    } else {
+      this.store.dispatch(new entryActions.CreateEntry(entry));
+    }
   }
 
   removeEntry(entryId: string) {
-    // TODO: implement the required logic to delete an entry using the API
+    this.store.dispatch(new entryActions.DeleteEntry(entryId));
   }
 
   getMonth(month: number) {

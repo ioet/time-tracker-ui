@@ -39,6 +39,28 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
     }
 
+    case EntryActionTypes.LOAD_ENTRIES: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case EntryActionTypes.LOAD_ENTRIES_SUCCESS:
+      return {
+        ...state,
+        entryList: action.payload,
+        isLoading: false,
+      };
+
+    case EntryActionTypes.LOAD_ACTIVE_ENTRY_FAIL: {
+      return {
+        ...state,
+        entryList: [],
+        isLoading: false,
+        message: 'Something went wrong fetching entries!',
+      };
+    }
+
     case EntryActionTypes.CREATE_ENTRY: {
       return {
         ...state,
@@ -59,9 +81,34 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
     case EntryActionTypes.CREATE_ENTRY_FAIL: {
       return {
         ...state,
-        entryList: [],
         isLoading: false,
         message: action.error,
+      };
+    }
+
+    case EntryActionTypes.DELETE_ENTRY: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case EntryActionTypes.DELETE_ENTRY_SUCCESS: {
+      const entryList = state.entryList.filter((entry) => entry.id !== action.entryId);
+      return {
+        ...state,
+        entryList,
+        isLoading: false,
+        message: 'ProjectType removed successfully!',
+      };
+    }
+
+    case EntryActionTypes.DELETE_ENTRY_FAIL: {
+      return {
+        ...state,
+        entryList: [],
+        isLoading: false,
+        message: 'Something went wrong deleting entry!',
       };
     }
 
@@ -114,7 +161,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
     }
 
-    default : {
+    default: {
       return state;
     }
   }

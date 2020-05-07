@@ -7,4 +7,11 @@ describe('Entry selectors', () => {
 
     expect(selectors.getStatusMessage.projector(entryState)).toBe(anyMessage);
   });
+
+  it('should select the entry list', () => {
+    const entryList = [];
+    const entryState = { entryList };
+
+    expect(selectors.allEntries.projector(entryState)).toBe(entryList);
+  });
 });

@@ -24,6 +24,17 @@ export class EntryEffects {
   );
 
   @Effect()
+  loadEntries$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.LOAD_ENTRIES),
+    mergeMap(() =>
+      this.entryService.loadEntries().pipe(
+        map((entries) => new actions.LoadEntriesSuccess(entries)),
+        catchError((error) => of(new actions.LoadEntriesFail(error)))
+      )
+    )
+  );
+
+  @Effect()
   createEntry$: Observable<Action> = this.actions$.pipe(
     ofType(actions.EntryActionTypes.CREATE_ENTRY),
     map((action: actions.CreateEntry) => action.payload),
@@ -33,6 +44,18 @@ export class EntryEffects {
           return new actions.CreateEntrySuccess(entryData);
         }),
         catchError((error) => of(new actions.CreateEntryFail(error.error.message)))
+      )
+    )
+  );
+
+  @Effect()
+  deleteEntry$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.DELETE_ENTRY),
+    map((action: actions.DeleteEntry) => action.entryId),
+    mergeMap((entryId) =>
+      this.entryService.deleteEntry(entryId).pipe(
+        map(() => new actions.DeleteEntrySuccess(entryId)),
+        catchError((error) => of(new actions.DeleteEntryFail(error)))
       )
     )
   );
