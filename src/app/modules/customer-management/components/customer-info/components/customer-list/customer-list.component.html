@@ -1,18 +1,7 @@
-<div
-  *ngIf="showAlert && messageToShow !== ''"
-  [ngClass]="{
-    'bg-secondary': messageToShow == 'Customer removed successfully!',
-    'bg-primary': messageToShow != 'Customer removed successfully!'
-  }"
-  class="alert alert-dismissible fade fade-in show text-white"
-  role="alert"
->
-  <strong>{{ messageToShow }}</strong>
-</div>
 <table class="table table-sm table-bordered table-striped mb-0">
   <thead class="thead-orange">
     <tr class="d-flex">
-      <th class="col-9">Customer name</th>
+      <th class="col-9">Name</th>
       <th class="col-3 text-center"></th>
     </tr>
   </thead>

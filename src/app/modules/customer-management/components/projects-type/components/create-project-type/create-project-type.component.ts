@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
@@ -19,7 +20,9 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
   customerId: string;
   getCustomerIdSubscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<ProjectTypeState>) {
+  constructor(private formBuilder: FormBuilder,
+              private store: Store<ProjectTypeState>,
+              private toastrService: ToastrService) {
     this.projectTypeForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: [''],
@@ -66,6 +69,7 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new CreateProjectType({ ...projectTypeData, customer_id: this.customerId }));
       this.projectTypeForm.get('description').setValue('');
     }
+    this.toastrService.success('Information has been saved succesfully');
   }
 
   cancelButton() {

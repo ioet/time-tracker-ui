@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { ToastrService } from 'ngx-toastr';
 import { ProjectListHoverComponent } from './project-list-hover.component';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
@@ -33,10 +34,14 @@ describe('ProjectListHoverComponent', () => {
     },
   };
 
+  const toastrService = {
+    success: () => {}
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProjectListHoverComponent, FilterProjectPipe],
-      providers: [provideMockStore({ initialState: state })],
+      providers: [provideMockStore({ initialState: state }), { provide: ToastrService, useValue: toastrService }],
       imports: [HttpClientTestingModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
@@ -60,4 +65,5 @@ describe('ProjectListHoverComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalled();
   });
+
 });

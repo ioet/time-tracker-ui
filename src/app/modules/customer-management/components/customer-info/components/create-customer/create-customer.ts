@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
-import { getStatusMessage, getCustomerById } from './../../../../store/customer-management.selectors';
+import { getCustomerById } from './../../../../store/customer-management.selectors';
 import { Customer } from 'src/app/modules/shared/models';
 import {
   CustomerState,
@@ -13,6 +13,7 @@ import {
 } from 'src/app/modules/customer-management/store';
 import { LoadProjectTypes } from '../../../projects-type/store';
 import { LoadCustomerProjects } from '../../../projects/components/store/project.actions';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-customer',
@@ -23,13 +24,11 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   customerForm: FormGroup;
   @Input() areTabsActive: boolean;
   @Output() changeValueAreTabsActives = new EventEmitter<boolean>();
-  showAlert = false;
-  messageToShow = '';
   customerToEdit: Customer;
-  saveSubscription: Subscription;
   editSubscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<CustomerState>) {
+  constructor(private formBuilder: FormBuilder, private store: Store<CustomerState>,
+              private toastrService: ToastrService) {
     this.customerForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -37,11 +36,8 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const messages$ = this.store.pipe(select(getStatusMessage));
-    this.saveSubscription = messages$.subscribe((valueMessage) => {
-      this.setStatusOnScreen(valueMessage);
-    });
-
+    this.areTabsActive = true;
+    this.changeValueAreTabsActives.emit(this.areTabsActive);
     const customers$ = this.store.pipe(select(getCustomerById));
     this.editSubscription = customers$.subscribe((customer) => {
       this.customerToEdit = customer;
@@ -51,7 +47,6 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.areTabsActive = false;
-    this.saveSubscription.unsubscribe();
     this.editSubscription.unsubscribe();
   }
 
@@ -65,21 +60,9 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new CreateCustomer(customerData));
     }
-    this.showAlert = true;
-    setTimeout(() => (this.showAlert = false), 3000);
-  }
-
-  setStatusOnScreen(message: string) {
-    if (message === 'Customer created successfully!') {
-      this.messageToShow = message;
-      this.areTabsActive = true;
-      this.changeValueAreTabsActives.emit(this.areTabsActive);
-    } else if (message === 'An error occurred, try again later.') {
-      this.messageToShow = message;
-      this.areTabsActive = false;
-      this.changeValueAreTabsActives.emit(this.areTabsActive);
-    }
-    this.messageToShow = message;
+    this.toastrService.success('Customer information saved successfully');
+    this.areTabsActive = true;
+    this.changeValueAreTabsActives.emit(this.areTabsActive);
   }
 
   setDataToUpdate(customerData: Customer) {

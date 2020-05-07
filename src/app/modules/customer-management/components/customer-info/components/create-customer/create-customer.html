@@ -1,17 +1,6 @@
 <div class="container">
   <form style="width: 600px;" [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm.value)">
     <div class="form-group">
-      <div
-        *ngIf="showAlert && messageToShow !== ''"
-        [ngClass]="{'bg-secondary': messageToShow == 'Customer created successfully!' || messageToShow == 'Customer updated successfully!',
-                    'bg-primary': messageToShow !== 'Customer created successfully!' }"
-        class="alert alert-dismissible fade fade-in show text-white"
-        role="alert"
-      >
-        <strong>{{ messageToShow }}</strong>
-      </div>
-    </div>
-    <div class="form-group">
       <input
         class="form-control form-control-sm"
         id="customerName"

@@ -1,3 +1,5 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -54,7 +56,6 @@ import { CreateProjectTypeComponent } from './modules/customer-management/compon
 import { CustomerEffects } from './modules/customer-management/store/customer-management.effects';
 import { EntryEffects } from './modules/time-clock/store/entry.effects';
 import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.token.interceptor';
-import { NotificationComponent } from './modules/shared/components/notification/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -89,11 +90,11 @@ import { NotificationComponent } from './modules/shared/components/notification/
     ProjectTypeListComponent,
     CreateProjectTypeComponent,
     EntryFieldsComponent,
-    NotificationComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -116,6 +117,7 @@ import { NotificationComponent } from './modules/shared/components/notification/
       ProjectTypeEffects,
       EntryEffects,
     ]),
+    ToastrModule.forRoot()
   ],
   providers: [
     {

@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
@@ -27,7 +28,8 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<ProjectState>,
-    private projectTypeStore: Store<ProjectTypeState>
+    private projectTypeStore: Store<ProjectTypeState>,
+    private toastrService: ToastrService
   ) {
     this.projectForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -71,6 +73,7 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
       this.store.dispatch(new actions.CreateProject({ ...formData, customer_id: this.customerId }));
     }
     this.resetValuesForm();
+    this.toastrService.success('The information has been saved successfully');
   }
 
   get name() {

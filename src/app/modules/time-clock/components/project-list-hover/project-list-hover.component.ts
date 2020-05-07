@@ -7,6 +7,7 @@ import { Project } from 'src/app/modules/shared/models';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
 import * as entryActions from '../../store/entry.actions';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-project-list-hover',
@@ -22,7 +23,7 @@ export class ProjectListHoverComponent implements OnInit {
   keyword = 'name';
   nameActiveProject: string;
 
-  constructor(private store: Store<ProjectState>) { }
+  constructor(private store: Store<ProjectState>, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.store.dispatch(new actions.LoadProjects());
@@ -55,5 +56,6 @@ export class ProjectListHoverComponent implements OnInit {
   clockIn(id: string) {
     const newEntry = { project_id: id, start_date: new Date().toISOString() };
     this.store.dispatch(new entryActions.CreateEntry(newEntry));
+    this.toastr.success('You just clocked-in');
   }
 }

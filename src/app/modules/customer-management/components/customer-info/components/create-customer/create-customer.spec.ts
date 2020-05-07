@@ -6,11 +6,16 @@ import { CreateCustomerComponent } from './create-customer';
 import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
 import { ResetCustomerToEdit, UpdateCustomer } from './../../../../store/customer-management.actions';
 import { Customer } from 'src/app/modules/shared/models';
+import { ToastrService, IndividualConfig } from 'ngx-toastr';
 
 describe('CreateCustomerComponent', () => {
   let component: CreateCustomerComponent;
   let fixture: ComponentFixture<CreateCustomerComponent>;
   let store: MockStore<CustomerState>;
+  const toastrService = {
+    success: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+  };
 
   const state = {
     data: [],
@@ -28,17 +33,19 @@ describe('CreateCustomerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CreateCustomerComponent],
-      providers: [FormBuilder, provideMockStore({ initialState: state })],
+      providers: [
+        FormBuilder,
+        provideMockStore({ initialState: state }),
+        { provide: ToastrService, useValue: toastrService },
+      ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CreateCustomerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     store = TestBed.inject(MockStore);
     store.setState(state);
-  });
+  }));
 
   afterEach(() => {
     fixture.destroy();
@@ -87,30 +94,20 @@ describe('CreateCustomerComponent', () => {
 
   it('should be enable tabs and show message Customer created successfully! ', () => {
     component.areTabsActive = false;
-    component.messageToShow = '';
-
-    spyOn(store, 'dispatch');
 
     component.ngOnInit();
     component.onSubmit(customerData);
-    component.setStatusOnScreen('Customer created successfully!');
 
-    expect(component.messageToShow).toEqual('Customer created successfully!');
     expect(component.areTabsActive).toBeTrue();
   });
 
   it('should be disabled tabs and show message An error occurred, try again later. ', () => {
     component.areTabsActive = false;
-    component.messageToShow = '';
-
-    spyOn(store, 'dispatch');
 
     component.ngOnInit();
     component.onSubmit(customerData);
-    component.setStatusOnScreen('An error occurred, try again later.');
 
-    expect(component.messageToShow).toEqual('An error occurred, try again later.');
-    expect(component.areTabsActive).toBeFalse();
+    expect(component.areTabsActive).toBeTruthy();
   });
 
   it('set data to update ', () => {
@@ -119,6 +116,6 @@ describe('CreateCustomerComponent', () => {
     component.ngOnInit();
     component.setDataToUpdate(customerData);
 
-    expect(component.messageToShow).toEqual(undefined);
+    expect(store.dispatch).toHaveBeenCalledTimes(2);
   });
 });

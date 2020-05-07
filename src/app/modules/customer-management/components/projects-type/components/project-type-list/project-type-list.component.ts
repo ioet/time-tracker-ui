@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { ITEMS_PER_PAGE } from 'src/environments/environment';
 import { Store, select } from '@ngrx/store';
@@ -17,7 +18,7 @@ export class ProjectTypeListComponent implements OnInit {
   initPage2 = 1;
   itemsPerPage = ITEMS_PER_PAGE;
 
-  constructor(private store: Store<ProjectTypeState>) {}
+  constructor(private store: Store<ProjectTypeState>, private toastrService: ToastrService) {}
 
   ngOnInit(): void {
     const projectTypes$ = this.store.pipe(select(allProjectTypes));
@@ -28,6 +29,7 @@ export class ProjectTypeListComponent implements OnInit {
 
   deleteProjectType(projectTypeId: string) {
     this.store.dispatch(new DeleteProjectType(projectTypeId));
+    this.toastrService.success('Information has been removed successfully');
   }
 
   updateProjectType(projectTypeId: string) {
