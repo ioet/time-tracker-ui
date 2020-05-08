@@ -22,6 +22,7 @@ export class ProjectListHoverComponent implements OnInit {
   showButton = '';
   keyword = 'name';
   nameActiveProject: string;
+  activeEntry;
 
   constructor(private store: Store<ProjectState>, private toastr: ToastrService) { }
 
@@ -33,13 +34,13 @@ export class ProjectListHoverComponent implements OnInit {
       this.listProjects = projects;
       this.loadActiveTimeEntry();
     });
-
   }
 
   private loadActiveTimeEntry() {
     this.store.dispatch(new entryActions.LoadActiveEntry());
     const activeEntry$ = this.store.pipe(select(getActiveTimeEntry));
     activeEntry$.subscribe((activeEntry) => {
+      this.activeEntry = activeEntry;
       if (activeEntry) {
         for (const project of this.listProjects) {
           if (project.id === activeEntry.project_id) {
@@ -54,8 +55,13 @@ export class ProjectListHoverComponent implements OnInit {
   }
 
   clockIn(id: string) {
-    const newEntry = { project_id: id, start_date: new Date().toISOString() };
-    this.store.dispatch(new entryActions.CreateEntry(newEntry));
-    this.toastr.success('You just clocked-in');
+    if (this.activeEntry) {
+      const entry = {id: this.activeEntry.id, project_id: id};
+      this.store.dispatch(new entryActions.UpdateActiveEntry(entry));
+    } else {
+      const newEntry = { project_id: id, start_date: new Date().toISOString() };
+      this.store.dispatch(new entryActions.CreateEntry(newEntry));
+      this.toastr.success('You just clocked-in');
+    }
   }
 }
