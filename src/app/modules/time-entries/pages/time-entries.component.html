@@ -8,10 +8,11 @@
         data-target="#editRecordsByDate"
         class="btn btn-primary"
       >
-        <i class="fa fa-plus-square"></i> New Entry
+        Add new entry
       </button>
     </div>
   </div>
+<<<<<<< HEAD
   <div class="card">
     <app-month-picker (monthSelected)="getMonth($event)"></app-month-picker>
     <div class="row m-0 header-entries">
@@ -67,20 +68,47 @@
               <button
                 class="btn btn-sm btn-small"
                 data-toggle="modal"
+=======
+  <div style="height: 10px;"></div>
+  <app-month-picker (monthSelected)="getMonth($event)"></app-month-picker>
+
+  <div style="height: 10px;"></div>
+
+  <table class="table table-sm table-striped">
+    <thead class="thead-orange">
+      <tr class="d-flex">
+        <th class="col-5">Project</th>
+        <th class="col-5">Duration</th>
+        <th class="col-2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="d-flex"
+        *ngFor="let item of dataByMonth"
+      >
+        <td class="col-sm-5">{{ item.project_id }}</td>
+        <td class="col-sm-5">{{ item.time }}</td>
+        <td class="col-sm-2 text-center">
+          <button type="button" class="btn btn-sm btn-secondary"
+            data-toggle="modal"
+            data-target="#editRecordsByDate"
+            (click)="editEntry(item.id)">
+            <i class="fa fa-pencil fa-xs"></i>
+          </button>
+          <button type="button" class="btn btn-sm btn-danger ml-2"
+              data-toggle="modal"
+>>>>>>> fix: #172 removing old styles
                 data-target="#deleteModal"
-                (click)="openModal(item)"
-              >
-                <i class="fa fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <ng-template #emptyState>
-      <app-empty-state></app-empty-state>
-    </ng-template>
-  </div>
+                (click)="openModal(item)">
+            <i class="fas fa-trash-alt fa-xs"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
 </div>
 <div class="modal fade" id="editRecordsByDate" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

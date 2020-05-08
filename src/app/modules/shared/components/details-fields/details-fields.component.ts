@@ -62,6 +62,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       start_hour: '00:00',
       end_hour: '00:00',
       uri: '',
+      technology: '',
     });
   }
 
@@ -69,7 +70,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     const technologies$ = this.store.pipe(select(allTechnologies));
     technologies$.subscribe((response) => {
       this.isLoading = response.isLoading;
-      this.technology = response.technologyList;
+      const filteredItems = response.technologyList.items.filter(item => !this.selectedTechnology.includes(item.name));
+      this.technology = { items: filteredItems };
     });
 
     this.store.dispatch(new projectActions.LoadProjects());
@@ -106,6 +108,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         end_date: this.entryToEdit.end_date ? formatDate(this.entryToEdit.end_date, 'yyyy-MM-dd', 'en') : '',
         end_hour: this.entryToEdit.end_date ? formatDate(this.entryToEdit.end_date, 'HH:mm', 'en') : '00:00',
         uri: this.entryToEdit.uri,
+        technology: '',
       });
     } else {
       this.selectedTechnology = [];
@@ -124,6 +127,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
         end_hour: '00:00',
         uri: '',
+        technology: '',
       });
     }
   }
@@ -136,16 +140,16 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   setTechnology(name: string) {
-    const index = this.selectedTechnology.indexOf(name);
-    if (index > -1) {
-      this.removeTag(index);
-    } else if (this.selectedTechnology.length < 10) {
-      this.selectedTechnology = [...this.selectedTechnology, name];
-    }
+    this.selectedTechnology = [...this.selectedTechnology, name];
+    this.showlist = false;
+    this.entryForm.get('technology').reset();
   }
 
   removeTag(index) {
     this.selectedTechnology.splice(index, 1);
+    this.selectedTechnology = [...this.selectedTechnology, name];
+    this.showlist = false;
+    this.entryForm.get('technology').reset();
   }
 
   onSubmit() {
