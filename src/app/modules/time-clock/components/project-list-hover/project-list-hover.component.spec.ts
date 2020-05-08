@@ -7,6 +7,7 @@ import { ProjectListHoverComponent } from './project-list-hover.component';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
+import { CreateEntry, UpdateActiveEntry } from '../../store/entry.actions';
 
 describe('ProjectListHoverComponent', () => {
   let component: ProjectListHoverComponent;
@@ -58,12 +59,37 @@ describe('ProjectListHoverComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('clock-in dispatchs a new action', () => {
+  it('clock-in dispatchs a CreateEntry action', () => {
+    const entry = {
+      project_id: '2b87372b-3d0d-4dc0-832b-ae5863cd39e5',
+      start_date: new Date().toISOString(),
+    };
+
+    component.activeEntry = null;
     spyOn(store, 'dispatch');
 
-    component.clockIn('id');
+    component.clockIn('2b87372b-3d0d-4dc0-832b-ae5863cd39e5');
 
-    expect(store.dispatch).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(new CreateEntry(entry));
+  });
+
+  it('clock-in dispatchs a UpdateActiveEntry action', () => {
+    const entry = {
+      id: '123',
+      project_id: '2b87372b-3d0d-4dc0-832b-ae5863cd39e5',
+      start_date: new Date().toISOString(),
+    };
+    const updatedEntry = {
+      id: '123',
+      project_id: '123372b-3d0d-4dc0-832b-ae5863cd39e5',
+    };
+
+    component.activeEntry = entry;
+    spyOn(store, 'dispatch');
+
+    component.clockIn('123372b-3d0d-4dc0-832b-ae5863cd39e5');
+
+    expect(store.dispatch).toHaveBeenCalledWith(new UpdateActiveEntry(updatedEntry));
   });
 
 });
