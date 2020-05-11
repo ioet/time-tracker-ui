@@ -11,6 +11,14 @@ describe('entryReducer', () => {
     technologies: ['angular', 'typescript'],
   };
 
+  const newEntry: Entry = {
+    id: '1',
+    start_date: new Date(),
+    end_date: new Date(),
+    activity: '',
+    technologies: ['abc', 'abc'],
+  };
+
   it('on Default, ', () => {
     const action = new actions.DefaultEntry();
     const state = entryReducer(initialState, action);
@@ -124,7 +132,7 @@ describe('entryReducer', () => {
       isLoading: false,
       message: '',
     };
-    const action = new actions.UpdateActiveEntrySuccess(entry);
+    const action = new actions.UpdateActiveEntrySuccess(newEntry);
     const state = entryReducer(currentState, action);
 
     expect(state.isLoading).toEqual(false);

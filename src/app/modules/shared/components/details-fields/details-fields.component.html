@@ -1,5 +1,5 @@
 <div>
-  <div *ngIf="formType === 'entries'" class="input-group input-group-sm mb-3 flex-nowrap">
+  <div class="input-group input-group-sm mb-3 flex-nowrap">
     <div class="input-group-prepend">
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
     </div>
@@ -126,10 +126,10 @@
       <textarea formControlName="description" class="form-control" id="NotesTextarea" rows="3"></textarea>
     </div>
     <div [ngClass]="{ hidden: formType !== 'entries' }" class="modal-footer">
-      <button #closeModal type="button" class="btn close-button-style" data-dismiss="modal">
+      <button #closeModal type="button" class="btn btn-secondary" data-dismiss="modal">
         Close
       </button>
-      <button type="submit" class="btn save-button-style">Save changes</button>
+      <button type="submit" class="btn btn-primary">Save changes</button>
     </div>
   </form>
 </div>

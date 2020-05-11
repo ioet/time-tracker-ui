@@ -72,7 +72,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       return {
         ...state,
         active: action.payload,
-        entryList: [...state.entryList, action.payload],
+        entryList: [action.payload, ...state.entryList],
         isLoading: false,
         message: 'You clocked-in successfully',
       };
@@ -120,11 +120,12 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
     }
 
     case EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS: {
-      const activeEntry = { ...state.active, ...action.payload };
-
+      const entryList = [...state.entryList];
+      const index = entryList.findIndex((entry) => entry.id === action.payload.id);
+      entryList[index] = action.payload;
       return {
         ...state,
-        active: activeEntry,
+        entryList,
         isLoading: false,
       };
     }

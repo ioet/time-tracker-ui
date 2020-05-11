@@ -97,7 +97,7 @@ export class UpdateActiveEntry implements Action {
 export class UpdateActiveEntrySuccess implements Action {
   public readonly type = EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS;
 
-  constructor(public payload: NewEntry) {}
+  constructor(public payload: Entry) {}
 }
 
 export class UpdateActiveEntryFail implements Action {

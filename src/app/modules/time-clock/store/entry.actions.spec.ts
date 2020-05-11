@@ -46,8 +46,11 @@ describe('Actions for Entries', () => {
 
   it('UpdateActiveEntrySuccess type is EntryActionTypes.UDPATE_ACTIVE_ENTRY_SUCCESS', () => {
     const updateActiveEntrySuccess = new actions.UpdateActiveEntrySuccess({
-      project_id: '1',
-      description: 'It is good for learning',
+      id: '1',
+      start_date: new Date(),
+      end_date: new Date(),
+      activity: '',
+      technologies: ['abc', 'abc'],
     });
     expect(updateActiveEntrySuccess.type).toEqual(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS);
   });

@@ -11,8 +11,6 @@ import { ProjectListHoverComponent } from '../components';
 import { FilterProjectPipe } from '../../shared/pipes';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 
-import { ActionsSubject } from '@ngrx/store';
-
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;

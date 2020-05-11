@@ -8,11 +8,10 @@
         data-target="#editRecordsByDate"
         class="btn btn-primary"
       >
-        Add new entry
+        <i class="fa fa-plus-square"></i> New Entry
       </button>
     </div>
   </div>
-<<<<<<< HEAD
   <div class="card">
     <app-month-picker (monthSelected)="getMonth($event)"></app-month-picker>
     <div class="row m-0 header-entries">
@@ -29,14 +28,6 @@
       aria-multiselectable="true"
     >
       <div class="card" *ngFor="let entry of dataByMonth | groupByDate; let rowIndex = index">
-        <!-- Card header -->
-        <div class="date-header" role="tab" id="heading10">
-          <a data-toggle="collapse" [href]="'#entry' + rowIndex">
-            <div class="mb-0 text-white">
-              {{ entry.date }}
-            </div>
-          </a>
-        </div>
 
         <!-- Card body -->
         <div
@@ -54,7 +45,7 @@
               {{ item.time }}
             </div>
             <div class="col">
-              {{ item.date }}
+              {{ item.start_date | date: 'dd/MM/yyyy' }}
             </div>
             <div class="col-2">
               <button
@@ -68,53 +59,26 @@
               <button
                 class="btn btn-sm btn-small"
                 data-toggle="modal"
-=======
-  <div style="height: 10px;"></div>
-  <app-month-picker (monthSelected)="getMonth($event)"></app-month-picker>
-
-  <div style="height: 10px;"></div>
-
-  <table class="table table-sm table-striped">
-    <thead class="thead-orange">
-      <tr class="d-flex">
-        <th class="col-5">Project</th>
-        <th class="col-5">Duration</th>
-        <th class="col-2"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        class="d-flex"
-        *ngFor="let item of dataByMonth"
-      >
-        <td class="col-sm-5">{{ item.project_id }}</td>
-        <td class="col-sm-5">{{ item.time }}</td>
-        <td class="col-sm-2 text-center">
-          <button type="button" class="btn btn-sm btn-secondary"
-            data-toggle="modal"
-            data-target="#editRecordsByDate"
-            (click)="editEntry(item.id)">
-            <i class="fa fa-pencil fa-xs"></i>
-          </button>
-          <button type="button" class="btn btn-sm btn-danger ml-2"
-              data-toggle="modal"
->>>>>>> fix: #172 removing old styles
                 data-target="#deleteModal"
-                (click)="openModal(item)">
-            <i class="fas fa-trash-alt fa-xs"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-
+                (click)="openModal(item)"
+              >
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #emptyState>
+      <app-empty-state></app-empty-state>
+    </ng-template>
+  </div>
 </div>
 <div class="modal fade" id="editRecordsByDate" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Edit Entry</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">{{entryId ? "Edit Entry": "New Entry"}} </h5>
       </div>
       <div class="modal-body">
         <app-details-fields

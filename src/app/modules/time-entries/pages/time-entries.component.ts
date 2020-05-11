@@ -16,7 +16,7 @@ export class TimeEntriesComponent implements OnInit {
   entryId: string;
   entry: Entry;
   entryToDelete: Entry;
-  dataByMonth: Entry[];
+  dataByMonth = [];
   entryList: Entry[];
 
   constructor(private store: Store<EntryState>) {}
@@ -33,7 +33,7 @@ export class TimeEntriesComponent implements OnInit {
             const startDate = moment(entry.start_date, 'YYYY-MM-DD HH:mm:ss');
             const endDate = moment(entry.end_date, 'YYYY-MM-DD HH:mm:ss');
             const duration: any = moment.duration(endDate.diff(startDate));
-            time = `${duration._data.hours} hour and ${duration._data.minutes} minutes`;
+            time = `${duration._data.hours} hh : ${duration._data.minutes} mm`;
           }
           const item = { ...entry, time };
           return [...acc, item];

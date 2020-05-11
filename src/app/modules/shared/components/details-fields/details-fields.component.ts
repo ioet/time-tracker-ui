@@ -62,7 +62,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       start_hour: '00:00',
       end_hour: '00:00',
       uri: '',
-      technology: '',
     });
   }
 
@@ -70,8 +69,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     const technologies$ = this.store.pipe(select(allTechnologies));
     technologies$.subscribe((response) => {
       this.isLoading = response.isLoading;
-      const filteredItems = response.technologyList.items.filter(item => !this.selectedTechnology.includes(item.name));
-      this.technology = { items: filteredItems };
+      this.technology = response.technologyList;
     });
 
     this.store.dispatch(new projectActions.LoadProjects());
@@ -90,17 +88,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   ngOnChanges(): void {
     if (this.entryToEdit) {
       this.selectedTechnology = this.entryToEdit.technologies;
-<<<<<<< HEAD
       this.project = this.listProjects.find((p) => p.id === this.entryToEdit.project_id);
       const activity = this.activities.find((a) => a.id === this.entryToEdit.activity_id);
       this.projectName = this.project.name;
       this.entryForm.setValue({
-=======
-      const project = this.listProjects.find((p) => p.id === this.entryToEdit.project_id);
-      const activity = this.activities.find((a) => a.id === this.entryToEdit.activity_id);
-      this.entryForm.setValue({
-        project: project ? project.name : '',
->>>>>>> fix: #172 Create-time-entries-manually
         activity: activity ? activity.name : '',
         description: this.entryToEdit.description,
         start_date: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'yyyy-MM-dd', 'en') : '',
@@ -108,18 +99,12 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         end_date: this.entryToEdit.end_date ? formatDate(this.entryToEdit.end_date, 'yyyy-MM-dd', 'en') : '',
         end_hour: this.entryToEdit.end_date ? formatDate(this.entryToEdit.end_date, 'HH:mm', 'en') : '00:00',
         uri: this.entryToEdit.uri,
-        technology: '',
       });
     } else {
       this.selectedTechnology = [];
-<<<<<<< HEAD
       this.project = '';
       this.projectName = '';
       this.entryForm.setValue({
-=======
-      this.entryForm.setValue({
-        project: '',
->>>>>>> fix: #172 Create-time-entries-manually
         activity: '',
         description: '',
         start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
@@ -127,7 +112,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
         end_hour: '00:00',
         uri: '',
-        technology: '',
       });
     }
   }
@@ -140,28 +124,23 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   setTechnology(name: string) {
-    this.selectedTechnology = [...this.selectedTechnology, name];
-    this.showlist = false;
-    this.entryForm.get('technology').reset();
+    const index = this.selectedTechnology.indexOf(name);
+    if (index > -1) {
+      this.removeTag(index);
+    } else if (this.selectedTechnology.length < 10) {
+      this.selectedTechnology = [...this.selectedTechnology, name];
+    }
   }
 
   removeTag(index) {
     this.selectedTechnology.splice(index, 1);
-    this.selectedTechnology = [...this.selectedTechnology, name];
-    this.showlist = false;
-    this.entryForm.get('technology').reset();
   }
 
   onSubmit() {
     const activity = this.activities.find((a) => a.name === this.entryForm.value.activity);
-<<<<<<< HEAD
     this.project = this.projectName.id ? this.projectName : this.project;
     const entry = {
       project_id: this.project.id,
-=======
-    const entry = {
-      project_id: this.entryForm.value.project.id,
->>>>>>> fix: #172 Create-time-entries-manually
       activity_id: activity ? activity.id : null,
       technologies: this.selectedTechnology,
       description: this.entryForm.value.description,
@@ -170,6 +149,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       uri: this.entryForm.value.uri,
     };
     this.saveEntry.emit(entry);
+    this.ngOnChanges();
     this.closeModal.nativeElement.click();
   }
 }
