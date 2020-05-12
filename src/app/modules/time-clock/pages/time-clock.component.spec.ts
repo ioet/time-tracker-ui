@@ -1,9 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+
+import { EntryActionTypes, StopTimeEntryRunning } from './../store/entry.actions';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-
 import { ToastrService } from 'ngx-toastr';
-import { StopTimeEntryRunning } from './../store/entry.actions';
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectState } from '../../customer-management/components/projects/components/store/project.reducer';
 import { ProjectListHoverComponent } from '../components';

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { formatDate } from '@angular/common';
 
 import { TechnologyState } from '../../store/technology.reducers';
 import { allTechnologies } from '../../store/technology.selectors';
@@ -31,7 +32,7 @@ describe('DetailsFieldsComponent', () => {
       isLoading: false,
     },
     activities: {
-      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'Training 2' }],
+      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc' }],
       isLoading: false,
       message: 'Data fetch successfully!',
       activityIdToEdit: '',
@@ -39,17 +40,13 @@ describe('DetailsFieldsComponent', () => {
   };
 
   const initialData = {
-    project: '',
     activity: '',
-    ticket: '',
-    comments: '',
-  };
-
-  const newData = {
-    project: 'Ernst&Young',
-    activity: 'development',
-    ticket: 'WA-15',
-    comments: 'No notes',
+    uri: '',
+    start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+    end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+    start_hour: '00:00',
+    end_hour: '00:00',
+    description: '',
   };
 
   beforeEach(async(() => {
@@ -77,12 +74,78 @@ describe('DetailsFieldsComponent', () => {
     component.entryToEdit = null;
     component.ngOnChanges();
     expect(component.entryForm.value).toEqual(initialData);
+    expect(component.projectName).toEqual('');
+    expect(component.project).toEqual('');
   });
 
   it('should emit ngOnChange with new data', () => {
-    component.entryToEdit = newData;
+    const project = { id: 'id', name: 'name', project_type_id: '' };
+    const entryToEdit = {
+      project_id: 'id',
+      activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',
+      uri: 'ticketUri',
+      start_date: '2020-02-05T14:36',
+      end_date: '2020-02-05T15:36',
+      start_hour: '14:36',
+      end_hour: '15:36',
+      description: '',
+    };
+    const formValue = {
+      activity: 'abc',
+      uri: 'ticketUri',
+      start_date: '2020-02-05',
+      end_date: '2020-02-05',
+      start_hour: '14:36',
+      end_hour: '15:36',
+      description: '',
+    };
+    component.project = project;
+    component.entryToEdit = entryToEdit;
     component.ngOnChanges();
-    expect(component.entryForm.value).toEqual(newData);
+    expect(component.entryForm.value).toEqual(formValue);
+    expect(component.projectName).toEqual(project.name);
+  });
+
+  it('should emit ngOnChange with new data', () => {
+    const project = { id: 'id', name: 'name', project_type_id: '' };
+    const entryToEdit = {
+      project_id: 'id',
+      activity_id: '',
+      uri: 'ticketUri',
+      start_date: null,
+      end_date: null,
+      description: '',
+    };
+    const formValue = {
+      activity: '',
+      uri: 'ticketUri',
+      start_date: '',
+      end_date: '',
+      start_hour: '00:00',
+      end_hour: '00:00',
+      description: '',
+    };
+    component.project = project;
+    component.entryToEdit = entryToEdit;
+    component.ngOnChanges();
+    expect(component.entryForm.value).toEqual(formValue);
+    expect(component.projectName).toEqual(project.name);
+  });
+
+  it('should emit ngOnChange with new data', () => {
+    const formValue = {
+      activity: '',
+      uri: '',
+      start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      start_hour: '00:00',
+      end_hour: '00:00',
+      description: '',
+    };
+    component.entryToEdit = null;
+    component.ngOnChanges();
+    expect(component.entryForm.value).toEqual(formValue);
+    expect(component.projectName).toEqual('');
   });
 
   it('should dispatch FindTechnology action #getTechnologies', () => {
@@ -152,6 +215,43 @@ describe('DetailsFieldsComponent', () => {
   it('should emit saveEntry event', () => {
     spyOn(component.saveEntry, 'emit');
     component.onSubmit();
-    expect(component.saveEntry.emit).toHaveBeenCalledWith(initialData);
+    const data = {
+      project_id: undefined,
+      activity_id: null,
+      technologies: [],
+      description: '',
+      start_date: 'T00:00',
+      end_date: 'T00:00',
+      uri: '',
+    };
+    expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
+  });
+
+  it('should emit saveEntry without project and activite fields event', () => {
+    spyOn(component.saveEntry, 'emit');
+    component.entryForm.setValue({
+      activity: 'activity1',
+      uri: '',
+      start_date: '',
+      end_date: '',
+      start_hour: '00:00',
+      end_hour: '00:00',
+      description: '',
+    });
+    component.projectName = { id: 'abc', name: 'name' };
+    component.activities = [
+      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', name: 'activity1', description: '' },
+    ];
+    component.onSubmit();
+    const data = {
+      project_id: 'abc',
+      activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',
+      technologies: [],
+      description: '',
+      start_date: 'T00:00',
+      end_date: 'T00:00',
+      uri: '',
+    };
+    expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
 });

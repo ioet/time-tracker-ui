@@ -45,6 +45,14 @@ describe('EntryService', () => {
     });
   });
 
+  it('loads all Entries', () => {
+    service.baseUrl = 'time-entries';
+    service.loadEntries().subscribe((response) => {
+      const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}`);
+      expect(loadEntryRequest.request.method).toBe('GET');
+    });
+  });
+
   it('update an entry using PUT', () => {
     service.baseUrl = 'time-entries';
 
@@ -52,6 +60,15 @@ describe('EntryService', () => {
     service.updateActiveEntry(updatedEntry).subscribe((response) => {
       const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id`);
       expect(updateEntryRequest.request.method).toBe('PUT');
+    });
+  });
+
+  it('delete an entry using DELETE', () => {
+    service.baseUrl = 'time-entries';
+    const entry = 'entryId';
+    service.deleteEntry(entry).subscribe((response) => {
+      const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/${entry}`);
+      expect(updateEntryRequest.request.method).toBe('DELETE');
     });
   });
 

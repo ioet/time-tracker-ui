@@ -11,6 +11,16 @@ describe('Actions for Entries', () => {
     expect(loadActiveEntryFail.type).toEqual(actions.EntryActionTypes.LOAD_ACTIVE_ENTRY_FAIL);
   });
 
+  it('LoadEntriesSuccess type is EntryActionTypes.LOAD_ENTRIES_SUCCESS', () => {
+    const loadEntrySuccess = new actions.LoadEntriesSuccess([]);
+    expect(loadEntrySuccess.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_SUCCESS);
+  });
+
+  it('LoadEntriesFail type is EntryActionTypes.LOAD_ENTRIES_FAIL', () => {
+    const loadEntryFail = new actions.LoadEntriesFail('error');
+    expect(loadEntryFail.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_FAIL);
+  });
+
   it('CreateEntrySuccess type is EntryActionTypes.CREATE_ENTRY_SUCCESS', () => {
     const createEntrySuccess = new actions.CreateEntrySuccess({
       project_id: '1',
@@ -24,10 +34,23 @@ describe('Actions for Entries', () => {
     expect(createEntryFail.type).toEqual(actions.EntryActionTypes.CREATE_ENTRY_FAIL);
   });
 
+  it('DeleteEntrySuccess type is EntryActionTypes.DELETE_ENTRY_SUCCESS', () => {
+    const deleteEntrySuccess = new actions.DeleteEntrySuccess('entryId');
+    expect(deleteEntrySuccess.type).toEqual(actions.EntryActionTypes.DELETE_ENTRY_SUCCESS);
+  });
+
+  it('DeleteEntrySuccess type is EntryActionTypes.DELETE_ENTRY_SUCCESS', () => {
+    const deleteEntryFail = new actions.DeleteEntryFail('error');
+    expect(deleteEntryFail.type).toEqual(actions.EntryActionTypes.DELETE_ENTRY_FAIL);
+  });
+
   it('UpdateActiveEntrySuccess type is EntryActionTypes.UDPATE_ACTIVE_ENTRY_SUCCESS', () => {
     const updateActiveEntrySuccess = new actions.UpdateActiveEntrySuccess({
-      project_id: '1',
-      description: 'It is good for learning',
+      id: '1',
+      start_date: new Date(),
+      end_date: new Date(),
+      activity: '',
+      technologies: ['abc', 'abc'],
     });
     expect(updateActiveEntrySuccess.type).toEqual(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS);
   });

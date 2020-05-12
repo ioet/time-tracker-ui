@@ -16,6 +16,10 @@ export class EntryService {
     return this.http.get(`${this.baseUrl}/running`);
   }
 
+  loadEntries(): Observable<any> {
+    return this.http.get(`${this.baseUrl}`);
+  }
+
   createEntry(entryData): Observable<any> {
     return this.http.post(this.baseUrl, entryData);
   }
@@ -23,6 +27,11 @@ export class EntryService {
   updateActiveEntry(entryData): Observable<any> {
     const { id } = entryData;
     return this.http.put(`${this.baseUrl}/${id}`, entryData);
+  }
+
+  deleteEntry(entryId: string): Observable<any> {
+    const url = `${this.baseUrl}/${entryId}`;
+    return this.http.delete(url);
   }
 
   stopEntryRunning(idEntry: string): Observable<any> {

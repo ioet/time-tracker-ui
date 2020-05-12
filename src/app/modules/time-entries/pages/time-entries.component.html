@@ -1,9 +1,23 @@
 <div class="container-time-entries">
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        (click)="newEntry()"
+        data-toggle="modal"
+        data-target="#editRecordsByDate"
+        class="btn btn-primary"
+      >
+        <i class="fa fa-plus-square"></i> New Entry
+      </button>
+    </div>
+  </div>
   <div class="card">
     <app-month-picker (monthSelected)="getMonth($event)"></app-month-picker>
     <div class="row m-0 header-entries">
       <div class="col">Project</div>
       <div class="col">Duration</div>
+      <div class="col">Date</div>
       <div class="col-2">Actions</div>
     </div>
     <!--Accordion wrapper-->
@@ -14,14 +28,6 @@
       aria-multiselectable="true"
     >
       <div class="card" *ngFor="let entry of dataByMonth | groupByDate; let rowIndex = index">
-        <!-- Card header -->
-        <div class="date-header" role="tab" id="heading10">
-          <a data-toggle="collapse" [href]="'#entry' + rowIndex">
-            <div class="mb-0 text-white">
-              {{ entry.date }}
-            </div>
-          </a>
-        </div>
 
         <!-- Card body -->
         <div
@@ -33,10 +39,13 @@
         >
           <div class="row m-0 entries">
             <div class="col">
-              {{ item.project }}
+              {{ item.id }}
             </div>
             <div class="col">
-              {{ item.duration }}
+              {{ item.time }}
+            </div>
+            <div class="col">
+              {{ item.start_date | date: 'dd/MM/yyyy' }}
             </div>
             <div class="col-2">
               <button
@@ -69,7 +78,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Edit Entry</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">{{entryId ? "Edit Entry": "New Entry"}} </h5>
       </div>
       <div class="modal-body">
         <app-details-fields
