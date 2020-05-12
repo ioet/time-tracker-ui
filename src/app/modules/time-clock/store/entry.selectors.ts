@@ -8,6 +8,13 @@ export const getActiveTimeEntry = createSelector(getEntryState, (state: EntrySta
   return state.active;
 });
 
+export const getCreateError = createSelector(getEntryState, (state: EntryState) => {
+  return state.createError;
+});
+
+export const getUpdateError = createSelector(getEntryState, (state: EntryState) => {
+  return state.updateError;
+});
 export const getStatusMessage = createSelector(getEntryState, (state: EntryState) => state.message);
 
 export const allEntries = createSelector(getEntryState, (state: EntryState) => state.entryList);

@@ -9,15 +9,18 @@ import { DetailsFieldsComponent } from './details-fields.component';
 import * as actions from '../../store/technology.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
+import { EntryState } from '../../../time-clock/store/entry.reducer';
+import { getUpdateError, getCreateError } from 'src/app/modules/time-clock/store/entry.selectors';
 
 describe('DetailsFieldsComponent', () => {
-  type Merged = TechnologyState & ProjectState;
+  type Merged = TechnologyState & ProjectState & EntryState;
   let component: DetailsFieldsComponent;
   let fixture: ComponentFixture<DetailsFieldsComponent>;
   let store: MockStore<Merged>;
   let mockTechnologySelector;
   let mockProjectsSelector;
-  let length;
+  let mockEntriesUpdateErrorSelector;
+  let mockEntriesCreateErrorSelector;
 
   const state = {
     projects: {
@@ -37,9 +40,14 @@ describe('DetailsFieldsComponent', () => {
       message: 'Data fetch successfully!',
       activityIdToEdit: '',
     },
+    Entries: {
+      createError: null,
+      updateError: null,
+    },
   };
 
   const initialData = {
+    project: '',
     activity: '',
     uri: '',
     start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
@@ -47,6 +55,7 @@ describe('DetailsFieldsComponent', () => {
     start_hour: '00:00',
     end_hour: '00:00',
     description: '',
+    technology: '',
   };
 
   beforeEach(async(() => {
@@ -58,6 +67,8 @@ describe('DetailsFieldsComponent', () => {
     store = TestBed.inject(MockStore);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
+    mockEntriesUpdateErrorSelector = store.overrideSelector(getUpdateError, state.Entries.updateError);
+    mockEntriesCreateErrorSelector = store.overrideSelector(getCreateError, state.Entries.createError);
   }));
 
   beforeEach(() => {
@@ -74,8 +85,6 @@ describe('DetailsFieldsComponent', () => {
     component.entryToEdit = null;
     component.ngOnChanges();
     expect(component.entryForm.value).toEqual(initialData);
-    expect(component.projectName).toEqual('');
-    expect(component.project).toEqual('');
   });
 
   it('should emit ngOnChange with new data', () => {
@@ -91,6 +100,7 @@ describe('DetailsFieldsComponent', () => {
       description: '',
     };
     const formValue = {
+      project: 'name',
       activity: 'abc',
       uri: 'ticketUri',
       start_date: '2020-02-05',
@@ -98,12 +108,11 @@ describe('DetailsFieldsComponent', () => {
       start_hour: '14:36',
       end_hour: '15:36',
       description: '',
+      technology: '',
     };
-    component.project = project;
     component.entryToEdit = entryToEdit;
     component.ngOnChanges();
     expect(component.entryForm.value).toEqual(formValue);
-    expect(component.projectName).toEqual(project.name);
   });
 
   it('should emit ngOnChange with new data', () => {
@@ -117,6 +126,7 @@ describe('DetailsFieldsComponent', () => {
       description: '',
     };
     const formValue = {
+      project: 'name',
       activity: '',
       uri: 'ticketUri',
       start_date: '',
@@ -124,16 +134,16 @@ describe('DetailsFieldsComponent', () => {
       start_hour: '00:00',
       end_hour: '00:00',
       description: '',
+      technology: '',
     };
-    component.project = project;
     component.entryToEdit = entryToEdit;
     component.ngOnChanges();
     expect(component.entryForm.value).toEqual(formValue);
-    expect(component.projectName).toEqual(project.name);
   });
 
   it('should emit ngOnChange with new data', () => {
     const formValue = {
+      project: '',
       activity: '',
       uri: '',
       start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
@@ -141,11 +151,11 @@ describe('DetailsFieldsComponent', () => {
       start_hour: '00:00',
       end_hour: '00:00',
       description: '',
+      technology: ''
     };
     component.entryToEdit = null;
     component.ngOnChanges();
     expect(component.entryForm.value).toEqual(formValue);
-    expect(component.projectName).toEqual('');
   });
 
   it('should dispatch FindTechnology action #getTechnologies', () => {
@@ -216,7 +226,7 @@ describe('DetailsFieldsComponent', () => {
     spyOn(component.saveEntry, 'emit');
     component.onSubmit();
     const data = {
-      project_id: undefined,
+      project_id: null,
       activity_id: null,
       technologies: [],
       description: '',
@@ -230,6 +240,7 @@ describe('DetailsFieldsComponent', () => {
   it('should emit saveEntry without project and activite fields event', () => {
     spyOn(component.saveEntry, 'emit');
     component.entryForm.setValue({
+      project: 'name',
       activity: 'activity1',
       uri: '',
       start_date: '',
@@ -237,14 +248,14 @@ describe('DetailsFieldsComponent', () => {
       start_hour: '00:00',
       end_hour: '00:00',
       description: '',
+      technology: '',
     });
-    component.projectName = { id: 'abc', name: 'name' };
     component.activities = [
       { id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', name: 'activity1', description: '' },
     ];
     component.onSubmit();
     const data = {
-      project_id: 'abc',
+      project_id: 'id',
       activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',
       technologies: [],
       description: '',

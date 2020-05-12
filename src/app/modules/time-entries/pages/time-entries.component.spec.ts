@@ -16,6 +16,7 @@ import { ProjectState } from '../../customer-management/components/projects/comp
 import { getProjects } from '../../customer-management/components/projects/components/store/project.selectors';
 import { EntryState } from '../../time-clock/store/entry.reducer';
 import { allEntries } from '../../time-clock/store/entry.selectors';
+import * as entryActions from '../../time-clock/store/entry.actions';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -149,6 +150,52 @@ describe('TimeEntriesComponent', () => {
     component.openModal(entry);
     expect(component.entryToDelete).toBe(entry);
     expect(component.showModal).toBe(true);
+  });
+
+  it('should set entry and entryid to null', () => {
+    component.newEntry();
+    expect(component.entry).toBe(null);
+    expect(component.entryId).toBe(null);
+  });
+
+  it('should set entry and entryid to with data', () => {
+    component.entryList = [entry];
+    component.editEntry('entry_1');
+    expect(component.entry).toBe(entry);
+    expect(component.entryId).toBe('entry_1');
+  });
+
+  it('should update entry by id', () => {
+    const newEntry = {
+      project_id: 'projectId',
+      start_date: '',
+      description: 'description',
+      technologies: [],
+      uri: 'abc',
+    };
+    component.entryId = 'entry_1';
+    spyOn(store, 'dispatch');
+    component.saveEntry(newEntry);
+    expect(store.dispatch).toHaveBeenCalled();
+  });
+
+  it('should create new Entry', () => {
+    const newEntry = {
+      project_id: 'projectId',
+      start_date: '',
+      description: 'description',
+      technologies: [],
+      uri: 'abc',
+    };
+    spyOn(store, 'dispatch');
+    component.saveEntry(newEntry);
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CreateEntry(newEntry));
+  });
+
+  it('should delete Entry by id', () => {
+    spyOn(store, 'dispatch');
+    component.removeEntry('id');
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.DeleteEntry('id'));
   });
 
   it('should get the entry List by Month', () => {

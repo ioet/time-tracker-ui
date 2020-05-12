@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { ofType, Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { EntryService } from '../services/entry.service';
 import * as actions from './entry.actions';
 
 @Injectable()
 export class EntryEffects {
-  constructor(private actions$: Actions, private entryService: EntryService) {}
+  constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) {}
 
   @Effect()
   loadActiveEntry$: Observable<Action> = this.actions$.pipe(
@@ -41,9 +42,13 @@ export class EntryEffects {
     mergeMap((entry) =>
       this.entryService.createEntry(entry).pipe(
         map((entryData) => {
+          this.toastrService.success('Entry was saved successfully');
           return new actions.CreateEntrySuccess(entryData);
         }),
-        catchError((error) => of(new actions.CreateEntryFail(error.error.message)))
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.CreateEntryFail(error.error.message));
+        })
       )
     )
   );
@@ -67,9 +72,13 @@ export class EntryEffects {
     mergeMap((project) =>
       this.entryService.updateActiveEntry(project).pipe(
         map((projectData) => {
+          this.toastrService.success('Entry was updated successfully');
           return new actions.UpdateActiveEntrySuccess(projectData);
         }),
-        catchError((error) => of(new actions.UpdateActiveEntryFail(error)))
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.UpdateActiveEntryFail(error));
+        })
       )
     )
   );
