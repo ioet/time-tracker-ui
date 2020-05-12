@@ -8,71 +8,54 @@
         data-target="#editRecordsByDate"
         class="btn btn-primary"
       >
-        <i class="fa fa-plus-square"></i> New Entry
+        Add new entry
       </button>
     </div>
   </div>
-  <div class="card">
+  <div style="height: 15px;"></div>
     <app-month-picker (monthSelected)="getMonth($event)"></app-month-picker>
-    <div class="row m-0 header-entries">
-      <div class="col">Project</div>
-      <div class="col">Duration</div>
-      <div class="col">Date</div>
-      <div class="col-2">Actions</div>
-    </div>
-    <!--Accordion wrapper-->
-    <div
-      *ngIf="dataByMonth.length > 0; else emptyState"
-      class="accordion accordion-container"
-      role="tablist"
-      aria-multiselectable="true"
-    >
-      <div class="card" *ngFor="let entry of dataByMonth | groupByDate; let rowIndex = index">
+    <div style="height: 15px;"></div>
 
-        <!-- Card body -->
-        <div
-          *ngFor="let item of entry.details"
-          [id]="'entry' + rowIndex"
-          class="collapse show"
-          role="tabpanel"
-          aria-labelledby="heading10"
+    <table class="table table-sm table-striped mb-0">
+      <thead class="thead-orange">
+        <tr class="d-flex">
+          <th class="col">Date</th>
+          <th class="col">Duration</th>
+          <th class="col">Ticket</th>
+          <th class="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          class="d-flex"
+          *ngFor="let entry of dataByMonth"
         >
-          <div class="row m-0 entries">
-            <div class="col">
-              {{ item.id }}
-            </div>
-            <div class="col">
-              {{ item.time }}
-            </div>
-            <div class="col">
-              {{ item.start_date | date: 'dd/MM/yyyy' }}
-            </div>
-            <div class="col-2">
-              <button
-                class="btn btn-sm btn-small"
+          <td class="col"> {{ entry.start_date | date: 'dd/MM/yyyy' }} </td>
+          <td class="col"> {{ entry.end_date | substractDate: entry.start_date }} </td>
+          <td class="col"> {{ entry.uri }} </td>
+          <td class="col">
+            <button
+                class="btn btn-sm btn-secondary"
                 data-toggle="modal"
                 data-target="#editRecordsByDate"
-                (click)="editEntry(item.id)"
+                (click)="editEntry(entry.id)"
               >
                 <i class="fa fa-edit"></i>
               </button>
               <button
-                class="btn btn-sm btn-small"
+                class="btn btn-sm btn-danger ml-2"
                 data-toggle="modal"
                 data-target="#deleteModal"
-                (click)="openModal(item)"
+                (click)="openModal(entry)"
               >
                 <i class="fa fa-trash"></i>
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <ng-template #emptyState>
-      <app-empty-state></app-empty-state>
-    </ng-template>
-  </div>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
 </div>
 <div class="modal fade" id="editRecordsByDate" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
