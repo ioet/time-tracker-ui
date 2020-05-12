@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
 import { Entry } from '../../shared/models';
 import { EntryState } from '../../time-clock/store/entry.reducer';
 import { allEntries } from '../../time-clock/store/entry.selectors';
@@ -28,14 +27,7 @@ export class TimeEntriesComponent implements OnInit {
       this.entryList = response;
       this.dataByMonth = this.entryList.reduce((acc: any, entry: any) => {
         if (new Date(entry.start_date).getMonth() === new Date().getMonth()) {
-          let time: any = '-';
-          if (entry.start_date && entry.end_date) {
-            const startDate = moment(entry.start_date, 'YYYY-MM-DD HH:mm:ss');
-            const endDate = moment(entry.end_date, 'YYYY-MM-DD HH:mm:ss');
-            const duration: any = moment.duration(endDate.diff(startDate));
-            time = `${duration._data.hours} hh : ${duration._data.minutes} mm`;
-          }
-          const item = { ...entry, time };
+          const item = { ...entry };
           return [...acc, item];
         }
         return [];

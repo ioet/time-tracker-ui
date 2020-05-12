@@ -14,4 +14,22 @@ describe('SubstractDatePipe', () => {
 
     expect(diff).toBe('02:20');
   });
+
+  it('returns --:-- if fromDate is null', () => {
+    const fromDate = null;
+    const substractDate = new Date('2011-04-11T08:00:30Z');
+
+    const diff = new SubstractDatePipe().transform(fromDate, substractDate);
+
+    expect(diff).toBe('--:--');
+  });
+
+  it('returns --:-- if substractDate is null', () => {
+    const substractDate = null;
+    const fromDate = new Date('2011-04-11T08:00:30Z');
+
+    const diff = new SubstractDatePipe().transform(fromDate, substractDate);
+
+    expect(diff).toBe('--:--');
+  });
 });
