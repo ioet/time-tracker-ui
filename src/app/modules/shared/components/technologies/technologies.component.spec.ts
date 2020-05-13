@@ -1,5 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {provideMockStore, MockStore} from '@ngrx/store/testing';
+import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {TechnologyState} from '../../store/technology.reducers';
@@ -7,11 +7,8 @@ import {allTechnologies} from '../../store/technology.selectors';
 import {TechnologiesComponent} from './technologies.component';
 import * as actions from '../../store/technology.actions';
 import {ProjectState} from '../../../customer-management/components/projects/components/store/project.reducer';
-import {getCustomerProjects} from '../../../customer-management/components/projects/components/store/project.selectors';
-import * as entryActions from '../../../time-clock/store/entry.actions';
 
 describe('Technologies component', () => {
-  type Merged = TechnologyState & ProjectState;
   let component: TechnologiesComponent;
   let fixture: ComponentFixture<TechnologiesComponent>;
   let store: MockStore<TechnologyState>;
@@ -67,7 +64,6 @@ describe('Technologies component', () => {
       'karma',
       'github',
     ];
-    console.log(component.selectedTechnologies.length);
     length = component.selectedTechnologies.length;
     component.addTechnology(name);
     expect(component.selectedTechnologies.length).toBe(10);

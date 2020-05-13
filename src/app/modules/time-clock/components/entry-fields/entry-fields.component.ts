@@ -1,12 +1,12 @@
 import {getActiveTimeEntry} from './../../store/entry.selectors';
-import {Component, OnInit, ViewChild, ElementRef, Renderer2} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Store, select} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 
-import {Technology, Activity, NewEntry} from '../../../shared/models';
+import {Activity, NewEntry} from '../../../shared/models';
 import {ProjectState} from '../../../customer-management/components/projects/components/store/project.reducer';
 import {TechnologyState} from '../../../shared/store/technology.reducers';
-import {LoadActivities, ActivityState, allActivities} from '../../../activities-management/store';
+import {ActivityState, allActivities, LoadActivities} from '../../../activities-management/store';
 
 import * as entryActions from '../../store/entry.actions';
 

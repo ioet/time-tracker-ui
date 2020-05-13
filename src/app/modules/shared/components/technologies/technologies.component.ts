@@ -14,7 +14,7 @@ import {Technology} from '../../models';
 export class TechnologiesComponent implements OnInit {
   private readonly MAX_NUM_TECHNOLOGIES = 10;
   private readonly MIN_QUERY_LENGTH = 2;
-  private query = '';
+  public query = '';
   showList = false;
   isLoading = false;
   technology: Technology;

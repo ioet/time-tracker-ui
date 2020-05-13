@@ -1,5 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {provideMockStore, MockStore} from '@ngrx/store/testing';
+import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {TechnologyState} from '../../../shared/store/technology.reducers';
@@ -7,7 +7,6 @@ import {allTechnologies} from '../../../shared/store/technology.selectors';
 import {EntryFieldsComponent} from './entry-fields.component';
 import {ProjectState} from '../../../customer-management/components/projects/components/store/project.reducer';
 import {getCustomerProjects} from '../../../customer-management/components/projects/components/store/project.selectors';
-import * as actions from '../../../shared/store/technology.actions';
 import * as entryActions from '../../store/entry.actions';
 
 describe('EntryFieldsComponent', () => {
