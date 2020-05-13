@@ -45,6 +45,15 @@ describe('EntryService', () => {
     });
   });
 
+  it('loads summary with get /summary', () => {
+    service.baseUrl = 'time-entries';
+
+    service.summary().subscribe((response) => {
+      const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/summary`);
+      expect(loadEntryRequest.request.method).toBe('GET');
+    });
+  });
+
   it('loads all Entries', () => {
     service.baseUrl = 'time-entries';
     service.loadEntries().subscribe((response) => {

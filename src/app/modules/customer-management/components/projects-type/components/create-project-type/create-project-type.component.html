@@ -10,10 +10,10 @@
     <textarea class="form-control form-control-sm mt-2" id="descriptionTextArea" rows="3" placeholder="Description"
       formControlName="description"></textarea>
   </div>
-  <button type="submit" class="btn btn-sm btn-primary" [disabled]="!projectTypeForm.valid">
+  <button type="submit" class="btn btn-primary" [disabled]="!projectTypeForm.valid">
     Save
   </button>
-  <button class="btn btn-sm btn-secondary mb-2 ml-2 mt-2" type="reset" [hidden]="!projectTypeToEdit"
+  <button class="btn btn-secondary mb-2 ml-2 mt-2" type="reset" [hidden]="!projectTypeToEdit"
     (click)="cancelButton()">
     Cancel
   </button>

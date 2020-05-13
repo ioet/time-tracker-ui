@@ -23,12 +23,12 @@
       <option *ngFor="let type of projectsTypes" [value]="type.id">{{ type.name }}</option>
     </select>
   </div>
-  <button type="submit" [disabled]="!projectForm.valid" class="btn btn-sm btn-primary">Save</button>
+  <button type="submit" [disabled]="!projectForm.valid" class="btn btn-primary">Save</button>
   <button
     type="reset"
     [hidden]="!projectToEdit"
     (click)="cancelButton()"
-    class="btn btn-sm btn-secondary mb-2 ml-2 mt-2"
+    class="btn btn-secondary mb-2 ml-2 mt-2"
   >
     Cancel
   </button>

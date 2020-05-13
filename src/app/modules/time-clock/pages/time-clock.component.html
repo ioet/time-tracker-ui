@@ -1,49 +1,46 @@
-<div class="text-center mt-3">
+<h6 class="text-left"><strong>Summary</strong></h6>
+<hr />
+<div class="row pb-4">
+  <div class="col-4">
+    <h6>Day</h6>
+    <h3>4:22</h3>
+  </div>
+  <div class="col-4">
+    <h6>Week</h6>
+    <h3>14:25</h3>
+  </div>
+  <div class="col-4">
+    <h6>Month</h6>
+    <h3>49:32</h3>
+  </div>
+</div>
+<div style="width: 60%;">
 
-      <h6 class="text-left"><strong>Summary</strong></h6>
-      <hr />
-      <div class="row pb-4">
-        <div class="col-4">
-          <h6>Day</h6>
-          <h3>4:22</h3>
-        </div>
-        <div class="col-4">
-          <h6>Week</h6>
-          <h3>14:25</h3>
-        </div>
-        <div class="col-4">
-          <h6>Month</h6>
-          <h3>49:32</h3>
-        </div>
-      </div>
-      <div class="row pb-4">
-        <div class="col-12">
-          <p *ngIf="areFieldsVisible" class="card-title text-left">
-            <strong>{{ username }}</strong> clocked <strong class="text-clock-in-color">in</strong> at
-            <strong>{{ activeTimeEntry?.start_date | date:'shortTime' }}</strong>
-          </p>
-          <p *ngIf="!areFieldsVisible" class="card-title text-left">
-            <strong>{{ username }}</strong> you did not clock-in yet.
-          </p>
-        </div>
+  <div class="row pb-4">
+    <div class="col-12">
+      <p *ngIf="areFieldsVisible" class="card-title text-left">
+        You clocked in at
+        <strong>{{ activeTimeEntry?.start_date | date:'shortTime' }}</strong>
+      </p>
+      <p *ngIf="!areFieldsVisible" class="card-title text-left">
+        Hi <strong>{{ username }}</strong>, please select a project to clock-in.
+      </p>
+    </div>
 
-      </div>
-      <div class="input-group input-group-sm mb-3 flex-nowrap">
-        <div class="input-group-prepend">
-          <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
-        </div>
-        <app-project-list-hover class="w-100"></app-project-list-hover>
-      </div>
-      <div *ngIf="areFieldsVisible">
-        <app-entry-fields></app-entry-fields>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col text-right">
-            <button *ngIf="areFieldsVisible" class="btn btn-primary" type="button" (click)="clockOut()">
-              Clock Out
-            </button>
-          </div>
-        </div>
+  </div>
+  <div class="input-group input-group-sm mb-3 flex-nowrap">
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
+    </div>
+    <app-project-list-hover class="w-100"></app-project-list-hover>
+  </div>
+  <div *ngIf="areFieldsVisible">
+    <app-entry-fields></app-entry-fields>
+  </div>
+
+  <div class="form-group" style="text-align: right;">
+    <button *ngIf="areFieldsVisible" class="btn btn-primary" type="button" (click)="clockOut()">
+      Clock Out
+    </button>
   </div>
 </div>
