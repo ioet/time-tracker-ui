@@ -57,6 +57,7 @@ import { CustomerEffects } from './modules/customer-management/store/customer-ma
 import { EntryEffects } from './modules/time-clock/store/entry.effects';
 import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.token.interceptor';
 import { SubstractDatePipe } from './modules/shared/pipes/substract-date/substract-date.pipe';
+import {TechnologiesComponent} from './modules/shared/components/technologies/technologies.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { SubstractDatePipe } from './modules/shared/pipes/substract-date/substra
     CreateProjectTypeComponent,
     EntryFieldsComponent,
     SubstractDatePipe,
+    TechnologiesComponent,
   ],
   imports: [
     CommonModule,
