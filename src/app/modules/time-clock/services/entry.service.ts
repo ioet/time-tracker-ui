@@ -1,3 +1,4 @@
+import { TimeEntriesSummary } from './../models/time.entry.summary';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -38,4 +39,10 @@ export class EntryService {
     const url = `${this.baseUrl}/${idEntry}/stop`;
     return this.http.post(url, null);
   }
+
+  summary(): Observable<TimeEntriesSummary> {
+    const summaryUrl = `${this.baseUrl}/summary`;
+    return this.http.get<TimeEntriesSummary>(summaryUrl);
+  }
+
 }
