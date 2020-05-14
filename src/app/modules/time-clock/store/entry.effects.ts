@@ -62,8 +62,7 @@ export class EntryEffects {
           return new actions.CreateEntrySuccess(entryData);
         }),
         catchError((error) => {
-          console.error(error);
-          this.toastrService.success(UNEXPECTED_ERROR);
+          this.toastrService.error(UNEXPECTED_ERROR);
           return of(new actions.CreateEntryFail(error.error.message));
         })
       )
@@ -81,8 +80,7 @@ export class EntryEffects {
           return new actions.DeleteEntrySuccess(entryId);
         }),
         catchError((error) => {
-          console.log(error);
-          this.toastrService.success(UNEXPECTED_ERROR);
+          this.toastrService.error(UNEXPECTED_ERROR);
           return of(new actions.DeleteEntryFail(error));
         })
       )
@@ -96,11 +94,11 @@ export class EntryEffects {
     mergeMap((project) =>
       this.entryService.updateActiveEntry(project).pipe(
         map((projectData) => {
+          this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
           return new actions.UpdateActiveEntrySuccess(projectData);
         }),
         catchError((error) => {
-          console.log(error);
-          this.toastrService.success(UNEXPECTED_ERROR);
+          this.toastrService.error(UNEXPECTED_ERROR);
           return of(new actions.UpdateActiveEntryFail(error));
         })
       )

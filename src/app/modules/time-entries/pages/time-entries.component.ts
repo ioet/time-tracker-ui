@@ -35,11 +35,6 @@ export class TimeEntriesComponent implements OnInit {
     });
   }
 
-  openModal(itemToDelete: Entry) {
-    this.entryToDelete = itemToDelete;
-    this.showModal = true;
-  }
-
   newEntry() {
     this.entry = null;
     this.entryId = null;

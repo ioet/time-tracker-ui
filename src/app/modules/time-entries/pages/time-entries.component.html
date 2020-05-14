@@ -46,7 +46,7 @@
                 class="btn btn-sm btn-secondary ml-2"
                 data-toggle="modal"
                 data-target="#deleteModal"
-                (click)="openModal(entry)"
+                (click)="removeEntry(entry.id)"
               >
                 <i class="fa fa-trash fa-xs"></i>
               </button>
@@ -73,14 +73,3 @@
     </div>
   </div>
 </div>
-<app-modal
-  *ngIf="showModal"
-  class="modal fade"
-  id="deleteModal"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
-  [list]="entryToDelete"
-  (removeList)="removeEntry($event)"
->
-</app-modal>

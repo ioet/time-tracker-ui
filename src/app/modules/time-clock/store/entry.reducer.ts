@@ -133,7 +133,6 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
     case EntryActionTypes.DELETE_ENTRY_FAIL: {
       return {
         ...state,
-        entryList: [],
         isLoading: false,
         message: 'Something went wrong deleting entry!',
       };
