@@ -1,8 +1,13 @@
+import { TimeEntriesSummary, TimeDetails } from '../models/time.entry.summary';
 import { NewEntry, Entry } from './../../shared/models';
 import * as actions from './entry.actions';
 import { entryReducer, EntryState } from './entry.reducer';
 
 describe('entryReducer', () => {
+
+  const emptyTimeDetails: TimeDetails = { hours: '--:--', minutes: '--:--', seconds: '--:--' };
+  const emptyTimeEntriesSummary: TimeEntriesSummary = { day: emptyTimeDetails, week: emptyTimeDetails, month: emptyTimeDetails };
+
   const initialState: EntryState = {
     active: null,
     entryList: [],
@@ -10,7 +15,9 @@ describe('entryReducer', () => {
     message: '',
     createError: null,
     updateError: null,
+    timeEntriesSummary: emptyTimeEntriesSummary
   };
+
   const entry: NewEntry = {
     start_date: 'start-date',
     description: 'description',
@@ -25,6 +32,12 @@ describe('entryReducer', () => {
     activity: '',
     technologies: ['abc', 'abc'],
   };
+
+  it('on LOAD_ENTRIES_SUMMARY, is Loading trye', () => {
+    const action = new actions.LoadEntriesSummary();
+    const state = entryReducer(initialState, action);
+    expect(state.isLoading).toBe(true);
+  });
 
   it('on Default, ', () => {
     const action = new actions.DefaultEntry();
@@ -116,6 +129,7 @@ describe('entryReducer', () => {
 
   it('on DeleteEntrySuccess', () => {
     const currentState = {
+      timeEntriesSummary: emptyTimeEntriesSummary,
       active: null,
       entryList: [
         {
@@ -171,6 +185,7 @@ describe('entryReducer', () => {
       message: '',
       createError: null,
       updateError: null,
+      timeEntriesSummary: emptyTimeEntriesSummary
     };
     const entryUpdated: Entry = {
       id: 'id',

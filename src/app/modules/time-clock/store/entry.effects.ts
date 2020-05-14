@@ -12,6 +12,19 @@ export class EntryEffects {
   constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) {}
 
   @Effect()
+  loadEntriesSummary$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.LOAD_ENTRIES_SUMMARY),
+    mergeMap(() =>
+      this.entryService.summary().pipe(
+        map((response) => {
+          return new actions.LoadEntriesSummarySuccess(response);
+        }),
+        catchError((error) => of(new actions.LoadEntriesSummaryFail()))
+      )
+    )
+  );
+
+  @Effect()
   loadActiveEntry$: Observable<Action> = this.actions$.pipe(
     ofType(actions.EntryActionTypes.LOAD_ACTIVE_ENTRY),
     mergeMap(() =>

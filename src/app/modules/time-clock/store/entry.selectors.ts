@@ -4,6 +4,10 @@ import { EntryState } from './entry.reducer';
 
 const getEntryState = createFeatureSelector('entries');
 
+export const getEntriesSummary  = createSelector(getEntryState, (state: EntryState) => {
+  return state.timeEntriesSummary;
+});
+
 export const getActiveTimeEntry = createSelector(getEntryState, (state: EntryState) => {
   return state.active;
 });

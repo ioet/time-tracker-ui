@@ -1,4 +1,4 @@
-import { TimeEntriesSummary } from './../models/time.entry.summary';
+import { TimeEntriesSummary } from '../models/time.entry.summary';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
