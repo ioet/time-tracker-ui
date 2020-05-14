@@ -1,5 +1,3 @@
-
-
 import { EntryActionTypes, StopTimeEntryRunning } from './../store/entry.actions';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -19,7 +17,7 @@ describe('TimeClockComponent', () => {
   let injectedToastrService;
 
   const toastrService = {
-    success: () => {}
+    success: () => {},
   };
   const state = {
     projects: {
@@ -52,7 +50,8 @@ describe('TimeClockComponent', () => {
       providers: [
         AzureAdB2CService,
         { provide: ToastrService, useValue: toastrService },
-        provideMockStore({ initialState: state })],
+        provideMockStore({ initialState: state }),
+      ],
     }).compileComponents();
     store = TestBed.inject(MockStore);
   }));

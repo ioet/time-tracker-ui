@@ -3,7 +3,14 @@ import * as actions from './entry.actions';
 import { entryReducer, EntryState } from './entry.reducer';
 
 describe('entryReducer', () => {
-  const initialState: EntryState = { active: null, entryList: [], isLoading: false, message: '' };
+  const initialState: EntryState = {
+    active: null,
+    entryList: [],
+    isLoading: false,
+    message: '',
+    createError: null,
+    updateError: null,
+  };
   const entry: NewEntry = {
     start_date: 'start-date',
     description: 'description',
@@ -44,6 +51,7 @@ describe('entryReducer', () => {
     const action = new actions.LoadActiveEntryFail('error');
     const state = entryReducer(initialState, action);
     expect(state.active).toBe(null);
+    expect(state.message).toEqual('Something went wrong fetching active entry!');
   });
 
   it('on LoadEntries, isLoading is true', () => {
@@ -107,8 +115,27 @@ describe('entryReducer', () => {
   });
 
   it('on DeleteEntrySuccess', () => {
-    const action = new actions.DeleteEntry('id');
-    const state = entryReducer(initialState, action);
+    const currentState = {
+      active: null,
+      entryList: [
+        {
+          project_id: '123',
+          comments: 'description',
+          technologies: ['angular', 'javascript'],
+          uri: 'uri',
+          id: 'id',
+          start_date: new Date(),
+          end_date: new Date(),
+          activity: 'activity',
+        },
+      ],
+      isLoading: false,
+      message: '',
+      createError: null,
+      updateError: null,
+    };
+    const action = new actions.DeleteEntrySuccess('id');
+    const state = entryReducer(currentState, action);
     expect(state.entryList).toEqual([]);
   });
 
@@ -128,14 +155,48 @@ describe('entryReducer', () => {
   it('on UpdateActiveEntrySuccess, loading is false', () => {
     const currentState: EntryState = {
       active: null,
-      entryList: [],
+      entryList: [
+        {
+          project_id: '123',
+          comments: 'description',
+          technologies: ['angular', 'javascript'],
+          uri: 'uri',
+          id: 'id',
+          start_date: new Date(),
+          end_date: new Date(),
+          activity: 'activity',
+        },
+      ],
       isLoading: false,
       message: '',
+      createError: null,
+      updateError: null,
     };
-    const action = new actions.UpdateActiveEntrySuccess(newEntry);
+    const entryUpdated: Entry = {
+      id: 'id',
+      start_date: new Date(),
+      end_date: new Date(),
+      activity: '',
+      technologies: ['abc', 'abc'],
+    };
+    const action = new actions.UpdateActiveEntrySuccess(entryUpdated);
     const state = entryReducer(currentState, action);
 
     expect(state.isLoading).toEqual(false);
+  });
+
+  it('on cleanEntryCreateError, createError to be null', () => {
+    const action = new actions.CleanEntryCreateError(null);
+    const state = entryReducer(initialState, action);
+
+    expect(state.createError).toBe(null);
+  });
+
+  it('on cleanEntryUpdateError, updateError to be null', () => {
+    const action = new actions.CleanEntryUpdateError(null);
+    const state = entryReducer(initialState, action);
+
+    expect(state.updateError).toBe(null);
   });
 
   it('on UpdateActiveEntryFail, active to be null', () => {

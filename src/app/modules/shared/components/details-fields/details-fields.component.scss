@@ -80,6 +80,13 @@
   }
 }
 
+.validation::ng-deep {
+  .autocomplete .autocomplete-container {
+    border: 1px solid red;
+  }
+}
+
+
 input[type="date"]::-webkit-calendar-picker-indicator {
   position: absolute;
   top: 0;
@@ -98,5 +105,5 @@ input[type="date"]::-webkit-inner-spin-button {
 }
 
 input[type="date"]::-webkit-clear-button {
-   z-index: 1;
+  display: none;
 }

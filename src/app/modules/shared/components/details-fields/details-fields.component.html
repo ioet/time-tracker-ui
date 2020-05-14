@@ -1,135 +1,143 @@
-<div>
-  <div class="input-group input-group-sm mb-3 flex-nowrap">
+<form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+  <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
     </div>
-    <div class="ng-autocomplete">
-      <ng-autocomplete
-        class="autocomplete"
-        name="projectName"
-        ngDefaultControl
-        [(ngModel)]="projectName"
-        [data]="listProjects && listProjects"
-        [searchKeyword]="keyword"
-        [itemTemplate]="itemTemplate"
-        [notFoundTemplate]="notFoundTemplate"
-      >
-      </ng-autocomplete>
-      <ng-template #itemTemplate let-item>
-        <a [innerHTML]="item.name"></a>
-      </ng-template>
-      <ng-template #notFoundTemplate let-notFound>
-        <div [innerHTML]="notFound"></div>
-      </ng-template>
+    <select
+      [class.is-invalid]="project.invalid && project.touched"
+      required
+      id="activity"
+      class="form-control"
+      formControlName="project"
+    >
+      <option *ngFor="let project of listProjects">{{ project.name }}</option>
+    </select>
+  </div>
+  <div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Activity</span>
+    </div>
+    <select
+      [class.is-invalid]="activity.invalid && activity.touched"
+      required
+      id="activity"
+      class="form-control"
+      formControlName="activity"
+    >
+      <option *ngFor="let activity of activities">{{ activity.name }}</option>
+    </select>
+  </div>
+
+  <div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Ticket</span>
+    </div>
+    <input
+      formControlName="uri"
+      id="uri"
+      type="text"
+      class="form-control"
+      aria-label="Small"
+      aria-describedby="inputGroup-sizing-sm"
+    />
+  </div>
+
+  <div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Start/Date</span>
+    </div>
+    <input
+      formControlName="start_date"
+      id="start_date"
+      type="date"
+      class="form-control"
+      aria-label="Small"
+      aria-describedby="inputGroup-sizing-sm"
+      [class.is-invalid]="start_date.invalid && start_date.touched || hoursValidation"
+      required
+    />
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Start/Hour</span>
+    </div>
+    <input
+      formControlName="start_hour"
+      id="start_hour"
+      type="text"
+      class="form-control"
+      aria-label="Small"
+      [class.is-invalid]="start_hour.invalid && start_hour.touched || hoursValidation"
+      required
+      aria-describedby="inputGroup-sizing-sm"
+    />
+  </div>
+  <div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">End/Date</span>
+    </div>
+    <input
+      formControlName="end_date"
+      id="end_date"
+      type="date"
+      class="form-control"
+      aria-label="Small"
+      [class.is-invalid]="end_date.invalid && end_date.touched"
+      required
+      aria-describedby="inputGroup-sizing-sm"
+    />
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">End/Hour</span>
+    </div>
+    <input
+      formControlName="end_hour"
+      type="text"
+      id="end_hour"
+      class="form-control"
+      aria-label="Small"
+      [class.is-invalid]="end_hour.invalid && end_hour.touched"
+      required
+      aria-describedby="inputGroup-sizing-sm"
+    />
+  </div>
+  <div class="input-group input-group-sm">
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Technology</span>
+    </div>
+    <input
+      (keypress)="getTechnologies($event.target.value)"
+      type="text"
+      class="form-control"
+      aria-label="Small"
+      aria-describedby="inputGroup-sizing-sm"
+      formControlName="technology"
+    />
+  </div>
+
+  <div *ngIf="isLoading">LOADING...</div>
+  <div #list *ngIf="technology && showlist" class="d-flex flex-column technology-content">
+    <div
+      *ngFor="let item of technology.items"
+      (click)="setTechnology(item.name)"
+      class="technology-list"
+      [ngClass]="{ active: selectedTechnology.includes(item.name) }"
+    >
+      {{ item.name }}
     </div>
   </div>
-  <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
-    <div class="input-group input-group-sm mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text span-width" id="inputGroup-sizing-sm">Activity</span>
-      </div>
-      <select id="activitiesSelect" class="form-control" formControlName="activity">
-        <option *ngFor="let activity of activities">{{ activity.name }}</option>
-      </select>
+  <div class="tags-content d-flex flex-wrap">
+    <div *ngFor="let technology of selectedTechnology; let tagIndex = index" class="tag">
+      <span class="mr-3">{{ technology }}</span>
+      <i class="fas fa-times text-white" (click)="removeTag(tagIndex)"></i>
     </div>
+  </div>
 
-    <div class="input-group input-group-sm mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text span-width" id="inputGroup-sizing-sm">Ticket</span>
-      </div>
-      <input
-        formControlName="uri"
-        type="text"
-        class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-      />
-    </div>
-
-    <div class="input-group input-group-sm mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text span-width" id="inputGroup-sizing-sm">Start/Date</span>
-      </div>
-      <input
-        formControlName="start_date"
-        type="date"
-        class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-      />
-      <div class="input-group-prepend">
-        <span class="input-group-text span-width" id="inputGroup-sizing-sm">Start/Hour</span>
-      </div>
-      <input
-        formControlName="start_hour"
-        type="text"
-        class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-      />
-    </div>
-    <div class="input-group input-group-sm mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text span-width" id="inputGroup-sizing-sm">End/Date</span>
-      </div>
-      <input
-        formControlName="end_date"
-        type="date"
-        class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-      />
-      <div class="input-group-prepend">
-        <span class="input-group-text span-width" id="inputGroup-sizing-sm">End/Hour</span>
-      </div>
-      <input
-        formControlName="end_hour"
-        type="text"
-        class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-      />
-    </div>
-    <div class="input-group input-group-sm">
-      <div class="input-group-prepend">
-        <span class="input-group-text span-width" id="inputGroup-sizing-sm">Technology</span>
-      </div>
-      <input
-        (keypress)="getTechnologies($event.target.value)"
-        type="text"
-        class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-      />
-    </div>
-
-    <div *ngIf="isLoading">LOADING...</div>
-    <div #list *ngIf="technology && showlist" class="d-flex flex-column technology-content">
-      <div
-        *ngFor="let item of technology.items"
-        (click)="setTechnology(item.name)"
-        class="technology-list"
-        [ngClass]="{ active: selectedTechnology.includes(item.name) }"
-      >
-        {{ item.name }}
-      </div>
-    </div>
-    <div class="tags-content d-flex flex-wrap">
-      <div *ngFor="let technology of selectedTechnology; let tagIndex = index" class="tag">
-        <span class="mr-3">{{ technology }}</span>
-        <i class="fas fa-times text-white" (click)="removeTag(tagIndex)"></i>
-      </div>
-    </div>
-
-    <div class="form-group text-left">
-      <label for="NotesTextarea">Description</label>
-      <textarea formControlName="description" class="form-control" id="NotesTextarea" rows="3"></textarea>
-    </div>
-    <div class="modal-footer">
-      <button type="submit" class="btn btn-primary">Save</button>
-      <button #closeModal type="button" class="btn btn-secondary" data-dismiss="modal">
-        Cancel
-      </button>
-    </div>
-  </form>
-</div>
+  <div class="form-group text-left">
+    <label for="NotesTextarea">Description</label>
+    <textarea formControlName="description" class="form-control" id="NotesTextarea" rows="3"></textarea>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" [disabled]="!entryForm.valid">Save</button>
+    <button #closeModal type="button" class="btn btn-secondary" data-dismiss="modal">
+      Close
+    </button>
+  </div>
+</form>

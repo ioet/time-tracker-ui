@@ -6,6 +6,8 @@ export interface EntryState {
   entryList: Entry[];
   isLoading: boolean;
   message: string;
+  createError: boolean;
+  updateError: boolean;
 }
 
 export const initialState = {
@@ -13,6 +15,8 @@ export const initialState = {
   entryList: [],
   isLoading: false,
   message: '',
+  createError: null,
+  updateError: null
 };
 
 export const entryReducer = (state: EntryState = initialState, action: EntryActions) => {
@@ -74,6 +78,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         active: action.payload,
         entryList: [action.payload, ...state.entryList],
         isLoading: false,
+        createError: false,
         message: 'You clocked-in successfully',
       };
     }
@@ -83,6 +88,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         ...state,
         isLoading: false,
         message: action.error,
+        createError: true
       };
     }
 
@@ -127,6 +133,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         ...state,
         entryList,
         isLoading: false,
+        updateError: false,
       };
     }
 
@@ -135,6 +142,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         ...state,
         active: null,
         isLoading: false,
+        updateError: true
       };
     }
 
@@ -159,6 +167,20 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         ...state,
         isLoading: false,
         message: 'An unexpected error happened, try again later',
+      };
+    }
+
+    case EntryActionTypes.CLEAN_ENTRY_CREATE_ERROR: {
+      return {
+        ...state,
+       createError: null
+      };
+    }
+
+    case EntryActionTypes.CLEAN_ENTRY_UPDATE_ERROR: {
+      return {
+        ...state,
+       updateError: null
       };
     }
 

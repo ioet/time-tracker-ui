@@ -21,6 +21,8 @@ export enum EntryActionTypes {
   STOP_TIME_ENTRY_RUNNING_SUCCESS = '[Entry] STOP_TIME_ENTRIES_RUNNING_SUCCESS',
   STOP_TIME_ENTRY_RUNNING_FAILED = '[Entry] STOP_TIME_ENTRIES_RUNNING_FAILED',
   DEFAULT_ENTRY = '[Entry] DEFAULT_ENTRY',
+  CLEAN_ENTRY_CREATE_ERROR = '[Entry] CLEAN_ENTRY_CREATE_ERROR',
+  CLEAN_ENTRY_UPDATE_ERROR = '[Entry] CLEAN_ENTRY_UPDATE_ERROR',
 }
 
 export class LoadActiveEntry implements Action {
@@ -120,6 +122,16 @@ export class StopTimeEntryRunningFail implements Action {
   public readonly type = EntryActionTypes.STOP_TIME_ENTRY_RUNNING_FAILED;
   constructor(public error: string) {}
 }
+
+export class CleanEntryCreateError implements Action {
+  public readonly type = EntryActionTypes.CLEAN_ENTRY_CREATE_ERROR;
+  constructor(public error: boolean) {}
+}
+
+export class CleanEntryUpdateError implements Action {
+  public readonly type = EntryActionTypes.CLEAN_ENTRY_UPDATE_ERROR;
+  constructor(public error: boolean) {}
+}
 export class DefaultEntry implements Action {
   public readonly type = EntryActionTypes.DEFAULT_ENTRY;
 }
@@ -143,4 +155,6 @@ export type EntryActions =
   | StopTimeEntryRunning
   | StopTimeEntryRunningSuccess
   | StopTimeEntryRunningFail
+  | CleanEntryCreateError
+  | CleanEntryUpdateError
   | DefaultEntry;
