@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-management-customer-projects',
@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./management-customer-projects.component.scss'],
 })
 export class ManagementCustomerProjectsComponent {
+  @Output() closeCustemerForm = new EventEmitter<boolean>();
   areTabsActive: boolean;
   activeTab: string;
   constructor() {}
@@ -15,6 +16,10 @@ export class ManagementCustomerProjectsComponent {
       this.areTabsActive = $areTabsActive;
       this.activeTab = 'customer-information';
     }, 1);
+  }
+
+  closeCustomer(event) {
+    this.closeCustemerForm.emit(event);
   }
 
   showTab(activeTab: string) {

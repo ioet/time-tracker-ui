@@ -48,4 +48,9 @@ describe('ManagmentCustomerProjectsComponent', () => {
     component.showTab('projects');
     expect(component.activeTab).toEqual('projects');
   });
+  it('should call close customer function', () => {
+    spyOn(component.closeCustemerForm, 'emit');
+    component.closeCustomer(false);
+    expect(component.closeCustemerForm.emit).toHaveBeenCalledWith(false);
+  });
 });

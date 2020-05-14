@@ -24,6 +24,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   customerForm: FormGroup;
   @Input() areTabsActive: boolean;
   @Output() changeValueAreTabsActives = new EventEmitter<boolean>();
+  @Output() closeCustomerComponent = new EventEmitter<boolean>();
   customerToEdit: Customer;
   editSubscription: Subscription;
 
@@ -88,5 +89,6 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   resetCustomerForm() {
     this.customerForm.reset();
     this.store.dispatch(new ResetCustomerToEdit());
+    this.closeCustomerComponent.emit(false);
   }
 }

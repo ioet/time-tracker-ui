@@ -27,4 +27,8 @@ describe('CustomerComponent', () => {
     component.activateCustomerForm();
     expect(component.showCustomerForm).toBeTruthy();
   });
+  it('should call close customer function', () => {
+    component.closeCustomerForm(false);
+    expect(component.showCustomerForm).toBe(false);
+  });
 });
