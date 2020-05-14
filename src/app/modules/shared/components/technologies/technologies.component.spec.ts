@@ -6,7 +6,6 @@ import {TechnologyState} from '../../store/technology.reducers';
 import {allTechnologies} from '../../store/technology.selectors';
 import {TechnologiesComponent} from './technologies.component';
 import * as actions from '../../store/technology.actions';
-import {ProjectState} from '../../../customer-management/components/projects/components/store/project.reducer';
 
 describe('Technologies component', () => {
   let component: TechnologiesComponent;

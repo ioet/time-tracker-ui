@@ -1,5 +1,5 @@
-import { EntryActionTypes, StopTimeEntryRunning } from './../store/entry.actions';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { StopTimeEntryRunning } from './../store/entry.actions';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { ToastrService } from 'ngx-toastr';

@@ -25,14 +25,6 @@ describe('entryReducer', () => {
     technologies: ['angular', 'typescript'],
   };
 
-  const newEntry: Entry = {
-    id: '1',
-    start_date: new Date(),
-    end_date: new Date(),
-    activity: '',
-    technologies: ['abc', 'abc'],
-  };
-
   it('on LOAD_ENTRIES_SUMMARY, is Loading trye', () => {
     const action = new actions.LoadEntriesSummary();
     const state = entryReducer(initialState, action);

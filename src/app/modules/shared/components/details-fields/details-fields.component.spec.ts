@@ -88,7 +88,6 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should emit ngOnChange with new data', () => {
-    const project = { id: 'id', name: 'name', project_type_id: '' };
     const entryToEdit = {
       project_id: 'id',
       activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',
@@ -116,7 +115,6 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should emit ngOnChange with new data', () => {
-    const project = { id: 'id', name: 'name', project_type_id: '' };
     const entryToEdit = {
       project_id: 'id',
       activity_id: '',
