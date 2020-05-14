@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
       { route: '/time-clock', icon: 'fas fa-clock', text: 'Time Clock' },
       { route: '/time-entries', icon: 'fas fa-list-alt', text: 'Time Entries' },
       { route: '/reports', icon: 'fas fa-chart-pie', text: 'Reports' },
-      { route: '/activities-management', icon: 'fas fa-file-alt', text: ' Activities' },
+      { route: '/activities-management', icon: 'fas fa-file-alt', text: 'Activities' },
       { route: '/customers-management', icon: 'fas fa-user', text: 'Customers' },
     ];
   }
