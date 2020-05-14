@@ -1,6 +1,18 @@
+import { TimeEntriesSummary } from './../models/time.entry.summary';
 import * as actions from './entry.actions';
 
 describe('Actions for Entries', () => {
+
+  it('LoadEntriesSummaryFail type is EntryActionTypes.LOAD_ENTRIES_SUMMARY_FAIL', () => {
+    const action = new actions.LoadEntriesSummaryFail();
+    expect(action.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_SUMMARY_FAIL);
+  });
+
+  it('LoadEntriesSummarySuccess type is EntryActionTypes.LOAD_ENTRIES_SUMMARY_SUCCESS', () => {
+    const action = new actions.LoadEntriesSummarySuccess(null);
+    expect(action.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_SUMMARY_SUCCESS);
+  });
+
   it('LoadActiveEntrySuccess type is EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS', () => {
     const loadActiveEntrySuccess = new actions.LoadActiveEntrySuccess([]);
     expect(loadActiveEntrySuccess.type).toEqual(actions.EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS);

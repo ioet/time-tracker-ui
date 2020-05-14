@@ -54,10 +54,7 @@ export class TechnologiesComponent implements OnInit {
   }
 
   addTechnology(name: string) {
-    const index = this.selectedTechnologies.indexOf(name);
-    if (index > -1) {
-      this.removeTechnology(index);
-    } else if (this.selectedTechnologies.length < this.MAX_NUM_TECHNOLOGIES) {
+    if (this.selectedTechnologies.length < this.MAX_NUM_TECHNOLOGIES) {
       this.selectedTechnologies = [...this.selectedTechnologies, name];
       this.technologyAdded.emit(this.selectedTechnologies);
       this.showList = false;

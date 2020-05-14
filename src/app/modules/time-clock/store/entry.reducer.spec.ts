@@ -25,7 +25,26 @@ describe('entryReducer', () => {
     technologies: ['angular', 'typescript'],
   };
 
-  it('on LOAD_ENTRIES_SUMMARY, is Loading trye', () => {
+  it('sets timeEntriesSummary from action on LOAD_ENTRIES_SUMMARY_SUCCESS', () => {
+    const payload = null;
+    const action = new actions.LoadEntriesSummarySuccess(payload);
+    const state = entryReducer(initialState, action);
+    expect(state.timeEntriesSummary).toBe(payload);
+  });
+
+  it('sets message on LOAD_ACTIVE_ENTRY_FAIL', () => {
+    const action = new actions.LoadActiveEntryFail('');
+    const state = entryReducer(initialState, action);
+    expect(state.message).toBe('Something went wrong fetching active entry!');
+  });
+
+  it('sets timeEntriesSummary as empty on LOAD_ENTRIES_SUMMARY_FAIL', () => {
+    const action = new actions.LoadEntriesSummaryFail();
+    const state = entryReducer(initialState, action);
+    expect(state.timeEntriesSummary).toEqual(emptyTimeEntriesSummary);
+  });
+
+  it('on LOAD_ENTRIES_SUMMARY, is Loading true', () => {
     const action = new actions.LoadEntriesSummary();
     const state = entryReducer(initialState, action);
     expect(state.isLoading).toBe(true);
