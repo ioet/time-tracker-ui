@@ -66,10 +66,12 @@ describe('CreateCustomerComponent', () => {
 
   it('should call resetCustomerForm', () => {
     spyOn(component.customerForm, 'reset');
+    spyOn(component.closeCustomerComponent, 'emit');
 
     component.resetCustomerForm();
 
     expect(component.customerForm.reset).toHaveBeenCalled();
+    expect(component.closeCustomerComponent.emit).toHaveBeenCalledWith(false);
   });
 
   it('onSubmit, dispatch CreateCustomer and LoadCustomers actions', () => {
@@ -84,12 +86,14 @@ describe('CreateCustomerComponent', () => {
   it('should call resetCustomerForm', () => {
     spyOn(component.customerForm, 'reset');
     spyOn(store, 'dispatch');
+    spyOn(component.closeCustomerComponent, 'emit');
 
     component.resetCustomerForm();
 
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(new ResetCustomerToEdit());
     expect(component.customerForm.reset).toHaveBeenCalled();
+    expect(component.closeCustomerComponent.emit).toHaveBeenCalledWith(false);
   });
 
   it('should be enable tabs and show message Customer created successfully! ', () => {

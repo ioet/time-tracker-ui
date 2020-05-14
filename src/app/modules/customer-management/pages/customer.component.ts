@@ -6,10 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./customer.component.scss'],
 })
 export class CustomerComponent {
-
   showCustomerForm = false;
 
   activateCustomerForm() {
     this.showCustomerForm = true;
+  }
+  closeCustomerForm(event) {
+    this.showCustomerForm = event;
   }
 }
