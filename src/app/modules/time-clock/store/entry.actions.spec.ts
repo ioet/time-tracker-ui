@@ -1,4 +1,3 @@
-import { TimeEntriesSummary } from './../models/time.entry.summary';
 import * as actions from './entry.actions';
 
 describe('Actions for Entries', () => {
