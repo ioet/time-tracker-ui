@@ -35,6 +35,18 @@
   }
 }
 
+.container {
+  display: grid;
+  grid-gap: 20px;
+  justify-content: center;
+  align-self: center;
+  .item {
+    display: grid;
+    grid-template-columns: 30px 100px;
+    align-items: center;
+  }
+}
+
 @media (min-width: 768px) {
   #wrapper {
     #sidebar-wrapper {
