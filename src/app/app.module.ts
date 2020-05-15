@@ -58,6 +58,8 @@ import { EntryEffects } from './modules/time-clock/store/entry.effects';
 import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.token.interceptor';
 import { SubstractDatePipe } from './modules/shared/pipes/substract-date/substract-date.pipe';
 import {TechnologiesComponent} from './modules/shared/components/technologies/technologies.component';
+import { TimeEntriesSummaryComponent } from './modules/time-clock/components/time-entries-summary/time-entries-summary.component';
+import { TimeDetailsPipe } from './modules/time-clock/pipes/time-details.pipe';
 
 @NgModule({
   declarations: [
@@ -94,6 +96,8 @@ import {TechnologiesComponent} from './modules/shared/components/technologies/te
     EntryFieldsComponent,
     SubstractDatePipe,
     TechnologiesComponent,
+    TimeEntriesSummaryComponent,
+    TimeDetailsPipe,
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,13 @@
+import { TimeEntriesSummary, TimeDetails } from '../models/time.entry.summary';
 import { NewEntry, Entry } from './../../shared/models';
 import * as actions from './entry.actions';
 import { entryReducer, EntryState } from './entry.reducer';
 
 describe('entryReducer', () => {
+
+  const emptyTimeDetails: TimeDetails = { hours: '--:--', minutes: '--:--', seconds: '--:--' };
+  const emptyTimeEntriesSummary: TimeEntriesSummary = { day: emptyTimeDetails, week: emptyTimeDetails, month: emptyTimeDetails };
+
   const initialState: EntryState = {
     active: null,
     entryList: [],
@@ -10,7 +15,9 @@ describe('entryReducer', () => {
     message: '',
     createError: null,
     updateError: null,
+    timeEntriesSummary: emptyTimeEntriesSummary
   };
+
   const entry: NewEntry = {
     start_date: 'start-date',
     description: 'description',
@@ -18,13 +25,30 @@ describe('entryReducer', () => {
     technologies: ['angular', 'typescript'],
   };
 
-  const newEntry: Entry = {
-    id: '1',
-    start_date: new Date(),
-    end_date: new Date(),
-    activity: '',
-    technologies: ['abc', 'abc'],
-  };
+  it('sets timeEntriesSummary from action on LOAD_ENTRIES_SUMMARY_SUCCESS', () => {
+    const payload = null;
+    const action = new actions.LoadEntriesSummarySuccess(payload);
+    const state = entryReducer(initialState, action);
+    expect(state.timeEntriesSummary).toBe(payload);
+  });
+
+  it('sets message on LOAD_ACTIVE_ENTRY_FAIL', () => {
+    const action = new actions.LoadActiveEntryFail('');
+    const state = entryReducer(initialState, action);
+    expect(state.message).toBe('Something went wrong fetching active entry!');
+  });
+
+  it('sets timeEntriesSummary as empty on LOAD_ENTRIES_SUMMARY_FAIL', () => {
+    const action = new actions.LoadEntriesSummaryFail();
+    const state = entryReducer(initialState, action);
+    expect(state.timeEntriesSummary).toEqual(emptyTimeEntriesSummary);
+  });
+
+  it('on LOAD_ENTRIES_SUMMARY, is Loading true', () => {
+    const action = new actions.LoadEntriesSummary();
+    const state = entryReducer(initialState, action);
+    expect(state.isLoading).toBe(true);
+  });
 
   it('on Default, ', () => {
     const action = new actions.DefaultEntry();
@@ -116,6 +140,7 @@ describe('entryReducer', () => {
 
   it('on DeleteEntrySuccess', () => {
     const currentState = {
+      timeEntriesSummary: emptyTimeEntriesSummary,
       active: null,
       entryList: [
         {
@@ -171,6 +196,7 @@ describe('entryReducer', () => {
       message: '',
       createError: null,
       updateError: null,
+      timeEntriesSummary: emptyTimeEntriesSummary
     };
     const entryUpdated: Entry = {
       id: 'id',

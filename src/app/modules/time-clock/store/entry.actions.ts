@@ -1,7 +1,11 @@
+import { TimeEntriesSummary } from '../models/time.entry.summary';
 import { Action } from '@ngrx/store';
 import { NewEntry, Entry } from '../../shared/models';
 
 export enum EntryActionTypes {
+  LOAD_ENTRIES_SUMMARY = '[Entry] LOAD_ENTRIES_SUMMARY',
+  LOAD_ENTRIES_SUMMARY_SUCCESS = '[Entry] LOAD_ENTRIES_SUMMARY_SUCCESS',
+  LOAD_ENTRIES_SUMMARY_FAIL = '[Entry] LOAD_ENTRIES_SUMMARY_FAIL',
   LOAD_ACTIVE_ENTRY = '[Entry] LOAD_ACTIVE_ENTRY',
   LOAD_ACTIVE_ENTRY_SUCCESS = '[Entry] LOAD_ACTIVE_ENTRY_SUCCESS',
   LOAD_ACTIVE_ENTRY_FAIL = '[Entry] LOAD_ACTIVE_ENTRY_FAIL',
@@ -23,6 +27,19 @@ export enum EntryActionTypes {
   DEFAULT_ENTRY = '[Entry] DEFAULT_ENTRY',
   CLEAN_ENTRY_CREATE_ERROR = '[Entry] CLEAN_ENTRY_CREATE_ERROR',
   CLEAN_ENTRY_UPDATE_ERROR = '[Entry] CLEAN_ENTRY_UPDATE_ERROR',
+}
+
+export class LoadEntriesSummary implements Action {
+  public readonly type = EntryActionTypes.LOAD_ENTRIES_SUMMARY;
+}
+
+export class LoadEntriesSummarySuccess implements Action {
+  readonly type = EntryActionTypes.LOAD_ENTRIES_SUMMARY_SUCCESS;
+  constructor(readonly payload: TimeEntriesSummary) {}
+}
+
+export class LoadEntriesSummaryFail implements Action {
+  readonly type = EntryActionTypes.LOAD_ENTRIES_SUMMARY_FAIL;
 }
 
 export class LoadActiveEntry implements Action {
@@ -137,6 +154,9 @@ export class DefaultEntry implements Action {
 }
 
 export type EntryActions =
+  | LoadEntriesSummary
+  | LoadEntriesSummarySuccess
+  | LoadEntriesSummaryFail
   | LoadActiveEntry
   | LoadActiveEntrySuccess
   | LoadActiveEntryFail

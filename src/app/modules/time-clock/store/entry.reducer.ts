@@ -1,3 +1,4 @@
+import { TimeEntriesSummary, TimeDetails } from '../models/time.entry.summary';
 import { EntryActions, EntryActionTypes } from './entry.actions';
 import { Entry } from '../../shared/models';
 
@@ -8,7 +9,11 @@ export interface EntryState {
   message: string;
   createError: boolean;
   updateError: boolean;
+  timeEntriesSummary: TimeEntriesSummary;
 }
+
+const emptyTimeDetails: TimeDetails = { hours: '--:--', minutes: '--:--', seconds: '--:--' };
+const emptyTimeEntriesSummary: TimeEntriesSummary = { day: emptyTimeDetails, week: emptyTimeDetails, month: emptyTimeDetails };
 
 export const initialState = {
   active: null,
@@ -16,11 +21,28 @@ export const initialState = {
   isLoading: false,
   message: '',
   createError: null,
-  updateError: null
+  updateError: null,
+  timeEntriesSummary: emptyTimeEntriesSummary,
 };
 
 export const entryReducer = (state: EntryState = initialState, action: EntryActions) => {
   switch (action.type) {
+    case EntryActionTypes.LOAD_ENTRIES_SUMMARY: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case EntryActionTypes.LOAD_ENTRIES_SUMMARY_SUCCESS:
+      return {
+        ...state,
+        timeEntriesSummary: action.payload,
+      };
+    case EntryActionTypes.LOAD_ENTRIES_SUMMARY_FAIL:
+      return {
+        ...state,
+        timeEntriesSummary: emptyTimeEntriesSummary,
+      };
     case EntryActionTypes.LOAD_ACTIVE_ENTRY: {
       return {
         ...state,
@@ -33,7 +55,6 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         active: action.payload,
         isLoading: false,
       };
-
     case EntryActionTypes.LOAD_ACTIVE_ENTRY_FAIL: {
       return {
         ...state,
@@ -173,14 +194,14 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
     case EntryActionTypes.CLEAN_ENTRY_CREATE_ERROR: {
       return {
         ...state,
-       createError: null
+        createError: null
       };
     }
 
     case EntryActionTypes.CLEAN_ENTRY_UPDATE_ERROR: {
       return {
         ...state,
-       updateError: null
+        updateError: null
       };
     }
 
