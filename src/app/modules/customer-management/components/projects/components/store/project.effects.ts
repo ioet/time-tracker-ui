@@ -1,3 +1,4 @@
+import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY, UNEXPECTED_ERROR } from '../../../../../shared/messages';
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -5,10 +6,15 @@ import { Action } from '@ngrx/store';
 import { ofType, Actions, Effect } from '@ngrx/effects';
 import { ProjectService } from '../services/project.service';
 import * as actions from './project.actions';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class ProjectEffects {
-  constructor(private actions$: Actions, private projectService: ProjectService) {}
+  constructor(
+    private actions$: Actions,
+    private projectService: ProjectService,
+    private toastrService: ToastrService
+  ) {}
 
   @Effect()
   loadProjects$: Observable<Action> = this.actions$.pipe(
@@ -18,7 +24,9 @@ export class ProjectEffects {
         map((projects) => {
           return new actions.LoadProjectsSuccess(projects);
         }),
-        catchError((error) => of(new actions.LoadProjectsFail(error)))
+        catchError((error) => {
+          return of(new actions.LoadProjectsFail(error));
+        })
       )
     )
   );
@@ -43,9 +51,13 @@ export class ProjectEffects {
     mergeMap((project) =>
       this.projectService.createProject(project).pipe(
         map((projectData) => {
+          this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
           return new actions.CreateProjectSuccess(projectData);
         }),
-        catchError((error) => of(new actions.CreateProjectFail(error)))
+        catchError((error) => {
+          this.toastrService.error(UNEXPECTED_ERROR);
+          return of(new actions.CreateProjectFail(error));
+        })
       )
     )
   );
@@ -57,9 +69,13 @@ export class ProjectEffects {
     mergeMap((project) =>
       this.projectService.updateProject(project).pipe(
         map((projectData) => {
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           return new actions.UpdateProjectSuccess(projectData);
         }),
-        catchError((error) => of(new actions.UpdateProjectFail(error)))
+        catchError((error) => {
+          this.toastrService.error(UNEXPECTED_ERROR);
+          return of(new actions.UpdateProjectFail(error));
+        })
       )
     )
   );
@@ -71,9 +87,13 @@ export class ProjectEffects {
     mergeMap((projectId) =>
       this.projectService.deleteProject(projectId).pipe(
         map(() => {
+          this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
           return new actions.DeleteProjectSuccess(projectId);
         }),
-        catchError((error) => of(new actions.DeleteProjectFail(error)))
+        catchError((error) => {
+          this.toastrService.error(UNEXPECTED_ERROR);
+          return of(new actions.DeleteProjectFail(error));
+        })
       )
     )
   );

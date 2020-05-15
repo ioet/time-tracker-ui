@@ -1,8 +1,10 @@
+import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY, UNEXPECTED_ERROR } from '../../shared/messages';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 import * as actions from './activity-management.actions';
 import { Activity } from './../../shared/models/activity.model';
@@ -10,7 +12,11 @@ import { ActivityService } from './../services/activity.service';
 
 @Injectable()
 export class ActivityEffects {
-  constructor(private actions$: Actions, private activityService: ActivityService) {}
+  constructor(
+    private actions$: Actions,
+    private activityService: ActivityService,
+    private toastrService: ToastrService
+  ) {}
 
   @Effect()
   getActivities$: Observable<Action> = this.actions$.pipe(
@@ -32,9 +38,13 @@ export class ActivityEffects {
     mergeMap((activity) =>
       this.activityService.createActivity(activity).pipe(
         map((activityData) => {
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           return new actions.CreateActivitySuccess(activityData);
         }),
-        catchError((error) => of(new actions.CreateActivityFail(error)))
+        catchError((error) => {
+          this.toastrService.error(UNEXPECTED_ERROR);
+          return of(new actions.CreateActivityFail(error));
+        })
       )
     )
   );
@@ -46,9 +56,13 @@ export class ActivityEffects {
     mergeMap((activityId) =>
       this.activityService.deleteActivity(activityId).pipe(
         map(() => {
+          this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
           return new actions.DeleteActivitySuccess(activityId);
         }),
-        catchError((error) => of(new actions.DeleteActivityFail(error)))
+        catchError((error) => {
+          this.toastrService.error(UNEXPECTED_ERROR);
+          return of(new actions.DeleteActivityFail(error));
+        })
       )
     )
   );
@@ -60,9 +74,13 @@ export class ActivityEffects {
     mergeMap((activity) =>
       this.activityService.updateActivity(activity).pipe(
         map((activityData) => {
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           return new actions.UpdateActivitySuccess(activityData);
         }),
-        catchError((error) => of(new actions.UpdateActivityFail(error)))
+        catchError((error) => {
+          this.toastrService.error(UNEXPECTED_ERROR);
+          return of(new actions.UpdateActivityFail(error));
+        })
       )
     )
   );

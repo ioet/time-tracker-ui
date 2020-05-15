@@ -1,4 +1,3 @@
-import { IndividualConfig, ToastrService } from 'ngx-toastr';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -18,11 +17,6 @@ describe('ProjectListComponent', () => {
   let getCustomerProjectsSelectorMock;
   let allCustomerProjectsSelectorMock;
 
-  const toastrService = {
-    success: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
-    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
-  };
-
   const state: ProjectState = {
     projects: [],
     customerProjects: [],
@@ -39,8 +33,7 @@ describe('ProjectListComponent', () => {
       imports: [NgxPaginationModule],
       declarations: [ProjectListComponent, FilterProjectPipe],
       providers: [
-        provideMockStore({ initialState: state }),
-        { provide: ToastrService, useValue: toastrService },
+        provideMockStore({ initialState: state })
       ],
     }).compileComponents();
 

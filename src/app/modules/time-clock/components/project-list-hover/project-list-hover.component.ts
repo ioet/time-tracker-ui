@@ -1,13 +1,12 @@
-import {getProjects} from './../../../customer-management/components/projects/components/store/project.selectors';
-import {Component, OnInit} from '@angular/core';
-import {Store, select} from '@ngrx/store';
+import { getProjects } from './../../../customer-management/components/projects/components/store/project.selectors';
+import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 
-import {getActiveTimeEntry} from './../../store/entry.selectors';
-import {Project} from 'src/app/modules/shared/models';
-import {ProjectState} from '../../../customer-management/components/projects/components/store/project.reducer';
+import { getActiveTimeEntry } from './../../store/entry.selectors';
+import { Project } from 'src/app/modules/shared/models';
+import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
 import * as entryActions from '../../store/entry.actions';
-import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-project-list-hover',
@@ -21,8 +20,7 @@ export class ProjectListHoverComponent implements OnInit {
   nameActiveProject: string;
   activeEntry;
 
-  constructor(private store: Store<ProjectState>, private toastr: ToastrService) {
-  }
+  constructor(private store: Store<ProjectState>) {}
 
   ngOnInit(): void {
     this.store.dispatch(new actions.LoadProjects());
@@ -54,12 +52,11 @@ export class ProjectListHoverComponent implements OnInit {
 
   clockIn(id: string) {
     if (this.activeEntry) {
-      const entry = {id: this.activeEntry.id, project_id: id};
+      const entry = { id: this.activeEntry.id, project_id: id };
       this.store.dispatch(new entryActions.UpdateActiveEntry(entry));
     } else {
-      const newEntry = {project_id: id, start_date: new Date().toISOString()};
+      const newEntry = { project_id: id, start_date: new Date().toISOString() };
       this.store.dispatch(new entryActions.CreateEntry(newEntry));
-      this.toastr.success('You just clocked-in');
     }
   }
 }

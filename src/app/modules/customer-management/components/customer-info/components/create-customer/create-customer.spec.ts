@@ -6,16 +6,11 @@ import { CreateCustomerComponent } from './create-customer';
 import { CustomerState, CreateCustomer } from 'src/app/modules/customer-management/store';
 import { ResetCustomerToEdit, UpdateCustomer } from './../../../../store/customer-management.actions';
 import { Customer } from 'src/app/modules/shared/models';
-import { ToastrService, IndividualConfig } from 'ngx-toastr';
 
 describe('CreateCustomerComponent', () => {
   let component: CreateCustomerComponent;
   let fixture: ComponentFixture<CreateCustomerComponent>;
   let store: MockStore<CustomerState>;
-  const toastrService = {
-    success: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
-    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
-  };
 
   const state = {
     data: [],
@@ -35,8 +30,7 @@ describe('CreateCustomerComponent', () => {
       declarations: [CreateCustomerComponent],
       providers: [
         FormBuilder,
-        provideMockStore({ initialState: state }),
-        { provide: ToastrService, useValue: toastrService },
+        provideMockStore({ initialState: state })
       ],
     }).compileComponents();
 
