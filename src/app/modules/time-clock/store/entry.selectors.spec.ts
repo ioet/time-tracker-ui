@@ -15,7 +15,4 @@ describe('Entry selectors', () => {
     expect(selectors.allEntries.projector(entryState)).toBe(entryList);
   });
 
-  // it('should select the entry summary', () => {
-
-  // })
 });
