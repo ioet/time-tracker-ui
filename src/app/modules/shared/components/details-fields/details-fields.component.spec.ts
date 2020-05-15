@@ -176,51 +176,6 @@ describe('DetailsFieldsComponent', () => {
     expect(store.dispatch).not.toHaveBeenCalledWith(new actions.FindTechnology(value));
   });
 
-  it('should add a new tag #setTechnology', () => {
-    const name = 'ngrx';
-    component.selectedTechnology = ['java', 'javascript'];
-    component.selectedTechnology.indexOf(name);
-    length = component.selectedTechnology.length;
-    component.setTechnology(name);
-    expect(component.selectedTechnology.length).toBe(3);
-  });
-
-  it('should NOT add a new tag #setTechnology', () => {
-    const name = 'ngrx';
-    component.selectedTechnology = [
-      'java',
-      'javascript',
-      'angular',
-      'angular-ui',
-      'typescript',
-      'scss',
-      'bootstrap',
-      'jasmine',
-      'karme',
-      'github',
-    ];
-    component.selectedTechnology.indexOf(name);
-    length = component.selectedTechnology.length;
-    component.setTechnology(name);
-    expect(component.selectedTechnology.length).toBe(10);
-  });
-
-  it('should call the removeTag function #setTechnology', () => {
-    const name = 'java';
-    component.selectedTechnology = ['java', 'javascript'];
-    const index = component.selectedTechnology.indexOf(name);
-    spyOn(component, 'removeTag');
-    component.setTechnology(name);
-    expect(component.removeTag).toHaveBeenCalledWith(index);
-  });
-
-  it('should call the removeTag() function #removeTag', () => {
-    const index = 1;
-    component.selectedTechnology = ['java', 'angular'];
-    component.removeTag(index);
-    expect(component.selectedTechnology.length).toBe(1);
-  });
-
   it('should call createError ', () => {
     mockEntriesUpdateErrorSelector = store.overrideSelector(getCreateError, false);
     spyOn(store, 'dispatch');

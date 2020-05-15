@@ -41,7 +41,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   @ViewChild('list') list: ElementRef;
   entryForm: FormGroup;
   technology: Technology;
-  selectedTechnology: string[] = [];
+  selectedTechnologies: string[] = [];
   isLoading = false;
   listProjects: Project[] = [];
   activities: Activity[] = [];
@@ -106,7 +106,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   ngOnChanges(): void {
     this.hoursValidation = false;
     if (this.entryToEdit) {
-      this.selectedTechnology = this.entryToEdit.technologies;
+      this.selectedTechnologies = this.entryToEdit.technologies;
       const project = this.listProjects.find((p) => p.id === this.entryToEdit.project_id);
       const activity = this.activities.find((a) => a.id === this.entryToEdit.activity_id);
       this.entryForm.setValue({
@@ -121,7 +121,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         technology: '',
       });
     } else {
-      this.selectedTechnology = [];
+      this.selectedTechnologies = [];
       this.entryForm.setValue({
         project: '',
         activity: '',
@@ -143,19 +143,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     }
   }
 
-  setTechnology(name: string) {
-    const index = this.selectedTechnology.indexOf(name);
-    if (index > -1) {
-      this.removeTag(index);
-    } else if (this.selectedTechnology.length < 10) {
-      this.selectedTechnology = [...this.selectedTechnology, name];
-    }
-    this.showlist = false;
-    this.entryForm.get('technology').reset();
-  }
-
-  removeTag(index) {
-    this.selectedTechnology.splice(index, 1);
+  onTechnologiesUpdated($event: string[]) {
+    this.selectedTechnologies = $event;
   }
 
   get project() {
@@ -192,7 +181,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     const entry = {
       project_id: project ? project.id : null,
       activity_id: activity ? activity.id : null,
-      technologies: this.selectedTechnology,
+      technologies: this.selectedTechnologies,
       description: this.entryForm.value.description,
       start_date: `${this.entryForm.value.start_date}T${this.entryForm.value.start_hour}`,
       end_date: `${this.entryForm.value.end_date}T${this.entryForm.value.end_hour}`,
