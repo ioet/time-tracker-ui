@@ -1,3 +1,5 @@
+import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY, UNEXPECTED_ERROR } from './../../shared/messages';
+import { Entry } from './../../shared/models/entry.model';
 import { Injectable } from '@angular/core';
 import { ofType, Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -55,11 +57,14 @@ export class EntryEffects {
     mergeMap((entry) =>
       this.entryService.createEntry(entry).pipe(
         map((entryData) => {
-          this.toastrService.success('Entry was saved successfully');
+          if (entryData.end_date !== null) {
+            this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
+          }
           return new actions.CreateEntrySuccess(entryData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          console.error(error);
+          this.toastrService.success(UNEXPECTED_ERROR);
           return of(new actions.CreateEntryFail(error.error.message));
         })
       )
@@ -72,8 +77,15 @@ export class EntryEffects {
     map((action: actions.DeleteEntry) => action.entryId),
     mergeMap((entryId) =>
       this.entryService.deleteEntry(entryId).pipe(
-        map(() => new actions.DeleteEntrySuccess(entryId)),
-        catchError((error) => of(new actions.DeleteEntryFail(error)))
+        map(() => {
+          this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
+          return new actions.DeleteEntrySuccess(entryId);
+        }),
+        catchError((error) => {
+          console.log(error);
+          this.toastrService.success(UNEXPECTED_ERROR);
+          return of(new actions.DeleteEntryFail(error));
+        })
       )
     )
   );
@@ -85,11 +97,11 @@ export class EntryEffects {
     mergeMap((project) =>
       this.entryService.updateActiveEntry(project).pipe(
         map((projectData) => {
-          this.toastrService.success('Entry was updated successfully');
           return new actions.UpdateActiveEntrySuccess(projectData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          console.log(error);
+          this.toastrService.success(UNEXPECTED_ERROR);
           return of(new actions.UpdateActiveEntryFail(error));
         })
       )
@@ -103,6 +115,7 @@ export class EntryEffects {
     mergeMap((timeEntryId) =>
       this.entryService.stopEntryRunning(timeEntryId).pipe(
         map(() => {
+          this.toastrService.success('You clocked-out successfully');
           return new actions.StopTimeEntryRunningSuccess(timeEntryId);
         }),
         catchError((error) => of(new actions.StopTimeEntryRunningFail(error.error.message)))
