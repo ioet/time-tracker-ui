@@ -5,7 +5,6 @@ import { Store, select } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import { Subscription } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-time-clock',
@@ -18,8 +17,7 @@ export class TimeClockComponent implements OnInit {
   activeTimeEntry: Entry;
   actionsSubscription: Subscription;
 
-  constructor(private azureAdB2CService: AzureAdB2CService, private store: Store<Entry>,
-              private toastr: ToastrService) {
+  constructor(private azureAdB2CService: AzureAdB2CService, private store: Store<Entry>) {
   }
 
   ngOnInit() {
@@ -37,6 +35,5 @@ export class TimeClockComponent implements OnInit {
   clockOut() {
     this.store.dispatch(new StopTimeEntryRunning(this.activeTimeEntry.id));
     this.areFieldsVisible = false;
-    this.toastr.success('You clocked-out successfully');
   }
 }
