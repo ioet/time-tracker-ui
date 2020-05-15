@@ -1,5 +1,4 @@
 import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY, UNEXPECTED_ERROR } from './../../shared/messages';
-import { Entry } from './../../shared/models/entry.model';
 import { Injectable } from '@angular/core';
 import { ofType, Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
