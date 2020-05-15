@@ -1,4 +1,3 @@
-import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -22,8 +21,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   projectsSubscription: Subscription;
 
-  constructor(private store: Store<ProjectState>,
-              private toastrService: ToastrService) {}
+  constructor(private store: Store<ProjectState>) {}
 
   ngOnInit(): void {
     const projects$ = this.store.pipe(select(getCustomerProjects));
@@ -43,6 +41,5 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   deleteProject(projectId: string) {
     this.store.dispatch(new actions.DeleteProject(projectId));
-    this.toastrService.success('The project has been removed successfully');
   }
 }

@@ -2,7 +2,6 @@ import { StopTimeEntryRunning } from './../store/entry.actions';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { ToastrService } from 'ngx-toastr';
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectState } from '../../customer-management/components/projects/components/store/project.reducer';
 import { ProjectListHoverComponent } from '../components';
@@ -14,11 +13,6 @@ describe('TimeClockComponent', () => {
   let fixture: ComponentFixture<TimeClockComponent>;
   let store: MockStore<ProjectState>;
   let azureAdB2CService: AzureAdB2CService;
-  let injectedToastrService;
-
-  const toastrService = {
-    success: () => {},
-  };
   const state = {
     projects: {
       projects: [{ id: 'id', name: 'name', project_type_id: '' }],
@@ -49,7 +43,6 @@ describe('TimeClockComponent', () => {
       declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe],
       providers: [
         AzureAdB2CService,
-        { provide: ToastrService, useValue: toastrService },
         provideMockStore({ initialState: state }),
       ],
     }).compileComponents();
@@ -61,7 +54,6 @@ describe('TimeClockComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
-    injectedToastrService = TestBed.inject(ToastrService);
   });
 
   it('should be created', () => {

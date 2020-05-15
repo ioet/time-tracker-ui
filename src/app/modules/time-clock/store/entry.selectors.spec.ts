@@ -14,4 +14,5 @@ describe('Entry selectors', () => {
 
     expect(selectors.allEntries.projector(entryState)).toBe(entryList);
   });
+
 });

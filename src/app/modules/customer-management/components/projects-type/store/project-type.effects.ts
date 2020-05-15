@@ -1,3 +1,4 @@
+import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY, UNEXPECTED_ERROR } from '../../../../shared/messages';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -7,10 +8,15 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as actions from './project-type.actions';
 import { ProjectType } from '../../../../shared/models';
 import { ProjectTypeService } from '../services/project-type.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class ProjectTypeEffects {
-  constructor(private actions$: Actions, private projectTypeService: ProjectTypeService) {}
+  constructor(
+    private actions$: Actions,
+    private projectTypeService: ProjectTypeService,
+    private toastrService: ToastrService
+  ) {}
 
   @Effect()
   getProjectTypes$: Observable<Action> = this.actions$.pipe(
@@ -32,9 +38,13 @@ export class ProjectTypeEffects {
     mergeMap((projectType) =>
       this.projectTypeService.createProjectType(projectType).pipe(
         map((projectTypeData) => {
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           return new actions.CreateProjectTypeSuccess(projectTypeData);
         }),
-        catchError((error) => of(new actions.CreateProjectTypeFail(error)))
+        catchError((error) => {
+          this.toastrService.error(UNEXPECTED_ERROR);
+          return of(new actions.CreateProjectTypeFail(error));
+        })
       )
     )
   );
@@ -46,9 +56,13 @@ export class ProjectTypeEffects {
     mergeMap((protectTypeId) =>
       this.projectTypeService.deleteProjectType(protectTypeId).pipe(
         map(() => {
+          this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
           return new actions.DeleteProjectTypeSuccess(protectTypeId);
         }),
-        catchError((error) => of(new actions.DeleteProjectTypeFail(error)))
+        catchError((error) => {
+          this.toastrService.error(UNEXPECTED_ERROR);
+          return of(new actions.DeleteProjectTypeFail(error));
+        })
       )
     )
   );
@@ -60,9 +74,13 @@ export class ProjectTypeEffects {
     mergeMap((projectType) =>
       this.projectTypeService.updateProjectType(projectType).pipe(
         map((projectTypeData) => {
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           return new actions.UpdateProjectTypeSuccess(projectTypeData);
         }),
-        catchError((error) => of(new actions.UpdateProjectTypeFail(error)))
+        catchError((error) => {
+          this.toastrService.error(UNEXPECTED_ERROR);
+          return of(new actions.UpdateProjectTypeFail(error));
+        })
       )
     )
   );

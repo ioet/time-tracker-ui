@@ -1,4 +1,3 @@
-import { ToastrService, IndividualConfig } from 'ngx-toastr';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -39,18 +38,12 @@ describe('InputProjectTypeComponent', () => {
     description: 'It is good for learning',
   };
 
-  const toastrService = {
-    success: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
-    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CreateProjectTypeComponent],
       providers: [
         FormBuilder,
-        provideMockStore({ initialState: state }),
-        { provide: ToastrService, useValue: toastrService },
+        provideMockStore({ initialState: state })
       ],
     }).compileComponents();
   }));

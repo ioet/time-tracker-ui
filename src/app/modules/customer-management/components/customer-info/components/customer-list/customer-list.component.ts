@@ -6,7 +6,6 @@ import { allCustomers } from './../../../../store/customer-management.selectors'
 import { LoadCustomers, DeleteCustomer, SetCustomerToEdit } from './../../../../store/customer-management.actions';
 import { Customer } from './../../../../../shared/models/customer.model';
 import { ITEMS_PER_PAGE } from 'src/environments/environment';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-customer-list',
@@ -22,7 +21,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   customers: Customer[] = [];
   customerSubscription: Subscription;
 
-  constructor(private store: Store<Customer>, private toastrService: ToastrService) { }
+  constructor(private store: Store<Customer>) { }
 
   ngOnInit(): void {
     this.store.dispatch(new LoadCustomers());
@@ -44,6 +43,5 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   deleteCustomer(customerId: string) {
     this.store.dispatch(new DeleteCustomer(customerId));
-    this.toastrService.success('Customer has been deleted');
   }
 }
