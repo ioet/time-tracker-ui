@@ -10,6 +10,7 @@ import * as actions from '../../store/technology.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
+import * as entryActions from '../../../time-clock/store/entry.actions';
 import { getUpdateError, getCreateError } from 'src/app/modules/time-clock/store/entry.selectors';
 
 describe('DetailsFieldsComponent', () => {
@@ -116,7 +117,7 @@ describe('DetailsFieldsComponent', () => {
 
   it('should emit ngOnChange with new data', () => {
     const entryToEdit = {
-      project_id: 'id',
+      project_id: 'abc',
       activity_id: '',
       uri: 'ticketUri',
       start_date: null,
@@ -124,7 +125,7 @@ describe('DetailsFieldsComponent', () => {
       description: '',
     };
     const formValue = {
-      project: 'name',
+      project: '',
       activity: '',
       uri: 'ticketUri',
       start_date: '',
@@ -149,7 +150,7 @@ describe('DetailsFieldsComponent', () => {
       start_hour: '00:00',
       end_hour: '00:00',
       description: '',
-      technology: ''
+      technology: '',
     };
     component.entryToEdit = null;
     component.ngOnChanges();
@@ -218,6 +219,20 @@ describe('DetailsFieldsComponent', () => {
     component.selectedTechnology = ['java', 'angular'];
     component.removeTag(index);
     expect(component.selectedTechnology.length).toBe(1);
+  });
+
+  it('should call createError ', () => {
+    mockEntriesUpdateErrorSelector = store.overrideSelector(getCreateError, false);
+    spyOn(store, 'dispatch');
+    component.ngOnInit();
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CleanEntryCreateError(null));
+  });
+
+  it('should call updateError ', () => {
+    mockEntriesUpdateErrorSelector = store.overrideSelector(getUpdateError, false);
+    spyOn(store, 'dispatch');
+    component.ngOnInit();
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CleanEntryUpdateError(null));
   });
 
   it('should emit saveEntry event', () => {

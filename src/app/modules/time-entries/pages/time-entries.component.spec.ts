@@ -146,12 +146,6 @@ describe('TimeEntriesComponent', () => {
     expect(component.dataByMonth.length).toEqual(0);
   }));
 
-  it('should open Delete Modal', () => {
-    component.openModal(entry);
-    expect(component.entryToDelete).toBe(entry);
-    expect(component.showModal).toBe(true);
-  });
-
   it('should set entry and entryid to null', () => {
     component.newEntry();
     expect(component.entry).toBe(null);
