@@ -64,7 +64,7 @@ describe('entryReducer', () => {
 
   it('on LoadActiveEntrySuccess, activeEntryFound are saved in the store', () => {
     const activeEntryFound: NewEntry[] = [
-      { project_id: '123', description: 'description', technologies: ['angular', 'javascript'] },
+      { project_id: '123', description: 'description', technologies: ['angular', 'javascript'] , activity_id: 'xyz'},
     ];
     const action = new actions.LoadActiveEntrySuccess(activeEntryFound);
     const state = entryReducer(initialState, action);
@@ -94,7 +94,7 @@ describe('entryReducer', () => {
         id: 'id',
         start_date: new Date(),
         end_date: new Date(),
-        activity: 'activity',
+        activity_id: 'activity',
       },
     ];
     const action = new actions.LoadEntriesSuccess(entries);
@@ -151,7 +151,7 @@ describe('entryReducer', () => {
           id: 'id',
           start_date: new Date(),
           end_date: new Date(),
-          activity: 'activity',
+          activity_id: 'activity',
         },
       ],
       isLoading: false,
@@ -189,7 +189,7 @@ describe('entryReducer', () => {
           id: 'id',
           start_date: new Date(),
           end_date: new Date(),
-          activity: 'activity',
+          activity_id: 'activity',
         },
       ],
       isLoading: false,
@@ -202,7 +202,7 @@ describe('entryReducer', () => {
       id: 'id',
       start_date: new Date(),
       end_date: new Date(),
-      activity: '',
+      activity_id: '',
       technologies: ['abc', 'abc'],
     };
     const action = new actions.UpdateActiveEntrySuccess(entryUpdated);

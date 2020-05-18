@@ -22,13 +22,13 @@
     {{ item.name }}
   </div>
 </div>
-<div class="selected-technologies-container d-flex flex-wrap" *ngIf="selectedTechnologies.length">
+<div class="selected-technologies-container d-flex flex-wrap" *ngIf="selectedTechnologies?.length">
   <div *ngFor="let technology of selectedTechnologies; let tagIndex = index" class="selected-technology">
     <span class="mr-3">{{ technology }}</span>
     <i class="fas fa-times text-white" (click)="removeTechnology(tagIndex)"></i>
   </div>
 </div>
-<div class="form-group" *ngIf="selectedTechnologies.length === 0">
+<div class="form-group" *ngIf="selectedTechnologies === null || selectedTechnologies.length === 0">
   <!-- empty-space -->
 </div>
 

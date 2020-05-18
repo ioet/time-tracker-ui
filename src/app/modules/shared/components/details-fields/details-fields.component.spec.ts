@@ -48,8 +48,8 @@ describe('DetailsFieldsComponent', () => {
   };
 
   const initialData = {
-    project: '',
-    activity: '',
+    project_id: '',
+    activity_id: '',
     uri: '',
     start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
     end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
@@ -75,7 +75,6 @@ describe('DetailsFieldsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DetailsFieldsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -100,8 +99,8 @@ describe('DetailsFieldsComponent', () => {
       description: '',
     };
     const formValue = {
-      project: 'name',
-      activity: 'abc',
+      project_id: 'id',
+      activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',
       uri: 'ticketUri',
       start_date: '2020-02-05',
       end_date: '2020-02-05',
@@ -117,7 +116,7 @@ describe('DetailsFieldsComponent', () => {
 
   it('should emit ngOnChange with new data', () => {
     const entryToEdit = {
-      project_id: 'abc',
+      project_id: '',
       activity_id: '',
       uri: 'ticketUri',
       start_date: null,
@@ -125,8 +124,8 @@ describe('DetailsFieldsComponent', () => {
       description: '',
     };
     const formValue = {
-      project: '',
-      activity: '',
+      project_id: '',
+      activity_id: '',
       uri: 'ticketUri',
       start_date: '',
       end_date: '',
@@ -142,8 +141,8 @@ describe('DetailsFieldsComponent', () => {
 
   it('should emit ngOnChange with new data', () => {
     const formValue = {
-      project: '',
-      activity: '',
+      project_id: '',
+      activity_id: '',
       uri: '',
       start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
       end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
@@ -157,27 +156,8 @@ describe('DetailsFieldsComponent', () => {
     expect(component.entryForm.value).toEqual(formValue);
   });
 
-  it('should dispatch FindTechnology action #getTechnologies', () => {
-    const value = 'java';
-    spyOn(store, 'dispatch');
-    length = value.length;
-    component.getTechnologies(value);
-
-    expect(component.showlist).toBe(true);
-    expect(store.dispatch).toHaveBeenCalledWith(new actions.FindTechnology(value));
-  });
-
-  it('should NOT dispatch FindTechnology action #getTechnologies', () => {
-    const value = 'j';
-    spyOn(store, 'dispatch');
-    length = value.length;
-    component.getTechnologies(value);
-
-    expect(store.dispatch).not.toHaveBeenCalledWith(new actions.FindTechnology(value));
-  });
-
   it('should call createError ', () => {
-    mockEntriesUpdateErrorSelector = store.overrideSelector(getCreateError, false);
+    mockEntriesCreateErrorSelector = store.overrideSelector(getCreateError, false);
     spyOn(store, 'dispatch');
     component.ngOnInit();
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CleanEntryCreateError(null));
@@ -194,8 +174,8 @@ describe('DetailsFieldsComponent', () => {
     spyOn(component.saveEntry, 'emit');
     component.onSubmit();
     const data = {
-      project_id: null,
-      activity_id: null,
+      project_id: '',
+      activity_id: '',
       technologies: [],
       description: '',
       start_date: 'T00:00',
@@ -208,8 +188,8 @@ describe('DetailsFieldsComponent', () => {
   it('should emit saveEntry without project and activite fields event', () => {
     spyOn(component.saveEntry, 'emit');
     component.entryForm.setValue({
-      project: 'name',
-      activity: 'activity1',
+      project_id: 'id',
+      activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',
       uri: '',
       start_date: '',
       end_date: '',
@@ -222,6 +202,7 @@ describe('DetailsFieldsComponent', () => {
       { id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', name: 'activity1', description: '' },
     ];
     component.onSubmit();
+    fixture.detectChanges();
     const data = {
       project_id: 'id',
       activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',

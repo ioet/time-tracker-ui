@@ -4,13 +4,13 @@
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
     </div>
     <select
-      [class.is-invalid]="project.invalid && project.touched"
+      [class.is-invalid]="project_id.invalid && project_id.touched"
       required
-      id="activity"
+      id="project_id"
       class="form-control"
-      formControlName="project"
+      formControlName="project_id"
     >
-      <option *ngFor="let project of listProjects">{{ project.name }}</option>
+      <option *ngFor="let project of listProjects" value="{{project.id}}">{{ project.name }}</option>
     </select>
   </div>
   <div class="input-group input-group-sm mb-3">
@@ -18,13 +18,13 @@
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Activity</span>
     </div>
     <select
-      [class.is-invalid]="activity.invalid && activity.touched"
+      [class.is-invalid]="activity_id.invalid && activity_id.touched"
       required
-      id="activity"
+      id="activity_id"
       class="form-control"
-      formControlName="activity"
+      formControlName="activity_id"
     >
-      <option *ngFor="let activity of activities">{{ activity.name }}</option>
+      <option *ngFor="let activity of activities" value="{{activity.id}}">{{ activity.name }}</option>
     </select>
   </div>
 
@@ -109,7 +109,7 @@
     <textarea formControlName="description" class="form-control" id="NotesTextarea" rows="3"></textarea>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-primary" [disabled]="!entryForm.valid">Save</button>
+    <button type="submit" class="btn btn-primary">Save</button>
     <button #closeModal type="button" class="btn btn-secondary" data-dismiss="modal">
       Close
     </button>

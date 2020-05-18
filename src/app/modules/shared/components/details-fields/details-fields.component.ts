@@ -11,12 +11,9 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import * as actions from '../../store/technology.actions';
 import { formatDate } from '@angular/common';
 
-import { allTechnologies } from '../../store/technology.selectors';
-import { Technology, Project, Activity } from '../../models';
-
+import { Project, Activity } from '../../models';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { TechnologyState } from '../../store/technology.reducers';
 import { LoadActivities, ActivityState, allActivities } from '../../../activities-management/store';
@@ -40,7 +37,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   @ViewChild('closeModal') closeModal: ElementRef;
   @ViewChild('list') list: ElementRef;
   entryForm: FormGroup;
-  technology: Technology;
   selectedTechnologies: string[] = [];
   isLoading = false;
   listProjects: Project[] = [];
@@ -56,8 +52,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       }
     });
     this.entryForm = this.formBuilder.group({
-      project: '',
-      activity: '',
+      project_id: '',
+      activity_id: '',
       description: '',
       start_date: '',
       end_date: '',
@@ -69,11 +65,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    const technologies$ = this.store.pipe(select(allTechnologies));
-    technologies$.subscribe((response) => {
-      this.isLoading = response.isLoading;
-      this.technology = response.technologyList;
-    });
 
     this.store.dispatch(new projectActions.LoadProjects());
     const projects$ = this.store.pipe(select(getProjects));
@@ -90,15 +81,15 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     const updateError$ = this.store.pipe(select(getUpdateError));
     updateError$.subscribe((updateError) => {
       if (updateError != null && !updateError) {
-        this.closeEntryModal();
         this.store.dispatch(new entryActions.CleanEntryUpdateError(null));
+        this.closeEntryModal();
       }
     });
     const createError$ = this.store.pipe(select(getCreateError));
     createError$.subscribe((createError) => {
       if (createError != null && !createError) {
-        this.closeEntryModal();
         this.store.dispatch(new entryActions.CleanEntryCreateError(null));
+        this.closeEntryModal();
       }
     });
   }
@@ -107,11 +98,9 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.hoursValidation = false;
     if (this.entryToEdit) {
       this.selectedTechnologies = this.entryToEdit.technologies;
-      const project = this.listProjects.find((p) => p.id === this.entryToEdit.project_id);
-      const activity = this.activities.find((a) => a.id === this.entryToEdit.activity_id);
       this.entryForm.setValue({
-        project: project ? project.name : '',
-        activity: activity ? activity.name : '',
+        project_id: this.entryToEdit.project_id,
+        activity_id: this.entryToEdit.activity_id,
         description: this.entryToEdit.description,
         start_date: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'yyyy-MM-dd', 'en') : '',
         start_hour: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'HH:mm', 'en') : '00:00',
@@ -123,8 +112,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     } else {
       this.selectedTechnologies = [];
       this.entryForm.setValue({
-        project: '',
-        activity: '',
+        project_id: '',
+        activity_id: '',
         description: '',
         start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
         start_hour: '00:00',
@@ -136,22 +125,15 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     }
   }
 
-  getTechnologies(value) {
-    if (value.length >= 2) {
-      this.showlist = true;
-      this.store.dispatch(new actions.FindTechnology(value));
-    }
-  }
-
   onTechnologiesUpdated($event: string[]) {
     this.selectedTechnologies = $event;
   }
 
-  get project() {
-    return this.entryForm.get('project');
+  get project_id() {
+    return this.entryForm.get('project_id');
   }
-  get activity() {
-    return this.entryForm.get('activity');
+  get activity_id() {
+    return this.entryForm.get('activity_id');
   }
 
   get start_date() {
@@ -176,12 +158,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   onSubmit() {
-    const activity = this.activities.find((a) => a.name === this.entryForm.value.activity);
-    const project = this.listProjects.find((p) => p.name === this.entryForm.value.project);
     const entry = {
-      project_id: project ? project.id : null,
-      activity_id: activity ? activity.id : null,
-      technologies: this.selectedTechnologies,
+      project_id: this.entryForm.value.project_id,
+      activity_id: this.entryForm.value.activity_id,
+      technologies: this.selectedTechnologies ? this.selectedTechnologies : [],
       description: this.entryForm.value.description,
       start_date: `${this.entryForm.value.start_date}T${this.entryForm.value.start_hour}`,
       end_date: `${this.entryForm.value.end_date}T${this.entryForm.value.end_hour}`,

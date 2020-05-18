@@ -56,7 +56,9 @@ export class EntryEffects {
     mergeMap((entry) =>
       this.entryService.createEntry(entry).pipe(
         map((entryData) => {
-          if (entryData.end_date !== null) {
+          if (entryData.end_date === null) {
+            this.toastrService.success('You clocked-in successfully');
+          } else {
             this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           }
           return new actions.CreateEntrySuccess(entryData);
@@ -94,7 +96,6 @@ export class EntryEffects {
     mergeMap((project) =>
       this.entryService.updateActiveEntry(project).pipe(
         map((projectData) => {
-          this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
           return new actions.UpdateActiveEntrySuccess(projectData);
         }),
         catchError((error) => {

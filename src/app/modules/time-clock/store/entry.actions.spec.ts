@@ -60,7 +60,7 @@ describe('Actions for Entries', () => {
       id: '1',
       start_date: new Date(),
       end_date: new Date(),
-      activity: '',
+      activity_id: '',
       technologies: ['abc', 'abc'],
     });
     expect(updateActiveEntrySuccess.type).toEqual(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS);
