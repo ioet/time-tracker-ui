@@ -28,7 +28,8 @@ export class EntryFieldsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private store: Store<Merged>) {
     this.entryForm = this.formBuilder.group({
       description: '',
-      uri: ''
+      uri: '',
+      activity_id: ''
     });
   }
 
@@ -48,6 +49,7 @@ export class EntryFieldsComponent implements OnInit {
           id: this.activeEntry.id,
           project_id: this.activeEntry.project_id,
           uri: this.activeEntry.uri,
+          activity_id: this.activeEntry.activity_id,
         };
       }
     });
@@ -58,6 +60,7 @@ export class EntryFieldsComponent implements OnInit {
       this.entryForm.patchValue({
         description: entryData.description,
         uri: entryData.uri,
+        activity_id: entryData.activity_id,
       });
       if (entryData.technologies) {
         this.selectedTechnologies = entryData.technologies;

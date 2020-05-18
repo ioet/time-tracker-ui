@@ -2,7 +2,7 @@ export interface Entry {
   id: string;
   start_date: Date;
   end_date: Date;
-  activity: string;
+  activity_id?: string;
   technologies: string[];
   comments?: string;
   uri?: string;
@@ -15,4 +15,5 @@ export interface NewEntry {
   description?: string;
   technologies?: string[];
   uri?: string;
+  activity_id?: string;
 }

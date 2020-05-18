@@ -54,7 +54,7 @@ describe('TimeEntriesComponent', () => {
     project_id: 'abc',
     start_date: new Date('2020-02-05T15:36:15.887Z'),
     end_date: new Date('2020-02-05T18:36:15.887Z'),
-    activity: 'development',
+    activity_id: 'development',
     technologies: ['Angular', 'TypeScript'],
     comments: 'No comments',
     uri: 'EY-25',
@@ -99,18 +99,20 @@ describe('TimeEntriesComponent', () => {
   }));
 
   it('should call dataByMonth with data in ngOnInit()', async(() => {
-    const newEntry = {
-      id: 'entry_1',
+    const entryCurrentMonth = {
+      id: '1',
       project_id: 'Mido - 05 de Febrero',
       start_date: new Date(),
       end_date: new Date(),
-      activity: 'development',
+      activity_id: 'development',
       technologies: ['Angular', 'TypeScript'],
       comments: 'No comments',
       uri: 'EY-25',
     };
-    mockEntriesSelector = store.overrideSelector(allEntries, [newEntry]);
+    mockEntriesSelector = store.overrideSelector(allEntries, [entryCurrentMonth]);
+
     component.ngOnInit();
+
     expect(component.dataByMonth.length).toEqual(1);
   }));
 
@@ -120,7 +122,7 @@ describe('TimeEntriesComponent', () => {
       project_id: 'Mido - 05 de Febrero',
       start_date: new Date(),
       end_date: null,
-      activity: 'development',
+      activity_id: 'development',
       technologies: ['Angular', 'TypeScript'],
       comments: 'No comments',
       uri: 'EY-25',
@@ -136,7 +138,7 @@ describe('TimeEntriesComponent', () => {
       project_id: 'Mido - 05 de Febrero',
       start_date: new Date('2020-02-05T15:36:15.887Z'),
       end_date: new Date('2020-02-05T18:36:15.887Z'),
-      activity: 'development',
+      activity_id: 'development',
       technologies: ['Angular', 'TypeScript'],
       comments: 'No comments',
       uri: 'EY-25',

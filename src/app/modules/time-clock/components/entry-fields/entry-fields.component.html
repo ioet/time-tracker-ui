@@ -3,8 +3,8 @@
     <div class="input-group-prepend">
       <span class="input-group-text span-width">Activity</span>
     </div>
-    <select id="activitiesSelect" (blur)="onSubmit()" class="form-control">
-      <option *ngFor="let activity of activities">{{ activity.name }}</option>
+    <select id="activitiesSelect" (blur)="onSubmit()" class="form-control" formControlName="activity_id">
+      <option *ngFor="let activity of activities" value="{{activity.id}}">{{ activity.name }}</option>
     </select>
   </div>
   <div class="input-group input-group-sm mb-3">

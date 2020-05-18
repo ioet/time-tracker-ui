@@ -30,13 +30,14 @@ describe('EntryFieldsComponent', () => {
       isLoading: false,
     },
     activities: {
-      data: [{id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'Training 2'}],
+      data: [{id: 'xyz', tenant_id: 'ioet', deleted: null, name: 'Training 2'}],
       isLoading: false,
       message: 'Data fetch successfully!',
       activityIdToEdit: '',
     },
     entries: {
       active: {
+        activity_id: 'xyz',
         id: 'id-15',
         project_id: 'project-id-15',
         description: 'description for active entry',
@@ -49,6 +50,7 @@ describe('EntryFieldsComponent', () => {
   };
 
   const entry = {
+    activity_id: 'xyz',
     id: 'id-15',
     project_id: 'project-id-15',
     description: 'description for active entry',
@@ -78,6 +80,7 @@ describe('EntryFieldsComponent', () => {
 
   it('should set data in entryForm', () => {
     const entryDataForm = {
+      activity_id: 'xyz',
       description: 'description for active entry',
       technologies: null,
       uri: 'abc',
@@ -89,7 +92,7 @@ describe('EntryFieldsComponent', () => {
 
     expect(component.entryForm.patchValue).toHaveBeenCalledTimes(1);
     expect(component.entryForm.patchValue).toHaveBeenCalledWith(
-      {description: entryDataForm.description, uri: entryDataForm.uri});
+      { description: entryDataForm.description, uri: entryDataForm.uri, activity_id: entryDataForm.activity_id });
     expect(component.selectedTechnologies).toEqual([]);
   });
 
