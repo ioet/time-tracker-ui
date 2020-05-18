@@ -12,3 +12,7 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
+
+.table.dataTable th, .table.dataTable td{
+  box-sizing: border-box;
+}
