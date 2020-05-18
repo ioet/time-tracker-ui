@@ -60,10 +60,8 @@ export const projectTypeReducer = (state: ProjectTypeState = initialState, actio
 
     case ProjectTypeActionTypes.CREATE_PROJECT_TYPE_FAIL: {
       return {
-        data: [],
+        ...state,
         isLoading: false,
-        message: 'Something went wrong creating projectType!',
-        projectTypeIdToEdit: '',
       };
     }
 

@@ -54,12 +54,11 @@ describe('projectTypeReducer', () => {
     expect(state.isLoading).toEqual(false);
   });
 
-  it('on CreateProjectTypeFail, message equal to Something went wrong creating projectType!', () => {
+  it('isLoading false on CreateProjectTypeFail', () => {
     const action = new actions.CreateProjectTypeFail('error');
 
     const state = projectTypeReducer(initialState, action);
 
-    expect(state.message).toEqual('Something went wrong creating projectType!');
     expect(state.isLoading).toEqual(false);
   });
 
