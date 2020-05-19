@@ -1,9 +1,5 @@
 @import '../../../../styles/colors.scss';
 
-.content-ClockIn {
-  padding: 2.1rem 1rem;
-}
-
 .timer {
   align-items: center;
   display: flex;
@@ -11,12 +7,8 @@
   justify-content: center;
 }
 
-.text-clock-in-color {
-  color: $modal-button-secondary;
-}
-
 .span-width {
   width: 6rem;
-  background-image: $background-pantone;
+  background-color: $primary;
   color: white;
 }

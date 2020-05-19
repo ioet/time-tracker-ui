@@ -1,7 +1,7 @@
 @import '../../../../../styles/colors.scss';
 
 .month {
-  background: $header;
+  background: $primary;
   color: white;
   cursor: pointer;
 
@@ -11,5 +11,5 @@
 }
 
 .active {
-  background-color: $item-background;
+  background-color: $primary;
 }

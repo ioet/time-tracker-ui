@@ -72,7 +72,6 @@ import { TimeDetailsPipe } from './modules/time-clock/pipes/time-details.pipe';
     TimeClockComponent,
     DetailsFieldsComponent,
     ProjectListHoverComponent,
-    ModalComponent,
     TimeEntriesComponent,
     MonthPickerComponent,
     EmptyStateComponent,

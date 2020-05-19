@@ -1,4 +1,4 @@
-import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY, UNEXPECTED_ERROR } from '../../../../../shared/messages';
+import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY } from '../../../../../shared/messages';
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
