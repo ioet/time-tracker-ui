@@ -34,7 +34,10 @@ export function activityManagementReducer(state: ActivityState = initialState, a
       };
     }
     case ActivityManagementActionTypes.LOAD_ACTIVITIES_FAIL: {
-      return { data: [], isLoading: false, message: 'Something went wrong fetching activities!', activityIdToEdit: '' };
+      return {
+        ...state,
+        isLoading: false,
+      };
     }
 
     case ActivityManagementActionTypes.CREATE_ACTIVITY: {
@@ -55,10 +58,8 @@ export function activityManagementReducer(state: ActivityState = initialState, a
 
     case ActivityManagementActionTypes.CREATE_ACTIVITY_FAIL: {
       return {
-        data: [],
+        ...state,
         isLoading: false,
-        message: 'Something went wrong creating activities!',
-        activityIdToEdit: '',
       };
     }
 
@@ -133,7 +134,7 @@ export function activityManagementReducer(state: ActivityState = initialState, a
       };
     }
 
-    default : {
+    default: {
       return state;
     }
 

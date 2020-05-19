@@ -23,12 +23,12 @@ describe('activityManagementReducer', () => {
     expect(state.data).toEqual(activitiesFound);
   });
 
-  it('on LoadActivitiesFail, message equal to Something went wrong fetching activities!', () => {
+  it('loading is false on LoadActivitiesFail', () => {
     const action = new actions.LoadActivitiesFail('error');
 
     const state = activityManagementReducer(initialState, action);
 
-    expect(state.message).toEqual('Something went wrong fetching activities!');
+    expect(state.isLoading).toBeFalsy();
   });
 
   it('on CreateActivity, isLoading is true', () => {
@@ -48,12 +48,11 @@ describe('activityManagementReducer', () => {
     expect(state.isLoading).toEqual(false);
   });
 
-  it('on CreateActivityFail, message equal to Something went wrong creating activities!', () => {
+  it('is Loading false on CreateActivityFail', () => {
     const action = new actions.CreateActivityFail('error');
 
     const state = activityManagementReducer(initialState, action);
 
-    expect(state.message).toEqual('Something went wrong creating activities!');
     expect(state.isLoading).toEqual(false);
   });
 

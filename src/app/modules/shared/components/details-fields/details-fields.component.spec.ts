@@ -1,3 +1,4 @@
+import { TechnologiesComponent } from './../technologies/technologies.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -6,7 +7,6 @@ import { formatDate } from '@angular/common';
 import { TechnologyState } from '../../store/technology.reducers';
 import { allTechnologies } from '../../store/technology.selectors';
 import { DetailsFieldsComponent } from './details-fields.component';
-import * as actions from '../../store/technology.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
@@ -61,7 +61,7 @@ describe('DetailsFieldsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DetailsFieldsComponent],
+      declarations: [DetailsFieldsComponent, TechnologiesComponent],
       providers: [provideMockStore({ initialState: state })],
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
