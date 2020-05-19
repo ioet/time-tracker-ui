@@ -1,10 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {MockStore, provideMockStore} from '@ngrx/store/testing';
 
-import { NgxPaginationModule } from 'ngx-pagination';
-import { CustomerListComponent } from './customer-list.component';
-import { allCustomers } from './../../../../store/customer-management.selectors';
-import { CustomerState, SetCustomerToEdit, DeleteCustomer } from 'src/app/modules/customer-management/store';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {CustomerListComponent} from './customer-list.component';
+import {allCustomers} from './../../../../store/customer-management.selectors';
+import {CustomerState, SetCustomerToEdit, DeleteCustomer, LoadCustomers} from 'src/app/modules/customer-management/store';
+import {DataTablesModule} from 'angular-datatables';
 
 describe('CustomerTableListComponent', () => {
   let component: CustomerListComponent;
@@ -13,7 +14,7 @@ describe('CustomerTableListComponent', () => {
   let mockCustomerSelector;
 
   const state = {
-    data: [{ tenant_id: 'id', name: 'name', description: 'description' }],
+    data: [{tenant_id: 'id', name: 'name', description: 'description'}],
     isLoading: false,
     message: '',
     customerIdToEdit: '',
@@ -21,13 +22,12 @@ describe('CustomerTableListComponent', () => {
   };
 
 
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgxPaginationModule],
+      imports: [NgxPaginationModule, DataTablesModule],
       declarations: [CustomerListComponent],
       providers: [
-        provideMockStore({ initialState: state })
+        provideMockStore({initialState: state})
       ],
     }).compileComponents();
   }));
@@ -46,13 +46,12 @@ describe('CustomerTableListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('onNgInit customers are loaded from store executing an action', () => {
+  it('when the component is initialized the load customer action is triggered', () => {
     spyOn(store, 'dispatch');
 
     component.ngOnInit();
 
-    expect(store.dispatch).toHaveBeenCalled();
-    expect(component.customers).toEqual(state.data);
+    expect(store.dispatch).toHaveBeenCalledWith(new LoadCustomers());
   });
 
   it('onClick edit, dispatch SetCustomerToEdit and enable customer form', () => {

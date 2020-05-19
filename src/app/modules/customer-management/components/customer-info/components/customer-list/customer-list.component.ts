@@ -1,57 +1,69 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { DataTableDirective } from 'angular-datatables';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {ActionsSubject, Store} from '@ngrx/store';
 
-import { Subscription, Subject } from 'rxjs';
-import { allCustomers } from './../../../../store/customer-management.selectors';
-import { LoadCustomers, DeleteCustomer, SetCustomerToEdit } from './../../../../store/customer-management.actions';
-import { Customer } from './../../../../../shared/models/customer.model';
-import { ITEMS_PER_PAGE } from 'src/environments/environment';
-import {ToastrService} from 'ngx-toastr';
+import {Subject, Subscription} from 'rxjs';
+import {
+  CustomerManagementActionTypes,
+  DeleteCustomer,
+  LoadCustomers,
+  SetCustomerToEdit
+} from './../../../../store/customer-management.actions';
+import {Customer} from './../../../../../shared/models/customer.model';
+import {filter} from 'rxjs/operators';
+import {DataTableDirective} from 'angular-datatables';
 
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss'],
 })
-export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
-  initPage1 = 1;
-  itemsPerPage = ITEMS_PER_PAGE;
+export class CustomerListComponent implements OnInit, OnDestroy {
+
   @Input() showCustomerForm: boolean;
   @Output() changeValueShowCustomerForm = new EventEmitter<boolean>();
-
+  @Input()
   customers: Customer[] = [];
-  customerSubscription: Subscription;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, {static: false})
   dtElement: DataTableDirective;
   isDtInitialized = false;
+  private actionsSubscription: Subscription;
 
-  constructor(private store: Store<Customer>, private toastrService: ToastrService) {
-
+  constructor(private store: Store<Customer>, private actionsSubject$: ActionsSubject) {
   }
 
   ngOnInit(): void {
     this.dtOptions = {
-      scrollY: '250px',
-      paging: false,
+      scrollY: '290px',
+      paging: false
     };
-
-    this.store.dispatch(new LoadCustomers());
-    const customers$ = this.store.pipe(select(allCustomers));
-    this.customerSubscription = customers$.subscribe((response) => {
-      this.customers = response ? response : [];
-      this.rerender();
+    this.actionsSubscription = this.actionsSubject$.pipe(
+      filter((action: any) => (
+          action.type === CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS
+        )
+      )
+    ).subscribe((action) => {
+      this.customers = action.payload;
+      this.rerenderDataTable();
     });
-  }
 
-  ngAfterViewInit(): void {
-    this.dtTrigger.next();
+    this.actionsSubscription = this.actionsSubject$.pipe(
+      filter((action: any) => (
+          action.type === CustomerManagementActionTypes.DELETE_CUSTOMER_SUCCESS ||
+          action.type === CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS ||
+          action.type === CustomerManagementActionTypes.CREATE_CUSTOMER_SUCCESS
+        )
+      )
+    ).subscribe((action) => {
+      this.store.dispatch(new LoadCustomers());
+      this.showCustomerForm = false;
+    });
+    this.store.dispatch(new LoadCustomers());
   }
 
   ngOnDestroy() {
-    this.customerSubscription.unsubscribe();
+    this.actionsSubscription.unsubscribe();
     this.dtTrigger.unsubscribe();
   }
 
@@ -65,15 +77,15 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.dispatch(new DeleteCustomer(customerId));
   }
 
-  rerender(): void {
+  private rerenderDataTable(): void {
     if (this.isDtInitialized) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.destroy();
         this.dtTrigger.next();
       });
     } else {
-      this.isDtInitialized = true;
       this.dtTrigger.next();
+      this.isDtInitialized = true;
     }
   }
 }
