@@ -66,7 +66,6 @@ describe('ProjectListHoverComponent', () => {
 
   it('dispatchs a UpdateEntry action when activeEntry is not null', () => {
     const entry = { id: '123', project_id: 'p1', start_date: new Date().toISOString() };
-    const updatedEntry = { id: '123', project_id: 'p-1' };
     component.activeEntry = entry;
     spyOn(store, 'dispatch');
 

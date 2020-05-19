@@ -2,40 +2,10 @@
 
 .span-width {
   width: 6rem;
-  background-image: $background-pantone;
+  background-color: $primary;
   color: white;
 }
 
 .hidden {
   display: none;
-}
-
-.save-button-style {
-  background-color: $modal-button-primary;
-  color: white;
-}
-
-.close-button-style {
-  background-color: $modal-button-secondary;
-  color: white;
-}
-
-.ng-autocomplete {
-  width: 100%;
-}
-
-.autocomplete::ng-deep .autocomplete-container {
-  border: 1px solid #ced4da;
-  border-radius: 0 0.25rem 0.25rem 0;
-  box-shadow: none;
-  height: 2rem;
-
-  .input-container {
-    height: 100%;
-
-    input {
-      border-radius: 0.25rem;
-      height: 100%;
-    }
-  }
 }

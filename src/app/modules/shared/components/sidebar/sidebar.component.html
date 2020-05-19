@@ -2,14 +2,14 @@
   <!-- Sidebar -->
   <div id="sidebar-wrapper" *ngIf="itemsSidebar?.length > 0">
     <div class="text-center my-5">
-      <img src="assets/img/ioet-logo-light.png" width="70" height="auto" class="img-fluid" alt="Ioet logo" />
+      <img src="assets/img/ioet.png" width="70" height="auto" class="img-fluid" alt="ioet logo" />
     </div>
     <div class="container">
       <a
         *ngFor="let item of itemsSidebar"
         [routerLink]="item.route"
         routerLinkActive=""
-        class="item-hover text-white item"
+        class="item-hover item"
       >
         <i class="{{ item.icon }}"></i> {{ item.text }}</a
       >

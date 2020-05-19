@@ -2,5 +2,5 @@
   <i *ngIf="!displayTime" class="fas fa-sync-alt fa fa-spin"></i>
 </div>
 <div *ngIf="displayTime" class="col text-dark">
-  <h3>{{ hour | number: '2.0-2' }}:{{ minutes | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</h3>
+  <h3 style="font-weight: bold;">{{ hour | number: '2.0-2' }}:{{ minutes | number: '2.0-2' }}:{{ seconds | number: '2.0-2' }}</h3>
 </div>

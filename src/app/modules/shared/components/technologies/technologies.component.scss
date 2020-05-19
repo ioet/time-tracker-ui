@@ -24,7 +24,7 @@
 }
 
 .selected-technology {
-  background-color: $modal-button-secondary;
+  background-color: $secondary;
   color: #ffffff;
   border-radius: 0.2rem;
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
@@ -44,6 +44,6 @@
 
 .span-width {
   width: 6rem;
-  background-image: $background-pantone;
+  background-color: $primary;
   color: white;
 }

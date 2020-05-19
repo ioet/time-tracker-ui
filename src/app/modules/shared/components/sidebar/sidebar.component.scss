@@ -5,8 +5,7 @@
 
   #sidebar-wrapper {
     flex: 0 0 14.5rem;
-    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.3);
-    background-image: $background-gradient-pantone;
+    background-color: #f4f5f7;
     z-index: 1;
     margin-left: -15rem;
     -webkit-transition: margin 0.25s ease-out;
@@ -30,8 +29,9 @@
   }
 
   .background-item-sidebar-active,
+
   .item-hover:hover {
-    background-color: $item-background;
+    color: #16BAC5;
   }
 }
 
@@ -40,7 +40,10 @@
   grid-gap: 20px;
   justify-content: center;
   align-self: center;
+
   .item {
+    font-size: medium;
+    color: #555164;
     display: grid;
     grid-template-columns: 30px 100px;
     align-items: center;
