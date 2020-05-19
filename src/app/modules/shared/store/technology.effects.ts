@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Injectable } from '@angular/core';
 import { ofType, Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -8,7 +9,8 @@ import * as actions from './technology.actions';
 
 @Injectable()
 export class TechnologyEffects {
-  constructor(private actions$: Actions, private technologyService: TechnologyService) {}
+
+  constructor(private toastrService: ToastrService, private actions$: Actions, private technologyService: TechnologyService) { }
 
   @Effect()
   findTechnology$: Observable<Action> = this.actions$.pipe(
@@ -19,7 +21,10 @@ export class TechnologyEffects {
         map((technology) => {
           return new actions.FindTechnologySuccess(technology);
         }),
-        catchError((error) => of(new actions.FindTechnologyFail(error)))
+        catchError((error) => {
+          this.toastrService.error(error);
+          return of(new actions.FindTechnologyFail(error));
+        })
       )
     )
   );

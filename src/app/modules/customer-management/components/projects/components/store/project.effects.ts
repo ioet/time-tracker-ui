@@ -14,7 +14,7 @@ export class ProjectEffects {
     private actions$: Actions,
     private projectService: ProjectService,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   @Effect()
   loadProjects$: Observable<Action> = this.actions$.pipe(
@@ -25,6 +25,7 @@ export class ProjectEffects {
           return new actions.LoadProjectsSuccess(projects);
         }),
         catchError((error) => {
+          this.toastrService.error(error);
           return of(new actions.LoadProjectsFail(error));
         })
       )
@@ -39,7 +40,10 @@ export class ProjectEffects {
         map((project) => {
           return new actions.LoadCustomerProjectsSuccess(project);
         }),
-        catchError((error) => of(new actions.LoadCustomerProjectsFail(error)))
+        catchError((error) => {
+          this.toastrService.error(error);
+          return of(new actions.LoadCustomerProjectsFail(error));
+        })
       )
     )
   );
@@ -55,7 +59,7 @@ export class ProjectEffects {
           return new actions.CreateProjectSuccess(projectData);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error);
           return of(new actions.CreateProjectFail(error));
         })
       )
@@ -73,7 +77,7 @@ export class ProjectEffects {
           return new actions.UpdateProjectSuccess(projectData);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error);
           return of(new actions.UpdateProjectFail(error));
         })
       )
@@ -91,7 +95,7 @@ export class ProjectEffects {
           return new actions.DeleteProjectSuccess(projectId);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error);
           return of(new actions.DeleteProjectFail(error));
         })
       )
