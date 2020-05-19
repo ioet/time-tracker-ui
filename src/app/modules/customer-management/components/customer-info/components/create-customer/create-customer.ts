@@ -30,7 +30,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder, private store: Store<CustomerState>) {
     this.customerForm = this.formBuilder.group({
       name: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
     });
   }
 
@@ -77,10 +77,6 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
 
   get name() {
     return this.customerForm.get('name');
-  }
-
-  get description() {
-    return this.customerForm.get('description');
   }
 
   resetCustomerForm() {
