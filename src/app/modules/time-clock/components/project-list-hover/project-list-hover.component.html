@@ -1,39 +1,10 @@
-<div class="ng-autocomplete">
-  <ng-autocomplete
-    *ngIf="nameActiveProject; else notActiveProject"
-    class="autocomplete"
-    (selected)="showButton = ''"
-    [initialValue]="nameActiveProject"
-    [data]="listProjects && listProjects"
-    [searchKeyword]="keyword"
-    [itemTemplate]="itemTemplate"
-    [notFoundTemplate]="notFoundTemplate"
-  >
-  </ng-autocomplete>
-  <ng-template #notActiveProject>
-    <ng-autocomplete
-      class="autocomplete"
-      (selected)="showButton = ''"
-      [data]="listProjects && listProjects"
-      [searchKeyword]="keyword"
-      [itemTemplate]="itemTemplate"
-      [notFoundTemplate]="notFoundTemplate"
-    >
-    </ng-autocomplete>
-  </ng-template>
-  <ng-template #itemTemplate let-item>
-    <div class="d-flex">
-      <div
-        [innerHTML]="item.name"
-        (mouseenter)="showButton = item.name"
-        (mouseleave)="showButton = ''"
-        (click)="clockIn(item.id)"
-        class="text-left w-100 py-2 px-3"
-      ></div>
-      <span *ngIf="showButton === item.name" class="badge badge-light d-flex align-items-center m-2">Clock In</span>
-    </div>
-  </ng-template>
-  <ng-template #notFoundTemplate let-notFound>
-    <div [innerHTML]="notFound"></div>
-  </ng-template>
-</div>
+<form [formGroup]="projectsForm" (ngSubmit)="clockIn()">
+  <div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+    <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
+  </div>
+    <select (change)="clockIn()" formControlName="project_id" class="form-control">
+      <option *ngFor="let project of listProjects" value="{{project.id}}">{{ project.name }}</option>
+    </select>
+  </div>
+</form>

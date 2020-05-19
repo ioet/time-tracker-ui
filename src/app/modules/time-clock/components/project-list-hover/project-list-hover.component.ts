@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { getProjects } from './../../../customer-management/components/projects/components/store/project.selectors';
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
@@ -14,22 +15,24 @@ import * as entryActions from '../../store/entry.actions';
   styleUrls: ['./project-list-hover.component.scss'],
 })
 export class ProjectListHoverComponent implements OnInit {
-  listProjects: Project[] = [];
-  showButton = '';
-  keyword = 'name';
-  nameActiveProject: string;
-  activeEntry;
 
-  constructor(private store: Store<ProjectState>) {}
+  listProjects: Project[] = [];
+  activeEntry;
+  projectsForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private store: Store<ProjectState>) {
+    this.projectsForm = this.formBuilder.group({
+      project_id: '',
+    });
+  }
 
   ngOnInit(): void {
     this.store.dispatch(new actions.LoadProjects());
     const projects$ = this.store.pipe(select(getProjects));
-
     projects$.subscribe((projects) => {
       this.listProjects = projects;
-      this.loadActiveTimeEntry();
     });
+    this.loadActiveTimeEntry();
   }
 
   private loadActiveTimeEntry() {
@@ -38,24 +41,20 @@ export class ProjectListHoverComponent implements OnInit {
     activeEntry$.subscribe((activeEntry) => {
       this.activeEntry = activeEntry;
       if (activeEntry) {
-        for (const project of this.listProjects) {
-          if (project.id === activeEntry.project_id) {
-            this.nameActiveProject = project.name;
-            break;
-          }
-        }
-      } else {
-        this.nameActiveProject = null;
+        this.projectsForm.setValue({
+          project_id: activeEntry.project_id,
+        });
       }
     });
   }
 
-  clockIn(id: string) {
+  clockIn() {
+    const selectedProject = this.projectsForm.get('project_id').value;
     if (this.activeEntry) {
-      const entry = { id: this.activeEntry.id, project_id: id };
+      const entry = { id: this.activeEntry.id, project_id: selectedProject };
       this.store.dispatch(new entryActions.UpdateActiveEntry(entry));
     } else {
-      const newEntry = { project_id: id, start_date: new Date().toISOString() };
+      const newEntry = { project_id: selectedProject, start_date: new Date().toISOString() };
       this.store.dispatch(new entryActions.CreateEntry(newEntry));
     }
   }

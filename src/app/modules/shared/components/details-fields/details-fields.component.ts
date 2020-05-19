@@ -154,7 +154,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   closeEntryModal() {
     this.entryForm.reset();
-    this.closeModal.nativeElement.click();
+    this.closeModal?.nativeElement.click();
   }
 
   onSubmit() {

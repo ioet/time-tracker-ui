@@ -1,3 +1,4 @@
+import { FormBuilder } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -24,7 +25,7 @@ describe('ProjectListHoverComponent', () => {
     },
     entries: {
       active: {
-        project_id: '2b87372b-3d0d-4dc0-832b-ae5863cd39e5',
+        project_id: 'p-1',
         start_date: '2020-04-23T16:11:06.455000+00:00',
         technologies: ['java', 'typescript'],
       },
@@ -37,7 +38,7 @@ describe('ProjectListHoverComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProjectListHoverComponent, FilterProjectPipe],
-      providers: [provideMockStore({ initialState: state })],
+      providers: [FormBuilder, provideMockStore({ initialState: state })],
       imports: [HttpClientTestingModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
@@ -54,35 +55,22 @@ describe('ProjectListHoverComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('clock-in dispatchs a CreateEntry action', () => {
-    const entry = {
-      project_id: '2b87372b-3d0d-4dc0-832b-ae5863cd39e5',
-      start_date: new Date().toISOString(),
-    };
-
+  it('dispatchs a CreateEntry action when activeEntry is null', () => {
     component.activeEntry = null;
     spyOn(store, 'dispatch');
 
-    component.clockIn('2b87372b-3d0d-4dc0-832b-ae5863cd39e5');
+    component.clockIn();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new CreateEntry(entry));
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(CreateEntry));
   });
 
-  it('clock-in dispatchs a UpdateActiveEntry action', () => {
-    const entry = {
-      id: '123',
-      project_id: '2b87372b-3d0d-4dc0-832b-ae5863cd39e5',
-      start_date: new Date().toISOString(),
-    };
-    const updatedEntry = {
-      id: '123',
-      project_id: '123372b-3d0d-4dc0-832b-ae5863cd39e5',
-    };
-
+  it('dispatchs a UpdateEntry action when activeEntry is not null', () => {
+    const entry = { id: '123', project_id: 'p1', start_date: new Date().toISOString() };
+    const updatedEntry = { id: '123', project_id: 'p-1' };
     component.activeEntry = entry;
     spyOn(store, 'dispatch');
 
-    component.clockIn('123372b-3d0d-4dc0-832b-ae5863cd39e5');
+    component.clockIn();
 
     expect(store.dispatch).toHaveBeenCalledWith(new UpdateActiveEntry(updatedEntry));
   });

@@ -1,38 +1,7 @@
 @import '../../../../../styles/colors.scss';
 
-.content-projects {
-  max-height: 10rem;
-  overflow-x: auto;
-
-  li {
-    display: flex;
-    cursor: pointer;
-    font-size: 0.8rem;
-    padding: 0.5rem 0.8rem;
-  }
-}
-
-.button-clockIn {
-  font-size: 0.7rem;
-  padding: 0 0.3rem;
-}
-
-.ng-autocomplete {
-  width: 100%;
-}
-
-.autocomplete::ng-deep .autocomplete-container {
-  border: 1px solid #ced4da;
-  border-radius: 0 0.25rem 0.25rem 0;
-  box-shadow: none;
-  height: 2rem;
-
-  .input-container {
-    height: 100%;
-
-    input {
-      border-radius: 0.25rem;
-      height: 100%;
-    }
-  }
+.span-width {
+  width: 6rem;
+  background-image: $background-pantone;
+  color: white;
 }

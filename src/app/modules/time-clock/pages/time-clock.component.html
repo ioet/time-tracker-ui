@@ -12,14 +12,8 @@
         Hi <strong>{{ username }}</strong>, please select a project to clock-in.
       </p>
     </div>
-
   </div>
-  <div class="input-group input-group-sm mb-3 flex-nowrap">
-    <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
-    </div>
-    <app-project-list-hover class="w-100"></app-project-list-hover>
-  </div>
+  <app-project-list-hover></app-project-list-hover>
   <div *ngIf="areFieldsVisible">
     <app-entry-fields></app-entry-fields>
   </div>
