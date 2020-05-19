@@ -24,11 +24,6 @@
         formControlName="description"
         placeholder="Customer description"
       ></textarea>
-      <span
-        class="badge badge-pill badge-light text-danger"
-        *ngIf="(description.dirty || description.touched) && description.invalid && description.errors.required"
-        >Customer description is required</span
-      >
     </div>
       <button type="submit" class="btn btn-primary" [disabled]="!customerForm.valid">Save</button>
       <button (click)="resetCustomerForm()" id="cancel" type="button" class="btn btn-secondary mb-2 ml-2 mt-2">
