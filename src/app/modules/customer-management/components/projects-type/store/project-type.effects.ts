@@ -27,7 +27,7 @@ export class ProjectTypeEffects {
           return new actions.LoadProjectTypesSuccess(projectTypes);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.LoadProjectTypesFail(error));
         })
       )
@@ -45,7 +45,7 @@ export class ProjectTypeEffects {
           return new actions.CreateProjectTypeSuccess(projectTypeData);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.CreateProjectTypeFail(error));
         })
       )
@@ -63,7 +63,7 @@ export class ProjectTypeEffects {
           return new actions.DeleteProjectTypeSuccess(protectTypeId);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.DeleteProjectTypeFail(error));
         })
       )
@@ -81,7 +81,7 @@ export class ProjectTypeEffects {
           return new actions.UpdateProjectTypeSuccess(projectTypeData);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.UpdateProjectTypeFail(error));
         })
       )

@@ -27,7 +27,7 @@ export class ActivityEffects {
           return new actions.LoadActivitiesSuccess(activities);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.LoadActivitiesFail(error));
         })
       )
@@ -45,7 +45,7 @@ export class ActivityEffects {
           return new actions.CreateActivitySuccess(activityData);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.CreateActivityFail(error));
         })
       )
@@ -63,7 +63,7 @@ export class ActivityEffects {
           return new actions.DeleteActivitySuccess(activityId);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.DeleteActivityFail(error));
         })
       )
@@ -81,7 +81,7 @@ export class ActivityEffects {
           return new actions.UpdateActivitySuccess(activityData);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.UpdateActivityFail(error));
         })
       )

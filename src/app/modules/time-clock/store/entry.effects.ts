@@ -73,7 +73,7 @@ export class EntryEffects {
           return new actions.CreateEntrySuccess(entryData);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.CreateEntryFail(error.error.message));
         })
       )
@@ -91,7 +91,7 @@ export class EntryEffects {
           return new actions.DeleteEntrySuccess(entryId);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.DeleteEntryFail(error));
         })
       )
@@ -108,7 +108,7 @@ export class EntryEffects {
           return new actions.UpdateActiveEntrySuccess(projectData);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.UpdateActiveEntryFail(error));
         })
       )
@@ -126,7 +126,7 @@ export class EntryEffects {
           return new actions.StopTimeEntryRunningSuccess(timeEntryId);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.StopTimeEntryRunningFail(error.error.message));
         })
       )

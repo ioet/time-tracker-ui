@@ -22,7 +22,7 @@ export class TechnologyEffects {
           return new actions.FindTechnologySuccess(technology);
         }),
         catchError((error) => {
-          this.toastrService.error(error);
+          this.toastrService.error(error.error.message);
           return of(new actions.FindTechnologyFail(error));
         })
       )
