@@ -9,6 +9,7 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-jasmine-html-reporter'),
       require('karma-spec-reporter'),
       require('karma-coverage-istanbul-reporter')
 
@@ -27,7 +28,7 @@ module.exports = function (config) {
         functions: 80
       }
     },
-    reporters: ['spec'],
+    reporters: ['spec', 'kjhtml'],
     specReporter: {
       maxLogLines: 5,
       suppressErrorSummary: false,
