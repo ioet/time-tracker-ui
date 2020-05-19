@@ -59,7 +59,7 @@
     "commit-message-validator": "^0.1.11",
     "husky": "^4.2.3",
     "jasmine-core": "~3.5.0",
-    "jasmine-spec-reporter": "~4.2.1",
+    "karma-spec-reporter": "^0.0.32",
     "karma": "^5.0.1",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage-istanbul-reporter": "~2.1.0",
