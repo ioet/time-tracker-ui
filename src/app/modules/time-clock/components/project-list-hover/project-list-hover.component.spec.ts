@@ -72,7 +72,7 @@ describe('ProjectListHoverComponent', () => {
 
     component.clockIn();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new UpdateActiveEntry(updatedEntry));
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(UpdateActiveEntry));
   });
 
 });

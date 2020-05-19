@@ -1,6 +1,17 @@
 import * as actions from './project.actions';
 
 describe('Actions for Projects', () => {
+
+  it('LoadProjectsSuccess type is ProjectActionTypes.LOAD_PROJECTS_SUCCESS', () => {
+    const action = new actions.LoadProjectsSuccess([]);
+    expect(action.type).toEqual(actions.ProjectActionTypes.LOAD_PROJECTS_SUCCESS);
+  });
+
+  it('LoadProjectsFail type is ProjectActionTypes.LOAD_PROJECTS_FAIL', () => {
+    const action = new actions.LoadProjectsFail('error');
+    expect(action.type).toEqual(actions.ProjectActionTypes.LOAD_PROJECTS_FAIL);
+  });
+
   it('LoadCustomerProjectsSuccess type is ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_SUCCESS', () => {
     const LoadCustomerProjectsSuccess = new actions.LoadCustomerProjectsSuccess([]);
     expect(LoadCustomerProjectsSuccess.type).toEqual(actions.ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_SUCCESS);

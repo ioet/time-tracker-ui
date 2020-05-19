@@ -6,7 +6,6 @@ import {
   MonthPickerComponent,
   DetailsFieldsComponent,
   EmptyStateComponent,
-  ModalComponent,
 } from '../../shared/components';
 import { GroupByDatePipe } from '../../shared/pipes';
 import { TechnologyState } from '../../shared/store/technology.reducers';
@@ -66,7 +65,6 @@ describe('TimeEntriesComponent', () => {
         EmptyStateComponent,
         DetailsFieldsComponent,
         GroupByDatePipe,
-        ModalComponent,
         MonthPickerComponent,
         TimeEntriesComponent,
       ],

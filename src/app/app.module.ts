@@ -22,7 +22,6 @@ import { TimeClockComponent } from './modules/time-clock/pages/time-clock.compon
 import { TimeEntriesComponent } from './modules/time-entries/pages/time-entries.component';
 import { DetailsFieldsComponent } from './modules/shared/components/details-fields/details-fields.component';
 import { ProjectListHoverComponent } from './modules/time-clock/components/project-list-hover/project-list-hover.component';
-import { ModalComponent } from './modules/shared/components/modal/modal.component';
 import { MonthPickerComponent } from './modules/shared/components/month-picker/month-picker.component';
 import { EmptyStateComponent } from './modules/shared/components/empty-state/empty-state.component';
 import { GroupByDatePipe } from './modules/shared/pipes/group-by-date/group-by-date.pipe';
