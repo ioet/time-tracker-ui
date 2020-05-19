@@ -1,3 +1,4 @@
+import { FormBuilder } from '@angular/forms';
 import { StopTimeEntryRunning } from './../store/entry.actions';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -42,6 +43,7 @@ describe('TimeClockComponent', () => {
       imports: [HttpClientTestingModule],
       declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe],
       providers: [
+        FormBuilder,
         AzureAdB2CService,
         provideMockStore({ initialState: state }),
       ],
