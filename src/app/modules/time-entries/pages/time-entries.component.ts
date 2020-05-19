@@ -26,7 +26,7 @@ export class TimeEntriesComponent implements OnInit {
     dataByMonth$.subscribe((response) => {
       this.entryList = response;
       this.dataByMonth = this.entryList.reduce((acc: any, entry: any) => {
-        if (new Date(entry.start_date).getMonth() === new Date().getMonth()) {
+        if (new Date(entry.start_date).getMonth() === new Date().getMonth() && entry.end_date) {
           const item = { ...entry };
           return [...acc, item];
         }

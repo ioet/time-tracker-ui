@@ -140,6 +140,8 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should emit ngOnChange with new data', () => {
+    const childComponent = jasmine.createSpyObj('ChildComponent', ['closeModal']);
+    component.closeModal = childComponent;
     const formValue = {
       project_id: '',
       activity_id: '',
@@ -157,6 +159,8 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should call createError ', () => {
+    const childComponent = jasmine.createSpyObj('ChildComponent', ['closeModal']);
+    component.closeModal = childComponent;
     mockEntriesCreateErrorSelector = store.overrideSelector(getCreateError, false);
     spyOn(store, 'dispatch');
     component.ngOnInit();
@@ -164,6 +168,8 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should call updateError ', () => {
+    const childComponent = jasmine.createSpyObj('ChildComponent', ['closeModal']);
+    component.closeModal = childComponent;
     mockEntriesUpdateErrorSelector = store.overrideSelector(getUpdateError, false);
     spyOn(store, 'dispatch');
     component.ngOnInit();
@@ -172,44 +178,25 @@ describe('DetailsFieldsComponent', () => {
 
   it('should emit saveEntry event', () => {
     spyOn(component.saveEntry, 'emit');
+    component.entryForm.setValue({
+      project_id: '',
+      activity_id: '',
+      uri: '',
+      start_date: '2020-02-05',
+      end_date: '2020-02-05',
+      start_hour: '00:00',
+      end_hour: '00:01',
+      description: '',
+      technology: '',
+    });
     component.onSubmit();
     const data = {
       project_id: '',
       activity_id: '',
       technologies: [],
       description: '',
-      start_date: 'T00:00',
-      end_date: 'T00:00',
-      uri: '',
-    };
-    expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
-  });
-
-  it('should emit saveEntry without project and activite fields event', () => {
-    spyOn(component.saveEntry, 'emit');
-    component.entryForm.setValue({
-      project_id: 'id',
-      activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',
-      uri: '',
-      start_date: '',
-      end_date: '',
-      start_hour: '00:00',
-      end_hour: '00:00',
-      description: '',
-      technology: '',
-    });
-    component.activities = [
-      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', name: 'activity1', description: '' },
-    ];
-    component.onSubmit();
-    fixture.detectChanges();
-    const data = {
-      project_id: 'id',
-      activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',
-      technologies: [],
-      description: '',
-      start_date: 'T00:00',
-      end_date: 'T00:00',
+      start_date: '2020-02-05T00:00',
+      end_date: '2020-02-05T00:01',
       uri: '',
     };
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);

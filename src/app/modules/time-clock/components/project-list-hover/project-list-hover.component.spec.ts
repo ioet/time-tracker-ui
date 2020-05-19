@@ -73,5 +73,4 @@ describe('ProjectListHoverComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(UpdateActiveEntry));
   });
-
 });
