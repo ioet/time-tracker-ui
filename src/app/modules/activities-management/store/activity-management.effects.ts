@@ -16,7 +16,7 @@ export class ActivityEffects {
     private actions$: Actions,
     private activityService: ActivityService,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   @Effect()
   getActivities$: Observable<Action> = this.actions$.pipe(
@@ -26,7 +26,10 @@ export class ActivityEffects {
         map((activities: Activity[]) => {
           return new actions.LoadActivitiesSuccess(activities);
         }),
-        catchError((error) => of(new actions.LoadActivitiesFail(error)))
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.LoadActivitiesFail(error));
+        })
       )
     )
   );
@@ -42,7 +45,7 @@ export class ActivityEffects {
           return new actions.CreateActivitySuccess(activityData);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.CreateActivityFail(error));
         })
       )
@@ -60,7 +63,7 @@ export class ActivityEffects {
           return new actions.DeleteActivitySuccess(activityId);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.DeleteActivityFail(error));
         })
       )
@@ -78,7 +81,7 @@ export class ActivityEffects {
           return new actions.UpdateActivitySuccess(activityData);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.UpdateActivityFail(error));
         })
       )

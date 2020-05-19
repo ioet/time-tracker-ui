@@ -15,7 +15,7 @@ export class CustomerEffects {
     private actions$: Actions,
     private customerService: CustomerService,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   @Effect()
   loadCustomers$: Observable<Action> = this.actions$.pipe(
@@ -25,7 +25,11 @@ export class CustomerEffects {
         map((customers) => {
           return new actions.LoadCustomersSuccess(customers);
         }),
-        catchError((error) => of(new actions.LoadCustomersFail(error)))
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.LoadCustomersFail(error));
+        }
+        )
       )
     )
   );
@@ -41,7 +45,7 @@ export class CustomerEffects {
           return new actions.CreateCustomerSuccess(customerData);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.CreateCustomerFail(error));
         })
       )
@@ -59,7 +63,7 @@ export class CustomerEffects {
           return new actions.DeleteCustomerSuccesss(customerId);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.DeleteCustomerFail(error));
         })
       )
@@ -77,7 +81,7 @@ export class CustomerEffects {
           return new actions.UpdateCustomerSuccess(customerData);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.UpdateCustomerFail(error));
         })
       )

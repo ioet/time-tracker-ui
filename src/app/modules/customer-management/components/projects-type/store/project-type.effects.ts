@@ -16,7 +16,7 @@ export class ProjectTypeEffects {
     private actions$: Actions,
     private projectTypeService: ProjectTypeService,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   @Effect()
   getProjectTypes$: Observable<Action> = this.actions$.pipe(
@@ -26,7 +26,10 @@ export class ProjectTypeEffects {
         map((projectTypes: ProjectType[]) => {
           return new actions.LoadProjectTypesSuccess(projectTypes);
         }),
-        catchError((error) => of(new actions.LoadProjectTypesFail(error)))
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.LoadProjectTypesFail(error));
+        })
       )
     )
   );
@@ -42,7 +45,7 @@ export class ProjectTypeEffects {
           return new actions.CreateProjectTypeSuccess(projectTypeData);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.CreateProjectTypeFail(error));
         })
       )
@@ -60,7 +63,7 @@ export class ProjectTypeEffects {
           return new actions.DeleteProjectTypeSuccess(protectTypeId);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.DeleteProjectTypeFail(error));
         })
       )
@@ -78,7 +81,7 @@ export class ProjectTypeEffects {
           return new actions.UpdateProjectTypeSuccess(projectTypeData);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.UpdateProjectTypeFail(error));
         })
       )

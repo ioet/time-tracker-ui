@@ -10,7 +10,7 @@ import * as actions from './entry.actions';
 
 @Injectable()
 export class EntryEffects {
-  constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) {}
+  constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) { }
 
   @Effect()
   loadEntriesSummary$: Observable<Action> = this.actions$.pipe(
@@ -20,7 +20,10 @@ export class EntryEffects {
         map((response) => {
           return new actions.LoadEntriesSummarySuccess(response);
         }),
-        catchError((error) => of(new actions.LoadEntriesSummaryFail()))
+        catchError((error) => {
+          this.toastrService.success(error);
+          return of(new actions.LoadEntriesSummaryFail());
+        })
       )
     )
   );
@@ -33,7 +36,10 @@ export class EntryEffects {
         map((activeEntry) => {
           return new actions.LoadActiveEntrySuccess(activeEntry);
         }),
-        catchError((error) => of(new actions.LoadActiveEntryFail(error)))
+        catchError((error) => {
+          this.toastrService.success(error);
+          return of(new actions.LoadActiveEntryFail(error));
+        })
       )
     )
   );
@@ -44,7 +50,10 @@ export class EntryEffects {
     mergeMap(() =>
       this.entryService.loadEntries().pipe(
         map((entries) => new actions.LoadEntriesSuccess(entries)),
-        catchError((error) => of(new actions.LoadEntriesFail(error)))
+        catchError((error) => {
+          this.toastrService.success(error);
+          return of(new actions.LoadEntriesFail(error));
+        })
       )
     )
   );
@@ -64,7 +73,7 @@ export class EntryEffects {
           return new actions.CreateEntrySuccess(entryData);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.CreateEntryFail(error.error.message));
         })
       )
@@ -82,7 +91,7 @@ export class EntryEffects {
           return new actions.DeleteEntrySuccess(entryId);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.DeleteEntryFail(error));
         })
       )
@@ -99,7 +108,7 @@ export class EntryEffects {
           return new actions.UpdateActiveEntrySuccess(projectData);
         }),
         catchError((error) => {
-          this.toastrService.error(UNEXPECTED_ERROR);
+          this.toastrService.error(error.error.message);
           return of(new actions.UpdateActiveEntryFail(error));
         })
       )
@@ -116,7 +125,10 @@ export class EntryEffects {
           this.toastrService.success('You clocked-out successfully');
           return new actions.StopTimeEntryRunningSuccess(timeEntryId);
         }),
-        catchError((error) => of(new actions.StopTimeEntryRunningFail(error.error.message)))
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.StopTimeEntryRunningFail(error.error.message));
+        })
       )
     )
   );
