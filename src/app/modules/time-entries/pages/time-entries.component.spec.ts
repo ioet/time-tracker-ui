@@ -16,6 +16,8 @@ import { getProjects } from '../../customer-management/components/projects/compo
 import { EntryState } from '../../time-clock/store/entry.reducer';
 import { allEntries } from '../../time-clock/store/entry.selectors';
 import * as entryActions from '../../time-clock/store/entry.actions';
+import {TechnologiesComponent} from '../../shared/components/technologies/technologies.component';
+import {TimeEntriesSummaryComponent} from '../../time-clock/components/time-entries-summary/time-entries-summary.component';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -67,6 +69,8 @@ describe('TimeEntriesComponent', () => {
         GroupByDatePipe,
         MonthPickerComponent,
         TimeEntriesComponent,
+        TechnologiesComponent,
+        TimeEntriesSummaryComponent
       ],
       providers: [provideMockStore({ initialState: state })],
       imports: [FormsModule, ReactiveFormsModule],
