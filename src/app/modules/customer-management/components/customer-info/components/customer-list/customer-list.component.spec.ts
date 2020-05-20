@@ -3,13 +3,12 @@ import {MockStore, provideMockStore} from '@ngrx/store/testing';
 
 import {NgxPaginationModule} from 'ngx-pagination';
 import {CustomerListComponent} from './customer-list.component';
-import {allCustomers} from './../../../../store/customer-management.selectors';
 import {
+  CustomerManagementActionTypes,
   CustomerState,
-  SetCustomerToEdit,
   DeleteCustomer,
   LoadCustomers,
-  CustomerManagementActionTypes
+  SetCustomerToEdit
 } from 'src/app/modules/customer-management/store';
 import {DataTablesModule} from 'angular-datatables';
 import {ActionsSubject} from '@ngrx/store';
@@ -109,17 +108,35 @@ describe('CustomerTableListComponent', () => {
       expect(component.showCustomerForm).toBe(false);
     }));
 
-  // TODO Make this test work. This is having problems with jquery integration
-  // it('on success load customers, the customer list should be populated', () => {
+  it('on success load customers, the customer list should be populated', () => {
+    const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS,
+      payload: state.data
+    };
+
+    actionSubject.next(action);
+
+    expect(component.customers).toEqual(state.data);
+  });
+
+  // it('on success load customer and the datatable was already initialized, then the datatable should be destroyed ' +
+  //   'before reloading the customer data', () => {
   //   const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+  //   component.isDtInitialized = true;
   //   const action = {
   //     type: CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS,
   //     payload: state.data
   //   };
+  //   const dtApi: DataTables.Api = jasmine.createSpyObj<DataTables.Api>('dtApi', ['destroy']);
+  //   component.dtElement.dtInstance = Promise.resolve(dtApi);
+  //   spyOn(component.dtElement.dtInstance, 'then');
   //
   //   actionSubject.next(action);
   //
-  //   expect(component.customers).toEqual(state.data);
+  //   expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
+  //   // TODO Improve  this test. This is not testing the datatable is destroyed
+  //   // expect(dtApi.destroy).toHaveBeenCalled();
   // });
 
   afterEach(() => {

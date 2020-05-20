@@ -79,6 +79,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new DeleteCustomer(customerId));
   }
 
+  /* istanbul ignore next */
   private rerenderDataTable(): void {
     if (this.isDtInitialized) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

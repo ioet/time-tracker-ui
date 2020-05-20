@@ -9,21 +9,21 @@ import {
   ElementRef,
   Renderer2,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import { formatDate } from '@angular/common';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Store, select} from '@ngrx/store';
+import {formatDate} from '@angular/common';
 
-import { Project, Activity } from '../../models';
-import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
-import { TechnologyState } from '../../store/technology.reducers';
-import { LoadActivities, ActivityState, allActivities } from '../../../activities-management/store';
-import { getProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
+import {Project, Activity} from '../../models';
+import {ProjectState} from '../../../customer-management/components/projects/components/store/project.reducer';
+import {TechnologyState} from '../../store/technology.reducers';
+import {LoadActivities, ActivityState, allActivities} from '../../../activities-management/store';
+import {getProjects} from '../../../customer-management/components/projects/components/store/project.selectors';
 import * as projectActions from '../../../customer-management/components/projects/components/store/project.actions';
-import { EntryState } from '../../../time-clock/store/entry.reducer';
+import {EntryState} from '../../../time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
-import { getUpdateError, getCreateError } from 'src/app/modules/time-clock/store/entry.selectors';
-import $ from 'jquery';
-import 'bootstrap';
+import {getUpdateError, getCreateError} from 'src/app/modules/time-clock/store/entry.selectors';
+// import $ from 'jquery';
+// import 'bootstrap';
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 
 @Component({
@@ -57,7 +57,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       uri: '',
       technology: '',
     });
-    $('[data-toggle="tooltip"]').tooltip();
+    // $('[data-toggle="tooltip"]').tooltip();
   }
 
   ngOnInit(): void {
@@ -130,6 +130,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   get project_id() {
     return this.entryForm.get('project_id');
   }
+
   get activity_id() {
     return this.entryForm.get('activity_id');
   }

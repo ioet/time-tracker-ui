@@ -43,6 +43,7 @@
     "@types/datatables.net-buttons": "^1.4.3"
   },
   "devDependencies": {
+    "angular-ng-autocomplete": "^2.0.1",
     "angular-datatables": "^9.0.2",
     "jquery": "^3.5.1",
     "datatables.net": "^1.10.21",

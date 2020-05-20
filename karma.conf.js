@@ -5,6 +5,10 @@ module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    files: [
+      'node_modules/jquery/dist/jquery.js',
+      'node_modules/datatables.net/js/jquery.dataTables.js',
+    ],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
