@@ -127,7 +127,7 @@ describe('TimeEntriesComponent', () => {
     };
     mockEntriesSelector = store.overrideSelector(allEntries, [newEntry]);
     component.ngOnInit();
-    expect(component.dataByMonth.length).toEqual(1);
+    expect(component.dataByMonth.length).toEqual(0);
   }));
 
   it('should call dataByMonth without new date in ngOnInit()', async(() => {

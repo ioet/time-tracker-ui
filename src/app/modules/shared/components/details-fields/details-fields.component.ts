@@ -22,7 +22,8 @@ import * as projectActions from '../../../customer-management/components/project
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import { getUpdateError, getCreateError } from 'src/app/modules/time-clock/store/entry.selectors';
-
+import $ from 'jquery';
+import 'bootstrap';
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 
 @Component({
@@ -35,7 +36,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   @Input() formType: string;
   @Output() saveEntry = new EventEmitter();
   @ViewChild('closeModal') closeModal: ElementRef;
-  @ViewChild('list') list: ElementRef;
   entryForm: FormGroup;
   selectedTechnologies: string[] = [];
   isLoading = false;
@@ -43,14 +43,9 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   activities: Activity[] = [];
   keyword = 'name';
   showlist: boolean;
-  hoursValidation: boolean;
+  errorDate: boolean;
 
   constructor(private formBuilder: FormBuilder, private store: Store<Merged>, private renderer: Renderer2) {
-    this.renderer.listen('window', 'click', (e: Event) => {
-      if (this.showlist && !this.list.nativeElement.contains(e.target)) {
-        this.showlist = false;
-      }
-    });
     this.entryForm = this.formBuilder.group({
       project_id: '',
       activity_id: '',
@@ -62,10 +57,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       uri: '',
       technology: '',
     });
+    $('[data-toggle="tooltip"]').tooltip();
   }
 
   ngOnInit(): void {
-
     this.store.dispatch(new projectActions.LoadProjects());
     const projects$ = this.store.pipe(select(getProjects));
     projects$.subscribe((response) => {
@@ -95,7 +90,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(): void {
-    this.hoursValidation = false;
     if (this.entryToEdit) {
       this.selectedTechnologies = this.entryToEdit.technologies;
       this.entryForm.setValue({
@@ -110,19 +104,23 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         technology: '',
       });
     } else {
-      this.selectedTechnologies = [];
-      this.entryForm.setValue({
-        project_id: '',
-        activity_id: '',
-        description: '',
-        start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-        start_hour: '00:00',
-        end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-        end_hour: '00:00',
-        uri: '',
-        technology: '',
-      });
+      this.cleanForm();
     }
+  }
+
+  cleanForm() {
+    this.selectedTechnologies = [];
+    this.entryForm.setValue({
+      project_id: '',
+      activity_id: '',
+      description: '',
+      start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      start_hour: '00:00',
+      end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      end_hour: '00:00',
+      uri: '',
+      technology: '',
+    });
   }
 
   onTechnologiesUpdated($event: string[]) {
@@ -153,8 +151,14 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   closeEntryModal() {
+    this.close();
+    this.closeModal.nativeElement.click();
+  }
+
+  close() {
     this.entryForm.reset();
-    this.closeModal?.nativeElement?.click();
+    this.errorDate = false;
+    this.cleanForm();
   }
 
   onSubmit() {
@@ -167,6 +171,12 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       end_date: `${this.entryForm.value.end_date}T${this.entryForm.value.end_hour}`,
       uri: this.entryForm.value.uri,
     };
-    this.saveEntry.emit(entry);
+
+    if (new Date(entry.start_date) < new Date(entry.end_date)) {
+      this.errorDate = false;
+      this.saveEntry.emit(entry);
+    } else {
+      this.errorDate = true;
+    }
   }
 }
