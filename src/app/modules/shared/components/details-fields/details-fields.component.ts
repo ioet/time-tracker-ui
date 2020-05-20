@@ -22,8 +22,6 @@ import * as projectActions from '../../../customer-management/components/project
 import {EntryState} from '../../../time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import {getUpdateError, getCreateError} from 'src/app/modules/time-clock/store/entry.selectors';
-// import $ from 'jquery';
-// import 'bootstrap';
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 
 @Component({
@@ -57,7 +55,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       uri: '',
       technology: '',
     });
-    // $('[data-toggle="tooltip"]').tooltip();
   }
 
   ngOnInit(): void {
@@ -150,10 +147,12 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   get end_hour() {
     return this.entryForm.get('end_hour');
   }
-
+  /* istanbul ignore next */
   closeEntryModal() {
     this.close();
-    this.closeModal.nativeElement.click();
+    if (this.closeModal.nativeElement) {
+      this.closeModal.nativeElement.click();
+    }
   }
 
   close() {
