@@ -1,13 +1,20 @@
 @import '../../../../../styles/colors.scss';
 
 .nav-active {
-  color: $secondary;
+  color: $primary;
 }
 .nav-item > a:hover {
   opacity: 0.6;
 }
 
-.title {
+.nav-box {
+  background-color: $primary;
   text-align: center;
-  padding: 12px;
+}
+
+.nav-title {
+  vertical-align: center;
+  color: white;
+  font-size: large;
+  font-weight: bold;
 }
