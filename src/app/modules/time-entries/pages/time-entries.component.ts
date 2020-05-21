@@ -11,10 +11,8 @@ import * as entryActions from '../../time-clock/store/entry.actions';
   styleUrls: ['./time-entries.component.scss'],
 })
 export class TimeEntriesComponent implements OnInit {
-  showModal = false;
   entryId: string;
   entry: Entry;
-  entryToDelete: Entry;
   dataByMonth = [];
   entryList: Entry[];
 

@@ -1,14 +1,14 @@
-<table class="table table-sm table-bordered table-striped mb-0">
+<table *ngIf="customers" class="table table-sm table-bordered table-striped mb-0" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions">
   <thead class="thead-orange">
     <tr class="d-flex">
       <th class="col-9">Name</th>
-      <th class="col-3 text-center"></th>
+      <th class="col-3 text-center">Options</th>
     </tr>
   </thead>
   <tbody>
     <tr
       class="d-flex"
-      *ngFor="let customer of customers | paginate: { itemsPerPage: itemsPerPage, currentPage: initPage1, id: 'first' }"
+      *ngFor="let customer of customers"
     >
       <td class="col-sm-9">{{ customer.name }}</td>
       <td class="col-sm-3 text-center">
@@ -22,12 +22,3 @@
     </tr>
   </tbody>
 </table>
-<div class="d-flex align-items-end flex-column">
-  <pagination-controls
-    class="mt-auto p-2 custom-pagination"
-    (pageChange)="initPage1 = $event"
-    id="first"
-    previousLabel=""
-    nextLabel=""
-  ></pagination-controls>
-</div>

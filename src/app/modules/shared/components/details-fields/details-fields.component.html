@@ -1,4 +1,9 @@
 <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+  <script>
+    $( function() {
+      $( document ).tooltip();
+    } );
+  </script>
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text span-width">Project</span>

@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DataTablesModule } from 'angular-datatables';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -106,6 +107,7 @@ import { TimeDetailsPipe } from './modules/time-clock/pipes/time-details.pipe';
     ReactiveFormsModule,
     HttpClientModule,
     NgxPaginationModule,
+    DataTablesModule,
     AutocompleteLibModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
