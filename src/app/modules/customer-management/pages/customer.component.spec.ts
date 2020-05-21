@@ -1,3 +1,6 @@
+import { SetCustomerToEdit } from 'src/app/modules/customer-management/store';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { Customer } from 'src/app/modules/shared/models';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CustomerComponent } from './customer.component';
@@ -5,10 +8,12 @@ import { CustomerComponent } from './customer.component';
 describe('CustomerComponent', () => {
   let component: CustomerComponent;
   let fixture: ComponentFixture<CustomerComponent>;
+  let store: MockStore<Customer>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CustomerComponent],
+      providers: [provideMockStore({ initialState: {} })],
     }).compileComponents();
   }));
 
@@ -16,10 +21,19 @@ describe('CustomerComponent', () => {
     fixture = TestBed.createComponent(CustomerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    store = TestBed.inject(MockStore);
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('dispatches an action on activateCustomerForm', () => {
+    spyOn(store, 'dispatch');
+
+    component.activateCustomerForm();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new SetCustomerToEdit(null));
   });
 
   it('should change te value of var when method is called', () => {

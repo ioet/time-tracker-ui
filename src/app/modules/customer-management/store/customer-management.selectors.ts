@@ -27,7 +27,7 @@ export const getCustomerId = createSelector(getCustomerState, (state: CustomerSt
   }
 });
 
-export const getCustomerById = createSelector(allCustomers, customerIdtoEdit, (customers, customerIdToEdit) => {
+export const getCustomerUnderEdition = createSelector(allCustomers, customerIdtoEdit, (customers, customerIdToEdit) => {
   if (customers) {
     return customers.find((customer) => {
       return customer.id === customerIdToEdit;

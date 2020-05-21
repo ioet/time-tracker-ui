@@ -1,16 +1,31 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { getCustomerUnderEdition } from './../../store/customer-management.selectors';
+import { Customer } from 'src/app/modules/shared/models';
+import { Store, select } from '@ngrx/store';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-management-customer-projects',
   templateUrl: './management-customer-projects.component.html',
   styleUrls: ['./management-customer-projects.component.scss'],
 })
-export class ManagementCustomerProjectsComponent {
+export class ManagementCustomerProjectsComponent implements OnInit {
   @Output() closeCustemerForm = new EventEmitter<boolean>();
   areTabsActive: boolean;
   activeTab: string;
   customerName: string;
-  constructor() {}
+
+  constructor(private store: Store<Customer>) { }
+
+  ngOnInit(): void {
+    const customers$ = this.store.pipe(select(getCustomerUnderEdition));
+    customers$.subscribe((customer) => {
+      if (customer) {
+        this.customerName = customer.name;
+      } else {
+        this.customerName = undefined;
+      }
+    });
+  }
 
   activeTabs($areTabsActive: boolean) {
     setTimeout(() => {
@@ -26,9 +41,5 @@ export class ManagementCustomerProjectsComponent {
   showTab(activeTab: string) {
     this.activeTab = activeTab;
   }
-  sendActivityName(event) {
-    setTimeout(() => {
-      this.customerName = event;
-    }, 1);
-  }
+
 }

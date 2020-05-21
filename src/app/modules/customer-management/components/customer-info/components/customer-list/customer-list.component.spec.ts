@@ -81,7 +81,7 @@ describe('CustomerTableListComponent', () => {
 
   params.map((param) =>
     it(`on success ${param.actionName} customer, the load all customer action should be triggered`, () => {
-      const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
       const action = {
         type: param.actionType,
       };
@@ -95,7 +95,7 @@ describe('CustomerTableListComponent', () => {
 
   params.map((param) =>
     it(`on success ${param.actionName} customer, the customer form should be disabled`, () => {
-      const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
       const action = {
         type: param.actionType,
       };
@@ -106,7 +106,7 @@ describe('CustomerTableListComponent', () => {
   );
 
   it('on success load customers, the customer list should be populated', () => {
-    const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
     const action = {
       type: CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS,
       payload: state.data,

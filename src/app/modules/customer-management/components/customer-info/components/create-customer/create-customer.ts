@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
-import { getCustomerById } from './../../../../store/customer-management.selectors';
+import { getCustomerUnderEdition } from './../../../../store/customer-management.selectors';
 import { Customer } from 'src/app/modules/shared/models';
 import {
   CustomerState,
@@ -24,7 +24,6 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   @Input() areTabsActive: boolean;
   @Output() changeValueAreTabsActives = new EventEmitter<boolean>();
   @Output() closeCustomerComponent = new EventEmitter<boolean>();
-  @Output() sendActivityName = new EventEmitter<string>();
   customerToEdit: Customer;
   editSubscription: Subscription;
 
@@ -38,7 +37,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.areTabsActive = true;
     this.changeValueAreTabsActives.emit(this.areTabsActive);
-    const customers$ = this.store.pipe(select(getCustomerById));
+    const customers$ = this.store.pipe(select(getCustomerUnderEdition));
     this.editSubscription = customers$.subscribe((customer) => {
       this.customerToEdit = customer;
       this.setDataToUpdate(this.customerToEdit);
@@ -60,7 +59,6 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new CreateCustomer(customerData));
     }
-    this.sendActivityName.emit(customerData.name);
     this.areTabsActive = true;
     this.changeValueAreTabsActives.emit(this.areTabsActive);
   }
@@ -70,11 +68,12 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       this.store.dispatch(new LoadProjectTypes(customerData.id));
       this.store.dispatch(new LoadCustomerProjects(customerData.id));
       this.changeValueAreTabsActives.emit(true);
-      this.sendActivityName.emit(customerData.name);
       this.customerForm.setValue({
         name: customerData.name,
         description: customerData.description,
       });
+    } else {
+      this.customerForm.reset();
     }
   }
 

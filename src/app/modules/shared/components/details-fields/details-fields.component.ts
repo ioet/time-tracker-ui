@@ -43,7 +43,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   showlist: boolean;
   errorDate: boolean;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<Merged>, private renderer: Renderer2) {
+  constructor(private formBuilder: FormBuilder, private store: Store<Merged>) {
     this.entryForm = this.formBuilder.group({
       project_id: '',
       activity_id: '',
