@@ -31,8 +31,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   loadCustomersSubscription: Subscription;
   changeCustomerSubscription: Subscription;
 
-  constructor(private store: Store<Customer>, private actionsSubject$: ActionsSubject) {
-  }
+  constructor(private store: Store<Customer>, private actionsSubject$: ActionsSubject) { }
 
   ngOnInit(): void {
     this.dtOptions = {
