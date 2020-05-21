@@ -1,4 +1,5 @@
 <div class="container border mb-4 mt-0">
+  <h3 class="title">{{customerName}}</h3>
   <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
     <li class="nav-item">
       <a
@@ -52,6 +53,7 @@
         [areTabsActive]="areTabsActive"
         (changeValueAreTabsActives)="activeTabs($event)"
         (closeCustomerComponent)="closeCustomer($event)"
+        (sendActivityName)="sendActivityName($event)"
       ></app-create-customer>
     </div>
     <div

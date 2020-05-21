@@ -9,6 +9,7 @@ export class ManagementCustomerProjectsComponent {
   @Output() closeCustemerForm = new EventEmitter<boolean>();
   areTabsActive: boolean;
   activeTab: string;
+  customerName: string;
   constructor() {}
 
   activeTabs($areTabsActive: boolean) {
@@ -25,5 +26,9 @@ export class ManagementCustomerProjectsComponent {
   showTab(activeTab: string) {
     this.activeTab = activeTab;
   }
-
+  sendActivityName(event) {
+    setTimeout(() => {
+      this.customerName = event;
+    }, 1);
+  }
 }
