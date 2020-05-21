@@ -1,8 +1,8 @@
 <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
   <script>
-    $( function() {
-      $( document ).tooltip();
-    } );
+    $(function () {
+      $(document).tooltip();
+    });
   </script>
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
@@ -35,7 +35,7 @@
       class="custom-select"
       formControlName="activity_id"
     >
-    <option value="" selected="selected"></option>
+      <option value="" selected="selected"></option>
       <option *ngFor="let activity of activities" value="{{ activity.id }}">{{ activity.name }}</option>
     </select>
     <div
@@ -93,12 +93,14 @@
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">End/Date</span>
     </div>
     <input
+      data-toggle="tooltip"
+      title="{{ (end_date.invalid && end_date.touched) || errorEndDate ? 'End hour is required' : '' }}"
       formControlName="end_date"
       id="end_date"
       type="date"
       class="form-control"
       aria-label="Small"
-      [class.is-invalid]="end_date.invalid && end_date.touched"
+      [class.is-invalid]="(end_date.invalid && end_date.touched) || errorEndDate"
       required
       aria-describedby="inputGroup-sizing-sm"
     />
