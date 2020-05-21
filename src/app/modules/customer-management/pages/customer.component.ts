@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class CustomerComponent {
   showCustomerForm = false;
+  activityName: string;
 
   activateCustomerForm() {
     this.showCustomerForm = true;

@@ -1,3 +1,7 @@
+<hr/>
+<nav class="nav-box" *ngIf="customerName">
+  <h4 class="navbar-brand nav-title">{{customerName}}</h4>
+</nav>
 <div class="container border mb-4 mt-0">
   <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
     <li class="nav-item">
@@ -52,6 +56,7 @@
         [areTabsActive]="areTabsActive"
         (changeValueAreTabsActives)="activeTabs($event)"
         (closeCustomerComponent)="closeCustomer($event)"
+        (sendActivityName)="sendActivityName($event)"
       ></app-create-customer>
     </div>
     <div
