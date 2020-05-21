@@ -20,6 +20,7 @@
       <thead class="thead-orange">
         <tr class="d-flex">
           <th class="col">Date</th>
+          <th class="col">Time in - out</th>
           <th class="col">Duration</th>
           <th class="col">Ticket</th>
           <th class="col"></th>
@@ -31,6 +32,7 @@
           *ngFor="let entry of dataByMonth"
         >
           <td class="col"> {{ entry.start_date | date: 'dd/MM/yyyy' }} </td>
+          <td class="col"> {{ entry.start_date | date: 'shortTime' }} - {{ entry.end_date | date: 'shortTime' }}</td>
           <td class="col"> {{ entry.end_date | substractDate: entry.start_date }} </td>
           <td class="col"> {{ entry.uri }} </td>
           <td class="col">
