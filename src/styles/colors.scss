@@ -51,3 +51,35 @@ $info: #00BAEE;
 .btn:active {
   border: none;
 }
+
+
+/**
+General Datatable adjustment styles
+ */
+.dataTables_wrapper {
+  .dataTables_scroll {
+    .dataTables_scrollBody {
+      table {
+        thead {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.dt-buttons {
+  .dt-button {
+    background-image: linear-gradient($info);
+    color: white;
+  }
+  .dt-button:hover:not(.disabled){
+    background-image: linear-gradient($info);
+    opacity: 0.5;
+  }
+
+  .dt-button.disabled{
+    background-image: linear-gradient($info);
+    opacity: 0.5;
+  }
+}

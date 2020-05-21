@@ -1,19 +1,26 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {MockStore, provideMockStore} from '@ngrx/store/testing';
 
-import { NgxPaginationModule } from 'ngx-pagination';
-import { CustomerListComponent } from './customer-list.component';
-import { allCustomers } from './../../../../store/customer-management.selectors';
-import { CustomerState, SetCustomerToEdit, DeleteCustomer } from 'src/app/modules/customer-management/store';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {CustomerListComponent} from './customer-list.component';
+import {
+  CustomerManagementActionTypes,
+  CustomerState,
+  DeleteCustomer,
+  LoadCustomers,
+  SetCustomerToEdit
+} from 'src/app/modules/customer-management/store';
+import {DataTablesModule} from 'angular-datatables';
+import {ActionsSubject} from '@ngrx/store';
 
 describe('CustomerTableListComponent', () => {
   let component: CustomerListComponent;
   let fixture: ComponentFixture<CustomerListComponent>;
   let store: MockStore<CustomerState>;
-  let mockCustomerSelector;
+  const actionSub: ActionsSubject = new ActionsSubject();
 
   const state = {
-    data: [{ tenant_id: 'id', name: 'name', description: 'description' }],
+    data: [{tenant_id: 'id', name: 'name', description: 'description'}],
     isLoading: false,
     message: '',
     customerIdToEdit: '',
@@ -21,13 +28,13 @@ describe('CustomerTableListComponent', () => {
   };
 
 
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgxPaginationModule],
+      imports: [NgxPaginationModule, DataTablesModule],
       declarations: [CustomerListComponent],
       providers: [
-        provideMockStore({ initialState: state })
+        provideMockStore({initialState: state}),
+        {provide: ActionsSubject, useValue: actionSub}
       ],
     }).compileComponents();
   }));
@@ -35,24 +42,23 @@ describe('CustomerTableListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
 
     store = TestBed.inject(MockStore);
     store.setState(state);
-    mockCustomerSelector = store.overrideSelector(allCustomers, state.data);
+    fixture.detectChanges();
+
   });
 
   it('component should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('onNgInit customers are loaded from store executing an action', () => {
+  it('when the component is initialized the load customer action is triggered', () => {
     spyOn(store, 'dispatch');
 
     component.ngOnInit();
 
-    expect(store.dispatch).toHaveBeenCalled();
-    expect(component.customers).toEqual(state.data);
+    expect(store.dispatch).toHaveBeenCalledWith(new LoadCustomers());
   });
 
   it('onClick edit, dispatch SetCustomerToEdit and enable customer form', () => {
@@ -72,7 +78,71 @@ describe('CustomerTableListComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new DeleteCustomer('1'));
   });
 
+  const params = [
+    {actionName: 'delete', actionType: CustomerManagementActionTypes.DELETE_CUSTOMER_SUCCESS},
+    {actionName: 'update', actionType: CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS},
+    {actionName: 'create', actionType: CustomerManagementActionTypes.CREATE_CUSTOMER_SUCCESS}
+  ];
+
+  params.map(param =>
+    it(`on success ${param.actionName} customer, the load all customer action should be triggered`, () => {
+      const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+      const action = {
+        type: param.actionType
+      };
+      spyOn(store, 'dispatch');
+
+      actionSubject.next(action);
+
+      expect(store.dispatch).toHaveBeenCalledWith(new LoadCustomers());
+    }));
+
+  params.map(param =>
+    it(`on success ${param.actionName} customer, the customer form should be disabled`, () => {
+      const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+      const action = {
+        type: param.actionType
+      };
+      actionSubject.next(action);
+
+      expect(component.showCustomerForm).toBe(false);
+    }));
+
+  it('on success load customers, the customer list should be populated', () => {
+    const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS,
+      payload: state.data
+    };
+
+    actionSubject.next(action);
+
+    expect(component.customers).toEqual(state.data);
+  });
+
+  // it('on success load customer and the datatable was already initialized, then the datatable should be destroyed ' +
+  //   'before reloading the customer data', () => {
+  //   const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
+  //   component.isDtInitialized = true;
+  //   const action = {
+  //     type: CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS,
+  //     payload: state.data
+  //   };
+  //   const dtApi: DataTables.Api = jasmine.createSpyObj<DataTables.Api>('dtApi', ['destroy']);
+  //   component.dtElement.dtInstance = Promise.resolve(dtApi);
+  //   spyOn(component.dtElement.dtInstance, 'then');
+  //
+  //   actionSubject.next(action);
+  //
+  //   expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
+  //   // TODO Improve  this test. This is not testing the datatable is destroyed
+  //   // expect(dtApi.destroy).toHaveBeenCalled();
+  // });
+
   afterEach(() => {
+    component.dtTrigger.unsubscribe();
+    component.changeCustomerSubscription.unsubscribe();
+    component.loadCustomersSubscription.unsubscribe();
     fixture.destroy();
   });
 });

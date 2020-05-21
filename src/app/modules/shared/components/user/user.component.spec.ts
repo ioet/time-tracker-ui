@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserComponent } from './user.component';
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
+import {AppRoutingModule} from '../../../../app-routing.module';
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -20,6 +21,7 @@ describe('UserComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UserComponent],
+      imports: [AppRoutingModule],
       providers: [{ providers: AzureAdB2CService, useValue: azureAdB2CServiceStub }],
     }).compileComponents();
   }));

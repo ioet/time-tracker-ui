@@ -1,11 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {ActionsSubject, Store} from '@ngrx/store';
 
-import { Subscription } from 'rxjs';
-import { allCustomers } from './../../../../store/customer-management.selectors';
-import { LoadCustomers, DeleteCustomer, SetCustomerToEdit } from './../../../../store/customer-management.actions';
-import { Customer } from './../../../../../shared/models/customer.model';
-import { ITEMS_PER_PAGE } from 'src/environments/environment';
+import {Subject, Subscription} from 'rxjs';
+import {
+  CustomerManagementActionTypes,
+  DeleteCustomer,
+  LoadCustomers,
+  SetCustomerToEdit
+} from './../../../../store/customer-management.actions';
+import {Customer} from './../../../../../shared/models/customer.model';
+import {filter} from 'rxjs/operators';
+import {DataTableDirective} from 'angular-datatables';
 
 @Component({
   selector: 'app-customer-list',
@@ -13,26 +18,55 @@ import { ITEMS_PER_PAGE } from 'src/environments/environment';
   styleUrls: ['./customer-list.component.scss'],
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
-  initPage1 = 1;
-  itemsPerPage = ITEMS_PER_PAGE;
+
   @Input() showCustomerForm: boolean;
   @Output() changeValueShowCustomerForm = new EventEmitter<boolean>();
-
+  @Input()
   customers: Customer[] = [];
-  customerSubscription: Subscription;
+  dtOptions: any = {};
+  dtTrigger: Subject<any> = new Subject();
+  @ViewChild(DataTableDirective, {static: false})
+  dtElement: DataTableDirective;
+  isDtInitialized = false;
+  loadCustomersSubscription: Subscription;
+  changeCustomerSubscription: Subscription;
 
-  constructor(private store: Store<Customer>) { }
+  constructor(private store: Store<Customer>, private actionsSubject$: ActionsSubject) {
+  }
 
   ngOnInit(): void {
-    this.store.dispatch(new LoadCustomers());
-    const customers$ = this.store.pipe(select(allCustomers));
-    this.customerSubscription = customers$.subscribe((response) => {
-      this.customers = response;
+    this.dtOptions = {
+      scrollY: '290px',
+      paging: false
+    };
+    this.loadCustomersSubscription = this.actionsSubject$.pipe(
+      filter((action: any) => (
+          action.type === CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS
+        )
+      )
+    ).subscribe((action) => {
+      this.customers = action.payload;
+      this.rerenderDataTable();
     });
+
+    this.changeCustomerSubscription = this.actionsSubject$.pipe(
+      filter((action: any) => (
+          action.type === CustomerManagementActionTypes.DELETE_CUSTOMER_SUCCESS ||
+          action.type === CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS ||
+          action.type === CustomerManagementActionTypes.CREATE_CUSTOMER_SUCCESS
+        )
+      )
+    ).subscribe((action) => {
+      this.store.dispatch(new LoadCustomers());
+      this.showCustomerForm = false;
+    });
+    this.store.dispatch(new LoadCustomers());
   }
 
   ngOnDestroy() {
-    this.customerSubscription.unsubscribe();
+    this.loadCustomersSubscription.unsubscribe();
+    this.changeCustomerSubscription.unsubscribe();
+    this.dtTrigger.unsubscribe();
   }
 
   editCustomer(customerId: string) {
@@ -43,5 +77,18 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   deleteCustomer(customerId: string) {
     this.store.dispatch(new DeleteCustomer(customerId));
+  }
+
+  /* istanbul ignore next */
+  private rerenderDataTable(): void {
+    if (this.isDtInitialized) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    } else {
+      this.dtTrigger.next();
+      this.isDtInitialized = true;
+    }
   }
 }

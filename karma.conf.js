@@ -5,12 +5,18 @@ module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    files: [
+      'node_modules/jquery/dist/jquery.js',
+      'node_modules/datatables.net/js/jquery.dataTables.js',
+    ],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
+      require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('karma-spec-reporter'),
+      require('karma-coverage-istanbul-reporter')
+
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
@@ -26,7 +32,16 @@ module.exports = function (config) {
         functions: 80
       }
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['spec', 'kjhtml'],
+    specReporter: {
+      maxLogLines: 5,
+      suppressErrorSummary: false,
+      suppressFailed: false,
+      suppressPassed: false,
+      suppressSkipped: true,
+      showSpecTiming: false
+    },
+
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
