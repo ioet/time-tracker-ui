@@ -44,6 +44,10 @@ export class ProjectListHoverComponent implements OnInit {
         this.projectsForm.setValue({
           project_id: activeEntry.project_id,
         });
+      } else {
+        this.projectsForm.setValue({
+          project_id: '-1',
+        });
       }
     });
   }
