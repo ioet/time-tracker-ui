@@ -4,7 +4,7 @@
     <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
   </div>
     <select (change)="clockIn()" formControlName="project_id" class="form-control">
-      <option *ngFor="let project of listProjects" value="{{project.id}}">{{ project.name }}</option>
+      <option *ngFor="let project of listProjects" value="{{project.id}}">{{project.customer_name}} - {{project.name}}</option>
     </select>
   </div>
 </form>

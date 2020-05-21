@@ -21,7 +21,7 @@ export class EntryEffects {
           return new actions.LoadEntriesSummarySuccess(response);
         }),
         catchError((error) => {
-          this.toastrService.success(error);
+          this.toastrService.warning(`Your summary information could not be loaded`);
           return of(new actions.LoadEntriesSummaryFail());
         })
       )
@@ -50,7 +50,7 @@ export class EntryEffects {
       this.entryService.loadEntries().pipe(
         map((entries) => new actions.LoadEntriesSuccess(entries)),
         catchError((error) => {
-          this.toastrService.success(error);
+          this.toastrService.warning(`The data could not be loaded`);
           return of(new actions.LoadEntriesFail(error));
         })
       )
