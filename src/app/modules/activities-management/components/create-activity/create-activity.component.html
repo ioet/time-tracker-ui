@@ -1,35 +1,31 @@
-<div class="card mt-4">
-  <form class="card-body" [formGroup]="activityForm" (ngSubmit)="onSubmit(activityForm.value)">
-    <h1 class="card-title">Activity</h1>
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input
-        class="form-control"
-        id="name"
-        type="text"
-        formControlName="name"
-        [class.is-invalid]="name.invalid && name.touched"
-        required
-      />
+<h4>Activities</h4>
+<hr/>
+<div style="width: 60%;">
+
+  <form [formGroup]="activityForm" (ngSubmit)="onSubmit(activityForm.value)">
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text span-width">Name</span>
+      </div>
+      <input class="form-control" id="name" type="text" formControlName="name"
+        [class.is-invalid]="name.invalid && name.touched" required />
       <div class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
         Activity name is required.
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="details">Description:</label>
-      <textarea class="form-control" rows="3" id="description" type="text" formControlName="description"></textarea>
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text span-width">Description</span>
+      </div>
+      <textarea class="form-control" rows="2" id="description" type="text" formControlName="description"></textarea>
     </div>
 
-    <div class="btn-toolbar" role="toolbar">
-      <div class="btn-group mr-2" role="group">
-        <button class="btn btn-primary mb-2" type="submit" [disabled]="!activityForm.valid">Save</button>
-      </div>
-      <div class="btn-group mr-2" role="group">
-        <button class="btn btn-secondary mb-2" type="reset" [hidden]="!activityToEdit" (click)="cancelButton()">
-          Cancel
-        </button>
-      </div>
+    <div class="form-group" style="text-align: right;">
+      <button class="btn btn-primary" type="submit" [disabled]="!activityForm.valid">Save</button>
+      <button class="btn btn-secondary mb-2 ml-2 mt-2" type="reset" [hidden]="!activityToEdit" (click)="cancelButton()">
+        Cancel
+      </button>
     </div>
   </form>
 </div>

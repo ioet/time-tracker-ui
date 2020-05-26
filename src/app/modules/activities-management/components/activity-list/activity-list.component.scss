@@ -1,11 +1,5 @@
 @import '../../../../../styles/colors.scss';
 
-.style-list-project {
-  background-color: $primary;
-  color: white;
-}
-
-.scroll {
-  max-height: 400px;
-  overflow-y: auto;
+.activity-list {
+  max-height: 400px; overflow: auto; display:inline-block; width: 60%;
 }
