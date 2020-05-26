@@ -101,10 +101,14 @@ export class EntryEffects {
   updateActiveEntry$: Observable<Action> = this.actions$.pipe(
     ofType(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY),
     map((action: actions.UpdateActiveEntry) => action.payload),
-    mergeMap((project) =>
-      this.entryService.updateActiveEntry(project).pipe(
-        map((projectData) => {
-          return new actions.UpdateActiveEntrySuccess(projectData);
+    mergeMap((entry) =>
+      this.entryService.updateActiveEntry(entry).pipe(
+        map((entryResponse) => {
+          console.log(entryResponse);
+          if (entryResponse.end_date) {
+            this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
+          }
+          return new actions.UpdateActiveEntrySuccess(entryResponse);
         }),
         catchError((error) => {
           this.toastrService.error(error.error.message);

@@ -51,8 +51,7 @@ describe('DetailsFieldsComponent', () => {
     project_id: '',
     activity_id: '',
     uri: '',
-    start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-    end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+    entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
     start_hour: '00:00',
     end_hour: '00:00',
     description: '',
@@ -89,33 +88,6 @@ describe('DetailsFieldsComponent', () => {
 
   it('should emit ngOnChange with new data', () => {
     const entryToEdit = {
-      project_id: 'id',
-      activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',
-      uri: 'ticketUri',
-      start_date: '2020-02-05T14:36',
-      end_date: '2020-02-05T15:36',
-      start_hour: '14:36',
-      end_hour: '15:36',
-      description: '',
-    };
-    const formValue = {
-      project_id: 'id',
-      activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd05',
-      uri: 'ticketUri',
-      start_date: '2020-02-05',
-      end_date: '2020-02-05',
-      start_hour: '14:36',
-      end_hour: '15:36',
-      description: '',
-      technology: '',
-    };
-    component.entryToEdit = entryToEdit;
-    component.ngOnChanges();
-    expect(component.entryForm.value).toEqual(formValue);
-  });
-
-  it('should emit ngOnChange with new data', () => {
-    const entryToEdit = {
       project_id: '',
       activity_id: '',
       uri: 'ticketUri',
@@ -127,8 +99,7 @@ describe('DetailsFieldsComponent', () => {
       project_id: '',
       activity_id: '',
       uri: 'ticketUri',
-      start_date: '',
-      end_date: '',
+      entry_date: '',
       start_hour: '00:00',
       end_hour: '00:00',
       description: '',
@@ -146,8 +117,7 @@ describe('DetailsFieldsComponent', () => {
       project_id: '',
       activity_id: '',
       uri: '',
-      start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-      end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
       start_hour: '00:00',
       end_hour: '00:00',
       description: '',
@@ -182,8 +152,7 @@ describe('DetailsFieldsComponent', () => {
       project_id: '',
       activity_id: '',
       uri: '',
-      start_date: '2020-02-05',
-      end_date: '2020-02-05',
+      entry_date: '2020-02-05',
       start_hour: '00:00',
       end_hour: '00:01',
       description: '',
