@@ -104,7 +104,6 @@ export class EntryEffects {
     mergeMap((entry) =>
       this.entryService.updateActiveEntry(entry).pipe(
         map((entryResponse) => {
-          console.log(entryResponse);
           if (entryResponse.end_date) {
             this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           }
