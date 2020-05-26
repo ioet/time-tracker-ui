@@ -10,7 +10,7 @@ import * as actions from './entry.actions';
 
 @Injectable()
 export class EntryEffects {
-  constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) { }
+  constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) {}
 
   @Effect()
   loadEntriesSummary$: Observable<Action> = this.actions$.pipe(
@@ -46,8 +46,9 @@ export class EntryEffects {
   @Effect()
   loadEntries$: Observable<Action> = this.actions$.pipe(
     ofType(actions.EntryActionTypes.LOAD_ENTRIES),
-    mergeMap(() =>
-      this.entryService.loadEntries().pipe(
+    map((action: actions.LoadEntries) => action.month),
+    mergeMap((month) =>
+      this.entryService.loadEntries(month).pipe(
         map((entries) => new actions.LoadEntriesSuccess(entries)),
         catchError((error) => {
           this.toastrService.warning(`The data could not be loaded`);

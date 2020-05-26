@@ -59,6 +59,7 @@ export class LoadActiveEntryFail implements Action {
 
 export class LoadEntries implements Action {
   public readonly type = EntryActionTypes.LOAD_ENTRIES;
+  constructor(public month: number) {}
 }
 
 export class LoadEntriesSuccess implements Action {

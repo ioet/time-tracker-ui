@@ -2,11 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  MonthPickerComponent,
-  DetailsFieldsComponent,
-  EmptyStateComponent,
-} from '../../shared/components';
+import { MonthPickerComponent, DetailsFieldsComponent, EmptyStateComponent } from '../../shared/components';
 import { GroupByDatePipe } from '../../shared/pipes';
 import { TechnologyState } from '../../shared/store/technology.reducers';
 import { allTechnologies } from '../../shared/store/technology.selectors';
@@ -16,8 +12,8 @@ import { getProjects } from '../../customer-management/components/projects/compo
 import { EntryState } from '../../time-clock/store/entry.reducer';
 import { allEntries } from '../../time-clock/store/entry.selectors';
 import * as entryActions from '../../time-clock/store/entry.actions';
-import {TechnologiesComponent} from '../../shared/components/technologies/technologies.component';
-import {TimeEntriesSummaryComponent} from '../../time-clock/components/time-entries-summary/time-entries-summary.component';
+import { TechnologiesComponent } from '../../shared/components/technologies/technologies.component';
+import { TimeEntriesSummaryComponent } from '../../time-clock/components/time-entries-summary/time-entries-summary.component';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -70,7 +66,7 @@ describe('TimeEntriesComponent', () => {
         MonthPickerComponent,
         TimeEntriesComponent,
         TechnologiesComponent,
-        TimeEntriesSummaryComponent
+        TimeEntriesSummaryComponent,
       ],
       providers: [provideMockStore({ initialState: state })],
       imports: [FormsModule, ReactiveFormsModule],
@@ -147,7 +143,7 @@ describe('TimeEntriesComponent', () => {
     };
     mockEntriesSelector = store.overrideSelector(allEntries, [newEntry]);
     component.ngOnInit();
-    expect(component.dataByMonth.length).toEqual(0);
+    expect(component.dataByMonth.length).toEqual(1);
   }));
 
   it('should set entry and entryid to null', () => {
@@ -157,9 +153,9 @@ describe('TimeEntriesComponent', () => {
   });
 
   it('should set entry and entryid to with data', () => {
-    component.entryList = [entry];
+    component.dataByMonth = [entry];
     component.editEntry('entry_1');
-    expect(component.entry).toBe(entry);
+    expect(component.entry).toEqual(entry);
     expect(component.entryId).toBe('entry_1');
   });
 
@@ -198,8 +194,8 @@ describe('TimeEntriesComponent', () => {
 
   it('should get the entry List by Month', () => {
     const month = 1;
-    component.entryList = [entry];
+    spyOn(store, 'dispatch');
     component.getMonth(month);
-    expect(component.dataByMonth.length).toEqual(1);
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(month));
   });
 });

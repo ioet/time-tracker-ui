@@ -56,7 +56,7 @@ describe('EntryService', () => {
 
   it('loads all Entries', () => {
     service.baseUrl = 'time-entries';
-    service.loadEntries().subscribe((response) => {
+    service.loadEntries(new Date().getMonth).subscribe((response) => {
       const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}`);
       expect(loadEntryRequest.request.method).toBe('GET');
     });
