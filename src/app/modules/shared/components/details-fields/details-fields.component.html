@@ -1,16 +1,9 @@
 <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
-  <script>
-    $(function () {
-      $(document).tooltip();
-    });
-  </script>
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text span-width">Project</span>
     </div>
     <select
-      data-toggle="tooltip"
-      title="{{ project_id.invalid && project_id.touched ? 'Project is required' : '' }}"
       [class.is-invalid]="project_id.invalid && project_id.touched"
       required
       id="project_id"
@@ -27,8 +20,6 @@
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Activity</span>
     </div>
     <select
-      data-toggle="tooltip"
-      title="{{ activity_id.invalid && activity_id.touched ? 'Activity is required' : '' }}"
       [class.is-invalid]="activity_id.invalid && activity_id.touched"
       required
       id="activity_id"
@@ -60,24 +51,24 @@
 
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Start/Date</span>
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Date</span>
     </div>
     <input
-      formControlName="start_date"
-      id="start_date"
+      formControlName="entry_date"
+      id="entry_date"
       type="date"
       class="form-control"
       aria-label="Small"
       aria-describedby="inputGroup-sizing-sm"
-      [class.is-invalid]="start_date.invalid && start_date.touched"
+      [class.is-invalid]="entry_date.invalid && entry_date.touched"
       required
     />
+  </div>
+  <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Start/Hour</span>
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Time in</span>
     </div>
     <input
-      data-toggle="tooltip"
-      title="{{ start_hour.invalid && start_hour.touched ? 'Start hour is required' : '' }}"
       formControlName="start_hour"
       id="start_hour"
       type="text"
@@ -87,35 +78,16 @@
       required
       aria-describedby="inputGroup-sizing-sm"
     />
-  </div>
-  <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">End/Date</span>
+      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Time out</span>
     </div>
     <input
-      data-toggle="tooltip"
-      title="{{ (end_date.invalid && end_date.touched) || errorEndDate ? 'End hour is required' : '' }}"
-      formControlName="end_date"
-      id="end_date"
-      type="date"
-      class="form-control"
-      aria-label="Small"
-      [class.is-invalid]="(end_date.invalid && end_date.touched) || errorEndDate"
-      required
-      aria-describedby="inputGroup-sizing-sm"
-    />
-    <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">End/Hour</span>
-    </div>
-    <input
-      data-toggle="tooltip"
-      title="{{ (end_hour.invalid && end_hour.touched) || errorDate ? 'End hour is required' : '' }}"
       formControlName="end_hour"
       type="text"
       id="end_hour"
       class="form-control"
       aria-label="Small"
-      [class.is-invalid]="(end_hour.invalid && end_hour.touched) || errorDate"
+      [class.is-invalid]="end_hour.invalid && end_hour.touched"
       required
       aria-describedby="inputGroup-sizing-sm"
     />
