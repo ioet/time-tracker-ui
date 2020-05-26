@@ -19,14 +19,18 @@
                     [selectedTechnologies]="selectedTechnologies">
   </app-technologies>
 
-  <div class="form-group text-left">
-    <label for="NotesTextarea">Description</label>
+
+  <div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text span-width">Description</span>
+    </div>
     <textarea
       (blur)="onSubmit()"
       formControlName="description"
       class="form-control"
       id="NotesTextarea"
-      rows="3">
+      rows="2">
     </textarea>
   </div>
+
 </form>

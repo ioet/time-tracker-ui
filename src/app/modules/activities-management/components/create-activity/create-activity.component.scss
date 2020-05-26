@@ -1,1 +1,11 @@
 @import '../../../../../styles/colors.scss';
+
+.span-width {
+  width: 6rem;
+  background-color: $primary;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}

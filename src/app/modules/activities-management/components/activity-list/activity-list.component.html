@@ -1,31 +1,21 @@
-<div class="card-body pt-0 mt-4">
-  <div class="scroll">
-    <div class="accordion" id="accordionActivities">
-      <div *ngIf="activities?.length > 0; else notShow">
-        <div class="card" *ngFor="let activity of activities; let rowIndex = index">
-          <div class="card-header style-list-project">
-            <h2 class="mb-0">
-              <a type="button" data-toggle="collapse" [attr.data-target]="'#row' + rowIndex">
-                {{ activity.name }}
-              </a>
-              <div class="btn-group float-right" role="group">
-                <i class="far fa-edit btn btn-link text-white" (click)="updateActivity(activity.id)"></i>
-                <i (click)="deleteActivity(activity.id)" class="far fa-trash-alt btn btn-link text-white"></i>
-              </div>
-            </h2>
-          </div>
-
-          <div [id]="'row' + rowIndex" class="collapse" data-parent="#accordionActivities">
-            <div class="card-body">
-              <h5>Description:</h5>
-              <p>{{ activity.description }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <ng-template #notShow>
-        <app-empty-state></app-empty-state>
-      </ng-template>
-    </div>
-  </div>
+<div class="activity-list">
+  <table class="table table-sm table-bordered table-striped">
+    <thead class="thead-orange">
+      <tr class="d-flex">
+        <th class="col-9">Activity</th>
+        <th class="col-3 text-center"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="d-flex" *ngFor="let activity of activities">
+        <td class="col-sm-9">{{ activity.name }}</td>
+        <td class="col-sm-3 text-center">
+          <button type="button" class="btn btn-sm btn-primary" (click)="updateActivity(activity.id)"><i
+              class="fa fa-pencil fa-xs"></i></button>
+          <button type="button" class="btn btn-sm btn-danger ml-2" (click)="deleteActivity(activity.id)"><i
+              class="fas fa-trash-alt fa-xs"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
