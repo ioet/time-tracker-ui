@@ -79,7 +79,7 @@ describe('entryReducer', () => {
   });
 
   it('on LoadEntries, isLoading is true', () => {
-    const action = new actions.LoadEntries();
+    const action = new actions.LoadEntries(new Date().getMonth() + 1);
     const state = entryReducer(initialState, action);
     expect(state.isLoading).toEqual(true);
   });

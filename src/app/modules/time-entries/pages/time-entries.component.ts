@@ -14,22 +14,14 @@ export class TimeEntriesComponent implements OnInit {
   entryId: string;
   entry: Entry;
   dataByMonth = [];
-  entryList: Entry[];
 
   constructor(private store: Store<EntryState>) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new entryActions.LoadEntries());
+    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     const dataByMonth$ = this.store.pipe(select(allEntries));
     dataByMonth$.subscribe((response) => {
-      this.entryList = response;
-      this.dataByMonth = this.entryList.reduce((acc: any, entry: any) => {
-        if (new Date(entry.start_date).getMonth() === new Date().getMonth()) {
-          const item = { ...entry };
-          return [...acc, item];
-        }
-        return [];
-      }, []);
+      this.dataByMonth = response;
     });
   }
 
@@ -39,8 +31,9 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   editEntry(entryId: string) {
+    console.log(this.dataByMonth);
     this.entryId = entryId;
-    this.entry = this.entryList.find((entry) => entry.id === entryId);
+    this.entry = this.dataByMonth.find((entry) => entry.id === entryId);
   }
 
   saveEntry(entry): void {
@@ -57,6 +50,6 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   getMonth(month: number) {
-    this.dataByMonth = this.entryList.filter((entry) => new Date(entry.start_date).getMonth() === month);
+    this.store.dispatch(new entryActions.LoadEntries(month));
   }
 }

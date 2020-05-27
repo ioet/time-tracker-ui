@@ -17,7 +17,7 @@ export class MonthPickerComponent implements OnInit {
   }
 
   getMonth(month: number) {
-    this.monthSelected.emit(month);
+    this.monthSelected.emit(month + 1);
     this.activeMonth = month;
   }
 }

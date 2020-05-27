@@ -17,8 +17,8 @@ export class EntryService {
     return this.http.get(`${this.baseUrl}/running`);
   }
 
-  loadEntries(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+  loadEntries(month): Observable<any> {
+    return this.http.get(`${this.baseUrl}?month=${month}`);
   }
 
   createEntry(entryData): Observable<any> {

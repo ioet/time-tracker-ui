@@ -24,9 +24,9 @@ describe('MonthPickerComponent', () => {
   });
 
   it('should emit activeMonth event', () => {
-    const month = 1;
+    const month = 2;
     spyOn(component.monthSelected, 'emit');
     component.getMonth(month);
-    expect(component.monthSelected.emit).toHaveBeenCalledWith(month);
+    expect(component.monthSelected.emit).toHaveBeenCalledWith(month + 1);
   });
 });
