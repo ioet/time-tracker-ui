@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +24,11 @@ describe('TimeEntriesComponent', () => {
   let mockTechnologySelector;
   let mockProjectsSelector;
   let mockEntriesSelector;
+  let injectedToastrService;
+
+  const toastrService = {
+    error: () => {},
+  };
 
   const state = {
     projects: {
@@ -43,6 +49,10 @@ describe('TimeEntriesComponent', () => {
     },
     entries: {
       entryList: [],
+      active: {
+        start_date: new Date('2019-01-01T15:36:15.887Z'),
+        id: 'active-entry',
+      }
     },
   };
 
@@ -68,13 +78,16 @@ describe('TimeEntriesComponent', () => {
         TechnologiesComponent,
         TimeEntriesSummaryComponent,
       ],
-      providers: [provideMockStore({ initialState: state })],
+      providers: [provideMockStore({ initialState: state }),
+        { provide: ToastrService, useValue: toastrService },
+      ],
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(getProjects, state.projects.projects);
     mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+    injectedToastrService = TestBed.inject(ToastrService);
   }));
 
   beforeEach(() => {
@@ -159,30 +172,51 @@ describe('TimeEntriesComponent', () => {
     expect(component.entryId).toBe('entry_1');
   });
 
-  it('should update entry by id', () => {
+  it('displays an error when start date of entry is > than active entry start date', () => {
     const newEntry = {
-      project_id: 'projectId',
-      start_date: '',
+      project_id: 'p-id',
+      start_date: '2020-05-05T10:04',
       description: 'description',
       technologies: [],
       uri: 'abc',
     };
-    component.entryId = 'entry_1';
-    spyOn(store, 'dispatch');
+    component.entryId = 'new-entry';
+    spyOn(injectedToastrService, 'error');
+
     component.saveEntry(newEntry);
+
+    expect(injectedToastrService.error).toHaveBeenCalled();
+  });
+
+  it('should dispatch an action when entry is going to be saved', () => {
+    const newEntry = {
+      project_id: 'p-id',
+      start_date: '2020-05-05T10:04',
+      description: 'description',
+      technologies: [],
+      uri: 'abc',
+    };
+    component.entryId = 'active-entry';
+    spyOn(store, 'dispatch');
+
+    component.saveEntry(newEntry);
+
     expect(store.dispatch).toHaveBeenCalled();
   });
 
   it('should create new Entry', () => {
     const newEntry = {
       project_id: 'projectId',
-      start_date: '',
+      start_date: '2010-05-05T10:04',
       description: 'description',
       technologies: [],
       uri: 'abc',
     };
+    component.entryId = undefined;
     spyOn(store, 'dispatch');
+
     component.saveEntry(newEntry);
+
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CreateEntry(newEntry));
   });
 

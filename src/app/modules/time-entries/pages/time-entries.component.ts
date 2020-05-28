@@ -1,3 +1,5 @@
+import { ToastrService } from 'ngx-toastr';
+import { getActiveTimeEntry } from './../../time-clock/store/entry.selectors';
 import { Component, OnInit } from '@angular/core';
 import { Entry } from '../../shared/models';
 import { EntryState } from '../../time-clock/store/entry.reducer';
@@ -14,14 +16,19 @@ export class TimeEntriesComponent implements OnInit {
   entryId: string;
   entry: Entry;
   dataByMonth = [];
+  activeTimeEntry: Entry;
 
-  constructor(private store: Store<EntryState>) {}
+  constructor(private store: Store<EntryState>, private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     const dataByMonth$ = this.store.pipe(select(allEntries));
     dataByMonth$.subscribe((response) => {
       this.dataByMonth = response;
+    });
+    this.store.dispatch(new entryActions.LoadActiveEntry());
+    this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
+      this.activeTimeEntry = activeTimeEntry;
     });
   }
 
@@ -31,17 +38,24 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   editEntry(entryId: string) {
-    console.log(this.dataByMonth);
     this.entryId = entryId;
     this.entry = this.dataByMonth.find((entry) => entry.id === entryId);
   }
 
   saveEntry(entry): void {
-    if (this.entryId) {
-      entry.id = this.entryId;
-      this.store.dispatch(new entryActions.UpdateActiveEntry(entry));
+    const entryDateAsIso = new Date(entry.start_date).toISOString();
+    const entryDateAsLocalDate = new Date(entryDateAsIso);
+    const activeEntryAsLocaldate = new Date(this.activeTimeEntry.start_date);
+    const isEditingActiveEntry = this.entryId === this.activeTimeEntry.id;
+    if (!isEditingActiveEntry && entryDateAsLocalDate > activeEntryAsLocaldate) {
+      this.toastrService.error('You are on the clock and this entry overlaps it, try with earlier times.');
     } else {
-      this.store.dispatch(new entryActions.CreateEntry(entry));
+      if (this.entryId) {
+        entry.id = this.entryId;
+        this.store.dispatch(new entryActions.UpdateActiveEntry(entry));
+      } else {
+        this.store.dispatch(new entryActions.CreateEntry(entry));
+      }
     }
   }
 
