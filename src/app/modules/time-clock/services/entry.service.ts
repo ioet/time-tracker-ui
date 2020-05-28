@@ -4,14 +4,17 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { environment } from './../../../../environments/environment';
+import {TimeEntriesTimeRange} from '../models/time-entries-time-range';
+import {DatePipe} from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EntryService {
-  baseUrl = `${environment.timeTrackerApiUrl}/time-entries`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private datePipe: DatePipe) {}
+  static TIME_ENTRIES_DATE_TIME_FORMAT = 'yyyy-MM-ddThh:mm:ssZZZZZ';
+  baseUrl = `${environment.timeTrackerApiUrl}/time-entries`;
 
   loadActiveEntry(): Observable<any> {
     return this.http.get(`${this.baseUrl}/running`);
@@ -45,4 +48,15 @@ export class EntryService {
     return this.http.get<TimeEntriesSummary>(summaryUrl);
   }
 
+  loadEntriesByTimeRange(range: TimeEntriesTimeRange): Observable<any> {
+
+    return this.http.get(this.baseUrl,
+    {
+      params: {
+        start_date: this.datePipe.transform(range.start_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
+        end_date: this.datePipe.transform(range.end_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT)
+      }
+    }
+    );
+  }
 }
