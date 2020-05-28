@@ -2,6 +2,7 @@ import {TimeEntriesSummary, TimeDetails} from '../models/time.entry.summary';
 import {NewEntry, Entry} from './../../shared/models';
 import * as actions from './entry.actions';
 import {entryReducer, EntryState} from './entry.reducer';
+import {init} from 'protractor/built/launcher';
 
 describe('entryReducer', () => {
 
@@ -20,25 +21,25 @@ describe('entryReducer', () => {
     entriesForReport: []
   };
 
-  const entry: NewEntry = {
+  const newEntry: NewEntry = {
     start_date: 'start-date',
     description: 'description',
     project_id: '112',
     technologies: ['angular', 'typescript'],
   };
 
-  const entryList: Entry[] = [
-    {
-      project_id: '123',
-      comments: 'description',
-      technologies: ['angular', 'javascript'],
-      uri: 'uri',
-      id: 'id',
-      start_date: new Date(),
-      end_date: new Date(),
-      activity_id: 'activity',
-    }
-  ];
+  const entry: Entry = {
+    project_id: '123',
+    comments: 'description',
+    technologies: ['angular', 'javascript'],
+    uri: 'uri',
+    id: 'id',
+    start_date: new Date(),
+    end_date: new Date(),
+    activity_id: 'activity',
+  };
+
+  const entriesList: Entry[] = [entry];
 
   it('sets timeEntriesSummary from action on LOAD_ENTRIES_SUMMARY_SUCCESS', () => {
     const payload = null;
@@ -100,21 +101,11 @@ describe('entryReducer', () => {
   });
 
   it('on LoadEntriesSuccess, get all Entries', () => {
-    const entries: Entry[] = [
-      {
-        project_id: '123',
-        comments: 'description',
-        technologies: ['angular', 'javascript'],
-        uri: 'uri',
-        id: 'id',
-        start_date: new Date(),
-        end_date: new Date(),
-        activity_id: 'activity',
-      },
-    ];
-    const action = new actions.LoadEntriesSuccess(entries);
+    const action = new actions.LoadEntriesSuccess(entriesList);
+
     const state = entryReducer(initialState, action);
-    expect(state.entryList).toEqual(entries);
+
+    expect(state.entryList).toEqual(entriesList);
   });
 
   it('on LoadEntriesFail, active tobe null', () => {
@@ -154,29 +145,9 @@ describe('entryReducer', () => {
   });
 
   it('on DeleteEntrySuccess', () => {
-    const currentState = {
-      timeEntriesSummary: emptyTimeEntriesSummary,
-      active: null,
-      entryList: [
-        {
-          project_id: '123',
-          comments: 'description',
-          technologies: ['angular', 'javascript'],
-          uri: 'uri',
-          id: 'id',
-          start_date: new Date(),
-          end_date: new Date(),
-          activity_id: 'activity',
-        },
-      ],
-      isLoading: false,
-      message: '',
-      createError: null,
-      updateError: null,
-      entriesForReport: []
-
-    };
+    const currentState = {...initialState, entryList: entriesList};
     const action = new actions.DeleteEntrySuccess('id');
+
     const state = entryReducer(currentState, action);
     expect(state.entryList).toEqual([]);
   });
@@ -188,43 +159,16 @@ describe('entryReducer', () => {
   });
 
   it('on UpdateActiveEntry, isLoading is true', () => {
-    const action = new actions.UpdateActiveEntry(entry);
+    const action = new actions.UpdateActiveEntry(newEntry);
     const state = entryReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
   });
 
   it('on UpdateActiveEntrySuccess, loading is false', () => {
-    const currentState: EntryState = {
-      active: null,
-      entryList: [
-        {
-          project_id: '123',
-          comments: 'description',
-          technologies: ['angular', 'javascript'],
-          uri: 'uri',
-          id: 'id',
-          start_date: new Date(),
-          end_date: new Date(),
-          activity_id: 'activity',
-        },
-      ],
-      isLoading: false,
-      message: '',
-      createError: null,
-      updateError: null,
-      timeEntriesSummary: emptyTimeEntriesSummary,
-      entriesForReport: []
-    };
-    const entryUpdated: Entry = {
-      id: 'id',
-      start_date: new Date(),
-      end_date: new Date(),
-      activity_id: '',
-      technologies: ['abc', 'abc'],
-    };
-    const action = new actions.UpdateActiveEntrySuccess(entryUpdated);
-    const state = entryReducer(currentState, action);
+    const action = new actions.UpdateActiveEntrySuccess(entry);
+
+    const state = entryReducer(initialState, action);
 
     expect(state.isLoading).toEqual(false);
   });
@@ -276,19 +220,6 @@ describe('entryReducer', () => {
     expect(state.isLoading).toBeFalsy();
   });
 
-  it('sets timeEntriesSummary from action on LOAD_ENTRIES_SUMMARY_SUCCESS', () => {
-    const payload = null;
-    const action = new actions.LoadEntriesSummarySuccess(payload);
-    const state = entryReducer(initialState, action);
-    expect(state.timeEntriesSummary).toBe(payload);
-  });
-
-  it('sets message on LOAD_ACTIVE_ENTRY_FAIL', () => {
-    const action = new actions.LoadActiveEntryFail('');
-    const state = entryReducer(initialState, action);
-    expect(state.message).toBe('Something went wrong fetching active entry!');
-  });
-
   it('on LoadEntriesByTimeRange, the state has isLoading is true', () => {
     const action = new actions.LoadEntriesByTimeRange(null);
 
@@ -298,7 +229,7 @@ describe('entryReducer', () => {
   });
 
   it('on LoadEntriesByTimeRangeSuccess, the entriesForReport is populated with the payload info from the action', () => {
-    const payload = entryList;
+    const payload = entriesList;
     const action = new actions.LoadEntriesByTimeRangeSuccess(payload);
 
     const state = entryReducer(initialState, action);

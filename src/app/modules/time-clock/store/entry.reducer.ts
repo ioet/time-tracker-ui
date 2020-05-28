@@ -219,7 +219,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         isLoading: false,
       };
 
-    case EntryActionTypes.LOAD_ACTIVE_ENTRY_FAIL: {
+    case EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_FAIL: {
       return {
         ...state,
         entriesForReport: [],
