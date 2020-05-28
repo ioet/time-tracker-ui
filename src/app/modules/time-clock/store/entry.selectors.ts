@@ -22,3 +22,5 @@ export const getUpdateError = createSelector(getEntryState, (state: EntryState) 
 export const getStatusMessage = createSelector(getEntryState, (state: EntryState) => state.message);
 
 export const allEntries = createSelector(getEntryState, (state: EntryState) => state.entryList);
+
+export const entriesForReport = createSelector(getEntryState, (state: EntryState) => state.entriesForReport);

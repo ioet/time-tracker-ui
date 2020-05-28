@@ -10,6 +10,7 @@ export interface EntryState {
   createError: boolean;
   updateError: boolean;
   timeEntriesSummary: TimeEntriesSummary;
+  entriesForReport: Entry[];
 }
 
 const emptyTimeDetails: TimeDetails = { hours: '--:--', minutes: '--:--', seconds: '--:--' };
@@ -23,6 +24,7 @@ export const initialState = {
   createError: null,
   updateError: null,
   timeEntriesSummary: emptyTimeEntriesSummary,
+  entriesForReport: []
 };
 
 export const entryReducer = (state: EntryState = initialState, action: EntryActions) => {
@@ -201,6 +203,27 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       return {
         ...state,
         updateError: null
+      };
+    }
+
+    case EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS:
+      return {
+        ...state,
+        entriesForReport: action.payload,
+        isLoading: false,
+      };
+
+    case EntryActionTypes.LOAD_ACTIVE_ENTRY_FAIL: {
+      return {
+        ...state,
+        entriesForReport: [],
+        isLoading: false,
       };
     }
 
