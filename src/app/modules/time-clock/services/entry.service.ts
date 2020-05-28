@@ -1,9 +1,9 @@
-import { TimeEntriesSummary } from '../models/time.entry.summary';
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {TimeEntriesSummary} from '../models/time.entry.summary';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import { Observable } from 'rxjs';
-import { environment } from './../../../../environments/environment';
+import {Observable} from 'rxjs';
+import {environment} from './../../../../environments/environment';
 import {TimeEntriesTimeRange} from '../models/time-entries-time-range';
 import {DatePipe} from '@angular/common';
 

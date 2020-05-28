@@ -1,5 +1,5 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
 import {EntryService} from './entry.service';
 import {NewEntry} from '../../shared/models';
@@ -17,7 +17,6 @@ describe('EntryService', () => {
     httpMock = TestBed.inject(HttpTestingController);
     datePipe = TestBed.inject(DatePipe);
     service.baseUrl = 'time-entries';
-
   });
 
   it('services are ready to be used', inject(
@@ -42,24 +41,21 @@ describe('EntryService', () => {
   });
 
   it('loads an activeEntry with /running', () => {
-    service.loadActiveEntry().subscribe((response) => {
-    });
+    service.loadActiveEntry().subscribe();
 
     const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/running`);
     expect(loadEntryRequest.request.method).toBe('GET');
   });
 
   it('loads summary with get /summary', () => {
-    service.summary().subscribe((response) => {
-    });
+    service.summary().subscribe();
 
     const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/summary`);
     expect(loadEntryRequest.request.method).toBe('GET');
   });
 
-  it('loads all Entries', () => {
-    service.loadEntries(new Date().getMonth).subscribe((response) => {
-    });
+  it('load all Entries', () => {
+    service.loadEntries(new Date().getMonth).subscribe();
 
     const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}`);
     expect(loadEntryRequest.request.method).toBe('GET');
@@ -69,9 +65,7 @@ describe('EntryService', () => {
   it('update an entry using PUT', () => {
     const updatedEntry = {foo: 'bar', id: 'id'};
 
-    service.updateActiveEntry(updatedEntry).subscribe((response) => {
-
-    });
+    service.updateActiveEntry(updatedEntry).subscribe();
 
     const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id`);
     expect(updateEntryRequest.request.method).toBe('PUT');
@@ -79,15 +73,15 @@ describe('EntryService', () => {
 
   it('delete an entry using DELETE', () => {
     const entry = 'entryId';
-    service.deleteEntry(entry).subscribe((response) => {
-    });
+
+    service.deleteEntry(entry).subscribe();
+
     const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/${entry}`);
     expect(updateEntryRequest.request.method).toBe('DELETE');
   });
 
   it('stops an entry using POST', () => {
-    service.stopEntryRunning('id').subscribe((response) => {
-    });
+    service.stopEntryRunning('id').subscribe();
 
     const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id/stop`);
     expect(updateEntryRequest.request.method).toBe('POST');
