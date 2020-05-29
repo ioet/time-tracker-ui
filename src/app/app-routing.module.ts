@@ -1,7 +1,8 @@
+import { AdminGuard } from './guards/admin-guard/admin-guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AzureGuardService } from './guards/azure-guard.service';
+import { LoginGuard } from './guards/login-guard/login.guard';
 import { ReportsComponent } from './modules/reports/pages/reports.component';
 import { TimeClockComponent } from './modules/time-clock/pages/time-clock.component';
 import { TimeEntriesComponent } from './modules/time-entries/pages/time-entries.component';
@@ -14,13 +15,13 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [AzureGuardService],
+    canActivate: [LoginGuard],
     children: [
-      { path: 'reports', component: ReportsComponent },
+      { path: 'reports', canActivate: [AdminGuard], component: ReportsComponent },
       { path: 'time-clock', component: TimeClockComponent },
       { path: 'time-entries', component: TimeEntriesComponent },
       { path: 'activities-management', component: ActivitiesManagementComponent },
-      { path: 'customers-management', component: CustomerComponent },
+      { path: 'customers-management', canActivate: [AdminGuard], component: CustomerComponent },
       { path: '', pathMatch: 'full', redirectTo: 'time-clock' },
     ],
   },
