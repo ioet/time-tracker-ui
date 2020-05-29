@@ -54,6 +54,24 @@ describe('AzureAdB2CService', () => {
     expect(name).toEqual(account.name);
   });
 
+  it('isAdmin false when extension_role !== time-tracker-admin', () => {
+    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
+
+    const isAdmin = service.isAdmin();
+
+    expect(isAdmin).toEqual(false);
+  });
+
+  it('isAdmin when extension_role === time-tracker-admin', () => {
+    const adminAccount = account;
+    adminAccount.idToken.extension_role = 'time-tracker-admin';
+    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(adminAccount);
+
+    const isAdmin = service.isAdmin();
+
+    expect(isAdmin).toBeTruthy();
+  });
+
   it('isLogin returns true if UserAgentApplication has a defined Account', () => {
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
 

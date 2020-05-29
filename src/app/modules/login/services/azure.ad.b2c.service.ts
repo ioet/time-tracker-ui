@@ -33,6 +33,10 @@ export class AzureAdB2CService {
     return this.msal.getAccount().name;
   }
 
+  isAdmin() {
+    return this.msal.getAccount()?.idToken?.extension_role === 'time-tracker-admin';
+  }
+
   isLogin() {
     return this.msal.getAccount() ? true : false;
   }
