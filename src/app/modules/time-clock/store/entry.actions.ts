@@ -200,4 +200,4 @@ export type EntryActions =
   | DefaultEntry
   | LoadEntriesByTimeRange
   | LoadEntriesByTimeRangeSuccess
-  | LoadEntriesByTimeRangeFail
+  | LoadEntriesByTimeRangeFail;

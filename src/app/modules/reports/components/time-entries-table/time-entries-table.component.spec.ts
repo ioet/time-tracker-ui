@@ -61,11 +61,10 @@ describe('Reports Page', () => {
       expect(component.data).toEqual(state.entriesForReport);
     });
 
-    fit('after the component is initialized it should initialize the table', () => {
+    it('after the component is initialized it should initialize the table', () => {
       spyOn(component.dtTrigger, 'next');
 
       component.ngAfterViewInit();
-      // fixture.detectChanges();
 
       expect(component.dtTrigger.next).toHaveBeenCalled();
     });

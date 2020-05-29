@@ -8,13 +8,14 @@ import {DataTableDirective} from 'angular-datatables';
 @Component({
   selector: 'app-time-entries-table',
   templateUrl: './time-entries-table.component.html',
+  styleUrls: ['./time-entries-table.component.scss']
 })
 export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   data = [];
   const;
   dtOptions: any = {
-    scrollY: '790px',
+    scrollY: '600px',
     paging: false,
     dom: 'Bfrtip',
     buttons: [
@@ -48,18 +49,12 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   private rerenderDataTable(): void {
-    console.log('1', this.dtElement);
-    console.log('1', this.dtElement);
     if (this.dtElement && this.dtElement.dtInstance) {
-      console.log('2');
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        console.log('3');
-
         dtInstance.destroy();
         this.dtTrigger.next();
       });
     } else {
-      console.log('4');
       this.dtTrigger.next();
     }
   }

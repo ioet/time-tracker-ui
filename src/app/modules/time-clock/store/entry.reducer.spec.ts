@@ -1,8 +1,7 @@
-import {TimeEntriesSummary, TimeDetails} from '../models/time.entry.summary';
-import {NewEntry, Entry} from './../../shared/models';
+import {TimeDetails, TimeEntriesSummary} from '../models/time.entry.summary';
+import {Entry, NewEntry} from './../../shared/models';
 import * as actions from './entry.actions';
 import {entryReducer, EntryState} from './entry.reducer';
-import {init} from 'protractor/built/launcher';
 
 describe('entryReducer', () => {
 
