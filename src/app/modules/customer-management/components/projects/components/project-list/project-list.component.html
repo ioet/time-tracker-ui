@@ -1,37 +1,23 @@
-<table class="table table-sm table-bordered table-striped">
-  <thead class="thead-orange">
-    <tr class="d-flex">
-      <th class="col-9">Project</th>
-      <th class="col-3 text-center"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr
-      class="d-flex"
-      *ngFor="
-        let project of projects
-          | filterProject: filterProjects
-          | paginate: { itemsPerPage: itemsPerPage, currentPage: initPage3, id: 'third' }
-      "
-    >
-      <td class="col-sm-9">{{ project.name }}</td>
-      <td class="col-sm-3 text-center">
-        <button type="button" class="btn btn-sm btn-primary" (click)="updateProject(project)">
-          <i class="fa fa-pencil fa-xs"></i>
-        </button>
-        <button type="button" class="btn btn-sm btn-danger ml-2" (click)="deleteProject(project.id)">
-          <i class="fa fa-trash-alt fa-xs"></i>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<div class="d-flex align-items-end flex-column">
-  <pagination-controls
-    class="mt-auto p-2 custom-pagination"
-    (pageChange)="initPage3 = $event"
-    id="third"
-    previousLabel=""
-    nextLabel=""
-  ></pagination-controls>
+<div class="project-list">
+  <table class="table table-sm table-bordered table-striped">
+    <thead class="thead-orange">
+      <tr class="d-flex">
+        <th class="col-9">Project</th>
+        <th class="col-3 text-center"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="d-flex" *ngFor="let project of projects">
+        <td class="col-sm-9">{{ project.name }}</td>
+        <td class="col-sm-3 text-center">
+          <button type="button" class="btn btn-sm btn-primary" (click)="updateProject(project)">
+            <i class="fa fa-pencil fa-xs"></i>
+          </button>
+          <button type="button" class="btn btn-sm btn-danger ml-2" (click)="deleteProject(project.id)">
+            <i class="fa fa-trash-alt fa-xs"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
