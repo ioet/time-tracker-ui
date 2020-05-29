@@ -1,0 +1,27 @@
+<div class="container-flex m-5">
+<table class="table table-sm table-striped mb-0" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions">
+  <thead class="thead-orange">
+  <tr class="d-flex">
+    <th class="col" style="max-width: 8em">Date</th>
+    <th class="col" style="max-width: 6.2em">Duration</th>
+    <th class="col">Project</th>
+    <th class="col">Ticket</th>
+    <th class="col" style="min-width: 20em">Description</th>
+    <th class="col" style="min-width: 20em">Technologies</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr
+    class="d-flex"
+    *ngFor="let entry of data"
+  >
+    <td class="col" style="max-width: 8em"> {{ entry.start_date | date: 'dd/MM/yyyy' }} </td>
+    <td class="col" style="max-width: 6.2em"> {{ entry.end_date | substractDate: entry.start_date }} </td>
+    <td class="col"> {{ entry.project_name }} </td>
+    <td class="col"> {{ entry.uri }} </td>
+    <td class="col" style="min-width: 20em"> {{ entry.description }} </td>
+    <td class="col" style="word-break: break-all; min-width: 20em"> {{ entry.technologies }} </td>
+  </tr>
+  </tbody>
+</table>
+</div>

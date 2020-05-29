@@ -12,7 +12,9 @@ import {DatePipe} from '@angular/common';
 })
 export class EntryService {
 
-  constructor(private http: HttpClient, private datePipe: DatePipe) {}
+  constructor(private http: HttpClient, private datePipe: DatePipe) {
+  }
+
   static TIME_ENTRIES_DATE_TIME_FORMAT = 'yyyy-MM-ddThh:mm:ssZZZZZ';
   baseUrl = `${environment.timeTrackerApiUrl}/time-entries`;
 
@@ -29,7 +31,7 @@ export class EntryService {
   }
 
   updateActiveEntry(entryData): Observable<any> {
-    const { id } = entryData;
+    const {id} = entryData;
     return this.http.put(`${this.baseUrl}/${id}`, entryData);
   }
 
@@ -49,14 +51,13 @@ export class EntryService {
   }
 
   loadEntriesByTimeRange(range: TimeEntriesTimeRange): Observable<any> {
-
     return this.http.get(this.baseUrl,
-    {
-      params: {
-        start_date: this.datePipe.transform(range.start_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
-        end_date: this.datePipe.transform(range.end_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT)
+      {
+        params: {
+          start_date: this.datePipe.transform(range.start_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
+          end_date: this.datePipe.transform(range.end_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT)
+        }
       }
-    }
     );
   }
 }
