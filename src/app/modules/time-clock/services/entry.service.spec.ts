@@ -55,9 +55,10 @@ describe('EntryService', () => {
   });
 
   it('load all Entries', () => {
-    service.loadEntries(new Date().getMonth).subscribe();
+    const month = new Date().getMonth();
+    service.loadEntries(month).subscribe();
 
-    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}`);
+    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}?month=${month}`);
     expect(loadEntryRequest.request.method).toBe('GET');
 
   });
