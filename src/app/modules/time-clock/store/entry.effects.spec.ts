@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 import {provideMockActions} from '@ngrx/effects/testing';
 import {EntryEffects} from './entry.effects';
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ToastrModule} from 'ngx-toastr';
 import {Action} from '@ngrx/store';
@@ -34,7 +34,7 @@ describe('TimeEntryActionEffects', () => {
     expect(effects).toBeTruthy();
   });
 
-  it('When the service returns a value, then LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS should be triggered', async () => {
+  it('When the service returns a value, then LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS should be triggered',  () => {
     const timeRange: TimeEntriesTimeRange = {start_date: new Date(), end_date: new Date()};
     actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange});
     const serviceSpy = spyOn(service, 'loadEntriesByTimeRange');
@@ -44,20 +44,16 @@ describe('TimeEntryActionEffects', () => {
       expect(action.type).toEqual(EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS);
     });
 
-    expect(service.loadEntriesByTimeRange).toHaveBeenCalledWith(timeRange);
   });
 
   it('When the service fails, then LOAD_ENTRIES_BY_TIME_RANGE_FAIL should be triggered', async () => {
-    const timeRange: TimeEntriesTimeRange = {start_date: new Date(), end_date: new Date()};
-    actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange});
-    const serviceSpy = spyOn(service, 'loadEntriesByTimeRange');
-    serviceSpy.and.throwError('error getting time entries');
+      const timeRange: TimeEntriesTimeRange = {start_date: new Date(), end_date: new Date()};
+      actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange});
+      spyOn(service, 'loadEntriesByTimeRange').and.returnValue(throwError('any error'));
 
-    effects.loadEntriesByTimeRange$.subscribe(action => {
-      expect(action.type).toEqual(EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_FAIL);
-    });
-
-    expect(service.loadEntriesByTimeRange).toHaveBeenCalledWith(timeRange);
+      effects.loadEntriesByTimeRange$.subscribe(action => {
+        expect(action.type).toEqual(EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_FAIL);
+      });
   });
 
   // TODO Implement the remaining unit tests for the other effects.
