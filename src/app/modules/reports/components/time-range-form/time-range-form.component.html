@@ -1,0 +1,26 @@
+<div class="container-flex">
+  <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col">
+        <div class="input-group">
+          <app-input-label text="Start Date"></app-input-label>
+          <app-input-date formControlName="startDate" required="true"></app-input-date>
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group">
+          <app-input-label text="End Date"></app-input-label>
+          <app-input-date formControlName="endDate" required="true"></app-input-date>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn btn-primary float-right"
+                [disabled]="!(reportForm.touched && reportForm.valid)">Search
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+

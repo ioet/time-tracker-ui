@@ -29,12 +29,18 @@ describe('ReportsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have p tag as "reports works!"', async(() => {
+  it('should have form and datatable components', async(() => {
     // tslint:disable-next-line: no-shadowed-variable
     const { fixture } = setup();
+
     fixture.detectChanges();
+
     const compile = fixture.debugElement.nativeElement;
-    const ptag = compile.querySelector('p');
-    expect(ptag.textContent).toBe('reports works!');
+    const div = compile.querySelector('div');
+    const reportForm = compile.querySelector('app-time-range-form');
+    const reportDataTable = compile.querySelector('app-time-entries-table');
+    expect(div).toBeTruthy();
+    expect(reportForm).toBeTruthy();
+    expect(reportDataTable).toBeTruthy();
   }));
 });

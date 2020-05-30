@@ -70,4 +70,19 @@ describe('Actions for Entries', () => {
     const updateActiveEntryFail = new actions.UpdateActiveEntryFail('error');
     expect(updateActiveEntryFail.type).toEqual(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY_FAIL);
   });
+
+  it('LoadEntriesByTimeRange type is EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE', () => {
+    const action = new actions.LoadEntriesByTimeRange(null);
+    expect(action.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE);
+  });
+
+  it('LoadEntriesByTimeRangeSuccess type is EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS', () => {
+    const action = new actions.LoadEntriesByTimeRangeSuccess(null);
+    expect(action.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS);
+  });
+
+  it('LoadEntriesByTimeRangeFail type is EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_FAIL', () => {
+    const action = new actions.LoadEntriesByTimeRangeFail();
+    expect(action.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_FAIL);
+  });
 });

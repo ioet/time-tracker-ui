@@ -1,12 +1,13 @@
-import { TimeEntriesSummary, TimeDetails } from '../models/time.entry.summary';
-import { NewEntry, Entry } from './../../shared/models';
+import {TimeDetails, TimeEntriesSummary} from '../models/time.entry.summary';
+import {Entry, NewEntry} from './../../shared/models';
 import * as actions from './entry.actions';
-import { entryReducer, EntryState } from './entry.reducer';
+import {entryReducer, EntryState} from './entry.reducer';
 
 describe('entryReducer', () => {
 
-  const emptyTimeDetails: TimeDetails = { hours: '--:--', minutes: '--:--', seconds: '--:--' };
-  const emptyTimeEntriesSummary: TimeEntriesSummary = { day: emptyTimeDetails, week: emptyTimeDetails, month: emptyTimeDetails };
+  const emptyTimeDetails: TimeDetails = {hours: '--:--', minutes: '--:--', seconds: '--:--'};
+  const emptyTimeEntriesSummary: TimeEntriesSummary = {day: emptyTimeDetails, week: emptyTimeDetails, month: emptyTimeDetails};
+
 
   const initialState: EntryState = {
     active: null,
@@ -15,15 +16,29 @@ describe('entryReducer', () => {
     message: '',
     createError: null,
     updateError: null,
-    timeEntriesSummary: emptyTimeEntriesSummary
+    timeEntriesSummary: emptyTimeEntriesSummary,
+    entriesForReport: []
   };
 
-  const entry: NewEntry = {
+  const newEntry: NewEntry = {
     start_date: 'start-date',
     description: 'description',
     project_id: '112',
     technologies: ['angular', 'typescript'],
   };
+
+  const entry: Entry = {
+    project_id: '123',
+    comments: 'description',
+    technologies: ['angular', 'javascript'],
+    uri: 'uri',
+    id: 'id',
+    start_date: new Date(),
+    end_date: new Date(),
+    activity_id: 'activity',
+  };
+
+  const entriesList: Entry[] = [entry];
 
   it('sets timeEntriesSummary from action on LOAD_ENTRIES_SUMMARY_SUCCESS', () => {
     const payload = null;
@@ -64,7 +79,7 @@ describe('entryReducer', () => {
 
   it('on LoadActiveEntrySuccess, activeEntryFound are saved in the store', () => {
     const activeEntryFound: NewEntry[] = [
-      { project_id: '123', description: 'description', technologies: ['angular', 'javascript'] , activity_id: 'xyz'},
+      {project_id: '123', description: 'description', technologies: ['angular', 'javascript'], activity_id: 'xyz'},
     ];
     const action = new actions.LoadActiveEntrySuccess(activeEntryFound);
     const state = entryReducer(initialState, action);
@@ -85,21 +100,11 @@ describe('entryReducer', () => {
   });
 
   it('on LoadEntriesSuccess, get all Entries', () => {
-    const entries: Entry[] = [
-      {
-        project_id: '123',
-        comments: 'description',
-        technologies: ['angular', 'javascript'],
-        uri: 'uri',
-        id: 'id',
-        start_date: new Date(),
-        end_date: new Date(),
-        activity_id: 'activity',
-      },
-    ];
-    const action = new actions.LoadEntriesSuccess(entries);
+    const action = new actions.LoadEntriesSuccess(entriesList);
+
     const state = entryReducer(initialState, action);
-    expect(state.entryList).toEqual(entries);
+
+    expect(state.entryList).toEqual(entriesList);
   });
 
   it('on LoadEntriesFail, active tobe null', () => {
@@ -109,7 +114,7 @@ describe('entryReducer', () => {
   });
 
   it('on CreateEntry, isLoading is true', () => {
-    const entryToCreate: NewEntry = { project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00' };
+    const entryToCreate: NewEntry = {project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00'};
     const action = new actions.CreateEntry(entryToCreate);
     const state = entryReducer(initialState, action);
 
@@ -117,7 +122,7 @@ describe('entryReducer', () => {
   });
 
   it('on CreateEntrySuccess, message is updated', () => {
-    const entryToCreate: NewEntry = { project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00' };
+    const entryToCreate: NewEntry = {project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00'};
     const action = new actions.CreateEntrySuccess(entryToCreate);
     const state = entryReducer(initialState, action);
 
@@ -139,27 +144,9 @@ describe('entryReducer', () => {
   });
 
   it('on DeleteEntrySuccess', () => {
-    const currentState = {
-      timeEntriesSummary: emptyTimeEntriesSummary,
-      active: null,
-      entryList: [
-        {
-          project_id: '123',
-          comments: 'description',
-          technologies: ['angular', 'javascript'],
-          uri: 'uri',
-          id: 'id',
-          start_date: new Date(),
-          end_date: new Date(),
-          activity_id: 'activity',
-        },
-      ],
-      isLoading: false,
-      message: '',
-      createError: null,
-      updateError: null,
-    };
+    const currentState = {...initialState, entryList: entriesList};
     const action = new actions.DeleteEntrySuccess('id');
+
     const state = entryReducer(currentState, action);
     expect(state.entryList).toEqual([]);
   });
@@ -171,42 +158,16 @@ describe('entryReducer', () => {
   });
 
   it('on UpdateActiveEntry, isLoading is true', () => {
-    const action = new actions.UpdateActiveEntry(entry);
+    const action = new actions.UpdateActiveEntry(newEntry);
     const state = entryReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
   });
 
   it('on UpdateActiveEntrySuccess, loading is false', () => {
-    const currentState: EntryState = {
-      active: null,
-      entryList: [
-        {
-          project_id: '123',
-          comments: 'description',
-          technologies: ['angular', 'javascript'],
-          uri: 'uri',
-          id: 'id',
-          start_date: new Date(),
-          end_date: new Date(),
-          activity_id: 'activity',
-        },
-      ],
-      isLoading: false,
-      message: '',
-      createError: null,
-      updateError: null,
-      timeEntriesSummary: emptyTimeEntriesSummary
-    };
-    const entryUpdated: Entry = {
-      id: 'id',
-      start_date: new Date(),
-      end_date: new Date(),
-      activity_id: '',
-      technologies: ['abc', 'abc'],
-    };
-    const action = new actions.UpdateActiveEntrySuccess(entryUpdated);
-    const state = entryReducer(currentState, action);
+    const action = new actions.UpdateActiveEntrySuccess(entry);
+
+    const state = entryReducer(initialState, action);
 
     expect(state.isLoading).toEqual(false);
   });
@@ -256,5 +217,31 @@ describe('entryReducer', () => {
     const state = entryReducer(initialState, action);
 
     expect(state.isLoading).toBeFalsy();
+  });
+
+  it('on LoadEntriesByTimeRange, the state has isLoading is true', () => {
+    const action = new actions.LoadEntriesByTimeRange(null);
+
+    const state = entryReducer(initialState, action);
+
+    expect(state.isLoading).toBeTrue();
+  });
+
+  it('on LoadEntriesByTimeRangeSuccess, the entriesForReport is populated with the payload info from the action', () => {
+    const payload = entriesList;
+    const action = new actions.LoadEntriesByTimeRangeSuccess(payload);
+
+    const state = entryReducer(initialState, action);
+
+    expect(state.entriesForReport).toEqual(payload);
+  });
+
+  it('on LoadEntriesByTimeRangeFail, the state has isLoading is false and the entriesForReport is an empty array ', () => {
+    const action = new actions.LoadEntriesByTimeRangeFail();
+
+    const state = entryReducer(initialState, action);
+
+    expect(state.isLoading).toBeFalse();
+    expect(state.entriesForReport).toEqual([]);
   });
 });

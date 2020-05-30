@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { CommonModule } from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -60,6 +60,11 @@ import { SubstractDatePipe } from './modules/shared/pipes/substract-date/substra
 import {TechnologiesComponent} from './modules/shared/components/technologies/technologies.component';
 import { TimeEntriesSummaryComponent } from './modules/time-clock/components/time-entries-summary/time-entries-summary.component';
 import { TimeDetailsPipe } from './modules/time-clock/pipes/time-details.pipe';
+import {InputLabelComponent} from './modules/shared/components/input-label/input-label.component';
+import {ReportsComponent} from './modules/reports/pages/reports.component';
+import {InputDateComponent} from './modules/shared/components/input-date/input-date.component';
+import {TimeRangeFormComponent} from './modules/reports/components/time-range-form/time-range-form.component';
+import {TimeEntriesTableComponent} from './modules/reports/components/time-entries-table/time-entries-table.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +102,11 @@ import { TimeDetailsPipe } from './modules/time-clock/pipes/time-details.pipe';
     TechnologiesComponent,
     TimeEntriesSummaryComponent,
     TimeDetailsPipe,
+    InputLabelComponent,
+    ReportsComponent,
+    InputDateComponent,
+    TimeRangeFormComponent,
+    TimeEntriesTableComponent,
   ],
   imports: [
     CommonModule,
@@ -133,6 +143,7 @@ import { TimeDetailsPipe } from './modules/time-clock/pipes/time-details.pipe';
       useClass: InjectTokenInterceptor,
       multi: true,
     },
+    DatePipe
   ],
   bootstrap: [AppComponent],
 })

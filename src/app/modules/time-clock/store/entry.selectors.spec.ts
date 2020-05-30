@@ -15,4 +15,11 @@ describe('Entry selectors', () => {
     expect(selectors.allEntries.projector(entryState)).toBe(entryList);
   });
 
+  it('should select the entries for report', () => {
+    const entryList = [];
+    const entryState = { entriesForReport: entryList };
+
+    expect(selectors.entriesForReport.projector(entryState)).toBe(entryList);
+  });
+
 });

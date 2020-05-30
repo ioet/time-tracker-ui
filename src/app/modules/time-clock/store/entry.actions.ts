@@ -1,6 +1,7 @@
 import { TimeEntriesSummary } from '../models/time.entry.summary';
 import { Action } from '@ngrx/store';
 import { NewEntry, Entry } from '../../shared/models';
+import {TimeEntriesTimeRange} from '../models/time-entries-time-range';
 
 export enum EntryActionTypes {
   LOAD_ENTRIES_SUMMARY = '[Entry] LOAD_ENTRIES_SUMMARY',
@@ -27,6 +28,9 @@ export enum EntryActionTypes {
   DEFAULT_ENTRY = '[Entry] DEFAULT_ENTRY',
   CLEAN_ENTRY_CREATE_ERROR = '[Entry] CLEAN_ENTRY_CREATE_ERROR',
   CLEAN_ENTRY_UPDATE_ERROR = '[Entry] CLEAN_ENTRY_UPDATE_ERROR',
+  LOAD_ENTRIES_BY_TIME_RANGE = '[Entry] LOAD_ENTRIES_BY_TIME_RANGE',
+  LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS = '[Entry] LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS',
+  LOAD_ENTRIES_BY_TIME_RANGE_FAIL = '[Entry] LOAD_ENTRIES_BY_TIME_RANGE_FAIL',
 }
 
 export class LoadEntriesSummary implements Action {
@@ -154,6 +158,21 @@ export class DefaultEntry implements Action {
   public readonly type = EntryActionTypes.DEFAULT_ENTRY;
 }
 
+export class LoadEntriesByTimeRange implements Action {
+  public readonly type = EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE;
+  constructor(readonly timeRange: TimeEntriesTimeRange) {
+  }
+}
+
+export class LoadEntriesByTimeRangeSuccess implements Action {
+  readonly type = EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS;
+  constructor(readonly payload: Entry[]) {}
+}
+
+export class LoadEntriesByTimeRangeFail implements Action {
+  readonly type = EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_FAIL;
+}
+
 export type EntryActions =
   | LoadEntriesSummary
   | LoadEntriesSummarySuccess
@@ -178,4 +197,7 @@ export type EntryActions =
   | StopTimeEntryRunningFail
   | CleanEntryCreateError
   | CleanEntryUpdateError
-  | DefaultEntry;
+  | DefaultEntry
+  | LoadEntriesByTimeRange
+  | LoadEntriesByTimeRangeSuccess
+  | LoadEntriesByTimeRangeFail;
