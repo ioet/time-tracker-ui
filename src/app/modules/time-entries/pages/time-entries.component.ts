@@ -43,19 +43,27 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   saveEntry(entry): void {
-    const entryDateAsIso = new Date(entry.start_date).toISOString();
-    const entryDateAsLocalDate = new Date(entryDateAsIso);
-    const activeEntryAsLocaldate = new Date(this.activeTimeEntry.start_date);
-    const isEditingActiveEntry = this.entryId === this.activeTimeEntry.id;
-    if (!isEditingActiveEntry && entryDateAsLocalDate > activeEntryAsLocaldate) {
-      this.toastrService.error('You are on the clock and this entry overlaps it, try with earlier times.');
-    } else {
-      if (this.entryId) {
-        entry.id = this.entryId;
-        this.store.dispatch(new entryActions.UpdateActiveEntry(entry));
+    if (this.activeTimeEntry !== null) {
+      const entryDateAsIso = new Date(entry.start_date).toISOString();
+      const entryDateAsLocalDate = new Date(entryDateAsIso);
+      const activeEntryAsLocaldate = new Date(this.activeTimeEntry.start_date);
+      const isEditingActiveEntry = this.entryId === this.activeTimeEntry.id;
+      if (!isEditingActiveEntry && entryDateAsLocalDate > activeEntryAsLocaldate) {
+        this.toastrService.error('You are on the clock and this entry overlaps it, try with earlier times.');
       } else {
-        this.store.dispatch(new entryActions.CreateEntry(entry));
+        this.doSave(entry);
       }
+    } else {
+      this.doSave(entry);
+    }
+  }
+
+  doSave(entry) {
+    if (this.entryId) {
+      entry.id = this.entryId;
+      this.store.dispatch(new entryActions.UpdateActiveEntry(entry));
+    } else {
+      this.store.dispatch(new entryActions.CreateEntry(entry));
     }
   }
 
