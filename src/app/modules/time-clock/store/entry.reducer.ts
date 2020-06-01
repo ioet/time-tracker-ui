@@ -96,10 +96,12 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
     }
 
     case EntryActionTypes.CREATE_ENTRY_SUCCESS: {
+      const entryList = [action.payload, ...state.entryList];
+      entryList.sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
       return {
         ...state,
         active: action.payload,
-        entryList: [action.payload, ...state.entryList],
+        entryList,
         isLoading: false,
         createError: false,
         message: 'You clocked-in successfully',
@@ -151,9 +153,9 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       const entryList = [...state.entryList];
       const index = entryList.findIndex((entry) => entry.id === action.payload.id);
       entryList[index] = action.payload;
+      entryList.sort((a, b) => b.start_date.getTime() - a.start_date.getTime());
       return {
         ...state,
-        entryList,
         isLoading: false,
         updateError: false,
       };
