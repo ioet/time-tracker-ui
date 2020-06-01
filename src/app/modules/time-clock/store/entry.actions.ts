@@ -52,7 +52,7 @@ export class LoadActiveEntry implements Action {
 
 export class LoadActiveEntrySuccess implements Action {
   readonly type = EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS;
-  constructor(readonly payload: NewEntry[]) {}
+  constructor(readonly payload) {}
 }
 
 export class LoadActiveEntryFail implements Action {
