@@ -1,3 +1,4 @@
+import { Entry } from './../../shared/models/entry.model';
 import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY } from './../../shared/messages';
 import { Injectable } from '@angular/core';
 import { ofType, Actions, Effect } from '@ngrx/effects';
@@ -34,7 +35,21 @@ export class EntryEffects {
     mergeMap(() =>
       this.entryService.loadActiveEntry().pipe(
         map((activeEntry) => {
-          return new actions.LoadActiveEntrySuccess(activeEntry);
+          if (activeEntry) {
+            const today = new Date();
+            const entryStartDate = new Date (activeEntry.start_date);
+            const isSameDay = (today.getDate() === entryStartDate.getDate()
+                               && today.getMonth() === entryStartDate.getMonth()
+                               && today.getFullYear() === entryStartDate.getFullYear());
+            if (isSameDay) {
+              return new actions.LoadActiveEntrySuccess(activeEntry);
+            } else {
+              const endDate = activeEntry.start_date;
+              endDate.setHours(23, 59, 59);
+              activeEntry.end_date = new Date(endDate.toISOString());
+              return new actions.UpdateActiveEntry(activeEntry);
+            }
+          }
         }),
         catchError((error) => {
           return of(new actions.LoadActiveEntryFail(error));

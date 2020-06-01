@@ -56,6 +56,30 @@ describe('TimeEntryActionEffects', () => {
       });
   });
 
+  it('returns a LOAD_ACTIVE_ENTRY_SUCCESS when the entry that is running it is in the same day', async () => {
+    const activeEntry = {start_date: new Date()};
+    actions$ = of({type: EntryActionTypes.LOAD_ACTIVE_ENTRY, activeEntry});
+    const serviceSpy = spyOn(service, 'loadActiveEntry');
+    serviceSpy.and.returnValue(of(activeEntry));
+
+    effects.loadActiveEntry$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS);
+    });
+  });
+
+  it('returns a LOAD_ACTIVE_ENTRY_SUCCESS when the entry that is running it is in the same day', async () => {
+    const startDateInPast = new Date();
+    startDateInPast.setDate( startDateInPast.getDate() - 5);
+    const activeEntry = {start_date: startDateInPast};
+    actions$ = of({type: EntryActionTypes.LOAD_ACTIVE_ENTRY, activeEntry});
+    const serviceSpy = spyOn(service, 'loadActiveEntry');
+    serviceSpy.and.returnValue(of(activeEntry));
+
+    effects.loadActiveEntry$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.UPDATE_ACTIVE_ENTRY);
+    });
+  });
+
   // TODO Implement the remaining unit tests for the other effects.
 
 });
