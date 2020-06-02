@@ -153,7 +153,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       const entryList = [...state.entryList];
       const index = entryList.findIndex((entry) => entry.id === action.payload.id);
       entryList[index] = action.payload;
-      entryList.sort((a, b) => b.start_date.getTime() - a.start_date.getTime());
+      entryList.sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
       return {
         ...state,
         isLoading: false,

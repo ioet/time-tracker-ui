@@ -31,8 +31,8 @@ export class ProjectListHoverComponent implements OnInit {
     const projects$ = this.store.pipe(select(getProjects));
     projects$.subscribe((projects) => {
       this.listProjects = projects;
+      this.loadActiveTimeEntry();
     });
-    this.loadActiveTimeEntry();
   }
 
   private loadActiveTimeEntry() {
@@ -61,5 +61,6 @@ export class ProjectListHoverComponent implements OnInit {
       const newEntry = { project_id: selectedProject, start_date: new Date().toISOString() };
       this.store.dispatch(new entryActions.CreateEntry(newEntry));
     }
+    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1 ));
   }
 }

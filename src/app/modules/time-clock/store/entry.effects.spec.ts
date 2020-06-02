@@ -34,8 +34,27 @@ describe('TimeEntryActionEffects', () => {
     expect(effects).toBeTruthy();
   });
 
+  it('returns an action with type LOAD_ENTRIES_SUMMARY_SUCCESS when the service returns a value',  () => {
+    actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_SUMMARY});
+    const serviceSpy = spyOn(service, 'summary');
+    serviceSpy.and.returnValue(of({}));
+
+    effects.loadEntriesSummary$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.LOAD_ENTRIES_SUMMARY_SUCCESS);
+    });
+  });
+
+  it('returns an action with type LOAD_ENTRIES_SUMMARY_FAIL when the service fails',  () => {
+    actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_SUMMARY});
+    spyOn(service, 'summary').and.returnValue(throwError('any error'));
+
+    effects.loadEntriesSummary$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.LOAD_ENTRIES_SUMMARY_FAIL);
+    });
+  });
+
   it('When the service returns a value, then LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS should be triggered',  () => {
-    const timeRange: TimeEntriesTimeRange = {start_date: new Date(), end_date: new Date()};
+    const timeRange: TimeEntriesTimeRange = {start_date: new Date(), end_date: new Date(), user_id: '*' };
     actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange});
     const serviceSpy = spyOn(service, 'loadEntriesByTimeRange');
     serviceSpy.and.returnValue(of([]));
@@ -47,7 +66,7 @@ describe('TimeEntryActionEffects', () => {
   });
 
   it('When the service fails, then LOAD_ENTRIES_BY_TIME_RANGE_FAIL should be triggered', async () => {
-      const timeRange: TimeEntriesTimeRange = {start_date: new Date(), end_date: new Date()};
+      const timeRange: TimeEntriesTimeRange = {start_date: new Date(), end_date: new Date(), user_id: '*'};
       actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange});
       spyOn(service, 'loadEntriesByTimeRange').and.returnValue(throwError('any error'));
 
