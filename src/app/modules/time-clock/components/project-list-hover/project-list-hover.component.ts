@@ -61,5 +61,6 @@ export class ProjectListHoverComponent implements OnInit {
       const newEntry = { project_id: selectedProject, start_date: new Date().toISOString() };
       this.store.dispatch(new entryActions.CreateEntry(newEntry));
     }
+    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1 ));
   }
 }
