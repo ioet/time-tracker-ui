@@ -1,3 +1,4 @@
+import { getActiveTimeEntry } from './../../time-clock/store/entry.selectors';
 import { ToastrService } from 'ngx-toastr';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -232,4 +233,21 @@ describe('TimeEntriesComponent', () => {
     component.getMonth(month);
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(month));
   });
+
+
+  it('doSave when activeTimeEntry === null', async(() => {
+    const entryToSave = {
+      project_id: 'project-id',
+      start_date: '2010-05-05T10:04',
+      description: 'description',
+      technologies: [],
+      uri: 'abc',
+    };
+    spyOn(component, 'doSave');
+    component.activeTimeEntry = null;
+
+    component.saveEntry(entryToSave);
+
+    expect(component.doSave).toHaveBeenCalledWith(entryToSave);
+  }));
 });

@@ -29,7 +29,7 @@ export class EntryFieldsComponent implements OnInit {
     this.entryForm = this.formBuilder.group({
       description: '',
       uri: '',
-      activity_id: ''
+      activity_id: '-1'
     });
   }
 
@@ -38,8 +38,11 @@ export class EntryFieldsComponent implements OnInit {
     const activities$ = this.store.pipe(select(allActivities));
     activities$.subscribe((response) => {
       this.activities = response;
+      this.loadActiveEntry();
     });
+  }
 
+  loadActiveEntry() {
     const activeEntry$ = this.store.pipe(select(getActiveTimeEntry));
     activeEntry$.subscribe((response) => {
       if (response) {

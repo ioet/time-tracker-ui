@@ -67,6 +67,7 @@ describe('Reports Page', () => {
       expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntriesByTimeRange({
         start_date: startDateValue,
         end_date: endDateValue,
+        user_id: '*',
       }));
     });
 

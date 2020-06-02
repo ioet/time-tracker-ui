@@ -92,7 +92,7 @@ describe('EntryService', () => {
     const startDateValue = new Date();
     const endDateValue = new Date();
     const pipe: DatePipe = new DatePipe('en');
-    const timeRange: TimeEntriesTimeRange = {start_date: startDateValue, end_date: endDateValue};
+    const timeRange: TimeEntriesTimeRange = {start_date: startDateValue, end_date: endDateValue, user_id: '*'};
 
     service.loadEntriesByTimeRange(timeRange).subscribe();
 

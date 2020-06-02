@@ -31,8 +31,8 @@ export class ProjectListHoverComponent implements OnInit {
     const projects$ = this.store.pipe(select(getProjects));
     projects$.subscribe((projects) => {
       this.listProjects = projects;
+      this.loadActiveTimeEntry();
     });
-    this.loadActiveTimeEntry();
   }
 
   private loadActiveTimeEntry() {

@@ -23,7 +23,8 @@ export class TimeRangeFormComponent {
   onSubmit() {
     this.store.dispatch(new entryActions.LoadEntriesByTimeRange({
       start_date: this.startDate.value,
-      end_date: this.endDate.value
+      end_date: this.endDate.value,
+      user_id: '*',
     }));
   }
 }
