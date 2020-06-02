@@ -45,7 +45,7 @@ export class EntryEffects {
             } else {
               const endDate = activeEntry.start_date;
               endDate.setHours(23, 59, 59);
-              activeEntry.end_date = new Date(endDate.toISOString());
+              activeEntry.end_date = endDate.toISOString();
               return new actions.UpdateActiveEntry(activeEntry);
             }
           }
