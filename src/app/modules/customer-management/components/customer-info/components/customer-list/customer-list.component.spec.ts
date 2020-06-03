@@ -117,24 +117,18 @@ describe('CustomerTableListComponent', () => {
     expect(component.customers).toEqual(state.data);
   });
 
-  // it('on success load customer and the datatable was already initialized, then the datatable should be destroyed ' +
-  //   'before reloading the customer data', () => {
-  //   const actionSubject = TestBed.get(ActionsSubject) as ActionsSubject;
-  //   component.isDtInitialized = true;
-  //   const action = {
-  //     type: CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS,
-  //     payload: state.data
-  //   };
-  //   const dtApi: DataTables.Api = jasmine.createSpyObj<DataTables.Api>('dtApi', ['destroy']);
-  //   component.dtElement.dtInstance = Promise.resolve(dtApi);
-  //   spyOn(component.dtElement.dtInstance, 'then');
-  //
-  //   actionSubject.next(action);
-  //
-  //   expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
-  //   // TODO Improve  this test. This is not testing the datatable is destroyed
-  //   // expect(dtApi.destroy).toHaveBeenCalled();
-  // });
+  it('on success load customer, the datatable should be reloaded', async () => {
+    const actionSubject = TestBed.inject(ActionsSubject);
+    const action = {
+      type: CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS,
+      payload: state.data
+    };
+    spyOn(component.dtElement.dtInstance, 'then');
+
+    actionSubject.next(action);
+
+    expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
+  });
 
   afterEach(() => {
     component.dtTrigger.unsubscribe();

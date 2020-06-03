@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, AfterViewInit} from '@angular/core';
 import {ActionsSubject, Store} from '@ngrx/store';
 
 import {Subject, Subscription} from 'rxjs';
@@ -17,7 +17,7 @@ import {DataTableDirective} from 'angular-datatables';
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss'],
 })
-export class CustomerListComponent implements OnInit, OnDestroy {
+export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Input() showCustomerForm: boolean;
   @Output() changeValueShowCustomerForm = new EventEmitter<boolean>();
@@ -27,7 +27,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, {static: false})
   dtElement: DataTableDirective;
-  isDtInitialized = false;
   loadCustomersSubscription: Subscription;
   changeCustomerSubscription: Subscription;
 
@@ -62,6 +61,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new LoadCustomers());
   }
 
+    ngAfterViewInit(): void {
+    this.rerenderDataTable();
+  }
+
   ngOnDestroy() {
     this.loadCustomersSubscription.unsubscribe();
     this.changeCustomerSubscription.unsubscribe();
@@ -78,16 +81,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new DeleteCustomer(customerId));
   }
 
-  /* istanbul ignore next */
   private rerenderDataTable(): void {
-    if (this.isDtInitialized) {
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
+    if (this.dtElement && this.dtElement.dtInstance) {
+      this.dtElement.dtInstance.then((dtInstances: DataTables.Api) => {
+        dtInstances.destroy();
         this.dtTrigger.next();
       });
     } else {
       this.dtTrigger.next();
-      this.isDtInitialized = true;
     }
   }
 }
