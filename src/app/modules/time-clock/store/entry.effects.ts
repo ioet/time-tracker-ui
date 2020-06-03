@@ -10,7 +10,7 @@ import * as actions from './entry.actions';
 
 @Injectable()
 export class EntryEffects {
-  constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) {}
+  constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) { }
 
   @Effect()
   loadEntriesSummary$: Observable<Action> = this.actions$.pipe(
@@ -36,17 +36,16 @@ export class EntryEffects {
         map((activeEntry) => {
           if (activeEntry) {
             const today = new Date();
-            const entryStartDate = new Date (activeEntry.start_date);
+            const entryStartDate = new Date(activeEntry.start_date);
             const isSameDay = (today.getDate() === entryStartDate.getDate()
-                               && today.getMonth() === entryStartDate.getMonth()
-                               && today.getFullYear() === entryStartDate.getFullYear());
+              && today.getMonth() === entryStartDate.getMonth()
+              && today.getFullYear() === entryStartDate.getFullYear());
             if (isSameDay) {
               return new actions.LoadActiveEntrySuccess(activeEntry);
             } else {
-              const endDate = activeEntry.start_date;
+              const endDate = new Date(activeEntry.start_date);
               endDate.setHours(23, 59, 59);
-              activeEntry.end_date = endDate.toISOString();
-              return new actions.UpdateActiveEntry(activeEntry);
+              return new actions.UpdateActiveEntry({ d: activeEntry.id, end_date: endDate.toISOString() });
             }
           }
         }),
@@ -119,7 +118,7 @@ export class EntryEffects {
     mergeMap((entry) =>
       this.entryService.updateActiveEntry(entry).pipe(
         map((entryResponse) => {
-          if (entryResponse.end_date) {
+          if (entryResponse.end_date && entry.start_date === null) {
             this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           }
           return new actions.UpdateActiveEntrySuccess(entryResponse);
