@@ -141,13 +141,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   /* istanbul ignore next */
   closeEntryModal() {
-    this.close();
     this.closeModal?.nativeElement?.click();
-  }
-
-  close() {
-    this.entryForm.reset();
-    this.cleanForm();
   }
 
   onSubmit() {
