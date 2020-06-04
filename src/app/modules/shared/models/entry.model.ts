@@ -7,6 +7,7 @@ export interface Entry {
   comments?: string;
   uri?: string;
   project_id?: string;
+  owner_email?: string;
 }
 
 export interface NewEntry {
