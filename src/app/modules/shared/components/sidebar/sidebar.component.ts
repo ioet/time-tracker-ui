@@ -1,6 +1,10 @@
-import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.service';
-import { Component, OnInit } from '@angular/core';
-import { ItemSidebar } from './models/item-sidebar.model';
+import {AzureAdB2CService} from 'src/app/modules/login/services/azure.ad.b2c.service';
+import {Component, OnInit} from '@angular/core';
+import {ItemSidebar} from './models/item-sidebar.model';
+import {NavigationStart, Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {filter} from 'rxjs/operators';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -8,27 +12,41 @@ import { ItemSidebar } from './models/item-sidebar.model';
 })
 export class SidebarComponent implements OnInit {
   itemsSidebar: ItemSidebar[] = [];
+  navStart;
 
-  constructor(private azureAdB2CService: AzureAdB2CService) {}
-
-  ngOnInit(): void {
-    this.getItemsSidebar();
+  constructor(private azureAdB2CService: AzureAdB2CService, private router: Router) {
+    this.navStart = this.router.events.pipe(
+      filter(evt => evt instanceof NavigationStart)
+    ) as Observable<NavigationStart>;
   }
 
-  getItemsSidebar() {
+  ngOnInit(): void {
+    this.getSidebarItems();
+    this.highlightMenuOption(this.router.routerState.snapshot.url);
+    this.navStart.subscribe(evt => {
+      this.highlightMenuOption(evt.url);
+    });
+  }
+
+  getSidebarItems() {
     if (this.azureAdB2CService.isAdmin()) {
       this.itemsSidebar = [
-        { route: '/time-clock', icon: 'fas fa-clock', text: 'Time Clock' },
-        { route: '/time-entries', icon: 'fas fa-list-alt', text: 'Time Entries' },
-        { route: '/reports', icon: 'fas fa-chart-pie', text: 'Reports' },
-        { route: '/activities-management', icon: 'fas fa-file-alt', text: 'Activities' },
-        { route: '/customers-management', icon: 'fas fa-user', text: 'Customers' },
+        {route: '/time-clock', icon: 'fas fa-clock', text: 'Time Clock', active: false},
+        {route: '/time-entries', icon: 'fas fa-list-alt', text: 'Time Entries', active: false},
+        {route: '/reports', icon: 'fas fa-chart-pie', text: 'Reports', active: false},
+        {route: '/activities-management', icon: 'fas fa-file-alt', text: 'Activities', active: false},
+        {route: '/customers-management', icon: 'fas fa-user', text: 'Customers', active: false},
       ];
     } else {
       this.itemsSidebar = [
-        { route: '/time-clock', icon: 'fas fa-clock', text: 'Time Clock' },
-        { route: '/time-entries', icon: 'fas fa-list-alt', text: 'Time Entries' },
+        {route: '/time-clock', icon: 'fas fa-clock', text: 'Time Clock', active: false},
+        {route: '/time-entries', icon: 'fas fa-list-alt', text: 'Time Entries', active: false},
       ];
     }
+  }
+
+  highlightMenuOption(route) {
+    this.itemsSidebar.map(item => item.active = false);
+    this.itemsSidebar.filter(item => item.route === route).map(item => item.active = true);
   }
 }
