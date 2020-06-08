@@ -1,12 +1,20 @@
-import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.service';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {AzureAdB2CService} from 'src/app/modules/login/services/azure.ad.b2c.service';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SidebarComponent } from './sidebar.component';
+import {SidebarComponent} from './sidebar.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {Router, Routes} from '@angular/router';
+import {TimeClockComponent} from '../../../time-clock/pages/time-clock.component';
+import {provideMockStore} from '@ngrx/store/testing';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
   let azureAdB2CServiceStubInjected;
+  let router;
+  const routes: Routes = [
+    {path: 'time-clock', component: TimeClockComponent}
+  ];
 
   const azureAdB2CServiceStub = {
     isLogin() {
@@ -19,12 +27,15 @@ describe('SidebarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidebarComponent ],
+      declarations: [SidebarComponent],
       providers: [
-        { providers: AzureAdB2CService, useValue: azureAdB2CServiceStub},
-      ]
+        {providers: AzureAdB2CService, useValue: azureAdB2CServiceStub},
+        provideMockStore({initialState: {}})
+      ],
+      imports: [RouterTestingModule.withRoutes(routes)]
     })
-    .compileComponents();
+      .compileComponents();
+    router = TestBed.inject(Router);
   }));
 
   beforeEach(() => {
@@ -42,7 +53,7 @@ describe('SidebarComponent', () => {
   it('admin users have five menu items', () => {
     spyOn(azureAdB2CServiceStubInjected, 'isAdmin').and.returnValue(true);
 
-    component.getItemsSidebar();
+    component.getSidebarItems();
     const menuItems = component.itemsSidebar;
 
     expect(menuItems.length).toBe(5);
@@ -51,10 +62,21 @@ describe('SidebarComponent', () => {
   it('non admin users have two menu items', () => {
     spyOn(azureAdB2CServiceStubInjected, 'isAdmin').and.returnValue(false);
 
-    component.getItemsSidebar();
+    component.getSidebarItems();
     const menuItems = component.itemsSidebar;
 
     expect(menuItems.length).toBe(2);
   });
 
+  it('when item is selected is should be set as active and the others as inactive', () => {
+    const route = 'time-clock';
+    router.navigate([route]);
+
+    component.itemsSidebar.filter(item => item.route === `/${route}`).map(item => {
+      expect(item.active).toBeTrue();
+    });
+    component.itemsSidebar.filter(item => item.route !== `/${route}`).map(item => {
+      expect(item.active).toBeFalse();
+    });
+  });
 });

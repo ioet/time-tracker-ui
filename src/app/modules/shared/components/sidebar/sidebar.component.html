@@ -10,9 +10,10 @@
         [routerLink]="item.route"
         routerLinkActive=""
         class="item-hover item"
+        [ngClass]="{active: item.active}"
       >
-        <i class="{{ item.icon }}"></i> {{ item.text }}</a
-      >
+        <i class="{{ item.icon }}"></i> {{ item.text }}
+      </a>
     </div>
   </div>
   <!-- /#sidebar-wrapper -->

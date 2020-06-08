@@ -28,10 +28,15 @@
     overflow-y: auto;
   }
 
-  .background-item-sidebar-active,
 
   .item-hover:hover {
     color: #16BAC5;
+  }
+
+  .active {
+    color: #16BAC5;
+    font-weight: bold;
+    text-decoration: underline;
   }
 }
 
