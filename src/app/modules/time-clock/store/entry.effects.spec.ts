@@ -10,6 +10,7 @@ import {DatePipe} from '@angular/common';
 import {EntryActionTypes} from './entry.actions';
 import {EntryService} from '../services/entry.service';
 import {TimeEntriesTimeRange} from '../models/time-entries-time-range';
+import * as moment from 'moment';
 
 describe('TimeEntryActionEffects', () => {
 
@@ -57,7 +58,7 @@ describe('TimeEntryActionEffects', () => {
   });
 
   it('When the service returns a value, then LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS should be triggered',  () => {
-    const timeRange: TimeEntriesTimeRange = {start_date: new Date(), end_date: new Date(), user_id: '*' };
+    const timeRange: TimeEntriesTimeRange = {start_date: moment(new Date()), end_date: moment(new Date()), user_id: '*' };
     actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange});
     const serviceSpy = spyOn(service, 'loadEntriesByTimeRange');
     serviceSpy.and.returnValue(of([]));
@@ -69,7 +70,7 @@ describe('TimeEntryActionEffects', () => {
   });
 
   it('When the service fails, then LOAD_ENTRIES_BY_TIME_RANGE_FAIL should be triggered', async () => {
-      const timeRange: TimeEntriesTimeRange = {start_date: new Date(), end_date: new Date(), user_id: '*'};
+      const timeRange: TimeEntriesTimeRange = {start_date: moment(new Date()), end_date: moment(new Date()), user_id: '*'};
       actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange});
       spyOn(service, 'loadEntriesByTimeRange').and.returnValue(throwError('any error'));
 

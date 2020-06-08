@@ -1,11 +1,11 @@
-import {TimeEntriesSummary} from '../models/time.entry.summary';
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { TimeEntriesSummary } from '../models/time.entry.summary';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import {Observable} from 'rxjs';
-import {environment} from './../../../../environments/environment';
-import {TimeEntriesTimeRange} from '../models/time-entries-time-range';
-import {DatePipe} from '@angular/common';
+import { Observable } from 'rxjs';
+import { environment } from './../../../../environments/environment';
+import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class EntryService {
   constructor(private http: HttpClient, private datePipe: DatePipe) {
   }
 
-  static TIME_ENTRIES_DATE_TIME_FORMAT = 'yyyy-MM-ddThh:mm:ssZZZZZ';
+  static TIME_ENTRIES_DATE_TIME_FORMAT = 'yyyy-MM-ddTHH:mm:ssZZZZZ';
   baseUrl = `${environment.timeTrackerApiUrl}/time-entries`;
 
   loadActiveEntry(): Observable<any> {

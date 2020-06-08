@@ -1,5 +1,7 @@
+import {Moment} from 'moment';
+
 export interface TimeEntriesTimeRange {
-  start_date: Date;
-  end_date: Date;
+  start_date: Moment;
+  end_date: Moment;
   user_id: string;
 }
