@@ -1,16 +1,20 @@
 <h6 class="text-left"><strong>Summary</strong></h6>
 <hr />
 <div class="row pb-4">
-  <div class="col-4">
+  <div class="col-3">
+    <h6>Current</h6>
+    <h3>{{ currentWorkingTime }}</h3>
+  </div>
+  <div class="col-3">
     <h6>Day</h6>
-    <h3>{{ timeEntriesSummary.day | timeDetails }}</h3>
+    <h3>{{ timeEntriesSummary?.day | timeDetails }}</h3>
   </div>
-  <div class="col-4">
+  <div class="col-3">
     <h6>Week</h6>
-    <h3>{{ timeEntriesSummary.week | timeDetails }}</h3>
+    <h3>{{ timeEntriesSummary?.week | timeDetails }}</h3>
   </div>
-  <div class="col-4">
+  <div class="col-3">
     <h6>Month</h6>
-    <h3>{{ timeEntriesSummary.month | timeDetails }}</h3>
+    <h3>{{ timeEntriesSummary?.month | timeDetails }}</h3>
   </div>
 </div>

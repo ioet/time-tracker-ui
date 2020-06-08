@@ -7,7 +7,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TimeDetailsPipe implements PipeTransform {
 
   transform(value: TimeDetails): string {
-    return `${this.formatAsTwoDigit(value.hours)}:${this.formatAsTwoDigit(value.minutes)}` ;
+    if (value) {
+      return `${this.formatAsTwoDigit(value.hours)}:${this.formatAsTwoDigit(value.minutes)}`;
+    } else {
+      return '--:--';
+    }
   }
 
   formatAsTwoDigit(time: string): string {
