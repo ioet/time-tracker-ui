@@ -102,7 +102,7 @@
 
   <div class="form-group text-left">
     <label for="NotesTextarea">Description</label>
-    <textarea formControlName="description" class="form-control" id="NotesTextarea" rows="3"></textarea>
+    <textarea maxlength="1500" formControlName="description" class="form-control" id="NotesTextarea" rows="3"></textarea>
   </div>
   <div class="modal-footer">
     <button type="submit" class="btn btn-primary" [disabled]="!entryForm.valid">Save</button>
