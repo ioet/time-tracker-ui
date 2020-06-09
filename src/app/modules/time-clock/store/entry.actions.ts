@@ -137,7 +137,7 @@ export class StopTimeEntryRunning implements Action {
 
 export class StopTimeEntryRunningSuccess implements Action {
   public readonly type = EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS;
-  constructor(readonly payload: string) {}
+  constructor(readonly payload) {}
 }
 
 export class StopTimeEntryRunningFail implements Action {

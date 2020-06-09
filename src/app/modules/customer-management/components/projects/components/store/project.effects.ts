@@ -55,7 +55,7 @@ export class ProjectEffects {
     mergeMap((project) =>
       this.projectService.createProject(project).pipe(
         map((projectData) => {
-          this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           return new actions.CreateProjectSuccess(projectData);
         }),
         catchError((error) => {

@@ -137,9 +137,9 @@ export class EntryEffects {
     map((action: actions.StopTimeEntryRunning) => action.payload),
     mergeMap((timeEntryId) =>
       this.entryService.stopEntryRunning(timeEntryId).pipe(
-        map(() => {
+        map((response) => {
           this.toastrService.success('You clocked-out successfully');
-          return new actions.StopTimeEntryRunningSuccess(timeEntryId);
+          return new actions.StopTimeEntryRunningSuccess(response);
         }),
         catchError((error) => {
           this.toastrService.error(error.error.message);

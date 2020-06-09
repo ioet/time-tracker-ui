@@ -1,3 +1,5 @@
+import { interval } from 'rxjs';
+import { EntryActionTypes } from './../../store/entry.actions';
 import { EntryState } from './../../store/entry.reducer';
 import { TimeDetailsPipe } from './../../pipes/time-details.pipe';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -6,6 +8,7 @@ import { TimeDetails } from './../../models/time.entry.summary';
 import { async, ComponentFixture, TestBed, tick, fakeAsync, discardPeriodicTasks } from '@angular/core/testing';
 
 import { TimeEntriesSummaryComponent } from './time-entries-summary.component';
+import { ActionsSubject } from '@ngrx/store';
 
 describe('TimeEntriesSummaryComponent', () => {
   let component: TimeEntriesSummaryComponent;
@@ -17,6 +20,7 @@ describe('TimeEntriesSummaryComponent', () => {
 
   const timeTwoHoursBehind = new Date();
   timeTwoHoursBehind.setHours(timeTwoHoursBehind.getHours() - 2);
+  const actionSub: ActionsSubject = new ActionsSubject();
 
   const timeEntry = {
     id: '123',
@@ -44,8 +48,7 @@ describe('TimeEntriesSummaryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TimeEntriesSummaryComponent, TimeDetailsPipe ],
-      providers: [provideMockStore({ initialState: state })
-      ],
+      providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
     })
     .compileComponents();
     store = TestBed.inject(MockStore);
@@ -60,6 +63,64 @@ describe('TimeEntriesSummaryComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+
+  const params = [
+    { actionType: EntryActionTypes.LOAD_ACTIVE_ENTRY_FAIL },
+    { actionType: EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS },
+    { actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS },
+  ];
+
+  params.map((param) => {
+    it(`calls blankCurrentWorkingTime when ${param.actionType}`, () => {
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+      const action = {
+        type: param.actionType,
+      };
+      spyOn(component, 'blankCurrentWorkingTime');
+
+      actionSubject.next(action);
+
+      expect(component.blankCurrentWorkingTime).toHaveBeenCalled();
+    });
+  });
+
+  it('sets destroyed to false when timeInterval is not null', () => {
+    spyOn(component.destroyed$, 'next');
+    component.timeInterval = interval(1).subscribe();
+
+    component.updateCurrentWorkingHours(timeEntry);
+
+    expect(component.destroyed$.next).toHaveBeenCalledWith(false);
+  });
+
+  it('does not change currentWorkingTime if entry is null', () => {
+    const initialWorkingTime = 'foo';
+    component.currentWorkingTime = initialWorkingTime;
+
+    component.updateCurrentWorkingHours(null);
+
+    expect(component.currentWorkingTime).toBe(initialWorkingTime);
+  });
+
+  it('sets --:-- to currentWorkingTime', () => {
+    component.blankCurrentWorkingTime();
+
+    expect(component.currentWorkingTime).toBe('--:--');
+  });
+
+  it('calls updateCurrentWorkingHours when LOAD_ACTIVE_ENTRY_SUCCESS', () => {
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS,
+      payload: timeEntry
+    };
+    spyOn(component, 'updateCurrentWorkingHours');
+
+    actionSubject.next(action);
+
+    expect(component.updateCurrentWorkingHours).toHaveBeenCalledWith(timeEntry);
   });
 
   it('dispatches two actions on ngOnInit', () => {
