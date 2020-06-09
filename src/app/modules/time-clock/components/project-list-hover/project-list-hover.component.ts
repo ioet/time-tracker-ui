@@ -62,5 +62,7 @@ export class ProjectListHoverComponent implements OnInit {
       this.store.dispatch(new entryActions.CreateEntry(newEntry));
     }
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1 ));
+    this.loadActiveTimeEntry();
   }
+
 }
