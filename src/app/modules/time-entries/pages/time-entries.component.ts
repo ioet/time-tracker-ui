@@ -56,7 +56,6 @@ export class TimeEntriesComponent implements OnInit {
     } else {
       this.doSave(entry);
     }
-    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
   }
 
   doSave(entry) {

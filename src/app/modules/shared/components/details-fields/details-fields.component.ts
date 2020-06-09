@@ -152,8 +152,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       activity_id: this.entryForm.value.activity_id,
       technologies: this.selectedTechnologies ? this.selectedTechnologies : [],
       description: this.entryForm.value.description,
-      start_date: `${entryDate}T${this.entryForm.value.start_hour}`,
-      end_date: `${entryDate}T${this.entryForm.value.end_hour}`,
+      start_date: `${entryDate}T${this.entryForm.value.start_hour.trim()}`,
+      end_date: `${entryDate}T${this.entryForm.value.end_hour.trim()}`,
       uri: this.entryForm.value.uri,
     };
     this.saveEntry.emit(entry);
