@@ -47,8 +47,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       activity_id: '',
       description: '',
       entry_date: '',
-      start_hour: '00:00',
-      end_hour: '00:00',
+      start_hour: '',
+      end_hour: '',
       uri: '',
       technology: '',
     });

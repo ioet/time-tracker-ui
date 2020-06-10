@@ -69,6 +69,11 @@
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Time in</span>
     </div>
     <input
+    [clearIfNotMatch]="true"
+      [showMaskTyped] = "true"
+      [dropSpecialCharacters]="false"
+      matInput
+      mask="Hh:m0"
       formControlName="start_hour"
       id="start_hour"
       type="text"
@@ -82,6 +87,11 @@
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Time out</span>
     </div>
     <input
+    [clearIfNotMatch]="true"
+      [showMaskTyped] = "true"
+      [dropSpecialCharacters]="false"
+      matInput
+      mask="Hh:m0"
       formControlName="end_hour"
       type="text"
       id="end_hour"

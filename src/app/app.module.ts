@@ -1,3 +1,4 @@
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import {CommonModule, DatePipe} from '@angular/common';
@@ -66,6 +67,10 @@ import {InputDateComponent} from './modules/shared/components/input-date/input-d
 import {TimeRangeFormComponent} from './modules/reports/components/time-range-form/time-range-form.component';
 import {TimeEntriesTableComponent} from './modules/reports/components/time-entries-table/time-entries-table.component';
 
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -109,6 +114,7 @@ import {TimeEntriesTableComponent} from './modules/reports/components/time-entri
     TimeEntriesTableComponent,
   ],
   imports: [
+    NgxMaskModule.forRoot(maskConfig),
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
