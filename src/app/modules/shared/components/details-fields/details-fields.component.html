@@ -11,7 +11,7 @@
       formControlName="project_id"
     >
       <option value="" selected="selected"></option>
-      <option *ngFor="let project of listProjects" value="{{ project.id }}">{{ project.name }}</option>
+      <option *ngFor="let project of listProjects" value="{{ project.id }}">{{ project.customer_name }} - {{ project.name }}</option>
     </select>
   </div>
 
