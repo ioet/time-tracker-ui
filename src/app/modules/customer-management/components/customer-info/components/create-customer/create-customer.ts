@@ -1,3 +1,4 @@
+import { CleanProjectTypes } from './../../../projects-type/store/project-type.actions';
 import { Component, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
@@ -12,7 +13,7 @@ import {
   ResetCustomerToEdit,
 } from 'src/app/modules/customer-management/store';
 import { LoadProjectTypes } from '../../../projects-type/store';
-import { LoadCustomerProjects } from '../../../projects/components/store/project.actions';
+import { LoadCustomerProjects, CleanCustomerProjects } from '../../../projects/components/store/project.actions';
 
 @Component({
   selector: 'app-create-customer',
@@ -35,8 +36,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.areTabsActive = true;
-    this.changeValueAreTabsActives.emit(this.areTabsActive);
+    this.markTabsAsInactive();
     const customers$ = this.store.pipe(select(getCustomerUnderEdition));
     this.editSubscription = customers$.subscribe((customer) => {
       this.customerToEdit = customer;
@@ -73,8 +73,16 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
         description: customerData.description,
       });
     } else {
+      this.store.dispatch(new CleanProjectTypes());
+      this.store.dispatch(new CleanCustomerProjects());
+      this.markTabsAsInactive();
       this.customerForm.reset();
     }
+  }
+
+  markTabsAsInactive() {
+    this.areTabsActive = false;
+    this.changeValueAreTabsActives.emit(this.areTabsActive);
   }
 
   get name() {

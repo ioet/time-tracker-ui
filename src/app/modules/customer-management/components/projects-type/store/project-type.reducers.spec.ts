@@ -12,6 +12,15 @@ describe('projectTypeReducer', () => {
     expect(state.data).toEqual(initialState.data);
   });
 
+  it('on CLEAN_PROJECT_TYPES, data is cleared', () => {
+    initialState.data = [projectType];
+    const action = new actions.CleanProjectTypes();
+
+    const state = projectTypeReducer(initialState, action);
+
+    expect(state.data).toEqual([]);
+  });
+
   it('on LoadProjectTypes, isLoading is true', () => {
     const action = new actions.LoadProjectTypes();
 
@@ -46,6 +55,7 @@ describe('projectTypeReducer', () => {
   });
 
   it('on CreateProjectTypeSuccess, activitiesFound are saved in the store', () => {
+    initialState.data = [];
     const action = new actions.CreateProjectTypeSuccess(projectType);
 
     const state = projectTypeReducer(initialState, action);

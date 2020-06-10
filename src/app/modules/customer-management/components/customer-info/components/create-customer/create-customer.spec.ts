@@ -1,3 +1,5 @@
+import { LoadCustomerProjects, CleanCustomerProjects } from './../../../projects/components/store/project.actions';
+import { LoadProjectTypes, CleanProjectTypes } from './../../../projects-type/store/project-type.actions';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -108,12 +110,34 @@ describe('CreateCustomerComponent', () => {
     expect(component.areTabsActive).toBeTruthy();
   });
 
-  it('set data to update ', () => {
+  it('loads projects and projectTypes when customerData is not null', () => {
     spyOn(store, 'dispatch');
 
     component.ngOnInit();
     component.setDataToUpdate(customerData);
 
-    expect(store.dispatch).toHaveBeenCalledTimes(2);
+    expect(store.dispatch).toHaveBeenCalledWith(new LoadProjectTypes(customerData.id));
+    expect(store.dispatch).toHaveBeenCalledWith(new LoadCustomerProjects(customerData.id));
   });
+
+  it('cleans projects and projectTypes when customerData is null', () => {
+    spyOn(store, 'dispatch');
+
+    component.ngOnInit();
+    component.setDataToUpdate(null);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new CleanProjectTypes());
+    expect(store.dispatch).toHaveBeenCalledWith(new CleanCustomerProjects());
+  });
+
+  it('sets areTabsActive to false and emit its value on markTabsAsInactive', () => {
+    component.areTabsActive = true;
+    spyOn(component.changeValueAreTabsActives, 'emit');
+
+    component.markTabsAsInactive();
+
+    expect(component.areTabsActive).toBe(false);
+    expect(component.changeValueAreTabsActives.emit).toHaveBeenCalledWith(component.areTabsActive);
+  });
+
 });
