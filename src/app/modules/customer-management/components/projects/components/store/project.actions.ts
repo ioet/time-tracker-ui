@@ -19,6 +19,12 @@ export enum ProjectActionTypes {
   DELETE_PROJECT = '[Projects] DELETE_PROJECT',
   DELETE_PROJECT_SUCCESS = '[Projects] DELETE_PROJECT_SUCESS',
   DELETE_PROJECT_FAIL = '[Projects] DELETE_PROJECT_FAIL',
+  CLEAN_CUSTOMER_PROJECTS = '[Projects] CLEAN_CUSTOMER_PROJECTS',
+}
+
+export class CleanCustomerProjects implements Action {
+  public readonly type = ProjectActionTypes.CLEAN_CUSTOMER_PROJECTS;
+  constructor() {}
 }
 
 export class LoadProjects implements Action {
@@ -117,6 +123,7 @@ export class DeleteProjectFail implements Action {
 }
 
 export type ProjectActions =
+  | CleanCustomerProjects
   | LoadProjects
   | LoadProjectsSuccess
   | LoadProjectsFail

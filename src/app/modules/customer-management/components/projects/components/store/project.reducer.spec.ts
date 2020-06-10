@@ -9,6 +9,15 @@ describe('projectReducer', () => {
   };
   const project: Project = { id: '1', name: 'aaa', description: 'bbb', project_type_id: '123' };
 
+  it('on CLEAN_CUSTOMER_PROJECTS, customerProjects is empty', () => {
+    initialState.customerProjects = [project];
+    const action = new actions.CleanCustomerProjects();
+
+    const state = projectReducer(initialState, action);
+
+    expect(state.customerProjects).toEqual([]);
+  });
+
   it('on LoadProjects, isLoading is true', () => {
     const action = new actions.LoadCustomerProjects('1');
     const state = projectReducer(initialState, action);
@@ -36,18 +45,20 @@ describe('projectReducer', () => {
   });
 
   it('on CreateProjectSuccess, project is saved in the store', () => {
+    initialState.customerProjects = [];
     const action = new actions.CreateProjectSuccess(project);
+
     const state = projectReducer(initialState, action);
 
     expect(state.customerProjects).toEqual([project]);
     expect(state.isLoading).toEqual(false);
   });
 
-  it('on CreateProjectFail, customerProjects equal []', () => {
+  it('on CreateProjectFail, isLoading is false', () => {
     const action = new actions.CreateProjectFail('error');
+
     const state = projectReducer(initialState, action);
 
-    expect(state.customerProjects).toEqual([]);
     expect(state.isLoading).toEqual(false);
   });
 

@@ -18,6 +18,12 @@ export const initialState: ProjectTypeState = {
 export const projectTypeReducer = (state: ProjectTypeState = initialState, action: ProjectTypeActions) => {
   const projectTypeList = [...state.data];
   switch (action.type) {
+    case ProjectTypeActionTypes.CLEAN_PROJECT_TYPES: {
+      return {
+        ...state,
+        data: [],
+      };
+    }
     case ProjectTypeActionTypes.LOAD_PROJECT_TYPES: {
       return {
         ...state,

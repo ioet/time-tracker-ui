@@ -18,6 +18,12 @@ export enum ProjectTypeActionTypes {
   SET_PROJECT_TYPE_ID_TO_EDIT = '[ProjectType] SET_PROJECT_TYPE_ID_TO_EDIT',
   RESET_PROJECT_TYPE_ID_TO_EDIT = '[ProjectType] RESET_PROJECT_TYPE_ID_TO_EDIT',
   DEFAULT_PROJECT_TYPE = '[ProjectType] DEFAULT_PROJECT_TYPE',
+  CLEAN_PROJECT_TYPES = '[ProjectType] CLEAN_PROJECT_TYPES',
+}
+
+export class CleanProjectTypes implements Action {
+  public readonly type = ProjectTypeActionTypes.CLEAN_PROJECT_TYPES;
+  constructor() {}
 }
 
 export class LoadProjectTypes implements Action {
@@ -105,6 +111,7 @@ export class DefaultProjectTypes implements Action {
 }
 
 export type ProjectTypeActions =
+  | CleanProjectTypes
   | LoadProjectTypes
   | LoadProjectTypesSuccess
   | LoadProjectTypesFail

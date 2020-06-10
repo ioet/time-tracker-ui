@@ -2,6 +2,11 @@ import * as actions from './project.actions';
 
 describe('Actions for Projects', () => {
 
+  it('CleanCustomerProjects type is ProjectActionTypes.CLEAN_CUSTOMER_PROJECTS', () => {
+    const action = new actions.CleanCustomerProjects();
+    expect(action.type).toEqual(actions.ProjectActionTypes.CLEAN_CUSTOMER_PROJECTS);
+  });
+
   it('LoadProjectsSuccess type is ProjectActionTypes.LOAD_PROJECTS_SUCCESS', () => {
     const action = new actions.LoadProjectsSuccess([]);
     expect(action.type).toEqual(actions.ProjectActionTypes.LOAD_PROJECTS_SUCCESS);

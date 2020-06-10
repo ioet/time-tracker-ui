@@ -87,8 +87,6 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
       return {
         ...state,
         isLoading: false,
-        message: 'Something went wrong creating projects!',
-        projectToEdit: undefined,
       };
     }
 
@@ -161,6 +159,12 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
         isLoading: false,
         message: 'Something went wrong deleting the project!',
         projectToEdit: undefined,
+      };
+    }
+    case ProjectActionTypes.CLEAN_CUSTOMER_PROJECTS: {
+      return {
+        ...state,
+        customerProjects: [],
       };
     }
 

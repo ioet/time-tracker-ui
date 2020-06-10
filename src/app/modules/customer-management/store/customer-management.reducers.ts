@@ -64,7 +64,6 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
         data: state.data,
         isLoading: false,
         message: 'An error occurred, try again later.',
-        customerIdToEdit: '',
       };
     }
 
@@ -110,7 +109,6 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
         data: customersList,
         isLoading: false,
         message: 'Customer updated successfully!',
-        customerIdToEdit: '',
       };
     }
 
@@ -120,7 +118,6 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
         data: state.data,
         isLoading: false,
         message: 'Something went wrong updating customer!',
-        customerIdToEdit: '',
       };
     }
 
