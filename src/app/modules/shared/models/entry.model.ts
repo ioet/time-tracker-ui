@@ -1,4 +1,5 @@
 export interface Entry {
+  running?: boolean;
   id: string;
   start_date: Date;
   end_date: Date;
@@ -8,6 +9,7 @@ export interface Entry {
   uri?: string;
   project_id?: string;
   owner_email?: string;
+  description?: string;
 }
 
 export interface NewEntry {
