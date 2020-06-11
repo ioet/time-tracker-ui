@@ -1,11 +1,11 @@
-import {INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY} from './../../shared/messages';
-import {Injectable} from '@angular/core';
-import {ofType, Actions, Effect} from '@ngrx/effects';
-import {Action} from '@ngrx/store';
-import {of, Observable} from 'rxjs';
-import {ToastrService} from 'ngx-toastr';
-import {catchError, map, mergeMap} from 'rxjs/operators';
-import {EntryService} from '../services/entry.service';
+import { INFO_DELETE_SUCCESSFULLY, INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+import { EntryService } from '../services/entry.service';
 import * as actions from './entry.actions';
 
 @Injectable()
