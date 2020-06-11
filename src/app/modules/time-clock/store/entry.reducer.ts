@@ -142,14 +142,14 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
     }
 
-    case EntryActionTypes.UPDATE_ACTIVE_ENTRY: {
+    case EntryActionTypes.UPDATE_ENTRY: {
       return {
         ...state,
         isLoading: true,
       };
     }
 
-    case EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS: {
+    case EntryActionTypes.UPDATE_ENTRY_SUCCESS: {
       const entryList = [...state.entryList];
       const index = entryList.findIndex((entry) => entry.id === action.payload.id);
       entryList[index] = action.payload;
@@ -161,7 +161,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
     }
 
-    case EntryActionTypes.UPDATE_ACTIVE_ENTRY_FAIL: {
+    case EntryActionTypes.UPDATE_ENTRY_FAIL: {
       return {
         ...state,
         active: null,

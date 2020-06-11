@@ -55,20 +55,31 @@ describe('Actions for Entries', () => {
     expect(deleteEntryFail.type).toEqual(actions.EntryActionTypes.DELETE_ENTRY_FAIL);
   });
 
-  it('UpdateActiveEntrySuccess type is EntryActionTypes.UDPATE_ACTIVE_ENTRY_SUCCESS', () => {
-    const updateActiveEntrySuccess = new actions.UpdateActiveEntrySuccess({
+  it('UpdateEntrySuccess type is EntryActionTypes.UDPATE_ENTRY_SUCCESS', () => {
+    const updateActiveEntrySuccess = new actions.UpdateEntrySuccess({
       id: '1',
       start_date: new Date(),
       end_date: new Date(),
       activity_id: '',
       technologies: ['abc', 'abc'],
     });
-    expect(updateActiveEntrySuccess.type).toEqual(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS);
+    expect(updateActiveEntrySuccess.type).toEqual(actions.EntryActionTypes.UPDATE_ENTRY_SUCCESS);
   });
 
-  it('UpdateActiveEntryFail type is EntryActionTypes.UDPATE_ACTIVE_ENTRY_FAIL', () => {
-    const updateActiveEntryFail = new actions.UpdateActiveEntryFail('error');
-    expect(updateActiveEntryFail.type).toEqual(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY_FAIL);
+  it('UpdateEntryFail type is EntryActionTypes.UDPATE_ENTRY_FAIL', () => {
+    const updateActiveEntryFail = new actions.UpdateEntryFail('error');
+    expect(updateActiveEntryFail.type).toEqual(actions.EntryActionTypes.UPDATE_ENTRY_FAIL);
+  });
+
+  it('UpdateActiveEntry type is EntryActionTypes.UDPATE_ENTRY_FAIL', () => {
+    const action = new actions.UpdateEntryRunning({
+        id: '1',
+        start_date: new Date(),
+        end_date: new Date(),
+        activity_id: '',
+        technologies: ['abc', 'abc'],
+      });
+    expect(action.type).toEqual(actions.EntryActionTypes.UPDATE_ENTRY_RUNNING);
   });
 
   it('LoadEntriesByTimeRange type is EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE', () => {

@@ -158,14 +158,14 @@ describe('entryReducer', () => {
   });
 
   it('on UpdateActiveEntry, isLoading is true', () => {
-    const action = new actions.UpdateActiveEntry(newEntry);
+    const action = new actions.UpdateEntry(newEntry);
     const state = entryReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
   });
 
   it('on UpdateActiveEntrySuccess, loading is false', () => {
-    const action = new actions.UpdateActiveEntrySuccess(entry);
+    const action = new actions.UpdateEntrySuccess(entry);
 
     const state = entryReducer(initialState, action);
 
@@ -187,7 +187,7 @@ describe('entryReducer', () => {
   });
 
   it('on UpdateActiveEntryFail, active to be null', () => {
-    const action = new actions.UpdateActiveEntryFail('error');
+    const action = new actions.UpdateEntryFail('error');
     const state = entryReducer(initialState, action);
 
     expect(state.active).toBe(null);

@@ -61,7 +61,7 @@ export class TimeEntriesComponent implements OnInit {
   doSave(entry) {
     if (this.entryId) {
       entry.id = this.entryId;
-      this.store.dispatch(new entryActions.UpdateActiveEntry(entry));
+      this.store.dispatch(new entryActions.UpdateEntry(entry));
     } else {
       this.store.dispatch(new entryActions.CreateEntry(entry));
     }

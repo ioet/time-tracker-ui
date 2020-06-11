@@ -46,7 +46,7 @@ export class EntryEffects {
             } else {
               const endDate = new Date(activeEntry.start_date);
               endDate.setHours(23, 59, 59);
-              return new actions.UpdateActiveEntry({id: activeEntry.id, end_date: endDate.toISOString()});
+              return new actions.UpdateEntry({id: activeEntry.id, end_date: endDate.toISOString()});
             }
           }
         }),
@@ -113,18 +113,35 @@ export class EntryEffects {
   );
 
   @Effect()
-  updateActiveEntry$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.EntryActionTypes.UPDATE_ACTIVE_ENTRY),
-    map((action: actions.UpdateActiveEntry) => action.payload),
+  updateEntry$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.UPDATE_ENTRY),
+    map((action: actions.UpdateEntry) => action.payload),
     mergeMap((entry) =>
-      this.entryService.updateActiveEntry(entry).pipe(
+      this.entryService.updateEntry(entry).pipe(
         map((entryResponse) => {
           this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
-          return new actions.UpdateActiveEntrySuccess(entryResponse);
+          return new actions.UpdateEntrySuccess(entryResponse);
         }),
         catchError((error) => {
           this.toastrService.error(error.error.message);
-          return of(new actions.UpdateActiveEntryFail(error));
+          return of(new actions.UpdateEntryFail(error));
+        })
+      )
+    )
+  );
+
+  @Effect()
+  updateEntryRunning$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.UPDATE_ENTRY_RUNNING),
+    map((action: actions.UpdateEntry) => action.payload),
+    mergeMap((entry) =>
+      this.entryService.updateEntry(entry).pipe(
+        map((entryResponse) => {
+          return new actions.UpdateEntrySuccess(entryResponse);
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.UpdateEntryFail(error));
         })
       )
     )

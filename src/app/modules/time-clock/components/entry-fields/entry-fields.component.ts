@@ -74,16 +74,16 @@ export class EntryFieldsComponent implements OnInit {
   }
 
   onSubmit() {
-    this.store.dispatch(new entryActions.UpdateActiveEntry({...this.newData, ...this.entryForm.value}));
+    this.store.dispatch(new entryActions.UpdateEntryRunning({...this.newData, ...this.entryForm.value}));
   }
 
   onTechnologyAdded($event: string[]) {
-    this.store.dispatch(new entryActions.UpdateActiveEntry({...this.newData, technologies: $event})
+    this.store.dispatch(new entryActions.UpdateEntryRunning({...this.newData, technologies: $event})
     );
   }
 
   onTechnologyRemoved($event: string[]) {
-    this.store.dispatch(new entryActions.UpdateActiveEntry({...this.newData, technologies: $event}));
+    this.store.dispatch(new entryActions.UpdateEntryRunning({...this.newData, technologies: $event}));
   }
 
 }

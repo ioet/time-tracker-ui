@@ -1,9 +1,10 @@
+import { INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
 import {TestBed} from '@angular/core/testing';
 import {provideMockActions} from '@ngrx/effects/testing';
 import {EntryEffects} from './entry.effects';
 import {Observable, of, throwError} from 'rxjs';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ToastrModule} from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import {Action} from '@ngrx/store';
 import {DatePipe} from '@angular/common';
 import {EntryActionTypes} from './entry.actions';
@@ -15,6 +16,7 @@ describe('TimeEntryActionEffects', () => {
   let actions$: Observable<Action>;
   let effects: EntryEffects;
   let service;
+  let toastrService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -28,6 +30,7 @@ describe('TimeEntryActionEffects', () => {
     });
     effects = TestBed.inject(EntryEffects);
     service = TestBed.inject(EntryService);
+    toastrService = TestBed.inject(ToastrService);
   });
 
   it('should be created', async () => {
@@ -95,7 +98,27 @@ describe('TimeEntryActionEffects', () => {
     serviceSpy.and.returnValue(of(activeEntry));
 
     effects.loadActiveEntry$.subscribe(action => {
-      expect(action.type).toEqual(EntryActionTypes.UPDATE_ACTIVE_ENTRY);
+      expect(action.type).toEqual(EntryActionTypes.UPDATE_ENTRY);
+    });
+  });
+
+  it('display a success message on UPDATE_ENTRY', async () => {
+    const activeEntry = {};
+    actions$ = of({type: EntryActionTypes.UPDATE_ENTRY, activeEntry});
+    spyOn(toastrService, 'success');
+
+    effects.updateEntry$.subscribe(action => {
+      expect(toastrService.success).toHaveBeenCalledWith(INFO_SAVED_SUCCESSFULLY);
+    });
+  });
+
+  it('does not display any message on UPDATE_ENTRY_RUNNING', async () => {
+    const activeEntry = {};
+    actions$ = of({type: EntryActionTypes.UPDATE_ENTRY_RUNNING, activeEntry});
+    spyOn(toastrService, 'success');
+
+    effects.updateEntry$.subscribe(action => {
+      expect(toastrService.success).toHaveBeenCalledTimes(0);
     });
   });
 

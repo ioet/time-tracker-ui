@@ -66,7 +66,7 @@ describe('EntryService', () => {
   it('update an entry using PUT', () => {
     const updatedEntry = {foo: 'bar', id: 'id'};
 
-    service.updateActiveEntry(updatedEntry).subscribe();
+    service.updateEntry(updatedEntry).subscribe();
 
     const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id`);
     expect(updateEntryRequest.request.method).toBe('PUT');
