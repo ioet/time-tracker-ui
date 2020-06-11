@@ -12,7 +12,6 @@ import { getCustomerProjects } from '../../../customer-management/components/pro
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import { getUpdateError, getCreateError } from 'src/app/modules/time-clock/store/entry.selectors';
-import DateTimeFormat = Intl.DateTimeFormat;
 
 describe('DetailsFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
