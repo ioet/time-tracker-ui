@@ -249,4 +249,17 @@ describe('TimeEntriesComponent', () => {
 
     expect(component.doSave).toHaveBeenCalledWith(entryToSave);
   }));
+
+  it('when saving time entries, the time entries should be queried', () => {
+    const currentMonth = new Date().getMonth() + 1;
+    const entryToSave = {
+      project_id: 'project-id'
+    };
+    component.activeTimeEntry = null;
+    spyOn(store, 'dispatch');
+
+    component.saveEntry(entryToSave);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(currentMonth));
+  });
 });

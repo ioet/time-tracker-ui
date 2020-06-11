@@ -1,5 +1,9 @@
 <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+  <label><input id='isEntryRunning' type="checkbox" (change)="onIsRunningChange($event)" [checked]="isEntryRunning"> I am working on
+    this</label>
+
   <div class="input-group input-group-sm mb-3">
+
     <div class="input-group-prepend">
       <span class="input-group-text span-width">Project</span>
     </div>
@@ -11,13 +15,14 @@
       formControlName="project_id"
     >
       <option value="" selected="selected"></option>
-      <option *ngFor="let project of listProjects" value="{{ project.id }}">{{ project.customer_name }} - {{ project.name }}</option>
+      <option *ngFor="let project of listProjects" value="{{ project.id }}">{{ project.customer_name }}
+        - {{ project.name }}</option>
     </select>
   </div>
 
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Activity</span>
+      <span class="input-group-text span-width">Activity</span>
     </div>
     <select
       [class.is-invalid]="activity_id.invalid && activity_id.touched"
@@ -37,7 +42,7 @@
 
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Ticket</span>
+      <span class="input-group-text span-width">Ticket</span>
     </div>
     <input
       formControlName="uri"
@@ -51,7 +56,7 @@
 
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Date</span>
+      <span class="input-group-text span-width">Date</span>
     </div>
     <input
       formControlName="entry_date"
@@ -66,11 +71,11 @@
   </div>
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Time in</span>
+      <span class="input-group-text span-width">Time in</span>
     </div>
     <input
-    [clearIfNotMatch]="true"
-      [showMaskTyped] = "true"
+      [clearIfNotMatch]="true"
+      [showMaskTyped]="true"
       [dropSpecialCharacters]="false"
       matInput
       mask="Hh:m0"
@@ -83,12 +88,13 @@
       required
       aria-describedby="inputGroup-sizing-sm"
     />
-    <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Time out</span>
+    <div class="input-group-prepend" *ngIf="!isEntryRunning">
+      <span class="input-group-text span-width">Time out</span>
     </div>
     <input
-    [clearIfNotMatch]="true"
-      [showMaskTyped] = "true"
+      *ngIf="!isEntryRunning"
+      [clearIfNotMatch]="true"
+      [showMaskTyped]="true"
       [dropSpecialCharacters]="false"
       matInput
       mask="Hh:m0"
@@ -112,11 +118,12 @@
 
   <div class="form-group text-left">
     <label for="NotesTextarea">Description</label>
-    <textarea maxlength="1500" formControlName="description" class="form-control" id="NotesTextarea" rows="3"></textarea>
+    <textarea maxlength="1500" formControlName="description" class="form-control" id="NotesTextarea"
+              rows="3"></textarea>
   </div>
   <div class="modal-footer">
     <button type="submit" class="btn btn-primary" [disabled]="!entryForm.valid">Save</button>
-    <button #closeModal type="button" class="btn btn-secondary" data-dismiss="modal" >
+    <button #closeModal type="button" class="btn btn-secondary" data-dismiss="modal">
       Close
     </button>
   </div>

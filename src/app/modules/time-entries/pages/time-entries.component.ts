@@ -65,6 +65,7 @@ export class TimeEntriesComponent implements OnInit {
     } else {
       this.store.dispatch(new entryActions.CreateEntry(entry));
     }
+    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
   }
 
   removeEntry(entryId: string) {

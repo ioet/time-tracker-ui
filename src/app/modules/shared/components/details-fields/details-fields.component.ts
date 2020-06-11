@@ -1,26 +1,18 @@
-import {
-  Component,
-  OnChanges,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { formatDate } from '@angular/common';
 
-import { Project, Activity } from '../../models';
+import { Activity, Entry, Project } from '../../models';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { TechnologyState } from '../../store/technology.reducers';
-import { LoadActivities, ActivityState, allActivities } from '../../../activities-management/store';
+import { ActivityState, allActivities, LoadActivities } from '../../../activities-management/store';
 import { getProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import * as projectActions from '../../../customer-management/components/projects/components/store/project.actions';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
-import { getUpdateError, getCreateError } from 'src/app/modules/time-clock/store/entry.selectors';
+import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
+
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 
 @Component({
@@ -29,7 +21,7 @@ type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
   styleUrls: ['./details-fields.component.scss'],
 })
 export class DetailsFieldsComponent implements OnChanges, OnInit {
-  @Input() entryToEdit;
+  @Input() entryToEdit: Entry;
   @Input() formType: string;
   @Output() saveEntry = new EventEmitter();
   @ViewChild('closeModal') closeModal: ElementRef;
@@ -38,8 +30,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   isLoading = false;
   listProjects: Project[] = [];
   activities: Activity[] = [];
-  keyword = 'name';
-  showlist: boolean;
+  isEntryRunning = false;
 
   constructor(private formBuilder: FormBuilder, private store: Store<Merged>) {
     this.entryForm = this.formBuilder.group({
@@ -84,6 +75,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(): void {
+    this.isEntryRunning = this.entryToEdit ? this.entryToEdit.running : false;
     if (this.entryToEdit) {
       this.selectedTechnologies = this.entryToEdit.technologies;
       this.entryForm.setValue({
@@ -156,6 +148,16 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       end_date: `${entryDate}T${this.entryForm.value.end_hour.trim()}`,
       uri: this.entryForm.value.uri,
     };
+    if (this.isEntryRunning) {
+      delete entry.end_date;
+    }
     this.saveEntry.emit(entry);
+  }
+
+  onIsRunningChange(event: any) {
+    this.isEntryRunning = event.currentTarget.checked;
+    if (!this.isEntryRunning) {
+      this.entryForm.patchValue({end_hour: formatDate(new Date(), 'HH:mm', 'en')});
+    }
   }
 }

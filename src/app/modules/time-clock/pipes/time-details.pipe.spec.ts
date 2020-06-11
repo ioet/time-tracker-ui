@@ -1,4 +1,3 @@
-import { TimeDetails } from './../models/time.entry.summary';
 import { TimeDetailsPipe } from './time-details.pipe';
 
 describe('TimeDetailsPipe', () => {
