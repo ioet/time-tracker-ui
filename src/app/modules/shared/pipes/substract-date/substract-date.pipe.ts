@@ -1,3 +1,4 @@
+import { NumberFormatter } from './../../formatters/number.formatter';
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
 @Pipe({
@@ -18,8 +19,7 @@ export class SubstractDatePipe implements PipeTransform {
   }
 
   formatTime(time: number): string {
-    const formattedTime = (time < 10) ? '0' + time : time.toString();
-    return formattedTime;
+    return new NumberFormatter(time).getAsAtLeastTwoDigitString();
   }
 
 }

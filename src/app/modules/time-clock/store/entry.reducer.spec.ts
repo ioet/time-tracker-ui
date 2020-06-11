@@ -29,7 +29,7 @@ describe('entryReducer', () => {
 
   const entry: Entry = {
     project_id: '123',
-    comments: 'description',
+    description: 'description',
     technologies: ['angular', 'javascript'],
     uri: 'uri',
     id: 'id',
