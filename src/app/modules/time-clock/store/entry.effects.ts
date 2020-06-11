@@ -1,16 +1,17 @@
-import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY } from './../../shared/messages';
-import { Injectable } from '@angular/core';
-import { ofType, Actions, Effect } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
-import { of, Observable } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import { EntryService } from '../services/entry.service';
+import {INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY} from './../../shared/messages';
+import {Injectable} from '@angular/core';
+import {ofType, Actions, Effect} from '@ngrx/effects';
+import {Action} from '@ngrx/store';
+import {of, Observable} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
+import {catchError, map, mergeMap} from 'rxjs/operators';
+import {EntryService} from '../services/entry.service';
 import * as actions from './entry.actions';
 
 @Injectable()
 export class EntryEffects {
-  constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) { }
+  constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) {
+  }
 
   @Effect()
   loadEntriesSummary$: Observable<Action> = this.actions$.pipe(
@@ -45,7 +46,7 @@ export class EntryEffects {
             } else {
               const endDate = new Date(activeEntry.start_date);
               endDate.setHours(23, 59, 59);
-              return new actions.UpdateActiveEntry({ id: activeEntry.id, end_date: endDate.toISOString() });
+              return new actions.UpdateActiveEntry({id: activeEntry.id, end_date: endDate.toISOString()});
             }
           }
         }),
@@ -118,9 +119,7 @@ export class EntryEffects {
     mergeMap((entry) =>
       this.entryService.updateActiveEntry(entry).pipe(
         map((entryResponse) => {
-          if (entryResponse.end_date && entry.start_date === null) {
-            this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
-          }
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           return new actions.UpdateActiveEntrySuccess(entryResponse);
         }),
         catchError((error) => {
