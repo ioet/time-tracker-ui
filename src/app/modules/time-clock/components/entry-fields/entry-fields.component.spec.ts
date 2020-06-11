@@ -99,7 +99,7 @@ describe('EntryFieldsComponent', () => {
   it('should dispatch UpdateActiveEntry action #onSubmit', () => {
     spyOn(store, 'dispatch');
     component.onSubmit();
-    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.UpdateActiveEntry(entry));
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.UpdateEntryRunning(entry));
   });
 
   it('when a technology is added, then dispatch UpdateActiveEntry', () => {

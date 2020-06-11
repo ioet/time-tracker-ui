@@ -16,9 +16,10 @@ export enum EntryActionTypes {
   CREATE_ENTRY = '[Entry] CREATE_ENTRY',
   CREATE_ENTRY_SUCCESS = '[Entry] CREATE_ENTRY_SUCCESS',
   CREATE_ENTRY_FAIL = '[Entry] CREATE_ENTRY_FAIL',
-  UPDATE_ACTIVE_ENTRY = '[Entry] UPDATE_ACTIVE_ENTRY',
-  UPDATE_ACTIVE_ENTRY_SUCCESS = '[Entry] UPDATE_ACTIVE_ENTRY_SUCCESS',
-  UPDATE_ACTIVE_ENTRY_FAIL = '[Entry] UPDATE_ACTIVE_ENTRY_FAIL',
+  UPDATE_ENTRY_RUNNING = '[Entry] UPDATE_ENTRY_RUNNING',
+  UPDATE_ENTRY = '[Entry] UPDATE_ENTRY',
+  UPDATE_ENTRY_SUCCESS = '[Entry] UPDATE_ENTRY_SUCCESS',
+  UPDATE_ENTRY_FAIL = '[Entry] UPDATE_ENTRY_FAIL',
   DELETE_ENTRY = '[Entry] DELETE_ENTRY',
   DELETE_ENTRY_SUCCESS = '[Entry] DELETE_ENTRY_SUCCESS',
   DELETE_ENTRY_FAIL = '[Entry] DELETE_ENTRY_FAIL',
@@ -112,20 +113,26 @@ export class DeleteEntryFail implements Action {
 
   constructor(public error: string) {}
 }
-export class UpdateActiveEntry implements Action {
-  public readonly type = EntryActionTypes.UPDATE_ACTIVE_ENTRY;
+
+export class UpdateEntryRunning implements Action {
+  public readonly type = EntryActionTypes.UPDATE_ENTRY_RUNNING;
+  constructor(public payload) {}
+}
+
+export class UpdateEntry implements Action {
+  public readonly type = EntryActionTypes.UPDATE_ENTRY;
 
   constructor(public payload) {}
 }
 
-export class UpdateActiveEntrySuccess implements Action {
-  public readonly type = EntryActionTypes.UPDATE_ACTIVE_ENTRY_SUCCESS;
+export class UpdateEntrySuccess implements Action {
+  public readonly type = EntryActionTypes.UPDATE_ENTRY_SUCCESS;
 
   constructor(public payload: Entry) {}
 }
 
-export class UpdateActiveEntryFail implements Action {
-  public readonly type = EntryActionTypes.UPDATE_ACTIVE_ENTRY_FAIL;
+export class UpdateEntryFail implements Action {
+  public readonly type = EntryActionTypes.UPDATE_ENTRY_FAIL;
 
   constructor(public error: string) {}
 }
@@ -186,9 +193,10 @@ export type EntryActions =
   | CreateEntry
   | CreateEntrySuccess
   | CreateEntryFail
-  | UpdateActiveEntry
-  | UpdateActiveEntrySuccess
-  | UpdateActiveEntryFail
+  | UpdateEntryRunning
+  | UpdateEntry
+  | UpdateEntrySuccess
+  | UpdateEntryFail
   | DeleteEntry
   | DeleteEntrySuccess
   | DeleteEntryFail

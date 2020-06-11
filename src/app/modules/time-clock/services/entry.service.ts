@@ -30,7 +30,7 @@ export class EntryService {
     return this.http.post(this.baseUrl, entryData);
   }
 
-  updateActiveEntry(entryData): Observable<any> {
+  updateEntry(entryData): Observable<any> {
     const {id} = entryData;
     return this.http.put(`${this.baseUrl}/${id}`, entryData);
   }

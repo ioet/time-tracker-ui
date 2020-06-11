@@ -7,7 +7,7 @@ import {ProjectListHoverComponent} from './project-list-hover.component';
 import {ProjectState} from '../../../customer-management/components/projects/components/store/project.reducer';
 import {getCustomerProjects} from '../../../customer-management/components/projects/components/store/project.selectors';
 import {FilterProjectPipe} from '../../../shared/pipes';
-import {CreateEntry, UpdateActiveEntry} from '../../store/entry.actions';
+import {CreateEntry, UpdateEntryRunning} from '../../store/entry.actions';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 describe('ProjectListHoverComponent', () => {
@@ -65,13 +65,13 @@ describe('ProjectListHoverComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(CreateEntry));
   });
 
-  it('dispatchs a UpdateEntry action when activeEntry is not null', () => {
+  it('dispatchs a UpdateEntryRunning action when activeEntry is not null', () => {
     const entry = {id: '123', project_id: 'p1', start_date: new Date().toISOString()};
     component.activeEntry = entry;
     spyOn(store, 'dispatch');
 
     component.clockIn();
 
-    expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(UpdateActiveEntry));
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(UpdateEntryRunning));
   });
 });

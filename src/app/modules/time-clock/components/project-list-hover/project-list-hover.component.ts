@@ -56,13 +56,12 @@ export class ProjectListHoverComponent implements OnInit {
     const selectedProject = this.projectsForm.get('project_id').value;
     if (this.activeEntry) {
       const entry = { id: this.activeEntry.id, project_id: selectedProject };
-      this.store.dispatch(new entryActions.UpdateActiveEntry(entry));
+      this.store.dispatch(new entryActions.UpdateEntryRunning(entry));
     } else {
       const newEntry = { project_id: selectedProject, start_date: new Date().toISOString() };
       this.store.dispatch(new entryActions.CreateEntry(newEntry));
     }
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1 ));
-    this.loadActiveTimeEntry();
   }
 
 }
