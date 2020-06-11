@@ -1,3 +1,4 @@
+import { NumberFormatter } from './../../formatters/number.formatter';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
@@ -144,8 +145,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       activity_id: this.entryForm.value.activity_id,
       technologies: this.selectedTechnologies ? this.selectedTechnologies : [],
       description: this.entryForm.value.description,
-      start_date: `${entryDate}T${this.entryForm.value.start_hour.trim()}`,
-      end_date: `${entryDate}T${this.entryForm.value.end_hour.trim()}`,
+      start_date: `${entryDate}T${this.entryForm.value.start_hour.trim()}:${this.getElapsedSeconds(new Date())}`,
+      end_date: `${entryDate}T${this.entryForm.value.end_hour.trim()}:01`,
       uri: this.entryForm.value.uri,
     };
     if (this.isEntryRunning) {
@@ -154,10 +155,19 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.saveEntry.emit(entry);
   }
 
+  getElapsedSeconds(date: Date): string {
+    const currentSeconds = date.getSeconds();
+    if (currentSeconds < 2) {
+      return '02';
+    } else {
+      return new NumberFormatter(currentSeconds).getAsAtLeastTwoDigitString();
+    }
+  }
+
   onIsRunningChange(event: any) {
     this.isEntryRunning = event.currentTarget.checked;
     if (!this.isEntryRunning) {
-      this.entryForm.patchValue({end_hour: formatDate(new Date(), 'HH:mm', 'en')});
+      this.entryForm.patchValue({ end_hour: formatDate(new Date(), 'HH:mm', 'en') });
     }
   }
 }

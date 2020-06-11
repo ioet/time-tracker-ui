@@ -5,7 +5,6 @@ export interface Entry {
   end_date: Date;
   activity_id?: string;
   technologies: string[];
-  comments?: string;
   uri?: string;
   project_id?: string;
   owner_email?: string;

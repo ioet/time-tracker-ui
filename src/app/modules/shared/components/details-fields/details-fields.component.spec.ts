@@ -116,6 +116,36 @@ describe('DetailsFieldsComponent', () => {
     expect(component.entryForm.value).toEqual(formValues);
   });
 
+  it('returns the current elapsed seconds when date has more than 2', () => {
+    const seconds = 12;
+    const date = new Date();
+    date.setSeconds(seconds);
+
+    const elapsedSeconds = component.getElapsedSeconds(date);
+
+    expect(elapsedSeconds).toEqual(seconds.toString());
+  });
+
+  it('returns 02 when seconds 0', () => {
+    const seconds = 0;
+    const date = new Date();
+    date.setSeconds(seconds);
+
+    const elapsedSeconds = component.getElapsedSeconds(date);
+
+    expect(elapsedSeconds).toEqual('02');
+  });
+
+  it('returns 02 when seconds 1', () => {
+    const seconds = 1;
+    const date = new Date();
+    date.setSeconds(seconds);
+
+    const elapsedSeconds = component.getElapsedSeconds(date);
+
+    expect(elapsedSeconds).toEqual('02');
+  });
+
   it('should emit ngOnChange with new data', () => {
     const childComponent = jasmine.createSpyObj('ChildComponent', ['closeModal']);
     component.closeModal = childComponent;
@@ -154,6 +184,7 @@ describe('DetailsFieldsComponent', () => {
 
   it('should emit saveEntry event', () => {
     spyOn(component.saveEntry, 'emit');
+    spyOn(component, 'getElapsedSeconds').and.returnValue('11');
     component.entryForm.setValue({
       project_id: '',
       activity_id: '',
@@ -170,8 +201,8 @@ describe('DetailsFieldsComponent', () => {
       activity_id: '',
       technologies: [],
       description: '',
-      start_date: '2020-02-05T00:00',
-      end_date: '2020-02-05T00:01',
+      start_date: '2020-02-05T00:00:11',
+      end_date: '2020-02-05T00:01:01',
       uri: '',
     };
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
@@ -225,6 +256,7 @@ describe('DetailsFieldsComponent', () => {
 
   it('when submitting a entry that is currently running, the end date should not be sent ', () => {
     component.isEntryRunning = true;
+    spyOn(component, 'getElapsedSeconds').and.returnValue('10');
     spyOn(component.saveEntry, 'emit');
 
     component.entryForm.setValue({...formValues, entry_date: '2020-06-11'});
@@ -234,9 +266,10 @@ describe('DetailsFieldsComponent', () => {
       activity_id: '',
       technologies: [],
       description: '',
-      start_date: '2020-06-11T00:00',
+      start_date: '2020-06-11T00:00:10',
       uri: 'ticketUri',
     };
+
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
 
