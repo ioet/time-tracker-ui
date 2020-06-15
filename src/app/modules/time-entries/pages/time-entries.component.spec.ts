@@ -246,7 +246,8 @@ describe('TimeEntriesComponent', () => {
 
   it('should delete Entry by id', () => {
     spyOn(store, 'dispatch');
-    component.removeEntry('id');
+    component.idToDelete = 'id';
+    component.removeEntry();
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.DeleteEntry('id'));
   });
 

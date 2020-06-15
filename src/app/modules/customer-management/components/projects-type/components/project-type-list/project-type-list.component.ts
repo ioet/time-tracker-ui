@@ -16,6 +16,9 @@ export class ProjectTypeListComponent implements OnInit {
 
   initPage2 = 1;
   itemsPerPage = ITEMS_PER_PAGE;
+  showModal = false;
+  idToDelete: string;
+  message: string;
 
   constructor(private store: Store<ProjectTypeState>) {}
 
@@ -26,11 +29,18 @@ export class ProjectTypeListComponent implements OnInit {
     });
   }
 
-  deleteProjectType(projectTypeId: string) {
-    this.store.dispatch(new DeleteProjectType(projectTypeId));
+  deleteProjectType() {
+    this.store.dispatch(new DeleteProjectType(this.idToDelete));
+    this.showModal = false;
   }
 
   updateProjectType(projectTypeId: string) {
     this.store.dispatch(new SetProjectTypeToEdit(projectTypeId));
+  }
+
+  openModal(item: ProjectType) {
+    this.idToDelete = item.id;
+    this.message = `Are you sure you want to delete ${item.name}?`;
+    this.showModal = true;
   }
 }

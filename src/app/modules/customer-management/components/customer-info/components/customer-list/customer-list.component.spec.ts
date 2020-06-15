@@ -67,8 +67,8 @@ describe('CustomerTableListComponent', () => {
 
   it('onClick delete, dispatch DeleteCustomer', () => {
     spyOn(store, 'dispatch');
-
-    component.deleteCustomer('1');
+    component.idToDelete = '1';
+    component.deleteCustomer();
 
     expect(store.dispatch).toHaveBeenCalledWith(new DeleteCustomer('1'));
   });

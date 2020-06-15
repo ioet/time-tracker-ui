@@ -54,8 +54,8 @@ describe('ProjectTypeTableListComponent', () => {
 
   it('dispatchs DeleteProjectType on deleteProjectType', () => {
     spyOn(store, 'dispatch');
-
-    component.deleteProjectType('id');
+    component.idToDelete = 'id';
+    component.deleteProjectType();
 
     expect(store.dispatch).toHaveBeenCalledWith(new DeleteProjectType('id'));
   });

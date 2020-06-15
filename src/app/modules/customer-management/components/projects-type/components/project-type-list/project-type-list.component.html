@@ -10,12 +10,33 @@
       <tr class="d-flex" *ngFor="let projectType of projectTypes">
         <td class="col-sm-9">{{ projectType.name }}</td>
         <td class="col-sm-3 text-center">
-          <button type="button" class="btn btn-sm btn-primary" (click)="updateProjectType(projectType.id)"><i
-              class="fa fa-pencil fa-xs"></i></button>
-          <button type="button" class="btn btn-sm btn-danger ml-2" (click)="deleteProjectType(projectType.id)"><i
-              class="fas fa-trash-alt fa-xs"></i></button>
+          <button type="button" class="btn btn-sm btn-primary" (click)="updateProjectType(projectType.id)">
+            <i class="fa fa-pencil fa-xs"></i>
+          </button>
+          <button
+            type="button"
+            data-toggle="modal"
+            data-target="#deleteModal"
+            class="btn btn-sm btn-danger ml-2"
+            (click)="openModal(projectType)"
+          >
+            <i class="fas fa-trash-alt fa-xs"></i>
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+
+<app-dialog
+  *ngIf="showModal"
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+  [title]="'Delete Project Type'"
+  [body]="message"
+  (closeModalEvent)="deleteProjectType()"
+>
+</app-dialog>

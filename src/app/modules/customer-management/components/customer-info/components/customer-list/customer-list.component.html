@@ -1,4 +1,10 @@
-<table *ngIf="customers" class="table table-sm table-bordered table-striped mb-0" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions">
+<table
+  *ngIf="customers"
+  class="table table-sm table-bordered table-striped mb-0"
+  datatable
+  [dtTrigger]="dtTrigger"
+  [dtOptions]="dtOptions"
+>
   <thead class="thead-blue">
     <tr class="d-flex">
       <th class="col-9">Name</th>
@@ -6,19 +12,35 @@
     </tr>
   </thead>
   <tbody>
-    <tr
-      class="d-flex"
-      *ngFor="let customer of customers"
-    >
+    <tr class="d-flex" *ngFor="let customer of customers">
       <td class="col-sm-9">{{ customer.name }}</td>
       <td class="col-sm-3 text-center">
         <button (click)="editCustomer(customer.id)" type="button" class="btn btn-sm btn-primary">
           <i class="fa fa-pencil fa-xs"></i>
         </button>
-        <button (click)="deleteCustomer(customer.id)" type="button" class="btn btn-sm btn-danger ml-2">
+        <button
+          data-toggle="modal"
+          data-target="#deleteModal"
+          (click)="openModal(customer)"
+          type="button"
+          class="btn btn-sm btn-danger ml-2"
+        >
           <i class="fa fa-trash-alt fa-xs"></i>
         </button>
       </td>
     </tr>
   </tbody>
 </table>
+
+<app-dialog
+  *ngIf="showModal"
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+  [title]="'Delete Customer'"
+  [body]="message"
+  (closeModalEvent)="deleteCustomer()"
+>
+</app-dialog>
