@@ -65,8 +65,7 @@ describe('Reports Page', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntriesByTimeRange({
         start_date: yesterday.startOf('day'),
-        end_date: today.endOf('day'),
-        user_id: '*',
+        end_date: today.endOf('day')
       }));
     });
 

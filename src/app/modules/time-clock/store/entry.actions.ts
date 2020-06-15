@@ -167,7 +167,7 @@ export class DefaultEntry implements Action {
 
 export class LoadEntriesByTimeRange implements Action {
   public readonly type = EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE;
-  constructor(readonly timeRange: TimeEntriesTimeRange) {
+  constructor(readonly timeRange: TimeEntriesTimeRange, readonly userId: string= '*') {
   }
 }
 

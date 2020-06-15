@@ -25,7 +25,6 @@ export class TimeRangeFormComponent {
     this.store.dispatch(new entryActions.LoadEntriesByTimeRange({
       start_date: moment(this.startDate.value).startOf('day'),
       end_date: moment(this.endDate.value).endOf('day'),
-      user_id: '*',
     }));
   }
 }

@@ -50,13 +50,13 @@ export class EntryService {
     return this.http.get<TimeEntriesSummary>(summaryUrl);
   }
 
-  loadEntriesByTimeRange(range: TimeEntriesTimeRange): Observable<any> {
+  loadEntriesByTimeRange(range: TimeEntriesTimeRange, userId: string): Observable<any> {
     return this.http.get(this.baseUrl,
       {
         params: {
           start_date: this.datePipe.transform(range.start_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
           end_date: this.datePipe.transform(range.end_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
-          user_id: range.user_id
+          user_id: userId
         }
       }
     );
