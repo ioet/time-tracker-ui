@@ -100,7 +100,6 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       entryList.sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
       return {
         ...state,
-        active: action.payload,
         entryList,
         isLoading: false,
         createError: false,
@@ -156,6 +155,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       entryList.sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
       return {
         ...state,
+        entryList,
         isLoading: false,
         updateError: false,
       };

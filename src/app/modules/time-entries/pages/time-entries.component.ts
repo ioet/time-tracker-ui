@@ -26,10 +26,7 @@ export class TimeEntriesComponent implements OnInit {
     dataByMonth$.subscribe((response) => {
       this.dataByMonth = response;
     });
-    this.store.dispatch(new entryActions.LoadActiveEntry());
-    this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
-      this.activeTimeEntry = activeTimeEntry;
-    });
+    this.loadActiveEntry();
   }
 
   newEntry() {
@@ -65,7 +62,15 @@ export class TimeEntriesComponent implements OnInit {
     } else {
       this.store.dispatch(new entryActions.CreateEntry(entry));
     }
-    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
+  }
+
+  loadActiveEntry() {
+    this.store.dispatch(new entryActions.LoadActiveEntry());
+    this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
+      if (activeTimeEntry) {
+        this.activeTimeEntry = activeTimeEntry;
+      }
+    });
   }
 
   removeEntry(entryId: string) {
