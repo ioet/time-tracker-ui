@@ -4,13 +4,13 @@
       <thead class="thead-blue">
       <tr class="d-flex">
         <th class="col md-col">User email</th>
-        <th class="col md-col">Date</th>
+        <th class="col sm-col">Date</th>
         <th class="col sm-col">Duration</th>
         <th class="col md-col">Project</th>
-        <th class="col sm-col">Activity</th>
-        <th class="col sm-col">Ticket</th>
-        <th class="col md-col">Description</th>
-        <th class="col md-col">Technologies</th>
+        <th class="col md-col">Activity</th>
+        <th class="col lg-col">Ticket</th>
+        <th class="col lg-col">Description</th>
+        <th class="col lg-col">Technologies</th>
       </tr>
       </thead>
       <tbody>
@@ -19,13 +19,13 @@
         *ngFor="let entry of data"
       >
         <td class="col md-col multiline-col"> {{ entry.owner_email }} </td>
-        <td class="col md-col"> {{ entry.start_date | date: 'dd/MM/yyyy' }} </td>
+        <td class="col sm-col"> {{ entry.start_date | date: 'dd/MM/yyyy' }} </td>
         <td class="col sm-col"> {{ entry.end_date | substractDate: entry.start_date }} </td>
         <td class="col md-col"> {{ entry.project_name }} </td>
-        <td class="col sm-col"> {{ entry.activity_name }} </td>
-        <td class="col sm-col"> {{ entry.uri }} </td>
-        <td class="col md-col multiline-col"> {{ entry.description }} </td>
-        <td class="col md-col multiline-col"> {{ entry.technologies }} </td>
+        <td class="col md-col"> {{ entry.activity_name }} </td>
+        <td class="col lg-col"> {{ entry.uri }} </td>
+        <td class="col lg-col multiline-col"> {{ entry.description }} </td>
+        <td class="col lg-col multiline-col"> {{ entry.technologies }} </td>
       </tr>
       </tbody>
     </table>

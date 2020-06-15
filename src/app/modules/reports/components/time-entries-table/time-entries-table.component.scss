@@ -1,16 +1,19 @@
+.col{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .sm-col{
-  max-width: 6.2em
+  width: 6em;
+  max-width: 8em;
 }
 .md-col{
-  max-width: 8em
+  width: 9em;
 }
 
 .lg-col{
-  width: 15em;
-}
-
-.multiline-col{
-  word-break: break-all;
-
+  width: 12em;
+  overflow: hidden;
+  white-space: normal;
 }
