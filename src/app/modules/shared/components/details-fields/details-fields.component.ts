@@ -1,7 +1,9 @@
+import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
+import { filter } from 'rxjs/operators';
 import { NumberFormatter } from './../../formatters/number.formatter';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { select, Store, ActionsSubject } from '@ngrx/store';
 import { formatDate } from '@angular/common';
 
 import { Activity, Entry, Project } from '../../models';
@@ -33,7 +35,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   activities: Activity[] = [];
   isEntryRunning = false;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<Merged>) {
+  constructor(private formBuilder: FormBuilder, private store: Store<Merged>, private actionsSubject$: ActionsSubject) {
     this.entryForm = this.formBuilder.group({
       project_id: '',
       activity_id: '',
@@ -72,6 +74,15 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         this.store.dispatch(new entryActions.CleanEntryCreateError(null));
         this.closeEntryModal();
       }
+    });
+
+    this.actionsSubject$.pipe(
+      filter((action: any) => (
+        action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
+        action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS
+      ))
+    ).subscribe(() => {
+      this.cleanForm();
     });
   }
 

@@ -1,8 +1,10 @@
+import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { TechnologiesComponent } from './../technologies/technologies.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, formatDate } from '@angular/common';
+import { ActionsSubject } from '@ngrx/store';
 
 import { TechnologyState } from '../../store/technology.reducers';
 import { allTechnologies } from '../../store/technology.selectors';
@@ -24,21 +26,22 @@ describe('DetailsFieldsComponent', () => {
   let mockEntriesCreateErrorSelector;
   let entryToEdit;
   let formValues;
+  const actionSub: ActionsSubject = new ActionsSubject();
 
   const state = {
     projects: {
-      projects: [{id: 'id', name: 'name', project_type_id: ''}],
-      customerProjects: [{id: 'id', name: 'name', description: 'description', project_type_id: '123'}],
+      projects: [{ id: 'id', name: 'name', project_type_id: '' }],
+      customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
     },
     technologies: {
-      technologyList: {items: [{name: 'java'}]},
+      technologyList: { items: [{ name: 'java' }] },
       isLoading: false,
     },
     activities: {
-      data: [{id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc'}],
+      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc' }],
       isLoading: false,
       message: 'Data fetch successfully!',
       activityIdToEdit: '',
@@ -63,7 +66,7 @@ describe('DetailsFieldsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DetailsFieldsComponent, TechnologiesComponent],
-      providers: [provideMockStore({initialState: state})],
+      providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
@@ -100,6 +103,24 @@ describe('DetailsFieldsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  [
+    { actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS },
+    { actionType: EntryActionTypes.UPDATE_ENTRY_SUCCESS },
+  ].map((param) => {
+    it(`cleanForm after an action type ${param.actionType} is received`, () => {
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+      const action = {
+        type: param.actionType,
+      };
+      spyOn(component, 'cleanForm');
+
+      component.ngOnInit();
+      actionSubject.next(action);
+
+      expect(component.cleanForm).toHaveBeenCalled();
+    });
   });
 
   it('should emit ngOnChange without data', () => {
@@ -231,7 +252,7 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('when editing entry that is currently running, then the entry should be marked as running', () => {
-    component.entryToEdit = {...entryToEdit, running: true};
+    component.entryToEdit = { ...entryToEdit, running: true };
 
     fixture.componentInstance.ngOnChanges();
 
@@ -239,7 +260,7 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('when editing entry that already finished, then the entry should not be marked as running', () => {
-    component.entryToEdit = {...entryToEdit, running: false};
+    component.entryToEdit = { ...entryToEdit, running: false };
 
     fixture.componentInstance.ngOnChanges();
 
@@ -247,7 +268,7 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('when editing entry that already finished, then the entry should not be marked as running', () => {
-    component.entryToEdit = {...entryToEdit, running: false};
+    component.entryToEdit = { ...entryToEdit, running: false };
 
     fixture.componentInstance.ngOnChanges();
 
@@ -259,7 +280,7 @@ describe('DetailsFieldsComponent', () => {
     spyOn(component, 'getElapsedSeconds').and.returnValue('10');
     spyOn(component.saveEntry, 'emit');
 
-    component.entryForm.setValue({...formValues, entry_date: '2020-06-11'});
+    component.entryForm.setValue({ ...formValues, entry_date: '2020-06-11' });
     component.onSubmit();
     const data = {
       project_id: '',

@@ -1,3 +1,4 @@
+import { LoadActiveEntry } from './../../time-clock/store/entry.actions';
 import { ToastrService } from 'ngx-toastr';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -98,6 +99,14 @@ describe('TimeEntriesComponent', () => {
 
   afterEach(() => {
     fixture.destroy();
+  });
+
+  it('dispatch an action on loadActiveEntry', () => {
+    spyOn(store, 'dispatch');
+
+    component.loadActiveEntry();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new LoadActiveEntry());
   });
 
   it('should be created', () => {
@@ -250,16 +259,4 @@ describe('TimeEntriesComponent', () => {
     expect(component.doSave).toHaveBeenCalledWith(entryToSave);
   }));
 
-  it('when saving time entries, the time entries should be queried', () => {
-    const currentMonth = new Date().getMonth() + 1;
-    const entryToSave = {
-      project_id: 'project-id'
-    };
-    component.activeTimeEntry = null;
-    spyOn(store, 'dispatch');
-
-    component.saveEntry(entryToSave);
-
-    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(currentMonth));
-  });
 });
