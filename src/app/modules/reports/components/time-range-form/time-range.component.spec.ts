@@ -69,6 +69,30 @@ describe('Reports Page', () => {
       }));
     });
 
+    it('setInitialDataOnScreen on ngOnInit', () => {
+      spyOn(component, 'setInitialDataOnScreen');
+
+      component.ngOnInit();
+
+      expect(component.setInitialDataOnScreen).toHaveBeenCalled();
+    });
+
+    it('setInitialDataOnScreen sets dates in form', () => {
+      spyOn(component.reportForm, 'setValue');
+
+      component.setInitialDataOnScreen();
+
+      expect(component.reportForm.setValue).toHaveBeenCalled();
+    });
+
+    it('triggers onSubmit to set initial data', () => {
+      spyOn(component, 'onSubmit');
+
+      component.setInitialDataOnScreen();
+
+      expect(component.onSubmit).toHaveBeenCalled();
+    });
+
     afterEach(() => {
       fixture.destroy();
     });
