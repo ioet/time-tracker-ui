@@ -5,6 +5,7 @@ import {EntryState} from '../../../time-clock/store/entry.reducer';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {InputDateComponent} from '../../../shared/components/input-date/input-date.component';
 import * as entryActions from '../../../time-clock/store/entry.actions';
+import * as moment from 'moment';
 
 describe('Reports Page', () => {
   describe('TimeRangeFormComponent', () => {
@@ -54,20 +55,17 @@ describe('Reports Page', () => {
     });
 
     it('when submitting form a new LoadEntriesByTimeRange action is triggered', () => {
-
-      const startDateValue = new Date();
-      const endDateValue = new Date();
-      endDateValue.setMonth(1);
+      const yesterday = moment(new Date()).subtract(1, 'days');
+      const today = moment(new Date());
       spyOn(store, 'dispatch');
-      component.reportForm.controls.startDate.setValue(startDateValue);
-      component.reportForm.controls.endDate.setValue(endDateValue);
+      component.reportForm.controls.startDate.setValue(yesterday);
+      component.reportForm.controls.endDate.setValue(today);
 
       component.onSubmit();
 
       expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntriesByTimeRange({
-        start_date: startDateValue,
-        end_date: endDateValue,
-        user_id: '*',
+        start_date: yesterday.startOf('day'),
+        end_date: today.endOf('day')
       }));
     });
 

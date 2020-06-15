@@ -1,4 +1,7 @@
 import * as actions from './entry.actions';
+import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
+import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
 
 describe('Actions for Entries', () => {
 
@@ -83,8 +86,14 @@ describe('Actions for Entries', () => {
   });
 
   it('LoadEntriesByTimeRange type is EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE', () => {
-    const action = new actions.LoadEntriesByTimeRange(null);
+    const yesterday = moment(new Date()).subtract(1, 'day');
+    const today = moment(new Date());
+    const pipe: DatePipe = new DatePipe('en');
+    const timeRange: TimeEntriesTimeRange = {start_date: yesterday, end_date: today};
+    const action = new actions.LoadEntriesByTimeRange(timeRange);
     expect(action.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE);
+    expect(action.timeRange).toEqual(timeRange);
+    expect(action.userId).toEqual('*');
   });
 
   it('LoadEntriesByTimeRangeSuccess type is EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS', () => {

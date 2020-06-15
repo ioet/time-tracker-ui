@@ -1,10 +1,11 @@
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {inject, TestBed} from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import {EntryService} from './entry.service';
-import {NewEntry} from '../../shared/models';
-import {DatePipe} from '@angular/common';
-import {TimeEntriesTimeRange} from '../models/time-entries-time-range';
+import { EntryService } from './entry.service';
+import { NewEntry } from '../../shared/models';
+import { DatePipe } from '@angular/common';
+import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
+import * as moment from 'moment';
 
 describe('EntryService', () => {
   let service: EntryService;
@@ -89,17 +90,18 @@ describe('EntryService', () => {
   });
 
   it('when getting time entries for report, time range should be sent', () => {
-    const startDateValue = new Date();
-    const endDateValue = new Date();
+    const yesterday = moment(new Date()).subtract(1, 'day');
+    const today = moment(new Date());
     const pipe: DatePipe = new DatePipe('en');
-    const timeRange: TimeEntriesTimeRange = {start_date: startDateValue, end_date: endDateValue, user_id: '*'};
+    const timeRange: TimeEntriesTimeRange = {start_date: yesterday, end_date: today};
+    const userId = '123';
 
-    service.loadEntriesByTimeRange(timeRange).subscribe();
+    service.loadEntriesByTimeRange(timeRange, userId).subscribe();
 
     const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === service.baseUrl);
-
-    expect(loadEntryRequest.request.params.get('start_date')).toBe(pipe.transform(startDateValue,
+    expect(loadEntryRequest.request.params.get('start_date')).toBe(pipe.transform(yesterday,
       EntryService.TIME_ENTRIES_DATE_TIME_FORMAT));
-    expect(loadEntryRequest.request.params.get('end_date')).toBe(pipe.transform(endDateValue, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT));
+    expect(loadEntryRequest.request.params.get('end_date')).toBe(pipe.transform(today, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT));
+    expect(loadEntryRequest.request.params.get('user_id')).toEqual('123');
   });
 });

@@ -168,9 +168,9 @@ export class EntryEffects {
   @Effect()
   loadEntriesByTimeRange$: Observable<Action> = this.actions$.pipe(
     ofType(actions.EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE),
-    map((action: actions.LoadEntriesByTimeRange) => action.timeRange),
-    mergeMap((timeRange) =>
-      this.entryService.loadEntriesByTimeRange(timeRange).pipe(
+    map((action: actions.LoadEntriesByTimeRange) => action),
+    mergeMap((action) =>
+      this.entryService.loadEntriesByTimeRange(action.timeRange, action.userId).pipe(
         map((response) => {
           return new actions.LoadEntriesByTimeRangeSuccess(response);
         }),
