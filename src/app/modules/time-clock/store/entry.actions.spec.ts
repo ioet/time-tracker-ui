@@ -88,7 +88,6 @@ describe('Actions for Entries', () => {
   it('LoadEntriesByTimeRange type is EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE', () => {
     const yesterday = moment(new Date()).subtract(1, 'day');
     const today = moment(new Date());
-    const pipe: DatePipe = new DatePipe('en');
     const timeRange: TimeEntriesTimeRange = {start_date: yesterday, end_date: today};
     const action = new actions.LoadEntriesByTimeRange(timeRange);
     expect(action.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE);
