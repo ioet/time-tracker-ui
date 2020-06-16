@@ -57,6 +57,8 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   doSave(entry) {
+    entry.start_date = new Date(entry.start_date).toISOString();
+    entry.end_date = new Date(entry.end_date).toISOString();
     if (this.entryId) {
       entry.id = this.entryId;
       this.store.dispatch(new entryActions.UpdateEntry(entry));
