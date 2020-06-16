@@ -40,7 +40,7 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   saveEntry(entry): void {
-    if (this.activeTimeEntry !== null) {
+    if (this.activeTimeEntry !== null && this.activeTimeEntry !== undefined) {
       const entryDateAsIso = new Date(entry.start_date).toISOString();
       const entryDateAsLocalDate = new Date(entryDateAsIso);
       const activeEntryAsLocaldate = new Date(this.activeTimeEntry.start_date);
