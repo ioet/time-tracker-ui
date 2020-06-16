@@ -139,7 +139,9 @@ describe('TimeEntriesComponent', () => {
   it('when saving time entries, the time entries should be queried', () => {
     const currentMonth = new Date().getMonth() + 1;
     const entryToSave = {
-      project_id: 'project-id'
+      project_id: 'project-id',
+      end_date: new Date(),
+      start_date: new Date()
     };
     component.activeTimeEntry = null;
     spyOn(store, 'dispatch');
