@@ -46,7 +46,8 @@ export class EntryService {
   }
 
   summary(): Observable<TimeEntriesSummary> {
-    const summaryUrl = `${this.baseUrl}/summary`;
+    const time_offset = new Date().getTimezoneOffset();
+    const summaryUrl = `${this.baseUrl}/summary?time_offset=${time_offset}`;
     return this.http.get<TimeEntriesSummary>(summaryUrl);
   }
 
