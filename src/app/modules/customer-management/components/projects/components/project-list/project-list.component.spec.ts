@@ -88,10 +88,10 @@ describe('ProjectListComponent', () => {
     component.projectsSubscription = new Subscription();
     const subscription = spyOn(component.projectsSubscription, 'unsubscribe');
 
+    component.idToDelete = project.id;
     spyOn(store, 'dispatch');
-    component.deleteProject(project.id);
+    component.deleteProject();
     component.ngOnDestroy();
-
     expect(subscription).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(new DeleteProject(project.id));

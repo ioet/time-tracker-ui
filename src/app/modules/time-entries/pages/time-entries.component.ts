@@ -17,6 +17,9 @@ export class TimeEntriesComponent implements OnInit {
   entry: Entry;
   dataByMonth = [];
   activeTimeEntry: Entry;
+  showModal = false;
+  message: string;
+  idToDelete: string;
 
   constructor(private store: Store<EntryState>, private toastrService: ToastrService) { }
 
@@ -78,11 +81,18 @@ export class TimeEntriesComponent implements OnInit {
     });
   }
 
-  removeEntry(entryId: string) {
-    this.store.dispatch(new entryActions.DeleteEntry(entryId));
+  removeEntry() {
+    this.store.dispatch(new entryActions.DeleteEntry(this.idToDelete));
+    this.showModal = false;
   }
 
   getMonth(month: number) {
     this.store.dispatch(new entryActions.LoadEntries(month));
+  }
+
+  openModal(item: any) {
+    this.idToDelete = item.id;
+    this.message = `Are you sure you want to delete ${item.activity_name}`;
+    this.showModal = true;
   }
 }

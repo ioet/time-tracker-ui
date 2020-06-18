@@ -18,6 +18,9 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   isLoading = false;
   projects: Project[] = [];
   filterProjects = '';
+  showModal = false;
+  idToDelete: string;
+  message: string;
 
   projectsSubscription: Subscription;
 
@@ -39,7 +42,14 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new actions.SetProjectToEdit(project));
   }
 
-  deleteProject(projectId: string) {
-    this.store.dispatch(new actions.DeleteProject(projectId));
+  deleteProject() {
+    this.store.dispatch(new actions.DeleteProject(this.idToDelete));
+    this.showModal = false;
+  }
+
+  openModal(item: Project) {
+    this.idToDelete = item.id;
+    this.message = `Are you sure you want to delete ${item.name}?`;
+    this.showModal = true;
   }
 }

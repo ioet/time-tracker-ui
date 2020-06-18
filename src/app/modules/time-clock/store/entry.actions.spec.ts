@@ -1,6 +1,5 @@
 import * as actions from './entry.actions';
 import * as moment from 'moment';
-import { DatePipe } from '@angular/common';
 import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
 
 describe('Actions for Entries', () => {
