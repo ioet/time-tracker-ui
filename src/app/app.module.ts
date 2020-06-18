@@ -1,7 +1,7 @@
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import {CommonModule, DatePipe} from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -58,14 +58,14 @@ import { CustomerEffects } from './modules/customer-management/store/customer-ma
 import { EntryEffects } from './modules/time-clock/store/entry.effects';
 import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.token.interceptor';
 import { SubstractDatePipe } from './modules/shared/pipes/substract-date/substract-date.pipe';
-import {TechnologiesComponent} from './modules/shared/components/technologies/technologies.component';
+import { TechnologiesComponent } from './modules/shared/components/technologies/technologies.component';
 import { TimeEntriesSummaryComponent } from './modules/time-clock/components/time-entries-summary/time-entries-summary.component';
 import { TimeDetailsPipe } from './modules/time-clock/pipes/time-details.pipe';
-import {InputLabelComponent} from './modules/shared/components/input-label/input-label.component';
-import {ReportsComponent} from './modules/reports/pages/reports.component';
-import {InputDateComponent} from './modules/shared/components/input-date/input-date.component';
-import {TimeRangeFormComponent} from './modules/reports/components/time-range-form/time-range-form.component';
-import {TimeEntriesTableComponent} from './modules/reports/components/time-entries-table/time-entries-table.component';
+import { InputLabelComponent } from './modules/shared/components/input-label/input-label.component';
+import { ReportsComponent } from './modules/reports/pages/reports.component';
+import { InputDateComponent } from './modules/shared/components/input-date/input-date.component';
+import { TimeRangeFormComponent } from './modules/reports/components/time-range-form/time-range-form.component';
+import { TimeEntriesTableComponent } from './modules/reports/components/time-entries-table/time-entries-table.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -130,8 +130,8 @@ const maskConfig: Partial<IConfig> = {
     }),
     !environment.production
       ? StoreDevtoolsModule.instrument({
-          maxAge: 15, // Retains last 15 states
-        })
+        maxAge: 15, // Retains last 15 states
+      })
       : [],
     EffectsModule.forRoot([
       ProjectEffects,
@@ -153,4 +153,4 @@ const maskConfig: Partial<IConfig> = {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
