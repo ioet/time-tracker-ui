@@ -5,3 +5,28 @@
   background-color: $primary;
   color: white;
 }
+
+.btn-select {
+  padding: 2px 10px;
+  font-size: x-small;
+}
+
+.container {
+  font-size: small;
+  width: 100%;
+  min-height: 30px;
+  position: relative;
+}
+
+.autocomplete {
+  width: 80%
+}
+
+.left-side {
+  position: absolute;
+}
+
+.right-side {
+  position: absolute;
+  right: 15px;
+}

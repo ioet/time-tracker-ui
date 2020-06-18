@@ -82,7 +82,7 @@ describe('TimeEntryActionEffects', () => {
   });
 
   it('returns a LOAD_ACTIVE_ENTRY_SUCCESS when the entry that is running it is in the same day', async () => {
-    const activeEntry = {start_date: new Date()};
+    const activeEntry = {id: '123', start_date: new Date()};
     actions$ = of({type: EntryActionTypes.LOAD_ACTIVE_ENTRY, activeEntry});
     const serviceSpy = spyOn(service, 'loadActiveEntry');
     serviceSpy.and.returnValue(of(activeEntry));
@@ -92,10 +92,10 @@ describe('TimeEntryActionEffects', () => {
     });
   });
 
-  it('returns a LOAD_ACTIVE_ENTRY_SUCCESS when the entry that is running it is in the same day', async () => {
+  it('returns a UPDATE_ENTRY when the entry that is running it is in the past', async () => {
     const startDateInPast = new Date();
     startDateInPast.setDate(startDateInPast.getDate() - 5);
-    const activeEntry = {start_date: startDateInPast};
+    const activeEntry = {id: '123', start_date: startDateInPast};
     actions$ = of({type: EntryActionTypes.LOAD_ACTIVE_ENTRY, activeEntry});
     const serviceSpy = spyOn(service, 'loadActiveEntry');
     serviceSpy.and.returnValue(of(activeEntry));
