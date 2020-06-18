@@ -10,12 +10,33 @@
       <tr class="d-flex" *ngFor="let activity of activities">
         <td class="col-sm-9">{{ activity.name }}</td>
         <td class="col-sm-3 text-center">
-          <button type="button" class="btn btn-sm btn-primary" (click)="updateActivity(activity.id)"><i
-              class="fa fa-pencil fa-xs"></i></button>
-          <button type="button" class="btn btn-sm btn-danger ml-2" (click)="deleteActivity(activity.id)"><i
-              class="fas fa-trash-alt fa-xs"></i></button>
+          <button type="button" class="btn btn-sm btn-primary" (click)="updateActivity(activity.id)">
+            <i class="fa fa-pencil fa-xs"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-danger ml-2"
+            data-toggle="modal"
+            data-target="#deleteModal"
+            (click)="openModal(activity)"
+          >
+            <i class="fas fa-trash-alt fa-xs"></i>
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+
+<app-dialog
+  *ngIf="showModal"
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+  [title]="'Delete Activity'"
+  [body]="message"
+  (closeModalEvent)="deleteActivity()"
+>
+</app-dialog>

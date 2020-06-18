@@ -50,8 +50,8 @@ describe('ActivityListComponent', () => {
 
   it('deleteActivity, dispatchs DeleteActivity action', () => {
     spyOn(store, 'dispatch');
-
-    component.deleteActivity('id');
+    component.idToDelete = 'id';
+    component.deleteActivity();
 
     expect(store.dispatch).toHaveBeenCalledWith(new DeleteActivity('id'));
   });

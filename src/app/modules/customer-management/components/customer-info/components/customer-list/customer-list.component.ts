@@ -29,6 +29,9 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   loadCustomersSubscription: Subscription;
   changeCustomerSubscription: Subscription;
+  showModal = false;
+  idToDelete: string;
+  message: string;
 
   constructor(private store: Store<Customer>, private actionsSubject$: ActionsSubject) { }
 
@@ -77,8 +80,9 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.dispatch(new SetCustomerToEdit(customerId));
   }
 
-  deleteCustomer(customerId: string) {
-    this.store.dispatch(new DeleteCustomer(customerId));
+  deleteCustomer() {
+    this.store.dispatch(new DeleteCustomer(this.idToDelete));
+    this.showModal = false;
   }
 
   private rerenderDataTable(): void {
@@ -90,5 +94,11 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.dtTrigger.next();
     }
+  }
+
+  openModal(item: Customer) {
+    this.idToDelete = item.id;
+    this.message = `Are you sure you want to delete ${item.name}?`;
+    this.showModal = true;
   }
 }

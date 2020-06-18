@@ -136,6 +136,21 @@ describe('TimeEntriesComponent', () => {
     expect(component.dataByMonth.length).toEqual(1);
   }));
 
+  it('when saving time entries, the time entries should be queried', () => {
+    const currentMonth = new Date().getMonth() + 1;
+    const entryToSave = {
+      project_id: 'project-id',
+      end_date: new Date(),
+      start_date: new Date()
+    };
+    component.activeTimeEntry = null;
+    spyOn(store, 'dispatch');
+
+    component.saveEntry(entryToSave);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(currentMonth));
+  });
+
   it('should call dataByMonth with data without end_date in ngOnInit()', async(() => {
     const newEntry = {
       id: 'entry_1',
@@ -231,7 +246,8 @@ describe('TimeEntriesComponent', () => {
 
   it('should delete Entry by id', () => {
     spyOn(store, 'dispatch');
-    component.removeEntry('id');
+    component.idToDelete = 'id';
+    component.removeEntry();
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.DeleteEntry('id'));
   });
 

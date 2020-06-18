@@ -66,6 +66,7 @@ import { ReportsComponent } from './modules/reports/pages/reports.component';
 import { InputDateComponent } from './modules/shared/components/input-date/input-date.component';
 import { TimeRangeFormComponent } from './modules/reports/components/time-range-form/time-range-form.component';
 import { TimeEntriesTableComponent } from './modules/reports/components/time-entries-table/time-entries-table.component';
+import { DialogComponent } from './modules/shared/components/dialog/dialog.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -112,6 +113,7 @@ const maskConfig: Partial<IConfig> = {
     InputDateComponent,
     TimeRangeFormComponent,
     TimeEntriesTableComponent,
+    DialogComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),

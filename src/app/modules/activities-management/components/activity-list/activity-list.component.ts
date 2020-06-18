@@ -14,7 +14,10 @@ import { Activity } from '../../../shared/models';
 })
 export class ActivityListComponent implements OnInit {
   activities: Activity[] = [];
-
+  showModal = false;
+  activityToDelete: Activity;
+  message: string;
+  idToDelete: string;
   constructor(private store: Store<ActivityState>) {}
 
   ngOnInit() {
@@ -26,11 +29,18 @@ export class ActivityListComponent implements OnInit {
     });
   }
 
-  deleteActivity(activityId: string) {
-    this.store.dispatch(new DeleteActivity(activityId));
+  deleteActivity() {
+    this.store.dispatch(new DeleteActivity(this.idToDelete));
+    this.showModal = true;
   }
 
   updateActivity(activityId: string) {
     this.store.dispatch(new SetActivityToEdit(activityId));
+  }
+
+  openModal(item: Activity) {
+    this.idToDelete = item.id;
+    this.message = `Are you sure you want to delete ${item.name}?`;
+    this.showModal = true;
   }
 }
