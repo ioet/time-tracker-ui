@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { EntryService } from '../services/entry.service';
 import * as actions from './entry.actions';
 
@@ -12,6 +12,22 @@ import * as actions from './entry.actions';
 export class EntryEffects {
   constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) {
   }
+
+  @Effect()
+  switchEntryRunning$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.SWITCH_TIME_ENTRY),
+    switchMap((action: actions.SwitchTimeEntry) =>
+      this.entryService.stopEntryRunning(action.idEntrySwitching).pipe(
+        map(() => {
+          return new actions.CreateEntry({ project_id: action.idProjectSwitching, start_date: new Date().toISOString() });
+        }),
+        catchError((error) => {
+          this.toastrService.warning(error.error.message);
+          return of(new actions.StopTimeEntryRunningFail(error.error.message));
+        })
+      )
+    )
+  );
 
   @Effect()
   loadEntriesSummary$: Observable<Action> = this.actions$.pipe(
@@ -46,7 +62,7 @@ export class EntryEffects {
             } else {
               const endDate = new Date(activeEntry.start_date);
               endDate.setHours(23, 59, 59);
-              return new actions.UpdateEntry({id: activeEntry.id, end_date: endDate.toISOString()});
+              return new actions.UpdateEntry({ id: activeEntry.id, end_date: endDate.toISOString() });
             }
           }
         }),

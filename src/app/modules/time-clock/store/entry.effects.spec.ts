@@ -7,7 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { Action } from '@ngrx/store';
 import { DatePipe } from '@angular/common';
-import { EntryActionTypes } from './entry.actions';
+import { EntryActionTypes, SwitchTimeEntry } from './entry.actions';
 import { EntryService } from '../services/entry.service';
 import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
 import * as moment from 'moment';
@@ -36,6 +36,17 @@ describe('TimeEntryActionEffects', () => {
 
   it('should be created', async () => {
     expect(effects).toBeTruthy();
+  });
+
+  it('stop the active entry and return a CreateEntryAction', async () => {
+    actions$ = of(new SwitchTimeEntry('entry-id', 'project-id'));
+    const serviceSpy = spyOn(service, 'stopEntryRunning');
+    serviceSpy.and.returnValue(of({}));
+
+    effects.switchEntryRunning$.subscribe(action => {
+      expect(service.stopEntryRunning).toHaveBeenCalledWith('entry-id');
+      expect(action.type).toBe(EntryActionTypes.CREATE_ENTRY);
+    });
   });
 
   it('returns an action with type LOAD_ENTRIES_SUMMARY_SUCCESS when the service returns a value', () => {

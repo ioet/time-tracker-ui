@@ -1,4 +1,4 @@
-import { StopTimeEntryRunning } from './../../store/entry.actions';
+import { SwitchTimeEntry } from './../../store/entry.actions';
 import { FormBuilder } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -67,7 +67,7 @@ describe('ProjectListHoverComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(CreateEntry));
   });
 
-  it('dispatchs a UpdateEntryRunning action on updateProject', () => {
+  it('dispatch a UpdateEntryRunning action on updateProject', () => {
     component.activeEntry = { id: '123' };
     spyOn(store, 'dispatch');
 
@@ -76,15 +76,13 @@ describe('ProjectListHoverComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new UpdateEntryRunning({ id: component.activeEntry.id, project_id: 1 }));
   });
 
-  it('stop activeEntry and clockIn on swith', () => {
-    spyOn(component, 'clockIn');
+  it('dispatch a SwitchTimeEntry action', () => {
     spyOn(store, 'dispatch');
     component.activeEntry = { id: '123' };
 
     component.switch(1, 'customer', 'project');
 
-    expect(store.dispatch).toHaveBeenCalledWith(new StopTimeEntryRunning(component.activeEntry.id));
-    expect(component.clockIn).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(new SwitchTimeEntry(component.activeEntry.id, 1));
   });
 
   it('calls unsubscribe on ngDestroy', () => {

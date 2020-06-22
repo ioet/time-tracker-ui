@@ -50,8 +50,8 @@ describe('EntryService', () => {
 
   it('loads summary with get /summary?time_offset=<time-offset>', () => {
     service.summary().subscribe();
-    const time_offset = new Date().getTimezoneOffset();
-    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/summary?time_offset=${time_offset}`);
+    const timeOffset = new Date().getTimezoneOffset();
+    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/summary?time_offset=${timeOffset}`);
     expect(loadEntryRequest.request.method).toBe('GET');
   });
 

@@ -32,6 +32,18 @@ export enum EntryActionTypes {
   LOAD_ENTRIES_BY_TIME_RANGE = '[Entry] LOAD_ENTRIES_BY_TIME_RANGE',
   LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS = '[Entry] LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS',
   LOAD_ENTRIES_BY_TIME_RANGE_FAIL = '[Entry] LOAD_ENTRIES_BY_TIME_RANGE_FAIL',
+  SWITCH_TIME_ENTRY = '[Entry] SWITCH_TIME_ENTRY',
+  SWITCH_TIME_ENTRY_FAIL = '[Entry] SWITCH_TIME_ENTRY_FAIL',
+}
+
+export class SwitchTimeEntry implements Action {
+  public readonly type = EntryActionTypes.SWITCH_TIME_ENTRY;
+  constructor(readonly idEntrySwitching: string, readonly idProjectSwitching) {}
+}
+
+export class SwitchTimeEntryFail implements Action {
+  public readonly type = EntryActionTypes.SWITCH_TIME_ENTRY_FAIL;
+  constructor(readonly error: string) {}
 }
 
 export class LoadEntriesSummary implements Action {
@@ -87,7 +99,7 @@ export class CreateEntry implements Action {
 export class CreateEntrySuccess implements Action {
   public readonly type = EntryActionTypes.CREATE_ENTRY_SUCCESS;
 
-  constructor(public payload: NewEntry) {}
+  constructor(public payload: Entry) {}
 }
 
 export class CreateEntryFail implements Action {
@@ -208,4 +220,6 @@ export type EntryActions =
   | DefaultEntry
   | LoadEntriesByTimeRange
   | LoadEntriesByTimeRangeSuccess
-  | LoadEntriesByTimeRangeFail;
+  | LoadEntriesByTimeRangeFail
+  | SwitchTimeEntry
+  | SwitchTimeEntryFail;

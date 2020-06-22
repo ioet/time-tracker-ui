@@ -4,6 +4,17 @@ import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
 
 describe('Actions for Entries', () => {
 
+
+  it('SwitchTimeEntry type is EntryActionTypes.SWITCH_TIME_ENTRY', () => {
+    const action = new actions.SwitchTimeEntry('entry-id', 'project-id');
+    expect(action.type).toEqual(actions.EntryActionTypes.SWITCH_TIME_ENTRY);
+  });
+
+  it('SwitchTimeEntryFail type is EntryActionTypes.SWITCH_TIME_ENTRY_FAIL', () => {
+    const action = new actions.SwitchTimeEntryFail('error msg');
+    expect(action.type).toEqual(actions.EntryActionTypes.SWITCH_TIME_ENTRY_FAIL);
+  });
+
   it('LoadEntriesSummaryFail type is EntryActionTypes.LOAD_ENTRIES_SUMMARY_FAIL', () => {
     const action = new actions.LoadEntriesSummaryFail();
     expect(action.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_SUMMARY_FAIL);
@@ -35,10 +46,7 @@ describe('Actions for Entries', () => {
   });
 
   it('CreateEntrySuccess type is EntryActionTypes.CREATE_ENTRY_SUCCESS', () => {
-    const createEntrySuccess = new actions.CreateEntrySuccess({
-      project_id: '1',
-      start_date: '2020-04-21T19:51:36.559000+00:00',
-    });
+    const createEntrySuccess = new actions.CreateEntrySuccess(null);
     expect(createEntrySuccess.type).toEqual(actions.EntryActionTypes.CREATE_ENTRY_SUCCESS);
   });
 
