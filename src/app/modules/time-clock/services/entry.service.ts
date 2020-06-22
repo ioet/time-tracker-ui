@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from './../../../../environments/environment';
 import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
 import { DatePipe } from '@angular/common';
+import { Entry } from '../../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +44,11 @@ export class EntryService {
   stopEntryRunning(idEntry: string): Observable<any> {
     const url = `${this.baseUrl}/${idEntry}/stop`;
     return this.http.post(url, null);
+  }
+
+  restartEntry(idEntry: string): Observable<Entry> {
+    const url = `${this.baseUrl}/${idEntry}/restart`;
+    return this.http.post<Entry>(url, null);
   }
 
   summary(): Observable<TimeEntriesSummary> {

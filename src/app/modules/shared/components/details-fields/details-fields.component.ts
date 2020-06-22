@@ -3,7 +3,7 @@ import { filter } from 'rxjs/operators';
 import { NumberFormatter } from './../../formatters/number.formatter';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { select, Store, ActionsSubject } from '@ngrx/store';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { formatDate } from '@angular/common';
 
 import { Activity, Entry, Project } from '../../models';
@@ -15,6 +15,7 @@ import * as projectActions from '../../../customer-management/components/project
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
+import { SaveEntryEvent } from './save-entry-event';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 
@@ -25,15 +26,15 @@ type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 })
 export class DetailsFieldsComponent implements OnChanges, OnInit {
   @Input() entryToEdit: Entry;
-  @Input() formType: string;
-  @Output() saveEntry = new EventEmitter();
+  @Output() saveEntry = new EventEmitter<SaveEntryEvent>();
   @ViewChild('closeModal') closeModal: ElementRef;
   entryForm: FormGroup;
   selectedTechnologies: string[] = [];
   isLoading = false;
   listProjects: Project[] = [];
   activities: Activity[] = [];
-  isEntryRunning = false;
+  goingToWorkOnThis = false;
+  shouldRestartEntry = false;
 
   constructor(private formBuilder: FormBuilder, private store: Store<Merged>, private actionsSubject$: ActionsSubject) {
     this.entryForm = this.formBuilder.group({
@@ -87,7 +88,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(): void {
-    this.isEntryRunning = this.entryToEdit ? this.entryToEdit.running : false;
+    this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running : false;
     if (this.entryToEdit) {
       this.selectedTechnologies = this.entryToEdit.technologies;
       this.entryForm.setValue({
@@ -160,10 +161,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       end_date: `${entryDate}T${this.entryForm.value.end_hour.trim()}:01`,
       uri: this.entryForm.value.uri,
     };
-    if (this.isEntryRunning) {
+    if (this.goingToWorkOnThis) {
       delete entry.end_date;
     }
-    this.saveEntry.emit(entry);
+    this.saveEntry.emit({entry, shouldRestartEntry: this.shouldRestartEntry});
   }
 
   getElapsedSeconds(date: Date): string {
@@ -175,10 +176,11 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     }
   }
 
-  onIsRunningChange(event: any) {
-    this.isEntryRunning = event.currentTarget.checked;
-    if (!this.isEntryRunning) {
-      this.entryForm.patchValue({ end_hour: formatDate(new Date(), 'HH:mm', 'en') });
+  onGoingToWorkOnThisChange(event: any) {
+    this.goingToWorkOnThis = event.currentTarget.checked;
+    if (!this.goingToWorkOnThis) {
+      this.entryForm.patchValue({end_hour: formatDate(new Date(), 'HH:mm', 'en')});
     }
+    this.shouldRestartEntry = !this.entryToEdit?.running && this.goingToWorkOnThis;
   }
 }

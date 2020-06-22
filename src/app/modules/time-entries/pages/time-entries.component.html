@@ -64,13 +64,15 @@
       </div>
       <div class="modal-body">
         <app-details-fields
-          [formType]="'entries'"
           [entryToEdit]="entry"
           (saveEntry)="saveEntry($event)"
-        ></app-details-fields>
+        >  Active TE: {{activeTimeEntry | json}}
+        </app-details-fields>
       </div>
     </div>
   </div>
+
+  Active TE: {{activeTimeEntry | json}}
 </div>
 
 <app-dialog

@@ -104,4 +104,13 @@ describe('EntryService', () => {
     expect(loadEntryRequest.request.params.get('end_date')).toBe(pipe.transform(today, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT));
     expect(loadEntryRequest.request.params.get('user_id')).toEqual('123');
   });
+
+  it('when restarting entry, a POST is triggered', () => {
+    const entry = 'entryId';
+
+    service.restartEntry(entry).subscribe();
+
+    const restartEntryRequest = httpMock.expectOne( `${service.baseUrl}/${entry}/restart`);
+    expect(restartEntryRequest.request.method).toBe('POST');
+  });
 });
