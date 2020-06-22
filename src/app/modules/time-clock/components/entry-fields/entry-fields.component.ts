@@ -1,12 +1,12 @@
-import {getActiveTimeEntry} from './../../store/entry.selectors';
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {select, Store} from '@ngrx/store';
+import { getActiveTimeEntry } from './../../store/entry.selectors';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
 
-import {Activity, NewEntry} from '../../../shared/models';
-import {ProjectState} from '../../../customer-management/components/projects/components/store/project.reducer';
-import {TechnologyState} from '../../../shared/store/technology.reducers';
-import {ActivityState, allActivities, LoadActivities} from '../../../activities-management/store';
+import { Activity, NewEntry } from '../../../shared/models';
+import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
+import { TechnologyState } from '../../../shared/store/technology.reducers';
+import { ActivityState, allActivities, LoadActivities } from '../../../activities-management/store';
 
 import * as entryActions from '../../store/entry.actions';
 
@@ -18,7 +18,6 @@ type Merged = TechnologyState & ProjectState & ActivityState;
   styleUrls: ['./entry-fields.component.scss'],
 })
 export class EntryFieldsComponent implements OnInit {
-
   entryForm: FormGroup;
   selectedTechnologies: string[] = [];
   activities: Activity[] = [];
@@ -29,7 +28,7 @@ export class EntryFieldsComponent implements OnInit {
     this.entryForm = this.formBuilder.group({
       description: '',
       uri: '',
-      activity_id: '-1'
+      activity_id: '-1',
     });
   }
 
@@ -58,6 +57,10 @@ export class EntryFieldsComponent implements OnInit {
     });
   }
 
+  get activity_id() {
+    return this.entryForm.get('activity_id');
+  }
+
   setDataToUpdate(entryData: NewEntry) {
     if (entryData) {
       this.entryForm.patchValue({
@@ -73,17 +76,19 @@ export class EntryFieldsComponent implements OnInit {
     }
   }
 
+  entryFormIsValidate() {
+    return this.entryForm.valid;
+  }
+
   onSubmit() {
-    this.store.dispatch(new entryActions.UpdateEntryRunning({...this.newData, ...this.entryForm.value}));
+    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
   }
 
   onTechnologyAdded($event: string[]) {
-    this.store.dispatch(new entryActions.UpdateEntryRunning({...this.newData, technologies: $event})
-    );
+    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, technologies: $event }));
   }
 
   onTechnologyRemoved($event: string[]) {
-    this.store.dispatch(new entryActions.UpdateEntryRunning({...this.newData, technologies: $event}));
+    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, technologies: $event }));
   }
-
 }

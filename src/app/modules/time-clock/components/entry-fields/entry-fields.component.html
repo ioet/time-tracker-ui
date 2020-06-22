@@ -3,23 +3,38 @@
     <div class="input-group-prepend">
       <span class="input-group-text span-width">Activity</span>
     </div>
-    <select id="activitiesSelect" (blur)="onSubmit()" class="form-control" formControlName="activity_id">
+    <select
+      id="activitiesSelect"
+      (blur)="onSubmit()"
+      class="form-control"
+      formControlName="activity_id"
+      [class.is-invalid]="activity_id.invalid && activity_id.touched"
+      required
+    >
       <option value="-1"></option>
-      <option *ngFor="let activity of activities" value="{{activity.id}}">{{ activity.name }}</option>
+      <option *ngFor="let activity of activities" value="{{ activity.id }}">{{ activity.name }}</option>
     </select>
   </div>
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text span-width">Ticket URI</span>
     </div>
-    <input (blur)="onSubmit()" type="text" id="uri" formControlName="uri" class="form-control" aria-label="Small"
-           aria-describedby="inputGroup-sizing-sm"/>
+    <input
+      (blur)="onSubmit()"
+      type="text"
+      id="uri"
+      formControlName="uri"
+      class="form-control"
+      aria-label="Small"
+      aria-describedby="inputGroup-sizing-sm"
+    />
   </div>
-  <app-technologies (technologyAdded)="onTechnologyAdded($event)"
-                    (technologyRemoved)="onTechnologyRemoved($event)"
-                    [selectedTechnologies]="selectedTechnologies">
+  <app-technologies
+    (technologyAdded)="onTechnologyAdded($event)"
+    (technologyRemoved)="onTechnologyRemoved($event)"
+    [selectedTechnologies]="selectedTechnologies"
+  >
   </app-technologies>
-
 
   <div class="input-group input-group-sm mb-3">
     <div class="input-group-prepend">
@@ -31,8 +46,8 @@
       formControlName="description"
       class="form-control"
       id="NotesTextarea"
-      rows="2">
+      rows="2"
+    >
     </textarea>
   </div>
-
 </form>
