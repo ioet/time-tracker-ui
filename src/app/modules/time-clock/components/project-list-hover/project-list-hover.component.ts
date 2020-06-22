@@ -88,9 +88,8 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   }
 
   switch(selectedProject, customerName, name) {
-    this.store.dispatch(new entryActions.StopTimeEntryRunning(this.activeEntry.id));
-    this.clockIn(selectedProject, customerName, name);
-    this.store.dispatch(new entryActions.LoadActiveEntry());
+    this.store.dispatch(new entryActions.SwitchTimeEntry(this.activeEntry.id, selectedProject));
+    this.projectsForm.setValue( { project_id: `${customerName} - ${name}`, } );
   }
 
   ngOnDestroy(): void {

@@ -121,12 +121,34 @@ describe('entryReducer', () => {
     expect(state.isLoading).toEqual(true);
   });
 
-  it('on CreateEntrySuccess, message is updated', () => {
-    const entryToCreate: NewEntry = {project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00'};
-    const action = new actions.CreateEntrySuccess(entryToCreate);
+  it('on CreateEntrySuccess, if end_date is null then it is the active entry', () => {
+    const entryCreated: Entry = { ... entry };
+    entryCreated.end_date = null;
+    const action = new actions.CreateEntrySuccess(entryCreated);
+
     const state = entryReducer(initialState, action);
 
-    expect(state.message).toEqual('You clocked-in successfully');
+    expect(state.active).toBe(entryCreated);
+  });
+
+  it('on CreateEntrySuccess, if end_date is undefined then it is the active entry', () => {
+    const entryCreated: Entry = { ... entry };
+    entryCreated.end_date = undefined;
+    const action = new actions.CreateEntrySuccess(entryCreated);
+
+    const state = entryReducer(initialState, action);
+
+    expect(state.active).toBe(entryCreated);
+  });
+
+  it('on CreateEntrySuccess, if end_date has a value then it the active field is not updated', () => {
+    const activeEntry: Entry = { ... entry };
+    initialState.active = activeEntry;
+    const action = new actions.CreateEntrySuccess(entry);
+
+    const state = entryReducer(initialState, action);
+
+    expect(state.active).toBe(activeEntry);
   });
 
   it('on CreateEntryFail, entryList equal []', () => {
