@@ -62,18 +62,18 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   doSave(event: SaveEntryEvent) {
+    const endDateIsDefined = event.entry.end_date !== null && event.entry.end_date !== undefined;
     if (this.entryId) {
       const startDateChanged = this.entry.start_date !== event.entry.start_date;
-      const endDateChanged = this.entry.end_date !== event.entry.end_date;
-
       if (startDateChanged) {
         const startDate = new Date(event.entry.start_date);
         startDate.setSeconds(1, 0);
         event.entry.start_date = startDate.toISOString();
       }
 
-      if (endDateChanged) {
-        if (event.entry.end_date !== null && event.entry.end_date !== undefined) {
+      if (endDateIsDefined) {
+        const endDateChanged = this.entry.end_date !== event.entry.end_date;
+        if (endDateChanged) {
           const endDate = new Date(event.entry.end_date);
           endDate.setSeconds(0, 0);
           event.entry.end_date = endDate.toISOString();
@@ -90,7 +90,7 @@ export class TimeEntriesComponent implements OnInit {
       startDate.setSeconds(1, 0);
       event.entry.start_date = startDate.toISOString();
 
-      if (event.entry.end_date !== null && event.entry.end_date !== undefined) {
+      if (endDateIsDefined) {
         const endDate = new Date(event.entry.end_date);
         endDate.setSeconds(0, 0);
         event.entry.end_date = endDate.toISOString();
