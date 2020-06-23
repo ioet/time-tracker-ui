@@ -62,7 +62,6 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   doSave(event: SaveEntryEvent) {
-    console.log(event);
     event.entry.start_date = new Date(event.entry.start_date).toISOString();
     if (event.entry.end_date !== null && event.entry.end_date !== undefined) {
       event.entry.end_date = new Date(event.entry.end_date).toISOString();

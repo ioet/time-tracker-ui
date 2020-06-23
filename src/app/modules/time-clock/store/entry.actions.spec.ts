@@ -1,8 +1,19 @@
 import * as actions from './entry.actions';
 import * as moment from 'moment';
 import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
+import { Entry } from '../../shared/models';
 
 describe('Actions for Entries', () => {
+  let entry: Entry;
+  beforeEach(() => {
+    entry = {
+      id: '1',
+      start_date: new Date(),
+      end_date: new Date(),
+      activity_id: '',
+      technologies: ['abc', 'abc'],
+    };
+  });
 
 
   it('SwitchTimeEntry type is EntryActionTypes.SWITCH_TIME_ENTRY', () => {
@@ -66,13 +77,7 @@ describe('Actions for Entries', () => {
   });
 
   it('UpdateEntrySuccess type is EntryActionTypes.UDPATE_ENTRY_SUCCESS', () => {
-    const updateActiveEntrySuccess = new actions.UpdateEntrySuccess({
-      id: '1',
-      start_date: new Date(),
-      end_date: new Date(),
-      activity_id: '',
-      technologies: ['abc', 'abc'],
-    });
+    const updateActiveEntrySuccess = new actions.UpdateEntrySuccess(entry);
     expect(updateActiveEntrySuccess.type).toEqual(actions.EntryActionTypes.UPDATE_ENTRY_SUCCESS);
   });
 
@@ -82,13 +87,7 @@ describe('Actions for Entries', () => {
   });
 
   it('UpdateActiveEntry type is EntryActionTypes.UDPATE_ENTRY_FAIL', () => {
-    const action = new actions.UpdateEntryRunning({
-        id: '1',
-        start_date: new Date(),
-        end_date: new Date(),
-        activity_id: '',
-        technologies: ['abc', 'abc'],
-      });
+    const action = new actions.UpdateEntryRunning(entry);
     expect(action.type).toEqual(actions.EntryActionTypes.UPDATE_ENTRY_RUNNING);
   });
 
@@ -110,5 +109,20 @@ describe('Actions for Entries', () => {
   it('LoadEntriesByTimeRangeFail type is EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_FAIL', () => {
     const action = new actions.LoadEntriesByTimeRangeFail();
     expect(action.type).toEqual(actions.EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_FAIL);
+  });
+
+  it('RestartEntry type is EntryActionTypes.RESTART_ENTRY', () => {
+    const action = new actions.RestartEntry(entry);
+    expect(action.type).toEqual(actions.EntryActionTypes.RESTART_ENTRY);
+  });
+
+  it('RestartEntrySuccess type is EntryActionTypes.RESTART_ENTRY_SUCCESS', () => {
+    const action = new actions.RestartEntrySuccess(entry);
+    expect(action.type).toEqual(actions.EntryActionTypes.RESTART_ENTRY_SUCCESS);
+  });
+
+  it('RestartEntryFail type is EntryActionTypes.RESTART_ENTRY_FAIL', () => {
+    const action = new actions.RestartEntryFail('error');
+    expect(action.type).toEqual(actions.EntryActionTypes.RESTART_ENTRY_FAIL);
   });
 });

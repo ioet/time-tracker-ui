@@ -209,7 +209,7 @@ export class EntryEffects {
         }),
         catchError((error) => {
           this.toastrService.error( error.error.message, 'This entry could not be restarted');
-          return of(new actions.UpdateEntryFail(error));
+          return of(new actions.RestartEntryFail(error));
         })
       )
     )
