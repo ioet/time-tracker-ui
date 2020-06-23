@@ -62,17 +62,40 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   doSave(event: SaveEntryEvent) {
-    event.entry.start_date = new Date(event.entry.start_date).toISOString();
-    if (event.entry.end_date !== null && event.entry.end_date !== undefined) {
-      event.entry.end_date = new Date(event.entry.end_date).toISOString();
-    }
     if (this.entryId) {
+      const startDateChanged = this.entry.start_date !== event.entry.start_date;
+      const endDateChanged = this.entry.end_date !== event.entry.end_date;
+
+      if (startDateChanged) {
+        const startDate = new Date(event.entry.start_date);
+        startDate.setSeconds(1, 0);
+        event.entry.start_date = startDate.toISOString();
+      }
+
+      if (endDateChanged) {
+        if (event.entry.end_date !== null && event.entry.end_date !== undefined) {
+          const endDate = new Date(event.entry.end_date);
+          endDate.setSeconds(0, 0);
+          event.entry.end_date = endDate.toISOString();
+        }
+      }
+
       event.entry.id = this.entryId;
       this.store.dispatch(new entryActions.UpdateEntry(event.entry));
       if (event.shouldRestartEntry) {
         this.store.dispatch(new entryActions.RestartEntry(event.entry));
       }
     } else {
+      const startDate = new Date(event.entry.start_date);
+      startDate.setSeconds(1, 0);
+      event.entry.start_date = startDate.toISOString();
+
+      if (event.entry.end_date !== null && event.entry.end_date !== undefined) {
+        const endDate = new Date(event.entry.end_date);
+        endDate.setSeconds(0, 0);
+        event.entry.end_date = endDate.toISOString();
+      }
+
       this.store.dispatch(new entryActions.CreateEntry(event.entry));
     }
   }
