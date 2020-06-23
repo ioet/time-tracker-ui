@@ -6,13 +6,22 @@ describe('SubstractDatePipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('returns the date diff', () => {
+  it('returns the date diff using hh:mm', () => {
     const fromDate = new Date('2011-04-11T10:20:40Z');
     const substractDate = new Date('2011-04-11T08:00:30Z');
 
     const diff = new SubstractDatePipe().transform(fromDate, substractDate);
 
-    expect(diff).toBe('02:20:10');
+    expect(diff).toBe('02:20');
+  });
+
+  it('returns the date diff including seconds if difference is less than a minute', () => {
+    const fromDate = new Date('2011-04-11T10:20:40Z');
+    const substractDate = new Date('2011-04-11T10:20:30Z');
+
+    const diff = new SubstractDatePipe().transform(fromDate, substractDate);
+
+    expect(diff).toBe('00:00:10');
   });
 
   it('returns --:-- if fromDate is null', () => {

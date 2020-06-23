@@ -13,9 +13,16 @@ export class SubstractDatePipe implements PipeTransform {
     }
 
     const startDate = moment(substractDate, 'YYYY-MM-DD HH:mm:ss');
-    const endDate = moment(fromDate, 'YYYY-MM-DD HH:mm:ss');
-    const duration: any = moment.duration(endDate.diff(startDate));
-    return `${this.formatTime(duration._data.hours)}:${this.formatTime(duration._data.minutes)}:${this.formatTime(duration._data.seconds)}`;
+    let endDate = moment(fromDate, 'YYYY-MM-DD HH:mm:ss');
+    let duration: moment.Duration = moment.duration(endDate.diff(startDate));
+
+    if (duration.asSeconds() > 60) {
+      endDate = endDate.add(1, 'minute').startOf('minute');
+      duration = moment.duration(endDate.diff(startDate));
+      return `${ this.formatTime(duration.hours())}:${this.formatTime(duration.minutes()) }`;
+    } else {
+      return `${ this.formatTime(duration.hours())}:${this.formatTime(duration.minutes())}:${this.formatTime(duration.seconds())}`;
+    }
   }
 
   formatTime(time: number): string {
