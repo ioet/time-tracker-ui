@@ -146,6 +146,7 @@ export class EntryEffects {
     )
   );
 
+
   @Effect()
   updateEntryRunning$: Observable<Action> = this.actions$.pipe(
     ofType(actions.EntryActionTypes.UPDATE_ENTRY_RUNNING),
@@ -192,6 +193,23 @@ export class EntryEffects {
         }),
         catchError((error) => {
           return of(new actions.LoadEntriesByTimeRangeFail());
+        })
+      )
+    )
+  );
+
+  @Effect()
+  restartEntry$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.RESTART_ENTRY),
+    map((action: actions.RestartEntry) => action.entry),
+    mergeMap((entry) =>
+      this.entryService.restartEntry(entry.id).pipe(
+        map((entryResponse) => {
+          return new actions.RestartEntrySuccess(entryResponse);
+        }),
+        catchError((error) => {
+          this.toastrService.error( error.error.message, 'This entry could not be restarted');
+          return of(new actions.RestartEntryFail(error));
         })
       )
     )

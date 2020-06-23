@@ -136,6 +136,29 @@ describe('TimeEntryActionEffects', () => {
     });
   });
 
+  it('When the service returns a value, then RESTART_ENTRY_SUCCESS should be triggered', () => {
+
+    const entryId = '123';
+    actions$ = of({type: EntryActionTypes.RESTART_ENTRY, entryId});
+    const serviceSpy = spyOn(service, 'restartEntry');
+    serviceSpy.and.returnValue(of({}));
+
+    effects.restartEntry$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.RESTART_ENTRY_SUCCESS);
+    });
+
+  });
+
+  it('When the service fails, then RESTART_ENTRY_FAIL should be triggered', async () => {
+    const entryId = '123';
+    actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, entryId});
+    spyOn(service, 'restartEntry').and.returnValue(throwError('any error'));
+
+    effects.restartEntry$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.RESTART_ENTRY_FAIL);
+    });
+  });
+
   // TODO Implement the remaining unit tests for the other effects.
 
 });

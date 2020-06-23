@@ -6,6 +6,7 @@ import { EntryState } from '../../time-clock/store/entry.reducer';
 import { allEntries } from '../../time-clock/store/entry.selectors';
 import { select, Store } from '@ngrx/store';
 import * as entryActions from '../../time-clock/store/entry.actions';
+import { SaveEntryEvent } from '../../shared/components/details-fields/save-entry-event';
 
 @Component({
   selector: 'app-time-entries',
@@ -21,7 +22,8 @@ export class TimeEntriesComponent implements OnInit {
   message: string;
   idToDelete: string;
 
-  constructor(private store: Store<EntryState>, private toastrService: ToastrService) { }
+  constructor(private store: Store<EntryState>, private toastrService: ToastrService) {
+  }
 
   ngOnInit(): void {
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
@@ -42,33 +44,36 @@ export class TimeEntriesComponent implements OnInit {
     this.entry = this.dataByMonth.find((entry) => entry.id === entryId);
   }
 
-  saveEntry(entry): void {
+  saveEntry(event: SaveEntryEvent): void {
     if (this.activeTimeEntry !== null && this.activeTimeEntry !== undefined) {
-      const entryDateAsIso = new Date(entry.start_date).toISOString();
+      const entryDateAsIso = new Date(event.entry.start_date).toISOString();
       const entryDateAsLocalDate = new Date(entryDateAsIso);
-      const activeEntryAsLocaldate = new Date(this.activeTimeEntry.start_date);
+      const activeEntryAsLocalDate = new Date(this.activeTimeEntry.start_date);
       const isEditingActiveEntry = this.entryId === this.activeTimeEntry.id;
-      if (!isEditingActiveEntry && entryDateAsLocalDate > activeEntryAsLocaldate) {
+      if (!isEditingActiveEntry && entryDateAsLocalDate > activeEntryAsLocalDate) {
         this.toastrService.error('You are on the clock and this entry overlaps it, try with earlier times.');
       } else {
-        this.doSave(entry);
+        this.doSave(event);
       }
     } else {
-      this.doSave(entry);
+      this.doSave(event);
     }
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
   }
 
-  doSave(entry) {
-    entry.start_date = new Date(entry.start_date).toISOString();
-    if (entry.end_date !== null && entry.end_date !== undefined) {
-      entry.end_date = new Date(entry.end_date).toISOString();
+  doSave(event: SaveEntryEvent) {
+    event.entry.start_date = new Date(event.entry.start_date).toISOString();
+    if (event.entry.end_date !== null && event.entry.end_date !== undefined) {
+      event.entry.end_date = new Date(event.entry.end_date).toISOString();
     }
     if (this.entryId) {
-      entry.id = this.entryId;
-      this.store.dispatch(new entryActions.UpdateEntry(entry));
+      event.entry.id = this.entryId;
+      this.store.dispatch(new entryActions.UpdateEntry(event.entry));
+      if (event.shouldRestartEntry) {
+        this.store.dispatch(new entryActions.RestartEntry(event.entry));
+      }
     } else {
-      this.store.dispatch(new entryActions.CreateEntry(entry));
+      this.store.dispatch(new entryActions.CreateEntry(event.entry));
     }
   }
 

@@ -1,5 +1,5 @@
 <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
-  <label><input id='isEntryRunning' type="checkbox" (change)="onIsRunningChange($event)" [checked]="isEntryRunning"> I am working on
+  <label><input id='isEntryRunning' type="checkbox" (change)="onGoingToWorkOnThisChange($event)" [checked]="goingToWorkOnThis"> I am working on
     this</label>
 
   <div class="input-group input-group-sm mb-3">
@@ -88,11 +88,11 @@
       required
       aria-describedby="inputGroup-sizing-sm"
     />
-    <div class="input-group-prepend" *ngIf="!isEntryRunning">
+    <div class="input-group-prepend" *ngIf="!goingToWorkOnThis">
       <span class="input-group-text span-width">Time out</span>
     </div>
     <input
-      *ngIf="!isEntryRunning"
+      *ngIf="!goingToWorkOnThis"
       [clearIfNotMatch]="true"
       [showMaskTyped]="true"
       [dropSpecialCharacters]="false"

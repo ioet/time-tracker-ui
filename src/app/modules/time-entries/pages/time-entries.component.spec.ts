@@ -28,24 +28,25 @@ describe('TimeEntriesComponent', () => {
   let injectedToastrService;
 
   const toastrService = {
-    error: () => {},
+    error: () => {
+    },
   };
 
   const state = {
     projects: {
-      projects: [{ id: 'abc', customer_id: 'customerId', name: '', description: '', project_type_id: 'id' }],
-      customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
+      projects: [{id: 'abc', customer_id: 'customerId', name: '', description: '', project_type_id: 'id'}],
+      customerProjects: [{id: 'id', name: 'name', description: 'description', project_type_id: '123'}],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
     },
     activities: {
-      data: [{ id: 'id', name: 'name', description: 'description' }],
+      data: [{id: 'id', name: 'name', description: 'description'}],
       isLoading: false,
       message: 'message',
     },
     technologies: {
-      technologyList: { items: [{ name: 'test' }] },
+      technologyList: {items: [{name: 'test'}]},
       isLoading: false,
     },
     entries: {
@@ -79,8 +80,8 @@ describe('TimeEntriesComponent', () => {
         TechnologiesComponent,
         TimeEntriesSummaryComponent,
       ],
-      providers: [provideMockStore({ initialState: state }),
-        { provide: ToastrService, useValue: toastrService },
+      providers: [provideMockStore({initialState: state}),
+        {provide: ToastrService, useValue: toastrService},
       ],
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
@@ -139,9 +140,11 @@ describe('TimeEntriesComponent', () => {
   it('when saving time entries, the time entries should be queried', () => {
     const currentMonth = new Date().getMonth() + 1;
     const entryToSave = {
-      project_id: 'project-id',
-      end_date: new Date(),
-      start_date: new Date()
+      entry: {
+        project_id: 'project-id',
+        end_date: new Date(),
+        start_date: new Date()
+      }, shouldRestartEntry: false
     };
     component.activeTimeEntry = null;
     spyOn(store, 'dispatch');
@@ -198,14 +201,18 @@ describe('TimeEntriesComponent', () => {
 
   it('displays an error when start date of entry is > than active entry start date', () => {
     const newEntry = {
-      project_id: 'p-id',
-      start_date: '2020-05-05T10:04',
-      description: 'description',
-      technologies: [],
-      uri: 'abc',
+      entry: {
+        project_id: 'p-id',
+        start_date: '2020-05-05T10:04',
+        description: 'description',
+        technologies: [],
+        uri: 'abc',
+      }, shouldRestartEntry: false
     };
     component.entryId = 'new-entry';
-    spyOn(injectedToastrService, 'error');
+    spyOn(injectedToastrService, 'error'
+    )
+    ;
 
     component.saveEntry(newEntry);
 
@@ -214,11 +221,14 @@ describe('TimeEntriesComponent', () => {
 
   it('should dispatch an action when entry is going to be saved', () => {
     const newEntry = {
-      project_id: 'p-id',
-      start_date: '2020-05-05T10:04',
-      description: 'description',
-      technologies: [],
-      uri: 'abc',
+      entry: {
+        project_id: 'p-id',
+        start_date: '2020-05-05T10:04',
+        description: 'description',
+        technologies: [],
+        uri: 'abc',
+      },
+      shouldRestartEntry: false
     };
     component.entryId = 'active-entry';
     spyOn(store, 'dispatch');
@@ -230,18 +240,20 @@ describe('TimeEntriesComponent', () => {
 
   it('should create new Entry', () => {
     const newEntry = {
-      project_id: 'projectId',
-      start_date: '2010-05-05T10:04',
-      description: 'description',
-      technologies: [],
-      uri: 'abc',
+      entry: {
+        project_id: 'projectId',
+        start_date: '2010-05-05T10:04',
+        description: 'description',
+        technologies: [],
+        uri: 'abc',
+      }, shouldRestartEntry: false
     };
     component.entryId = undefined;
     spyOn(store, 'dispatch');
 
     component.saveEntry(newEntry);
 
-    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CreateEntry(newEntry));
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CreateEntry(newEntry.entry));
   });
 
   it('should delete Entry by id', () => {
@@ -261,11 +273,13 @@ describe('TimeEntriesComponent', () => {
 
   it('doSave when activeTimeEntry === null', async(() => {
     const entryToSave = {
-      project_id: 'project-id',
-      start_date: '2010-05-05T10:04',
-      description: 'description',
-      technologies: [],
-      uri: 'abc',
+      entry: {
+        project_id: 'project-id',
+        start_date: '2010-05-05T10:04',
+        description: 'description',
+        technologies: [],
+        uri: 'abc',
+      }, shouldRestartEntry: false
     };
     spyOn(component, 'doSave');
     component.activeTimeEntry = null;
@@ -275,4 +289,40 @@ describe('TimeEntriesComponent', () => {
     expect(component.doSave).toHaveBeenCalledWith(entryToSave);
   }));
 
+  it('doSave when activeTimeEntry === null', async(() => {
+    const entryToSave = {
+      entry: {
+        project_id: 'project-id',
+        start_date: '2010-05-05T10:04',
+        description: 'description',
+        technologies: [],
+        uri: 'abc',
+      }, shouldRestartEntry: false
+    };
+    spyOn(component, 'doSave');
+    component.activeTimeEntry = null;
+
+    component.saveEntry(entryToSave);
+
+    expect(component.doSave).toHaveBeenCalledWith(entryToSave);
+  }));
+
+  it('when event contains should restart as true, then a restart Entry action should be triggered', () => {
+    const entryToSave = {
+      entry: {
+        id: '123',
+        project_id: 'projectId',
+        start_date: new Date(),
+        description: 'description',
+        technologies: [],
+        uri: 'abc',
+      }, shouldRestartEntry: true
+    };
+    component.entryId = '123';
+    spyOn(store, 'dispatch');
+
+    component.doSave(entryToSave);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.RestartEntry(entryToSave.entry));
+  });
 });

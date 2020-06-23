@@ -1,7 +1,7 @@
 import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { TechnologiesComponent } from './../technologies/technologies.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, formatDate } from '@angular/common';
 import { ActionsSubject } from '@ngrx/store';
@@ -13,7 +13,8 @@ import { ProjectState } from '../../../customer-management/components/projects/c
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
-import { getUpdateError, getCreateError } from 'src/app/modules/time-clock/store/entry.selectors';
+import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
+import { SaveEntryEvent } from './save-entry-event';
 
 describe('DetailsFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -30,18 +31,18 @@ describe('DetailsFieldsComponent', () => {
 
   const state = {
     projects: {
-      projects: [{ id: 'id', name: 'name', project_type_id: '' }],
-      customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
+      projects: [{id: 'id', name: 'name', project_type_id: ''}],
+      customerProjects: [{id: 'id', name: 'name', description: 'description', project_type_id: '123'}],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
     },
     technologies: {
-      technologyList: { items: [{ name: 'java' }] },
+      technologyList: {items: [{name: 'java'}]},
       isLoading: false,
     },
     activities: {
-      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc' }],
+      data: [{id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc'}],
       isLoading: false,
       message: 'Data fetch successfully!',
       activityIdToEdit: '',
@@ -66,7 +67,7 @@ describe('DetailsFieldsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DetailsFieldsComponent, TechnologiesComponent],
-      providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
+      providers: [provideMockStore({initialState: state}), {provide: ActionsSubject, useValue: actionSub}],
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
@@ -106,8 +107,8 @@ describe('DetailsFieldsComponent', () => {
   });
 
   [
-    { actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS },
-    { actionType: EntryActionTypes.UPDATE_ENTRY_SUCCESS },
+    {actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS},
+    {actionType: EntryActionTypes.UPDATE_ENTRY_SUCCESS},
   ].map((param) => {
     it(`cleanForm after an action type ${param.actionType} is received`, () => {
       const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
@@ -217,20 +218,23 @@ describe('DetailsFieldsComponent', () => {
       technology: '',
     });
     component.onSubmit();
-    const data = {
-      project_id: '',
-      activity_id: '',
-      technologies: [],
-      description: '',
-      start_date: '2020-02-05T00:00:11',
-      end_date: '2020-02-05T00:01:01',
-      uri: '',
+    const data: SaveEntryEvent = {
+      entry: {
+        project_id: '',
+        activity_id: '',
+        technologies: [],
+        description: '',
+        start_date: '2020-02-05T00:00:11',
+        end_date: '2020-02-05T00:01:01',
+        uri: ''
+      },
+      shouldRestartEntry: false
     };
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
 
   it('when the current entry is not running, then the end hour input should be rendered', () => {
-    component.isEntryRunning = false;
+    component.goingToWorkOnThis = false;
     fixture.detectChanges();
 
     const endHourInput = fixture.debugElement.nativeElement.querySelector('#end_hour');
@@ -238,63 +242,67 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('when  the current entry is running, then the end hour input should not be rendered', () => {
-    component.isEntryRunning = true;
+    component.goingToWorkOnThis = true;
     fixture.detectChanges();
 
     const endHourInput = fixture.debugElement.nativeElement.querySelector('#end_hour');
     expect(endHourInput).toBeNull();
   });
 
-  it('when creating a new entry, then the new entry should be marked as not running', () => {
+  it('when creating a new entry, then the new entry should be marked as not run', () => {
     component.entryToEdit = null;
 
-    expect(component.isEntryRunning).toBeFalse();
+    expect(component.goingToWorkOnThis).toBeFalse();
   });
 
-  it('when editing entry that is currently running, then the entry should be marked as running', () => {
-    component.entryToEdit = { ...entryToEdit, running: true };
+  it('when editing entry that is currently running, then the entry should be marked as I am working on this', () => {
+    component.entryToEdit = {...entryToEdit, running: true};
 
     fixture.componentInstance.ngOnChanges();
 
-    expect(component.isEntryRunning).toBeTrue();
-  });
-
-  it('when editing entry that already finished, then the entry should not be marked as running', () => {
-    component.entryToEdit = { ...entryToEdit, running: false };
-
-    fixture.componentInstance.ngOnChanges();
-
-    expect(component.isEntryRunning).toBeFalse();
+    expect(component.goingToWorkOnThis).toBeTrue();
   });
 
   it('when editing entry that already finished, then the entry should not be marked as running', () => {
-    component.entryToEdit = { ...entryToEdit, running: false };
+    component.entryToEdit = {...entryToEdit, running: false};
 
     fixture.componentInstance.ngOnChanges();
 
-    expect(component.isEntryRunning).toBeFalse();
+    expect(component.goingToWorkOnThis).toBeFalse();
+  });
+
+  it('when editing entry that already finished, then the entry should not be marked as running', () => {
+    component.entryToEdit = {...entryToEdit, running: false};
+
+    fixture.componentInstance.ngOnChanges();
+
+    expect(component.goingToWorkOnThis).toBeFalse();
   });
 
   it('when submitting a entry that is currently running, the end date should not be sent ', () => {
-    component.isEntryRunning = true;
+    component.goingToWorkOnThis = true;
     spyOn(component, 'getElapsedSeconds').and.returnValue('10');
     spyOn(component.saveEntry, 'emit');
 
-    component.entryForm.setValue({ ...formValues, entry_date: '2020-06-11' });
+    component.entryForm.setValue({...formValues, entry_date: '2020-06-11'});
     component.onSubmit();
-    const data = {
-      project_id: '',
-      activity_id: '',
-      technologies: [],
-      description: '',
-      start_date: '2020-06-11T00:00:10',
-      uri: 'ticketUri',
+    const data: SaveEntryEvent = {
+      entry: {
+        project_id: '',
+        activity_id: '',
+        technologies: [],
+        description: '',
+        start_date: '2020-06-11T00:00:10',
+        uri: 'ticketUri',
+      },
+      shouldRestartEntry: false
     };
 
-    expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
+    expect(component.saveEntry.emit
+    ).toHaveBeenCalledWith(data);
   });
 
-  it('when disabling current entry is running, then the end hour should be set to the current time', () => {
+  it('when disabling going to work on this, then the end hour should be set to the current time', () => {
     const datePipe: DatePipe = new DatePipe('en');
     const currentTime = datePipe.transform(new Date(), 'HH:mm');
 
@@ -304,5 +312,16 @@ describe('DetailsFieldsComponent', () => {
 
     const endHourInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_hour');
     expect(endHourInput.value).toEqual(currentTime);
+  });
+
+  it('given going to work on this and the entry is not currently running, when submitting form then the entry should be restarted', () => {
+    component.goingToWorkOnThis = false;
+    component.entryToEdit = {...entryToEdit, running: false};
+
+    const checkIsEntryRunning: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#isEntryRunning');
+    checkIsEntryRunning.click();
+    fixture.detectChanges();
+
+    expect(component.shouldRestartEntry).toBeTrue();
   });
 });
