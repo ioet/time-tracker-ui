@@ -9,6 +9,8 @@ import { ProjectListHoverComponent } from '../components';
 import { FilterProjectPipe } from '../../shared/pipes';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import { ActionsSubject } from '@ngrx/store';
+import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
+import { ToastrService } from 'ngx-toastr';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -16,6 +18,11 @@ describe('TimeClockComponent', () => {
   let store: MockStore<ProjectState>;
   let azureAdB2CService: AzureAdB2CService;
   const actionSub: ActionsSubject = new ActionsSubject();
+
+  let injectedToastrService;
+  const toastrService = {
+    error: () => {},
+  };
 
   const state = {
     projects: {
@@ -44,12 +51,13 @@ describe('TimeClockComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe],
+      declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe, EntryFieldsComponent],
       providers: [
         FormBuilder,
         AzureAdB2CService,
         provideMockStore({ initialState: state }),
         { provide: ActionsSubject, useValue: actionSub },
+        { provide: ToastrService, useValue: toastrService },
       ],
     }).compileComponents();
     store = TestBed.inject(MockStore);
@@ -60,6 +68,7 @@ describe('TimeClockComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
+    injectedToastrService = TestBed.inject(ToastrService);
   });
 
   it('should be created', () => {
@@ -110,11 +119,27 @@ describe('TimeClockComponent', () => {
     expect(azureAdB2CService.getName).toHaveBeenCalledTimes(0);
   });
 
-  it('clockOut dispatch a StopTimeEntryRunning action', () => {
+  it('stopEntry dispatch a StopTimeEntryRunning action', () => {
     spyOn(store, 'dispatch');
 
+    component.stopEntry();
+    expect(store.dispatch).toHaveBeenCalledWith(new StopTimeEntryRunning('id'));
+  });
+
+  it('clockOut dispatch a StopTimeEntryRunning action', () => {
+    spyOn(store, 'dispatch');
+    spyOn(component.entryFieldsComponent, 'entryFormIsValidate').and.returnValue(true);
     component.clockOut();
 
     expect(store.dispatch).toHaveBeenCalledWith(new StopTimeEntryRunning('id'));
+  });
+
+  it('clockOut set error Activity is required', () => {
+    spyOn(store, 'dispatch');
+    spyOn(injectedToastrService, 'error');
+    spyOn(component.entryFieldsComponent, 'entryFormIsValidate').and.returnValue(false);
+    component.clockOut();
+
+    expect(injectedToastrService.error).toHaveBeenCalled();
   });
 });
