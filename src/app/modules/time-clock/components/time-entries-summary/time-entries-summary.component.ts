@@ -91,7 +91,7 @@ export class TimeEntriesSummaryComponent implements OnInit, OnDestroy {
       this.timeInterval = interval(1000).pipe(
         takeUntil(this.destroyed$)
       ).subscribe(() => {
-        this.currentWorkingTime = new SubstractDatePipe().transform(new Date(), new Date(entry.start_date));
+        this.currentWorkingTime = new SubstractDatePipe().transform(new Date(), new Date(entry.start_date), true);
       });
     }
   }

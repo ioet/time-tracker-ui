@@ -6,7 +6,7 @@ import * as moment from 'moment';
 })
 export class SubstractDatePipe implements PipeTransform {
 
-  transform(fromDate: Date, substractDate: Date): string {
+  transform(fromDate: Date, substractDate: Date, displaySeconds: boolean = false): string {
 
     if (fromDate === null || substractDate === null ) {
       return '--:--';
@@ -16,7 +16,7 @@ export class SubstractDatePipe implements PipeTransform {
     let endDate = moment(fromDate, 'YYYY-MM-DD HH:mm:ss');
     let duration: moment.Duration = moment.duration(endDate.diff(startDate));
 
-    if (duration.asSeconds() > 60) {
+    if (duration.asSeconds() > 60 && !displaySeconds) {
       endDate = endDate.add(1, 'minute').startOf('minute');
       duration = moment.duration(endDate.diff(startDate));
       return `${ this.formatTime(duration.hours())}:${this.formatTime(duration.minutes()) }`;

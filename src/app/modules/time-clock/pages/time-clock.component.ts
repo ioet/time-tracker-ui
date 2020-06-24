@@ -1,8 +1,9 @@
+import { filter } from 'rxjs/operators';
 import { getActiveTimeEntry } from './../store/entry.selectors';
-import { StopTimeEntryRunning } from './../store/entry.actions';
+import { StopTimeEntryRunning, EntryActionTypes, LoadEntriesSummary } from './../store/entry.actions';
 import { Entry } from './../../shared/models/entry.model';
-import { Store, select } from '@ngrx/store';
-import { Component, OnInit } from '@angular/core';
+import { Store, select, ActionsSubject } from '@ngrx/store';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import { Subscription } from 'rxjs';
 
@@ -11,13 +12,18 @@ import { Subscription } from 'rxjs';
   templateUrl: './time-clock.component.html',
   styleUrls: ['./time-clock.component.scss'],
 })
-export class TimeClockComponent implements OnInit {
+export class TimeClockComponent implements OnInit, OnDestroy {
   username: string;
   areFieldsVisible = false;
   activeTimeEntry: Entry;
-  actionsSubscription: Subscription;
+  clockOutSubscription: Subscription;
 
-  constructor(private azureAdB2CService: AzureAdB2CService, private store: Store<Entry>) {
+  constructor(private azureAdB2CService: AzureAdB2CService, private store: Store<Entry>,
+              private actionsSubject$: ActionsSubject) {
+  }
+
+  ngOnDestroy(): void {
+    this.clockOutSubscription.unsubscribe();
   }
 
   ngOnInit() {
@@ -29,6 +35,20 @@ export class TimeClockComponent implements OnInit {
       } else {
         this.areFieldsVisible = false;
       }
+    });
+
+    this.reloadSummariesOnClockOut();
+
+  }
+
+  reloadSummariesOnClockOut() {
+    this.clockOutSubscription = this.actionsSubject$.pipe(
+      filter((action) => (
+          action.type === EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS
+        )
+      )
+    ).subscribe( (action) => {
+      this.store.dispatch(new LoadEntriesSummary());
     });
   }
 
