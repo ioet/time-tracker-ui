@@ -220,6 +220,7 @@ describe('TimeEntriesComponent', () => {
   });
 
   it('should dispatch an action when entry is going to be saved', () => {
+    component.entry = { start_date: new Date(), id: '1234', technologies: []};
     const newEntry = {
       entry: {
         project_id: 'p-id',
@@ -308,6 +309,7 @@ describe('TimeEntriesComponent', () => {
   }));
 
   it('when event contains should restart as true, then a restart Entry action should be triggered', () => {
+    component.entry = { start_date: new Date(), id: '1234', technologies: []};
     const entryToSave = {
       entry: {
         id: '123',
