@@ -21,7 +21,16 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     buttons: [
       'colvis',
       'print',
-      'excel'
+      {
+        extend: 'excel',
+        text: 'Excel',
+        filename: `time-entries-${ new Date() }`
+      },
+      {
+        extend: 'csv',
+        text: 'CSV',
+        filename: `time-entries-${ new Date() }`
+      }
     ]
   };
 
