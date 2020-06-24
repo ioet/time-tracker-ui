@@ -66,17 +66,13 @@ export class TimeEntriesComponent implements OnInit {
     if (this.entryId) {
       const startDateChanged = this.entry.start_date !== event.entry.start_date;
       if (startDateChanged) {
-        const startDate = new Date(event.entry.start_date);
-        startDate.setSeconds(1, 0);
-        event.entry.start_date = startDate.toISOString();
+        event.entry.start_date = this.adjustDateSecs(event.entry.start_date, 1);
       }
 
       if (endDateIsDefined) {
         const endDateChanged = this.entry.end_date !== event.entry.end_date;
         if (endDateChanged) {
-          const endDate = new Date(event.entry.end_date);
-          endDate.setSeconds(0, 0);
-          event.entry.end_date = endDate.toISOString();
+          event.entry.end_date = this.adjustDateSecs(event.entry.end_date, 0);
         }
       }
 
@@ -86,14 +82,9 @@ export class TimeEntriesComponent implements OnInit {
         this.store.dispatch(new entryActions.RestartEntry(event.entry));
       }
     } else {
-      const startDate = new Date(event.entry.start_date);
-      startDate.setSeconds(1, 0);
-      event.entry.start_date = startDate.toISOString();
-
+      event.entry.start_date = this.adjustDateSecs(event.entry.start_date, 1);
       if (endDateIsDefined) {
-        const endDate = new Date(event.entry.end_date);
-        endDate.setSeconds(0, 0);
-        event.entry.end_date = endDate.toISOString();
+        event.entry.end_date = this.adjustDateSecs(event.entry.end_date, 0);
       }
 
       this.store.dispatch(new entryActions.CreateEntry(event.entry));
@@ -122,5 +113,11 @@ export class TimeEntriesComponent implements OnInit {
     this.idToDelete = item.id;
     this.message = `Are you sure you want to delete ${item.activity_name}?`;
     this.showModal = true;
+  }
+
+  adjustDateSecs(date: string, sec: number): string {
+    const newDate = new Date(date);
+    newDate.setSeconds(sec, 0);
+    return newDate.toISOString();
   }
 }
