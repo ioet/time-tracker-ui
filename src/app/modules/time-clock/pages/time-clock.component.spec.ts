@@ -1,5 +1,5 @@
 import { FormBuilder } from '@angular/forms';
-import { StopTimeEntryRunning } from './../store/entry.actions';
+import { StopTimeEntryRunning, EntryActionTypes, LoadEntriesSummary } from './../store/entry.actions';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -8,6 +8,7 @@ import { ProjectState } from '../../customer-management/components/projects/comp
 import { ProjectListHoverComponent } from '../components';
 import { FilterProjectPipe } from '../../shared/pipes';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
+import { ActionsSubject } from '@ngrx/store';
 import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
 import { ToastrService } from 'ngx-toastr';
 
@@ -16,10 +17,13 @@ describe('TimeClockComponent', () => {
   let fixture: ComponentFixture<TimeClockComponent>;
   let store: MockStore<ProjectState>;
   let azureAdB2CService: AzureAdB2CService;
+  const actionSub: ActionsSubject = new ActionsSubject();
+
   let injectedToastrService;
   const toastrService = {
     error: () => {},
   };
+
   const state = {
     projects: {
       projects: [{ id: 'id', name: 'name', project_type_id: '' }],
@@ -52,6 +56,7 @@ describe('TimeClockComponent', () => {
         FormBuilder,
         AzureAdB2CService,
         provideMockStore({ initialState: state }),
+        { provide: ActionsSubject, useValue: actionSub },
         { provide: ToastrService, useValue: toastrService },
       ],
     }).compileComponents();
@@ -68,6 +73,34 @@ describe('TimeClockComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('on STOP_TIME_ENTRY_RUNNING_SUCCESS summaries are reloaded', () => {
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS
+    };
+    spyOn(store, 'dispatch');
+
+    actionSubject.next(action);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new LoadEntriesSummary());
+  });
+
+  it('register reloadSummaries on ngOnInit', () => {
+    spyOn(component, 'reloadSummariesOnClockOut');
+
+    component.ngOnInit();
+
+    expect(component.reloadSummariesOnClockOut).toHaveBeenCalled();
+  });
+
+  it('unsubscribe clockOutSubscription onDestroy', () => {
+    spyOn(component.clockOutSubscription, 'unsubscribe');
+
+    component.ngOnDestroy();
+
+    expect(component.clockOutSubscription.unsubscribe).toHaveBeenCalled();
   });
 
   it('onInit checks if isLogin and gets the userName', () => {

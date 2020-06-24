@@ -1,8 +1,9 @@
+import { filter } from 'rxjs/operators';
 import { getActiveTimeEntry } from './../store/entry.selectors';
-import { StopTimeEntryRunning } from './../store/entry.actions';
+import { StopTimeEntryRunning, EntryActionTypes, LoadEntriesSummary } from './../store/entry.actions';
 import { Entry } from './../../shared/models/entry.model';
-import { Store, select } from '@ngrx/store';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Store, select, ActionsSubject } from '@ngrx/store';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import { Subscription } from 'rxjs';
 import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
@@ -12,19 +13,25 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './time-clock.component.html',
   styleUrls: ['./time-clock.component.scss'],
 })
-export class TimeClockComponent implements OnInit {
+export class TimeClockComponent implements OnInit, OnDestroy {
   @ViewChild(EntryFieldsComponent)
   entryFieldsComponent: EntryFieldsComponent;
   username: string;
   areFieldsVisible = false;
   activeTimeEntry: Entry;
-  actionsSubscription: Subscription;
+  clockOutSubscription: Subscription;
+
 
   constructor(
     private azureAdB2CService: AzureAdB2CService,
     private store: Store<Entry>,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private actionsSubject$: ActionsSubject
   ) {}
+
+  ngOnDestroy(): void {
+    this.clockOutSubscription.unsubscribe();
+  }
 
   ngOnInit() {
     this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
@@ -35,6 +42,20 @@ export class TimeClockComponent implements OnInit {
       } else {
         this.areFieldsVisible = false;
       }
+    });
+
+    this.reloadSummariesOnClockOut();
+
+  }
+
+  reloadSummariesOnClockOut() {
+    this.clockOutSubscription = this.actionsSubject$.pipe(
+      filter((action) => (
+          action.type === EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS
+        )
+      )
+    ).subscribe( (action) => {
+      this.store.dispatch(new LoadEntriesSummary());
     });
   }
 
