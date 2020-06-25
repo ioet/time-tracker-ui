@@ -2,7 +2,7 @@ import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { filter } from 'rxjs/operators';
 import { NumberFormatter } from './../../formatters/number.formatter';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { formatDate } from '@angular/common';
 
@@ -36,10 +36,11 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   goingToWorkOnThis = false;
   shouldRestartEntry = false;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<Merged>, private actionsSubject$: ActionsSubject) {
+  constructor(private formBuilder: FormBuilder, private store: Store<Merged>,
+              private actionsSubject$: ActionsSubject) {
     this.entryForm = this.formBuilder.group({
-      project_id: '',
-      activity_id: '',
+      project_id: ['', Validators.required],
+      activity_id: ['', Validators.required],
       description: '',
       entry_date: '',
       start_hour: '',
@@ -150,6 +151,9 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   onSubmit() {
+    if (this.entryForm.invalid) {
+      return;
+    }
     // start&end date same for now
     const entryDate = this.entryForm.value.entry_date;
     const entry = {

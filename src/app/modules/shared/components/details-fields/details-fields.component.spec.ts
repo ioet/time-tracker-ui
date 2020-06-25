@@ -106,6 +106,14 @@ describe('DetailsFieldsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('if form is invalid then no save is emited', () => {
+    spyOn(component.saveEntry, 'emit');
+
+    component.onSubmit();
+
+    expect(component.saveEntry.emit).toHaveBeenCalledTimes(0);
+  });
+
   [
     {actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS},
     {actionType: EntryActionTypes.UPDATE_ENTRY_SUCCESS},
