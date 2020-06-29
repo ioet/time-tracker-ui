@@ -1,19 +1,22 @@
+import { EntryActionTypes } from './../../time-clock/store/entry.actions';
+import { filter } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { getActiveTimeEntry } from './../../time-clock/store/entry.selectors';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Entry } from '../../shared/models';
 import { EntryState } from '../../time-clock/store/entry.reducer';
 import { allEntries } from '../../time-clock/store/entry.selectors';
-import { select, Store } from '@ngrx/store';
+import { select, Store, ActionsSubject } from '@ngrx/store';
 import * as entryActions from '../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from '../../shared/components/details-fields/save-entry-event';
+import { Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-time-entries',
   templateUrl: './time-entries.component.html',
   styleUrls: ['./time-entries.component.scss'],
 })
-export class TimeEntriesComponent implements OnInit {
+export class TimeEntriesComponent implements OnInit, OnDestroy {
   entryId: string;
   entry: Entry;
   dataByMonth = [];
@@ -21,8 +24,13 @@ export class TimeEntriesComponent implements OnInit {
   showModal = false;
   message: string;
   idToDelete: string;
+  entriesSubscription: Subscription;
 
-  constructor(private store: Store<EntryState>, private toastrService: ToastrService) {
+  constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
+  }
+
+  ngOnDestroy(): void {
+    this.entriesSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -32,6 +40,18 @@ export class TimeEntriesComponent implements OnInit {
       this.dataByMonth = response;
     });
     this.loadActiveEntry();
+
+    this.entriesSubscription = this.actionsSubject$.pipe(
+      filter((action: any) => (
+          action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
+          action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS ||
+          action.type === EntryActionTypes.DELETE_ENTRY_SUCCESS
+        )
+      )
+    ).subscribe((action) => {
+      this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
+    });
+
   }
 
   newEntry() {
@@ -58,7 +78,6 @@ export class TimeEntriesComponent implements OnInit {
     } else {
       this.doSave(event);
     }
-    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
   }
 
   doSave(event: SaveEntryEvent) {

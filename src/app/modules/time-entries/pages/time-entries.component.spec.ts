@@ -137,20 +137,21 @@ describe('TimeEntriesComponent', () => {
     expect(component.dataByMonth.length).toEqual(1);
   }));
 
-  it('when saving time entries, the time entries should be queried', () => {
+  it('when create time entries, the time entries should be queried', () => {
     const currentMonth = new Date().getMonth() + 1;
     const entryToSave = {
       entry: {
         project_id: 'project-id',
-        end_date: new Date(),
-        start_date: new Date()
+        end_date: '2010-05-05T10:04',
+        start_date: null
       }, shouldRestartEntry: false
     };
     component.activeTimeEntry = null;
     spyOn(store, 'dispatch');
+    component.ngOnInit();
 
     component.saveEntry(entryToSave);
-
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CreateEntry(entryToSave.entry));
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(currentMonth));
   });
 
