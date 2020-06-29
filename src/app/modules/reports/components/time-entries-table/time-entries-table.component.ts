@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {EntryState} from '../../../time-clock/store/entry.reducer';
@@ -24,12 +25,12 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       {
         extend: 'excel',
         text: 'Excel',
-        filename: `time-entries-${ new Date() }`
+        filename: `time-entries-${ formatDate(new Date(), 'yyyy_MM_dd-hh_mm', 'en') }`
       },
       {
         extend: 'csv',
         text: 'CSV',
-        filename: `time-entries-${ new Date() }`
+        filename: `time-entries-${ formatDate(new Date(), 'yyyy_MM_dd-hh_mm', 'en') }`
       }
     ]
   };

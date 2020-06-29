@@ -1,6 +1,5 @@
 import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { filter } from 'rxjs/operators';
-import { NumberFormatter } from './../../formatters/number.formatter';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionsSubject, select, Store } from '@ngrx/store';
@@ -97,8 +96,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         activity_id: this.entryToEdit.activity_id,
         description: this.entryToEdit.description,
         entry_date: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'yyyy-MM-dd', 'en') : '',
-        start_hour: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'HH:mm', 'en') : '00:00',
-        end_hour: this.entryToEdit.end_date ? formatDate(this.entryToEdit.end_date, 'HH:mm', 'en') : '00:00',
+        start_hour: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'HH:mm:ss', 'en') : '00:00:00',
+        end_hour: this.entryToEdit.end_date ? formatDate(this.entryToEdit.end_date, 'HH:mm:ss', 'en') : '00:00:00',
         uri: this.entryToEdit.uri,
         technology: '',
       });
@@ -114,8 +113,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       activity_id: '',
       description: '',
       entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-      start_hour: '00:00',
-      end_hour: '00:00',
+      start_hour: '00:00:00',
+      end_hour: '00:00:00',
       uri: '',
       technology: '',
     });
@@ -161,8 +160,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       activity_id: this.entryForm.value.activity_id,
       technologies: this.selectedTechnologies ? this.selectedTechnologies : [],
       description: this.entryForm.value.description,
-      start_date: `${entryDate}T${this.entryForm.value.start_hour.trim()}:${this.getElapsedSeconds(new Date())}`,
-      end_date: `${entryDate}T${this.entryForm.value.end_hour.trim()}:01`,
+      start_date: new Date(`${entryDate}T${this.entryForm.value.start_hour.trim()}`).toISOString(),
+      end_date: new Date(`${entryDate}T${this.entryForm.value.end_hour.trim()}`).toISOString(),
       uri: this.entryForm.value.uri,
     };
     if (this.goingToWorkOnThis) {
@@ -171,19 +170,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.saveEntry.emit({entry, shouldRestartEntry: this.shouldRestartEntry});
   }
 
-  getElapsedSeconds(date: Date): string {
-    const currentSeconds = date.getSeconds();
-    if (currentSeconds < 2) {
-      return '02';
-    } else {
-      return new NumberFormatter(currentSeconds).getAsAtLeastTwoDigitString();
-    }
-  }
-
   onGoingToWorkOnThisChange(event: any) {
     this.goingToWorkOnThis = event.currentTarget.checked;
     if (!this.goingToWorkOnThis) {
-      this.entryForm.patchValue({end_hour: formatDate(new Date(), 'HH:mm', 'en')});
+      this.entryForm.patchValue({end_hour: formatDate(new Date(), 'HH:mm:ss', 'en')});
     }
     this.shouldRestartEntry = !this.entryToEdit?.running && this.goingToWorkOnThis;
   }
