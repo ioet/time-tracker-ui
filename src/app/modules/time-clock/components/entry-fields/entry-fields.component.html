@@ -5,7 +5,7 @@
     </div>
     <select
       id="activitiesSelect"
-      (blur)="onSubmit()"
+      (change)="onSubmit()"
       class="form-control"
       formControlName="activity_id"
       [class.is-invalid]="activity_id.invalid && activity_id.touched"

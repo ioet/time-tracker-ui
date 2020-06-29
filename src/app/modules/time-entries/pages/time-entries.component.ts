@@ -62,31 +62,13 @@ export class TimeEntriesComponent implements OnInit {
   }
 
   doSave(event: SaveEntryEvent) {
-    const endDateIsDefined = event.entry.end_date !== null && event.entry.end_date !== undefined;
     if (this.entryId) {
-      const startDateChanged = this.entry.start_date !== event.entry.start_date;
-      if (startDateChanged) {
-        event.entry.start_date = this.adjustDateSecs(event.entry.start_date, 1);
-      }
-
-      if (endDateIsDefined) {
-        const endDateChanged = this.entry.end_date !== event.entry.end_date;
-        if (endDateChanged) {
-          event.entry.end_date = this.adjustDateSecs(event.entry.end_date, 0);
-        }
-      }
-
       event.entry.id = this.entryId;
       this.store.dispatch(new entryActions.UpdateEntry(event.entry));
       if (event.shouldRestartEntry) {
         this.store.dispatch(new entryActions.RestartEntry(event.entry));
       }
     } else {
-      event.entry.start_date = this.adjustDateSecs(event.entry.start_date, 1);
-      if (endDateIsDefined) {
-        event.entry.end_date = this.adjustDateSecs(event.entry.end_date, 0);
-      }
-
       this.store.dispatch(new entryActions.CreateEntry(event.entry));
     }
   }
@@ -115,9 +97,4 @@ export class TimeEntriesComponent implements OnInit {
     this.showModal = true;
   }
 
-  adjustDateSecs(date: string, sec: number): string {
-    const newDate = new Date(date);
-    newDate.setSeconds(sec, 0);
-    return newDate.toISOString();
-  }
 }

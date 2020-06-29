@@ -58,8 +58,8 @@ describe('DetailsFieldsComponent', () => {
     activity_id: '',
     uri: '',
     entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-    start_hour: '00:00',
-    end_hour: '00:00',
+    start_hour: '00:00:00',
+    end_hour: '00:00:00',
     description: '',
     technology: '',
   };
@@ -91,12 +91,12 @@ describe('DetailsFieldsComponent', () => {
       id: 'xyz'
     };
     formValues = {
-      project_id: '',
-      activity_id: '',
+      project_id: 'p1',
+      activity_id: 'a1',
       uri: 'ticketUri',
       entry_date: '',
-      start_hour: '00:00',
-      end_hour: '00:00',
+      start_hour: '00:00:10',
+      end_hour: '00:00:11',
       description: '',
       technology: '',
     };
@@ -139,44 +139,6 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should emit ngOnChange with new data', () => {
-    component.entryToEdit = entryToEdit;
-
-    component.ngOnChanges();
-
-    expect(component.entryForm.value).toEqual(formValues);
-  });
-
-  it('returns the current elapsed seconds when date has more than 2', () => {
-    const seconds = 12;
-    const date = new Date();
-    date.setSeconds(seconds);
-
-    const elapsedSeconds = component.getElapsedSeconds(date);
-
-    expect(elapsedSeconds).toEqual(seconds.toString());
-  });
-
-  it('returns 02 when seconds 0', () => {
-    const seconds = 0;
-    const date = new Date();
-    date.setSeconds(seconds);
-
-    const elapsedSeconds = component.getElapsedSeconds(date);
-
-    expect(elapsedSeconds).toEqual('02');
-  });
-
-  it('returns 02 when seconds 1', () => {
-    const seconds = 1;
-    const date = new Date();
-    date.setSeconds(seconds);
-
-    const elapsedSeconds = component.getElapsedSeconds(date);
-
-    expect(elapsedSeconds).toEqual('02');
-  });
-
-  it('should emit ngOnChange with new data', () => {
     const childComponent = jasmine.createSpyObj('ChildComponent', ['closeModal']);
     component.closeModal = childComponent;
     const formValue = {
@@ -184,8 +146,8 @@ describe('DetailsFieldsComponent', () => {
       activity_id: '',
       uri: '',
       entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-      start_hour: '00:00',
-      end_hour: '00:00',
+      start_hour: '00:00:00',
+      end_hour: '00:00:00',
       description: '',
       technology: '',
     };
@@ -214,26 +176,27 @@ describe('DetailsFieldsComponent', () => {
 
   it('should emit saveEntry event', () => {
     spyOn(component.saveEntry, 'emit');
-    spyOn(component, 'getElapsedSeconds').and.returnValue('11');
     component.entryForm.setValue({
-      project_id: '',
-      activity_id: '',
+      project_id: 'p1',
+      activity_id: 'a1',
       uri: '',
       entry_date: '2020-02-05',
-      start_hour: '00:00',
-      end_hour: '00:01',
+      start_hour: '00:00:01',
+      end_hour: '00:01:01',
       description: '',
       technology: '',
     });
+
     component.onSubmit();
+
     const data: SaveEntryEvent = {
       entry: {
-        project_id: '',
-        activity_id: '',
+        project_id: 'p1',
+        activity_id: 'a1',
         technologies: [],
         description: '',
-        start_date: '2020-02-05T00:00:11',
-        end_date: '2020-02-05T00:01:01',
+        start_date: new Date('2020-02-05T00:00:01').toISOString(),
+        end_date: new Date('2020-02-05T00:01:01').toISOString(),
         uri: ''
       },
       shouldRestartEntry: false
@@ -289,30 +252,30 @@ describe('DetailsFieldsComponent', () => {
 
   it('when submitting a entry that is currently running, the end date should not be sent ', () => {
     component.goingToWorkOnThis = true;
-    spyOn(component, 'getElapsedSeconds').and.returnValue('10');
     spyOn(component.saveEntry, 'emit');
 
     component.entryForm.setValue({...formValues, entry_date: '2020-06-11'});
+
     component.onSubmit();
+
     const data: SaveEntryEvent = {
       entry: {
-        project_id: '',
-        activity_id: '',
+        project_id: 'p1',
+        activity_id: 'a1',
         technologies: [],
         description: '',
-        start_date: '2020-06-11T00:00:10',
+        start_date: new Date('2020-06-11T00:00:10').toISOString(),
         uri: 'ticketUri',
       },
       shouldRestartEntry: false
     };
 
-    expect(component.saveEntry.emit
-    ).toHaveBeenCalledWith(data);
+    expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
 
   it('when disabling going to work on this, then the end hour should be set to the current time', () => {
     const datePipe: DatePipe = new DatePipe('en');
-    const currentTime = datePipe.transform(new Date(), 'HH:mm');
+    const currentTime = datePipe.transform(new Date(), 'HH:mm:ss');
 
     const checkIsEntryRunning: Element = fixture.debugElement.nativeElement.querySelector('#isEntryRunning');
     checkIsEntryRunning.dispatchEvent(new Event('change'));
