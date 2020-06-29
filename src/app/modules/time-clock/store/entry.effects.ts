@@ -19,7 +19,7 @@ export class EntryEffects {
     switchMap((action: actions.SwitchTimeEntry) =>
       this.entryService.stopEntryRunning(action.idEntrySwitching).pipe(
         map((response) => {
-          const stopDateForEntry = new Date(response.end_time);
+          const stopDateForEntry = new Date(response.end_date);
           stopDateForEntry.setSeconds(stopDateForEntry.getSeconds() + 1 );
           return new actions.CreateEntry({ project_id: action.idProjectSwitching, start_date: stopDateForEntry.toISOString() });
         }),
