@@ -3,7 +3,8 @@
     <span class="input-group-text span-width">Technology</span>
   </div>
   <input
-    (input)="queryTechnologies($event)"
+    autocomplete="off"
+    (keyup)="queryTechnologies($event)"
     id="technologies"
     type="text"
     class="form-control"
@@ -12,8 +13,9 @@
     [(ngModel)]="query"
   />
 </div>
-
-<div *ngIf="isLoading">LOADING...</div>
+<div style="text-align: center;" *ngIf="isLoading">
+  <img src="assets/img/spinner.gif"/>
+</div>
 <div #technologiesDropdown *ngIf="technology && showList" class="d-flex flex-column technologies-dropdown-container">
   <div
     *ngFor="let item of technology.items"
