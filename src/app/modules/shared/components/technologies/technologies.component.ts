@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
 import * as actions from '../../store/technology.actions';
-import {select, Store} from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import {TechnologyState} from '../../store/technology.reducers';
 import {allTechnologies} from '../../store/technology.selectors';
 import {Technology} from '../../models';
@@ -48,8 +48,12 @@ export class TechnologiesComponent implements OnInit {
     const technologies$ = this.store.pipe(select(allTechnologies));
     technologies$.subscribe((response) => {
       this.isLoading = response.isLoading;
-      const filteredItems = response.technologyList.items.filter(item => !this.selectedTechnologies.includes(item.name));
-      this.technology = {items: filteredItems};
+      if ( response.technologyList.items ) {
+        const filteredItems = response.technologyList.items.filter(item => !this.selectedTechnologies.includes(item.name));
+        this.technology = {items: filteredItems};
+      } else {
+        this.technology = {items: []};
+      }
     });
   }
 
