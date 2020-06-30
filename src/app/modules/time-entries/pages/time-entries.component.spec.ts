@@ -16,6 +16,7 @@ import { allEntries } from '../../time-clock/store/entry.selectors';
 import * as entryActions from '../../time-clock/store/entry.actions';
 import { TechnologiesComponent } from '../../shared/components/technologies/technologies.component';
 import { TimeEntriesSummaryComponent } from '../../time-clock/components/time-entries-summary/time-entries-summary.component';
+import { SubstractDatePipe } from '../../shared/pipes/substract-date/substract-date.pipe';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -26,48 +27,14 @@ describe('TimeEntriesComponent', () => {
   let mockProjectsSelector;
   let mockEntriesSelector;
   let injectedToastrService;
+  let state;
+  let entry;
 
   const toastrService = {
     error: () => {
     },
   };
 
-  const state = {
-    projects: {
-      projects: [{id: 'abc', customer_id: 'customerId', name: '', description: '', project_type_id: 'id'}],
-      customerProjects: [{id: 'id', name: 'name', description: 'description', project_type_id: '123'}],
-      isLoading: false,
-      message: '',
-      projectToEdit: undefined,
-    },
-    activities: {
-      data: [{id: 'id', name: 'name', description: 'description'}],
-      isLoading: false,
-      message: 'message',
-    },
-    technologies: {
-      technologyList: {items: [{name: 'test'}]},
-      isLoading: false,
-    },
-    entries: {
-      entryList: [],
-      active: {
-        start_date: new Date('2019-01-01T15:36:15.887Z'),
-        id: 'active-entry',
-      }
-    },
-  };
-
-  const entry = {
-    id: 'entry_1',
-    project_id: 'abc',
-    start_date: new Date('2020-02-05T15:36:15.887Z'),
-    end_date: new Date('2020-02-05T18:36:15.887Z'),
-    activity_id: 'development',
-    technologies: ['Angular', 'TypeScript'],
-    comments: 'No comments',
-    uri: 'EY-25',
-  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -79,6 +46,7 @@ describe('TimeEntriesComponent', () => {
         TimeEntriesComponent,
         TechnologiesComponent,
         TimeEntriesSummaryComponent,
+        SubstractDatePipe
       ],
       providers: [provideMockStore({initialState: state}),
         {provide: ToastrService, useValue: toastrService},
@@ -86,6 +54,41 @@ describe('TimeEntriesComponent', () => {
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
+    entry = {
+      id: 'entry_1',
+      project_id: 'abc',
+      start_date: new Date('2020-02-05T15:36:15.887Z'),
+      end_date: new Date('2020-02-05T18:36:15.887Z'),
+      activity_id: 'development',
+      technologies: ['Angular', 'TypeScript'],
+      comments: 'No comments',
+      uri: 'EY-25',
+    };
+    state = {
+      projects: {
+        projects: [{ id: 'abc', customer_id: 'customerId', name: '', description: '', project_type_id: 'id' }],
+        customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
+        isLoading: false,
+        message: '',
+        projectToEdit: undefined,
+      },
+      activities: {
+        data: [{ id: 'id', name: 'name', description: 'description' }],
+        isLoading: false,
+        message: 'message',
+      },
+      technologies: {
+        technologyList: { items: [{ name: 'test' }] },
+        isLoading: false,
+      },
+      entries: {
+        entryList: [],
+        active: {
+          start_date: new Date('2019-01-01T15:36:15.887Z'),
+          id: 'active-entry',
+        }
+      },
+    };
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(getProjects, state.projects.projects);
     mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
@@ -193,11 +196,63 @@ describe('TimeEntriesComponent', () => {
     expect(component.entryId).toBe(null);
   });
 
+  it('given an empty list of entries when creating a new entry it can be marked as WIP ', () => {
+    state.entries.entryList = [];
+    component.newEntry();
+    expect(component.canMarkEntryAsWIP).toBe(true);
+  });
+
+  it('given an list of entries having an entry running when creating a new entry it cannot be marked as WIP ', () => {
+    state.entries.entryList = [{...entry, running: true}];
+    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+
+    component.newEntry();
+    expect(component.canMarkEntryAsWIP).toBe(false);
+  });
+
+  it('given an list of entries not having an entry running when creating a new entry it can be marked as WIP ', () => {
+    state.entries.entryList = [{...entry, running: false}];
+    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+
+    component.newEntry();
+    expect(component.canMarkEntryAsWIP).toBe(true);
+  });
+
   it('should set entry and entryid to with data', () => {
     component.dataByMonth = [entry];
     component.editEntry('entry_1');
     expect(component.entry).toEqual(entry);
     expect(component.entryId).toBe('entry_1');
+  });
+
+  it('given an list of entries having an entry running when editing a different entry it cannot be marked as WIP ', () => {
+    const anEntryId = '1';
+    const anotherEntryId = '2';
+    state.entries.entryList = [{...entry, running: true, id: anEntryId}];
+    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+
+    component.editEntry(anotherEntryId);
+    expect(component.canMarkEntryAsWIP).toBe(false);
+  });
+
+  it('given an list of entries having no entries running when editing a different entry it cannot be marked as WIP', () => {
+    const anEntryId = '1';
+    const anotherEntryId = '2';
+    state.entries.entryList = [{...entry, running: false, id: anEntryId}];
+    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+
+    component.editEntry(anotherEntryId);
+    expect(component.canMarkEntryAsWIP).toBe(false);
+  });
+
+  it('given an list of entries having an entry running when editing the last entry it can be marked as WIP ', () => {
+    const anEntryId = '1';
+    const anotherEntryId = '2';
+    state.entries.entryList = [{...entry, running: true, id: anEntryId}, {...entry, running: false, id: anotherEntryId}];
+    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+
+    component.editEntry(anEntryId);
+    expect(component.canMarkEntryAsWIP).toBe(true);
   });
 
   it('displays an error when start date of entry is > than active entry start date', () => {
@@ -221,7 +276,7 @@ describe('TimeEntriesComponent', () => {
   });
 
   it('should dispatch an action when entry is going to be saved', () => {
-    component.entry = { start_date: new Date(), id: '1234', technologies: []};
+    component.entry = {start_date: new Date(), id: '1234', technologies: []};
     const newEntry = {
       entry: {
         project_id: 'p-id',
@@ -310,7 +365,7 @@ describe('TimeEntriesComponent', () => {
   }));
 
   it('when event contains should restart as true, then a restart Entry action should be triggered', () => {
-    component.entry = { start_date: new Date(), id: '1234', technologies: []};
+    component.entry = {start_date: new Date(), id: '1234', technologies: []};
     const entryToSave = {
       entry: {
         id: '123',
