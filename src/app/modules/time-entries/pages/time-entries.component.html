@@ -29,7 +29,7 @@
     </thead>
     <tbody>
       <tr class="d-flex" *ngFor="let entry of dataByMonth">
-        <td class="col">{{ entry.start_date | date: 'dd/MM/yyyy' }}</td>
+        <td class="col">{{ entry.start_date | date: 'MM/dd/yyyy' }}</td>
         <td class="col">{{ entry.start_date | date: 'HH:mm' }} - {{ entry.end_date | date: 'HH:mm' }}</td>
         <td class="col">{{ entry.end_date | substractDate: entry.start_date }}</td>
         <td class="col">{{ entry.project_name }}</td>
