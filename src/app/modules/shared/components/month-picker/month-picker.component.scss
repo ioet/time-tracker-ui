@@ -1,15 +1,25 @@
 @import '../../../../../styles/colors.scss';
 
+@mixin highlight {
+  opacity: 0.7;
+  line-height: 1.2em;
+  font-weight: bold;
+}
+
 .month {
   background: $primary;
   color: white;
   cursor: pointer;
+  line-height: 1em;
 
   &:hover {
-    opacity: 0.7;
+    @include highlight();
   }
 }
 
 .active {
-  background-color: $primary;
+  @include highlight();
+  border-radius: 0.2em;
+  text-decoration: underline;
+
 }
