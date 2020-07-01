@@ -12,9 +12,7 @@ import {DataTableDirective} from 'angular-datatables';
   styleUrls: ['./time-entries-table.component.scss']
 })
 export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
-
   data = [];
-  const;
   dtOptions: any = {
     scrollY: '600px',
     paging: false,
@@ -25,12 +23,12 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       {
         extend: 'excel',
         text: 'Excel',
-        filename: `time-entries-${ formatDate(new Date(), 'yyyy_MM_dd-hh_mm', 'en') }`
+        filename: `time-entries-${ formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en') }`
       },
       {
         extend: 'csv',
         text: 'CSV',
-        filename: `time-entries-${ formatDate(new Date(), 'yyyy_MM_dd-hh_mm', 'en') }`
+        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en') }`
       }
     ]
   };
