@@ -9,7 +9,7 @@ import { allEntries } from '../../time-clock/store/entry.selectors';
 import { select, Store, ActionsSubject } from '@ngrx/store';
 import * as entryActions from '../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from '../../shared/components/details-fields/save-entry-event';
-import { Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-time-entries',
@@ -25,6 +25,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   message: string;
   idToDelete: string;
   entriesSubscription: Subscription;
+  canMarkEntryAsWIP = true;
 
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
   }
@@ -57,11 +58,46 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   newEntry() {
     this.entry = null;
     this.entryId = null;
+    this.store.pipe(select(allEntries)).subscribe(entries => {
+      this.canMarkEntryAsWIP = !this.isThereAnEntryRunning(entries);
+    });
+  }
+
+  private getEntryRunning(entries: Entry[]) {
+    const runningEntry: Entry = entries.find(entry => entry.running === true);
+    return runningEntry;
+  }
+
+  private isThereAnEntryRunning(entries: Entry[]) {
+    return !!this.getEntryRunning(entries);
   }
 
   editEntry(entryId: string) {
     this.entryId = entryId;
     this.entry = this.dataByMonth.find((entry) => entry.id === entryId);
+    this.store.pipe(select(allEntries)).subscribe(entries => {
+      this.canMarkEntryAsWIP = this.isEntryRunningEqualsToEntryToEdit(this.getEntryRunning(entries), this.entry)
+        || this.isEntryToEditTheLastOne(entries);
+
+    });
+  }
+
+  private isEntryRunningEqualsToEntryToEdit(entryRunning: Entry, entryToEdit: Entry) {
+    if (entryRunning && entryToEdit) {
+      return entryRunning.id === entryToEdit.id;
+    } else {
+      return false;
+    }
+  }
+
+
+  private isEntryToEditTheLastOne(entries: Entry[]) {
+    if (entries && entries.length > 0) {
+      const lastEntry = entries[0];
+      return lastEntry.id === this.entryId;
+    } else {
+      return false;
+    }
   }
 
   saveEntry(event: SaveEntryEvent): void {
@@ -115,5 +151,4 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.message = `Are you sure you want to delete ${item.activity_name}?`;
     this.showModal = true;
   }
-
 }

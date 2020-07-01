@@ -25,6 +25,7 @@ type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 })
 export class DetailsFieldsComponent implements OnChanges, OnInit {
   @Input() entryToEdit: Entry;
+  @Input() canMarkEntryAsWIP: boolean;
   @Output() saveEntry = new EventEmitter<SaveEntryEvent>();
   @ViewChild('closeModal') closeModal: ElementRef;
   entryForm: FormGroup;
@@ -167,13 +168,13 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     if (this.goingToWorkOnThis) {
       delete entry.end_date;
     }
-    this.saveEntry.emit({entry, shouldRestartEntry: this.shouldRestartEntry});
+    this.saveEntry.emit({ entry, shouldRestartEntry: this.shouldRestartEntry });
   }
 
   onGoingToWorkOnThisChange(event: any) {
     this.goingToWorkOnThis = event.currentTarget.checked;
     if (!this.goingToWorkOnThis) {
-      this.entryForm.patchValue({end_hour: formatDate(new Date(), 'HH:mm:ss', 'en')});
+      this.entryForm.patchValue({ end_hour: formatDate(new Date(), 'HH:mm:ss', 'en') });
     }
     this.shouldRestartEntry = !this.entryToEdit?.running && this.goingToWorkOnThis;
   }

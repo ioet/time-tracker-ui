@@ -1,5 +1,5 @@
 <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
-  <label><input id='isEntryRunning' type="checkbox" (change)="onGoingToWorkOnThisChange($event)" [checked]="goingToWorkOnThis"> I am working on
+  <label *ngIf='canMarkEntryAsWIP'><input id='isEntryRunning' type="checkbox" (change)="onGoingToWorkOnThisChange($event)" [checked]="goingToWorkOnThis"> I am working on
     this</label>
 
   <div class="input-group input-group-sm mb-3">
