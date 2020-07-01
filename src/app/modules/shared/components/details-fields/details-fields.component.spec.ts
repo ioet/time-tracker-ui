@@ -3,7 +3,7 @@ import { TechnologiesComponent } from './../technologies/technologies.component'
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DatePipe, formatDate } from '@angular/common';
+import { formatDate } from '@angular/common';
 import { ActionsSubject } from '@ngrx/store';
 
 import { TechnologyState } from '../../store/technology.reducers';
@@ -15,7 +15,6 @@ import { EntryState } from '../../../time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
 import { SaveEntryEvent } from './save-entry-event';
-import { Component } from '@angular/core';
 
 describe('DetailsFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
