@@ -4,7 +4,7 @@
       <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
     </div>
 
-    <div class="autocomplete">
+    <div class="form-control autocomplete">
       <ng-autocomplete
         formControlName="project_id"
         [data]="listProjects"
@@ -19,16 +19,16 @@
       </ng-autocomplete>
 
       <ng-template #itemTemplate let-item>
-        <div class="container" style="cursor:none">
-          <div class="left-side">
+        <div class="d-flex container">
+          <div class="mr-auto p-2">
             <span [innerHTML]="item.customer_name"></span> -
             <strong><span [innerHTML]="item.name"></span></strong>
           </div>
-          <div class="right-side">
+          <div class="p-2 pr-3">
             <button *ngIf="showClockIn" class="btn btn-sm btn-primary btn-select" (click)="clockIn(item.id, item.customer_name, item.name)">Clock In</button>
             <button *ngIf="!showClockIn" class="btn btn-sm btn-primary btn-select"
               (click)="switch(item.id, item.customer_name, item.name)">Switch</button>&nbsp;
-            <button *ngIf="!showClockIn" class="btn btn-sm btn-warning btn-select" (click)="updateProject(item.id)">Update
+            <button *ngIf="!showClockIn" class="btn btn-sm btn-update btn-select" (click)="updateProject(item.id)">Update
               project</button>
           </div>
         </div>

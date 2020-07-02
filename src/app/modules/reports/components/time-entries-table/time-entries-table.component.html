@@ -19,7 +19,7 @@
         *ngFor="let entry of data"
       >
         <td class="col md-col multiline-col"> {{ entry.owner_email }} </td>
-        <td class="col sm-col"> {{ entry.start_date | date: 'dd/MM/yyyy' }} </td>
+        <td class="col sm-col"> {{ entry.start_date | date: 'MM/dd/yyyy' }} </td>
         <td class="col sm-col"> {{ entry.end_date | substractDate: entry.start_date }} </td>
         <td class="col md-col"> {{ entry.project_name }} </td>
         <td class="col md-col"> {{ entry.activity_name }} </td>
