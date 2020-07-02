@@ -4,6 +4,7 @@
   width: 6rem;
   background-color: $primary;
   color: white;
+  height: 40px;
 }
 
 .btn-select {
@@ -13,20 +14,19 @@
 
 .container {
   font-size: small;
-  width: 100%;
-  min-height: 30px;
-  position: relative;
+  cursor: text;
 }
 
 .autocomplete {
-  width: 80%
+  width: 80%;
+  display: block;
+  background-clip: padding-box;
+  border: none;
+  margin: 0em;
+  padding: 0em;
 }
 
-.left-side {
-  position: absolute;
-}
-
-.right-side {
-  position: absolute;
-  right: 15px;
+.btn-update {
+  background-color: #ff5e06;
+  color: white;
 }

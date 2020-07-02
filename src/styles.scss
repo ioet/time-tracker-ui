@@ -13,6 +13,13 @@ body {
   overflow-x: hidden;
 }
 
-.table.dataTable th, .table.dataTable td{
+.table.dataTable th,
+.table.dataTable td {
   box-sizing: border-box;
+}
+
+.autocomplete-container {
+  @extend .autocomplete-container;
+  box-shadow: none;
+  border: $input-border-width solid $input-border-color;
 }
