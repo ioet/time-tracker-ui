@@ -105,6 +105,18 @@ describe('EntryService', () => {
     expect(loadEntryRequest.request.params.get('user_id')).toEqual('123');
   });
 
+  it('when getting time entries for report, limit parameter should be sent', () => {
+    const yesterday = moment(new Date()).subtract(1, 'day');
+    const today = moment(new Date());
+    const timeRange: TimeEntriesTimeRange = { start_date: yesterday, end_date: today };
+    const userId = '123';
+
+    service.loadEntriesByTimeRange(timeRange, userId).subscribe();
+
+    const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === service.baseUrl);
+    expect(loadEntryRequest.request.params.get('limit')).toEqual('9999');
+  });
+
   it('when restarting entry, a POST is triggered', () => {
     const entry = 'entryId';
 
