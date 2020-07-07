@@ -1,3 +1,4 @@
+import { ToastrService, IndividualConfig } from 'ngx-toastr';
 import { SwitchTimeEntry } from './../../store/entry.actions';
 import { FormBuilder } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -17,6 +18,9 @@ describe('ProjectListHoverComponent', () => {
   let fixture: ComponentFixture<ProjectListHoverComponent>;
   let store: MockStore<ProjectState>;
   let mockProjectsSelector;
+  const toastrServiceStub = {
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+  };
 
   const state = {
     projects: {
@@ -41,7 +45,8 @@ describe('ProjectListHoverComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProjectListHoverComponent, FilterProjectPipe],
-      providers: [FormBuilder, provideMockStore({ initialState: state })],
+      providers: [FormBuilder, provideMockStore({ initialState: state }),
+        { provide: ToastrService, useValue: toastrServiceStub }],
       imports: [HttpClientTestingModule, AutocompleteLibModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
@@ -74,6 +79,15 @@ describe('ProjectListHoverComponent', () => {
     component.updateProject(1);
 
     expect(store.dispatch).toHaveBeenCalledWith(new UpdateEntryRunning({ id: component.activeEntry.id, project_id: 1 }));
+  });
+
+  it('displays a message when the acitivity_id is null', () => {
+    spyOn(toastrServiceStub, 'error');
+    component.activeEntry = { activity_id: null };
+
+    component.switch(1, 'customer', 'project');
+
+    expect(toastrServiceStub.error).toHaveBeenCalled();
   });
 
   it('dispatch a SwitchTimeEntry action', () => {
