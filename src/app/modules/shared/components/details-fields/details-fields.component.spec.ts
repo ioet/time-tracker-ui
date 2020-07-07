@@ -5,6 +5,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { ActionsSubject } from '@ngrx/store';
+import { ToastrService, IndividualConfig } from 'ngx-toastr';
 
 import { TechnologyState } from '../../store/technology.reducers';
 import { allTechnologies } from '../../store/technology.selectors';
@@ -15,6 +16,7 @@ import { EntryState } from '../../../time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
 import { SaveEntryEvent } from './save-entry-event';
+import * as moment from 'moment';
 
 describe('DetailsFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -28,6 +30,9 @@ describe('DetailsFieldsComponent', () => {
   let entryToEdit;
   let formValues;
   const actionSub: ActionsSubject = new ActionsSubject();
+  const toastrServiceStub = {
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+  };
 
   const state = {
     projects: {
@@ -67,7 +72,11 @@ describe('DetailsFieldsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DetailsFieldsComponent, TechnologiesComponent],
-      providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
+      providers: [
+        provideMockStore({ initialState: state }),
+        { provide: ActionsSubject, useValue: actionSub },
+        { provide: ToastrService, useValue: toastrServiceStub }
+      ],
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
@@ -273,6 +282,17 @@ describe('DetailsFieldsComponent', () => {
 
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
+
+  it('displays error message when the date selected is in the future', () => {
+    spyOn(toastrServiceStub, 'error');
+
+    const futureDate = moment().add(1, 'days').format('YYYY-MM-DD');
+    component.entryForm.setValue({ ...formValues, entry_date: futureDate });
+    component.onSubmit();
+
+    expect(toastrServiceStub.error).toHaveBeenCalled();
+  });
+
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:
