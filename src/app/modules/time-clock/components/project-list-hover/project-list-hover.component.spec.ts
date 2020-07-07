@@ -81,7 +81,7 @@ describe('ProjectListHoverComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new UpdateEntryRunning({ id: component.activeEntry.id, project_id: 1 }));
   });
 
-  it('displays a message when the acitivity_id is null', () => {
+  it('displays a message when the activity_id is null', () => {
     spyOn(toastrServiceStub, 'error');
     component.activeEntry = { activity_id: null };
 
