@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { EntryActionTypes } from './../../store/entry.actions';
 import { filter } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -26,7 +27,8 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   showClockIn: boolean;
   updateEntrySubscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<ProjectState>, private actionsSubject$: ActionsSubject) {
+  constructor(private formBuilder: FormBuilder, private store: Store<ProjectState>,
+              private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
     this.projectsForm = this.formBuilder.group({ project_id: null, });
   }
 
@@ -88,8 +90,12 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   }
 
   switch(selectedProject, customerName, name) {
-    this.store.dispatch(new entryActions.SwitchTimeEntry(this.activeEntry.id, selectedProject));
-    this.projectsForm.setValue( { project_id: `${customerName} - ${name}`, } );
+    if (this.activeEntry.activity_id === null) {
+      this.toastrService.error('Before switching, please select an activity');
+    } else {
+      this.store.dispatch(new entryActions.SwitchTimeEntry(this.activeEntry.id, selectedProject));
+      this.projectsForm.setValue( { project_id: `${customerName} - ${name}`, } );
+    }
   }
 
   ngOnDestroy(): void {
