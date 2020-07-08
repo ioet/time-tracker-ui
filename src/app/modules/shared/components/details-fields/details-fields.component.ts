@@ -15,6 +15,7 @@ import { EntryState } from '../../../time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
 import { SaveEntryEvent } from './save-entry-event';
+import { ToastrService } from 'ngx-toastr';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 
@@ -37,7 +38,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   shouldRestartEntry = false;
 
   constructor(private formBuilder: FormBuilder, private store: Store<Merged>,
-              private actionsSubject$: ActionsSubject) {
+              private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
     this.entryForm = this.formBuilder.group({
       project_id: ['', Validators.required],
       activity_id: ['', Validators.required],
@@ -168,6 +169,13 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     if (this.goingToWorkOnThis) {
       delete entry.end_date;
     }
+
+    const isEntryDateInTheFuture = new Date(entryDate) > new Date();
+    if (isEntryDateInTheFuture) {
+      this.toastrService.error('You cannot start a time-entry in the future');
+      return;
+    }
+
     this.saveEntry.emit({ entry, shouldRestartEntry: this.shouldRestartEntry });
   }
 
