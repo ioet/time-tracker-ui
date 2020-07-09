@@ -78,7 +78,11 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   }
 
   clockIn(selectedProject, customerName, name) {
-    const entry = { project_id: selectedProject, start_date: new Date().toISOString() };
+    const entry = {
+      project_id: selectedProject,
+      start_date: new Date().toISOString(),
+      timezone_offset: new Date().getTimezoneOffset(),
+    };
     this.store.dispatch(new entryActions.CreateEntry(entry));
     this.projectsForm.setValue( { project_id: `${customerName} - ${name}`, } );
   }
