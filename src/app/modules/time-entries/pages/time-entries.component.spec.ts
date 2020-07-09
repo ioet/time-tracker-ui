@@ -146,7 +146,8 @@ describe('TimeEntriesComponent', () => {
       entry: {
         project_id: 'project-id',
         end_date: '2010-05-05T10:04',
-        start_date: null
+        start_date: null,
+        timezone_offset: 300,
       }, shouldRestartEntry: false
     };
     component.activeTimeEntry = null;
@@ -303,6 +304,7 @@ describe('TimeEntriesComponent', () => {
         description: 'description',
         technologies: [],
         uri: 'abc',
+        timezone_offset: 300,
       }, shouldRestartEntry: false
     };
     component.entryId = undefined;

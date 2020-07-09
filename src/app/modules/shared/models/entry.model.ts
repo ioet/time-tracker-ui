@@ -18,5 +18,5 @@ export interface NewEntry {
   technologies?: string[];
   uri?: string;
   activity_id?: string;
-  timezone_offset: number;
+  timezone_offset?: number;
 }
