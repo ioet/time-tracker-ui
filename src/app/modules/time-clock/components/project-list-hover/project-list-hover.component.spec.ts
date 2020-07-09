@@ -118,4 +118,17 @@ describe('ProjectListHoverComponent', () => {
     expect(component.projectsForm.setValue)
       .toHaveBeenCalledWith({ project_id: 'customer - xyz'});
   });
+
+  it('creates time-entry with timezone_offset property', () => {
+    spyOn(store, 'dispatch');
+    component.clockIn('1', 'customer', 'project');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CreateEntry({
+        project_id: '1',
+        start_date: new Date().toISOString(),
+        timezone_offset: new Date().getTimezoneOffset()
+      })
+    );
+  });
+
 });
