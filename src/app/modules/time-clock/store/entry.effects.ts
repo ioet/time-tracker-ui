@@ -21,7 +21,11 @@ export class EntryEffects {
         map((response) => {
           const stopDateForEntry = new Date(response.end_date);
           stopDateForEntry.setSeconds(stopDateForEntry.getSeconds() + 1 );
-          return new actions.CreateEntry({ project_id: action.idProjectSwitching, start_date: stopDateForEntry.toISOString() });
+          return new actions.CreateEntry({
+            project_id: action.idProjectSwitching,
+            start_date: stopDateForEntry.toISOString(),
+            timezone_offset: new Date().getTimezoneOffset(),
+          });
         }),
         catchError((error) => {
           this.toastrService.warning(error.error.message);

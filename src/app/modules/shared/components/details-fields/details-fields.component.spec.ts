@@ -207,7 +207,8 @@ describe('DetailsFieldsComponent', () => {
         description: '',
         start_date: new Date('2020-02-05T00:00:01').toISOString(),
         end_date: new Date('2020-02-05T00:01:01').toISOString(),
-        uri: ''
+        uri: '',
+        timezone_offset: new Date().getTimezoneOffset(),
       },
       shouldRestartEntry: false
     };
@@ -276,6 +277,7 @@ describe('DetailsFieldsComponent', () => {
         description: '',
         start_date: new Date('2020-06-11T00:00:10').toISOString(),
         uri: 'ticketUri',
+        timezone_offset: new Date().getTimezoneOffset(),
       },
       shouldRestartEntry: false
     };

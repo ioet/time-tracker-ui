@@ -165,6 +165,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       start_date: new Date(`${entryDate}T${this.entryForm.value.start_hour.trim()}`).toISOString(),
       end_date: new Date(`${entryDate}T${this.entryForm.value.end_hour.trim()}`).toISOString(),
       uri: this.entryForm.value.uri,
+      timezone_offset: new Date().getTimezoneOffset(),
     };
     if (this.goingToWorkOnThis) {
       delete entry.end_date;
