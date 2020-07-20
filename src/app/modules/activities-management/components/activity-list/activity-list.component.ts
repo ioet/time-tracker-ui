@@ -6,6 +6,9 @@ import { LoadActivities, DeleteActivity, SetActivityToEdit } from './../../store
 import { ActivityState } from './../../store/activity-management.reducers';
 import { allActivities } from '../../store';
 import { Activity } from '../../../shared/models';
+import { Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { getIsLoading } from 'src/app/modules/activities-management/store/activity-management.selectors';
 
 @Component({
   selector: 'app-activity-list',
@@ -18,7 +21,10 @@ export class ActivityListComponent implements OnInit {
   activityToDelete: Activity;
   message: string;
   idToDelete: string;
-  constructor(private store: Store<ActivityState>) {}
+  isLoading$: Observable<boolean>;
+  constructor(private store: Store<ActivityState>) {
+    this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
+  }
 
   ngOnInit() {
     this.store.dispatch(new LoadActivities());

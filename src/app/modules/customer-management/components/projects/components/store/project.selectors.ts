@@ -15,3 +15,7 @@ export const getProjects = createSelector(getProjectState, (state: ProjectState)
 export const getProjectToEdit = createSelector(getProjectState, (state: ProjectState) => {
   return state.projectToEdit;
 });
+
+export const getIsLoading = createSelector(getProjectState, (state: ProjectState) => {
+  return state.isLoading;
+});

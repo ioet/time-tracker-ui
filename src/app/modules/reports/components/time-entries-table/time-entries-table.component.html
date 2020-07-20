@@ -1,6 +1,11 @@
 <div class="row mt-5">
   <div class="col">
-    <table class="table table-sm table-striped" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions">
+    <table
+      class="table table-sm table-striped"
+      datatable
+      [dtTrigger]="dtTrigger"
+      [dtOptions]="dtOptions"
+    >
       <thead class="thead-blue">
       <tr class="d-flex">
         <th class="col md-col">ID</th>
@@ -19,7 +24,8 @@
         <th class="col lg-col">Technologies</th>
       </tr>
       </thead>
-      <tbody>
+      <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
+      <tbody *ngIf="(isLoading$ | async) === false ">
       <tr
         class="d-flex"
         *ngFor="let entry of data"

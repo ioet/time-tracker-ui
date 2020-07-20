@@ -4,7 +4,7 @@ describe('ActivityManagement Selectors', () => {
 
   it('reads activityIdtoEdit from state', () => {
     const activityId = 'id';
-    const activityIdFound = selectors.activityIdtoEdit.projector({ activityIdToEdit: activityId });
+    const activityIdFound = selectors.activityIdToEdit.projector({ activityIdToEdit: activityId });
     expect(activityIdFound).toBe(activityId);
   });
 

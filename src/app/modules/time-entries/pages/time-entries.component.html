@@ -27,7 +27,8 @@
         <th class="col"></th>
       </tr>
     </thead>
-    <tbody>
+    <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
+    <tbody *ngIf="((isLoading$ | async) === (false || null || undefined))">
       <tr class="d-flex" *ngFor="let entry of dataByMonth">
         <td class="col">{{ entry.start_date | date: 'MM/dd/yyyy' }}</td>
         <td class="col">{{ entry.start_date | date: 'HH:mm' }} - {{ entry.end_date | date: 'HH:mm' }}</td>

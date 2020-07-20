@@ -1,16 +1,16 @@
-import { EntryActionTypes } from './../../time-clock/store/entry.actions';
-import { filter } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { getActiveTimeEntry } from './../../time-clock/store/entry.selectors';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { delay, filter } from 'rxjs/operators';
+import { SaveEntryEvent } from '../../shared/components/details-fields/save-entry-event';
 import { Entry } from '../../shared/models';
+import { DataSource } from '../../shared/models/data-source.model';
+import * as entryActions from '../../time-clock/store/entry.actions';
 import { EntryState } from '../../time-clock/store/entry.reducer';
 import { allEntries } from '../../time-clock/store/entry.selectors';
-import { select, Store, ActionsSubject } from '@ngrx/store';
-import * as entryActions from '../../time-clock/store/entry.actions';
-import { SaveEntryEvent } from '../../shared/components/details-fields/save-entry-event';
-import { Subscription } from 'rxjs';
-
+import { EntryActionTypes } from './../../time-clock/store/entry.actions';
+import { getActiveTimeEntry, getIsLoadingTimeEntries } from './../../time-clock/store/entry.selectors';
 @Component({
   selector: 'app-time-entries',
   templateUrl: './time-entries.component.html',
@@ -26,8 +26,11 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   idToDelete: string;
   entriesSubscription: Subscription;
   canMarkEntryAsWIP = true;
+  isLoading$: Observable<boolean>;
+  dataSource: DataSource<Entry>;
 
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
+    this.isLoading$ = this.store.pipe(delay(0), select(getIsLoadingTimeEntries));
   }
 
   ngOnDestroy(): void {
@@ -44,14 +47,15 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
 
     this.entriesSubscription = this.actionsSubject$.pipe(
       filter((action: any) => (
-          action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
-          action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS ||
-          action.type === EntryActionTypes.DELETE_ENTRY_SUCCESS
-        )
+        action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
+        action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS ||
+        action.type === EntryActionTypes.DELETE_ENTRY_SUCCESS
+      )
       )
     ).subscribe((action) => {
       this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     });
+
 
   }
 

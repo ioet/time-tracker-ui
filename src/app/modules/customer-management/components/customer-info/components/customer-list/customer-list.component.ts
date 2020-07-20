@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, AfterViewInit} from '@angular/core';
-import {ActionsSubject, Store} from '@ngrx/store';
+import {ActionsSubject, select, Store} from '@ngrx/store';
 
-import {Subject, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {
   CustomerManagementActionTypes,
   DeleteCustomer,
@@ -9,8 +9,9 @@ import {
   SetCustomerToEdit
 } from './../../../../store/customer-management.actions';
 import {Customer} from './../../../../../shared/models/customer.model';
-import {filter} from 'rxjs/operators';
+import {delay, filter} from 'rxjs/operators';
 import {DataTableDirective} from 'angular-datatables';
+import { getIsLoading } from 'src/app/modules/customer-management/store/customer-management.selectors';
 
 @Component({
   selector: 'app-customer-list',
@@ -32,8 +33,11 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   showModal = false;
   idToDelete: string;
   message: string;
+  isLoading$: Observable<boolean>;
 
-  constructor(private store: Store<Customer>, private actionsSubject$: ActionsSubject) { }
+  constructor(private store: Store<Customer>, private actionsSubject$: ActionsSubject) {
+    this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
+  }
 
   ngOnInit(): void {
     this.dtOptions = {

@@ -1,8 +1,9 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MockStore, provideMockStore} from '@ngrx/store/testing';
-import {EntryState} from '../../../time-clock/store/entry.reducer';
-import {TimeEntriesTableComponent} from './time-entries-table.component';
-import {entriesForReport} from '../../../time-clock/store/entry.selectors';
+import { AsyncPipe } from '@angular/common';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { EntryState } from '../../../time-clock/store/entry.reducer';
+import { entriesForReport } from '../../../time-clock/store/entry.selectors';
+import { TimeEntriesTableComponent } from './time-entries-table.component';
 
 describe('Reports Page', () => {
   describe('TimeEntriesTableComponent', () => {
@@ -23,19 +24,25 @@ describe('Reports Page', () => {
 
     const state = {
       active: timeEntry,
-      entryList: [timeEntry],
       isLoading: false,
       message: '',
       createError: false,
       updateError: false,
       timeEntriesSummary: null,
-      entriesForReport: [timeEntry],
+      timeEntriesDataSource: {
+        data: [timeEntry],
+        isLoading: false
+      },
+      reportDataSource: {
+        data: [timeEntry],
+        isLoading: false
+      }
     };
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [],
-        declarations: [],
+        declarations: [TimeEntriesTableComponent, AsyncPipe],
         providers: [provideMockStore({initialState: state})],
       }).compileComponents();
       store = TestBed.inject(MockStore);
@@ -47,23 +54,23 @@ describe('Reports Page', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       store.setState(state);
-      geTimeEntriesSelectorMock = store.overrideSelector(entriesForReport, state.entriesForReport);
+      geTimeEntriesSelectorMock = store.overrideSelector(entriesForReport, state.reportDataSource.data);
     });
 
-    it('component should be created', () => {
+    it('component should be created', async () => {
       expect(component).toBeTruthy();
     });
 
-    it('on success load time entries, the report should be populated', () => {
+    it('on success load time entries, the report should be populated', async () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(component.data).toEqual(state.entriesForReport);
+      expect(component.data).toEqual(state.reportDataSource.data);
     });
 
-    it('after the component is initialized it should initialize the table', () => {
-      spyOn(component.dtTrigger, 'next');
+    it('after the component is initialized it should initialize the table', async () => {
 
+      spyOn(component.dtTrigger, 'next');
       component.ngAfterViewInit();
 
       expect(component.dtTrigger.next).toHaveBeenCalled();

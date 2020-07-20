@@ -5,6 +5,7 @@
     </div>
 
     <div class="form-control autocomplete">
+
       <ng-autocomplete
         formControlName="project_id"
         [data]="listProjects"
@@ -37,6 +38,7 @@
       <ng-template #notFoundTemplate let-notFound>
         <div [innerHTML]="notFound"></div>
       </ng-template>
+      <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
     </div>
   </div>
 </form>

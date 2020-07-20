@@ -1,0 +1,105 @@
+.wrapper {
+  width: 100%;
+  height: 3px;
+  position: relative;
+}
+.progressbar {
+  display: block;
+  // position: absolute;
+  z-index: 9;
+  margin: auto;
+  width: 100%;
+  height: 3px;
+}
+.progressbar::before,
+.progressbar::after {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: 99;
+
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#fe5f07),
+    color-stop(25%, #fe5f07),
+    color-stop(25%, #2dbeee),
+    color-stop(50%, #2dbeee),
+    color-stop(50%, #0ebbc6),
+    color-stop(75%, #0ebbc6),
+    color-stop(75%, #ff3646),
+    to(#ff3646)
+  );
+  background-image: linear-gradient(
+    90deg,
+    #fe5f07 0%,
+    #fe5f07 25%,
+    #2dbeee 25%,
+    #2dbeee 50%,
+    #0ebbc6 50%,
+    #0ebbc6 75%,
+    #ff3646 75%,
+    #ff3646 100%
+  );
+  background-position: 0 0;
+  background-repeat: repeat-x;
+  -webkit-animation: movebar 3s linear infinite;
+  animation: movebar 3s linear infinite;
+}
+.progressbar::before {
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+}
+.progressbar::after {
+  z-index: 9;
+  top: 6px;
+  -webkit-filter: blur(16px);
+  filter: blur(16px);
+  opacity: 0.7;
+}
+.stylization {
+  position: absolute;
+  z-index: 999;
+  height: 4px;
+  width: 100%;
+  left: 5%;
+  top: 6px;
+  opacity: 0.3;
+}
+.stylization::before,
+.stylization::after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 4px;
+  border-radius: 2px;
+}
+.stylization::before {
+  background: #fff;
+  left: 0;
+  right: 10px;
+}
+.stylization::after {
+  width: 6px;
+  background: #fff;
+  right: 0;
+}
+@-webkit-keyframes movebar {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 400px 0;
+  }
+}
+@keyframes movebar {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 400px 0;
+  }
+}

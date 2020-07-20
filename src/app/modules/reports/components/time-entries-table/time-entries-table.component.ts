@@ -2,8 +2,8 @@ import { formatDate } from '@angular/common';
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {EntryState} from '../../../time-clock/store/entry.reducer';
-import {entriesForReport} from '../../../time-clock/store/entry.selectors';
-import {Subject} from 'rxjs';
+import {entriesForReport, getIsLoadingReportData} from '../../../time-clock/store/entry.selectors';
+import {Subject, Observable} from 'rxjs';
 import {DataTableDirective} from 'angular-datatables';
 import * as moment from 'moment';
 
@@ -54,8 +54,10 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, {static: false})
   dtElement: DataTableDirective;
+  isLoading$: Observable<boolean>;
 
   constructor(private store: Store<EntryState>) {
+    this.isLoading$ = this.store.pipe(select(getIsLoadingReportData));
   }
 
   ngOnInit(): void {
@@ -64,6 +66,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       this.data = response;
       this.rerenderDataTable();
     });
+
   }
 
   ngAfterViewInit(): void {

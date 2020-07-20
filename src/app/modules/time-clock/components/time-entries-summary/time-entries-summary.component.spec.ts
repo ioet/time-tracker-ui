@@ -1,14 +1,13 @@
+import { async, ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ActionsSubject } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { interval } from 'rxjs';
+import { TimeDetails, TimeEntriesSummary } from './../../models/time.entry.summary';
+import { TimeDetailsPipe } from './../../pipes/time-details.pipe';
 import { EntryActionTypes } from './../../store/entry.actions';
 import { EntryState } from './../../store/entry.reducer';
-import { TimeDetailsPipe } from './../../pipes/time-details.pipe';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { TimeEntriesSummary } from './../../models/time.entry.summary';
-import { TimeDetails } from './../../models/time.entry.summary';
-import { async, ComponentFixture, TestBed, tick, fakeAsync, discardPeriodicTasks } from '@angular/core/testing';
-
 import { TimeEntriesSummaryComponent } from './time-entries-summary.component';
-import { ActionsSubject } from '@ngrx/store';
+
 
 describe('TimeEntriesSummaryComponent', () => {
   let component: TimeEntriesSummaryComponent;
@@ -33,16 +32,21 @@ describe('TimeEntriesSummaryComponent', () => {
     project_id: '123'
   };
 
-  const state = {
+  const state: EntryState = {
     active: timeEntry,
-    entryList: [timeEntry],
-    entries: [timeEntry],
     isLoading: false,
     message: '',
     createError: false,
     updateError: false,
     timeEntriesSummary: emptyTimeEntriesSummary,
-    entriesForReport: [timeEntry],
+    timeEntriesDataSource: {
+      data: [timeEntry],
+      isLoading: false
+    },
+    reportDataSource: {
+      data: [timeEntry],
+      isLoading: false
+    }
   };
 
   beforeEach(async(() => {

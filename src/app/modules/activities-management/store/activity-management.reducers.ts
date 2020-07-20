@@ -71,10 +71,10 @@ export function activityManagementReducer(state: ActivityState = initialState, a
     }
 
     case ActivityManagementActionTypes.DELETE_ACTIVITY_SUCCESS: {
-      const activites = state.data.filter((activity) => activity.id !== action.activityId);
+      const activities = state.data.filter((activity) => activity.id !== action.activityId);
       return {
         ...state,
-        data: activites,
+        data: activities,
         isLoading: false,
         message: 'Activity removed successfully!',
       };

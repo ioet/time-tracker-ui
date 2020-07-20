@@ -34,3 +34,8 @@ export const getCustomerUnderEdition = createSelector(allCustomers, customerIdto
     });
   }
 });
+
+
+export const getIsLoading = createSelector(getCustomerState, (state: CustomerState) => {
+  return state.isLoading;
+});

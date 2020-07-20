@@ -7,7 +7,7 @@ import {
   ActivityState,
   CreateActivity,
   UpdateActivity,
-  activityIdtoEdit,
+  activityIdToEdit,
   allActivities,
   ResetActivityToEdit,
 } from '../../store';
@@ -74,7 +74,7 @@ describe('CreateActivityComponent', () => {
       activityIdToEdit: '1',
     };
 
-    activityIdtoEditMock = store.overrideSelector(activityIdtoEdit, currentState.activityIdToEdit);
+    activityIdtoEditMock = store.overrideSelector(activityIdToEdit, currentState.activityIdToEdit);
     allActivitiesMock = store.overrideSelector(allActivities, currentState.data);
     getActivityByIdMock = store.overrideSelector(allActivitiesMock, activityIdtoEditMock);
 
