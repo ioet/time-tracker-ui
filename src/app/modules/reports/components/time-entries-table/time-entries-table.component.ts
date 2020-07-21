@@ -5,6 +5,7 @@ import {EntryState} from '../../../time-clock/store/entry.reducer';
 import {entriesForReport} from '../../../time-clock/store/entry.selectors';
 import {Subject} from 'rxjs';
 import {DataTableDirective} from 'angular-datatables';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-time-entries-table',
@@ -13,6 +14,7 @@ import {DataTableDirective} from 'angular-datatables';
 })
 export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
   data = [];
+
   dtOptions: any = {
     scrollY: '600px',
     paging: false,
@@ -22,11 +24,27 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       'print',
       {
         extend: 'excel',
+        exportOptions:  {
+          format: {
+              body: ( data, row, column, node ) => {
+                  return column === 2 ?
+                      moment.duration(data).asHours().toFixed(4).slice(0, -1) :
+                      data;
+              }
+          }},
         text: 'Excel',
         filename: `time-entries-${ formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en') }`
       },
       {
         extend: 'csv',
+        exportOptions:  {
+          format: {
+              body: ( data, row, column, node ) => {
+                  return column === 2 ?
+                      moment.duration(data).asHours().toFixed(4).slice(0, -1) :
+                      data;
+              }
+          }},
         text: 'CSV',
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en') }`
       }
