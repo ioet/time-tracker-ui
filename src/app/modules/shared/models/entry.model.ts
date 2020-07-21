@@ -9,6 +9,8 @@ export interface Entry {
   project_id?: string;
   owner_email?: string;
   description?: string;
+  customer_id?: string;
+  customer_name?: string;
 }
 
 export interface NewEntry {
