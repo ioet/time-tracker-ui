@@ -10,13 +10,11 @@ import * as moment from 'moment';
 describe('EntryService', () => {
   let service: EntryService;
   let httpMock: HttpTestingController;
-  let datePipe: DatePipe;
 
   beforeEach(() => {
     TestBed.configureTestingModule({imports: [HttpClientTestingModule], providers: [DatePipe]});
     service = TestBed.inject(EntryService);
     httpMock = TestBed.inject(HttpTestingController);
-    datePipe = TestBed.inject(DatePipe);
     service.baseUrl = 'time-entries';
   });
 

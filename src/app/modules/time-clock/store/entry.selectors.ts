@@ -17,7 +17,9 @@ export const getCreateError = createSelector(getEntryState, (state: EntryState) 
 });
 
 export const getUpdateError = createSelector(getEntryState, (state: EntryState) => {
-  return state.updateError;
+  if (state) {
+    return state.updateError;
+  }
 });
 export const getStatusMessage = createSelector(getEntryState, (state: EntryState) => state.message);
 
