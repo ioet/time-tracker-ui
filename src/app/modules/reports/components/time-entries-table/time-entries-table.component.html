@@ -3,9 +3,10 @@
     <table class="table table-sm table-striped" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions">
       <thead class="thead-blue">
       <tr class="d-flex">
+        <th class="col md-col">ID</th>
         <th class="col md-col">User email</th>
         <th class="col sm-col">Date</th>
-        <th class="col sm-col">Duration</th>
+        <th class="col sm-col">Duration (hours)</th>
         <th class="col md-col">Project</th>
         <th class="col lg-col">Project ID</th>
         <th class="col md-col">Customer</th>
@@ -21,6 +22,7 @@
         class="d-flex"
         *ngFor="let entry of data"
       >
+        <td class="col md-col multiline-col"> {{ entry.id }} </td>
         <td class="col md-col multiline-col"> {{ entry.owner_email }} </td>
         <td class="col sm-col"> {{ entry.start_date | date: 'MM/dd/yyyy' }} </td>
         <td class="col sm-col"> {{ entry.end_date | substractDate: entry.start_date }} </td>
