@@ -27,7 +27,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         exportOptions:  {
           format: {
               body: ( data, row, column, node ) => {
-                  return column === 2 ?
+                  return column === 3 ?
                       moment.duration(data).asHours().toFixed(4).slice(0, -1) :
                       data;
               }
@@ -40,7 +40,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         exportOptions:  {
           format: {
               body: ( data, row, column, node ) => {
-                  return column === 2 ?
+                  return column === 3 ?
                       moment.duration(data).asHours().toFixed(4).slice(0, -1) :
                       data;
               }
