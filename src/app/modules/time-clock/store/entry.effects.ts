@@ -1,11 +1,11 @@
-import { INFO_DELETE_SUCCESSFULLY, INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { EntryService } from '../services/entry.service';
+import { INFO_DELETE_SUCCESSFULLY, INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
 import * as actions from './entry.actions';
 
 @Injectable()
@@ -44,7 +44,7 @@ export class EntryEffects {
           return new actions.LoadEntriesSummarySuccess(response);
         }),
         catchError((error) => {
-          this.toastrService.warning(`Your summary information could not be loaded`);
+          this.toastrService.warning('Your summary information could not be loaded');
           return of(new actions.LoadEntriesSummaryFail());
         })
       )

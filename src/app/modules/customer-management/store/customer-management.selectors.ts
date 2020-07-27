@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-
 import { CustomerState } from './customer-management.reducers';
+
 export const getCustomerState = createFeatureSelector<CustomerState>('customers');
 
 export const getStatusMessage = createSelector(getCustomerState, (messageState) => {
@@ -34,7 +34,6 @@ export const getCustomerUnderEdition = createSelector(allCustomers, customerIdto
     });
   }
 });
-
 
 export const getIsLoading = createSelector(getCustomerState, (state: CustomerState) => {
   return state.isLoading;

@@ -5,46 +5,53 @@
       datatable
       [dtTrigger]="dtTrigger"
       [dtOptions]="dtOptions"
+      *ngIf="(reportDataSource$ | async) as dataSource"
     >
       <thead class="thead-blue">
-      <tr class="d-flex">
-        <th class="col md-col">ID</th>
-        <th class="col md-col">User email</th>
-        <th class="col sm-col">Date</th>
-        <th class="col sm-col">Duration (hours)</th>
-        <th class="col sm-col">Time in</th>
-        <th class="col sm-col">Time out</th>
-        <th class="col md-col">Project</th>
-        <th class="col lg-col">Project ID</th>
-        <th class="col md-col">Customer</th>
-        <th class="col lg-col">Customer ID</th>
-        <th class="col md-col">Activity</th>
-        <th class="col lg-col">Ticket</th>
-        <th class="col lg-col">Description</th>
-        <th class="col lg-col">Technologies</th>
-      </tr>
+        <tr class="d-flex">
+          <th class="col md-col">ID</th>
+          <th class="col md-col">User email</th>
+          <th class="col sm-col">Date</th>
+          <th class="col sm-col">Duration (hours)</th>
+          <th class="col sm-col">Time in</th>
+          <th class="col sm-col">Time out</th>
+          <th class="col md-col">Project</th>
+          <th class="col lg-col">Project ID</th>
+          <th class="col md-col">Customer</th>
+          <th class="col lg-col">Customer ID</th>
+          <th class="col md-col">Activity</th>
+          <th class="col lg-col">Ticket</th>
+          <th class="col lg-col">Description</th>
+          <th class="col lg-col">Technologies</th>
+        </tr>
       </thead>
-      <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
-      <tbody *ngIf="(isLoading$ | async) === false ">
-      <tr
-        class="d-flex"
-        *ngFor="let entry of data"
-      >
-        <td class="col md-col multiline-col"> {{ entry.id }} </td>
-        <td class="col md-col multiline-col"> {{ entry.owner_email }} </td>
-        <td class="col sm-col"> {{ entry.start_date | date: 'MM/dd/yyyy' }} </td>
-        <td class="col sm-col"> {{ entry.end_date | substractDate: entry.start_date }} </td>
-        <td class="col sm-col"> {{ entry.start_date | date: 'HH:mm' }} </td>
-        <td class="col sm-col"> {{ entry.end_date | date: 'HH:mm' }} </td>
-        <td class="col md-col"> {{ entry.project_name }} </td>
-        <td class="col md-col"> {{ entry.project_id }} </td>
-        <td class="col md-col"> {{ entry.customer_name }} </td>
-        <td class="col md-col"> {{ entry.customer_id }} </td>
-        <td class="col md-col"> {{ entry.activity_name }} </td>
-        <td class="col lg-col"> {{ entry.uri }} </td>
-        <td class="col lg-col multiline-col"> {{ entry.description }} </td>
-        <td class="col lg-col multiline-col"> {{ entry.technologies }} </td>
-      </tr>
+      <app-loading-bar
+        *ngIf="dataSource.isLoading"
+      ></app-loading-bar>
+      <tbody *ngIf="!dataSource.isLoading">
+        <tr
+          class="d-flex"
+          *ngFor="let entry of dataSource.data"
+        >
+          <td class="col md-col multiline-col">{{ entry.id }}</td>
+          <td class="col md-col multiline-col">{{ entry.owner_email }}</td>
+          <td class="col sm-col">
+            {{ entry.start_date | date: 'MM/dd/yyyy' }}
+          </td>
+          <td class="col sm-col">
+            {{ entry.end_date | substractDate: entry.start_date }}
+          </td>
+          <td class="col sm-col">{{ entry.start_date | date: 'HH:mm' }}</td>
+          <td class="col sm-col">{{ entry.end_date | date: 'HH:mm' }}</td>
+          <td class="col md-col">{{ entry.project_name }}</td>
+          <td class="col md-col">{{ entry.project_id }}</td>
+          <td class="col md-col">{{ entry.customer_name }}</td>
+          <td class="col md-col">{{ entry.customer_id }}</td>
+          <td class="col md-col">{{ entry.activity_name }}</td>
+          <td class="col lg-col">{{ entry.uri }}</td>
+          <td class="col lg-col multiline-col">{{ entry.description }}</td>
+          <td class="col lg-col multiline-col">{{ entry.technologies }}</td>
+        </tr>
       </tbody>
     </table>
   </div>

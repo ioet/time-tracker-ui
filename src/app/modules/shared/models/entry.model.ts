@@ -6,9 +6,13 @@ export interface Entry {
   activity_id?: string;
   technologies: string[];
   uri?: string;
-  project_id?: string;
-  owner_email?: string;
+  activity_name?: string;
   description?: string;
+  owner_email?: string;
+
+  project_id?: string;
+  project_name: string;
+
   customer_id?: string;
   customer_name?: string;
 }

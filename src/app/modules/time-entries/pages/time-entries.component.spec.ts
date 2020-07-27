@@ -1,40 +1,35 @@
-import { LoadActiveEntry } from './../../time-clock/store/entry.actions';
-import { ToastrService } from 'ngx-toastr';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { MonthPickerComponent, DetailsFieldsComponent, EmptyStateComponent } from '../../shared/components';
-import { GroupByDatePipe } from '../../shared/pipes';
-import { TechnologyState } from '../../shared/store/technology.reducers';
-import { allTechnologies } from '../../shared/store/technology.selectors';
-import { TimeEntriesComponent } from './time-entries.component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { ToastrService } from 'ngx-toastr';
 import { ProjectState } from '../../customer-management/components/projects/components/store/project.reducer';
-import { getProjects } from '../../customer-management/components/projects/components/store/project.selectors';
-import { EntryState } from '../../time-clock/store/entry.reducer';
-import { allEntries } from '../../time-clock/store/entry.selectors';
-import * as entryActions from '../../time-clock/store/entry.actions';
-import { TechnologiesComponent } from '../../shared/components/technologies/technologies.component';
-import { TimeEntriesSummaryComponent } from '../../time-clock/components/time-entries-summary/time-entries-summary.component';
+import { DetailsFieldsComponent, EmptyStateComponent, MonthPickerComponent } from '../../shared/components';
+import { Entry } from '../../shared/models';
+import { GroupByDatePipe } from '../../shared/pipes';
 import { SubstractDatePipe } from '../../shared/pipes/substract-date/substract-date.pipe';
+import { TechnologyState } from '../../shared/store/technology.reducers';
+import { TimeEntriesSummaryComponent } from '../../time-clock/components/time-entries-summary/time-entries-summary.component';
+import * as entryActions from '../../time-clock/store/entry.actions';
+import { EntryState } from '../../time-clock/store/entry.reducer';
+import { getTimeEntriesDataSource } from '../../time-clock/store/entry.selectors';
+import { LoadActiveEntry } from './../../time-clock/store/entry.actions';
+import { TimeEntriesComponent } from './time-entries.component';
+
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
   let component: TimeEntriesComponent;
   let fixture: ComponentFixture<TimeEntriesComponent>;
   let store: MockStore<Merged>;
-  let mockTechnologySelector;
-  let mockProjectsSelector;
   let mockEntriesSelector;
-  let injectedToastrService;
-  let state;
-  let entry;
+  let injectedToastrService: ToastrService;
+  let state: EntryState;
+  let entry: Entry;
 
   const toastrService = {
     error: () => {
     },
   };
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -44,12 +39,11 @@ describe('TimeEntriesComponent', () => {
         GroupByDatePipe,
         MonthPickerComponent,
         TimeEntriesComponent,
-        TechnologiesComponent,
         TimeEntriesSummaryComponent,
         SubstractDatePipe
       ],
-      providers: [provideMockStore({initialState: state}),
-        {provide: ToastrService, useValue: toastrService},
+      providers: [provideMockStore({ initialState: state }),
+      { provide: ToastrService, useValue: toastrService },
       ],
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
@@ -57,41 +51,36 @@ describe('TimeEntriesComponent', () => {
     entry = {
       id: 'entry_1',
       project_id: 'abc',
+      project_name: 'Time-tracker',
       start_date: new Date('2020-02-05T15:36:15.887Z'),
       end_date: new Date('2020-02-05T18:36:15.887Z'),
       activity_id: 'development',
       technologies: ['Angular', 'TypeScript'],
-      comments: 'No comments',
+      description: 'No comments',
       uri: 'EY-25',
     };
     state = {
-      projects: {
-        projects: [{ id: 'abc', customer_id: 'customerId', name: '', description: '', project_type_id: 'id' }],
-        customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
+      timeEntriesSummary: null,
+      createError: false,
+      updateError: false,
+      isLoading: false,
+      message: 'any-message',
+      active: {
+        start_date: new Date('2019-01-01T15:36:15.887Z'),
+        id: 'active-entry',
+        technologies: ['rxjs', 'angular'],
+        project_name: 'time-tracker'
+      },
+      timeEntriesDataSource: {
         isLoading: false,
-        message: '',
-        projectToEdit: undefined,
+        data: [entry]
       },
-      activities: {
-        data: [{ id: 'id', name: 'name', description: 'description' }],
+      reportDataSource: {
         isLoading: false,
-        message: 'message',
-      },
-      technologies: {
-        technologyList: { items: [{ name: 'test' }] },
-        isLoading: false,
-      },
-      entries: {
-        entryList: [],
-        active: {
-          start_date: new Date('2019-01-01T15:36:15.887Z'),
-          id: 'active-entry',
-        }
-      },
+        data: [entry]
+      }
     };
-    mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
-    mockProjectsSelector = store.overrideSelector(getProjects, state.projects.projects);
-    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
     injectedToastrService = TestBed.inject(ToastrService);
   }));
 
@@ -117,27 +106,20 @@ describe('TimeEntriesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call dataByMonth in ngOnInit()', async(() => {
-    component.ngOnInit();
-    expect(component.dataByMonth.length).toEqual(0);
+  it('on loading the component the time entries should be loaded', async(() => {
+    component.timeEntriesDataSource$.subscribe(ds => {
+      expect(ds.data.length).toEqual(1);
+    });
   }));
 
-  it('should call dataByMonth with data in ngOnInit()', async(() => {
-    const entryCurrentMonth = {
-      id: '1',
-      project_id: 'Mido - 05 de Febrero',
-      start_date: new Date(),
-      end_date: new Date(),
-      activity_id: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      comments: 'No comments',
-      uri: 'EY-25',
-    };
-    mockEntriesSelector = store.overrideSelector(allEntries, [entryCurrentMonth]);
+  it('Time entries data should be populated on ngOnInit()', async(() => {
+    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
     component.ngOnInit();
 
-    expect(component.dataByMonth.length).toEqual(1);
+    component.timeEntriesDataSource$.subscribe(ds => {
+      expect(ds.data.length).toEqual(1);
+    });
   }));
 
   it('when create time entries, the time entries should be queried', () => {
@@ -159,104 +141,78 @@ describe('TimeEntriesComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(currentMonth));
   });
 
-  it('should call dataByMonth with data without end_date in ngOnInit()', async(() => {
-    const newEntry = {
-      id: 'entry_1',
-      project_id: 'Mido - 05 de Febrero',
-      start_date: new Date(),
-      end_date: null,
-      activity_id: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      comments: 'No comments',
-      uri: 'EY-25',
-    };
-    mockEntriesSelector = store.overrideSelector(allEntries, [newEntry]);
-    component.ngOnInit();
-    expect(component.dataByMonth.length).toEqual(1);
-  }));
-
-  it('should call dataByMonth without new date in ngOnInit()', async(() => {
-    const newEntry = {
-      id: 'entry_1',
-      project_id: 'Mido - 05 de Febrero',
-      start_date: new Date('2020-02-05T15:36:15.887Z'),
-      end_date: new Date('2020-02-05T18:36:15.887Z'),
-      activity_id: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      comments: 'No comments',
-      uri: 'EY-25',
-    };
-    mockEntriesSelector = store.overrideSelector(allEntries, [newEntry]);
-    component.ngOnInit();
-    expect(component.dataByMonth.length).toEqual(1);
-  }));
-
-  it('should set entry and entryid to null', () => {
+  it('when creating a new entry, then entryId should be null', () => {
     component.newEntry();
     expect(component.entry).toBe(null);
     expect(component.entryId).toBe(null);
   });
 
   it('given an empty list of entries when creating a new entry it can be marked as WIP ', () => {
-    state.entries.entryList = [];
+    state.timeEntriesDataSource.data = [];
+    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
+
     component.newEntry();
+
     expect(component.canMarkEntryAsWIP).toBe(true);
   });
 
-  it('given an list of entries having an entry running when creating a new entry it cannot be marked as WIP ', () => {
-    state.entries.entryList = [{...entry, running: true}];
-    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+  it('given a list of entries having an entry running when creating a new entry it cannot be marked as WIP ', () => {
+    state.timeEntriesDataSource.data = [{ ...entry, running: true }];
+    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
     component.newEntry();
     expect(component.canMarkEntryAsWIP).toBe(false);
   });
 
-  it('given an list of entries not having an entry running when creating a new entry it can be marked as WIP ', () => {
-    state.entries.entryList = [{...entry, running: false}];
-    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+  it('given a list of entries not having an entry running when creating a new entry it can be marked as WIP ', () => {
+    state.timeEntriesDataSource.data = [{ ...entry, running: false }];
+    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
     component.newEntry();
     expect(component.canMarkEntryAsWIP).toBe(true);
   });
 
-  it('should set entry and entryid to with data', () => {
-    component.dataByMonth = [entry];
-    component.editEntry('entry_1');
-    expect(component.entry).toEqual(entry);
-    expect(component.entryId).toBe('entry_1');
+  it('when editing a time entry, the entry and entryId should be set with the time entry the user want to edit', () => {
+    const anEntryId = state.timeEntriesDataSource.data[0].id;
+    component.editEntry(anEntryId);
+    expect(component.entry).toEqual(state.timeEntriesDataSource.data[0]);
+    expect(component.entryId).toBe(anEntryId);
   });
 
-  it('given an list of entries having an entry running when editing a different entry it cannot be marked as WIP ', () => {
+  it('given a list of entries having an entry running when editing a different entry it cannot be marked as WIP ', () => {
     const anEntryId = '1';
     const anotherEntryId = '2';
-    state.entries.entryList = [{...entry, running: true, id: anEntryId}];
-    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+    state.timeEntriesDataSource.data = [{ ...entry, running: true, id: anEntryId }];
+    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
     component.editEntry(anotherEntryId);
     expect(component.canMarkEntryAsWIP).toBe(false);
   });
 
-  it('given an list of entries having no entries running when editing a different entry it cannot be marked as WIP', () => {
+  it('given a list of entries having no entries running when editing a different entry it cannot be marked as WIP', () => {
     const anEntryId = '1';
     const anotherEntryId = '2';
-    state.entries.entryList = [{...entry, running: false, id: anEntryId}];
-    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+    state.timeEntriesDataSource.data = [{ ...entry, running: false, id: anEntryId }];
+    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
     component.editEntry(anotherEntryId);
     expect(component.canMarkEntryAsWIP).toBe(false);
   });
 
-  it('given an list of entries having an entry running when editing the last entry it can be marked as WIP ', () => {
+  it('given a list of entries having an entry running when editing the last entry it can be marked as WIP ', () => {
     const anEntryId = '1';
     const anotherEntryId = '2';
-    state.entries.entryList = [{...entry, running: true, id: anEntryId}, {...entry, running: false, id: anotherEntryId}];
-    mockEntriesSelector = store.overrideSelector(allEntries, state.entries.entryList);
+    state.timeEntriesDataSource.data = [{ ...entry, running: true, id: anEntryId },
+    { ...entry, running: false, id: anotherEntryId }];
+    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
     component.editEntry(anEntryId);
+
     expect(component.canMarkEntryAsWIP).toBe(true);
   });
 
-  it('displays an error when start date of entry is > than active entry start date', () => {
+  it('displays an error when start date of entry is > than active entry start date', async () => {
+    component.activeTimeEntry = entry;
     const newEntry = {
       entry: {
         project_id: 'p-id',
@@ -267,9 +223,7 @@ describe('TimeEntriesComponent', () => {
       }, shouldRestartEntry: false
     };
     component.entryId = 'new-entry';
-    spyOn(injectedToastrService, 'error'
-    )
-    ;
+    spyOn(injectedToastrService, 'error');
 
     component.saveEntry(newEntry);
 
@@ -277,10 +231,11 @@ describe('TimeEntriesComponent', () => {
   });
 
   it('should dispatch an action when entry is going to be saved', () => {
-    component.entry = {start_date: new Date(), id: '1234', technologies: []};
+    component.entry = { start_date: new Date(), id: '1234', technologies: [], project_name: 'time-tracker' };
     const newEntry = {
       entry: {
         project_id: 'p-id',
+        project_name: 'time-tracker',
         start_date: '2020-05-05T10:04',
         description: 'description',
         technologies: [],
@@ -329,25 +284,6 @@ describe('TimeEntriesComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(month));
   });
 
-
-  it('doSave when activeTimeEntry === null', async(() => {
-    const entryToSave = {
-      entry: {
-        project_id: 'project-id',
-        start_date: '2010-05-05T10:04',
-        description: 'description',
-        technologies: [],
-        uri: 'abc',
-      }, shouldRestartEntry: false
-    };
-    spyOn(component, 'doSave');
-    component.activeTimeEntry = null;
-
-    component.saveEntry(entryToSave);
-
-    expect(component.doSave).toHaveBeenCalledWith(entryToSave);
-  }));
-
   it('doSave when activeTimeEntry === null', async(() => {
     const entryToSave = {
       entry: {
@@ -367,15 +303,17 @@ describe('TimeEntriesComponent', () => {
   }));
 
   it('when event contains should restart as true, then a restart Entry action should be triggered', () => {
-    component.entry = {start_date: new Date(), id: '1234', technologies: []};
+    component.entry = { start_date: new Date(), id: '1234', technologies: [], project_name: 'time-tracker' };
     const entryToSave = {
       entry: {
         id: '123',
         project_id: 'projectId',
+        project_name: 'time-tracker',
         start_date: new Date(),
         description: 'description',
         technologies: [],
         uri: 'abc',
+
       }, shouldRestartEntry: true
     };
     component.entryId = '123';

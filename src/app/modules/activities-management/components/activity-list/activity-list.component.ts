@@ -1,14 +1,13 @@
-import { OnInit } from '@angular/core';
-import { Component } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-
-import { LoadActivities, DeleteActivity, SetActivityToEdit } from './../../store/activity-management.actions';
-import { ActivityState } from './../../store/activity-management.reducers';
-import { allActivities } from '../../store';
-import { Activity } from '../../../shared/models';
+import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { getIsLoading } from 'src/app/modules/activities-management/store/activity-management.selectors';
+import { Activity } from '../../../shared/models';
+import { allActivities } from '../../store';
+import { DeleteActivity, LoadActivities, SetActivityToEdit } from './../../store/activity-management.actions';
+import { ActivityState } from './../../store/activity-management.reducers';
+
 
 @Component({
   selector: 'app-activity-list',

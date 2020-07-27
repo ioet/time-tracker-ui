@@ -1,18 +1,16 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, AfterViewInit} from '@angular/core';
-import {ActionsSubject, select, Store} from '@ngrx/store';
-
-import {Observable, Subject, Subscription} from 'rxjs';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ActionsSubject, select, Store } from '@ngrx/store';
+import { DataTableDirective } from 'angular-datatables';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { delay, filter } from 'rxjs/operators';
+import { getIsLoading } from 'src/app/modules/customer-management/store/customer-management.selectors';
+import { Customer } from './../../../../../shared/models/customer.model';
 import {
   CustomerManagementActionTypes,
   DeleteCustomer,
   LoadCustomers,
   SetCustomerToEdit
 } from './../../../../store/customer-management.actions';
-import {Customer} from './../../../../../shared/models/customer.model';
-import {delay, filter} from 'rxjs/operators';
-import {DataTableDirective} from 'angular-datatables';
-import { getIsLoading } from 'src/app/modules/customer-management/store/customer-management.selectors';
-
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',

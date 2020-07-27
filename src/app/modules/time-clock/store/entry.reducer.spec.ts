@@ -42,6 +42,7 @@ describe('entryReducer', () => {
     start_date: new Date(),
     end_date: new Date(),
     activity_id: 'activity',
+    project_name: 'time-tracker'
   };
 
   const entriesList: Entry[] = [entry];
@@ -87,6 +88,7 @@ describe('entryReducer', () => {
     const activeEntryFound: Entry = {
       id: '0000',
       project_id: '123',
+      project_name: 'time-tracker',
       description: 'description',
       technologies: ['angular', 'javascript'],
       activity_id: 'xyz',
@@ -107,7 +109,7 @@ describe('entryReducer', () => {
   it('on LoadEntries, isLoading is true', () => {
     const action = new actions.LoadEntries(new Date().getMonth() + 1);
     const state = entryReducer(initialState, action);
-    expect(state.isLoading).toEqual(true);
+    expect(state.timeEntriesDataSource.isLoading).toEqual(true);
   });
 
   it('on LoadEntriesSuccess, get all Entries', () => {
