@@ -123,4 +123,13 @@ describe('EntryService', () => {
     const restartEntryRequest = httpMock.expectOne( `${service.baseUrl}/${entry}/restart`);
     expect(restartEntryRequest.request.method).toBe('POST');
   });
+
+  it('entries are found by project id with a limit 2 by default', () => {
+    const projectId = 'project-id';
+
+    service.findEntriesByProjectId(projectId).subscribe();
+
+    const restartEntryRequest = httpMock.expectOne( `${service.baseUrl}?limit=2&project_id=${projectId}`);
+    expect(restartEntryRequest.request.method).toBe('GET');
+  });
 });

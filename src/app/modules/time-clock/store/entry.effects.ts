@@ -1,3 +1,5 @@
+import { NewEntry } from './../../shared/models/entry.model';
+import { INFO_DELETE_SUCCESSFULLY, INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -5,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { EntryService } from '../services/entry.service';
-import { INFO_DELETE_SUCCESSFULLY, INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
 import * as actions from './entry.actions';
 
 @Injectable()
@@ -20,7 +21,7 @@ export class EntryEffects {
       this.entryService.stopEntryRunning(action.idEntrySwitching).pipe(
         map((response) => {
           const stopDateForEntry = new Date(response.end_date);
-          stopDateForEntry.setSeconds(stopDateForEntry.getSeconds() + 1 );
+          stopDateForEntry.setSeconds(stopDateForEntry.getSeconds() + 1);
           return new actions.CreateEntry({
             project_id: action.idProjectSwitching,
             start_date: stopDateForEntry.toISOString(),
@@ -111,6 +112,31 @@ export class EntryEffects {
         catchError((error) => {
           this.toastrService.error(error.error.message);
           return of(new actions.CreateEntryFail(error.error.message));
+        })
+      )
+    )
+  );
+
+  @Effect()
+  clockIn$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.CLOCK_IN),
+    map((action: actions.CreateEntry) => action.payload),
+    mergeMap((entry: NewEntry) =>
+      this.entryService.findEntriesByProjectId(entry.project_id).pipe(
+        map((entriesFound) => {
+          if (entriesFound && entriesFound.length > 0) {
+            const dataToUse = entriesFound[0];
+            entry = { ...entry };
+            entry.description = dataToUse.description;
+            entry.technologies = dataToUse.technologies ? dataToUse.technologies : [];
+            entry.uri = dataToUse.uri;
+            entry.activity_id = dataToUse.activity_id;
+          }
+          return new actions.CreateEntry(entry);
+        }),
+        catchError((error) => {
+          this.toastrService.error('We could not clock in you, try again later.');
+          return of(new actions.CreateEntryFail('Error'));
         })
       )
     )
@@ -214,7 +240,7 @@ export class EntryEffects {
           return new actions.RestartEntrySuccess(entryResponse);
         }),
         catchError((error) => {
-          this.toastrService.error( error.error.message, 'This entry could not be restarted');
+          this.toastrService.error(error.error.message, 'This entry could not be restarted');
           return of(new actions.RestartEntryFail(error));
         })
       )

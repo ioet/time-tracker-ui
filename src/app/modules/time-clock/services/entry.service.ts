@@ -57,6 +57,11 @@ export class EntryService {
     return this.http.get<TimeEntriesSummary>(summaryUrl);
   }
 
+  findEntriesByProjectId(projectId: string): Observable<Entry[]> {
+    const findEntriesByProjectURL = `${this.baseUrl}?limit=2&project_id=${projectId}`;
+    return this.http.get<Entry[]>(findEntriesByProjectURL);
+  }
+
   loadEntriesByTimeRange(range: TimeEntriesTimeRange, userId: string): Observable<any> {
     const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
     return this.http.get(this.baseUrl,

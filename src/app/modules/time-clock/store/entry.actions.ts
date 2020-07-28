@@ -13,6 +13,8 @@ export enum EntryActionTypes {
   LOAD_ENTRIES = '[Entry] LOAD_ENTRIES',
   LOAD_ENTRIES_SUCCESS = '[Entry] LOAD_ENTRIES_SUCCESS',
   LOAD_ENTRIES_FAIL = '[Entry] LOAD_ENTRIES_FAIL',
+  CLOCK_IN = '[Entry] CLOCK_IN',
+  CLOCK_IN_SUCCESS = '[Entry] CLOCK_IN_SUCCESS',
   CREATE_ENTRY = '[Entry] CREATE_ENTRY',
   CREATE_ENTRY_SUCCESS = '[Entry] CREATE_ENTRY_SUCCESS',
   CREATE_ENTRY_FAIL = '[Entry] CREATE_ENTRY_FAIL',
@@ -37,6 +39,16 @@ export enum EntryActionTypes {
   RESTART_ENTRY = '[Entry] RESTART_ENTRY',
   RESTART_ENTRY_SUCCESS = '[Entry] RESTART_ENTRY_SUCCESS',
   RESTART_ENTRY_FAIL = '[Entry] RESTART_ENTRY_FAIL',
+}
+
+export class ClockIn implements Action {
+  public readonly type = EntryActionTypes.CLOCK_IN;
+  constructor(readonly payload: NewEntry) {}
+}
+
+export class ClockInSuccess implements Action {
+  public readonly type = EntryActionTypes.CLOCK_IN_SUCCESS;
+  constructor() {}
 }
 
 export class SwitchTimeEntry implements Action {
@@ -250,6 +262,8 @@ export class RestartEntryFail implements Action {
 }
 
 export type EntryActions =
+  | ClockIn
+  | ClockInSuccess
   | LoadEntriesSummary
   | LoadEntriesSummarySuccess
   | LoadEntriesSummaryFail
