@@ -1,24 +1,22 @@
-import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
-import { filter } from 'rxjs/operators';
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionsSubject, select, Store } from '@ngrx/store';
-import { formatDate } from '@angular/common';
-
-import { Activity, Entry, Project } from '../../models';
-import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
-import { TechnologyState } from '../../store/technology.reducers';
-import { ActivityState, allActivities, LoadActivities } from '../../../activities-management/store';
-import { getProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
-import * as projectActions from '../../../customer-management/components/projects/components/store/project.actions';
-import { EntryState } from '../../../time-clock/store/entry.reducer';
-import * as entryActions from '../../../time-clock/store/entry.actions';
-import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
-import { SaveEntryEvent } from './save-entry-event';
 import { ToastrService } from 'ngx-toastr';
+import { filter } from 'rxjs/operators';
+import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
+import { ActivityState, allActivities, LoadActivities } from '../../../activities-management/store';
+import * as projectActions from '../../../customer-management/components/projects/components/store/project.actions';
+import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
+import { getProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
+import * as entryActions from '../../../time-clock/store/entry.actions';
+import { EntryState } from '../../../time-clock/store/entry.reducer';
+import { Activity, Entry, Project } from '../../models';
+import { TechnologyState } from '../../store/technology.reducers';
+import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
+import { SaveEntryEvent } from './save-entry-event';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
-
 @Component({
   selector: 'app-details-fields',
   templateUrl: './details-fields.component.html',

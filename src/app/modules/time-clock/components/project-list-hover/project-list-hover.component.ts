@@ -1,18 +1,16 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { EntryActionTypes } from './../../store/entry.actions';
-import { filter } from 'rxjs/operators';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { getProjects } from './../../../customer-management/components/projects/components/store/project.selectors';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store, select, ActionsSubject } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-
-import { getActiveTimeEntry } from './../../store/entry.selectors';
+import { Observable, Subscription } from 'rxjs';
+import { delay, filter } from 'rxjs/operators';
 import { Project } from 'src/app/modules/shared/models';
-import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
+import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import * as entryActions from '../../store/entry.actions';
-
+import { getIsLoading, getProjects } from './../../../customer-management/components/projects/components/store/project.selectors';
+import { EntryActionTypes } from './../../store/entry.actions';
+import { getActiveTimeEntry } from './../../store/entry.selectors';
 @Component({
   selector: 'app-project-list-hover',
   templateUrl: './project-list-hover.component.html',
@@ -26,10 +24,12 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   projectsForm: FormGroup;
   showClockIn: boolean;
   updateEntrySubscription: Subscription;
+  isLoading$: Observable<boolean>;
 
   constructor(private formBuilder: FormBuilder, private store: Store<ProjectState>,
               private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
     this.projectsForm = this.formBuilder.group({ project_id: null, });
+    this.isLoading$ = this.store.pipe(delay(0), select(getIsLoading));
   }
 
   ngOnInit(): void {

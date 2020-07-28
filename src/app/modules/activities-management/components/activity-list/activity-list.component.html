@@ -6,11 +6,16 @@
         <th class="col-3 text-center"></th>
       </tr>
     </thead>
-    <tbody>
+    <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
+    <tbody *ngIf="(isLoading$ | async) === false">
       <tr class="d-flex" *ngFor="let activity of activities">
         <td class="col-sm-9">{{ activity.name }}</td>
         <td class="col-sm-3 text-center">
-          <button type="button" class="btn btn-sm btn-primary" (click)="updateActivity(activity.id)">
+          <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            (click)="updateActivity(activity.id)"
+          >
             <i class="fa fa-pencil fa-xs"></i>
           </button>
           <button

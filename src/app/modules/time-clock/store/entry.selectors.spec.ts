@@ -8,18 +8,18 @@ describe('Entry selectors', () => {
     expect(selectors.getStatusMessage.projector(entryState)).toBe(anyMessage);
   });
 
-  it('should select the entry list', () => {
-    const entryList = [];
-    const entryState = { entryList };
+  it('should select the time entries data source', () => {
+    const timeEntriesDataSource = { isLoading: false, data: [] };
+    const entryState = { timeEntriesDataSource };
 
-    expect(selectors.allEntries.projector(entryState)).toBe(entryList);
+    expect(selectors.getTimeEntriesDataSource.projector(entryState)).toEqual(timeEntriesDataSource);
   });
 
-  it('should select the entries for report', () => {
-    const entryList = [];
-    const entryState = { entriesForReport: entryList };
+  it('should select the report data source', () => {
+    const reportDataSource = { isLoading: false, data: []};
+    const entryState = { reportDataSource };
 
-    expect(selectors.entriesForReport.projector(entryState)).toBe(entryList);
+    expect(selectors.getReportDataSource.projector(entryState)).toEqual(reportDataSource);
   });
 
 });

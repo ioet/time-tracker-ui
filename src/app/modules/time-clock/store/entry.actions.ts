@@ -1,7 +1,7 @@
-import { TimeEntriesSummary } from '../models/time.entry.summary';
 import { Action } from '@ngrx/store';
-import { NewEntry, Entry } from '../../shared/models';
+import { Entry, NewEntry } from '../../shared/models';
 import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
+import { TimeEntriesSummary } from '../models/time.entry.summary';
 
 export enum EntryActionTypes {
   LOAD_ENTRIES_SUMMARY = '[Entry] LOAD_ENTRIES_SUMMARY',

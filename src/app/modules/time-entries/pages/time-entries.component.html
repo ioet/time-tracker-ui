@@ -16,7 +16,7 @@
   <app-month-picker (monthSelected)="getMonth($event)"></app-month-picker>
   <div style="height: 15px;"></div>
 
-  <table class="table table-sm table-striped mb-0">
+  <table class="table table-sm table-striped mb-0" *ngIf="(timeEntriesDataSource$ | async) as dataSource">
     <thead class="thead-blue">
       <tr class="d-flex">
         <th class="col">Date</th>
@@ -27,8 +27,9 @@
         <th class="col"></th>
       </tr>
     </thead>
-    <tbody>
-      <tr class="d-flex" *ngFor="let entry of dataByMonth">
+    <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
+    <tbody *ngIf="!dataSource.isLoading">
+      <tr class="d-flex" *ngFor="let entry of dataSource.data">
         <td class="col">{{ entry.start_date | date: 'MM/dd/yyyy' }}</td>
         <td class="col">{{ entry.start_date | date: 'HH:mm' }} - {{ entry.end_date | date: 'HH:mm' }}</td>
         <td class="col">{{ entry.end_date | substractDate: entry.start_date }}</td>

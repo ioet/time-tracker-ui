@@ -1,11 +1,13 @@
 import { formatDate } from '@angular/common';
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {EntryState} from '../../../time-clock/store/entry.reducer';
-import {entriesForReport} from '../../../time-clock/store/entry.selectors';
-import {Subject} from 'rxjs';
-import {DataTableDirective} from 'angular-datatables';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
+import { Observable, Subject } from 'rxjs';
+import { Entry } from 'src/app/modules/shared/models';
+import { DataSource } from 'src/app/modules/shared/models/data-source.model';
+import { EntryState } from '../../../time-clock/store/entry.reducer';
+import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
 
 @Component({
   selector: 'app-time-entries-table',
@@ -13,8 +15,6 @@ import * as moment from 'moment';
   styleUrls: ['./time-entries-table.component.scss']
 })
 export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
-  data = [];
-
   dtOptions: any = {
     scrollY: '600px',
     paging: false,
@@ -24,44 +24,46 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       'print',
       {
         extend: 'excel',
-        exportOptions:  {
+        exportOptions: {
           format: {
-              body: ( data, row, column, node ) => {
-                  return column === 3 ?
-                      moment.duration(data).asHours().toFixed(4).slice(0, -1) :
-                      data;
-              }
-          }},
+            body: (data, row, column, node) => {
+              return column === 3 ?
+                moment.duration(data).asHours().toFixed(4).slice(0, -1) :
+                data;
+            }
+          }
+        },
         text: 'Excel',
-        filename: `time-entries-${ formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en') }`
+        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
       {
         extend: 'csv',
-        exportOptions:  {
+        exportOptions: {
           format: {
-              body: ( data, row, column, node ) => {
-                  return column === 3 ?
-                      moment.duration(data).asHours().toFixed(4).slice(0, -1) :
-                      data;
-              }
-          }},
+            body: (data, row, column, node) => {
+              return column === 3 ?
+                moment.duration(data).asHours().toFixed(4).slice(0, -1) :
+                data;
+            }
+          }
+        },
         text: 'CSV',
-        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en') }`
+        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       }
     ]
   };
-
   dtTrigger: Subject<any> = new Subject();
-  @ViewChild(DataTableDirective, {static: false})
+  @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
+  isLoading$: Observable<boolean>;
+  reportDataSource$: Observable<DataSource<Entry>>;
 
   constructor(private store: Store<EntryState>) {
+    this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
   }
 
   ngOnInit(): void {
-    const dataForReport$ = this.store.pipe(select(entriesForReport));
-    dataForReport$.subscribe((response) => {
-      this.data = response;
+    this.reportDataSource$.subscribe((ds) => {
       this.rerenderDataTable();
     });
   }

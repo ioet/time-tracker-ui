@@ -1,7 +1,7 @@
-import * as actions from './entry.actions';
 import * as moment from 'moment';
-import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
 import { Entry } from '../../shared/models';
+import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
+import * as actions from './entry.actions';
 
 describe('Actions for Entries', () => {
   let entry: Entry;
@@ -12,6 +12,7 @@ describe('Actions for Entries', () => {
       end_date: new Date(),
       activity_id: '',
       technologies: ['abc', 'abc'],
+      project_name: 'time-tracker'
     };
   });
 

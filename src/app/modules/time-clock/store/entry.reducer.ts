@@ -1,16 +1,17 @@
-import { TimeEntriesSummary, TimeDetails } from '../models/time.entry.summary';
-import { EntryActions, EntryActionTypes } from './entry.actions';
 import { Entry } from '../../shared/models';
+import { DataSource } from '../../shared/models/data-source.model';
+import { TimeDetails, TimeEntriesSummary } from '../models/time.entry.summary';
+import { EntryActions, EntryActionTypes } from './entry.actions';
 
 export interface EntryState {
   active: Entry;
-  entryList: Entry[];
   isLoading: boolean;
   message: string;
   createError: boolean;
   updateError: boolean;
   timeEntriesSummary: TimeEntriesSummary;
-  entriesForReport: Entry[];
+  reportDataSource: DataSource<Entry>;
+  timeEntriesDataSource: DataSource<Entry>;
 }
 
 const emptyTimeDetails: TimeDetails = { hours: '--:--', minutes: '--:--', seconds: '--:--' };
@@ -18,16 +19,22 @@ const emptyTimeEntriesSummary: TimeEntriesSummary = { day: emptyTimeDetails, wee
 
 export const initialState = {
   active: null,
-  entryList: [],
   isLoading: false,
   message: '',
   createError: null,
   updateError: null,
   timeEntriesSummary: emptyTimeEntriesSummary,
-  entriesForReport: []
+  reportDataSource: {
+    data: new Array<Entry>(),
+    isLoading: false
+  },
+  timeEntriesDataSource: {
+    data: new Array<Entry>(),
+    isLoading: false
+  }
 };
 
-export const entryReducer = (state: EntryState = initialState, action: EntryActions) => {
+export const entryReducer = (state: EntryState = initialState, action: EntryActions): EntryState => {
   switch (action.type) {
     case EntryActionTypes.LOAD_ENTRIES_SUMMARY: {
       return {
@@ -69,22 +76,30 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
     case EntryActionTypes.LOAD_ENTRIES: {
       return {
         ...state,
-        isLoading: true,
+        timeEntriesDataSource: {
+          data: [],
+          isLoading: true
+        }
       };
     }
     case EntryActionTypes.LOAD_ENTRIES_SUCCESS:
       return {
         ...state,
-        entryList: action.payload,
-        isLoading: false,
+        timeEntriesDataSource: {
+          data: action.payload,
+          isLoading: false
+        }
+
       };
 
     case EntryActionTypes.LOAD_ENTRIES_FAIL: {
       return {
         ...state,
-        entryList: [],
-        isLoading: false,
         message: 'Something went wrong fetching entries!',
+        timeEntriesDataSource: {
+          data: [],
+          isLoading: false
+        }
       };
     }
 
@@ -96,21 +111,27 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
     }
 
     case EntryActionTypes.CREATE_ENTRY_SUCCESS: {
-      const entryList = [action.payload, ...state.entryList];
+      const entryList = [action.payload, ...state.timeEntriesDataSource.data];
       entryList.sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
       if (action.payload.end_date === null || action.payload.end_date === undefined) {
         return {
           ...state,
           active: action.payload,
-          entryList,
           isLoading: false,
+          timeEntriesDataSource: {
+            data: entryList,
+            isLoading: false,
+          },
           createError: false,
         };
       } else {
         return {
           ...state,
-          entryList,
           isLoading: false,
+          timeEntriesDataSource: {
+            data: entryList,
+            isLoading: false,
+          },
           createError: false,
         };
       }
@@ -133,11 +154,14 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
     }
 
     case EntryActionTypes.DELETE_ENTRY_SUCCESS: {
-      const entryList = state.entryList.filter((entry) => entry.id !== action.entryId);
+      const entryList = state.reportDataSource.data.filter((entry) => entry.id !== action.entryId);
       return {
         ...state,
-        entryList,
         isLoading: false,
+        timeEntriesDataSource: {
+          data: entryList,
+          isLoading: false,
+        },
         message: 'ProjectType removed successfully!',
       };
     }
@@ -158,13 +182,16 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
     }
 
     case EntryActionTypes.UPDATE_ENTRY_SUCCESS: {
-      const entryList = [...state.entryList];
+      const entryList = [...state.timeEntriesDataSource.data];
       const index = entryList.findIndex((entry) => entry.id === action.payload.id);
       entryList[index] = action.payload;
       entryList.sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
       return {
         ...state,
-        entryList,
+        timeEntriesDataSource: {
+          data: entryList,
+          isLoading: false,
+        },
         isLoading: false,
         updateError: false,
       };
@@ -221,20 +248,30 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       return {
         ...state,
         isLoading: true,
+        reportDataSource: {
+          data: [],
+          isLoading: true
+        }
       };
     }
     case EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS:
       return {
         ...state,
-        entriesForReport: action.payload,
         isLoading: false,
+        reportDataSource: {
+          data: action.payload,
+          isLoading: false
+        }
       };
 
     case EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_FAIL: {
       return {
         ...state,
-        entriesForReport: [],
         isLoading: false,
+        reportDataSource: {
+          data: [],
+          isLoading: false
+        }
       };
     }
 

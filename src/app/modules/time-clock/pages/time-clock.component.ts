@@ -1,13 +1,13 @@
-import { filter } from 'rxjs/operators';
-import { getActiveTimeEntry } from './../store/entry.selectors';
-import { StopTimeEntryRunning, EntryActionTypes, LoadEntriesSummary } from './../store/entry.actions';
-import { Entry } from './../../shared/models/entry.model';
-import { Store, select, ActionsSubject } from '@ngrx/store';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
-import { Subscription } from 'rxjs';
-import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
+import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
+import { Entry } from './../../shared/models/entry.model';
+import { EntryActionTypes, LoadEntriesSummary, StopTimeEntryRunning } from './../store/entry.actions';
+import { getActiveTimeEntry } from './../store/entry.selectors';
 @Component({
   selector: 'app-time-clock',
   templateUrl: './time-clock.component.html',

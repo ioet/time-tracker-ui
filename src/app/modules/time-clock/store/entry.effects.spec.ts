@@ -1,22 +1,22 @@
-import { INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
+import { DatePipe } from '@angular/common';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { EntryEffects } from './entry.effects';
-import { Observable, of, throwError } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { Action } from '@ngrx/store';
-import { DatePipe } from '@angular/common';
-import { EntryActionTypes, SwitchTimeEntry } from './entry.actions';
-import { EntryService } from '../services/entry.service';
-import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
 import * as moment from 'moment';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { Observable, of, throwError } from 'rxjs';
+import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
+import { EntryService } from '../services/entry.service';
+import { INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
+import { EntryActionTypes, SwitchTimeEntry } from './entry.actions';
+import { EntryEffects } from './entry.effects';
 
 describe('TimeEntryActionEffects', () => {
 
   let actions$: Observable<Action>;
   let effects: EntryEffects;
-  let service;
+  let service: EntryService;
   let toastrService;
 
   beforeEach(() => {
@@ -52,7 +52,7 @@ describe('TimeEntryActionEffects', () => {
   it('returns an action with type LOAD_ENTRIES_SUMMARY_SUCCESS when the service returns a value', () => {
     actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_SUMMARY});
     const serviceSpy = spyOn(service, 'summary');
-    serviceSpy.and.returnValue(of({}));
+    serviceSpy.and.returnValue(of({day: null, month: null, week: null }));
 
     effects.loadEntriesSummary$.subscribe(action => {
       expect(action.type).toEqual(EntryActionTypes.LOAD_ENTRIES_SUMMARY_SUCCESS);

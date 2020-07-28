@@ -5,19 +5,25 @@ import { entryReducer, EntryState } from './entry.reducer';
 
 describe('entryReducer', () => {
 
-  const emptyTimeDetails: TimeDetails = {hours: '--:--', minutes: '--:--', seconds: '--:--'};
-  const emptyTimeEntriesSummary: TimeEntriesSummary = {day: emptyTimeDetails, week: emptyTimeDetails, month: emptyTimeDetails};
+  const emptyTimeDetails: TimeDetails = { hours: '--:--', minutes: '--:--', seconds: '--:--' };
+  const emptyTimeEntriesSummary: TimeEntriesSummary = { day: emptyTimeDetails, week: emptyTimeDetails, month: emptyTimeDetails };
 
 
   const initialState: EntryState = {
     active: null,
-    entryList: [],
     isLoading: false,
     message: '',
     createError: null,
     updateError: null,
     timeEntriesSummary: emptyTimeEntriesSummary,
-    entriesForReport: []
+    timeEntriesDataSource: {
+      data: [],
+      isLoading: false,
+    },
+    reportDataSource: {
+      data: [],
+      isLoading: false,
+    }
   };
 
   const newEntry: NewEntry = {
@@ -36,6 +42,7 @@ describe('entryReducer', () => {
     start_date: new Date(),
     end_date: new Date(),
     activity_id: 'activity',
+    project_name: 'time-tracker'
   };
 
   const entriesList: Entry[] = [entry];
@@ -78,9 +85,15 @@ describe('entryReducer', () => {
   });
 
   it('on LoadActiveEntrySuccess, activeEntryFound are saved in the store', () => {
-    const activeEntryFound: NewEntry[] = [
-      {project_id: '123', description: 'description', technologies: ['angular', 'javascript'], activity_id: 'xyz'},
-    ];
+    const activeEntryFound: Entry = {
+      id: '0000',
+      project_id: '123',
+      project_name: 'time-tracker',
+      description: 'description',
+      technologies: ['angular', 'javascript'],
+      activity_id: 'xyz',
+      start_date: new Date()
+    };
     const action = new actions.LoadActiveEntrySuccess(activeEntryFound);
     const state = entryReducer(initialState, action);
     expect(state.active).toEqual(activeEntryFound);
@@ -96,7 +109,7 @@ describe('entryReducer', () => {
   it('on LoadEntries, isLoading is true', () => {
     const action = new actions.LoadEntries(new Date().getMonth() + 1);
     const state = entryReducer(initialState, action);
-    expect(state.isLoading).toEqual(true);
+    expect(state.timeEntriesDataSource.isLoading).toEqual(true);
   });
 
   it('on LoadEntriesSuccess, get all Entries', () => {
@@ -104,17 +117,17 @@ describe('entryReducer', () => {
 
     const state = entryReducer(initialState, action);
 
-    expect(state.entryList).toEqual(entriesList);
+    expect(state.timeEntriesDataSource.data).toEqual(entriesList);
   });
 
-  it('on LoadEntriesFail, active tobe null', () => {
+  it('on LoadEntriesFail, active to be null', () => {
     const action = new actions.LoadEntriesFail('error');
     const state = entryReducer(initialState, action);
-    expect(state.entryList).toEqual([]);
+    expect(state.timeEntriesDataSource.data).toEqual([]);
   });
 
   it('on CreateEntry, isLoading is true', () => {
-    const entryToCreate: NewEntry = {project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00'};
+    const entryToCreate: NewEntry = { project_id: '1', start_date: '2020-04-21T19:51:36.559000+00:00' };
     const action = new actions.CreateEntry(entryToCreate);
     const state = entryReducer(initialState, action);
 
@@ -122,7 +135,7 @@ describe('entryReducer', () => {
   });
 
   it('on CreateEntrySuccess, if end_date is null then it is the active entry', () => {
-    const entryCreated: Entry = { ... entry };
+    const entryCreated: Entry = { ...entry };
     entryCreated.end_date = null;
     const action = new actions.CreateEntrySuccess(entryCreated);
 
@@ -132,7 +145,7 @@ describe('entryReducer', () => {
   });
 
   it('on CreateEntrySuccess, if end_date is undefined then it is the active entry', () => {
-    const entryCreated: Entry = { ... entry };
+    const entryCreated: Entry = { ...entry };
     entryCreated.end_date = undefined;
     const action = new actions.CreateEntrySuccess(entryCreated);
 
@@ -142,7 +155,7 @@ describe('entryReducer', () => {
   });
 
   it('on CreateEntrySuccess, if end_date has a value then it the active field is not updated', () => {
-    const activeEntry: Entry = { ... entry };
+    const activeEntry: Entry = { ...entry };
     initialState.active = activeEntry;
     const action = new actions.CreateEntrySuccess(entry);
 
@@ -155,7 +168,7 @@ describe('entryReducer', () => {
     const action = new actions.CreateEntryFail('error');
     const state = entryReducer(initialState, action);
 
-    expect(state.entryList).toEqual([]);
+    expect(state.timeEntriesDataSource.data).toEqual([]);
     expect(state.isLoading).toEqual(false);
   });
 
@@ -166,17 +179,17 @@ describe('entryReducer', () => {
   });
 
   it('on DeleteEntrySuccess', () => {
-    const currentState = {...initialState, entryList: entriesList};
+    const currentState = { ...initialState, entryList: entriesList };
     const action = new actions.DeleteEntrySuccess('id');
 
     const state = entryReducer(currentState, action);
-    expect(state.entryList).toEqual([]);
+    expect(state.timeEntriesDataSource.data).toEqual([]);
   });
 
   it('on LoadEntriesFail, active tobe null', () => {
     const action = new actions.DeleteEntryFail('error');
     const state = entryReducer(initialState, action);
-    expect(state.entryList).toEqual([]);
+    expect(state.timeEntriesDataSource.data).toEqual([]);
   });
 
   it('on UpdateActiveEntry, isLoading is true', () => {
@@ -255,7 +268,7 @@ describe('entryReducer', () => {
 
     const state = entryReducer(initialState, action);
 
-    expect(state.entriesForReport).toEqual(payload);
+    expect(state.reportDataSource.data).toEqual(payload);
   });
 
   it('on LoadEntriesByTimeRangeFail, the state has isLoading is false and the entriesForReport is an empty array ', () => {
@@ -264,6 +277,6 @@ describe('entryReducer', () => {
     const state = entryReducer(initialState, action);
 
     expect(state.isLoading).toBeFalse();
-    expect(state.entriesForReport).toEqual([]);
+    expect(state.reportDataSource.data).toEqual([]);
   });
 });

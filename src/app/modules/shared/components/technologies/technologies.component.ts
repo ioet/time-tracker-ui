@@ -1,11 +1,9 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
-import * as actions from '../../store/technology.actions';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {TechnologyState} from '../../store/technology.reducers';
-import {allTechnologies} from '../../store/technology.selectors';
-import {Technology} from '../../models';
-
-
+import { Technology } from '../../models';
+import * as actions from '../../store/technology.actions';
+import { TechnologyState } from '../../store/technology.reducers';
+import { allTechnologies } from '../../store/technology.selectors';
 @Component({
   selector: 'app-technologies',
   templateUrl: './technologies.component.html',

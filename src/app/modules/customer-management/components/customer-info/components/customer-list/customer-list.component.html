@@ -11,11 +11,16 @@
       <th class="col-3 text-center">Options</th>
     </tr>
   </thead>
-  <tbody>
+  <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
+  <tbody *ngIf="((isLoading$ | async) === false)">
     <tr class="d-flex" *ngFor="let customer of customers">
       <td class="col-sm-9">{{ customer.name }}</td>
       <td class="col-sm-3 text-center">
-        <button (click)="editCustomer(customer.id)" type="button" class="btn btn-sm btn-primary">
+        <button
+          (click)="editCustomer(customer.id)"
+          type="button"
+          class="btn btn-sm btn-primary"
+        >
           <i class="fa fa-pencil fa-xs"></i>
         </button>
         <button

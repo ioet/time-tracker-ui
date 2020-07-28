@@ -1,16 +1,15 @@
-import { EntryActionTypes } from './../../time-clock/store/entry.actions';
-import { filter } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { getActiveTimeEntry } from './../../time-clock/store/entry.selectors';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Entry } from '../../shared/models';
-import { EntryState } from '../../time-clock/store/entry.reducer';
-import { allEntries } from '../../time-clock/store/entry.selectors';
-import { select, Store, ActionsSubject } from '@ngrx/store';
-import * as entryActions from '../../time-clock/store/entry.actions';
+import { Observable, Subscription } from 'rxjs';
+import { delay, filter } from 'rxjs/operators';
 import { SaveEntryEvent } from '../../shared/components/details-fields/save-entry-event';
-import { Subscription } from 'rxjs';
-
+import { Entry } from '../../shared/models';
+import { DataSource } from '../../shared/models/data-source.model';
+import * as entryActions from '../../time-clock/store/entry.actions';
+import { EntryState } from '../../time-clock/store/entry.reducer';
+import { EntryActionTypes } from './../../time-clock/store/entry.actions';
+import { getActiveTimeEntry, getTimeEntriesDataSource } from './../../time-clock/store/entry.selectors';
 @Component({
   selector: 'app-time-entries',
   templateUrl: './time-entries.component.html',
@@ -19,15 +18,16 @@ import { Subscription } from 'rxjs';
 export class TimeEntriesComponent implements OnInit, OnDestroy {
   entryId: string;
   entry: Entry;
-  dataByMonth = [];
   activeTimeEntry: Entry;
   showModal = false;
   message: string;
   idToDelete: string;
   entriesSubscription: Subscription;
   canMarkEntryAsWIP = true;
+  timeEntriesDataSource$: Observable<DataSource<Entry>>;
 
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
+    this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
   }
 
   ngOnDestroy(): void {
@@ -36,30 +36,25 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
-    const dataByMonth$ = this.store.pipe(select(allEntries));
-    dataByMonth$.subscribe((response) => {
-      this.dataByMonth = response;
-    });
     this.loadActiveEntry();
 
     this.entriesSubscription = this.actionsSubject$.pipe(
       filter((action: any) => (
-          action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
-          action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS ||
-          action.type === EntryActionTypes.DELETE_ENTRY_SUCCESS
-        )
+        action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
+        action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS ||
+        action.type === EntryActionTypes.DELETE_ENTRY_SUCCESS
+      )
       )
     ).subscribe((action) => {
       this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     });
-
   }
 
   newEntry() {
     this.entry = null;
     this.entryId = null;
-    this.store.pipe(select(allEntries)).subscribe(entries => {
-      this.canMarkEntryAsWIP = !this.isThereAnEntryRunning(entries);
+    this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
+      this.canMarkEntryAsWIP = !this.isThereAnEntryRunning(ds.data);
     });
   }
 
@@ -74,11 +69,10 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
 
   editEntry(entryId: string) {
     this.entryId = entryId;
-    this.entry = this.dataByMonth.find((entry) => entry.id === entryId);
-    this.store.pipe(select(allEntries)).subscribe(entries => {
-      this.canMarkEntryAsWIP = this.isEntryRunningEqualsToEntryToEdit(this.getEntryRunning(entries), this.entry)
-        || this.isEntryToEditTheLastOne(entries);
-
+    this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
+      this.entry = ds.data.find((entry) => entry.id === entryId);
+      this.canMarkEntryAsWIP = this.isEntryRunningEqualsToEntryToEdit(this.getEntryRunning(ds.data), this.entry)
+        || this.isTheEntryToEditTheLastOne(ds.data);
     });
   }
 
@@ -90,8 +84,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  private isEntryToEditTheLastOne(entries: Entry[]) {
+  private isTheEntryToEditTheLastOne(entries: Entry[]) {
     if (entries && entries.length > 0) {
       const lastEntry = entries[0];
       return lastEntry.id === this.entryId;
