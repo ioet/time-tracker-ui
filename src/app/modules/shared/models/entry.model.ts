@@ -11,7 +11,7 @@ export interface Entry {
   owner_email?: string;
 
   project_id?: string;
-  project_name: string;
+  project_name?: string;
 
   customer_id?: string;
   customer_name?: string;

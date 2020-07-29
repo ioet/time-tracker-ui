@@ -29,8 +29,8 @@ export class EntryEffects {
           });
         }),
         catchError((error) => {
-          this.toastrService.warning(error.error.message);
-          return of(new actions.StopTimeEntryRunningFail(error.error.message));
+          this.toastrService.warning('We could not perform this operation, try again later');
+          return of(new actions.StopTimeEntryRunningFail(error));
         })
       )
     )
@@ -71,6 +71,8 @@ export class EntryEffects {
               endDate.setHours(23, 59, 59);
               return new actions.UpdateEntry({ id: activeEntry.id, end_date: endDate.toISOString() });
             }
+          } else {
+            return new actions.LoadActiveEntryFail('No active entry found');
           }
         }),
         catchError((error) => {
@@ -120,8 +122,8 @@ export class EntryEffects {
   @Effect()
   clockIn$: Observable<Action> = this.actions$.pipe(
     ofType(actions.EntryActionTypes.CLOCK_IN),
-    map((action: actions.CreateEntry) => action.payload),
-    mergeMap((entry: NewEntry) =>
+    map((action: actions.ClockIn) => action.payload),
+    mergeMap((entry) =>
       this.entryService.findEntriesByProjectId(entry.project_id).pipe(
         map((entriesFound) => {
           if (entriesFound && entriesFound.length > 0) {
@@ -177,7 +179,6 @@ export class EntryEffects {
       )
     )
   );
-
 
   @Effect()
   updateEntryRunning$: Observable<Action> = this.actions$.pipe(

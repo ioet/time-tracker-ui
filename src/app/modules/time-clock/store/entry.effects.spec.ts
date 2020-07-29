@@ -1,3 +1,5 @@
+import { NewEntry } from './../../shared/models/entry.model';
+import { Entry } from 'src/app/modules/shared/models';
 import { DatePipe } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
@@ -9,7 +11,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
 import { EntryService } from '../services/entry.service';
 import { INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
-import { EntryActionTypes, SwitchTimeEntry } from './entry.actions';
+import { EntryActionTypes, SwitchTimeEntry, DeleteEntry, CreateEntry } from './entry.actions';
 import { EntryEffects } from './entry.effects';
 
 describe('TimeEntryActionEffects', () => {
@@ -18,6 +20,7 @@ describe('TimeEntryActionEffects', () => {
   let effects: EntryEffects;
   let service: EntryService;
   let toastrService;
+  const entry: Entry = { project_id: 'p-id', start_date: new Date(), id: 'id' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,21 +41,32 @@ describe('TimeEntryActionEffects', () => {
     expect(effects).toBeTruthy();
   });
 
-  it('stop the active entry and return a CreateEntryAction', async () => {
+  it('returns StopTimeEntryRunningFail when entry could not be stoped', (done) => {
     actions$ = of(new SwitchTimeEntry('entry-id', 'project-id'));
-    const serviceSpy = spyOn(service, 'stopEntryRunning');
-    serviceSpy.and.returnValue(of({}));
+    spyOn(service, 'stopEntryRunning').and.returnValue(throwError('any error'));
+
+    effects.switchEntryRunning$.subscribe(action => {
+      expect(action.type).toBe(EntryActionTypes.STOP_TIME_ENTRY_RUNNING_FAILED);
+      done();
+    });
+  });
+
+  it('stop the active entry and return a CreateEntryAction', (done) => {
+    actions$ = of(new SwitchTimeEntry('entry-id', 'project-id'));
+    spyOn(service, 'stopEntryRunning').and.returnValue(of({ end_date: new Date() }));
+    spyOn(service, 'createEntry').and.returnValue(of({}));
 
     effects.switchEntryRunning$.subscribe(action => {
       expect(service.stopEntryRunning).toHaveBeenCalledWith('entry-id');
       expect(action.type).toBe(EntryActionTypes.CREATE_ENTRY);
+      done();
     });
   });
 
   it('returns an action with type LOAD_ENTRIES_SUMMARY_SUCCESS when the service returns a value', () => {
-    actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_SUMMARY});
+    actions$ = of({ type: EntryActionTypes.LOAD_ENTRIES_SUMMARY });
     const serviceSpy = spyOn(service, 'summary');
-    serviceSpy.and.returnValue(of({day: null, month: null, week: null }));
+    serviceSpy.and.returnValue(of({ day: null, month: null, week: null }));
 
     effects.loadEntriesSummary$.subscribe(action => {
       expect(action.type).toEqual(EntryActionTypes.LOAD_ENTRIES_SUMMARY_SUCCESS);
@@ -60,7 +74,7 @@ describe('TimeEntryActionEffects', () => {
   });
 
   it('returns an action with type LOAD_ENTRIES_SUMMARY_FAIL when the service fails', () => {
-    actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_SUMMARY});
+    actions$ = of({ type: EntryActionTypes.LOAD_ENTRIES_SUMMARY });
     spyOn(service, 'summary').and.returnValue(throwError('any error'));
 
     effects.loadEntriesSummary$.subscribe(action => {
@@ -69,9 +83,9 @@ describe('TimeEntryActionEffects', () => {
   });
 
   it('When the service returns a value, then LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS should be triggered', () => {
-    const timeRange: TimeEntriesTimeRange = {start_date: moment(new Date()), end_date: moment(new Date())};
+    const timeRange: TimeEntriesTimeRange = { start_date: moment(new Date()), end_date: moment(new Date()) };
     const userId = '*';
-    actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange, userId});
+    actions$ = of({ type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange, userId });
     const serviceSpy = spyOn(service, 'loadEntriesByTimeRange');
     serviceSpy.and.returnValue(of([]));
 
@@ -82,9 +96,9 @@ describe('TimeEntryActionEffects', () => {
   });
 
   it('When the service fails, then LOAD_ENTRIES_BY_TIME_RANGE_FAIL should be triggered', async () => {
-    const timeRange: TimeEntriesTimeRange = {start_date: moment(new Date()), end_date: moment(new Date())};
+    const timeRange: TimeEntriesTimeRange = { start_date: moment(new Date()), end_date: moment(new Date()) };
     const userId = '*';
-    actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange, userId});
+    actions$ = of({ type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange, userId });
     spyOn(service, 'loadEntriesByTimeRange').and.returnValue(throwError('any error'));
 
     effects.loadEntriesByTimeRange$.subscribe(action => {
@@ -93,21 +107,30 @@ describe('TimeEntryActionEffects', () => {
   });
 
   it('returns a LOAD_ACTIVE_ENTRY_SUCCESS when the entry that is running it is in the same day', async () => {
-    const activeEntry = {id: '123', start_date: new Date()};
-    actions$ = of({type: EntryActionTypes.LOAD_ACTIVE_ENTRY, activeEntry});
+    actions$ = of({ type: EntryActionTypes.LOAD_ACTIVE_ENTRY });
     const serviceSpy = spyOn(service, 'loadActiveEntry');
-    serviceSpy.and.returnValue(of(activeEntry));
+    serviceSpy.and.returnValue(of(entry));
 
     effects.loadActiveEntry$.subscribe(action => {
       expect(action.type).toEqual(EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS);
     });
   });
 
+  it('does not return anything if an entry active is not found', async () => {
+    actions$ = of({ type: EntryActionTypes.LOAD_ACTIVE_ENTRY });
+    const serviceSpy = spyOn(service, 'loadActiveEntry');
+    serviceSpy.and.returnValue(of([]));
+
+    effects.loadActiveEntry$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.LOAD_ACTIVE_ENTRY_FAIL);
+    });
+  });
+
   it('returns a UPDATE_ENTRY when the entry that is running it is in the past', async () => {
     const startDateInPast = new Date();
     startDateInPast.setDate(startDateInPast.getDate() - 5);
-    const activeEntry = {id: '123', start_date: startDateInPast};
-    actions$ = of({type: EntryActionTypes.LOAD_ACTIVE_ENTRY, activeEntry});
+    const activeEntry = { id: '123', start_date: startDateInPast };
+    actions$ = of({ type: EntryActionTypes.LOAD_ACTIVE_ENTRY, activeEntry });
     const serviceSpy = spyOn(service, 'loadActiveEntry');
     serviceSpy.and.returnValue(of(activeEntry));
 
@@ -117,47 +140,128 @@ describe('TimeEntryActionEffects', () => {
   });
 
   it('display a success message on UPDATE_ENTRY', async () => {
-    const activeEntry = {};
-    actions$ = of({type: EntryActionTypes.UPDATE_ENTRY, activeEntry});
+    actions$ = of({ type: EntryActionTypes.UPDATE_ENTRY, entry });
     spyOn(toastrService, 'success');
+    spyOn(service, 'updateEntry').and.returnValue(of(entry));
 
     effects.updateEntry$.subscribe(action => {
       expect(toastrService.success).toHaveBeenCalledWith(INFO_SAVED_SUCCESSFULLY);
+      expect(action.type).toEqual(EntryActionTypes.UPDATE_ENTRY_SUCCESS);
+    });
+  });
+
+  it('UPDATE_ENTRY_FAIL when service fails', async () => {
+    actions$ = of({ type: EntryActionTypes.UPDATE_ENTRY, entry });
+    spyOn(service, 'updateEntry').and.returnValue(throwError({ error: { message: 'doh!' } }));
+
+    effects.updateEntry$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.UPDATE_ENTRY_FAIL);
     });
   });
 
   it('does not display any message on UPDATE_ENTRY_RUNNING', async () => {
-    const activeEntry = {};
-    actions$ = of({type: EntryActionTypes.UPDATE_ENTRY_RUNNING, activeEntry});
+    actions$ = of({ type: EntryActionTypes.UPDATE_ENTRY_RUNNING, entry });
+    spyOn(service, 'updateEntry').and.returnValue(of({}));
     spyOn(toastrService, 'success');
 
-    effects.updateEntry$.subscribe(action => {
+    effects.updateEntryRunning$.subscribe(action => {
       expect(toastrService.success).toHaveBeenCalledTimes(0);
+      expect(action.type).toBe(EntryActionTypes.UPDATE_ENTRY_SUCCESS);
     });
   });
 
-  // it('When the service returns a value, then RESTART_ENTRY_SUCCESS should be triggered', () => {
+  it('display an error when updating running entry fails', async () => {
+    actions$ = of({ type: EntryActionTypes.UPDATE_ENTRY_RUNNING, entry });
+    spyOn(service, 'updateEntry').and.returnValue(throwError({ error: { message: 'doh!' } }));
+    spyOn(toastrService, 'error');
 
-  //   const entryId = '123';
-  //   actions$ = of({type: EntryActionTypes.RESTART_ENTRY, entryId});
-  //   const serviceSpy = spyOn(service, 'restartEntry');
-  //   serviceSpy.and.returnValue(of({ id: entryId }));
+    effects.updateEntryRunning$.subscribe(action => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toBe(EntryActionTypes.UPDATE_ENTRY_FAIL);
+    });
+  });
 
-  //   effects.restartEntry$.subscribe(action => {
-  //     expect(action.type).toEqual(EntryActionTypes.RESTART_ENTRY_SUCCESS);
-  //   });
+  it('When the service returns a value, then RESTART_ENTRY_SUCCESS should be triggered', () => {
+    actions$ = of({ type: EntryActionTypes.RESTART_ENTRY, entry });
+    spyOn(service, 'restartEntry').and.returnValue(of(entry));
 
-  // });
+    effects.restartEntry$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.RESTART_ENTRY_SUCCESS);
+    });
+
+  });
 
   it('When the service fails, then RESTART_ENTRY_FAIL should be triggered', async () => {
-    const entryId = '123';
-    actions$ = of({type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, entryId});
-    spyOn(service, 'restartEntry').and.returnValue(throwError('any error'));
+    actions$ = of({ type: EntryActionTypes.RESTART_ENTRY, entry });
+    spyOn(service, 'restartEntry').and.returnValue(throwError({ error: { message: 'doh!' } }));
 
     effects.restartEntry$.subscribe(action => {
       expect(action.type).toEqual(EntryActionTypes.RESTART_ENTRY_FAIL);
     });
   });
+
+  it('data from old entries is used when entries are found for the same project', async () => {
+    const newEntry: NewEntry = { project_id: 'p-id', start_date: new Date().toISOString() };
+    actions$ = of({ type: EntryActionTypes.CLOCK_IN, payload: newEntry });
+    spyOn(service, 'findEntriesByProjectId').and.returnValue(of([entry]));
+
+    effects.clockIn$.subscribe(action => {
+      expect(action.type).toBe(EntryActionTypes.CREATE_ENTRY);
+    });
+  });
+
+  it('when an existing entry has technologies, those are used to create the new entry', async () => {
+    const newEntry: NewEntry = { project_id: 'p-id', start_date: new Date().toISOString() };
+    actions$ = of({ type: EntryActionTypes.CLOCK_IN, payload: newEntry });
+    const oldEntry = { ...entry, technologies: ['foo']};
+    spyOn(service, 'findEntriesByProjectId').and.returnValue(of([oldEntry]));
+
+    effects.clockIn$.subscribe( (action: CreateEntry) => {
+      expect(action.type).toBe(EntryActionTypes.CREATE_ENTRY);
+      expect(action.payload.technologies).toBe(oldEntry.technologies);
+    });
+  });
+
+  it('findEntriesByProjectId when clockIn', async () => {
+    const newEntry: NewEntry = { project_id: 'p-id' };
+    actions$ = of({ type: EntryActionTypes.CLOCK_IN, payload: newEntry });
+    spyOn(service, 'findEntriesByProjectId').and.returnValue(of([]));
+
+    effects.clockIn$.subscribe(action => {
+      expect(service.findEntriesByProjectId).toHaveBeenCalledWith('p-id');
+    });
+  });
+
+  it('CreateEntryFailError when projects could not be found', async () => {
+    const newEntry: NewEntry = { project_id: 'p-id' };
+    actions$ = of({ type: EntryActionTypes.CLOCK_IN, payload: newEntry });
+    spyOn(service, 'findEntriesByProjectId').and.returnValue(throwError({ error: { message: 'doh!' } }));
+
+    effects.clockIn$.subscribe(action => {
+      expect(action.type).toBe(EntryActionTypes.CREATE_ENTRY_FAIL);
+    });
+  });
+
+  it('call deleteEntry from service when action type is DELETE_ENTRY', async () => {
+    actions$ = of( new DeleteEntry('entryId'));
+    spyOn(toastrService, 'success');
+    spyOn(service, 'deleteEntry').and.returnValue(of({}));
+
+    effects.deleteEntry$.subscribe(action => {
+      expect(action.type).toBe(EntryActionTypes.DELETE_ENTRY_SUCCESS);
+    });
+  });
+
+  it('action type is DELETE_ENTRY_FAIL When the service fails', async () => {
+    const entryId = 'entry-id';
+    actions$ = of({type: EntryActionTypes.DELETE_ENTRY, entryId});
+    spyOn(service, 'deleteEntry').and.returnValue(throwError({ error: { message: 'doh!' } }));
+
+    effects.deleteEntry$.subscribe( action => {
+      expect(action.type).toEqual(EntryActionTypes.DELETE_ENTRY_FAIL);
+    });
+  });
+
 
   // TODO Implement the remaining unit tests for the other effects.
 
