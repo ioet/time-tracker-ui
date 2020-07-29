@@ -1,15 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ToastrService, IndividualConfig } from 'ngx-toastr';
+import { SwitchTimeEntry, ClockIn } from './../../store/entry.actions';
 import { FormBuilder } from '@angular/forms';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { IndividualConfig, ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
-import { CreateEntry, UpdateEntryRunning } from '../../store/entry.actions';
-import { SwitchTimeEntry } from './../../store/entry.actions';
+import { UpdateEntryRunning } from '../../store/entry.actions';
 import { ProjectListHoverComponent } from './project-list-hover.component';
 
 describe('ProjectListHoverComponent', () => {
@@ -68,7 +68,7 @@ describe('ProjectListHoverComponent', () => {
 
     component.clockIn(1, 'customer', 'project');
 
-    expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(CreateEntry));
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(ClockIn));
   });
 
   it('dispatch a UpdateEntryRunning action on updateProject', () => {
@@ -117,6 +117,7 @@ describe('ProjectListHoverComponent', () => {
     expect(component.projectsForm.setValue)
       .toHaveBeenCalledWith({ project_id: 'customer - xyz'});
   });
+
 
   // TODO Fix this test since it is throwing this error
   // Expected spy dispatch to have been called with:

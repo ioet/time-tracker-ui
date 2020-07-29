@@ -1,13 +1,15 @@
+import { LoadActiveEntry, EntryActionTypes } from './../../store/entry.actions';
+import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 
 import {TechnologyState} from '../../../shared/store/technology.reducers';
 import {allTechnologies} from '../../../shared/store/technology.selectors';
 import {EntryFieldsComponent} from './entry-fields.component';
 import {ProjectState} from '../../../customer-management/components/projects/components/store/project.reducer';
 import {getCustomerProjects} from '../../../customer-management/components/projects/components/store/project.selectors';
-import * as entryActions from '../../store/entry.actions';
+import { ActionsSubject } from '@ngrx/store';
 
 describe('EntryFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState;
@@ -16,6 +18,8 @@ describe('EntryFieldsComponent', () => {
   let store: MockStore<Merged>;
   let mockTechnologySelector;
   let mockProjectsSelector;
+  let entryForm;
+  const actionSub: ActionsSubject = new ActionsSubject();
 
   const state = {
     projects: {
@@ -60,10 +64,11 @@ describe('EntryFieldsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EntryFieldsComponent],
-      providers: [provideMockStore({initialState: state})],
+      providers: [provideMockStore({initialState: state}), { provide: ActionsSubject, useValue: actionSub }],
       imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
+    entryForm = TestBed.inject(FormBuilder);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
   }));
@@ -96,12 +101,6 @@ describe('EntryFieldsComponent', () => {
     expect(component.selectedTechnologies).toEqual([]);
   });
 
-  it('should dispatch UpdateActiveEntry action #onSubmit', () => {
-    spyOn(store, 'dispatch');
-    component.onSubmit();
-    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.UpdateEntryRunning(entry));
-  });
-
   it('when a technology is added, then dispatch UpdateActiveEntry', () => {
     const addedTechnologies = ['react'];
     spyOn(store, 'dispatch');
@@ -120,4 +119,114 @@ describe('EntryFieldsComponent', () => {
     expect(store.dispatch).toHaveBeenCalled();
 
   });
+
+  it('uses the form to check if is valid or not', () => {
+    entryForm.valid = false;
+
+    const result = component.entryFormIsValidate();
+
+    expect(result).toBe(entryForm.valid);
+  });
+
+  it('dispatches an action when onSubmit is called', () => {
+    spyOn(store, 'dispatch');
+
+    component.onSubmit();
+
+    expect(store.dispatch).toHaveBeenCalled();
+  });
+
+  it('dispatches an action when onTechnologyRemoved is called', () => {
+    spyOn(store, 'dispatch');
+
+    component.onTechnologyRemoved(['foo']);
+
+    expect(store.dispatch).toHaveBeenCalled();
+  });
+
+
+  it('sets the technologies on the class when entry has technologies', () => {
+    const entryData = { ...entry, technologies: ['foo']};
+
+    component.setDataToUpdate(entryData);
+
+    expect(component.selectedTechnologies).toEqual(entryData.technologies);
+  });
+
+
+  it('activites are populated using the payload of the action', () => {
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS,
+      payload: [],
+    };
+
+    actionSubject.next(action);
+
+    expect(component.activities).toEqual(action.payload);
+  });
+
+  it('LoadActiveEntry is dispatchen after LOAD_ACTIVITIES_SUCCESS', () => {
+    spyOn(store, 'dispatch');
+
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS,
+      payload: [],
+    };
+
+    actionSubject.next(action);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new LoadActiveEntry());
+  });
+
+  it('when entry has an end_date null then LoadActiveEntry is dispatched', () => {
+    spyOn(store, 'dispatch');
+
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: EntryActionTypes.CREATE_ENTRY_SUCCESS,
+      payload: {end_date: null},
+    };
+
+    actionSubject.next(action);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new LoadActiveEntry());
+  });
+
+  it('when entry has an end_date then nothing is dispatched', () => {
+    spyOn(store, 'dispatch');
+
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: EntryActionTypes.CREATE_ENTRY_SUCCESS,
+      payload: {end_date: new Date()},
+    };
+
+    actionSubject.next(action);
+
+    expect(store.dispatch).toHaveBeenCalledTimes(0);
+  });
+
+  it('activeEntry is populated using the payload of LOAD_ACTIVE_ENTRY_SUCCESS', () => {
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS,
+      payload: entry,
+    };
+
+    actionSubject.next(action);
+
+    expect(component.activeEntry).toBe(action.payload);
+  });
+
+  it('if entryData is null selectedTechnologies is not modified', () => {
+    const initialTechnologies = ['foo', 'bar'];
+    component.selectedTechnologies = initialTechnologies;
+
+    component.setDataToUpdate(null);
+
+    expect(component.selectedTechnologies).toBe(initialTechnologies);
+  });
+
 });

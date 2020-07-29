@@ -83,7 +83,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       start_date: new Date().toISOString(),
       timezone_offset: new Date().getTimezoneOffset(),
     };
-    this.store.dispatch(new entryActions.CreateEntry(entry));
+    this.store.dispatch(new entryActions.ClockIn(entry));
     this.projectsForm.setValue( { project_id: `${customerName} - ${name}`, } );
   }
 

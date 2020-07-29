@@ -1,12 +1,14 @@
-import { getActiveTimeEntry } from './../../store/entry.selectors';
+import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
+import { EntryActionTypes, LoadActiveEntry } from './../../store/entry.actions';
+import { filter } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { Store, ActionsSubject } from '@ngrx/store';
 
 import { Activity, NewEntry } from '../../../shared/models';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { TechnologyState } from '../../../shared/store/technology.reducers';
-import { ActivityState, allActivities, LoadActivities } from '../../../activities-management/store';
+import { ActivityState, LoadActivities } from '../../../activities-management/store';
 
 import * as entryActions from '../../store/entry.actions';
 
@@ -24,36 +26,43 @@ export class EntryFieldsComponent implements OnInit {
   activeEntry;
   newData;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<Merged>) {
+  constructor(private formBuilder: FormBuilder, private store: Store<Merged>, private actionsSubject$: ActionsSubject) {
     this.entryForm = this.formBuilder.group({
       description: '',
       uri: '',
-      activity_id: '-1',
+      activity_id: '',
     });
   }
 
   ngOnInit(): void {
     this.store.dispatch(new LoadActivities());
-    const activities$ = this.store.pipe(select(allActivities));
-    activities$.subscribe((response) => {
-      this.activities = response;
-      this.loadActiveEntry();
-    });
-  }
 
-  loadActiveEntry() {
-    const activeEntry$ = this.store.pipe(select(getActiveTimeEntry));
-    activeEntry$.subscribe((response) => {
-      if (response) {
-        this.activeEntry = response;
-        this.setDataToUpdate(this.activeEntry);
-        this.newData = {
-          id: this.activeEntry.id,
-          project_id: this.activeEntry.project_id,
-          uri: this.activeEntry.uri,
-          activity_id: this.activeEntry.activity_id,
-        };
+    this.actionsSubject$.pipe(
+      filter((action: any) => (action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
+    ).subscribe((action) => {
+      this.activities = action.payload;
+      this.store.dispatch(new LoadActiveEntry());
+    });
+
+    this.actionsSubject$.pipe(
+      filter((action: any) => (action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS))
+    ).subscribe((action) => {
+      if (!action.payload.end_date) {
+        this.store.dispatch(new LoadActiveEntry());
       }
+    });
+
+    this.actionsSubject$.pipe(
+      filter((action: any) => ( action.type === EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS ))
+    ).subscribe((action) => {
+      this.activeEntry = action.payload;
+      this.setDataToUpdate(this.activeEntry);
+      this.newData = {
+        id: this.activeEntry.id,
+        project_id: this.activeEntry.project_id,
+        uri: this.activeEntry.uri,
+        activity_id: this.activeEntry.activity_id,
+      };
     });
   }
 

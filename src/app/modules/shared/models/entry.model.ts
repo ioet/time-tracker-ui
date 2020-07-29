@@ -1,17 +1,17 @@
 export interface Entry {
   running?: boolean;
-  id: string;
+  id?: string;
   start_date: Date;
   end_date?: Date;
   activity_id?: string;
-  technologies: string[];
+  technologies?: string[];
   uri?: string;
   activity_name?: string;
   description?: string;
   owner_email?: string;
 
   project_id?: string;
-  project_name: string;
+  project_name?: string;
 
   customer_id?: string;
   customer_name?: string;
