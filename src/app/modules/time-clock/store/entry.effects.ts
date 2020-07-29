@@ -136,8 +136,12 @@ export class EntryEffects {
           return new actions.CreateEntry(entry);
         }),
         catchError((error) => {
-          this.toastrService.error('We could not clock in you, try again later.');
-          return of(new actions.CreateEntryFail('Error'));
+          if (error.status === 404) {
+            return of(new actions.CreateEntry(entry));
+          } else {
+            this.toastrService.error('We could not clock in you, try again later.');
+            return of(new actions.CreateEntryFail('Error'));
+          }
         })
       )
     )
