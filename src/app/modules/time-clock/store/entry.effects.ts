@@ -1,4 +1,3 @@
-import { NewEntry } from './../../shared/models/entry.model';
 import { INFO_DELETE_SUCCESSFULLY, INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
