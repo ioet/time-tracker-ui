@@ -46,6 +46,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       )
       )
     ).subscribe((action) => {
+      this.loadActiveEntry();
       this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     });
   }
@@ -126,6 +127,8 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
       if (activeTimeEntry) {
         this.activeTimeEntry = activeTimeEntry;
+      } else {
+        this.activeTimeEntry = null;
       }
     });
   }
