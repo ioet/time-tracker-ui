@@ -125,11 +125,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   loadActiveEntry() {
     this.store.dispatch(new entryActions.LoadActiveEntry());
     this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
-      if (activeTimeEntry) {
-        this.activeTimeEntry = activeTimeEntry;
-      } else {
-        this.activeTimeEntry = null;
-      }
+      this.activeTimeEntry = activeTimeEntry;
     });
   }
 
