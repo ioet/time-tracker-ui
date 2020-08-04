@@ -2,12 +2,18 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: small;
+}
+.x-sm-col{
+  width: 5em;
+  max-width: 7em;
 }
 
 .sm-col{
   width: 6em;
   max-width: 8em;
 }
+
 .md-col{
   width: 9em;
 }
@@ -16,4 +22,7 @@
   width: 12em;
   overflow: hidden;
   white-space: normal;
+}
+.hidden-col{
+  display: none;
 }
