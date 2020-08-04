@@ -11,10 +11,11 @@ import { TechnologyState } from '../../shared/store/technology.reducers';
 import { TimeEntriesSummaryComponent } from '../../time-clock/components/time-entries-summary/time-entries-summary.component';
 import * as entryActions from '../../time-clock/store/entry.actions';
 import { EntryState } from '../../time-clock/store/entry.reducer';
-import { getTimeEntriesDataSource } from '../../time-clock/store/entry.selectors';
+import { getTimeEntriesDataSource, getActiveTimeEntry } from '../../time-clock/store/entry.selectors';
 import { LoadActiveEntry } from './../../time-clock/store/entry.actions';
 import { TimeEntriesComponent } from './time-entries.component';
-
+import { ActionsSubject } from '@ngrx/store';
+import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -177,6 +178,27 @@ describe('TimeEntriesComponent', () => {
     component.editEntry(anEntryId);
     expect(component.entry).toEqual(state.timeEntriesDataSource.data[0]);
     expect(component.entryId).toBe(anEntryId);
+  });
+
+  it('when trigger edit action and there is no active entry, active entry should be null', () => {
+    state.active = null;
+    mockEntriesSelector = store.overrideSelector(getActiveTimeEntry, state.active);
+
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: EntryActionTypes.UPDATE_ENTRY_SUCCESS,
+      payload: {
+        project_id: 'project-id',
+        start_date: '2010-05-05T10:04',
+        description: 'description',
+        technologies: [],
+        uri: 'abc',
+      },
+    };
+
+    actionSubject.next(action);
+
+    expect(component.activeTimeEntry).toBeNull();
   });
 
   it('given a list of entries having an entry running when editing a different entry it cannot be marked as WIP ', () => {
