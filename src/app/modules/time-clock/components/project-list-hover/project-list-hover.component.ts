@@ -18,7 +18,7 @@ import { getActiveTimeEntry } from './../../store/entry.selectors';
 })
 export class ProjectListHoverComponent implements OnInit, OnDestroy {
 
-  keyword = 'name';
+  keyword = 'search_field';
   listProjects: Project[] = [];
   activeEntry;
   projectsForm: FormGroup;
@@ -36,7 +36,13 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     this.store.dispatch(new actions.LoadProjects());
     const projects$ = this.store.pipe(select(getProjects));
     projects$.subscribe((projects) => {
-      this.listProjects = projects;
+      this.listProjects = [];
+      projects.forEach((project) => {
+          const projectWithSearchField = {...project};
+          projectWithSearchField.search_field = `${project.customer_name} - ${project.name}`;
+          this.listProjects.push(projectWithSearchField);
+        }
+      );
       this.loadActiveTimeEntry();
     });
 

@@ -5,4 +5,5 @@ export interface Project {
   name: string;
   description?: string;
   project_type_id?: string;
+  search_field?: string;
 }
