@@ -1,21 +1,29 @@
 <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
   <div class="row">
-    <div class="col">
+    <div class="col col-md-3">
       <div class="input-group">
         <app-input-label text="Start Date"></app-input-label>
-        <app-input-date formControlName="startDate" id="startDate" required="true"></app-input-date>
+        <app-input-date
+          formControlName="startDate"
+          id="startDate"
+          required="true"
+        ></app-input-date>
       </div>
     </div>
-    <div class="col">
+    <div class="col col-md-3">
       <div class="input-group">
         <app-input-label text="End Date"></app-input-label>
-        <app-input-date formControlName="endDate" id="endDate" required="true"></app-input-date>
+        <app-input-date
+          formControlName="endDate"
+          id="endDate"
+          required="true"
+        ></app-input-date>
       </div>
     </div>
-    <div class="col">
-      <button type="submit" class="btn btn-primary float-right">Search</button>
+  </div>
+  <div class="row pt-4">
+    <div class="col-md-3 offset-md-6">
+      <button type="submit" class="btn btn-primary">Search</button>
     </div>
   </div>
 </form>
-
-

@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
+
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
 
@@ -20,7 +21,11 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     paging: false,
     dom: 'Bfrtip',
     buttons: [
-      'colvis',
+      {
+        extend: 'colvis',
+        columns: ':not(.hidden-col)',
+
+      },
       'print',
       {
         extend: 'excel',
