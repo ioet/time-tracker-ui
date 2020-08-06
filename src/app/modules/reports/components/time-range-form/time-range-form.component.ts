@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -15,7 +16,7 @@ export class TimeRangeFormComponent implements OnInit {
   private startDate = new FormControl('');
   private endDate = new FormControl('');
 
-  constructor(private store: Store<EntryState>) {
+  constructor(private store: Store<EntryState>, private toastrService: ToastrService) {
     this.reportForm = new FormGroup({
       startDate: this.startDate,
       endDate: this.endDate
@@ -34,9 +35,15 @@ export class TimeRangeFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.store.dispatch(new entryActions.LoadEntriesByTimeRange({
-      start_date: moment(this.startDate.value).startOf('day'),
-      end_date: moment(this.endDate.value).endOf('day'),
-    }));
+    const endDate = moment(this.endDate.value).endOf('day');
+    const startDate = moment(this.startDate.value).startOf('day');
+    if (endDate.isBefore(startDate)) {
+      this.toastrService.error('The end date should be after the start date');
+    } else {
+      this.store.dispatch(new entryActions.LoadEntriesByTimeRange({
+        start_date: moment(this.startDate.value).startOf('day'),
+        end_date: moment(this.endDate.value).endOf('day'),
+      }));
+    }
   }
 }

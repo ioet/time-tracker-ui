@@ -1,9 +1,10 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MockStore, provideMockStore} from '@ngrx/store/testing';
-import {TimeRangeFormComponent} from './time-range-form.component';
-import {EntryState} from '../../../time-clock/store/entry.reducer';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {InputDateComponent} from '../../../shared/components/input-date/input-date.component';
+import { ToastrService, IndividualConfig } from 'ngx-toastr';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { TimeRangeFormComponent } from './time-range-form.component';
+import { EntryState } from '../../../time-clock/store/entry.reducer';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputDateComponent } from '../../../shared/components/input-date/input-date.component';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import * as moment from 'moment';
 
@@ -12,6 +13,10 @@ describe('Reports Page', () => {
     let component: TimeRangeFormComponent;
     let fixture: ComponentFixture<TimeRangeFormComponent>;
     let store: MockStore<EntryState>;
+    const toastrServiceStub = {
+      error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+    };
+
     const timeEntry = {
       id: '123',
       start_date: new Date(),
@@ -38,7 +43,10 @@ describe('Reports Page', () => {
       TestBed.configureTestingModule({
         imports: [FormsModule, ReactiveFormsModule],
         declarations: [TimeRangeFormComponent, InputDateComponent],
-        providers: [provideMockStore({initialState: state})],
+        providers: [
+          provideMockStore({ initialState: state }),
+          { provide: ToastrService, useValue: toastrServiceStub }
+        ],
       }).compileComponents();
       store = TestBed.inject(MockStore);
 
@@ -54,7 +62,7 @@ describe('Reports Page', () => {
       expect(component).toBeTruthy();
     });
 
-    it('when submitting form a new LoadEntriesByTimeRange action is triggered', () => {
+    it('LoadEntriesByTimeRange action is triggered when start date is before end date', () => {
       const yesterday = moment(new Date()).subtract(1, 'days');
       const today = moment(new Date());
       spyOn(store, 'dispatch');
@@ -75,6 +83,19 @@ describe('Reports Page', () => {
       component.ngOnInit();
 
       expect(component.setInitialDataOnScreen).toHaveBeenCalled();
+    });
+
+    it('shows an error when the end date is before the start date', () => {
+      spyOn(toastrServiceStub, 'error');
+      const yesterday = moment(new Date()).subtract(1, 'days');
+      const today = moment(new Date());
+      spyOn(store, 'dispatch');
+      component.reportForm.controls.startDate.setValue(today);
+      component.reportForm.controls.endDate.setValue(yesterday);
+
+      component.onSubmit();
+
+      expect(toastrServiceStub.error).toHaveBeenCalled();
     });
 
     it('setInitialDataOnScreen sets dates in form', () => {
