@@ -24,7 +24,8 @@ export class EntryService {
   }
 
   loadEntries(month): Observable<any> {
-    return this.http.get(`${this.baseUrl}?month=${month}`);
+    const timezoneOffset = new Date().getTimezoneOffset();
+    return this.http.get(`${this.baseUrl}?month=${month}&timezone_offset=${timezoneOffset}`);
   }
 
   createEntry(entryData): Observable<any> {
@@ -70,7 +71,8 @@ export class EntryService {
           start_date: this.datePipe.transform(range.start_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
           end_date: this.datePipe.transform(range.end_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
           user_id: userId,
-          limit: `${MAX_NUMBER_OF_ENTRIES_FOR_REPORTS}`
+          limit: `${MAX_NUMBER_OF_ENTRIES_FOR_REPORTS}`,
+          timezone_offset : new Date().getTimezoneOffset().toString(),
         }
       }
     );
