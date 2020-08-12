@@ -55,9 +55,10 @@ describe('EntryService', () => {
 
   it('load all Entries', () => {
     const month = new Date().getMonth();
+    const timezoneOffset = new Date().getTimezoneOffset();
     service.loadEntries(month).subscribe();
 
-    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}?month=${month}`);
+    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}?month=${month}&timezone_offset=${timezoneOffset}`);
     expect(loadEntryRequest.request.method).toBe('GET');
 
   });
@@ -113,6 +114,20 @@ describe('EntryService', () => {
 
     const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === service.baseUrl);
     expect(loadEntryRequest.request.params.get('limit')).toEqual('9999');
+  });
+
+  it('when getting time entries for report, timezone_offset parameter should be sent', () => {
+    const yesterday = moment(new Date()).subtract(1, 'day');
+    const today = moment(new Date());
+    const timeRange: TimeEntriesTimeRange = { start_date: yesterday, end_date: today };
+    const userId = '123';
+
+    service.loadEntriesByTimeRange(timeRange, userId).subscribe();
+
+    const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === service.baseUrl);
+
+    const timezoneOffset = new Date().getTimezoneOffset().toString();
+    expect(loadEntryRequest.request.params.get('timezone_offset')).toEqual(timezoneOffset);
   });
 
   it('when restarting entry, a POST is triggered', () => {
