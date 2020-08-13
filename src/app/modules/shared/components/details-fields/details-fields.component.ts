@@ -23,6 +23,8 @@ type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
   styleUrls: ['./details-fields.component.scss'],
 })
 export class DetailsFieldsComponent implements OnChanges, OnInit {
+
+  keyword = 'search_field';
   @Input() entryToEdit: Entry;
   @Input() canMarkEntryAsWIP: boolean;
   @Output() saveEntry = new EventEmitter<SaveEntryEvent>();
@@ -39,6 +41,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
               private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
     this.entryForm = this.formBuilder.group({
       project_id: ['', Validators.required],
+      project_name: ['', Validators.required],
       activity_id: ['', Validators.required],
       description: '',
       entry_date: '',
@@ -52,8 +55,16 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.store.dispatch(new projectActions.LoadProjects());
     const projects$ = this.store.pipe(select(getProjects));
-    projects$.subscribe((response) => {
-      this.listProjects = response;
+    projects$.subscribe((projects) => {
+      if (projects) {
+        this.listProjects = [];
+        projects.forEach((project) => {
+            const projectWithSearchField = {...project};
+            projectWithSearchField.search_field = `${project.customer_name} - ${project.name}`;
+            this.listProjects.push(projectWithSearchField);
+          }
+        );
+      }
     });
 
     this.store.dispatch(new LoadActivities());
@@ -87,11 +98,29 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     });
   }
 
+  onClearedComponent(event) {
+    this.entryForm.patchValue(
+      {
+        project_id: '',
+        project_name: '',
+      });
+  }
+
+  onSelectedProject(item) {
+    this.entryForm.patchValue(
+      {
+        project_id: item.id,
+        project_name: item.search_field,
+      });
+  }
+
   ngOnChanges(): void {
     this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running : false;
     if (this.entryToEdit) {
       this.selectedTechnologies = this.entryToEdit.technologies;
+      const projectFound = this.listProjects.find((project) => project.id === this.entryToEdit.project_id);
       this.entryForm.setValue({
+        project_name: projectFound ? projectFound.search_field : '',
         project_id: this.entryToEdit.project_id,
         activity_id: this.entryToEdit.activity_id,
         description: this.entryToEdit.description,
@@ -109,6 +138,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   cleanForm() {
     this.selectedTechnologies = [];
     this.entryForm.setValue({
+      project_name: '',
       project_id: '',
       activity_id: '',
       description: '',
@@ -126,6 +156,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   get project_id() {
     return this.entryForm.get('project_id');
+  }
+
+  get project_name() {
+    return this.entryForm.get('project_name');
   }
 
   get activity_id() {
@@ -151,6 +185,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   onSubmit() {
     if (this.entryForm.invalid) {
+      this.toastrService.warning('Make sure to select a project and activity');
       return;
     }
     // start&end date same for now

@@ -1,3 +1,4 @@
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -46,7 +47,7 @@ describe('TimeEntriesComponent', () => {
       providers: [provideMockStore({ initialState: state }),
       { provide: ToastrService, useValue: toastrService },
       ],
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
     entry = {

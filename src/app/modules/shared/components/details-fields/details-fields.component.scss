@@ -107,3 +107,17 @@ input[type="date"]::-webkit-inner-spin-button {
 input[type="date"]::-webkit-clear-button {
   display: none;
 }
+
+.container {
+  font-size: small;
+  cursor: text;
+}
+
+.autocomplete {
+  width: 80%;
+  display: block;
+  background-clip: padding-box;
+  border: none;
+  margin: 0em;
+  padding: 0em;
+}
