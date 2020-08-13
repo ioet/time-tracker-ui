@@ -2,6 +2,7 @@
   "name": "time-tracker",
   "version": "1.18.0",
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -94,6 +95,9 @@
       "pattern": "^(fix: #|feat: #|perf: #|build: #|ci: #|docs: #|refactor: #|style: #|test: #)[0-9].*",
       "errorMessage": "Your commit message needs to start with fix:, feat:, or perf: followed by issue number, e.g. fix: #43 any commit message"
     }
+  },
+  "resolutions": {
+    "serialize-javascript": "^3.1.0"
   },
   "release": {
     "branches": [
