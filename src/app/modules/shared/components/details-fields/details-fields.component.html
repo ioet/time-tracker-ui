@@ -7,17 +7,37 @@
     <div class="input-group-prepend">
       <span class="input-group-text span-width">Project</span>
     </div>
-    <select
-      [class.is-invalid]="project_id.invalid"
-      required
-      id="project_id"
-      class="custom-select"
-      formControlName="project_id"
-    >
-      <option value="" selected="selected"></option>
-      <option *ngFor="let project of listProjects" value="{{ project.id }}">{{ project.customer_name }}
-        - {{ project.name }}</option>
-    </select>
+
+    <div class="form-control autocomplete">
+      <ng-autocomplete
+        (selected)='onSelectedProject($event)'
+        (inputCleared)='onClearedComponent($event)'
+        formControlName="project_name"
+        [data]="listProjects"
+        [searchKeyword]="keyword"
+        historyIdentifier="projectsSelected"
+        notFoundText="No projects found"
+        placeHolder="Enter the project name"
+        [itemTemplate]="itemTemplate"
+        [notFoundTemplate]="notFoundTemplate">
+      </ng-autocomplete>
+
+      <ng-template #itemTemplate let-item>
+        <div class="d-flex container">
+          <div class="mr-auto p-2">
+            <span [innerHTML]="item.customer_name"></span> -
+            <strong><span [innerHTML]="item.name"></span></strong>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #notFoundTemplate let-notFound>
+        <div [innerHTML]="notFound"></div>
+      </ng-template>
+      <!-- <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar> -->
+    </div>
+
+
   </div>
 
   <div class="input-group input-group-sm mb-3">

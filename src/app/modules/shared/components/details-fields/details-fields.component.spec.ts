@@ -1,3 +1,4 @@
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { formatDate } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +30,8 @@ describe('DetailsFieldsComponent', () => {
   let formValues;
   const actionSub: ActionsSubject = new ActionsSubject();
   const toastrServiceStub = {
-    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
+    warning: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
   };
 
   const state = {
@@ -58,6 +60,7 @@ describe('DetailsFieldsComponent', () => {
 
   const initialData = {
     project_id: '',
+    project_name: '',
     activity_id: '',
     uri: '',
     entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
@@ -75,7 +78,7 @@ describe('DetailsFieldsComponent', () => {
         { provide: ActionsSubject, useValue: actionSub },
         { provide: ToastrService, useValue: toastrServiceStub }
       ],
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
@@ -88,7 +91,7 @@ describe('DetailsFieldsComponent', () => {
     fixture = TestBed.createComponent(DetailsFieldsComponent);
     component = fixture.componentInstance;
     entryToEdit = {
-      project_id: '',
+      project_id: 'id',
       activity_id: '',
       uri: 'ticketUri',
       start_date: null,
@@ -98,7 +101,8 @@ describe('DetailsFieldsComponent', () => {
       id: 'xyz'
     };
     formValues = {
-      project_id: 'p1',
+      project_id: 'id',
+      project_name: 'name',
       activity_id: 'a1',
       uri: 'ticketUri',
       entry_date: '',
@@ -112,6 +116,21 @@ describe('DetailsFieldsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('onClearedComponent project id and name it is set to empty', () => {
+    component.onClearedComponent(null);
+
+    expect(component.project_id.value).toBe('');
+    expect(component.project_name.value).toBe('');
+  });
+
+  it('onSelectedProject project id and name it is set using event data', () => {
+    spyOn(component.entryForm, 'patchValue');
+
+    component.onSelectedProject( {id: 'id', search_field: 'foo'} );
+
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith( { project_id: 'id', project_name: 'foo', } );
   });
 
   it('if form is invalid then no save is emited', () => {
@@ -151,6 +170,7 @@ describe('DetailsFieldsComponent', () => {
     component.closeModal = childComponent;
     const formValue = {
       project_id: '',
+      project_name: '',
       activity_id: '',
       uri: '',
       entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
@@ -186,6 +206,7 @@ describe('DetailsFieldsComponent', () => {
     spyOn(component.saveEntry, 'emit');
     component.entryForm.setValue({
       project_id: 'p1',
+      project_name: 'p-name',
       activity_id: 'a1',
       uri: '',
       entry_date: '2020-02-05',
@@ -269,7 +290,7 @@ describe('DetailsFieldsComponent', () => {
 
     const data: SaveEntryEvent = {
       entry: {
-        project_id: 'p1',
+        project_id: 'id',
         activity_id: 'a1',
         technologies: [],
         description: '',
