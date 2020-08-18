@@ -29,8 +29,10 @@
     "bootstrap": "^4.4.1",
     "datatables.net": "^1.10.21",
     "datatables.net-buttons": "^1.6.2",
-    "datatables.net-buttons-dt": "^1.6.2",
-    "datatables.net-dt": "^1.10.21",
+    "datatables.net-bs4": "^1.10.21",
+    "datatables.net-buttons-bs4": "^1.6.3",
+    "datatables.net-responsive": "^2.2.5",
+    "datatables.net-responsive-bs4": "^2.2.5",
     "jquery": "^3.5.1",
     "jszip": "^3.4.0",
     "minimist": "^1.2.5",
@@ -44,7 +46,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.901.7",
+    "@angular-devkit/build-angular": "^0.1001.2",
     "@angular/cli": "~9.0.4",
     "@angular/compiler-cli": "~9.0.3",
     "@angular/language-service": "~9.0.3",
