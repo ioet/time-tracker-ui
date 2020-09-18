@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionsSubject, select, Store } from '@ngrx/store';
+import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { filter } from 'rxjs/operators';
 import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
@@ -15,6 +16,7 @@ import { Activity, Entry, Project } from '../../models';
 import { TechnologyState } from '../../store/technology.reducers';
 import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from './save-entry-event';
+
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 @Component({
@@ -203,8 +205,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     if (this.goingToWorkOnThis) {
       delete entry.end_date;
     }
-
-    const isEntryDateInTheFuture = new Date(entryDate) > new Date();
+    const isEntryDateInTheFuture = moment(entryDate).isAfter(moment());
     if (isEntryDateInTheFuture) {
       this.toastrService.error('You cannot start a time-entry in the future');
       return;
