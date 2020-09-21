@@ -41,11 +41,12 @@ jobs:
 
     - name: Inject Secrets
       env:
-        SCOPES: ${{ secrets.scopes }}
-        CLIENT_ID: ${{ secrets.client_id }}
-        AUTHORITY: ${{ secrets.authority }}
-        STACK_EXCHANGE_ID: ${{ secrets.stack_exchange_id }}
-        STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.stack_exchange_access_token }}
+        SCOPES: ${{ secrets.SCOPES }}
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        AUTHORITY: ${{ secrets.AUTHORITY }}
+        STACK_EXCHANGE_ID: ${{ secrets.STACK_EXCHANGE_ID }}
+        STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}
+        AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}
       run:  sudo sh scripts/populate-keys.sh
 
     - name: Running tests
