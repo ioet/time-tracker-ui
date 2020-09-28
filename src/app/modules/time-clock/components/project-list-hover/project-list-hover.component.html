@@ -26,11 +26,12 @@
             <strong><span [innerHTML]="item.name"></span></strong>
           </div>
           <div class="p-2 pr-3">
-            <button *ngIf="showClockIn" class="btn btn-sm btn-primary btn-select" (click)="clockIn(item.id, item.customer_name, item.name)">Clock In</button>
+            <button *ngIf="showClockIn" class="btn btn-sm btn-primary btn-select"
+              (click)="clockIn(item.id, item.customer_name, item.name)">Clock In</button>
             <button *ngIf="!showClockIn" class="btn btn-sm btn-primary btn-select"
               (click)="switch(item.id, item.customer_name, item.name)">Switch</button>&nbsp;
-            <button *ngIf="!showClockIn" class="btn btn-sm btn-update btn-select" (click)="updateProject(item.id)">Update
-              project</button>
+            <button *ngIf="!showClockIn" class="btn btn-sm btn-update btn-select"
+              (click)="updateProject(item.id)">Update project</button>
           </div>
         </div>
       </ng-template>
