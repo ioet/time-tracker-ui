@@ -51,14 +51,13 @@ describe('TimeEntryActionEffects', () => {
     });
   });
 
-  it('stop the active entry and return a CreateEntryAction', (done) => {
+  it('stop the active entry and return a ClockInAction', (done) => {
     actions$ = of(new SwitchTimeEntry('entry-id', 'project-id'));
     spyOn(service, 'stopEntryRunning').and.returnValue(of({ end_date: new Date() }));
-    spyOn(service, 'createEntry').and.returnValue(of({}));
 
     effects.switchEntryRunning$.subscribe(action => {
       expect(service.stopEntryRunning).toHaveBeenCalledWith('entry-id');
-      expect(action.type).toBe(EntryActionTypes.CREATE_ENTRY);
+      expect(action.type).toBe(EntryActionTypes.CLOCK_IN);
       done();
     });
   });
