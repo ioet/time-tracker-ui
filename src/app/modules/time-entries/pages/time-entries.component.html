@@ -67,6 +67,7 @@
         <app-details-fields
           [entryToEdit]="entry"
           (saveEntry)="saveEntry($event)"
+          (projectSelected)="projectSelected($event)"
           [canMarkEntryAsWIP]='canMarkEntryAsWIP'
         >
         </app-details-fields>

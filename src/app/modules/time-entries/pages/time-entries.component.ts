@@ -3,6 +3,7 @@ import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
 import { delay, filter } from 'rxjs/operators';
+import { ProjectSelectedEvent } from '../../shared/components/details-fields/project-selected-event';
 import { SaveEntryEvent } from '../../shared/components/details-fields/save-entry-event';
 import { Entry } from '../../shared/models';
 import { DataSource } from '../../shared/models/data-source.model';
@@ -94,6 +95,10 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     }
   }
 
+  private isNewEntry() {
+    return this.entryId === null;
+  }
+
   saveEntry(event: SaveEntryEvent): void {
     if (this.activeTimeEntry !== null && this.activeTimeEntry !== undefined) {
       const entryDateAsIso = new Date(event.entry.start_date).toISOString();
@@ -108,6 +113,24 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     } else {
       this.doSave(event);
     }
+  }
+
+  projectSelected(event: ProjectSelectedEvent): void {
+    this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
+      const dataToUse = ds.data.find(item => item.project_id === event.projectId);
+      if (dataToUse && this.isNewEntry()) {
+        const startDate = new Date(new Date().setHours(0, 0, 0, 0));
+        const entry = {
+          description : dataToUse.description ? dataToUse.description : '',
+          technologies : dataToUse.technologies ? dataToUse.technologies : [],
+          uri : dataToUse.uri ? dataToUse.uri : '',
+          activity_id : dataToUse.activity_id,
+          project_id : dataToUse.project_id,
+          start_date : startDate
+        };
+        this.entry = entry;
+      }
+    });
   }
 
   doSave(event: SaveEntryEvent) {

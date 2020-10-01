@@ -16,6 +16,7 @@ import { allTechnologies } from '../../store/technology.selectors';
 import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { TechnologiesComponent } from './../technologies/technologies.component';
 import { DetailsFieldsComponent } from './details-fields.component';
+import { ProjectSelectedEvent } from './project-selected-event';
 import { SaveEntryEvent } from './save-entry-event';
 
 
@@ -314,6 +315,20 @@ describe('DetailsFieldsComponent', () => {
     component.onSubmit();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
+  });
+
+  it('should emit projectSelected event', () => {
+    spyOn(component.projectSelected, 'emit');
+    const item = {
+      id : 'id',
+      search_field : 'TimeTracker'
+    };
+    component.onSelectedProject(item);
+
+    const data: ProjectSelectedEvent = {
+      projectId: 'id'
+    };
+    expect(component.projectSelected.emit).toHaveBeenCalledWith(data);
   });
 
   /*
