@@ -346,4 +346,23 @@ describe('TimeEntriesComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.RestartEntry(entryToSave.entry));
   });
+
+  it('should preload data of last entry when a project is selected while creating new entry ', async(() => {
+    component.entry = null;
+    component.entryId = null;
+    const lastEntry = {
+      description : 'testing is fun',
+      technologies : [],
+      uri : 'http://testing.is.fun',
+      activity_id : 'sss',
+      project_id : 'id',
+      start_date : new Date(new Date().setHours(0, 0, 0, 0))
+    };
+    state.timeEntriesDataSource.data = [ lastEntry ];
+    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
+
+    component.projectSelected({'projectId' : 'id'});
+    expect(component.entry).toEqual(lastEntry);
+  }));
+
 });

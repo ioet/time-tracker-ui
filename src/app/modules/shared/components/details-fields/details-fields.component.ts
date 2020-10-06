@@ -16,6 +16,7 @@ import { Activity, Entry, Project } from '../../models';
 import { TechnologyState } from '../../store/technology.reducers';
 import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from './save-entry-event';
+import { ProjectSelectedEvent } from './project-selected-event';
 
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
@@ -30,6 +31,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   @Input() entryToEdit: Entry;
   @Input() canMarkEntryAsWIP: boolean;
   @Output() saveEntry = new EventEmitter<SaveEntryEvent>();
+  @Output() projectSelected = new EventEmitter<ProjectSelectedEvent>();
   @ViewChild('closeModal') closeModal: ElementRef;
   entryForm: FormGroup;
   selectedTechnologies: string[] = [];
@@ -109,6 +111,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   onSelectedProject(item) {
+    this.projectSelected.emit({'projectId': item.id});
     this.entryForm.patchValue(
       {
         project_id: item.id,
