@@ -28,6 +28,7 @@ jobs:
           AUTHORITY: ${{ secrets.authority }}
           STACK_EXCHANGE_ID: ${{ secrets.stack_exchange_id }}
           STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.stack_exchange_access_token }}
+          AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.azure_app_configuration_connection_string }}
         run:  sudo sh scripts/populate-keys.sh
 
       - name: Running tests
