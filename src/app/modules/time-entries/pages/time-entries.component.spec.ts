@@ -361,7 +361,7 @@ describe('TimeEntriesComponent', () => {
     state.timeEntriesDataSource.data = [ lastEntry ];
     mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
-    component.projectSelected({'projectId' : 'id'});
+    component.projectSelected({ projectId : 'id'});
     expect(component.entry).toEqual(lastEntry);
   }));
 
