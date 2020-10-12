@@ -111,7 +111,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   onSelectedProject(item) {
-    this.projectSelected.emit({'projectId': item.id});
+    this.projectSelected.emit({ projectId : item.id});
     this.entryForm.patchValue(
       {
         project_id: item.id,
