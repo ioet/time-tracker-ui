@@ -2,13 +2,9 @@
   <label *ngIf='canMarkEntryAsWIP'><input id='isEntryRunning' type="checkbox" (change)="onGoingToWorkOnThisChange($event)" [checked]="goingToWorkOnThis"> I am working on
     this</label>
 
-  <div class="input-group input-group-sm mb-3">
-
-    <div class="input-group-prepend">
-      <span class="input-group-text span-width">Project</span>
-    </div>
-
-    <div class="form-control autocomplete">
+  <div class="form-group row">
+    <label class="col-12 col-sm-2 col-form-label">Project:</label>
+    <div class="col-12 col-sm-10 autocomplete">
       <ng-autocomplete
         (selected)='onSelectedProject($event)'
         (inputCleared)='onClearedComponent($event)'
@@ -36,100 +32,105 @@
       </ng-template>
       <!-- <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar> -->
     </div>
-
-
   </div>
 
-  <div class="input-group input-group-sm mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text span-width">Activity</span>
+
+  <div class="form-group row">
+    <label class="col-12 col-sm-2 col-form-label">Activity:</label>
+    <div class="col-12 col-sm-10">
+      <select
+        [class.is-invalid]="activity_id.invalid"
+        required
+        id="activity_id"
+        class="custom-select"
+        formControlName="activity_id"
+      >
+        <option value="" selected="selected"></option>
+        <option *ngFor="let activity of activities" value="{{ activity.id }}">{{ activity.name }}</option>
+      </select>
     </div>
-    <select
-      [class.is-invalid]="activity_id.invalid"
-      required
-      id="activity_id"
-      class="custom-select"
-      formControlName="activity_id"
-    >
-      <option value="" selected="selected"></option>
-      <option *ngFor="let activity of activities" value="{{ activity.id }}">{{ activity.name }}</option>
-    </select>
     <div
       class="invalid-feedback"
       *ngIf="(activity_id.dirty || activity_id.touched) && activity_id.invalid && activity_id.errors.required"
     ></div>
   </div>
 
-  <div class="input-group input-group-sm mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text span-width">Ticket</span>
+
+  <div class="form-group row">
+    <label class="col-12 col-sm-2 col-form-label">Ticket:</label>
+    <div class="col-12 col-sm-10">
+      <input
+        formControlName="uri"
+        id="uri"
+        type="text"
+        class="form-control"
+        aria-label="Small"
+        aria-describedby="inputGroup-sizing-sm"
+      />
     </div>
-    <input
-      formControlName="uri"
-      id="uri"
-      type="text"
-      class="form-control"
-      aria-label="Small"
-      aria-describedby="inputGroup-sizing-sm"
-    />
   </div>
 
-  <div class="input-group input-group-sm mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text span-width">Date</span>
+
+  <div class="form-group row">
+    <label class="col-12 col-sm-2 col-form-label">Date:</label>
+    <div class="col-12 col-sm-10">
+      <input
+        formControlName="entry_date"
+        id="entry_date"
+        type="date"
+        class="form-control"
+        aria-label="Small"
+        aria-describedby="inputGroup-sizing-sm"
+        [class.is-invalid]="entry_date.invalid && entry_date.touched"
+        required
+      />
     </div>
-    <input
-      formControlName="entry_date"
-      id="entry_date"
-      type="date"
-      class="form-control"
-      aria-label="Small"
-      aria-describedby="inputGroup-sizing-sm"
-      [class.is-invalid]="entry_date.invalid && entry_date.touched"
-      required
-    />
   </div>
-  <div class="input-group input-group-sm mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text span-width">Time in</span>
+
+
+  <div class="form-group row">
+    <label class="col-12 col-sm-2 col-form-label pr-0">Time in:</label>
+    <div class="col-12 col-sm-4">
+      <input
+        [clearIfNotMatch]="true"
+        [showMaskTyped]="true"
+        [dropSpecialCharacters]="false"
+        matInput
+        mask="Hh:m0:s0"
+        onClick="this.select();"
+        formControlName="start_hour"
+        id="start_hour"
+        type="text"
+        class="form-control"
+        aria-label="Small"
+        [class.is-invalid]="start_hour.invalid && start_hour.touched"
+        required
+        aria-describedby="inputGroup-sizing-sm"
+      />
     </div>
-    <input
-      [clearIfNotMatch]="true"
-      [showMaskTyped]="true"
-      [dropSpecialCharacters]="false"
-      matInput
-      mask="Hh:m0:s0"
-      onClick="this.select();"
-      formControlName="start_hour"
-      id="start_hour"
-      type="text"
-      class="form-control"
-      aria-label="Small"
-      [class.is-invalid]="start_hour.invalid && start_hour.touched"
-      required
-      aria-describedby="inputGroup-sizing-sm"
-    />
-    <div class="input-group-prepend" *ngIf="!goingToWorkOnThis">
-      <span class="input-group-text span-width">Time out</span>
+    
+    <label class="col-12 col-sm-2 col-form-label pr-0"  *ngIf="!goingToWorkOnThis">Time out:</label>
+    <div class="col-12 col-sm-4"  *ngIf="!goingToWorkOnThis">
+      <input
+        *ngIf="!goingToWorkOnThis"
+        [clearIfNotMatch]="true"
+        [showMaskTyped]="true"
+        [dropSpecialCharacters]="false"
+        matInput
+        onClick="this.select();"
+        mask="Hh:m0:s0"
+        formControlName="end_hour"
+        type="text"
+        id="end_hour"
+        class="form-control"
+        aria-label="Small"
+        [class.is-invalid]="end_hour.invalid && end_hour.touched"
+        required
+        aria-describedby="inputGroup-sizing-sm"
+      />
     </div>
-    <input
-      *ngIf="!goingToWorkOnThis"
-      [clearIfNotMatch]="true"
-      [showMaskTyped]="true"
-      [dropSpecialCharacters]="false"
-      matInput
-      onClick="this.select();"
-      mask="Hh:m0:s0"
-      formControlName="end_hour"
-      type="text"
-      id="end_hour"
-      class="form-control"
-      aria-label="Small"
-      [class.is-invalid]="end_hour.invalid && end_hour.touched"
-      required
-      aria-describedby="inputGroup-sizing-sm"
-    />
   </div>
+
 
   <app-technologies
     (technologyAdded)="onTechnologiesUpdated($event)"
@@ -138,8 +139,9 @@
   >
   </app-technologies>
 
+
   <div class="form-group text-left">
-    <label for="NotesTextarea">Description</label>
+    <label for="NotesTextarea">Description:</label>
     <textarea maxlength="1500" formControlName="description" class="form-control" id="NotesTextarea"
               rows="3"></textarea>
   </div>

@@ -60,32 +60,6 @@
   }
 }
 
-.ng-autocomplete {
-  width: 100%;
-}
-
-.autocomplete::ng-deep .autocomplete-container {
-  border: 1px solid #ced4da;
-  border-radius: 0 0.25rem 0.25rem 0;
-  box-shadow: none;
-  height: 2rem;
-
-  .input-container {
-    height: 100%;
-
-    input {
-      border-radius: 0.25rem;
-      height: 100%;
-    }
-  }
-}
-
-.validation::ng-deep {
-  .autocomplete .autocomplete-container {
-    border: 1px solid red;
-  }
-}
-
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   position: absolute;
@@ -114,10 +88,8 @@ input[type="date"]::-webkit-clear-button {
 }
 
 .autocomplete {
-  width: 80%;
   display: block;
   background-clip: padding-box;
   border: none;
   margin: 0em;
-  padding: 0em;
 }
