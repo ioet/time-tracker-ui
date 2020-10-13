@@ -1,37 +1,38 @@
-<div class="input-group input-group-sm">
-  <div class="input-group-prepend">
-    <span class="input-group-text span-width">Technology</span>
-  </div>
+<div class="form-group">
+  <label>Technology:</label>
   <input
     autocomplete="off"
     (keyup)="queryTechnologies($event)"
     id="technologies"
     type="text"
     class="form-control"
-    aria-label="Small"
-    aria-describedby="inputGroup-sizing-sm"
     [(ngModel)]="query"
   />
-</div>
-<div style="text-align: center;" *ngIf="isLoading">
-  <img src="assets/img/spinner.gif"/>
-</div>
-<div #technologiesDropdown *ngIf="technology && showList" class="d-flex flex-column technologies-dropdown-container">
-  <div
-    *ngFor="let item of technology.items"
-    (click)="addTechnology(item.name)"
-    class="technologies-dropdown-item">
-    {{ item.name }}
+
+  <div *ngIf="isLoading">
+    <img src="assets/img/spinner.gif" />
+  </div>
+
+  <div #technologiesDropdown *ngIf="technology && showList" class="form-group technologies-dropdown-container">
+    <div
+      *ngFor="let item of technology.items"
+      (click)="addTechnology(item.name)"
+      class="technologies-dropdown-item">
+      {{ item.name }}
+    </div>
   </div>
 </div>
-<div class="selected-technologies-container d-flex flex-wrap" *ngIf="selectedTechnologies?.length">
-  <div *ngFor="let technology of selectedTechnologies; let tagIndex = index" class="selected-technology">
-    <span class="mr-3">{{ technology }}</span>
-    <i class="fas fa-times text-white" (click)="removeTechnology(tagIndex)"></i>
+<div class="form-group">
+  <div class="form-group selected-technologies-container" *ngIf="selectedTechnologies?.length">
+    <div *ngFor="let technology of selectedTechnologies; let tagIndex = index" class="selected-technology">
+      <i class="fas fa-times text-white" (click)="removeTechnology(tagIndex)"></i>
+      <span style="padding-left: 0.5rem">{{ technology }}</span>
+    </div>
   </div>
-</div>
-<div class="form-group" *ngIf="selectedTechnologies === null || selectedTechnologies.length === 0">
-  <!-- empty-space -->
+  <div class="form-group" *ngIf="selectedTechnologies === null || selectedTechnologies.length === 0">
+    <!-- empty-space -->
+  </div>
+
 </div>
 
 

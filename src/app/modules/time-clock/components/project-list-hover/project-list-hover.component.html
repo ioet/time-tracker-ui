@@ -1,11 +1,7 @@
 <form [formGroup]="projectsForm">
-  <div class="input-group input-group-sm mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text span-width" id="inputGroup-sizing-sm">Project</span>
-    </div>
-
+  <div class="form-group">
+    <label>Project:</label>
     <div class="form-control autocomplete">
-
       <ng-autocomplete
         formControlName="project_id"
         [data]="listProjects"
@@ -27,11 +23,11 @@
           </div>
           <div class="p-2 pr-3">
             <button *ngIf="showClockIn" class="btn btn-sm btn-primary btn-select"
-              (click)="clockIn(item.id, item.customer_name, item.name)">Clock In</button>
+                    (click)="clockIn(item.id, item.customer_name, item.name)">Clock In</button>
             <button *ngIf="!showClockIn" class="btn btn-sm btn-primary btn-select"
-              (click)="switch(item.id, item.customer_name, item.name)">Switch</button>&nbsp;
+                    (click)="switch(item.id, item.customer_name, item.name)">Switch</button>&nbsp;
             <button *ngIf="!showClockIn" class="btn btn-sm btn-update btn-select"
-              (click)="updateProject(item.id)">Update project</button>
+                    (click)="updateProject(item.id)">Update project</button>
           </div>
         </div>
       </ng-template>

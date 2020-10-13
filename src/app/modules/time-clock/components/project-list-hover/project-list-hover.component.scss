@@ -1,14 +1,12 @@
 @import '../../../../../styles/colors.scss';
 
 .span-width {
-  width: 6rem;
   background-color: $primary;
   color: white;
-  height: 40px;
 }
 
 .btn-select {
-  padding: 2px 10px;
+  padding: 0.2rem 1rem;
   font-size: x-small;
 }
 
@@ -18,7 +16,6 @@
 }
 
 .autocomplete {
-  width: 80%;
   display: block;
   background-clip: padding-box;
   border: none;
@@ -27,6 +24,6 @@
 }
 
 .btn-update {
-  background-color: #ff5e06;
+  background-color: $warning;
   color: white;
 }
