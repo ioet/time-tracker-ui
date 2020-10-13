@@ -13,15 +13,13 @@
       </p>
     </div>
   </div>
-  
+
   <app-project-list-hover></app-project-list-hover>
   <div *ngIf="areFieldsVisible">
     <app-entry-fields></app-entry-fields>
   </div>
 
   <div class="form-group">
-    <button *ngIf="areFieldsVisible" class="btn btn-primary btn-block" type="button" (click)="clockOut()">
-      Clock Out
-    </button>
+    <button *ngIf="areFieldsVisible" class="btn btn-primary btn-block" type="button" (click)="clockOut()">Clock Out</button>
   </div>
 </div>
