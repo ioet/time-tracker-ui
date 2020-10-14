@@ -12,13 +12,3 @@
   background-color: $primary;
   color: white;
 }
-
-.entry-container{
-  width: 100%;
-}
-
-@media (min-width: 992px) {
-  .entry-container{
-    width: 70%;
-  }
-}

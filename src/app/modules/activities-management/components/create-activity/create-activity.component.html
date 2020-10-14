@@ -1,23 +1,21 @@
 <h4>Activities</h4>
 <hr/>
-<div style="width: 60%;">
+<div>
 
   <form [formGroup]="activityForm" (ngSubmit)="onSubmit(activityForm.value)">
-    <div class="input-group input-group-sm mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text span-width">Name</span>
-      </div>
-      <input class="form-control" id="name" type="text" formControlName="name"
+    <div class="form-group">
+      <label>Name:</label>
+      <div>
+        <input class="form-control" id="name" type="text" formControlName="name"
         [class.is-invalid]="name.invalid && name.touched" required />
-      <div class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
-        Activity name is required.
+        <div class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
+          Activity name is required.
+        </div>
       </div>
     </div>
 
-    <div class="input-group input-group-sm mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text span-width">Description</span>
-      </div>
+    <div class="form-group">
+    <label for="NotesTextarea">Description:</label>
       <textarea class="form-control" rows="2" id="description" type="text" formControlName="description"></textarea>
     </div>
 
