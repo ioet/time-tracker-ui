@@ -5,11 +5,6 @@
   cursor: pointer;
 }
 
-.dropdown-menu {
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-
 .style-click:active {
   background-color: $primary;
   color: white;

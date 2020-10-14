@@ -11,6 +11,7 @@ import {filter} from 'rxjs/operators';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
+
   itemsSidebar: ItemSidebar[] = [];
   navStart;
 
@@ -21,6 +22,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.toggleSideBar();
     this.getSidebarItems();
     this.highlightMenuOption(this.router.routerState.snapshot.url);
     this.navStart.subscribe(evt => {
@@ -28,6 +30,13 @@ export class SidebarComponent implements OnInit {
     });
   }
 
+  toggleSideBar() {
+    $('#menu-toggle').on('click', (e) => {
+      e.preventDefault();
+      $('#wrapper').toggleClass('toggled');
+    });
+  }
+  
   getSidebarItems() {
     if (this.azureAdB2CService.isAdmin()) {
       this.itemsSidebar = [
