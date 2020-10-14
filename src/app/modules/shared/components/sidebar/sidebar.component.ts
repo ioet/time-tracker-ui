@@ -36,7 +36,7 @@ export class SidebarComponent implements OnInit {
       $('#wrapper').toggleClass('toggled');
     });
   }
-  
+
   getSidebarItems() {
     if (this.azureAdB2CService.isAdmin()) {
       this.itemsSidebar = [
