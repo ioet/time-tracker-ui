@@ -1,31 +1,26 @@
-<form class="form-inline" [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
 
-  <div class="form-group">
-    <label>Start date:</label>
-    <div>
+  <div class="form-group row">
+    <label class="col-12 col-md-2 col-form-label my-1">Start date:</label>
+    <div class="col-12 col-sm-6 col-md-3 my-1">
     <app-input-date
           formControlName="startDate"
           id="startDate"
           required="true"
         ></app-input-date>
     </div>
-  </div>
 
-  <div class="form-group" style="width: 3rem"></div>
-
-  <div class="form-group">
-    <label>End date:</label>
-    <div>
+    <label class="col-12 col-md-2 col-form-label my-1">End date:</label>
+    <div class="col-12 col-sm-6 col-md-3 my-1">
     <app-input-date
           formControlName="endDate"
           id="endDate"
           required="true"
       ></app-input-date>
     </div>
+
+    <div class="col-12 col-md-2 my-1">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
   </div>
-
-  <div class="form-group" style="width: 3rem"></div>
-
-  <button type="submit" class="btn btn-primary">Search</button>
-
 </form>
