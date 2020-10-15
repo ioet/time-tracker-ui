@@ -89,7 +89,7 @@
 
 
   <div class="form-group row">
-    <label class="col-12 col-sm-2 col-form-label pr-0">Time in:</label>
+    <label class="col-12 col-sm-2">Time in:</label>
     <div class="col-12 col-sm-4">
       <input
         [clearIfNotMatch]="true"
@@ -108,8 +108,8 @@
         aria-describedby="inputGroup-sizing-sm"
       />
     </div>
-    
-    <label class="col-12 col-sm-2 col-form-label pr-0"  *ngIf="!goingToWorkOnThis">Time out:</label>
+
+    <label class="col-12 col-sm-2"  *ngIf="!goingToWorkOnThis">Time out:</label>
     <div class="col-12 col-sm-4"  *ngIf="!goingToWorkOnThis">
       <input
         *ngIf="!goingToWorkOnThis"
