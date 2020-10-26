@@ -23,25 +23,6 @@
     />
   </div>
 
-  <div class="form-group">
-    <label>Time in</label>
-     <input
-        [clearIfNotMatch]="true"
-        [showMaskTyped]="true"
-        [dropSpecialCharacters]="false"
-        matInput
-        mask="Hh:m0:s0"
-        (blur)="onUpdateStartHour()"
-        formControlName="start_hour"
-        id="start_hour"
-        type="text"
-        class="form-control"
-        aria-label="Small"
-        [class.is-invalid]="start_hour.invalid && start_hour.touched"
-        required
-      />
-  </div>
-
   <app-technologies
     (technologyAdded)="onTechnologyAdded($event)"
     (technologyRemoved)="onTechnologyRemoved($event)"

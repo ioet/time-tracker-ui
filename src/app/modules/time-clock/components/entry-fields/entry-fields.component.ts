@@ -12,10 +12,6 @@ import { ActivityState, LoadActivities } from '../../../activities-management/st
 
 import * as entryActions from '../../store/entry.actions';
 
-import * as moment from 'moment';
-import { ToastrService } from 'ngx-toastr';
-import { formatDate } from '@angular/common';
-
 type Merged = TechnologyState & ProjectState & ActivityState;
 
 @Component({
@@ -30,66 +26,48 @@ export class EntryFieldsComponent implements OnInit {
   activeEntry;
   newData;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private store: Store<Merged>,
-    private actionsSubject$: ActionsSubject,
-    private toastrService: ToastrService
-  ) {
+  constructor(private formBuilder: FormBuilder, private store: Store<Merged>, private actionsSubject$: ActionsSubject) {
     this.entryForm = this.formBuilder.group({
       description: '',
       uri: '',
       activity_id: '',
-      start_hour: '',
-      start_date: '',
     });
   }
 
   ngOnInit(): void {
     this.store.dispatch(new LoadActivities());
 
-    this.actionsSubject$
-      .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
-      .subscribe((action) => {
-        this.activities = action.payload;
+    this.actionsSubject$.pipe(
+      filter((action: any) => (action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
+    ).subscribe((action) => {
+      this.activities = action.payload;
+      this.store.dispatch(new LoadActiveEntry());
+    });
+
+    this.actionsSubject$.pipe(
+      filter((action: any) => (action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS))
+    ).subscribe((action) => {
+      if (!action.payload.end_date) {
         this.store.dispatch(new LoadActiveEntry());
-      });
+      }
+    });
 
-    this.actionsSubject$
-      .pipe(
-        filter((action: any) => (
-          action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
-          action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS
-        ))
-      ).subscribe((action) => {
-        if (!action.payload.end_date) {
-          this.store.dispatch(new LoadActiveEntry());
-          this.store.dispatch(new entryActions.LoadEntriesSummary());
-        }
-      });
-
-    this.actionsSubject$
-      .pipe(filter((action: any) => action.type === EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS))
-      .subscribe((action) => {
-        this.activeEntry = action.payload;
-        this.setDataToUpdate(this.activeEntry);
-        this.newData = {
-          id: this.activeEntry.id,
-          project_id: this.activeEntry.project_id,
-          uri: this.activeEntry.uri,
-          activity_id: this.activeEntry.activity_id,
-          start_date: this.activeEntry.start_date,
-          start_hour: formatDate(this.activeEntry.start_date, 'HH:mm:ss', 'en'),
-        };
-      });
+    this.actionsSubject$.pipe(
+      filter((action: any) => ( action.type === EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS ))
+    ).subscribe((action) => {
+      this.activeEntry = action.payload;
+      this.setDataToUpdate(this.activeEntry);
+      this.newData = {
+        id: this.activeEntry.id,
+        project_id: this.activeEntry.project_id,
+        uri: this.activeEntry.uri,
+        activity_id: this.activeEntry.activity_id,
+      };
+    });
   }
 
   get activity_id() {
     return this.entryForm.get('activity_id');
-  }
-
-  get start_hour() {
-    return this.entryForm.get('start_hour');
   }
 
   setDataToUpdate(entryData: NewEntry) {
@@ -98,7 +76,6 @@ export class EntryFieldsComponent implements OnInit {
         description: entryData.description,
         uri: entryData.uri,
         activity_id: entryData.activity_id,
-        start_hour: formatDate(entryData.start_date, 'HH:mm:ss', 'en'),
       });
       if (entryData.technologies) {
         this.selectedTechnologies = entryData.technologies;
@@ -113,19 +90,6 @@ export class EntryFieldsComponent implements OnInit {
   }
 
   onSubmit() {
-    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
-  }
-
-  onUpdateStartHour() {
-    const startDate = formatDate(this.activeEntry.start_date, 'yyyy-MM-dd', 'en');
-    const newHourEntered = new Date(`${startDate}T${this.entryForm.value.start_hour.trim()}`).toISOString();
-    const isEntryDateInTheFuture = moment(newHourEntered).isAfter(moment());
-    if (isEntryDateInTheFuture) {
-      this.toastrService.error('You cannot start a time-entry in the future');
-      this.entryForm.patchValue({ start_hour: this.newData.start_hour });
-      return;
-    }
-    this.entryForm.patchValue({ start_date: newHourEntered });
     this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
   }
 
