@@ -1,6 +1,7 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
+import { Account, UserAgentApplication } from 'msal';
 import { AzureAdB2CService } from './azure.ad.b2c.service';
-import { UserAgentApplication, Account } from 'msal';
+
 
 describe('AzureAdB2CService', () => {
   let service: AzureAdB2CService;
@@ -129,5 +130,21 @@ describe('AzureAdB2CService', () => {
 
     expect(sessionStorage.getItem).toHaveBeenCalled();
     expect(resp).toEqual(token);
+  });
+
+  it('should get email from UserAgentApplication', () => {
+    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValues(account);
+
+    const name = service.getName();
+
+    expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
+  });
+
+  it('should group from UserAgentApplication', () => {
+    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValues(account);
+
+    const name = service.getUserGroup();
+
+    expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
   });
 });

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
-import { CLIENT_ID, AUTHORITY, SCOPES } from '../../../../environments/environment';
 import { UserAgentApplication } from 'msal';
+import { from, Observable } from 'rxjs';
+
+import { AUTHORITY, CLIENT_ID, SCOPES } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -54,5 +55,13 @@ export class AzureAdB2CService {
   }
   getBearerToken(): string {
     return sessionStorage.getItem('msal.idtoken');
+  }
+
+  getUserEmail(): string {
+    return this.msal.getAccount().idToken?.emails[0];
+  }
+
+  getUserGroup(): string {
+    return this.msal.getAccount().idToken?.extension_role;
   }
 }
