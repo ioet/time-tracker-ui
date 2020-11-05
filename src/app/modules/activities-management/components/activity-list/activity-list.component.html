@@ -2,14 +2,16 @@
   <table class="table table-sm table-bordered table-striped">
     <thead class="thead-blue">
       <tr class="d-flex">
-        <th class="col-9">Activity</th>
+        <th class="col-4">Activity ID</th>
+        <th class="col-5">Activity</th>
         <th class="col-3 text-center"></th>
       </tr>
     </thead>
     <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
     <tbody *ngIf="(isLoading$ | async) === false">
       <tr class="d-flex" *ngFor="let activity of activities">
-        <td class="col-sm-9">{{ activity.name }}</td>
+        <td class="col-sm-4">{{ activity.id }}</td>
+        <td class="col-sm-5">{{ activity.name }}</td>
         <td class="col-sm-3 text-center">
           <button
             type="button"
