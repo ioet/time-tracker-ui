@@ -2,13 +2,15 @@
   <table class="table table-sm table-bordered table-striped">
     <thead class="thead-blue">
       <tr class="d-flex">
-        <th class="col-9">Project type</th>
+        <th class="col-4">Project Type ID</th>
+        <th class="col-5">Project type</th>
         <th class="col-3 text-center"></th>
       </tr>
     </thead>
     <tbody>
       <tr class="d-flex" *ngFor="let projectType of projectTypes">
-        <td class="col-sm-9">{{ projectType.name }}</td>
+        <td class="col-sm-4">{{ projectType.id }}</td>
+        <td class="col-sm-5">{{ projectType.name }}</td>
         <td class="col-sm-3 text-center">
           <button type="button" class="btn btn-sm btn-primary" (click)="updateProjectType(projectType.id)">
             <i class="fa fa-pencil fa-xs"></i>
