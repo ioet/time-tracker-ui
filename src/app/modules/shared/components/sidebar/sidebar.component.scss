@@ -44,7 +44,7 @@ body {
 }
 
 .content_app {
-  padding: 5rem 3rem;
+  padding: 2rem 3rem 5rem 3rem;
   overflow-y: auto;
 }
 
@@ -53,4 +53,12 @@ body {
   font-weight: bold;
   text-decoration: underline;
   border-color: $primary;
+}
+
+.full-height {
+  height: 100%;
+  height: -moz-calc(100vh - 12vh);
+  height: -webkit-calc(100vh - 12vh);
+  height: -o-calc(100vh - 12vh);
+  height: calc(100vh - 12vh);
 }
