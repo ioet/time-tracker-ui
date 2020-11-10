@@ -12,6 +12,8 @@ import {
 } from 'src/app/modules/customer-management/store';
 import { DataTablesModule } from 'angular-datatables';
 import { ActionsSubject } from '@ngrx/store';
+import { ResetProjectToEdit } from '../../../projects/components/store/project.actions';
+import { ResetProjectTypeToEdit } from '../../../projects-type/store';
 
 describe('CustomerTableListComponent', () => {
   let component: CustomerListComponent;
@@ -63,6 +65,15 @@ describe('CustomerTableListComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(new SetCustomerToEdit('1'));
     expect(component.showCustomerForm).toBeTruthy();
+  });
+
+  it('onClick edit, dispatch clean Forms in project and project type', () => {
+    spyOn(store, 'dispatch');
+
+    component.editCustomer('1');
+
+    expect(store.dispatch).toHaveBeenCalledWith(new ResetProjectToEdit());
+    expect(store.dispatch).toHaveBeenCalledWith(new ResetProjectTypeToEdit());
   });
 
   it('onClick delete, dispatch DeleteCustomer', () => {
@@ -121,7 +132,7 @@ describe('CustomerTableListComponent', () => {
     const actionSubject = TestBed.inject(ActionsSubject);
     const action = {
       type: CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS,
-      payload: state.data
+      payload: state.data,
     };
     spyOn(component.dtElement.dtInstance, 'then');
 

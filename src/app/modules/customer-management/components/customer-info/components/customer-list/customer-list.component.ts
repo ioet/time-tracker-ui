@@ -9,22 +9,23 @@ import {
   CustomerManagementActionTypes,
   DeleteCustomer,
   LoadCustomers,
-  SetCustomerToEdit
+  SetCustomerToEdit,
 } from './../../../../store/customer-management.actions';
+import { ResetProjectToEdit } from '../../../projects/components/store/project.actions';
+import { ResetProjectTypeToEdit } from '../../../projects-type/store';
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss'],
 })
 export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
-
   @Input() showCustomerForm: boolean;
   @Output() changeValueShowCustomerForm = new EventEmitter<boolean>();
   @Input()
   customers: Customer[] = [];
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
-  @ViewChild(DataTableDirective, {static: false})
+  @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   loadCustomersSubscription: Subscription;
   changeCustomerSubscription: Subscription;
@@ -40,33 +41,32 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.dtOptions = {
       scrollY: '290px',
-      paging: false
+      paging: false,
     };
-    this.loadCustomersSubscription = this.actionsSubject$.pipe(
-      filter((action: any) => (
-          action.type === CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS
-        )
-      )
-    ).subscribe((action) => {
-      this.customers = action.payload;
-      this.rerenderDataTable();
-    });
+    this.loadCustomersSubscription = this.actionsSubject$
+      .pipe(filter((action: any) => action.type === CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS))
+      .subscribe((action) => {
+        this.customers = action.payload;
+        this.rerenderDataTable();
+      });
 
-    this.changeCustomerSubscription = this.actionsSubject$.pipe(
-      filter((action: any) => (
-          action.type === CustomerManagementActionTypes.DELETE_CUSTOMER_SUCCESS ||
-          action.type === CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS ||
-          action.type === CustomerManagementActionTypes.CREATE_CUSTOMER_SUCCESS
+    this.changeCustomerSubscription = this.actionsSubject$
+      .pipe(
+        filter(
+          (action: any) =>
+            action.type === CustomerManagementActionTypes.DELETE_CUSTOMER_SUCCESS ||
+            action.type === CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS ||
+            action.type === CustomerManagementActionTypes.CREATE_CUSTOMER_SUCCESS
         )
       )
-    ).subscribe((action) => {
-      this.store.dispatch(new LoadCustomers());
-      this.showCustomerForm = false;
-    });
+      .subscribe((action) => {
+        this.store.dispatch(new LoadCustomers());
+        this.showCustomerForm = false;
+      });
     this.store.dispatch(new LoadCustomers());
   }
 
-    ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.rerenderDataTable();
   }
 
@@ -80,6 +80,12 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.showCustomerForm = true;
     this.changeValueShowCustomerForm.emit(this.showCustomerForm);
     this.store.dispatch(new SetCustomerToEdit(customerId));
+    this.resetProjectFieldsToEdit();
+  }
+
+  private resetProjectFieldsToEdit() {
+    this.store.dispatch(new ResetProjectToEdit());
+    this.store.dispatch(new ResetProjectTypeToEdit());
   }
 
   deleteCustomer() {
