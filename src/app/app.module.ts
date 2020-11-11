@@ -68,6 +68,8 @@ import { TimeRangeFormComponent } from './modules/reports/components/time-range-
 import { TimeEntriesTableComponent } from './modules/reports/components/time-entries-table/time-entries-table.component';
 import { DialogComponent } from './modules/shared/components/dialog/dialog.component';
 import { LoadingBarComponent } from './modules/shared/components/loading-bar/loading-bar.component';
+import { UsersComponent } from './modules/users/pages/users.component';
+import { UsersListComponent } from './modules/users/components/users-list/users-list.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -115,7 +117,9 @@ const maskConfig: Partial<IConfig> = {
     TimeRangeFormComponent,
     TimeEntriesTableComponent,
     DialogComponent,
-    LoadingBarComponent
+    LoadingBarComponent,
+    UsersComponent,
+    UsersListComponent
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
