@@ -4,7 +4,6 @@ about: new tasks of UI
 title: UI TASK
 labels: ''
 assignees: ''
-
 ---
 
 ** Purpose**
@@ -18,9 +17,10 @@ Links of design in invisionApp, mockflow, zeiplin, etc
 
 **Criteria of acceptance**
 List the parameters that the task must meet to be approved.
+
 - parameter one
 - parameter two
 - ...
 
 **Note**
-Information adicional,  for example links of documentation to work in xz task.
+Information adicional, for example links of documentation to work in xz task.
