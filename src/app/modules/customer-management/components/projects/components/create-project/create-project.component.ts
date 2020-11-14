@@ -86,6 +86,7 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
   }
 
   setDataToUpdate(projectData: Project) {
+    this.projectForm.reset();
     if (projectData) {
       this.projectForm.setValue({
         name: projectData.name,

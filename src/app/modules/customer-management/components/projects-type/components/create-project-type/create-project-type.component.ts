@@ -19,8 +19,7 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
   customerId: string;
   getCustomerIdSubscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder,
-              private store: Store<ProjectTypeState>) {
+  constructor(private formBuilder: FormBuilder, private store: Store<ProjectTypeState>) {
     this.projectTypeForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: [''],
@@ -47,6 +46,7 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
   }
 
   setDataToUpdate(projectTypeData: ProjectType) {
+    this.projectTypeForm.reset();
     if (projectTypeData) {
       this.projectTypeForm.setValue({
         name: projectTypeData.name,

@@ -38,10 +38,7 @@ describe('InputProjectComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CreateProjectComponent],
-      providers: [
-        FormBuilder,
-        provideMockStore({ initialState: state })
-      ],
+      providers: [FormBuilder, provideMockStore({ initialState: state })],
     }).compileComponents();
   }));
 
@@ -231,6 +228,14 @@ describe('InputProjectComponent', () => {
     expect(projectTypeSubscription).toHaveBeenCalledTimes(1);
     expect(component.projectForm.setValue).toHaveBeenCalledTimes(1);
     expect(component.projectForm.setValue).toHaveBeenCalledWith(projectForm);
+  });
+
+  it('shoud reset Project Form before set the data to Edit', () => {
+    spyOn(component.projectForm, 'reset');
+
+    component.setDataToUpdate(project);
+
+    expect(component.projectForm.reset).toHaveBeenCalled();
   });
 
   it('should dispatch a ResetActivityToEdit action', () => {

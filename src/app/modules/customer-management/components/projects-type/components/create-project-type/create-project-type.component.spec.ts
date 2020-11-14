@@ -41,10 +41,7 @@ describe('InputProjectTypeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CreateProjectTypeComponent],
-      providers: [
-        FormBuilder,
-        provideMockStore({ initialState: state })
-      ],
+      providers: [FormBuilder, provideMockStore({ initialState: state })],
     }).compileComponents();
   }));
 
@@ -151,6 +148,14 @@ describe('InputProjectTypeComponent', () => {
     component.setDataToUpdate(projectType);
     expect(component.projectTypeForm.setValue).toHaveBeenCalledTimes(1);
     expect(component.projectTypeForm.setValue).toHaveBeenCalledWith(projectTypeDataForm);
+  });
+
+  it('shoud reset Project Type Form before set the data to Edit', () => {
+    spyOn(component.projectTypeForm, 'reset');
+
+    component.setDataToUpdate(projectType);
+
+    expect(component.projectTypeForm.reset).toHaveBeenCalled();
   });
 
   it('should dispatch a ResetProjectTypeToEdit action', () => {
