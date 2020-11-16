@@ -1,0 +1,34 @@
+<div class="row mt-5">
+  <div class="col">
+    <table
+      class="table table-sm table-striped"
+      datatable
+      [dtTrigger]="dtTrigger"
+      [dtOptions]="dtOptions"
+      *ngIf="(reportDataSource$ | async) as dataSource"
+    >
+      <thead class="thead-blue">
+        <tr class="d-flex">
+          <th class="col md-col">User email</th>
+          <th class="col lg-col">Technology</th>
+          <th class="col x-sm-col" title="Duration (hours)">Time spend</th>
+        </tr>
+      </thead>
+      <app-loading-bar
+        *ngIf="dataSource.isLoading"
+      ></app-loading-bar>
+      <tbody *ngIf="!dataSource.isLoading">
+        <tr
+          class="d-flex"
+          *ngFor="let entry of dataSource.data"
+        >
+          <td class="col md-col">{{ entry.owner_email }}</td>
+          <td class="col lg-col">{{ entry.technologies }}</td>
+          <td class="col sm-col">
+            {{ entry.start_date | date: 'MM/dd/yyyy' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

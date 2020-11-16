@@ -69,6 +69,9 @@ import { TimeEntriesTableComponent } from './modules/reports/components/time-ent
 import { DialogComponent } from './modules/shared/components/dialog/dialog.component';
 import { LoadingBarComponent } from './modules/shared/components/loading-bar/loading-bar.component';
 
+import { TechnologyReportTableComponent } from './modules/technology-report/components/technology-report-table/technology-report-table.component';
+import { TechnologyReportComponent } from './modules/technology-report/pages/technology-report.component';
+
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -115,7 +118,9 @@ const maskConfig: Partial<IConfig> = {
     TimeRangeFormComponent,
     TimeEntriesTableComponent,
     DialogComponent,
-    LoadingBarComponent
+    LoadingBarComponent,
+    TechnologyReportComponent,
+    TechnologyReportTableComponent
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),

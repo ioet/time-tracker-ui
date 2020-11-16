@@ -45,6 +45,7 @@ export class SidebarComponent implements OnInit {
         {route: '/reports', icon: 'fas fa-chart-pie', text: 'Reports', active: false},
         {route: '/activities-management', icon: 'fas fa-file-alt', text: 'Activities', active: false},
         {route: '/customers-management', icon: 'fas fa-user', text: 'Customers', active: false},
+        {route: '/technology-report', icon: 'fas fa-user', text: 'Technology Report', active: false},
       ];
     } else {
       this.itemsSidebar = [

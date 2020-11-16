@@ -10,6 +10,7 @@ import { ActivitiesManagementComponent } from './modules/activities-management/p
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
+import { TechnologyReportComponent } from './modules/technology-report/pages/technology-report.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'time-entries', component: TimeEntriesComponent },
       { path: 'activities-management', component: ActivitiesManagementComponent },
       { path: 'customers-management', canActivate: [AdminGuard], component: CustomerComponent },
+      { path: 'technology-report', canActivate: [AdminGuard], component: TechnologyReportComponent},
       { path: '', pathMatch: 'full', redirectTo: 'time-clock' },
     ],
   },
