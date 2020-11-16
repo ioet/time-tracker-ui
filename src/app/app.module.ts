@@ -55,6 +55,7 @@ import { ProjectTypeListComponent } from './modules/customer-management/componen
 // tslint:disable-next-line: max-line-length
 import { CreateProjectTypeComponent } from './modules/customer-management/components/projects-type/components/create-project-type/create-project-type.component';
 import { CustomerEffects } from './modules/customer-management/store/customer-management.effects';
+import { UserEffects } from './modules/users/store/user.effects';
 import { EntryEffects } from './modules/time-clock/store/entry.effects';
 import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.token.interceptor';
 import { SubstractDatePipe } from './modules/shared/pipes/substract-date/substract-date.pipe';
@@ -148,6 +149,7 @@ const maskConfig: Partial<IConfig> = {
       TechnologyEffects,
       ProjectTypeEffects,
       EntryEffects,
+      UserEffects,
     ]),
     ToastrModule.forRoot()
   ],
