@@ -11,7 +11,7 @@ import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
 
 @Component({
-  selector: 'technology-report-table',
+  selector: 'app-technology-report-table',
   templateUrl: './technology-report-table.component.html',
   styleUrls: ['./technology-report-table.component.scss']
 })

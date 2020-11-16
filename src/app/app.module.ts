@@ -68,7 +68,7 @@ import { TimeRangeFormComponent } from './modules/reports/components/time-range-
 import { TimeEntriesTableComponent } from './modules/reports/components/time-entries-table/time-entries-table.component';
 import { DialogComponent } from './modules/shared/components/dialog/dialog.component';
 import { LoadingBarComponent } from './modules/shared/components/loading-bar/loading-bar.component';
-
+// tslint:disable-next-line: max-line-length
 import { TechnologyReportTableComponent } from './modules/technology-report/components/technology-report-table/technology-report-table.component';
 import { TechnologyReportComponent } from './modules/technology-report/pages/technology-report.component';
 
