@@ -2,10 +2,10 @@ import { ToastrService, IndividualConfig } from 'ngx-toastr';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TimeRangeFormComponent } from './time-range-form.component';
-import { EntryState } from '../../../time-clock/store/entry.reducer';
+import { EntryState } from '../../time-clock/store/entry.reducer';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InputDateComponent } from '../../../shared/components/input-date/input-date.component';
-import * as entryActions from '../../../time-clock/store/entry.actions';
+import { InputDateComponent } from '../../shared/components/input-date/input-date.component';
+import * as entryActions from '../../time-clock/store/entry.actions';
 import * as moment from 'moment';
 
 describe('Reports Page', () => {

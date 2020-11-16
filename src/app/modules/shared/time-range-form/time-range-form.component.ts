@@ -2,9 +2,10 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import * as entryActions from '../../../time-clock/store/entry.actions';
+import * as entryActions from '../../time-clock/store/entry.actions';
+
 import {Store} from '@ngrx/store';
-import {EntryState} from '../../../time-clock/store/entry.reducer';
+import {EntryState} from '../../time-clock/store/entry.reducer';
 import * as moment from 'moment';
 
 @Component({
