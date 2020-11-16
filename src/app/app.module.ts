@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
@@ -127,7 +127,7 @@ const maskConfig: Partial<IConfig> = {
     UsersComponent,
     UsersListComponent,
     TechnologyReportComponent,
-    TechnologyReportTableComponent
+    TechnologyReportTableComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
