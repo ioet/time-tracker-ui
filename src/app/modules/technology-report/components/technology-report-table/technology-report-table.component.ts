@@ -55,7 +55,8 @@ export class TechnologyReportTableComponent implements OnInit, OnDestroy, AfterV
         text: 'CSV',
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       }
-    ]
+    ],
+    responsive: true
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })

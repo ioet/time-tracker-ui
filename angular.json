@@ -25,6 +25,7 @@
             ],
             "styles": [
               "node_modules/datatables.net-dt/css/jquery.dataTables.css",
+              "node_modules/datatables.net-responsive-dt/css/responsive.dataTables.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css",
@@ -39,7 +40,8 @@
               "node_modules/datatables.net-buttons/js/buttons.colVis.js",
               "node_modules/datatables.net-buttons/js/buttons.flash.js",
               "node_modules/datatables.net-buttons/js/buttons.html5.js",
-              "node_modules/datatables.net-buttons/js/buttons.print.js"
+              "node_modules/datatables.net-buttons/js/buttons.print.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js"
             ]
           },
           "configurations": {

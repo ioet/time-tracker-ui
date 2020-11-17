@@ -1,0 +1,27 @@
+{
+    "data": [
+      {
+        "technology": [
+          {
+            "id": 1,
+            "name_technology": "Superman",
+            "users": [
+              {
+                "id": 1,
+                "email_user": "junito@gmail.com",
+                "time_spent": 10,
+                "project": [
+                  {
+                    "id": "1",
+                    "project_name": "Time tracker",
+                    "time_spent": "8"
+                  }
+                ]
+              }
+            ],
+            "time_spent": 10
+          }
+        ]
+      }
+    ]
+  }
