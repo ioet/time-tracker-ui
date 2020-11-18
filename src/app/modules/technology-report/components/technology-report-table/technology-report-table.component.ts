@@ -6,16 +6,18 @@ import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
-
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
+import * as  dataMock from './data.json';
 
 @Component({
   selector: 'app-technology-report-table',
   templateUrl: './technology-report-table.component.html',
   styleUrls: ['./technology-report-table.component.scss']
 })
+
 export class TechnologyReportTableComponent implements OnInit, OnDestroy, AfterViewInit {
+
   dtOptions: any = {
     scrollY: '600px',
     paging: false,
@@ -64,14 +66,17 @@ export class TechnologyReportTableComponent implements OnInit, OnDestroy, AfterV
   isLoading$: Observable<boolean>;
   reportDataSource$: Observable<DataSource<Entry>>;
 
+  technologies: any  = (dataMock  as  any).default;
   constructor(private store: Store<EntryState>) {
     this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
   }
+
 
   ngOnInit(): void {
     this.reportDataSource$.subscribe((ds) => {
       this.rerenderDataTable();
     });
+    console.log('data', dataMock);
   }
 
   ngAfterViewInit(): void {

@@ -9,24 +9,20 @@
     >
       <thead class="thead-blue">
         <tr class="d-flex">
-          <th class="col md-col">User email</th>
-          <th class="none" title="Duration (hours)">Time spend</th>
           <th class="none">Technology</th>
+          <th class="none">Time spend</th>
         </tr>
       </thead>
       <app-loading-bar
         *ngIf="dataSource.isLoading"
       ></app-loading-bar>
-      <tbody *ngIf="!dataSource.isLoading">
+      <tbody>
         <tr
           class="d-flex"
-          *ngFor="let entry of dataSource.data"
+          *ngFor="let data of technologies"
         >
-          <td class="col md-col">{{ entry.owner_email }}</td>
-          <td class="col lg-col">{{ entry.technologies }}</td>
-          <td class="col sm-col">
-            {{ entry.start_date | date: 'MM/dd/yyyy' }}
-          </td>
+          <td class="col md-col">{{ data.name_technology || '' }}</td>
+          <td class="col lg-col">{{ data.time_spent || ''}}</td>
         </tr>
       </tbody>
     </table>
