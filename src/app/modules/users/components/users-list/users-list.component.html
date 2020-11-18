@@ -14,8 +14,8 @@
       <td class="col-sm-3">{{ user.name }}</td>
       <td class="col-sm-3">{{ user.role }}</td>
       <td class="col-sm-3 text-center custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="{{user.name}}" [(ngModel)]="user.role" (click)="changeSwitch()"/>
-          <label class="custom-control-label" for="{{user.name}}"></label>
+        <input type="checkbox" class="custom-control-input" id="{{ user.id }}" />
+        <label class="custom-control-label" for="{{ user.id }}"></label>
       </td>
     </tr>
   </tbody>

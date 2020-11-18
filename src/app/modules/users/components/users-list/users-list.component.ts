@@ -52,8 +52,4 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       this.dtTrigger.next();
     }
   }
-
-  changeSwitch() {
-    console.log('ENTROOO');
-  }
 }
