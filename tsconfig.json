@@ -11,7 +11,6 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
-    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": false,
     "typeRoots": [
       "node_modules/@types"

@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { getTimeEntriesDataSource } from '../../store/entry.selectors';
+import { DATE_FORMAT } from 'src/environments/environment';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 
@@ -123,7 +124,7 @@ export class EntryFieldsComponent implements OnInit {
 
   onUpdateStartHour() {
     this.getLastEntry();
-    const startDate = formatDate(this.activeEntry.start_date, 'yyyy-MM-dd', 'en');
+    const startDate = formatDate(this.activeEntry.start_date, DATE_FORMAT, 'en');
     const newHourEntered = new Date(`${startDate}T${this.entryForm.value.start_hour.trim()}`).toISOString();
     const isEntryDateInTheFuture = moment(newHourEntered).isAfter(moment());
     if (isEntryDateInTheFuture) {

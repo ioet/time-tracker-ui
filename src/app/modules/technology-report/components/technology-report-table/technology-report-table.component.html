@@ -3,26 +3,37 @@
     <table
       class="table table-sm table-striped"
       datatable
-      [dtTrigger]="dtTrigger"
       [dtOptions]="dtOptions"
-      *ngIf="(reportDataSource$ | async) as dataSource"
     >
       <thead class="thead-blue">
         <tr class="d-flex">
-          <th class="none">Technology</th>
-          <th class="none">Time spend</th>
+          <th class="col md-col">Technology</th>
+          <th class="col md-col">Time spend</th>
+          <th class="none"></th>
         </tr>
       </thead>
-      <app-loading-bar
-        *ngIf="dataSource.isLoading"
-      ></app-loading-bar>
       <tbody>
         <tr
           class="d-flex"
-          *ngFor="let data of technologies"
+          *ngFor="let tech of technologies"
         >
-          <td class="col md-col">{{ data.name_technology || '' }}</td>
-          <td class="col lg-col">{{ data.time_spent || ''}}</td>
+          <td class="col md-col">{{ tech.name_technology || '' }}</td>
+          <td class="col lg-col">{{ tech.time_spent || ''}}</td>
+          <td class="none">
+            <table>
+              <div *ngFor="let user of tech.users">
+                <tr
+                >
+                  <th>{{ user.email_user }}</th>
+                  <th>{{ user.time_spent || '' }}</th>
+                </tr>
+                <tr *ngFor="let project of user.projects">
+                  <td>{{ project.project_name }}</td>
+                  <td>{{ project.time_spent || '' }}</td>
+                </tr>
+              </div>
+            </table>
+          </td>
         </tr>
       </tbody>
     </table>

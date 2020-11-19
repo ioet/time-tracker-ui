@@ -16,6 +16,8 @@ export const ITEMS_PER_PAGE = 5;
 export const STACK_EXCHANGE_ID = keys.STACK_EXCHANGE_ID;
 export const STACK_EXCHANGE_ACCESS_TOKEN = keys.STACK_EXCHANGE_ACCESS_TOKEN;
 export const AZURE_APP_CONFIGURATION_CONNECTION_STRING = keys.AZURE_APP_CONFIGURATION_CONNECTION_STRING;
+export const DATE_FORMAT = 'yyyy-MM-dd';
+export const DATE_FORMAT_YEAR = 'YYYY-MM-DD';
 
 /*
  * For easier debugging in development mode, you can import the following file
