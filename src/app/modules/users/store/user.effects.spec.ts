@@ -30,7 +30,7 @@ describe('UserEffects', () => {
     expect(effects).toBeTruthy();
   });
 
-  it('should return a list of users when the action LOAD_USERS is called', async () => {
+  it('should return a list of users when the action LOAD_USERS call succeeds', async () => {
     actions$ = of({ type: UserActionTypes.LOAD_USERS });
     const serviceSpy = spyOn(service, 'loadUsers');
     serviceSpy.and.returnValue(of(user));

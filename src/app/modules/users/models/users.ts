@@ -3,6 +3,6 @@ export interface User {
   email: string;
   role?: string;
   id: string;
-  tenand_id?: string;
+  tenant_id?: string;
   deleted?: string;
 }

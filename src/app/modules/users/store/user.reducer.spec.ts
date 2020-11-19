@@ -1,5 +1,4 @@
 import { UserState, userReducer } from './user.reducers';
-import { User } from '../models/users';
 import * as actions from './user.actions';
 
 describe('userReducer', () => {
@@ -12,7 +11,7 @@ describe('userReducer', () => {
     expect(state.isLoading).toEqual(true);
   });
 
-  it('on LoadUserSucess, isLoading is flase and state has data', () => {
+  it('on LoadUserSucess, isLoading is false and state has data', () => {
     const data = [];
     const action = new actions.LoadUsersSuccess(data);
     const state = userReducer(initialState, action);
