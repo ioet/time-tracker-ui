@@ -11,7 +11,7 @@ describe('userReducer', () => {
     expect(state.isLoading).toEqual(true);
   });
 
-  it('on LoadUserSucess, isLoading is false and state has data', () => {
+  it('on LoadUserSuccess, isLoading is false and state has data', () => {
     const data = [];
     const action = new actions.LoadUsersSuccess(data);
     const state = userReducer(initialState, action);

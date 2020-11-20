@@ -12,7 +12,7 @@ describe('UserEffects', () => {
   let actions$: Observable<Action>;
   let effects: UserEffects;
   let service: UsersService;
-  let toastrService;
+  let toastrService: ToastrService;
   const user = { id: 'id', name: 'name', email: 'email' };
 
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('UserEffects', () => {
     expect(effects).toBeTruthy();
   });
 
-  it('should return a list of users when the action LOAD_USERS call succeeds', async () => {
+  it('action type is LOAD_USER_SUCCESS when service is executed sucessfully', async () => {
     actions$ = of({ type: UserActionTypes.LOAD_USERS });
     const serviceSpy = spyOn(service, 'loadUsers');
     serviceSpy.and.returnValue(of(user));
@@ -40,7 +40,7 @@ describe('UserEffects', () => {
     });
   });
 
-  it('should return an error when the action LOAD_USERS call fails', async () => {
+  it('action type is LOAD_USER_FAIL when service fail in execution', async () => {
     actions$ = of({ type: UserActionTypes.LOAD_USERS });
     const serviceSpy = spyOn(service, 'loadUsers');
     serviceSpy.and.returnValue(throwError({ error: { message: 'fail!' } }));

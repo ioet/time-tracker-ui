@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -51,5 +51,9 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.dtTrigger.next();
     }
+  }
+
+  switchToAdmin(userId: string) {
+    console.log('Upcoming change to' + userId);
   }
 }

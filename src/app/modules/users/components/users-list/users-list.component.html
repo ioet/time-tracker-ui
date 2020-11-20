@@ -1,20 +1,24 @@
 <table *ngIf="users" class="table table-sm table-bordered table-striped mb-0" datatable [dtTrigger]="dtTrigger">
   <thead class="thead-blue">
     <tr class="d-flex">
-      <th class="col-3">User Email</th>
-      <th class="col-3">Names</th>
-      <th class="col-3">Role</th>
-      <th class="col-3 text-center">Options</th>
+      <th class="col-4">User Email</th>
+      <th class="col-4">Names</th>
+      <th class="col-4 text-center">Admin Role</th>
     </tr>
   </thead>
   <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
   <tbody *ngIf="(isLoading$ | async) === false">
     <tr class="d-flex" *ngFor="let user of users">
-      <td class="col-sm-3">{{ user.email }}</td>
-      <td class="col-sm-3">{{ user.name }}</td>
-      <td class="col-sm-3">{{ user.role }}</td>
-      <td class="col-sm-3 text-center custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="{{ user.id }}" />
+      <td class="col-sm-4">{{ user.email }}</td>
+      <td class="col-sm-4">{{ user.name }}</td>
+      <td class="col-sm-4 text-center custom-control custom-switch">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="{{ user.id }}"
+          [(ngModel)]="user.role"
+          (change)="switchToAdmin(user.id)"
+        />
         <label class="custom-control-label" for="{{ user.id }}"></label>
       </td>
     </tr>

@@ -6,7 +6,6 @@ import { UsersListComponent } from './users-list.component';
 import { UserActionTypes, UserState, LoadUsers } from '../../store';
 import { ActionsSubject } from '@ngrx/store';
 import { DataTablesModule } from 'angular-datatables';
-import { act } from '@ngrx/effects';
 
 describe('UsersListComponent', () => {
   let component: UsersListComponent;
@@ -14,8 +13,8 @@ describe('UsersListComponent', () => {
   let store: MockStore<UserState>;
   const actionSub: ActionsSubject = new ActionsSubject();
 
-  const state = {
-    data: [{ name: 'name', email: 'email', role: 'role', id: 'id', tenand_id: 'tenand id', deleted: 'delete' }],
+  const state: UserState = {
+    data: [{ name: 'name', email: 'email', role: 'role', id: 'id', tenant_id: 'tenant id', deleted: 'delete' }],
     isLoading: false,
     message: '',
   };
