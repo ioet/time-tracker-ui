@@ -52,8 +52,4 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       this.dtTrigger.next();
     }
   }
-
-  switchToAdmin(userId: string) {
-    console.log('Upcoming change to' + userId);
-  }
 }
