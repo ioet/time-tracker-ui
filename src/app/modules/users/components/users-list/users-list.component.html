@@ -1,0 +1,15 @@
+<table *ngIf="users" class="table table-sm table-bordered table-striped mb-0" datatable [dtTrigger]="dtTrigger">
+  <thead class="thead-blue">
+    <tr class="d-flex">
+      <th class="col-6">User Email</th>
+      <th class="col-6">Names</th>
+    </tr>
+  </thead>
+  <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
+  <tbody *ngIf="(isLoading$ | async) === false">
+    <tr class="d-flex" *ngFor="let user of users">
+      <td class="col-sm-6">{{ user.email }}</td>
+      <td class="col-sm-6">{{ user.name }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -56,7 +56,7 @@ describe('SidebarComponent', () => {
     component.getSidebarItems();
     const menuItems = component.itemsSidebar;
 
-    expect(menuItems.length).toBe(5);
+    expect(menuItems.length).toBe(6);
   });
 
   it('non admin users have two menu items', () => {

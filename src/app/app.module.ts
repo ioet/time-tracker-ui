@@ -55,6 +55,7 @@ import { ProjectTypeListComponent } from './modules/customer-management/componen
 // tslint:disable-next-line: max-line-length
 import { CreateProjectTypeComponent } from './modules/customer-management/components/projects-type/components/create-project-type/create-project-type.component';
 import { CustomerEffects } from './modules/customer-management/store/customer-management.effects';
+import { UserEffects } from './modules/users/store/user.effects';
 import { EntryEffects } from './modules/time-clock/store/entry.effects';
 import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.token.interceptor';
 import { SubstractDatePipe } from './modules/shared/pipes/substract-date/substract-date.pipe';
@@ -68,6 +69,8 @@ import { TimeRangeFormComponent } from './modules/reports/components/time-range-
 import { TimeEntriesTableComponent } from './modules/reports/components/time-entries-table/time-entries-table.component';
 import { DialogComponent } from './modules/shared/components/dialog/dialog.component';
 import { LoadingBarComponent } from './modules/shared/components/loading-bar/loading-bar.component';
+import { UsersComponent } from './modules/users/pages/users.component';
+import { UsersListComponent } from './modules/users/components/users-list/users-list.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -115,7 +118,9 @@ const maskConfig: Partial<IConfig> = {
     TimeRangeFormComponent,
     TimeEntriesTableComponent,
     DialogComponent,
-    LoadingBarComponent
+    LoadingBarComponent,
+    UsersComponent,
+    UsersListComponent
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
@@ -144,6 +149,7 @@ const maskConfig: Partial<IConfig> = {
       TechnologyEffects,
       ProjectTypeEffects,
       EntryEffects,
+      UserEffects,
     ]),
     ToastrModule.forRoot()
   ],
