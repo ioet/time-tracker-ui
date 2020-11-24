@@ -25,4 +25,19 @@ describe('Customer selectors', () => {
     const customerState = { customerId };
     expect(selectors.getCustomerId.projector(customerState)).toBe(customerId);
   });
+
+  it('should select customerUnderEdition', () => {
+    const customerId = 'id';
+    const customers = [{id: 'id', name: 'abc', description: 'xxx'},
+    {id: '2', name: 'xyz', description: 'yyy'}];
+    const customerFound = selectors.getCustomerUnderEdition.projector(customers, customerId);
+    expect(customerFound).toEqual(customers[0]);
+  });
+
+  it('should select getIsLoading', () => {
+    const isLoadingValue = true;
+    const customerManagementState = { isLoading: isLoadingValue };
+
+    expect(selectors.getIsLoading.projector(customerManagementState)).toBe(isLoadingValue);
+  });
 });

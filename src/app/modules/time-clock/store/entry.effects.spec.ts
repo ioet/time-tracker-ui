@@ -261,7 +261,82 @@ describe('TimeEntryActionEffects', () => {
     });
   });
 
+  it('action type is LOAD_ENTRIES_SUCCESS when service is executed sucessfully', async () => {
+    actions$ = of({ type: EntryActionTypes.LOAD_ENTRIES });
+    const serviceSpy = spyOn(service, 'loadEntries');
+    serviceSpy.and.returnValue(of(entry));
 
-  // TODO Implement the remaining unit tests for the other effects.
+    effects.loadEntries$.subscribe((action) => {
+      expect(action.type).toEqual(EntryActionTypes.LOAD_ENTRIES_SUCCESS);
+    });
+  });
 
+  it('action type is LOAD_ENTRIES_FAIL when service fail in execution', async () => {
+    actions$ = of({ type: EntryActionTypes.LOAD_ENTRIES });
+    const serviceSpy = spyOn(service, 'loadEntries');
+    serviceSpy.and.returnValue(throwError({ error: { message: 'fail!' } }));
+    spyOn(toastrService, 'warning');
+
+    effects.loadEntries$.subscribe((action) => {
+      expect(toastrService.warning).toHaveBeenCalled();
+      expect(action.type).toEqual(EntryActionTypes.LOAD_ENTRIES_FAIL);
+    });
+  });
+
+  it('type is CREATE_ENTRY_SUCCESS when service is executed sucessfully and display a INFO_SAVE_SUCCESS', async () => {
+    const entryTest: Entry = { project_id: 'p-id', start_date: new Date(), id: 'id', end_date: new Date() };
+    actions$ = of({ type: EntryActionTypes.CREATE_ENTRY, payload: entryTest });
+    spyOn(toastrService, 'success');
+    spyOn(service, 'createEntry').and.returnValue(of(entryTest));
+
+    effects.createEntry$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith(INFO_SAVED_SUCCESSFULLY);
+      expect(action.type).toEqual(EntryActionTypes.CREATE_ENTRY_SUCCESS);
+    });
+  });
+
+  it('type is CREATE_ENTRY_SUCCESS when service is executed sucessfully and display a clocked In message', async () => {
+    const entryTest: Entry = { project_id: 'p-id', start_date: new Date(), id: 'id', end_date: null };
+    actions$ = of({ type: EntryActionTypes.CREATE_ENTRY, payload: entryTest });
+    spyOn(toastrService, 'success');
+    spyOn(service, 'createEntry').and.returnValue(of(entryTest));
+
+    effects.createEntry$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('You clocked-in successfully');
+      expect(action.type).toEqual(EntryActionTypes.CREATE_ENTRY_SUCCESS);
+    });
+  });
+
+  it('action type is CREATE_ENTRY_FAIL when service fail in execution', async () => {
+    actions$ = of({ type: EntryActionTypes.CREATE_ENTRY, payload: entry });
+    spyOn(toastrService, 'error');
+    spyOn(service, 'createEntry').and.returnValue(throwError({ error: { message: 'fail!' } }));
+
+    effects.createEntry$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(EntryActionTypes.CREATE_ENTRY_FAIL);
+    });
+  });
+
+  it('action type is STOP_TIME_ENTRY_RUNNING_SUCCESS when service is executed sucessfully and display a clocked Out message', async () => {
+    actions$ = of({ type: EntryActionTypes.STOP_TIME_ENTRY_RUNNING, payload: entry });
+    spyOn(toastrService, 'success');
+    spyOn(service, 'stopEntryRunning').and.returnValue(of(entry));
+
+    effects.stopTimeEntryRunning$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('You clocked-out successfully');
+      expect(action.type).toEqual(EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS);
+    });
+  });
+
+  it('action type is STOP_TIME_ENTRY_RUNNING_FAILED when service fail in execution', async () => {
+    actions$ = of({ type: EntryActionTypes.STOP_TIME_ENTRY_RUNNING, payload: entry });
+    spyOn(toastrService, 'error');
+    spyOn(service, 'stopEntryRunning').and.returnValue(throwError({ error: { message: 'fail!' } }));
+
+    effects.stopTimeEntryRunning$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(EntryActionTypes.STOP_TIME_ENTRY_RUNNING_FAILED);
+    });
+  });
 });
