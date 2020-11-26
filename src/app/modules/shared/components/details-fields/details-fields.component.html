@@ -72,8 +72,8 @@
 
 
   <div class="form-group row">
-    <label class="col-12 col-sm-2 col-form-label">Date:</label>
-    <div class="col-12 col-sm-10">
+    <label class="col-12 col-sm-2">Date in:</label>
+    <div class="col-12 col-sm-4">
       <input
         formControlName="entry_date"
         id="entry_date"
@@ -82,6 +82,20 @@
         aria-label="Small"
         aria-describedby="inputGroup-sizing-sm"
         [class.is-invalid]="entry_date.invalid && entry_date.touched"
+        required
+      />
+    </div>
+
+    <label class="col-12 col-sm-2" *ngIf="!goingToWorkOnThis">Date out:</label>
+    <div class="col-12 col-sm-4" *ngIf="!goingToWorkOnThis">
+      <input
+        formControlName="departure_date"
+        id="departure_date"
+        type="date"
+        class="form-control"
+        aria-label="Small"
+        aria-describedby="inputGroup-sizing-sm"
+        [class.is-invalid]="departure_date.invalid && departure_date.touched"
         required
       />
     </div>

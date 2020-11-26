@@ -49,6 +49,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       activity_id: ['', Validators.required],
       description: '',
       entry_date: '',
+      departure_date: '',
       start_hour: '',
       end_hour: '',
       uri: '',
@@ -130,6 +131,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         activity_id: this.entryToEdit.activity_id,
         description: this.entryToEdit.description,
         entry_date: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'yyyy-MM-dd', 'en') : '',
+        departure_date: formatDate(this.entryToEdit.end_date ? this.entryToEdit.end_date : new Date(), 'yyyy-MM-dd', 'en'),
         start_hour: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'HH:mm:ss', 'en') : '00:00:00',
         end_hour: this.entryToEdit.end_date ? formatDate(this.entryToEdit.end_date, 'HH:mm:ss', 'en') : '00:00:00',
         uri: this.entryToEdit.uri,
@@ -148,6 +150,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       activity_id: '',
       description: '',
       entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      departure_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
       start_hour: '00:00:00',
       end_hour: '00:00:00',
       uri: '',
@@ -175,6 +178,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     return this.entryForm.get('entry_date');
   }
 
+  get departure_date() {
+    return this.entryForm.get('departure_date');
+  }
+
   get start_hour() {
     return this.entryForm.get('start_hour');
   }
@@ -195,13 +202,14 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     }
     // start&end date same for now
     const entryDate = this.entryForm.value.entry_date;
+    const departureDate = this.entryForm.value.departure_date;
     const entry = {
       project_id: this.entryForm.value.project_id,
       activity_id: this.entryForm.value.activity_id,
       technologies: this.selectedTechnologies ? this.selectedTechnologies : [],
       description: this.entryForm.value.description,
       start_date: new Date(`${entryDate}T${this.entryForm.value.start_hour.trim()}`).toISOString(),
-      end_date: new Date(`${entryDate}T${this.entryForm.value.end_hour.trim()}`).toISOString(),
+      end_date: new Date(`${departureDate}T${this.entryForm.value.end_hour.trim()}`).toISOString(),
       uri: this.entryForm.value.uri,
       timezone_offset: new Date().getTimezoneOffset(),
     };
