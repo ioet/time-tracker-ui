@@ -1,5 +1,6 @@
 <div class="row mt-5">
   <div class="col">
+    <p *ngIf="(showVersionNumber$ | async)">Nueva version</p>
     <table
       class="table table-sm table-striped"
       datatable

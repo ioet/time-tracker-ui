@@ -4,11 +4,12 @@ import { select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
+import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
-
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
+
 
 @Component({
   selector: 'app-time-entries-table',
@@ -62,15 +63,19 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   dtElement: DataTableDirective;
   isLoading$: Observable<boolean>;
   reportDataSource$: Observable<DataSource<Entry>>;
+  showVersionNumber$: Observable<boolean>;
 
-  constructor(private store: Store<EntryState>) {
+  constructor(private store: Store<EntryState>, private featureManagerService: FeatureManagerService) {
     this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
+    this.showVersionNumber$ = this.featureManagerService.isToggleEnabledForUser('new-reports-layout', 'dev');
+
   }
 
   ngOnInit(): void {
     this.reportDataSource$.subscribe((ds) => {
       this.rerenderDataTable();
     });
+    this.showVersionNumber$.subscribe(featureToggle => console.log('El valor del toggle es:', featureToggle));
   }
 
   ngAfterViewInit(): void {
