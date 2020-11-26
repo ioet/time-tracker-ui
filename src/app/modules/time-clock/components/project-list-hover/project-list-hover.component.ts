@@ -105,6 +105,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new entryActions.SwitchTimeEntry(this.activeEntry.id, selectedProject));
       this.projectsForm.setValue( { project_id: `${customerName} - ${name}`, } );
+      this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     }
   }
 

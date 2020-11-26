@@ -27,6 +27,11 @@ describe('EntryFieldsComponent', () => {
     error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
     warning: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
   };
+  const lastDate = moment().format('YYYY-MM-DD');
+  const startHourTest = moment().add(-5, 'hours').format('HH:mm:ss');
+  const endHourTest = moment().add(-3, 'hours').format('HH:mm:ss');
+  const lastStartHourEntryEntered = new Date(`${lastDate}T${startHourTest.trim()}`).toISOString();
+  const lastEndHourEntryEntered = new Date(`${lastDate}T${endHourTest.trim()}`).toISOString();
 
   const state = {
     projects: {
@@ -57,6 +62,28 @@ describe('EntryFieldsComponent', () => {
       },
       entryList: [],
       message: '',
+      timeEntriesDataSource: { data: [
+        {
+          activity_id: 'xyz',
+          activity_name: 'abc',
+          id: 'id-15',
+          project_id: 'project-id-15',
+          description: 'description for an entry',
+          uri: 'abc',
+          start_date : moment().toISOString(),
+          end_date : moment().toISOString(),
+        },
+        {
+          activity_id: 'xyz',
+          activity_name: 'abc',
+          id: 'id-15',
+          project_id: 'project-id-15',
+          description: 'description for an entry',
+          uri: 'abc',
+          start_date : lastStartHourEntryEntered,
+          end_date : lastEndHourEntryEntered,
+        }
+      ]}
     },
   };
 
@@ -134,6 +161,37 @@ describe('EntryFieldsComponent', () => {
     expect(toastrServiceStub.error).toHaveBeenCalled();
   });
 
+  it('displays error message when new hour entered is in the past of other entry', () => {
+    component.newData = entry;
+    component.activeEntry = entry ;
+    component.setDataToUpdate(entry);
+    spyOn(toastrServiceStub, 'error');
+
+    const hourInTheFuture = moment().add(-6, 'hour').format('HH:mm:ss');
+    component.entryForm.patchValue({ start_hour : hourInTheFuture});
+    component.onUpdateStartHour();
+
+    expect(toastrServiceStub.error).toHaveBeenCalled();
+  });
+
+  it('If start hour is in the past of other entry, reset to initial start_date in form', () => {
+    component.newData = entry;
+    component.activeEntry = entry ;
+    component.setDataToUpdate(entry);
+
+    const newHour = moment().add(-6, 'hours').format('HH:mm:ss');
+    component.entryForm.patchValue({ start_hour : newHour});
+
+    spyOn(component.entryForm, 'patchValue');
+    component.onUpdateStartHour();
+
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith(
+      {
+        start_hour: component.newData.start_hour
+      }
+    );
+  });
+
   it('If start hour is in the future, reset to initial start_date in form', () => {
     component.newData = entry;
     component.activeEntry = entry ;
@@ -155,10 +213,35 @@ describe('EntryFieldsComponent', () => {
   it('when a start hour is updated, then dispatch UpdateActiveEntry', () => {
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
+    const newHour = moment().format('HH:mm:ss');
+    component.entryForm.patchValue({ start_hour : newHour});
     spyOn(store, 'dispatch');
 
     component.onUpdateStartHour();
     expect(store.dispatch).toHaveBeenCalled();
+  });
+
+  it('when a start hour is update, then select the last time entry', async(() => {
+    component.activeEntry = entry ;
+    component.setDataToUpdate(entry);
+    const newHour = moment().format('HH:mm:ss');
+
+    component.entryForm.patchValue({ start_hour : newHour});
+    component.onUpdateStartHour();
+
+    expect(component.lastEntry).toBe(state.entries.timeEntriesDataSource.data[1]);
+  }));
+
+  it('when a start hour is updated in other time entry, then dispatch UpdateEntry and UpdateEntryRunning', () => {
+    component.activeEntry = entry ;
+    component.setDataToUpdate(entry);
+
+    const newHour = moment().add(-4, 'hours').format('HH:mm:ss');
+    component.entryForm.patchValue({ start_hour : newHour});
+    spyOn(store, 'dispatch');
+
+    component.onUpdateStartHour();
+    expect(store.dispatch).toHaveBeenCalledTimes(2);
   });
 
   it('when a technology is added, then dispatch UpdateActiveEntry', () => {

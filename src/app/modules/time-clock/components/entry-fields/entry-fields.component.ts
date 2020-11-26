@@ -3,8 +3,7 @@ import { EntryActionTypes, LoadActiveEntry } from './../../store/entry.actions';
 import { filter } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Store, ActionsSubject } from '@ngrx/store';
-
+import { Store, ActionsSubject, select } from '@ngrx/store';
 import { Activity, NewEntry } from '../../../shared/models';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { TechnologyState } from '../../../shared/store/technology.reducers';
@@ -15,6 +14,7 @@ import * as entryActions from '../../store/entry.actions';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
+import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 
@@ -29,6 +29,7 @@ export class EntryFieldsComponent implements OnInit {
   activities: Activity[] = [];
   activeEntry;
   newData;
+  lastEntry;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,6 +37,7 @@ export class EntryFieldsComponent implements OnInit {
     private actionsSubject$: ActionsSubject,
     private toastrService: ToastrService
   ) {
+    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     this.entryForm = this.formBuilder.group({
       description: '',
       uri: '',
@@ -57,11 +59,13 @@ export class EntryFieldsComponent implements OnInit {
 
     this.actionsSubject$
       .pipe(
-        filter((action: any) => (
-          action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
-          action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS
-        ))
-      ).subscribe((action) => {
+        filter(
+          (action: any) =>
+            action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
+            action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS
+        )
+      )
+      .subscribe((action) => {
         if (!action.payload.end_date) {
           this.store.dispatch(new LoadActiveEntry());
           this.store.dispatch(new entryActions.LoadEntriesSummary());
@@ -126,8 +130,34 @@ export class EntryFieldsComponent implements OnInit {
       this.entryForm.patchValue({ start_hour: this.newData.start_hour });
       return;
     }
+
+    this.getLastEntry();
+
+    const isFirstEntry = this.lastEntry !== undefined ? this.lastEntry.start_date : moment().add(-1, 'hours');
+    const isEntryDateInLastStartDate = moment(newHourEntered).isBefore(isFirstEntry);
+    if (isEntryDateInLastStartDate) {
+      this.toastrService.error('You cannot start a time-entry before another time-entry');
+      this.entryForm.patchValue({ start_hour: this.newData.start_hour });
+      return;
+    }
     this.entryForm.patchValue({ start_date: newHourEntered });
+    this.dispatchEntries(newHourEntered);
+  }
+
+  private dispatchEntries(newHourEntered) {
+    const isFirstEntry = this.lastEntry !== undefined ? this.lastEntry.end_date : moment().add(-1, 'hours');
+    const isInLastEntry = moment(newHourEntered).isBefore(isFirstEntry);
+    if (isInLastEntry) {
+      this.store.dispatch(new entryActions.UpdateEntry({ id: this.lastEntry.id, end_date: newHourEntered }));
+    }
     this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
+  }
+
+  private getLastEntry() {
+    const lastEntry$ = this.store.pipe(select(getTimeEntriesDataSource));
+    lastEntry$.subscribe((entry) => {
+      this.lastEntry = entry.data[1];
+    });
   }
 
   onTechnologyAdded($event: string[]) {
