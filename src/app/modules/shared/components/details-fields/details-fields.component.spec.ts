@@ -67,6 +67,7 @@ describe('DetailsFieldsComponent', () => {
     activity_id: '',
     uri: '',
     entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+    departure_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
     start_hour: '00:00:00',
     end_hour: '00:00:00',
     description: '',
@@ -109,6 +110,7 @@ describe('DetailsFieldsComponent', () => {
       activity_id: 'a1',
       uri: 'ticketUri',
       entry_date: '',
+      departure_date: '',
       start_hour: '00:00:10',
       end_hour: '00:00:11',
       description: '',
@@ -177,6 +179,7 @@ describe('DetailsFieldsComponent', () => {
       activity_id: '',
       uri: '',
       entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      departure_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
       start_hour: '00:00:00',
       end_hour: '00:00:00',
       description: '',
@@ -213,6 +216,7 @@ describe('DetailsFieldsComponent', () => {
       activity_id: 'a1',
       uri: '',
       entry_date: '2020-02-05',
+      departure_date: '2020-02-05',
       start_hour: '00:00:01',
       end_hour: '00:01:01',
       description: '',
@@ -287,7 +291,7 @@ describe('DetailsFieldsComponent', () => {
     component.goingToWorkOnThis = true;
     spyOn(component.saveEntry, 'emit');
 
-    component.entryForm.setValue({ ...formValues, entry_date: '2020-06-11' });
+    component.entryForm.setValue({ ...formValues, entry_date: '2020-06-11', departure_date: '2020-06-11' });
 
     component.onSubmit();
 
@@ -311,7 +315,7 @@ describe('DetailsFieldsComponent', () => {
     spyOn(toastrServiceStub, 'error');
 
     const futureDate = moment().add(1, 'days').format('YYYY-MM-DD');
-    component.entryForm.setValue({ ...formValues, entry_date: futureDate });
+    component.entryForm.setValue({ ...formValues, entry_date: futureDate, departure_date: futureDate });
     component.onSubmit();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
