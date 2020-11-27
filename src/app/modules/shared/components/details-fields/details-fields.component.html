@@ -86,23 +86,6 @@
       />
     </div>
 
-    <label class="col-12 col-sm-2" *ngIf="!goingToWorkOnThis">Date out:</label>
-    <div class="col-12 col-sm-4" *ngIf="!goingToWorkOnThis">
-      <input
-        formControlName="departure_date"
-        id="departure_date"
-        type="date"
-        class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-        [class.is-invalid]="departure_date.invalid && departure_date.touched"
-        required
-      />
-    </div>
-  </div>
-
-
-  <div class="form-group row">
     <label class="col-12 col-sm-2">Time in:</label>
     <div class="col-12 col-sm-4">
       <input
@@ -122,11 +105,27 @@
         aria-describedby="inputGroup-sizing-sm"
       />
     </div>
+  </div>
 
-    <label class="col-12 col-sm-2"  *ngIf="!goingToWorkOnThis">Time out:</label>
-    <div class="col-12 col-sm-4"  *ngIf="!goingToWorkOnThis">
+
+  <div class="form-group row" *ngIf="!goingToWorkOnThis">
+    <label class="col-12 col-sm-2">Date out:</label>
+    <div class="col-12 col-sm-4">
       <input
-        *ngIf="!goingToWorkOnThis"
+        formControlName="departure_date"
+        id="departure_date"
+        type="date"
+        class="form-control"
+        aria-label="Small"
+        aria-describedby="inputGroup-sizing-sm"
+        [class.is-invalid]="departure_date.invalid && departure_date.touched"
+        required
+      />
+    </div>
+
+    <label class="col-12 col-sm-2">Time out:</label>
+    <div class="col-12 col-sm-4">
+      <input
         [clearIfNotMatch]="true"
         [showMaskTyped]="true"
         [dropSpecialCharacters]="false"

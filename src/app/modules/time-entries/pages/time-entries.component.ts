@@ -126,7 +126,8 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
           uri : dataToUse.uri ? dataToUse.uri : '',
           activity_id : dataToUse.activity_id,
           project_id : dataToUse.project_id,
-          start_date : startDate
+          start_date : startDate,
+          end_date : startDate
         };
         this.entry = entry;
       }

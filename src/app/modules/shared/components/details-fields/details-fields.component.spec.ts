@@ -321,6 +321,28 @@ describe('DetailsFieldsComponent', () => {
     expect(toastrServiceStub.error).toHaveBeenCalled();
   });
 
+  it('when entry_date is in the future and departure_date is OK then throws an error', () => {
+    spyOn(toastrServiceStub, 'error');
+
+    const futureDate = moment().add(1, 'days').format('YYYY-MM-DD');
+    const currentDate = moment().format('YYYY-MM-DD');
+    component.entryForm.setValue({ ...formValues, entry_date: futureDate, departure_date: currentDate });
+    component.onSubmit();
+
+    expect(toastrServiceStub.error).toHaveBeenCalled();
+  });
+
+  it('when entry_date is OK and departure_date is in the future then throws an error future', () => {
+    spyOn(toastrServiceStub, 'error');
+
+    const futureDate = moment().add(1, 'days').format('YYYY-MM-DD');
+    const currentDate = moment().format('YYYY-MM-DD');
+    component.entryForm.setValue({ ...formValues, entry_date: currentDate, departure_date: futureDate });
+    component.onSubmit();
+
+    expect(toastrServiceStub.error).toHaveBeenCalled();
+  });
+
   it('should emit projectSelected event', () => {
     spyOn(component.projectSelected, 'emit');
     const item = {

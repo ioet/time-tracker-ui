@@ -17,6 +17,7 @@ import { TechnologyState } from '../../store/technology.reducers';
 import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from './save-entry-event';
 import { ProjectSelectedEvent } from './project-selected-event';
+import { get } from 'lodash';
 
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
@@ -130,10 +131,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         project_id: this.entryToEdit.project_id,
         activity_id: this.entryToEdit.activity_id,
         description: this.entryToEdit.description,
-        entry_date: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'yyyy-MM-dd', 'en') : '',
-        departure_date: formatDate(this.entryToEdit.end_date ? this.entryToEdit.end_date : new Date(), 'yyyy-MM-dd', 'en'),
-        start_hour: this.entryToEdit.start_date ? formatDate(this.entryToEdit.start_date, 'HH:mm:ss', 'en') : '00:00:00',
-        end_hour: this.entryToEdit.end_date ? formatDate(this.entryToEdit.end_date, 'HH:mm:ss', 'en') : '00:00:00',
+        entry_date: formatDate(get(this.entryToEdit, 'start_date', '') , 'yyyy-MM-dd', 'en'),
+        departure_date: formatDate(get(this.entryToEdit, 'end_date'), 'yyyy-MM-dd', 'en'),
+        start_hour: formatDate(get(this.entryToEdit, 'start_date', '00:00:00'), 'HH:mm:ss', 'en'),
+        end_hour: formatDate(get(this.entryToEdit, 'end_date', '00:00:00'), 'HH:mm:ss', 'en'),
         uri: this.entryToEdit.uri,
         technology: '',
       });
@@ -200,7 +201,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       this.toastrService.warning('Make sure to select a project and activity');
       return;
     }
-    // start&end date same for now
     const entryDate = this.entryForm.value.entry_date;
     const departureDate = this.entryForm.value.departure_date;
     const entry = {
@@ -217,7 +217,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       delete entry.end_date;
     }
     const isEntryDateInTheFuture = moment(entryDate).isAfter(moment());
-    if (isEntryDateInTheFuture) {
+    const isDepartureDateInTheFuture = moment(departureDate).isAfter(moment());
+    if (isEntryDateInTheFuture || isDepartureDateInTheFuture) {
       this.toastrService.error('You cannot start a time-entry in the future');
       return;
     }
