@@ -75,13 +75,13 @@
     <label class="col-12 col-sm-2">Date in:</label>
     <div class="col-12 col-sm-4">
       <input
-        formControlName="entry_date"
-        id="entry_date"
+        formControlName="start_date"
+        id="start_date"
         type="date"
         class="form-control"
         aria-label="Small"
         aria-describedby="inputGroup-sizing-sm"
-        [class.is-invalid]="entry_date.invalid && entry_date.touched"
+        [class.is-invalid]="start_date.invalid && start_date.touched"
         required
       />
     </div>
@@ -112,13 +112,13 @@
     <label class="col-12 col-sm-2">Date out:</label>
     <div class="col-12 col-sm-4">
       <input
-        formControlName="departure_date"
-        id="departure_date"
+        formControlName="end_date"
+        id="end_date"
         type="date"
         class="form-control"
         aria-label="Small"
         aria-describedby="inputGroup-sizing-sm"
-        [class.is-invalid]="departure_date.invalid && departure_date.touched"
+        [class.is-invalid]="end_date.invalid && end_date.touched"
         required
       />
     </div>
