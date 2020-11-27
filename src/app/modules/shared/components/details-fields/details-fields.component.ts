@@ -49,8 +49,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       project_name: ['', Validators.required],
       activity_id: ['', Validators.required],
       description: '',
-      entry_date: '',
-      departure_date: '',
+      start_date: '',
+      end_date: '',
       start_hour: '',
       end_hour: '',
       uri: '',
@@ -131,8 +131,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         project_id: this.entryToEdit.project_id,
         activity_id: this.entryToEdit.activity_id,
         description: this.entryToEdit.description,
-        entry_date: formatDate(get(this.entryToEdit, 'start_date', '') , 'yyyy-MM-dd', 'en'),
-        departure_date: formatDate(get(this.entryToEdit, 'end_date'), 'yyyy-MM-dd', 'en'),
+        start_date: formatDate(get(this.entryToEdit, 'start_date', '') , 'yyyy-MM-dd', 'en'),
+        end_date: formatDate(get(this.entryToEdit, 'end_date'), 'yyyy-MM-dd', 'en'),
         start_hour: formatDate(get(this.entryToEdit, 'start_date', '00:00:00'), 'HH:mm:ss', 'en'),
         end_hour: formatDate(get(this.entryToEdit, 'end_date', '00:00:00'), 'HH:mm:ss', 'en'),
         uri: this.entryToEdit.uri,
@@ -150,8 +150,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       project_id: '',
       activity_id: '',
       description: '',
-      entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-      departure_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
       start_hour: '00:00:00',
       end_hour: '00:00:00',
       uri: '',
@@ -175,12 +175,12 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     return this.entryForm.get('activity_id');
   }
 
-  get entry_date() {
-    return this.entryForm.get('entry_date');
+  get start_date() {
+    return this.entryForm.get('start_date');
   }
 
-  get departure_date() {
-    return this.entryForm.get('departure_date');
+  get end_date() {
+    return this.entryForm.get('end_date');
   }
 
   get start_hour() {
@@ -201,24 +201,24 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       this.toastrService.warning('Make sure to select a project and activity');
       return;
     }
-    const entryDate = this.entryForm.value.entry_date;
-    const departureDate = this.entryForm.value.departure_date;
+    const startDate = this.entryForm.value.start_date;
+    const endDate = this.entryForm.value.end_date;
     const entry = {
       project_id: this.entryForm.value.project_id,
       activity_id: this.entryForm.value.activity_id,
-      technologies: this.selectedTechnologies ? this.selectedTechnologies : [],
+      technologies: get(this, 'selectedTechnologies', []),
       description: this.entryForm.value.description,
-      start_date: new Date(`${entryDate}T${this.entryForm.value.start_hour.trim()}`).toISOString(),
-      end_date: new Date(`${departureDate}T${this.entryForm.value.end_hour.trim()}`).toISOString(),
+      start_date: new Date(`${startDate}T${this.entryForm.value.start_hour.trim()}`).toISOString(),
+      end_date: new Date(`${endDate}T${this.entryForm.value.end_hour.trim()}`).toISOString(),
       uri: this.entryForm.value.uri,
       timezone_offset: new Date().getTimezoneOffset(),
     };
     if (this.goingToWorkOnThis) {
       delete entry.end_date;
     }
-    const isEntryDateInTheFuture = moment(entryDate).isAfter(moment());
-    const isDepartureDateInTheFuture = moment(departureDate).isAfter(moment());
-    if (isEntryDateInTheFuture || isDepartureDateInTheFuture) {
+    const isStartDateInTheFuture = moment(startDate).isAfter(moment());
+    const isEndDateInTheFuture = moment(endDate).isAfter(moment());
+    if (isStartDateInTheFuture || isEndDateInTheFuture) {
       this.toastrService.error('You cannot start a time-entry in the future');
       return;
     }

@@ -66,8 +66,8 @@ describe('DetailsFieldsComponent', () => {
     project_name: '',
     activity_id: '',
     uri: '',
-    entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-    departure_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+    start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+    end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
     start_hour: '00:00:00',
     end_hour: '00:00:00',
     description: '',
@@ -109,8 +109,8 @@ describe('DetailsFieldsComponent', () => {
       project_name: 'name',
       activity_id: 'a1',
       uri: 'ticketUri',
-      entry_date: '',
-      departure_date: '',
+      start_date: '',
+      end_date: '',
       start_hour: '00:00:10',
       end_hour: '00:00:11',
       description: '',
@@ -178,8 +178,8 @@ describe('DetailsFieldsComponent', () => {
       project_name: '',
       activity_id: '',
       uri: '',
-      entry_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-      departure_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
       start_hour: '00:00:00',
       end_hour: '00:00:00',
       description: '',
@@ -215,8 +215,8 @@ describe('DetailsFieldsComponent', () => {
       project_name: 'p-name',
       activity_id: 'a1',
       uri: '',
-      entry_date: '2020-02-05',
-      departure_date: '2020-02-05',
+      start_date: '2020-02-05',
+      end_date: '2020-02-05',
       start_hour: '00:00:01',
       end_hour: '00:01:01',
       description: '',
@@ -291,7 +291,7 @@ describe('DetailsFieldsComponent', () => {
     component.goingToWorkOnThis = true;
     spyOn(component.saveEntry, 'emit');
 
-    component.entryForm.setValue({ ...formValues, entry_date: '2020-06-11', departure_date: '2020-06-11' });
+    component.entryForm.setValue({ ...formValues, start_date: '2020-06-11', end_date: '2020-06-11' });
 
     component.onSubmit();
 
@@ -315,29 +315,29 @@ describe('DetailsFieldsComponent', () => {
     spyOn(toastrServiceStub, 'error');
 
     const futureDate = moment().add(1, 'days').format('YYYY-MM-DD');
-    component.entryForm.setValue({ ...formValues, entry_date: futureDate, departure_date: futureDate });
+    component.entryForm.setValue({ ...formValues, start_date: futureDate, end_date: futureDate });
     component.onSubmit();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
   });
 
-  it('when entry_date is in the future and departure_date is OK then throws an error', () => {
+  it('when start_date is in the future and end_date is OK then throws an error', () => {
     spyOn(toastrServiceStub, 'error');
 
     const futureDate = moment().add(1, 'days').format('YYYY-MM-DD');
     const currentDate = moment().format('YYYY-MM-DD');
-    component.entryForm.setValue({ ...formValues, entry_date: futureDate, departure_date: currentDate });
+    component.entryForm.setValue({ ...formValues, start_date: futureDate, end_date: currentDate });
     component.onSubmit();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
   });
 
-  it('when entry_date is OK and departure_date is in the future then throws an error future', () => {
+  it('when start_date is OK and end_date is in the future then throws an error future', () => {
     spyOn(toastrServiceStub, 'error');
 
     const futureDate = moment().add(1, 'days').format('YYYY-MM-DD');
     const currentDate = moment().format('YYYY-MM-DD');
-    component.entryForm.setValue({ ...formValues, entry_date: currentDate, departure_date: futureDate });
+    component.entryForm.setValue({ ...formValues, start_date: currentDate, end_date: futureDate });
     component.onSubmit();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
