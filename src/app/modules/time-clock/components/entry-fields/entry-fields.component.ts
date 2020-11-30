@@ -10,7 +10,7 @@ import { TechnologyState } from '../../../shared/store/technology.reducers';
 import { ActivityState, LoadActivities } from '../../../activities-management/store';
 
 import * as entryActions from '../../store/entry.actions';
-
+import { get } from 'lodash';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
@@ -37,7 +37,6 @@ export class EntryFieldsComponent implements OnInit {
     private actionsSubject$: ActionsSubject,
     private toastrService: ToastrService
   ) {
-    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     this.entryForm = this.formBuilder.group({
       description: '',
       uri: '',
@@ -49,7 +48,7 @@ export class EntryFieldsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new LoadActivities());
-
+    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     this.actionsSubject$
       .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
       .subscribe((action) => {
@@ -122,6 +121,7 @@ export class EntryFieldsComponent implements OnInit {
   }
 
   onUpdateStartHour() {
+    this.getLastEntry();
     const startDate = formatDate(this.activeEntry.start_date, 'yyyy-MM-dd', 'en');
     const newHourEntered = new Date(`${startDate}T${this.entryForm.value.start_hour.trim()}`).toISOString();
     const isEntryDateInTheFuture = moment(newHourEntered).isAfter(moment());
@@ -131,12 +131,10 @@ export class EntryFieldsComponent implements OnInit {
       return;
     }
 
-    this.getLastEntry();
-
-    const isFirstEntry = this.lastEntry !== undefined ? this.lastEntry.start_date : moment().add(-1, 'hours');
-    const isEntryDateInLastStartDate = moment(newHourEntered).isBefore(isFirstEntry);
+    const lastEntryStartDate = get(this.lastEntry, 'start_date', moment().subtract(1, 'hours'));
+    const isEntryDateInLastStartDate = moment(newHourEntered).isSameOrBefore(lastEntryStartDate);
     if (isEntryDateInLastStartDate) {
-      this.toastrService.error('You cannot start a time-entry before another time-entry');
+      this.toastrService.error('There is another time entry registered in this time range');
       this.entryForm.patchValue({ start_hour: this.newData.start_hour });
       return;
     }
@@ -145,8 +143,8 @@ export class EntryFieldsComponent implements OnInit {
   }
 
   private dispatchEntries(newHourEntered) {
-    const isFirstEntry = this.lastEntry !== undefined ? this.lastEntry.end_date : moment().add(-1, 'hours');
-    const isInLastEntry = moment(newHourEntered).isBefore(isFirstEntry);
+    const lastEntryEndDate = get(this.lastEntry, 'end_date', moment().subtract(1, 'hours'));
+    const isInLastEntry = moment(newHourEntered).isBefore(lastEntryEndDate);
     if (isInLastEntry) {
       this.store.dispatch(new entryActions.UpdateEntry({ id: this.lastEntry.id, end_date: newHourEntered }));
     }
