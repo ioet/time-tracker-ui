@@ -27,4 +27,10 @@ describe('userReducer', () => {
     expect(state.isLoading).toEqual(false);
     expect(state.data.length).toBe(0);
   });
+
+  it('on Default, ', () => {
+    const action = new actions.DefaultUser();
+    const state = userReducer(initialState, action);
+    expect(state).toEqual(initialState);
+  });
 });

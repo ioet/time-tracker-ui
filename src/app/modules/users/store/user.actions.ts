@@ -5,6 +5,7 @@ export enum UserActionTypes {
   LOAD_USERS = '[User] LOAD_USERS',
   LOAD_USERS_SUCCESS = '[User] LOAD_USERS_SUCCESS',
   LOAD_USERS_FAIL = '[User] LOAD_USERS_FAIL',
+  DEFAULT_USER = '[USER] DEFAULT_USER',
 }
 
 export class LoadUsers implements Action {
@@ -21,4 +22,8 @@ export class LoadUsersFail implements Action {
   constructor(public error: string) {}
 }
 
-export type UserActions = LoadUsers | LoadUsersSuccess | LoadUsersFail;
+export class DefaultUser implements Action {
+  public readonly type = UserActionTypes.DEFAULT_USER;
+}
+
+export type UserActions = LoadUsers | LoadUsersSuccess | LoadUsersFail | DefaultUser;
