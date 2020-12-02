@@ -65,7 +65,6 @@ export class SidebarComponent implements OnInit {
     this.featureManagerService
     .isToggleEnabledForUser('ui-list-technologies')
     .subscribe((enabled) => {
-      console.log('enabled?:', enabled);
       if (enabled === true){
         const listTechnologiesItem = {
           route: '/technology-report',
