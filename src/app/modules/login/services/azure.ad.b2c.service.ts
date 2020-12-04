@@ -10,7 +10,7 @@ import { AUTHORITY, CLIENT_ID, SCOPES } from '../../../../environments/environme
 })
 export class AzureAdB2CService {
 
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService?: CookieService) {}
 
   msalConfig: any = {
     auth: {
@@ -48,7 +48,7 @@ export class AzureAdB2CService {
   }
 
   isLogin() {
-    return this.msal.getAccount() && this.cookieService.check('msal.idtoken') ? true : false;
+    return this.msal.getAccount() ? true : false;
   }
 
   setCookies() {
