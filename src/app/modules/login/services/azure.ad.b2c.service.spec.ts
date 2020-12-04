@@ -91,44 +91,44 @@ describe('AzureAdB2CService', () => {
     expect(isLogin).toEqual(false);
   });
 
-  it('setTenantId should save a tenantId in session storage', () => {
+  it('setTenantId should save a tenantId in local storage', () => {
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
-    spyOn(sessionStorage, 'setItem').withArgs('tenant_id', '12345');
+    spyOn(localStorage, 'setItem').withArgs('tenant_id', '12345');
 
     const isLogin = service.isLogin();
     service.setTenantId();
 
     expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
     expect(isLogin).toEqual(true);
-    expect(sessionStorage.setItem).toHaveBeenCalledWith('tenant_id', '12345');
+    expect(localStorage.setItem).toHaveBeenCalledWith('tenant_id', '12345');
   });
 
   it('setTenantId should not save tenantId if login is false ', () => {
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(null);
-    spyOn(sessionStorage, 'setItem');
+    spyOn(localStorage, 'setItem');
     const isLogin = service.isLogin();
     expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
     expect(isLogin).toEqual(false);
-    expect(sessionStorage.setItem).not.toHaveBeenCalled();
+    expect(localStorage.setItem).not.toHaveBeenCalled();
   });
 
-  it('getTenantId should get the tenantId from session storage', () => {
+  it('getTenantId should get the tenantId from local storage', () => {
     const tenantId = '12345';
-    spyOn(sessionStorage, 'getItem').and.returnValue(tenantId);
+    spyOn(localStorage, 'getItem').and.returnValue(tenantId);
 
     const resp = service.getTenantId();
 
-    expect(sessionStorage.getItem).toHaveBeenCalled();
+    expect(localStorage.getItem).toHaveBeenCalled();
     expect(resp).toEqual(tenantId);
   });
 
-  it('getBearerToken should get the bearer token from session storage', () => {
+  it('getBearerToken should get the bearer token from local storage', () => {
     const token = '12345abc';
-    spyOn(sessionStorage, 'getItem').and.returnValue(token);
+    spyOn(localStorage, 'getItem').and.returnValue(token);
 
     const resp = service.getBearerToken();
 
-    expect(sessionStorage.getItem).toHaveBeenCalled();
+    expect(localStorage.getItem).toHaveBeenCalled();
     expect(resp).toEqual(token);
   });
 
