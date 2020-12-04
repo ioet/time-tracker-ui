@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     private azureAdB2CService: AzureAdB2CService,
     private router: Router,
-    private featureManagerService : FeatureManagerService,
+    private featureManagerService: FeatureManagerService,
   ) {
     this.navStart = this.router.events.pipe(
       filter(evt => evt instanceof NavigationStart)
@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.toggleSideBar();
     this.getSidebarItems();
-    this.toggleListTechnologies(this.itemsSidebar);
+    this.toggleListTechnologies(this.featureManagerService, this.itemsSidebar);
     this.highlightMenuOption(this.router.routerState.snapshot.url);
     this.navStart.subscribe(evt => {
       this.highlightMenuOption(evt.url);
@@ -61,8 +61,8 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  toggleListTechnologies(itemsSidebar: ItemSidebar[]){
-    this.featureManagerService
+  toggleListTechnologies(featureManagerService, itemsSidebar: ItemSidebar[]){
+    featureManagerService
     .isToggleEnabledForUser('ui-list-technologies')
     .subscribe((enabled) => {
       if (enabled === true){
@@ -73,7 +73,7 @@ export class SidebarComponent implements OnInit {
           active: false
         };
         itemsSidebar.push(listTechnologiesItem);
-      };
+      }
     });
   }
 

@@ -6,6 +6,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {Router, Routes} from '@angular/router';
 import {TimeClockComponent} from '../../../time-clock/pages/time-clock.component';
 import {provideMockStore} from '@ngrx/store/testing';
+import {Observable, of} from 'rxjs';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -79,4 +80,27 @@ describe('SidebarComponent', () => {
       expect(item.active).toBeFalse();
     });
   });
+
+  it('List Technologies item is added when feature flag "ui-list-technologies" is enabled', () => {
+    const featureManagerServiceStub = {
+      isToggleEnabledForUser(toggleName: string, toggleLabel?: string): Observable<boolean> {
+        return of(true);
+      },
+    };
+    const itemsSidebar = [];
+    component.toggleListTechnologies(featureManagerServiceStub, itemsSidebar);
+    expect(itemsSidebar.length).toBe(1);
+  });
+
+  it('List Technologies item is not added when feature flag "ui-list-technologies" is disabled', () => {
+    const featureManagerServiceStub = {
+      isToggleEnabledForUser(toggleName: string, toggleLabel?: string): Observable<boolean> {
+        return of(false);
+      },
+    };
+    const itemsSidebar = [];
+    component.toggleListTechnologies(featureManagerServiceStub, itemsSidebar);
+    expect(itemsSidebar.length).toBe(0);
+  });
+
 });
