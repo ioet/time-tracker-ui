@@ -17,6 +17,7 @@ export class LoginComponent {
       this.router.navigate(['']);
     } else {
       this.azureAdB2CService.signIn().subscribe(() => {
+        this.azureAdB2CService.setCookies();
         this.router.navigate(['']);
       });
     }

@@ -11,10 +11,11 @@ export class LoginGuard implements CanActivate {
 
   canActivate() {
     if (this.azureAdB2CService.isLogin()) {
+        this.azureAdB2CService.setCookies();
         return true;
     } else {
         this.router.navigate(['login']);
         return false;
     }
-}
+  }
 }
