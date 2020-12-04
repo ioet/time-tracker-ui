@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserAgentApplication } from 'msal';
 import { from, Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AUTHORITY, CLIENT_ID, SCOPES } from '../../../../environments/environment';
 
@@ -8,11 +9,17 @@ import { AUTHORITY, CLIENT_ID, SCOPES } from '../../../../environments/environme
   providedIn: 'root',
 })
 export class AzureAdB2CService {
-  msalConfig = {
+
+  constructor(private cookieService: CookieService) {}
+
+  msalConfig: any = {
     auth: {
       clientId: CLIENT_ID,
       authority: AUTHORITY,
       validateAuthority: false,
+    },
+    cache: {
+      cacheLocation: 'localStorage',
     },
   };
 
@@ -27,6 +34,8 @@ export class AzureAdB2CService {
   }
 
   logout() {
+    this.cookieService.delete('msal.idtoken');
+    this.cookieService.delete('msal.idtoken');
     this.msal.logout();
   }
 
@@ -39,22 +48,32 @@ export class AzureAdB2CService {
   }
 
   isLogin() {
-    return this.msal.getAccount() ? true : false;
+    return this.msal.getAccount() && this.cookieService.check('msal.idtoken') ? true : false;
+  }
+
+  setCookies() {
+    this.cookieService.set('msal.client.info', this.getBearerClientInfo(), 2);
+    this.cookieService.set('msal.idtoken', this.getBearerToken(), 2);
   }
 
   setTenantId() {
     if (this.msal.getAccount() && this.msal.getAccount().idToken) {
       const pathArray = this.msal.getAccount().idToken.iss.split('/');
       const tenantId = pathArray[3];
-      sessionStorage.setItem('tenant_id', tenantId);
+      localStorage.setItem('tenant_id', tenantId);
     }
   }
 
   getTenantId(): string {
-    return sessionStorage.getItem('tenant_id');
+    return localStorage.getItem('tenant_id');
   }
+
+  getBearerClientInfo(): string {
+    return localStorage.getItem('msal.client.info');
+  }
+
   getBearerToken(): string {
-    return sessionStorage.getItem('msal.idtoken');
+    return localStorage.getItem('msal.idtoken');
   }
 
   getUserEmail(): string {

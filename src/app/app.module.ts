@@ -16,6 +16,7 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CookieService } from 'ngx-cookie-service';
 import { NavbarComponent } from './modules/shared/components/navbar/navbar.component';
 import { UserComponent } from './modules/shared/components/user/user.component';
 import { SidebarComponent } from './modules/shared/components/sidebar/sidebar.component';
@@ -159,7 +160,8 @@ const maskConfig: Partial<IConfig> = {
       useClass: InjectTokenInterceptor,
       multi: true,
     },
-    DatePipe
+    DatePipe,
+    CookieService,
   ],
   bootstrap: [AppComponent],
 })
