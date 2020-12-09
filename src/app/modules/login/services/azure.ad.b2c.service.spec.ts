@@ -1,11 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Account, UserAgentApplication } from 'msal';
 import { AzureAdB2CService } from './azure.ad.b2c.service';
-
+import { CookieService } from 'ngx-cookie-service';
 
 describe('AzureAdB2CService', () => {
   let service: AzureAdB2CService;
-
+  let cookieService: CookieService;
   let account: Account;
 
   beforeEach(() => {
@@ -13,6 +13,7 @@ describe('AzureAdB2CService', () => {
       imports: [],
     });
     service = TestBed.inject(AzureAdB2CService);
+    cookieService = TestBed.inject(CookieService);
     account = {
       accountIdentifier: 'abc',
       homeAccountIdentifier: 'abc',
@@ -75,30 +76,47 @@ describe('AzureAdB2CService', () => {
     expect(isAdmin).toBeTruthy();
   });
 
-  it('isLogin returns true if UserAgentApplication has a defined Account', () => {
+  it('isLogin returns true if UserAgentApplication has a defined Account and token cookie exist', () => {
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
+    spyOn(cookieService, 'check').and.returnValue(true);
 
     const isLogin = service.isLogin();
 
     expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
+    expect(cookieService.check).toHaveBeenCalled();
     expect(isLogin).toEqual(true);
+  });
+
+  it('isLogin returns false if UserAgentApplication has a defined Account and token cookie does not exist', () => {
+    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
+    spyOn(cookieService, 'check').and.returnValue(false);
+
+    const isLogin = service.isLogin();
+
+    expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
+    expect(cookieService.check).toHaveBeenCalled();
+    expect(isLogin).toEqual(false);
   });
 
   it('isLogin returns false if UserAgentApplication has a null value for Account', () => {
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(null);
+
     const isLogin = service.isLogin();
+
     expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
     expect(isLogin).toEqual(false);
   });
 
   it('setTenantId should save a tenantId in local storage', () => {
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
+    spyOn(cookieService, 'check').and.returnValue(true);
     spyOn(localStorage, 'setItem').withArgs('tenant_id', '12345');
 
     const isLogin = service.isLogin();
     service.setTenantId();
 
     expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
+    expect(cookieService.check).toHaveBeenCalled();
     expect(isLogin).toEqual(true);
     expect(localStorage.setItem).toHaveBeenCalledWith('tenant_id', '12345');
   });

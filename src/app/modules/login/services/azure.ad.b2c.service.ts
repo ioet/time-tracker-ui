@@ -35,7 +35,7 @@ export class AzureAdB2CService {
 
   logout() {
     this.cookieService.delete('msal.idtoken');
-    this.cookieService.delete('msal.idtoken');
+    this.cookieService.delete('msal.client.info');
     this.msal.logout();
   }
 
@@ -48,12 +48,12 @@ export class AzureAdB2CService {
   }
 
   isLogin() {
-    return this.msal.getAccount() ? true : false;
+    return this.msal.getAccount() && this.cookieService.check('msal.idtoken') ? true : false;
   }
 
   setCookies() {
-    this.cookieService.set('msal.client.info', this.getBearerClientInfo(), 2);
     this.cookieService.set('msal.idtoken', this.getBearerToken(), 2);
+    this.cookieService.set('msal.client.info', this.getBearerClientInfo(), 2);
   }
 
   setTenantId() {
