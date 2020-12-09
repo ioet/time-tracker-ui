@@ -17,6 +17,8 @@ describe('LoginComponent', () => {
     },
     signIn() {
       return of();
+    },
+    setCookies() {
     }
   };
 
@@ -51,9 +53,11 @@ describe('LoginComponent', () => {
 
   it('should sign up or login with google if is not logged-in into the app', inject([Router],  (router: Router) => {
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
-    spyOn(azureAdB2CService, 'signIn').and.returnValue(of());
+    spyOn(azureAdB2CService, 'setCookies').and.returnValue();
+    spyOn(azureAdB2CService, 'signIn').and.returnValue(of(() => {}));
     component.login();
     expect(azureAdB2CService.signIn).toHaveBeenCalled();
+    expect(azureAdB2CService.setCookies).toHaveBeenCalled();
   }));
 
   it('should not sign-up or login with google if is already logged-in into the app', inject([Router],  (router: Router) => {
