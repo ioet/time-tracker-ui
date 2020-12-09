@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.toggleSideBar();
     this.getSidebarItems();
-    this.toggleListTechnologies(this.featureManagerService, this.itemsSidebar);
+    this.toggleListTechnologies(this.itemsSidebar);
     this.highlightMenuOption(this.router.routerState.snapshot.url);
     this.navStart.subscribe(evt => {
       this.highlightMenuOption(evt.url);
@@ -61,8 +61,8 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  toggleListTechnologies(featureManagerService, itemsSidebar: ItemSidebar[]){
-    featureManagerService
+  toggleListTechnologies(itemsSidebar: ItemSidebar[]){
+    this.featureManagerService
     .isToggleEnabledForUser('ui-list-technologies')
     .subscribe((enabled) => {
       if (enabled === true){

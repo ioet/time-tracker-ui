@@ -12,6 +12,7 @@ import { LoginComponent } from './modules/login/login.component';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 import { UsersComponent } from './modules/users/pages/users.component';
 import { TechnologyReportComponent } from './modules/technology-report/pages/technology-report.component';
+import { TechnologiesReportGuard } from './guards/technologies-report-guard/technologies-report.guard';
 
 const routes: Routes = [
   {
@@ -25,7 +26,7 @@ const routes: Routes = [
       { path: 'activities-management', component: ActivitiesManagementComponent },
       { path: 'customers-management', canActivate: [AdminGuard], component: CustomerComponent },
       { path: 'users', canActivate: [AdminGuard], component: UsersComponent },
-      { path: 'technology-report', canActivate: [AdminGuard], component: TechnologyReportComponent},
+      { path: 'technology-report', canActivate: [AdminGuard, TechnologiesReportGuard], component: TechnologyReportComponent},
       { path: '', pathMatch: 'full', redirectTo: 'time-clock' },
     ],
   },
