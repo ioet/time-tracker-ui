@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -20,7 +20,7 @@ describe('Technologies component', () => {
     }
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TechnologiesComponent],
       providers: [provideMockStore({initialState: state})],

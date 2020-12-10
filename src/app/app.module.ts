@@ -72,6 +72,7 @@ import { DialogComponent } from './modules/shared/components/dialog/dialog.compo
 import { LoadingBarComponent } from './modules/shared/components/loading-bar/loading-bar.component';
 import { UsersComponent } from './modules/users/pages/users.component';
 import { UsersListComponent } from './modules/users/components/users-list/users-list.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -135,6 +136,7 @@ const maskConfig: Partial<IConfig> = {
     NgxPaginationModule,
     DataTablesModule,
     AutocompleteLibModule,
+    NgxMaterialTimepickerModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),

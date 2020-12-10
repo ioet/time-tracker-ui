@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActionsSubject } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -18,6 +18,7 @@ import { TechnologiesComponent } from './../technologies/technologies.component'
 import { DetailsFieldsComponent } from './details-fields.component';
 import { ProjectSelectedEvent } from './project-selected-event';
 import { SaveEntryEvent } from './save-entry-event';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 
 describe('DetailsFieldsComponent', () => {
@@ -68,13 +69,13 @@ describe('DetailsFieldsComponent', () => {
     uri: '',
     start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
     end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-    start_hour: '00:00:00',
-    end_hour: '00:00:00',
+    start_hour: '00:00',
+    end_hour: '00:00',
     description: '',
     technology: '',
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DetailsFieldsComponent, TechnologiesComponent],
       providers: [
@@ -82,7 +83,7 @@ describe('DetailsFieldsComponent', () => {
         { provide: ActionsSubject, useValue: actionSub },
         { provide: ToastrService, useValue: toastrServiceStub }
       ],
-      imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule],
+      imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule, NgxMaterialTimepickerModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
@@ -180,8 +181,8 @@ describe('DetailsFieldsComponent', () => {
       uri: '',
       start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
       end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-      start_hour: '00:00:00',
-      end_hour: '00:00:00',
+      start_hour: '00:00',
+      end_hour: '00:00',
       description: '',
       technology: '',
     };

@@ -1,5 +1,5 @@
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { allActivities } from './../../store/activity-management.selectors';
 import { ActivityState } from './../../store/activity-management.reducers';
@@ -19,7 +19,7 @@ describe('ActivityListComponent', () => {
     activityIdToEdit: '',
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ActivityListComponent],
       providers: [provideMockStore({ initialState: state })],

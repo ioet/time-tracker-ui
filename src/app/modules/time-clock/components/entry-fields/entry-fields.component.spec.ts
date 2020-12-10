@@ -1,6 +1,6 @@
 import { LoadActiveEntry, EntryActionTypes, UpdateEntry } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 
@@ -12,6 +12,7 @@ import {getCustomerProjects} from '../../../customer-management/components/proje
 import { ActionsSubject } from '@ngrx/store';
 import { IndividualConfig, ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import * as moment from 'moment';
 
 describe('EntryFieldsComponent', () => {
@@ -94,10 +95,10 @@ describe('EntryFieldsComponent', () => {
     description: 'description for active entry',
     uri: 'abc',
     start_date : moment().format('YYYY-MM-DD'),
-    start_hour : moment().format('HH:mm:ss'),
+    start_hour : moment().format('HH:mm'),
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EntryFieldsComponent],
       providers: [
@@ -105,7 +106,7 @@ describe('EntryFieldsComponent', () => {
         { provide: ActionsSubject, useValue: actionSub },
         { provide: ToastrService, useValue: toastrServiceStub }
       ],
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [FormsModule, ReactiveFormsModule, NgxMaterialTimepickerModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
     entryForm = TestBed.inject(FormBuilder);
@@ -141,7 +142,7 @@ describe('EntryFieldsComponent', () => {
         description: entryDataForm.description,
         uri: entryDataForm.uri,
         activity_id: entryDataForm.activity_id,
-        start_hour:  formatDate(entry.start_date, 'HH:mm:ss', 'en'),
+        start_hour:  formatDate(entry.start_date, 'HH:mm', 'en'),
         start_date : moment().format('YYYY-MM-DD'),
       }
     );
@@ -154,11 +155,12 @@ describe('EntryFieldsComponent', () => {
     component.setDataToUpdate(entry);
     spyOn(toastrServiceStub, 'error');
 
-    const hourInTheFuture = moment().add(1, 'hours').format('HH:mm:ss');
+    const hourInTheFuture = moment().add(1, 'hours').format('HH:mm');
     component.entryForm.patchValue({ start_hour : hourInTheFuture});
     component.onUpdateStartHour();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
+    expect(component.showtimeInbuttons).toEqual(false);
   });
 
   it('Displays an error message when the active entry has start_time before the start_time of another entry', () => {
@@ -167,11 +169,35 @@ describe('EntryFieldsComponent', () => {
     component.setDataToUpdate(entry);
     spyOn(toastrServiceStub, 'error');
 
-    const hourInThePast = moment().subtract(6, 'hour').format('HH:mm:ss');
+    const hourInThePast = moment().subtract(6, 'hour').format('HH:mm');
     component.entryForm.patchValue({ start_hour : hourInThePast});
     component.onUpdateStartHour();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
+    expect(component.showtimeInbuttons).toEqual(false);
+  });
+
+  it('should show time In buttons when time is modified', () => {
+    component.activeTimeInButtons();
+
+    expect(component.showtimeInbuttons).toEqual(true);
+  });
+
+  it('should go back to the starting time and disappear buttons', () => {
+    component.newData = entry;
+    component.activeEntry = entry ;
+    component.setDataToUpdate(entry);
+    const updatedTime = moment().format('HH:mm');
+    component.entryForm.patchValue({ start_hour : updatedTime});
+    spyOn(component.entryForm, 'patchValue');
+    component.cancelTimeInUpdate();
+
+    expect(component.showtimeInbuttons).toEqual(false);
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith(
+      {
+        start_hour: component.newData.start_hour
+      }
+    );
   });
 
   it('should reset to current start_date when start_date has an error', () => {
@@ -179,7 +205,7 @@ describe('EntryFieldsComponent', () => {
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
 
-    const updatedTime = moment().subtract(6, 'hours').format('HH:mm:ss');
+    const updatedTime = moment().subtract(6, 'hours').format('HH:mm');
     component.entryForm.patchValue({ start_hour : updatedTime});
 
     spyOn(component.entryForm, 'patchValue');
@@ -190,6 +216,7 @@ describe('EntryFieldsComponent', () => {
         start_hour: component.newData.start_hour
       }
     );
+    expect(component.showtimeInbuttons).toEqual(false);
   });
 
   it('If start hour is in the future, reset to initial start_date in form', () => {
@@ -197,7 +224,7 @@ describe('EntryFieldsComponent', () => {
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
 
-    const hourInTheFuture = moment().add(1, 'hours').format('HH:mm:ss');
+    const hourInTheFuture = moment().add(1, 'hours').format('HH:mm');
     component.entryForm.patchValue({ start_hour : hourInTheFuture});
 
     spyOn(component.entryForm, 'patchValue');
@@ -208,23 +235,25 @@ describe('EntryFieldsComponent', () => {
         start_hour: component.newData.start_hour
       }
     );
+    expect(component.showtimeInbuttons).toEqual(false);
   });
 
   it('when a start hour is updated, then dispatch UpdateActiveEntry', () => {
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
-    const updatedTime = moment().format('HH:mm:ss');
+    const updatedTime = moment().format('HH:mm');
     component.entryForm.patchValue({ start_hour : updatedTime});
     spyOn(store, 'dispatch');
 
     component.onUpdateStartHour();
     expect(store.dispatch).toHaveBeenCalled();
+    expect(component.showtimeInbuttons).toEqual(false);
   });
 
-  it('When start_time is updated, component.last_entry is equal to time entry in the position 1', async(() => {
+  it('When start_time is updated, component.last_entry is equal to time entry in the position 1', waitForAsync(() => {
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
-    const updatedTime = moment().format('HH:mm:ss');
+    const updatedTime = moment().format('HH:mm');
 
     component.entryForm.patchValue({ start_hour : updatedTime});
     component.onUpdateStartHour();
@@ -236,7 +265,7 @@ describe('EntryFieldsComponent', () => {
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
     const lastEntry = state.entries.timeEntriesDataSource.data[1];
-    const updatedTime = moment().subtract(4, 'hours').format('HH:mm:ss');
+    const updatedTime = moment().subtract(4, 'hours').format('HH:mm');
     const lastStartHourEntryEnteredTest = new Date(`${lastDate}T${updatedTime.trim()}`).toISOString();
     component.entryForm.patchValue({ start_hour : updatedTime});
     spyOn(store, 'dispatch');

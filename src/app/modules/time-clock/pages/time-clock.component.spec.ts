@@ -1,6 +1,6 @@
 import { FormBuilder } from '@angular/forms';
 import { StopTimeEntryRunning, EntryActionTypes, LoadEntriesSummary } from './../store/entry.actions';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { TimeClockComponent } from './time-clock.component';
@@ -48,7 +48,7 @@ describe('TimeClockComponent', () => {
     },
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe, EntryFieldsComponent],

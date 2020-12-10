@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Entry } from 'src/app/modules/shared/models';
 import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/substract-date.pipe';
@@ -41,7 +41,7 @@ describe('Reports Page', () => {
       }
     };
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [],
         declarations: [TimeEntriesTableComponent, SubstractDatePipe],
@@ -51,7 +51,7 @@ describe('Reports Page', () => {
 
     }));
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       fixture = TestBed.createComponent(TimeEntriesTableComponent);
       component = fixture.componentInstance;
       store.setState(state);

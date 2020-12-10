@@ -1,4 +1,4 @@
-<form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="entryForm">
   <div class="form-group">
     <label>Activity:</label>
     <select
@@ -24,23 +24,23 @@
   </div>
 
   <div class="form-group">
-    <label>Time in</label>
-     <input
-        [clearIfNotMatch]="true"
-        [showMaskTyped]="true"
-        [dropSpecialCharacters]="false"
-        matInput
-        mask="Hh:m0:s0"
-        (blur)="onUpdateStartHour()"
-        onClick="this.select();"
-        formControlName="start_hour"
-        id="start_hour"
-        type="text"
-        class="form-control"
-        aria-label="Small"
-        [class.is-invalid]="start_hour.invalid && start_hour.touched"
-        required
-      />
+    <label>Time in:</label>
+    <div class="row">
+      <div class="col-md-auto">
+        <ngx-timepicker-field
+          [format]="24"
+          formControlName="start_hour"
+          id="start_hour"
+          (timeChanged)="activeTimeInButtons()"
+        ></ngx-timepicker-field>
+      </div>
+      <div class="col-md-auto">
+        <button *ngIf="showtimeInbuttons" (click)="onUpdateStartHour()" class="btn btn-success">Update</button>
+      </div>
+      <div class="col-md-auto">
+        <button *ngIf="showtimeInbuttons" (click)="cancelTimeInUpdate()" class="btn btn-danger">Cancel</button>
+      </div>
+    </div>
   </div>
 
   <app-technologies

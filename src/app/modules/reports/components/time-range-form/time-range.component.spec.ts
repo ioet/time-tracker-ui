@@ -1,5 +1,5 @@
 import { ToastrService, IndividualConfig } from 'ngx-toastr';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TimeRangeFormComponent } from './time-range-form.component';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
@@ -39,7 +39,7 @@ describe('Reports Page', () => {
       entriesForReport: [timeEntry],
     };
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [FormsModule, ReactiveFormsModule],
         declarations: [TimeRangeFormComponent, InputDateComponent],

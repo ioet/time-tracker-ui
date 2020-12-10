@@ -30,6 +30,7 @@ export class EntryFieldsComponent implements OnInit {
   activeEntry;
   newData;
   lastEntry;
+  showtimeInbuttons = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -82,7 +83,7 @@ export class EntryFieldsComponent implements OnInit {
           uri: this.activeEntry.uri,
           activity_id: this.activeEntry.activity_id,
           start_date: this.activeEntry.start_date,
-          start_hour: formatDate(this.activeEntry.start_date, 'HH:mm:ss', 'en'),
+          start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en'),
         };
       });
   }
@@ -102,7 +103,7 @@ export class EntryFieldsComponent implements OnInit {
         uri: entryData.uri,
         activity_id: entryData.activity_id,
         start_date: entryData.start_date,
-        start_hour: formatDate(entryData.start_date, 'HH:mm:ss', 'en'),
+        start_hour: formatDate(entryData.start_date, 'HH:mm', 'en'),
       });
       if (entryData.technologies) {
         this.selectedTechnologies = entryData.technologies;
@@ -128,6 +129,7 @@ export class EntryFieldsComponent implements OnInit {
     if (isEntryDateInTheFuture) {
       this.toastrService.error('You cannot start a time-entry in the future');
       this.entryForm.patchValue({ start_hour: this.newData.start_hour });
+      this.showtimeInbuttons = false;
       return;
     }
 
@@ -136,10 +138,12 @@ export class EntryFieldsComponent implements OnInit {
     if (isEntryDateInLastStartDate) {
       this.toastrService.error('There is another time entry registered in this time range');
       this.entryForm.patchValue({ start_hour: this.newData.start_hour });
+      this.showtimeInbuttons = false;
       return;
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
     this.dispatchEntries(newHourEntered);
+    this.showtimeInbuttons = false;
   }
 
   private dispatchEntries(newHourEntered) {
@@ -156,6 +160,15 @@ export class EntryFieldsComponent implements OnInit {
     lastEntry$.subscribe((entry) => {
       this.lastEntry = entry.data[1];
     });
+  }
+
+  activeTimeInButtons(){
+    this.showtimeInbuttons = true;
+  }
+
+  cancelTimeInUpdate(){
+    this.entryForm.patchValue({ start_hour: this.newData.start_hour });
+    this.showtimeInbuttons = false;
   }
 
   onTechnologyAdded($event: string[]) {

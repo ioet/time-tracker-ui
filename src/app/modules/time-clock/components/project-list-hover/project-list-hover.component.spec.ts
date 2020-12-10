@@ -1,7 +1,7 @@
 import { ToastrService, IndividualConfig } from 'ngx-toastr';
 import { SwitchTimeEntry, ClockIn } from './../../store/entry.actions';
 import { FormBuilder } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
@@ -41,7 +41,7 @@ describe('ProjectListHoverComponent', () => {
     },
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProjectListHoverComponent, FilterProjectPipe],
       providers: [FormBuilder, provideMockStore({ initialState: state }),
