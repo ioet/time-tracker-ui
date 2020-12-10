@@ -240,6 +240,27 @@ describe('TimeEntriesComponent', () => {
       entry: {
         project_id: 'p-id',
         start_date: '2020-05-05T10:04',
+        end_date: '2020-05-05T11:04',
+        description: 'description',
+        technologies: [],
+        uri: 'abc',
+      }, shouldRestartEntry: false
+    };
+    component.entryId = 'new-entry';
+    spyOn(injectedToastrService, 'error');
+
+    component.saveEntry(newEntry);
+
+    expect(injectedToastrService.error).toHaveBeenCalled();
+  });
+
+  it('displays an error when end date of entry is > than active entry start date', async () => {
+    component.activeTimeEntry = entry;
+    const newEntry = {
+      entry: {
+        project_id: 'p-id',
+        start_date: '2020-01-05T10:04',
+        end_date: '2020-03-05T11:04',
         description: 'description',
         technologies: [],
         uri: 'abc',
