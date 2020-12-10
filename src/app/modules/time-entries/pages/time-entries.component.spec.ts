@@ -234,7 +234,7 @@ describe('TimeEntriesComponent', () => {
     expect(component.canMarkEntryAsWIP).toBe(true);
   });
 
-  it('displays an error when start date of entry is > than active entry start date', async () => {
+  it('displays an error when start date of entry is greater than active entry start date', async () => {
     component.activeTimeEntry = entry;
     const newEntry = {
       entry: {
@@ -254,7 +254,7 @@ describe('TimeEntriesComponent', () => {
     expect(injectedToastrService.error).toHaveBeenCalled();
   });
 
-  it('displays an error when end date of entry is > than active entry start date', async () => {
+  it('displays an error when end date of entry is greater than active entry start date', async () => {
     component.activeTimeEntry = entry;
     const newEntry = {
       entry: {
