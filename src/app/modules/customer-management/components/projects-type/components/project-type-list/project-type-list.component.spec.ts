@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -19,7 +19,7 @@ describe('ProjectTypeTableListComponent', () => {
     projectTypeIdToEdit: '',
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NgxPaginationModule],
       declarations: [ProjectTypeListComponent],

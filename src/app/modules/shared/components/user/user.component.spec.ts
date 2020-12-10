@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserComponent } from './user.component';
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
@@ -18,7 +18,7 @@ describe('UserComponent', () => {
     },
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UserComponent],
       imports: [AppRoutingModule],

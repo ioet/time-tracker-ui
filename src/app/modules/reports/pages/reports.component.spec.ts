@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReportsComponent } from './reports.component';
 
@@ -6,7 +6,7 @@ describe('ReportsComponent', () => {
   let component: ReportsComponent;
   let fixture: ComponentFixture<ReportsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ReportsComponent],
     }).compileComponents();
@@ -23,7 +23,7 @@ describe('ReportsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have form and datatable components', async(() => {
+  it('should have form and datatable components', waitForAsync(() => {
     fixture.detectChanges();
 
     const compile = fixture.debugElement.nativeElement;

@@ -1,6 +1,6 @@
 import { LoadCustomerProjects, CleanCustomerProjects } from './../../../projects/components/store/project.actions';
 import { LoadProjectTypes, CleanProjectTypes } from './../../../projects-type/store/project-type.actions';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -27,7 +27,7 @@ describe('CreateCustomerComponent', () => {
     description: 'bb',
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CreateCustomerComponent],
       providers: [

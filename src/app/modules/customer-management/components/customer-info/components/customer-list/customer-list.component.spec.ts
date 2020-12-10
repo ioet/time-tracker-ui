@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -29,7 +29,7 @@ describe('CustomerTableListComponent', () => {
     customerId: '',
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NgxPaginationModule, DataTablesModule],
       declarations: [CustomerListComponent],

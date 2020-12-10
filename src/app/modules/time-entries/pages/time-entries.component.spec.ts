@@ -1,5 +1,5 @@
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,7 @@ import { LoadActiveEntry } from './../../time-clock/store/entry.actions';
 import { TimeEntriesComponent } from './time-entries.component';
 import { ActionsSubject } from '@ngrx/store';
 import { EntryActionTypes } from './../../time-clock/store/entry.actions';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -33,7 +34,7 @@ describe('TimeEntriesComponent', () => {
     },
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         EmptyStateComponent,
@@ -47,7 +48,7 @@ describe('TimeEntriesComponent', () => {
       providers: [provideMockStore({ initialState: state }),
       { provide: ToastrService, useValue: toastrService },
       ],
-      imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule],
+      imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule, NgxMaterialTimepickerModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
     entry = {
@@ -108,13 +109,13 @@ describe('TimeEntriesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('on loading the component the time entries should be loaded', async(() => {
+  it('on loading the component the time entries should be loaded', waitForAsync(() => {
     component.timeEntriesDataSource$.subscribe(ds => {
       expect(ds.data.length).toEqual(1);
     });
   }));
 
-  it('Time entries data should be populated on ngOnInit()', async(() => {
+  it('Time entries data should be populated on ngOnInit()', waitForAsync(() => {
     mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
     component.ngOnInit();
@@ -307,7 +308,7 @@ describe('TimeEntriesComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(month));
   });
 
-  it('doSave when activeTimeEntry === null', async(() => {
+  it('doSave when activeTimeEntry === null', waitForAsync(() => {
     const entryToSave = {
       entry: {
         project_id: 'project-id',
@@ -347,7 +348,7 @@ describe('TimeEntriesComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.RestartEntry(entryToSave.entry));
   });
 
-  it('should preload data of last entry when a project is selected while creating new entry ', async(() => {
+  it('should preload data of last entry when a project is selected while creating new entry ', waitForAsync(() => {
     component.entry = null;
     component.entryId = null;
     const lastEntry = {

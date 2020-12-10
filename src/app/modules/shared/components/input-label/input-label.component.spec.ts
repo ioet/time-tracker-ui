@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {InputLabelComponent} from './input-label.component';
 
@@ -6,7 +6,7 @@ describe('InputLabelComponent', () => {
   let component: InputLabelComponent;
   let fixture: ComponentFixture<InputLabelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [InputLabelComponent]
     }).compileComponents();
@@ -22,7 +22,7 @@ describe('InputLabelComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should insert the provided text into the component', async(() => {
+  it('should insert the provided text into the component', waitForAsync(() => {
     const anyLabelText = 'Any random label';
     component.text = anyLabelText;
 

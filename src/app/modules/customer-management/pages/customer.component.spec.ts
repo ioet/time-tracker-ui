@@ -1,7 +1,7 @@
 import { SetCustomerToEdit } from 'src/app/modules/customer-management/store';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { Customer } from 'src/app/modules/shared/models';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CustomerComponent } from './customer.component';
 
@@ -10,7 +10,7 @@ describe('CustomerComponent', () => {
   let fixture: ComponentFixture<CustomerComponent>;
   let store: MockStore<Customer>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CustomerComponent],
       providers: [provideMockStore({ initialState: {} })],

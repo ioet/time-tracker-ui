@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ManagementCustomerProjectsComponent } from './management-customer-projects.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -17,7 +17,7 @@ describe('ManagmentCustomerProjectsComponent', () => {
     customerId: '',
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ManagementCustomerProjectsComponent],
       providers: [

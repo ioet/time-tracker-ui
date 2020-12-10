@@ -1,5 +1,5 @@
 import { FormBuilder } from '@angular/forms';
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
+import { waitForAsync, TestBed, ComponentFixture } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { CreateActivityComponent } from './create-activity.component';
@@ -36,7 +36,7 @@ describe('CreateActivityComponent', () => {
     description: 'It is good for learning',
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CreateActivityComponent],
       providers: [FormBuilder, provideMockStore({ initialState: state })],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActionsSubject } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { interval } from 'rxjs';
@@ -50,7 +50,7 @@ describe('TimeEntriesSummaryComponent', () => {
     }
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TimeEntriesSummaryComponent, TimeDetailsPipe ],
       providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],

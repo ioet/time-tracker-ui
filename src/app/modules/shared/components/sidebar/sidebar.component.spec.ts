@@ -1,5 +1,5 @@
 import {AzureAdB2CService} from 'src/app/modules/login/services/azure.ad.b2c.service';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SidebarComponent} from './sidebar.component';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -25,7 +25,7 @@ describe('SidebarComponent', () => {
     }
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SidebarComponent],
       providers: [

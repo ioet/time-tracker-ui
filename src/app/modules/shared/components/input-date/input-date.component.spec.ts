@@ -1,4 +1,4 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {waitForAsync, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {InputDateComponent} from './input-date.component';
 
 describe('InputDateComponent', () => {
@@ -6,7 +6,7 @@ describe('InputDateComponent', () => {
   let fixture: ComponentFixture<InputDateComponent>;
   let input;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [InputDateComponent]
     }).compileComponents();

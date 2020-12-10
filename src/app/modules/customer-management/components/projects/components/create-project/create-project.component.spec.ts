@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -35,7 +35,7 @@ describe('InputProjectComponent', () => {
     project_type_id: '123',
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CreateProjectComponent],
       providers: [FormBuilder, provideMockStore({ initialState: state })],

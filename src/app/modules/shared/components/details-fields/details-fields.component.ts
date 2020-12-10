@@ -133,8 +133,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         description: this.entryToEdit.description,
         start_date: formatDate(get(this.entryToEdit, 'start_date', '') , 'yyyy-MM-dd', 'en'),
         end_date: formatDate(get(this.entryToEdit, 'end_date'), 'yyyy-MM-dd', 'en'),
-        start_hour: formatDate(get(this.entryToEdit, 'start_date', '00:00:00'), 'HH:mm:ss', 'en'),
-        end_hour: formatDate(get(this.entryToEdit, 'end_date', '00:00:00'), 'HH:mm:ss', 'en'),
+        start_hour: formatDate(get(this.entryToEdit, 'start_date', '00:00'), 'HH:mm', 'en'),
+        end_hour: formatDate(get(this.entryToEdit, 'end_date', '00:00'), 'HH:mm', 'en'),
         uri: this.entryToEdit.uri,
         technology: '',
       });
@@ -152,8 +152,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       description: '',
       start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
       end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-      start_hour: '00:00:00',
-      end_hour: '00:00:00',
+      start_hour: '00:00',
+      end_hour: '00:00',
       uri: '',
       technology: '',
     });
