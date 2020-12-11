@@ -105,12 +105,12 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       const endDateAsLocalDate = new Date(event.entry.end_date);
       const activeEntryAsLocalDate = new Date(this.activeTimeEntry.start_date);
       const isEditingEntryEqualToActiveEntry = this.entryId === this.activeTimeEntry.id;
-      const isStartDateLowerThanActiveEntry = startDateAsLocalDate < activeEntryAsLocalDate;
-      const isEndDateLowerThanActiveEntry = endDateAsLocalDate < activeEntryAsLocalDate;
-      if(isEditingEntryEqualToActiveEntry && (isStartDateLowerThanActiveEntry || isEndDateLowerThanActiveEntry)){
-        this.doSave(event);
-      } else {
+      const isStartDateGreaterThanActiveEntry = startDateAsLocalDate > activeEntryAsLocalDate;
+      const isEndDateGreaterThanActiveEntry = endDateAsLocalDate > activeEntryAsLocalDate;
+      if(!isEditingEntryEqualToActiveEntry && (isStartDateGreaterThanActiveEntry || isEndDateGreaterThanActiveEntry)){
         this.toastrService.error('You are on the clock and this entry overlaps it, try with earlier times.');
+      } else {
+        this.doSave(event);
       }
     } else {
       this.doSave(event);
