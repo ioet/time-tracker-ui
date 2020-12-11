@@ -160,7 +160,7 @@ describe('EntryFieldsComponent', () => {
     component.onUpdateStartHour();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
-    expect(component.showtimeInbuttons).toEqual(false);
+    expect(component.showTimeInbuttons).toEqual(false);
   });
 
   it('Displays an error message when the active entry has start_time before the start_time of another entry', () => {
@@ -174,16 +174,16 @@ describe('EntryFieldsComponent', () => {
     component.onUpdateStartHour();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
-    expect(component.showtimeInbuttons).toEqual(false);
+    expect(component.showTimeInbuttons).toEqual(false);
   });
 
-  it('should show time In buttons when time is modified', () => {
+  it('should show time In control buttons when time is modified', () => {
     component.activeTimeInButtons();
 
-    expect(component.showtimeInbuttons).toEqual(true);
+    expect(component.showTimeInbuttons).toEqual(true);
   });
 
-  it('should go back to the starting time and disappear buttons', () => {
+  it('should reset displayed time and hide control buttons when cancelTimeInUpdate', () => {
     component.newData = entry;
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
@@ -192,7 +192,7 @@ describe('EntryFieldsComponent', () => {
     spyOn(component.entryForm, 'patchValue');
     component.cancelTimeInUpdate();
 
-    expect(component.showtimeInbuttons).toEqual(false);
+    expect(component.showTimeInbuttons).toEqual(false);
     expect(component.entryForm.patchValue).toHaveBeenCalledWith(
       {
         start_hour: component.newData.start_hour
@@ -216,7 +216,7 @@ describe('EntryFieldsComponent', () => {
         start_hour: component.newData.start_hour
       }
     );
-    expect(component.showtimeInbuttons).toEqual(false);
+    expect(component.showTimeInbuttons).toEqual(false);
   });
 
   it('If start hour is in the future, reset to initial start_date in form', () => {
@@ -235,7 +235,7 @@ describe('EntryFieldsComponent', () => {
         start_hour: component.newData.start_hour
       }
     );
-    expect(component.showtimeInbuttons).toEqual(false);
+    expect(component.showTimeInbuttons).toEqual(false);
   });
 
   it('when a start hour is updated, then dispatch UpdateActiveEntry', () => {
@@ -247,7 +247,7 @@ describe('EntryFieldsComponent', () => {
 
     component.onUpdateStartHour();
     expect(store.dispatch).toHaveBeenCalled();
-    expect(component.showtimeInbuttons).toEqual(false);
+    expect(component.showTimeInbuttons).toEqual(false);
   });
 
   it('When start_time is updated, component.last_entry is equal to time entry in the position 1', waitForAsync(() => {

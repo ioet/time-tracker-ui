@@ -30,7 +30,7 @@ export class EntryFieldsComponent implements OnInit {
   activeEntry;
   newData;
   lastEntry;
-  showtimeInbuttons = false;
+  showTimeInbuttons = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -129,7 +129,7 @@ export class EntryFieldsComponent implements OnInit {
     if (isEntryDateInTheFuture) {
       this.toastrService.error('You cannot start a time-entry in the future');
       this.entryForm.patchValue({ start_hour: this.newData.start_hour });
-      this.showtimeInbuttons = false;
+      this.showTimeInbuttons = false;
       return;
     }
 
@@ -138,12 +138,12 @@ export class EntryFieldsComponent implements OnInit {
     if (isEntryDateInLastStartDate) {
       this.toastrService.error('There is another time entry registered in this time range');
       this.entryForm.patchValue({ start_hour: this.newData.start_hour });
-      this.showtimeInbuttons = false;
+      this.showTimeInbuttons = false;
       return;
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
     this.dispatchEntries(newHourEntered);
-    this.showtimeInbuttons = false;
+    this.showTimeInbuttons = false;
   }
 
   private dispatchEntries(newHourEntered) {
@@ -163,12 +163,12 @@ export class EntryFieldsComponent implements OnInit {
   }
 
   activeTimeInButtons(){
-    this.showtimeInbuttons = true;
+    this.showTimeInbuttons = true;
   }
 
   cancelTimeInUpdate(){
     this.entryForm.patchValue({ start_hour: this.newData.start_hour });
-    this.showtimeInbuttons = false;
+    this.showTimeInbuttons = false;
   }
 
   onTechnologyAdded($event: string[]) {
