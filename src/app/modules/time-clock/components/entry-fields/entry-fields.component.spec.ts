@@ -96,7 +96,7 @@ describe('EntryFieldsComponent', () => {
     description: 'description for active entry',
     uri: 'abc',
     start_date : moment().format(DATE_FORMAT_YEAR),
-    start_hour : moment().format('HH:mm:ss'),
+    start_hour : moment().format('HH:mm'),
   };
 
   beforeEach(waitForAsync(() => {
@@ -143,7 +143,7 @@ describe('EntryFieldsComponent', () => {
         description: entryDataForm.description,
         uri: entryDataForm.uri,
         activity_id: entryDataForm.activity_id,
-        start_hour:  formatDate(entry.start_date, 'HH:mm:ss', 'en'),
+        start_hour:  formatDate(entry.start_date, 'HH:mm', 'en'),
         start_date : moment().format(DATE_FORMAT_YEAR),
       }
     );
