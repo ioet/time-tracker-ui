@@ -62,6 +62,7 @@ describe('FeatureToggleManager', () => {
       );
       getFeatureToggleSpy = spyOn(fakeFeatureToggleProvider, 'getFeatureToggle').and.returnValue(of(aToggleWithFilters));
       service = new FeatureManagerService(fakeFeatureToggleProvider);
+      spyOn(service, 'isToggleEnabled').and.returnValue(of(true));
     });
 
     it('manager uses feature provider to build feature toggle model', async () => {
