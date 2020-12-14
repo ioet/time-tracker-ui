@@ -52,8 +52,8 @@ export class AzureAdB2CService {
   }
 
   setCookies() {
-    this.cookieService.set('msal.idtoken', this.getBearerToken(), 2);
-    this.cookieService.set('msal.client.info', this.getBearerClientInfo(), 2);
+    this.cookieService.set('msal.idtoken', this.getBearerToken(), 30);
+    this.cookieService.set('msal.client.info', this.getBearerClientInfo(), 30);
   }
 
   setTenantId() {
