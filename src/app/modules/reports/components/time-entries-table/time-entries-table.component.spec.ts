@@ -48,6 +48,7 @@ describe('Reports Page', () => {
         providers: [provideMockStore({ initialState: state })],
       }).compileComponents();
       store = TestBed.inject(MockStore);
+
     }));
 
     beforeEach(waitForAsync(() => {
