@@ -8,6 +8,7 @@ import { SaveEntryEvent } from '../../shared/components/details-fields/save-entr
 import { Entry } from '../../shared/models';
 import { DataSource } from '../../shared/models/data-source.model';
 import * as entryActions from '../../time-clock/store/entry.actions';
+import * as moment from 'moment';
 import { EntryState } from '../../time-clock/store/entry.reducer';
 import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 import { getActiveTimeEntry, getTimeEntriesDataSource } from './../../time-clock/store/entry.selectors';
@@ -26,6 +27,9 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   entriesSubscription: Subscription;
   canMarkEntryAsWIP = true;
   timeEntriesDataSource$: Observable<DataSource<Entry>>;
+  selectedYearAsText: string;
+  selectedMonthIndex: number;
+  selectedMonthAsText: string;
 
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
@@ -36,7 +40,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
+    // this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     this.loadActiveEntry();
 
     this.entriesSubscription = this.actionsSubject$.pipe(
@@ -48,7 +52,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       )
     ).subscribe((action) => {
       this.loadActiveEntry();
-      this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
+      // this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     });
   }
 
@@ -107,7 +111,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       const isEditingEntryEqualToActiveEntry = this.entryId === this.activeTimeEntry.id;
       const isStartDateGreaterThanActiveEntry = startDateAsLocalDate > activeEntryAsLocalDate;
       const isEndDateGreaterThanActiveEntry = endDateAsLocalDate > activeEntryAsLocalDate;
-      if(!isEditingEntryEqualToActiveEntry && (isStartDateGreaterThanActiveEntry || isEndDateGreaterThanActiveEntry)){
+      if (!isEditingEntryEqualToActiveEntry && (isStartDateGreaterThanActiveEntry || isEndDateGreaterThanActiveEntry)){
         this.toastrService.error('You are on the clock and this entry overlaps it, try with earlier times.');
       } else {
         this.doSave(event);
@@ -160,13 +164,21 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.showModal = false;
   }
 
-  getMonth(month: number) {
-    this.store.dispatch(new entryActions.LoadEntries(month));
-  }
 
   openModal(item: any) {
     this.idToDelete = item.id;
     this.message = `Are you sure you want to delete ${item.activity_name}?`;
     this.showModal = true;
+  }
+
+  // getMonth(month: number) {
+  //   this.store.dispatch(new entryActions.LoadEntries(month));
+  // }
+
+  onChange(event: { year: number, monthIndex: number }) {
+    this.selectedYearAsText = event.year.toString();
+    this.selectedMonthIndex = event.monthIndex + 1;
+    this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
+    this.store.dispatch(new entryActions.LoadEntries(event.monthIndex));
   }
 }
