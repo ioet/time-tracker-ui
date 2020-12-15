@@ -18,6 +18,7 @@ import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from './save-entry-event';
 import { ProjectSelectedEvent } from './project-selected-event';
 import { get } from 'lodash';
+import { DATE_FORMAT } from 'src/environments/environment';
 
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
@@ -131,8 +132,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         project_id: this.entryToEdit.project_id,
         activity_id: this.entryToEdit.activity_id,
         description: this.entryToEdit.description,
-        start_date: formatDate(get(this.entryToEdit, 'start_date', '') , 'yyyy-MM-dd', 'en'),
-        end_date: formatDate(get(this.entryToEdit, 'end_date'), 'yyyy-MM-dd', 'en'),
+        start_date: formatDate(get(this.entryToEdit, 'start_date', '') ,DATE_FORMAT, 'en'),
+        end_date: formatDate(get(this.entryToEdit, 'end_date'), DATE_FORMAT, 'en'),
         start_hour: formatDate(get(this.entryToEdit, 'start_date', '00:00'), 'HH:mm', 'en'),
         end_hour: formatDate(get(this.entryToEdit, 'end_date', '00:00'), 'HH:mm', 'en'),
         uri: this.entryToEdit.uri,
@@ -150,8 +151,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       project_id: '',
       activity_id: '',
       description: '',
-      start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-      end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      start_date: formatDate(new Date(), DATE_FORMAT, 'en'),
+      end_date: formatDate(new Date(), DATE_FORMAT, 'en'),
       start_hour: '00:00',
       end_hour: '00:00',
       uri: '',

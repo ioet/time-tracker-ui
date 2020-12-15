@@ -6,11 +6,14 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {Router, Routes} from '@angular/router';
 import {TimeClockComponent} from '../../../time-clock/pages/time-clock.component';
 import {provideMockStore} from '@ngrx/store/testing';
+import {of} from 'rxjs';
+import {FeatureManagerService} from '../../feature-toggles/feature-toggle-manager.service';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
   let azureAdB2CServiceStubInjected;
+  let featureManagerServiceStubInjected: FeatureManagerService;
   let router;
   const routes: Routes = [
     {path: 'time-clock', component: TimeClockComponent}
@@ -41,6 +44,7 @@ describe('SidebarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SidebarComponent);
     azureAdB2CServiceStubInjected = TestBed.inject(AzureAdB2CService);
+    featureManagerServiceStubInjected = TestBed.inject(FeatureManagerService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -79,4 +83,23 @@ describe('SidebarComponent', () => {
       expect(item.active).toBeFalse();
     });
   });
+
+  it('List Technologies item is added when feature flag "ui-list-technologies" is enabled for user', () => {
+    spyOn(featureManagerServiceStubInjected, 'isToggleEnabledForUser').and.returnValue(of(true));
+    const itemsSidebar = [];
+
+    component.toggleListTechnologies(itemsSidebar);
+
+    expect(itemsSidebar.length).toBe(1);
+  });
+
+  it('List Technologies item is not added when feature flag "ui-list-technologies" is disabled for user', () => {
+    spyOn(featureManagerServiceStubInjected, 'isToggleEnabledForUser').and.returnValue(of(false));
+    const itemsSidebar = [];
+
+    component.toggleListTechnologies(itemsSidebar);
+
+    expect(itemsSidebar.length).toBe(0);
+  });
+
 });

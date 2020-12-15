@@ -2,6 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { DATE_FORMAT } from 'src/environments/environment';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import {Store} from '@ngrx/store';
 import {EntryState} from '../../../time-clock/store/entry.reducer';
@@ -28,8 +29,8 @@ export class TimeRangeFormComponent implements OnInit {
 
   setInitialDataOnScreen() {
     this.reportForm.setValue({
-      startDate: formatDate(moment().startOf('week').toString(), 'yyyy-MM-dd', 'en'),
-      endDate: formatDate(moment().endOf('week').toString(), 'yyyy-MM-dd', 'en')
+      startDate: formatDate(moment().startOf('week').toString(), DATE_FORMAT, 'en'),
+      endDate: formatDate(moment().endOf('week').toString(), DATE_FORMAT, 'en')
     });
     this.onSubmit();
   }

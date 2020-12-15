@@ -14,6 +14,7 @@ import { IndividualConfig, ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import * as moment from 'moment';
+import { DATE_FORMAT_YEAR } from 'src/environments/environment';
 
 describe('EntryFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState;
@@ -94,7 +95,7 @@ describe('EntryFieldsComponent', () => {
     project_id: 'project-id-15',
     description: 'description for active entry',
     uri: 'abc',
-    start_date : moment().format('YYYY-MM-DD'),
+    start_date : moment().format(DATE_FORMAT_YEAR),
     start_hour : moment().format('HH:mm'),
   };
 
@@ -143,7 +144,7 @@ describe('EntryFieldsComponent', () => {
         uri: entryDataForm.uri,
         activity_id: entryDataForm.activity_id,
         start_hour:  formatDate(entry.start_date, 'HH:mm', 'en'),
-        start_date : moment().format('YYYY-MM-DD'),
+        start_date : moment().format(DATE_FORMAT_YEAR),
       }
     );
     expect(component.selectedTechnologies).toEqual([]);

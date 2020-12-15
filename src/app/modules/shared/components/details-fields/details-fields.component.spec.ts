@@ -20,6 +20,8 @@ import { ProjectSelectedEvent } from './project-selected-event';
 import { SaveEntryEvent } from './save-entry-event';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
+import { DATE_FORMAT } from 'src/environments/environment';
+import { DATE_FORMAT_YEAR } from 'src/environments/environment';
 
 describe('DetailsFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -67,8 +69,8 @@ describe('DetailsFieldsComponent', () => {
     project_name: '',
     activity_id: '',
     uri: '',
-    start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-    end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+    start_date: formatDate(new Date(), DATE_FORMAT, 'en'),
+    end_date: formatDate(new Date(), DATE_FORMAT, 'en'),
     start_hour: '00:00',
     end_hour: '00:00',
     description: '',
@@ -179,8 +181,8 @@ describe('DetailsFieldsComponent', () => {
       project_name: '',
       activity_id: '',
       uri: '',
-      start_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
-      end_date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+      start_date: formatDate(new Date(), DATE_FORMAT, 'en'),
+      end_date: formatDate(new Date(), DATE_FORMAT, 'en'),
       start_hour: '00:00',
       end_hour: '00:00',
       description: '',
@@ -315,7 +317,7 @@ describe('DetailsFieldsComponent', () => {
   it('displays error message when the date selected is in the future', () => {
     spyOn(toastrServiceStub, 'error');
 
-    const futureDate = moment().add(1, 'days').format('YYYY-MM-DD');
+    const futureDate = moment().add(1, 'days').format(DATE_FORMAT_YEAR);
     component.entryForm.setValue({ ...formValues, start_date: futureDate, end_date: futureDate });
     component.onSubmit();
 
@@ -325,8 +327,8 @@ describe('DetailsFieldsComponent', () => {
   it('when start_date is in the future and end_date is OK then throws an error', () => {
     spyOn(toastrServiceStub, 'error');
 
-    const futureDate = moment().add(1, 'days').format('YYYY-MM-DD');
-    const currentDate = moment().format('YYYY-MM-DD');
+    const futureDate = moment().add(1, 'days').format(DATE_FORMAT_YEAR);
+    const currentDate = moment().format(DATE_FORMAT_YEAR);
     component.entryForm.setValue({ ...formValues, start_date: futureDate, end_date: currentDate });
     component.onSubmit();
 
@@ -336,8 +338,8 @@ describe('DetailsFieldsComponent', () => {
   it('when start_date is OK and end_date is in the future then throws an error future', () => {
     spyOn(toastrServiceStub, 'error');
 
-    const futureDate = moment().add(1, 'days').format('YYYY-MM-DD');
-    const currentDate = moment().format('YYYY-MM-DD');
+    const futureDate = moment().add(1, 'days').format(DATE_FORMAT_YEAR);
+    const currentDate = moment().format(DATE_FORMAT_YEAR);
     component.entryForm.setValue({ ...formValues, start_date: currentDate, end_date: futureDate });
     component.onSubmit();
 

@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
@@ -73,6 +73,9 @@ import { LoadingBarComponent } from './modules/shared/components/loading-bar/loa
 import { UsersComponent } from './modules/users/pages/users.component';
 import { UsersListComponent } from './modules/users/components/users-list/users-list.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+// tslint:disable-next-line: max-line-length
+import { TechnologyReportTableComponent } from './modules/technology-report/components/technology-report-table/technology-report-table.component';
+import { TechnologyReportComponent } from './modules/technology-report/pages/technology-report.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -122,7 +125,9 @@ const maskConfig: Partial<IConfig> = {
     DialogComponent,
     LoadingBarComponent,
     UsersComponent,
-    UsersListComponent
+    UsersListComponent,
+    TechnologyReportComponent,
+    TechnologyReportTableComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),

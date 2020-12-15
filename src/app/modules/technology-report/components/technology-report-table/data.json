@@ -1,0 +1,71 @@
+[
+  {
+    "id": 1,
+    "name_technology": "Pascal",
+    "users": [
+      {
+        "id": 1,
+        "email_user": "dogman@gmail.com",
+        "time_spent": 30,
+        "projects": [
+          {
+            "id": 1,
+            "project_name": "Time tracker",
+            "time_spent": 15
+          },
+          {
+            "id": 2,
+            "project_name": "New Project",
+            "time_spent": 10
+          },
+          {
+            "id": 3,
+            "project_name": "Old Project",
+            "time_spent": 5
+          }
+        ]
+      }, {
+        "id": 2,
+        "email_user": "duckman@gmail.com",
+        "time_spent": 20,
+        "projects": [
+          {
+            "id": 1,
+            "project_name": "Time tracker",
+            "time_spent": 20
+          }
+        ]
+      }, {
+        "id": 3,
+        "email_user": "plantgirl@gmail.com",
+        "time_spent": 10,
+        "projects": [
+          {
+            "id": 1,
+            "project_name": "Time tracker",
+            "time_spent": 10
+          }
+        ]
+      }
+    ],
+    "time_spent": 60
+  }, {
+    "id": 2,
+    "name_technology": "Pascual",
+    "users": [
+      {
+        "id": 1,
+        "email_user": "catgirl@gmail.com",
+        "time_spent": 10,
+        "projects": [
+          {
+            "id": 1,
+            "project_name": "Time tracker",
+            "time_spent": 10
+          }
+        ]
+      }
+    ],
+    "time_spent": 10
+  }
+]

@@ -1,6 +1,7 @@
 import { NumberFormatter } from './../../formatters/number.formatter';
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
+import { DATE_FORMAT_YEAR } from 'src/environments/environment';
 @Pipe({
   name: 'substractDate'
 })
@@ -12,8 +13,8 @@ export class SubstractDatePipe implements PipeTransform {
       return '--:--';
     }
 
-    const startDate = moment(substractDate, 'YYYY-MM-DD HH:mm:ss');
-    let endDate = moment(fromDate, 'YYYY-MM-DD HH:mm:ss');
+    const startDate = moment(substractDate, `${DATE_FORMAT_YEAR} HH:mm:ss`);
+    let endDate = moment(fromDate, `${DATE_FORMAT_YEAR} HH:mm:ss`);
     let duration: moment.Duration = moment.duration(endDate.diff(startDate));
 
     if (duration.asSeconds() > 60 && !displaySeconds) {
