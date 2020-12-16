@@ -126,4 +126,14 @@ describe('Actions for Entries', () => {
     const action = new actions.RestartEntryFail('error');
     expect(action.type).toEqual(actions.EntryActionTypes.RESTART_ENTRY_FAIL);
   });
+
+  it('UpdateTwoEntries type is EntryActionTypes.UPDATE_TWO_ENTRIES', () => {
+    const action = new actions.UpdateTwoEntries(entry);
+    expect(action.type).toEqual(actions.EntryActionTypes.UPDATE_TWO_ENTRIES);
+  });
+
+  it('UpdateTwoEntriesFail type is EntryActionTypes.UPDATE_TWO_ENTRIES_FAIL', () => {
+    const action = new actions.UpdateTwoEntriesFail('error');
+    expect(action.type).toEqual(actions.EntryActionTypes.UPDATE_TWO_ENTRIES_FAIL);
+  });
 });

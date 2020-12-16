@@ -206,6 +206,21 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
     }
 
+    case EntryActionTypes.UPDATE_TWO_ENTRIES: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case EntryActionTypes.UPDATE_TWO_ENTRIES_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+        message: 'Update Two Entries Fail',
+      };
+    }
+
     case EntryActionTypes.STOP_TIME_ENTRY_RUNNING: {
       return {
         ...state,

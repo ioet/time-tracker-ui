@@ -21,6 +21,8 @@ export enum EntryActionTypes {
   UPDATE_ENTRY_RUNNING = '[Entry] UPDATE_ENTRY_RUNNING',
   UPDATE_ENTRY = '[Entry] UPDATE_ENTRY',
   UPDATE_ENTRY_SUCCESS = '[Entry] UPDATE_ENTRY_SUCCESS',
+  UPDATE_TWO_ENTRIES = '[Entry] UPDATE_TWO_ENTRIES',
+  UPDATE_TWO_ENTRIES_FAIL = '[Entry] UPDATE_TWO_ENTRIES_FAIL',
   UPDATE_ENTRY_FAIL = '[Entry] UPDATE_ENTRY_FAIL',
   DELETE_ENTRY = '[Entry] DELETE_ENTRY',
   DELETE_ENTRY_SUCCESS = '[Entry] DELETE_ENTRY_SUCCESS',
@@ -183,6 +185,18 @@ export class UpdateEntryFail implements Action {
   }
 }
 
+export class UpdateTwoEntries implements Action {
+  public readonly type = EntryActionTypes.UPDATE_TWO_ENTRIES;
+
+  constructor(public payload) {
+  }
+}
+export class UpdateTwoEntriesFail implements Action {
+  public readonly type = EntryActionTypes.UPDATE_TWO_ENTRIES_FAIL;
+
+  constructor(public error: string) {
+  }
+}
 export class StopTimeEntryRunning implements Action {
   public readonly type = EntryActionTypes.STOP_TIME_ENTRY_RUNNING;
 
@@ -296,4 +310,6 @@ export type EntryActions =
   | SwitchTimeEntryFail
   | RestartEntry
   | RestartEntrySuccess
-  | RestartEntryFail;
+  | RestartEntryFail
+  | UpdateTwoEntries
+  | UpdateTwoEntriesFail;

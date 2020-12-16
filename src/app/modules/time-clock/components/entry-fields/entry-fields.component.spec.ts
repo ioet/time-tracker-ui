@@ -262,19 +262,16 @@ describe('EntryFieldsComponent', () => {
     expect(component.lastEntry).toBe(state.entries.timeEntriesDataSource.data[1]);
   }));
 
-  it('When start_time is updated for a time entry. UpdateEntry and UpdateEntryRuning actions are dispatched', () => {
+  it('When start_time is updated for a time entry. UpdateTwoEntry action is dispatched', () => {
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
-    const lastEntry = state.entries.timeEntriesDataSource.data[1];
     const updatedTime = moment().subtract(4, 'hours').format('HH:mm');
-    const lastStartHourEntryEnteredTest = new Date(`${lastDate}T${updatedTime.trim()}`).toISOString();
     component.entryForm.patchValue({ start_hour : updatedTime});
     spyOn(store, 'dispatch');
 
     component.onUpdateStartHour();
 
-    expect(store.dispatch).toHaveBeenCalledTimes(2);
-    expect(store.dispatch).toHaveBeenCalledWith(new UpdateEntry({id: lastEntry.id, end_date: lastStartHourEntryEnteredTest}));
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
   });
 
   it('when a technology is added, then dispatch UpdateActiveEntry', () => {
@@ -370,7 +367,7 @@ describe('EntryFieldsComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new LoadActiveEntry());
   });
 
-  it('when entry has an end_date then nothing is dispatched', () => {
+  it('when entry has an end_date then update time entry running and load entries', () => {
     spyOn(store, 'dispatch');
 
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
@@ -381,7 +378,7 @@ describe('EntryFieldsComponent', () => {
 
     actionSubject.next(action);
 
-    expect(store.dispatch).toHaveBeenCalledTimes(0);
+    expect(store.dispatch).toHaveBeenCalledTimes(3);
   });
 
   it('activeEntry is populated using the payload of LOAD_ACTIVE_ENTRY_SUCCESS', () => {

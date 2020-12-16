@@ -132,7 +132,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         project_id: this.entryToEdit.project_id,
         activity_id: this.entryToEdit.activity_id,
         description: this.entryToEdit.description,
-        start_date: formatDate(get(this.entryToEdit, 'start_date', '') ,DATE_FORMAT, 'en'),
+        start_date: formatDate(get(this.entryToEdit, 'start_date', ''), DATE_FORMAT, 'en'),
         end_date: formatDate(get(this.entryToEdit, 'end_date'), DATE_FORMAT, 'en'),
         start_hour: formatDate(get(this.entryToEdit, 'start_date', '00:00'), 'HH:mm', 'en'),
         end_hour: formatDate(get(this.entryToEdit, 'end_date', '00:00'), 'HH:mm', 'en'),

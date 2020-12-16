@@ -339,4 +339,22 @@ describe('TimeEntryActionEffects', () => {
       expect(action.type).toEqual(EntryActionTypes.STOP_TIME_ENTRY_RUNNING_FAILED);
     });
   });
+
+  it('action type is UPDATE_ENTRY when UPDATE_TWO_ENTRIES executed', async () => {
+    actions$ = of({ type: EntryActionTypes.UPDATE_TWO_ENTRIES, payload: entry });
+    spyOn(service, 'loadEntries').and.returnValue(of([entry, entry]));
+
+    effects.updateLastEntryAndNew$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.UPDATE_ENTRY);
+    });
+  });
+
+  it('action type is UPDATE_TWO_ENTRIES_FAIL when service fail in execution', async () => {
+    actions$ = of({ type: EntryActionTypes.UPDATE_TWO_ENTRIES, payload: entry });
+    spyOn(service, 'loadEntries').and.returnValue(throwError({ error: { message: 'fail!' } }));
+
+    effects.updateLastEntryAndNew$.subscribe((action) => {
+      expect(action.type).toEqual(EntryActionTypes.UPDATE_TWO_ENTRIES_FAIL);
+    });
+  });
 });
