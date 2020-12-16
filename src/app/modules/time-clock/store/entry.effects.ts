@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { EntryService } from '../services/entry.service';
 import * as actions from './entry.actions';
+import * as moment from 'moment';
 
 @Injectable()
 export class EntryEffects {
@@ -214,6 +215,30 @@ export class EntryEffects {
         catchError((error) => {
           this.toastrService.error(error.error.message);
           return of(new actions.StopTimeEntryRunningFail(error.error.message));
+        })
+      )
+    )
+  );
+
+  @Effect()
+  updateLastEntryAndNew$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.UPDATE_TWO_ENTRIES),
+    map((action: actions.UpdateTwoEntries) => action.payload),
+    switchMap((entry) =>
+      this.entryService.loadEntries(new Date().getMonth() + 1).pipe(
+        map((entries) => {
+          const lastEntry = entries[1];
+          const isInLastEntry = moment(entry.start_date).isBefore(lastEntry.end_date);
+          if (isInLastEntry) {
+            return new actions.UpdateEntry({ id: lastEntry.id, end_date: entry.start_date });
+          } else {
+            this.toastrService.success('You change the time in successfully');
+            return new actions.UpdateEntryRunning(entry);
+          }
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.UpdateTwoEntriesFail('error'));
         })
       )
     )

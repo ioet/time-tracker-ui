@@ -199,6 +199,13 @@ describe('entryReducer', () => {
     expect(state.isLoading).toEqual(true);
   });
 
+  it('on UpdateTwoEntries, isLoading is true', () => {
+    const action = new actions.UpdateTwoEntries(newEntry);
+    const state = entryReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(true);
+  });
+
   it('on UpdateActiveEntrySuccess, loading is false', () => {
     const action = new actions.UpdateEntrySuccess(entry);
 

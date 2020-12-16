@@ -70,6 +70,10 @@ export class EntryFieldsComponent implements OnInit {
         if (!action.payload.end_date) {
           this.store.dispatch(new LoadActiveEntry());
           this.store.dispatch(new entryActions.LoadEntriesSummary());
+        } else {
+          this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
+          this.store.dispatch(new LoadActiveEntry());
+          this.store.dispatch(new entryActions.LoadEntriesSummary());
         }
       });
 
@@ -143,17 +147,8 @@ export class EntryFieldsComponent implements OnInit {
       return;
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
-    this.dispatchEntries(newHourEntered);
+    this.store.dispatch(new entryActions.UpdateTwoEntries({ ...this.newData, ...this.entryForm.value }));
     this.showTimeInbuttons = false;
-  }
-
-  private dispatchEntries(newHourEntered) {
-    const lastEntryEndDate = get(this.lastEntry, 'end_date', moment().subtract(1, 'hours'));
-    const isInLastEntry = moment(newHourEntered).isBefore(lastEntryEndDate);
-    if (isInLastEntry) {
-      this.store.dispatch(new entryActions.UpdateEntry({ id: this.lastEntry.id, end_date: newHourEntered }));
-    }
-    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
   }
 
   private getLastEntry() {
@@ -163,11 +158,11 @@ export class EntryFieldsComponent implements OnInit {
     });
   }
 
-  activeTimeInButtons(){
+  activeTimeInButtons() {
     this.showTimeInbuttons = true;
   }
 
-  cancelTimeInUpdate(){
+  cancelTimeInUpdate() {
     this.entryForm.patchValue({ start_hour: this.newData.start_hour });
     this.showTimeInbuttons = false;
   }
