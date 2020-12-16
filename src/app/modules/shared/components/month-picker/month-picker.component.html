@@ -1,10 +1,31 @@
-<div class="d-flex">
-  <div
-    class="month w-100 text-center align-self-center d-flex flex-column"
-    *ngFor="let month of months; let i = index"
-    (click)="getMonth(i)"
-    [ngClass]="{ active: activeMonth === i }"
-  >
-   <div class="p-2">{{ month }}</div>
-  </div>
+<div class="month-picker">
+	<div class="card">
+		<div class="card-header">
+			<div class="d-flex align-items-center">
+				<button class="btn mr-auto" (click)="decrement()">
+          <i class="fa fa-chevron-left"></i>
+        </button>
+				<p>
+					{{selectedYearText}}
+				</p>
+				<button class="btn ml-auto" (click)="increment()">
+          <i class="fa fa-chevron-right"></i>
+        </button>
+			</div>
+		</div>
+
+		<div class="card-body">
+				<div class="row">
+					<div class="col-sm-2" *ngFor="let month of months; let i = index">
+						<div class="month-picker-cell">
+							<button class="btn"
+              [ngClass]="{'btn-primary': isSelectedMonth(i)}"
+							 (click)="selectMonth(i)">
+                <small>{{ month }}</small>
+              </button>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
 </div>
