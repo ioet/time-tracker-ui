@@ -147,7 +147,7 @@ export class EntryFieldsComponent implements OnInit {
       return;
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
-    this.store.dispatch(new entryActions.UpdateTwoEntries({ ...this.newData, ...this.entryForm.value }));
+    this.store.dispatch(new entryActions.UpdateCurrentOrLastEntry({ ...this.newData, ...this.entryForm.value }));
     this.showTimeInbuttons = false;
   }
 

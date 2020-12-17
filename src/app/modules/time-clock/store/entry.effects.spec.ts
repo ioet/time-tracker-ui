@@ -22,6 +22,19 @@ describe('TimeEntryActionEffects', () => {
   let toastrService;
   const entry: Entry = { project_id: 'p-id', start_date: new Date(), id: 'id' };
 
+  const dateTest = moment().format('YYYY-MM-DD');
+  const endHourTest = moment().subtract(5, 'hours').format('HH:mm:ss');
+  const startHourTest = moment().subtract(3, 'hours').format('HH:mm:ss');
+  const endDateTest = new Date(`${dateTest}T${endHourTest.trim()}`);
+  const startDateTest = new Date(`${dateTest}T${startHourTest.trim()}`);
+
+  const entryUpdate = {
+    id: 'id',
+    project_id: 'p-id',
+    start_date : startDateTest,
+    start_hour : moment().subtract(1, 'hours').format('HH:mm'),
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -340,21 +353,33 @@ describe('TimeEntryActionEffects', () => {
     });
   });
 
-  it('action type is UPDATE_ENTRY when UPDATE_TWO_ENTRIES executed', async () => {
-    actions$ = of({ type: EntryActionTypes.UPDATE_TWO_ENTRIES, payload: entry });
+  it('should update last entry when UPDATE_CURRENT_OR_LAST_ENTRY is executed', async () => {
+    actions$ = of({ type: EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY, payload: entry });
     spyOn(service, 'loadEntries').and.returnValue(of([entry, entry]));
 
-    effects.updateLastEntryAndNew$.subscribe(action => {
+    effects.updateCurrentOrLastEntry$.subscribe(action => {
       expect(action.type).toEqual(EntryActionTypes.UPDATE_ENTRY);
     });
   });
 
-  it('action type is UPDATE_TWO_ENTRIES_FAIL when service fail in execution', async () => {
-    actions$ = of({ type: EntryActionTypes.UPDATE_TWO_ENTRIES, payload: entry });
+  it('should update current entry when UPDATE_CURRENT_OR_LAST_ENTRY is executed', async () => {
+    const lastEntry: Entry = { project_id: 'p-id', start_date: new Date(), id: 'id', end_date: endDateTest};
+    actions$ = of({ type: EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY, payload: entryUpdate });
+    spyOn(service, 'loadEntries').and.returnValue(of([lastEntry, lastEntry]));
+    spyOn(toastrService, 'success');
+
+    effects.updateCurrentOrLastEntry$.subscribe(action => {
+      expect(toastrService.success).toHaveBeenCalledWith('You change the time-in successfully');
+      expect(action.type).toEqual(EntryActionTypes.UPDATE_ENTRY_RUNNING);
+    });
+  });
+
+  it('action type is UPDATE_CURRENT_OR_LAST_ENTRY_FAIL when service fail in execution', async () => {
+    actions$ = of({ type: EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY, payload: entry });
     spyOn(service, 'loadEntries').and.returnValue(throwError({ error: { message: 'fail!' } }));
 
-    effects.updateLastEntryAndNew$.subscribe((action) => {
-      expect(action.type).toEqual(EntryActionTypes.UPDATE_TWO_ENTRIES_FAIL);
+    effects.updateCurrentOrLastEntry$.subscribe((action) => {
+      expect(action.type).toEqual(EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY_FAIL);
     });
   });
 });

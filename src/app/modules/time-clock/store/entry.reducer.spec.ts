@@ -199,11 +199,19 @@ describe('entryReducer', () => {
     expect(state.isLoading).toEqual(true);
   });
 
-  it('on UpdateTwoEntries, isLoading is true', () => {
-    const action = new actions.UpdateTwoEntries(newEntry);
+  it('on UpdateCurrentOrLastEntry, isLoading is true', () => {
+    const action = new actions.UpdateCurrentOrLastEntry(newEntry);
     const state = entryReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
+  });
+
+  it('on UpdateCurrentOrLastEntryFail, isLoading is false and give a message', () => {
+    const action = new actions.UpdateCurrentOrLastEntryFail('fail');
+    const state = entryReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(false);
+    expect(state.message).toEqual('Update Current or Last Entry Fail');
   });
 
   it('on UpdateActiveEntrySuccess, loading is false', () => {
