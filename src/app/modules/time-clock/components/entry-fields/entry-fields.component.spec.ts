@@ -262,7 +262,7 @@ describe('EntryFieldsComponent', () => {
     expect(component.lastEntry).toBe(state.entries.timeEntriesDataSource.data[1]);
   }));
 
-  it('When start_time is updated for a time entry. UpdateTwoEntry action is dispatched', () => {
+  it('When start_time is updated for a time entry. UpdateCurrentOrLastEntry action is dispatched', () => {
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
     const updatedTime = moment().subtract(4, 'hours').format('HH:mm');
@@ -367,7 +367,7 @@ describe('EntryFieldsComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new LoadActiveEntry());
   });
 
-  it('when entry has an end_date then update time entry running and load entries', () => {
+  it('When update current or last entry then the actions updateEntryRunning, LoadEntries and LoadEntriSummary will be dispatched', () => {
     spyOn(store, 'dispatch');
 
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;

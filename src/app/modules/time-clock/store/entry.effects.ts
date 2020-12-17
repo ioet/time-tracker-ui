@@ -221,24 +221,24 @@ export class EntryEffects {
   );
 
   @Effect()
-  updateLastEntryAndNew$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.EntryActionTypes.UPDATE_TWO_ENTRIES),
-    map((action: actions.UpdateTwoEntries) => action.payload),
+  updateCurrentOrLastEntry$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY),
+    map((action: actions.UpdateCurrentOrLastEntry) => action.payload),
     switchMap((entry) =>
       this.entryService.loadEntries(new Date().getMonth() + 1).pipe(
         map((entries) => {
           const lastEntry = entries[1];
-          const isInLastEntry = moment(entry.start_date).isBefore(lastEntry.end_date);
-          if (isInLastEntry) {
+          const isStartTimeInLastEntry = moment(entry.start_date).isBefore(lastEntry.end_date);
+          if (isStartTimeInLastEntry) {
             return new actions.UpdateEntry({ id: lastEntry.id, end_date: entry.start_date });
           } else {
-            this.toastrService.success('You change the time in successfully');
+            this.toastrService.success('You change the time-in successfully');
             return new actions.UpdateEntryRunning(entry);
           }
         }),
         catchError((error) => {
           this.toastrService.error(error.error.message);
-          return of(new actions.UpdateTwoEntriesFail('error'));
+          return of(new actions.UpdateCurrentOrLastEntryFail('error'));
         })
       )
     )

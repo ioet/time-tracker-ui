@@ -206,18 +206,18 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
     }
 
-    case EntryActionTypes.UPDATE_TWO_ENTRIES: {
+    case EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY: {
       return {
         ...state,
         isLoading: true,
       };
     }
 
-    case EntryActionTypes.UPDATE_TWO_ENTRIES_FAIL: {
+    case EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY_FAIL: {
       return {
         ...state,
         isLoading: false,
-        message: 'Update Two Entries Fail',
+        message: 'Update Current or Last Entry Fail',
       };
     }
 

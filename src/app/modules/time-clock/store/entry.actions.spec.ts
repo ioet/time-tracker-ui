@@ -127,13 +127,13 @@ describe('Actions for Entries', () => {
     expect(action.type).toEqual(actions.EntryActionTypes.RESTART_ENTRY_FAIL);
   });
 
-  it('UpdateTwoEntries type is EntryActionTypes.UPDATE_TWO_ENTRIES', () => {
-    const action = new actions.UpdateTwoEntries(entry);
-    expect(action.type).toEqual(actions.EntryActionTypes.UPDATE_TWO_ENTRIES);
+  it('UpdateCurrentOrLastEntry type is EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY', () => {
+    const action = new actions.UpdateCurrentOrLastEntry(entry);
+    expect(action.type).toEqual(actions.EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY);
   });
 
-  it('UpdateTwoEntriesFail type is EntryActionTypes.UPDATE_TWO_ENTRIES_FAIL', () => {
-    const action = new actions.UpdateTwoEntriesFail('error');
-    expect(action.type).toEqual(actions.EntryActionTypes.UPDATE_TWO_ENTRIES_FAIL);
+  it('UpdateCurrentOrLastEntryFail type is EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY_FAIL', () => {
+    const action = new actions.UpdateCurrentOrLastEntryFail('error');
+    expect(action.type).toEqual(actions.EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY_FAIL);
   });
 });

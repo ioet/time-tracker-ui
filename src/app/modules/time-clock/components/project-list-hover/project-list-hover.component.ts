@@ -54,8 +54,6 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     ).subscribe((action) => {
       this.activeEntry = action.payload;
       this.setSelectedProject();
-      this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
-      this.store.dispatch(new entryActions.LoadActiveEntry());
     });
 
   }
