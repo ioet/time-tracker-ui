@@ -319,7 +319,7 @@ describe('DetailsFieldsComponent', () => {
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
 
-  fit('onSubmit an entry without change hours, should not modify the start_date and end_date ', () => {
+  it('onSubmit an entry without change hours, should not modify the start_date and end_date ', () => {
     component.entryToEdit = {...entryToEdit, description: 'test', };
     fixture.componentInstance.ngOnChanges();
 
