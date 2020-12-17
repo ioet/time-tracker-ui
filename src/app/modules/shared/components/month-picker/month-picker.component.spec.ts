@@ -1,4 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { months } from 'moment';
 
 import { MonthPickerComponent } from './month-picker.component';
 
@@ -23,10 +24,11 @@ describe('MonthPickerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit activeMonth event', () => {
+  it('should emit monthIndex and year', () => {
     const month = 2;
-    spyOn(component.monthSelected, 'emit');
-    component.getMonth(month);
-    expect(component.monthSelected.emit).toHaveBeenCalledWith(month + 1);
+    const year = 2020;
+    spyOn(component.dateSelected, 'emit');
+    expect(component.dateSelected.emit({ monthIndex: month, year: year }));
   });
+
 });
