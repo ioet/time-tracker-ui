@@ -18,6 +18,7 @@ import { TimeEntriesComponent } from './time-entries.component';
 import { ActionsSubject } from '@ngrx/store';
 import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { months } from 'moment';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -322,10 +323,11 @@ describe('TimeEntriesComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.DeleteEntry('id'));
   });
 
-  it('should get the entry List by Month', () => {
+  it('should get the entry List by Month and year', () => {
     const month = 1;
+    const year = 2020;
     spyOn(store, 'dispatch');
-    component.getMonth(month);
+    component.dateSelected({monthIndex: month, year: 2020});
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(month));
   });
 
