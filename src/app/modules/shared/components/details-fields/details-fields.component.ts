@@ -42,6 +42,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   activities: Activity[] = [];
   goingToWorkOnThis = false;
   shouldRestartEntry = false;
+  starDateValue;
+  endDateValue;
 
   constructor(private formBuilder: FormBuilder, private store: Store<Merged>,
               private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
@@ -139,6 +141,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         uri: this.entryToEdit.uri,
         technology: '',
       });
+      this.starDateValue = formatDate(get(this.entryToEdit, 'start_date', '00:00'), 'HH:mm', 'en');
+      this.endDateValue = formatDate(get(this.entryToEdit, 'end_date', '00:00'), 'HH:mm', 'en');
     } else {
       this.cleanForm();
     }
@@ -204,13 +208,20 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     }
     const startDate = this.entryForm.value.start_date;
     const endDate = this.entryForm.value.end_date;
+    this.starDateValue = this.entryForm.value.start_hour === this.starDateValue ?
+      this.entryToEdit.start_date :
+      new Date(`${startDate}T${this.entryForm.value.start_hour.trim()}`).toISOString();
+    this.endDateValue = this.entryForm.value.end_hour === this.endDateValue ?
+      this.entryToEdit.end_date :
+      new Date(`${endDate}T${this.entryForm.value.end_hour.trim()}`).toISOString();
+
     const entry = {
       project_id: this.entryForm.value.project_id,
       activity_id: this.entryForm.value.activity_id,
       technologies: get(this, 'selectedTechnologies', []),
       description: this.entryForm.value.description,
-      start_date: new Date(`${startDate}T${this.entryForm.value.start_hour.trim()}`).toISOString(),
-      end_date: new Date(`${endDate}T${this.entryForm.value.end_hour.trim()}`).toISOString(),
+      start_date: this.starDateValue,
+      end_date: this.endDateValue,
       uri: this.entryForm.value.uri,
       timezone_offset: new Date().getTimezoneOffset(),
     };
