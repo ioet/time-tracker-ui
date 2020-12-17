@@ -76,6 +76,11 @@ describe('DetailsFieldsComponent', () => {
     description: '',
     technology: '',
   };
+  const dateTest = moment().format('YYYY-MM-DD');
+  const endHourTest = moment().format('HH:mm:ss');
+  const endDateTest = new Date(`${dateTest}T${endHourTest.trim()}`);
+  const startHourTest = moment().subtract(3, 'hours').format('HH:mm:ss');
+  const startDateTest = new Date(`${dateTest}T${startHourTest.trim()}`);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -101,8 +106,8 @@ describe('DetailsFieldsComponent', () => {
       project_id: 'id',
       activity_id: '',
       uri: 'ticketUri',
-      start_date: null,
-      end_date: null,
+      start_date: startDateTest,
+      end_date: endDateTest,
       description: '',
       technologies: [],
       id: 'xyz'
@@ -312,6 +317,19 @@ describe('DetailsFieldsComponent', () => {
     };
 
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
+  });
+
+  fit('onSubmit an entry without change hours, should not modify the start_date and end_date ', () => {
+    component.entryToEdit = {...entryToEdit, description: 'test', };
+    fixture.componentInstance.ngOnChanges();
+
+    const startHourValue = moment().subtract(3, 'hours').format('HH:mm');
+    const endHourValue = moment().format('HH:mm');
+
+    component.onSubmit();
+
+    expect(component.starDateValue).toEqual(startHourValue);
+    expect(component.endDateValue).toEqual(endHourValue);
   });
 
   it('displays error message when the date selected is in the future', () => {
