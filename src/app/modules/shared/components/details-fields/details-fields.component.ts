@@ -42,8 +42,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   activities: Activity[] = [];
   goingToWorkOnThis = false;
   shouldRestartEntry = false;
-  starDateValue;
-  endDateValue;
 
   constructor(private formBuilder: FormBuilder, private store: Store<Merged>,
               private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
@@ -141,8 +139,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         uri: this.entryToEdit.uri,
         technology: '',
       });
-      this.starDateValue = formatDate(get(this.entryToEdit, 'start_date', '00:00'), 'HH:mm', 'en');
-      this.endDateValue = formatDate(get(this.entryToEdit, 'end_date', '00:00'), 'HH:mm', 'en');
     } else {
       this.cleanForm();
     }
@@ -201,36 +197,60 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.closeModal?.nativeElement?.click();
   }
 
+  startDateToSubmit(){
+    const startDate = this.entryForm.value.start_date;
+    const initialStartDate = this.entryToEdit.start_date;
+    const updatedStartDate = new Date(`${startDate}T${this.entryForm.value.start_hour.trim()}`).toISOString();
+    const initialStartHour = formatDate(get(this.entryToEdit, 'start_date', '00:00'), 'HH:mm', 'en');
+    const updatedStartHour = this.entryForm.value.start_hour;
+    const startHourHasNotChanged = updatedStartHour === initialStartHour;
+    const result = startHourHasNotChanged ? initialStartDate : updatedStartDate;
+    return result;
+  }
+
+  endDateToSubmit(){
+    const endDate = this.entryForm.value.end_date;
+    const initialEndDate = this.entryToEdit.end_date;
+    const updatedEndDate = new Date(`${endDate}T${this.entryForm.value.end_hour.trim()}`).toISOString();
+    const initialEndHour = formatDate(get(this.entryToEdit, 'end_date', '00:00'), 'HH:mm', 'en');
+    const updatedEndHour = this.entryForm.value.end_hour;
+    const endDateHasNotChanged = updatedEndHour === initialEndHour;
+    const result = endDateHasNotChanged ? initialEndDate : updatedEndDate;
+    return result;
+  }
+
+  timeEntryIsInTheFuture(){
+    const startDate = this.entryForm.value.start_date;
+    const endDate = this.entryForm.value.end_date;
+    const isStartDateInTheFuture = moment(startDate).isAfter(moment());
+    const isEndDateInTheFuture = moment(endDate).isAfter(moment());
+    return isStartDateInTheFuture || isEndDateInTheFuture;
+  }
+
   onSubmit() {
     if (this.entryForm.invalid) {
       this.toastrService.warning('Make sure to select a project and activity');
       return;
     }
-    const startDate = this.entryForm.value.start_date;
-    const endDate = this.entryForm.value.end_date;
-    this.starDateValue = this.entryForm.value.start_hour === this.starDateValue ?
-      this.entryToEdit.start_date :
-      new Date(`${startDate}T${this.entryForm.value.start_hour.trim()}`).toISOString();
-    this.endDateValue = this.entryForm.value.end_hour === this.endDateValue ?
-      this.entryToEdit.end_date :
-      new Date(`${endDate}T${this.entryForm.value.end_hour.trim()}`).toISOString();
+
+    const startDateToSubmit = this.startDateToSubmit();
+    const endDateToSubmit = this.endDateToSubmit();
 
     const entry = {
       project_id: this.entryForm.value.project_id,
       activity_id: this.entryForm.value.activity_id,
       technologies: get(this, 'selectedTechnologies', []),
       description: this.entryForm.value.description,
-      start_date: this.starDateValue,
-      end_date: this.endDateValue,
+      start_date: startDateToSubmit,
+      end_date: endDateToSubmit,
       uri: this.entryForm.value.uri,
       timezone_offset: new Date().getTimezoneOffset(),
     };
     if (this.goingToWorkOnThis) {
       delete entry.end_date;
     }
-    const isStartDateInTheFuture = moment(startDate).isAfter(moment());
-    const isEndDateInTheFuture = moment(endDate).isAfter(moment());
-    if (isStartDateInTheFuture || isEndDateInTheFuture) {
+
+    if (this.timeEntryIsInTheFuture()) {
       this.toastrService.error('You cannot start a time-entry in the future');
       return;
     }
