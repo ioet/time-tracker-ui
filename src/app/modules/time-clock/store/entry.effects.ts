@@ -26,6 +26,7 @@ export class EntryEffects {
             project_id: action.idProjectSwitching,
             start_date: stopDateForEntry.toISOString(),
             timezone_offset: new Date().getTimezoneOffset(),
+            technologies: []
           };
           return new actions.ClockIn(entry);
         }),
