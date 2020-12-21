@@ -99,7 +99,7 @@ export class LoadActiveEntryFail implements Action {
 export class LoadEntries implements Action {
   public readonly type = EntryActionTypes.LOAD_ENTRIES;
 
-  constructor(public month: number) {
+  constructor(public month: number, public year: number) {
   }
 }
 

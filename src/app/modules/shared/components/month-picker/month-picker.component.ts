@@ -1,3 +1,4 @@
+import { SubstractDatePipe } from './../../pipes/substract-date/substract-date.pipe';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 
@@ -7,8 +8,10 @@ import * as moment from 'moment';
   styleUrls: ['./month-picker.component.scss']
 })
 export class MonthPickerComponent implements OnInit {
-
-  @Output() dateSelected = new EventEmitter<{ monthIndex: number; year: number; }>();
+  @Output() dateSelected = new EventEmitter<{
+    monthIndex: number;
+    year: number;
+  }>();
 
   selectedMonthMoment: moment.Moment;
   selectedMonthIndex: number;

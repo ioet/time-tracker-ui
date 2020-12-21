@@ -127,7 +127,8 @@ describe('TimeEntriesComponent', () => {
   }));
 
   it('when create time entries, the time entries should be queried', () => {
-    const currentMonth = new Date().getMonth() + 1;
+    const currentMonth = new Date().getMonth();
+    const year = new Date().getFullYear();
     const entryToSave = {
       entry: {
         project_id: 'project-id',
@@ -142,7 +143,7 @@ describe('TimeEntriesComponent', () => {
 
     component.saveEntry(entryToSave);
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CreateEntry(entryToSave.entry));
-    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(currentMonth));
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(currentMonth, year));
   });
 
   it('when creating a new entry, then entryId should be null', () => {
@@ -324,11 +325,12 @@ describe('TimeEntriesComponent', () => {
   });
 
   it('should get the entry List by Month and year', () => {
-    const month = 1;
-    const year = 2020;
+    const month = new Date().getMonth();
+    const year = new Date().getFullYear();
+
     spyOn(store, 'dispatch');
-    component.dateSelected({monthIndex: month, year: 2020});
-    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(month));
+    component.dateSelected({monthIndex: month, year: year});
+    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(month + 1, year));
   });
 
   it('doSave when activeTimeEntry === null', waitForAsync(() => {
