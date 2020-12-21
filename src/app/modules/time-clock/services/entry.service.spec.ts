@@ -54,11 +54,13 @@ describe('EntryService', () => {
   });
 
   it('load all Entries', () => {
+    const year = new Date().getFullYear();
     const month = new Date().getMonth();
-    const timezoneOffset = new Date().getTimezoneOffset();
-    service.loadEntries(month).subscribe();
 
-    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}?month=${month}&timezone_offset=${timezoneOffset}`);
+    const timezoneOffset = new Date().getTimezoneOffset();
+    service.loadEntries(year, month).subscribe();
+
+    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}?month=${month}&year=${year}&timezone_offset=${timezoneOffset}`);
     expect(loadEntryRequest.request.method).toBe('GET');
 
   });

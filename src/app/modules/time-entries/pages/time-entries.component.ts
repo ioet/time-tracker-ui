@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -31,6 +32,9 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedMonthIndex: number;
   selectedMonthAsText: string;
 
+  currentMonth = new Date().getMonth();
+  year = new Date().getFullYear();
+
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
   }
@@ -40,7 +44,10 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
+
+    this.store.dispatch(new entryActions.LoadEntries(this.selectedMonthIndex, this.year));
+    console.log('year',  this.store.dispatch(new entryActions.LoadEntries(this.currentMonth, this.year)));
+
     this.loadActiveEntry();
 
     this.entriesSubscription = this.actionsSubject$.pipe(
@@ -52,7 +59,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       )
     ).subscribe((action) => {
       this.loadActiveEntry();
-      this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
     });
   }
 
@@ -80,6 +86,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.canMarkEntryAsWIP = this.isEntryRunningEqualsToEntryToEdit(this.getEntryRunning(ds.data), this.entry)
         || this.isTheEntryToEditTheLastOne(ds.data);
     });
+    console.log('entryId', this.entryId);
   }
 
   private isEntryRunningEqualsToEntryToEdit(entryRunning: Entry, entryToEdit: Entry) {
@@ -168,7 +175,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.selectedYearAsText = event.year.toString();
     this.selectedMonthIndex = event.monthIndex;
     this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
-    this.store.dispatch(new entryActions.LoadEntries(event.monthIndex));
+    this.store.dispatch(new entryActions.LoadEntries(event.monthIndex + 1, event.year));
   }
 
   openModal(item: any) {

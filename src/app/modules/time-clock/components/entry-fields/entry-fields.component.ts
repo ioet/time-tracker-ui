@@ -50,7 +50,7 @@ export class EntryFieldsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new LoadActivities());
-    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1));
+    this.store.dispatch(new entryActions.LoadEntries(12, 2020));
     this.actionsSubject$
       .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
       .subscribe((action) => {
