@@ -219,14 +219,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     return result;
   }
 
-  timeEntryIsInTheFuture(){
-    const startDate = this.entryForm.value.start_date;
-    const endDate = this.entryForm.value.end_date;
-    const isStartDateInTheFuture = moment(startDate).isAfter(moment());
-    const isEndDateInTheFuture = moment(endDate).isAfter(moment());
-    return isStartDateInTheFuture || isEndDateInTheFuture;
-  }
-
   onSubmit() {
     if (this.entryForm.invalid) {
       this.toastrService.warning('Make sure to select a project and activity');
@@ -250,7 +242,11 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       delete entry.end_date;
     }
 
-    if (this.timeEntryIsInTheFuture()) {
+    const isStartDateInTheFuture = moment(startDateToSubmit).isAfter(moment());
+    const isEndDateInTheFuture = moment(endDateToSubmit).isAfter(moment());
+    const timeEntryIsInTheFuture = isStartDateInTheFuture || isEndDateInTheFuture;
+
+    if (timeEntryIsInTheFuture) {
       this.toastrService.error('You cannot start a time-entry in the future');
       return;
     }
