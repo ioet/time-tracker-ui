@@ -228,7 +228,7 @@ export class EntryEffects {
     ofType(actions.EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY),
     map((action: actions.UpdateCurrentOrLastEntry) => action.payload),
     switchMap((entry) =>
-      this.entryService.loadEntries(new Date().getMonth() + 1).pipe(
+      this.entryService.loadEntries(new Date().getMonth() + 1, new Date().getFullYear()).pipe(
         map((entries) => {
           const lastEntry = entries[1];
           const isStartTimeInLastEntry = moment(entry.start_date).isBefore(lastEntry.end_date);
