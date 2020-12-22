@@ -32,6 +32,8 @@ export class EntryFieldsComponent implements OnInit {
   newData;
   lastEntry;
   showTimeInbuttons = false;
+  month = new Date().getMonth();
+  year = new Date().getFullYear();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,7 +52,7 @@ export class EntryFieldsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new LoadActivities());
-    this.store.dispatch(new entryActions.LoadEntries(12, 2020));
+    this.store.dispatch(new entryActions.LoadEntries(this.month, this.year));
     this.actionsSubject$
       .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
       .subscribe((action) => {
