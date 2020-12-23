@@ -197,25 +197,14 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.closeModal?.nativeElement?.click();
   }
 
-  startDateToSubmit(){
-    const startDate = this.entryForm.value.start_date;
-    const initialStartDate = this.entryToEdit.start_date;
-    const updatedStartDate = new Date(`${startDate}T${this.entryForm.value.start_hour.trim()}`).toISOString();
-    const initialStartHour = formatDate(get(this.entryToEdit, 'start_date', '00:00'), 'HH:mm', 'en');
-    const updatedStartHour = this.entryForm.value.start_hour;
-    const startHourHasNotChanged = updatedStartHour === initialStartHour;
-    const result = startHourHasNotChanged ? initialStartDate : updatedStartDate;
-    return result;
-  }
-
-  endDateToSubmit(){
-    const endDate = this.entryForm.value.end_date;
-    const initialEndDate = this.entryToEdit.end_date;
-    const updatedEndDate = new Date(`${endDate}T${this.entryForm.value.end_hour.trim()}`).toISOString();
-    const initialEndHour = formatDate(get(this.entryToEdit, 'end_date', '00:00'), 'HH:mm', 'en');
-    const updatedEndHour = this.entryForm.value.end_hour;
-    const endDateHasNotChanged = updatedEndHour === initialEndHour;
-    const result = endDateHasNotChanged ? initialEndDate : updatedEndDate;
+  dateToSubmit(date, hour){
+    const entryFormDate = this.entryForm.value[date];
+    const updatedHour = this.entryForm.value[hour];
+    const initialDate = this.entryToEdit[date];
+    const updatedDate = new Date(`${entryFormDate}T${updatedHour.trim()}`).toISOString();
+    const initialHour = formatDate(get(this.entryToEdit, date, '00:00'), 'HH:mm', 'en');
+    const dateHasNotChanged = updatedHour === initialHour;
+    const result = dateHasNotChanged ? initialDate : updatedDate;
     return result;
   }
 
@@ -225,8 +214,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       return;
     }
 
-    const startDateToSubmit = this.startDateToSubmit();
-    const endDateToSubmit = this.endDateToSubmit();
+    const startDateToSubmit = this.dateToSubmit('start_date', 'start_hour');
+    const endDateToSubmit = this.dateToSubmit('end_date', 'end_hour');
 
     const entry = {
       project_id: this.entryForm.value.project_id,
