@@ -316,22 +316,22 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should not modify the start_date when start_hour has not been modified', () => {
-    const dateTest = moment().format('YYYY-MM-DD');
-    const startHourTest = moment().subtract(3, 'hours').format('HH:mm:ss');
-    const expectedStartDate = new Date(`${dateTest}T${startHourTest.trim()}`);
+    const currentDate = moment().format('YYYY-MM-DD');
+    const startHour = moment().subtract(3, 'hours').format('HH:mm:ss');
+    const expectedStartDate = new Date(`${currentDate}T${startHour.trim()}`);
 
     component.entryToEdit = {...entryToEdit, start_date: expectedStartDate };
     fixture.componentInstance.ngOnChanges();
 
     component.entryForm.patchValue({ description: 'test' });
 
-    expect(component.startDateToSubmit()).toEqual(expectedStartDate);
+    expect(component.dateToSubmit('start_date', 'start_hour')).toEqual(expectedStartDate);
   });
 
   it('should modify the start_date when start_hour has been modified', () => {
-    const dateTest = moment().format('YYYY-MM-DD');
-    const startHourTest = moment().format('HH:mm:ss');
-    const startDate = new Date(`${dateTest}T${startHourTest.trim()}`);
+    const currentDate = moment().format('YYYY-MM-DD');
+    const startHour = moment().format('HH:mm:ss');
+    const startDate = new Date(`${currentDate}T${startHour.trim()}`);
 
     component.entryToEdit = {...entryToEdit, start_date: startDate };
     fixture.componentInstance.ngOnChanges();
@@ -341,26 +341,26 @@ describe('DetailsFieldsComponent', () => {
     component.entryForm.patchValue({start_hour: updatedStartHour});
 
     const expectedStartDate = moment(updatedStartDate).seconds(0).millisecond(0).toISOString();
-    expect(component.startDateToSubmit()).toEqual(expectedStartDate);
+    expect(component.dateToSubmit('start_date', 'start_hour')).toEqual(expectedStartDate);
    });
 
   it('should not modify the end_date when end_hour has not been modified', () => {
-    const dateTest = moment().format('YYYY-MM-DD');
-    const endtHourTest = moment().subtract(3, 'hours').format('HH:mm:ss');
-    const expectedEndDate = new Date(`${dateTest}T${endtHourTest.trim()}`);
+    const currentDate = moment().format('YYYY-MM-DD');
+    const endHour = moment().subtract(3, 'hours').format('HH:mm:ss');
+    const expectedEndDate = new Date(`${currentDate}T${endHour.trim()}`);
 
     component.entryToEdit = {...entryToEdit, end_date: expectedEndDate };
     fixture.componentInstance.ngOnChanges();
 
     component.entryForm.patchValue({ description: 'test' });
 
-    expect(component.endDateToSubmit()).toEqual(expectedEndDate);
+    expect(component.dateToSubmit('end_date', 'end_hour')).toEqual(expectedEndDate);
   });
 
   it('should modify the end_date when end_hour has been modified', () => {
-    const dateTest = moment().format('YYYY-MM-DD');
-    const endHourTest = moment().format('HH:mm:ss');
-    const endDate = new Date(`${dateTest}T${endHourTest.trim()}`);
+    const currentDate = moment().format('YYYY-MM-DD');
+    const endHour = moment().format('HH:mm:ss');
+    const endDate = new Date(`${currentDate}T${endHour.trim()}`);
 
     component.entryToEdit = {...entryToEdit, end_date: endDate };
     fixture.componentInstance.ngOnChanges();
@@ -370,7 +370,7 @@ describe('DetailsFieldsComponent', () => {
     component.entryForm.patchValue({end_hour: updatedEndHour});
 
     const expectedEndDate = moment(updatedEndDate).seconds(0).millisecond(0).toISOString();
-    expect(component.endDateToSubmit()).toEqual(expectedEndDate);
+    expect(component.dateToSubmit('end_date', 'end_hour')).toEqual(expectedEndDate);
    });
 
   it('displays error message when the date selected is in the future', () => {
