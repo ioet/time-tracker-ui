@@ -25,8 +25,9 @@ describe('MonthPickerComponent', () => {
   });
 
   it('should emit monthIndex and year', () => {
-    const month = 2;
-    const year = 2020;
+    const month = new Date().getMonth();
+    const year = new Date().getFullYear();
+
     spyOn(component.dateSelected, 'emit');
     expect(component.dateSelected.emit({ monthIndex: month, year: year }));
   });

@@ -18,7 +18,6 @@ import { TimeEntriesComponent } from './time-entries.component';
 import { ActionsSubject } from '@ngrx/store';
 import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { months } from 'moment';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
