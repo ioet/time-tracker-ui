@@ -46,7 +46,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.store.dispatch(new entryActions.LoadEntries(this.selectedMonthIndex, this.year));
-    console.log('year',  this.store.dispatch(new entryActions.LoadEntries(this.currentMonth, this.year)));
 
     this.loadActiveEntry();
 
@@ -86,7 +85,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.canMarkEntryAsWIP = this.isEntryRunningEqualsToEntryToEdit(this.getEntryRunning(ds.data), this.entry)
         || this.isTheEntryToEditTheLastOne(ds.data);
     });
-    console.log('entryId', this.entryId);
   }
 
   private isEntryRunningEqualsToEntryToEdit(entryRunning: Entry, entryToEdit: Entry) {
