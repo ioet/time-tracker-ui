@@ -34,15 +34,27 @@ describe('MonthPickerComponent', () => {
   });
 
   it('should add a year to current year', () => {
-    const year = moment().add(1, 'year').format('Y');
-    expect(component.selectedYearMoment.add(1, 'year').format('Y')).toEqual(year);
-    expect(component.updateYearText).toBeTruthy();
+    component.selectedYearMoment = moment();
+    const incrementYear = moment().add(1, 'year').format('Y');
+    spyOn(component, 'increment').and.callThrough();
+
+    component.increment();
+
+    expect(component.increment).toHaveBeenCalled();
+    expect(component.selectedYearText).toEqual(incrementYear);
+    expect(component.selectedYearMoment.format('Y')).toEqual(incrementYear);
   });
 
+
   it('should subtract a year to current year', () => {
-    const year = moment().subtract(1, 'year').format('Y');
-    expect(component.selectedYearMoment.subtract(1, 'year').format('Y')).toEqual(year);
-    expect(component.updateYearText).toBeTruthy();
+    component.selectedYearMoment = moment();
+    const decrementYear = moment().subtract(1, 'year').format('Y');
+    spyOn(component, 'decrement').and.callThrough();
+
+    component.decrement();
+
+    expect(component.decrement).toHaveBeenCalled();
+    expect(component.selectedYearMoment.format('Y')).toEqual(decrementYear);
   });
 
 });
