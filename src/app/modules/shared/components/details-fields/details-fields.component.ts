@@ -20,7 +20,6 @@ import { ProjectSelectedEvent } from './project-selected-event';
 import { get } from 'lodash';
 import { DATE_FORMAT } from 'src/environments/environment';
 
-
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 @Component({
   selector: 'app-details-fields',
@@ -28,7 +27,6 @@ type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
   styleUrls: ['./details-fields.component.scss'],
 })
 export class DetailsFieldsComponent implements OnChanges, OnInit {
-
   keyword = 'search_field';
   @Input() entryToEdit: Entry;
   @Input() canMarkEntryAsWIP: boolean;
@@ -43,8 +41,12 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   goingToWorkOnThis = false;
   shouldRestartEntry = false;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<Merged>,
-              private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store<Merged>,
+    private actionsSubject$: ActionsSubject,
+    private toastrService: ToastrService
+  ) {
     this.entryForm = this.formBuilder.group({
       project_id: ['', Validators.required],
       project_name: ['', Validators.required],
@@ -66,11 +68,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       if (projects) {
         this.listProjects = [];
         projects.forEach((project) => {
-            const projectWithSearchField = {...project};
-            projectWithSearchField.search_field = `${project.customer_name} - ${project.name}`;
-            this.listProjects.push(projectWithSearchField);
-          }
-        );
+          const projectWithSearchField = { ...project };
+          projectWithSearchField.search_field = `${project.customer_name} - ${project.name}`;
+          this.listProjects.push(projectWithSearchField);
+        });
       }
     });
 
@@ -95,31 +96,32 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       }
     });
 
-    this.actionsSubject$.pipe(
-      filter((action: any) => (
-        action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
-        action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS
-      ))
-    ).subscribe(() => {
-      this.cleanForm();
-    });
+    this.actionsSubject$
+      .pipe(
+        filter(
+          (action: any) =>
+            action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
+            action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS
+        )
+      )
+      .subscribe(() => {
+        this.cleanForm();
+      });
   }
 
   onClearedComponent(event) {
-    this.entryForm.patchValue(
-      {
-        project_id: '',
-        project_name: '',
-      });
+    this.entryForm.patchValue({
+      project_id: '',
+      project_name: '',
+    });
   }
 
   onSelectedProject(item) {
-    this.projectSelected.emit({ projectId : item.id});
-    this.entryForm.patchValue(
-      {
-        project_id: item.id,
-        project_name: item.search_field,
-      });
+    this.projectSelected.emit({ projectId: item.id });
+    this.entryForm.patchValue({
+      project_id: item.id,
+      project_name: item.search_field,
+    });
   }
 
   ngOnChanges(): void {
@@ -197,7 +199,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.closeModal?.nativeElement?.click();
   }
 
-  dateToSubmit(date, hour){
+  dateToSubmit(date, hour) {
     const entryFormDate = this.entryForm.value[date];
     const updatedHour = this.entryForm.value[hour];
     const initialDate = this.entryToEdit[date];
@@ -246,7 +248,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   onGoingToWorkOnThisChange(event: any) {
     this.goingToWorkOnThis = event.currentTarget.checked;
     if (!this.goingToWorkOnThis) {
-      this.entryForm.patchValue({ end_hour: formatDate(new Date(), 'HH:mm:ss', 'en') });
+      this.entryForm.patchValue({
+        end_date: formatDate(get(this.entryToEdit, 'start_date', ''), DATE_FORMAT, 'en'),
+        end_hour: formatDate(get(this.entryToEdit, 'start_date', '00:00'), 'HH:mm', 'en'),
+      });
     }
     this.shouldRestartEntry = !this.entryToEdit?.running && this.goingToWorkOnThis;
   }
