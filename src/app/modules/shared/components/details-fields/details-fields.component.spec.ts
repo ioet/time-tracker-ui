@@ -245,19 +245,25 @@ describe('DetailsFieldsComponent', () => {
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
 
-  it('when the current entry is not running, then the end hour input should be rendered', () => {
+  it('when the current entry is not running, then the end date and end hour inputs should be rendered', () => {
     component.goingToWorkOnThis = false;
     fixture.detectChanges();
 
+    const endDateInput = fixture.debugElement.nativeElement.querySelector('#end_date');
     const endHourInput = fixture.debugElement.nativeElement.querySelector('#end_hour');
+
+    expect(endDateInput).toBeDefined();
     expect(endHourInput).toBeDefined();
   });
 
-  it('when  the current entry is running, then the end hour input should not be rendered', () => {
+  it('when  the current entry is running, then the end date and end hour inputs should not be rendered', () => {
     component.goingToWorkOnThis = true;
     fixture.detectChanges();
 
+    const endDateInput = fixture.debugElement.nativeElement.querySelector('#end_date');
     const endHourInput = fixture.debugElement.nativeElement.querySelector('#end_hour');
+
+    expect(endDateInput).toBeNull();
     expect(endHourInput).toBeNull();
   });
 
