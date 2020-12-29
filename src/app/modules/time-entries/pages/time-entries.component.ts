@@ -1,4 +1,3 @@
-import { formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -32,9 +31,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedMonthIndex: number;
   selectedMonthAsText: string;
 
-  currentMonth = new Date().getMonth();
-  year = new Date().getFullYear();
-
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
   }
@@ -44,9 +40,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
-    this.store.dispatch(new entryActions.LoadEntries(this.selectedMonthIndex, this.year));
-
+    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1, new Date().getFullYear()));
     this.loadActiveEntry();
 
     this.entriesSubscription = this.actionsSubject$.pipe(
@@ -58,6 +52,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       )
     ).subscribe((action) => {
       this.loadActiveEntry();
+      this.store.dispatch(new entryActions.LoadEntries(this.selectedMonthIndex, new Date().getFullYear()));
     });
   }
 
@@ -116,7 +111,8 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       const isEditingEntryEqualToActiveEntry = this.entryId === this.activeTimeEntry.id;
       const isStartDateGreaterThanActiveEntry = startDateAsLocalDate > activeEntryAsLocalDate;
       const isEndDateGreaterThanActiveEntry = endDateAsLocalDate > activeEntryAsLocalDate;
-      if (!isEditingEntryEqualToActiveEntry && (isStartDateGreaterThanActiveEntry || isEndDateGreaterThanActiveEntry)){
+      const isTimeEntryOverlapping = isStartDateGreaterThanActiveEntry || isEndDateGreaterThanActiveEntry;
+      if (!isEditingEntryEqualToActiveEntry && isTimeEntryOverlapping) {
         this.toastrService.error('You are on the clock and this entry overlaps it, try with earlier times.');
       } else {
         this.doSave(event);
@@ -171,9 +167,9 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
 
   dateSelected(event: { monthIndex: number; year: number }) {
     this.selectedYearAsText = event.year.toString();
-    this.selectedMonthIndex = event.monthIndex;
+    this.selectedMonthIndex = event.monthIndex + 1;
     this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
-    this.store.dispatch(new entryActions.LoadEntries(event.monthIndex + 1, event.year));
+    this.store.dispatch(new entryActions.LoadEntries(this.selectedMonthIndex, event.year));
   }
 
   openModal(item: any) {

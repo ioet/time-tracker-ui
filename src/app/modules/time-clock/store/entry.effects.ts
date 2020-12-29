@@ -87,10 +87,9 @@ export class EntryEffects {
   @Effect()
   loadEntries$: Observable<Action> = this.actions$.pipe(
     ofType(actions.EntryActionTypes.LOAD_ENTRIES),
-    // tslint:disable-next-line:no-unused-expression
-    map((action: actions.LoadEntries) => (action.month, action.year)),
-    mergeMap((month, year) =>
-      this.entryService.loadEntries(month, year).pipe(
+    map((action: actions.LoadEntries) => action),
+    mergeMap((date) =>
+      this.entryService.loadEntries({ month: date.month, year: date.year }).pipe(
         map((entries) => new actions.LoadEntriesSuccess(entries)),
         catchError((error) => {
           this.toastrService.warning(`The data could not be loaded`);
@@ -98,7 +97,6 @@ export class EntryEffects {
         })
       )
     )
-
   );
 
   @Effect()
@@ -228,7 +226,10 @@ export class EntryEffects {
     ofType(actions.EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY),
     map((action: actions.UpdateCurrentOrLastEntry) => action.payload),
     switchMap((entry) =>
-      this.entryService.loadEntries(new Date().getMonth() + 1, new Date().getFullYear()).pipe(
+      this.entryService.loadEntries({
+        month : new Date().getMonth() + 1,
+        year: new Date().getFullYear()
+      }).pipe(
         map((entries) => {
           const lastEntry = entries[1];
           const isStartTimeInLastEntry = moment(entry.start_date).isBefore(lastEntry.end_date);
