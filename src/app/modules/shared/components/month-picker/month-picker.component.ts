@@ -1,4 +1,3 @@
-import { SubstractDatePipe } from './../../pipes/substract-date/substract-date.pipe';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 

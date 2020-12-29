@@ -126,7 +126,7 @@ describe('TimeEntriesComponent', () => {
   }));
 
   it('when create time entries, the time entries should be queried', () => {
-    const currentMonth = new Date().getMonth();
+    const currentMonth = new Date().getMonth() + 1;
     const year = new Date().getFullYear();
     const entryToSave = {
       entry: {

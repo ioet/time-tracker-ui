@@ -58,7 +58,7 @@ describe('EntryService', () => {
     const month = new Date().getMonth();
 
     const timezoneOffset = new Date().getTimezoneOffset();
-    service.loadEntries(year, month).subscribe();
+    service.loadEntries({ year, month }).subscribe();
 
     const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}?month=${month}&year=${year}&timezone_offset=${timezoneOffset}`);
     expect(loadEntryRequest.request.method).toBe('GET');
