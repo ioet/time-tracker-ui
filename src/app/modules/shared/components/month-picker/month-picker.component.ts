@@ -15,7 +15,7 @@ export class MonthPickerComponent implements OnInit {
   selectedMonthMoment: moment.Moment;
   selectedMonthIndex: number;
   selectedYearMoment: moment.Moment;
-  selectedMonthYear: number;
+  selectedYear: number;
 
   selectedYearText: string;
   months: Array<string> = [];
@@ -26,12 +26,12 @@ export class MonthPickerComponent implements OnInit {
     this.selectedMonthMoment = moment();
     this.months = moment.months();
     this.selectedMonthIndex = this.selectedMonthMoment.month();
-    this.selectedMonthYear = this.selectedYearMoment.year();
+    this.selectedYear = this.selectedYearMoment.year();
     this.updateYearText();
   }
 
   ngOnInit() {
-    this.selectDate(this.selectedMonthIndex, this.selectedMonthYear);
+    this.selectDate(this.selectedMonthIndex, this.selectedYear);
   }
 
   updateYearText() {
@@ -48,23 +48,21 @@ export class MonthPickerComponent implements OnInit {
     this.updateYearText();
   }
 
-  selectMonth(index: number) {
-    this.selectedMonthMoment = moment().month(index);
-    this.selectedMonthIndex = this.selectedMonthMoment.month();
-    this.selectedMonthYear = this.selectedYearMoment.year();
-    this.selectDate(this.selectedMonthIndex, this.selectedMonthYear);
+  selectMonth(monthIndex: number) {
+    this.selectedMonthIndex = monthIndex;
+    this.selectedYear = this.selectedYearMoment.year();
+    this.selectDate(this.selectedMonthIndex, this.selectedYear);
   }
 
   isSelectedMonth(monthIndex: number) {
     return (
       this.selectedMonthIndex === monthIndex &&
-      this.selectedMonthYear === this.selectedYearMoment.year()
+      this.selectedYear === this.selectedYearMoment.year()
     );
   }
 
   selectDate(monthIndex: number, year: number) {
-    this.dateSelected.emit({ monthIndex: monthIndex, year: year });
+    this.dateSelected.emit({ monthIndex, year });
   }
-
 }
 
