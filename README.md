@@ -81,7 +81,9 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm run test` or `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+Run `npm run test-headless` or `ng test --browsers ChromeHeadless` to execute the unit tests via "Headless Browser".
 
 ## Running mutation tests
 Mutation tests have been enabled using stryker. You can run those tests locally, it takes ~4 hours to have the results. If you want to run them locally please install stryker locally:
