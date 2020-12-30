@@ -142,7 +142,6 @@ describe('TimeEntriesComponent', () => {
 
     component.saveEntry(entryToSave);
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CreateEntry(entryToSave.entry));
-    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(currentMonth, year));
   });
 
   it('when creating a new entry, then entryId should be null', () => {
