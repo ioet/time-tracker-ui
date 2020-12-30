@@ -267,6 +267,16 @@ describe('DetailsFieldsComponent', () => {
     expect(endHourInput).toBeNull();
   });
 
+  it('when the current entry is not running, then the end_date and end_hour of the form should be set', () => {
+    const startDate = new Date('2020-12-30T09:45:00');
+    component.entryToEdit = { ...entryToEdit, start_date: startDate };
+    spyOn(component.entryForm, 'patchValue');
+
+    component.onGoingToWorkOnThisChange({ currentTarget: { checked: false } });
+
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith( { end_date: '2020-12-30', end_hour: '09:45', } );
+  });
+
   it('when creating a new entry, then the new entry should be marked as not run', () => {
     component.entryToEdit = null;
 
