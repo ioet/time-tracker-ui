@@ -213,7 +213,6 @@ describe('DetailsFieldsComponent', () => {
 
   it('should emit saveEntry event', () => {
     spyOn(component.saveEntry, 'emit');
-    component.entryToEdit = { ...entryToEdit };
     component.entryForm.setValue({
       project_id: 'p1',
       project_name: 'p-name',
@@ -311,7 +310,6 @@ describe('DetailsFieldsComponent', () => {
     component.goingToWorkOnThis = true;
     spyOn(component.saveEntry, 'emit');
 
-    component.entryToEdit = { ...entryToEdit };
     component.entryForm.setValue({ ...formValues, start_date: '2020-06-11', end_date: '2020-06-11' });
 
     component.onSubmit();
@@ -392,7 +390,6 @@ describe('DetailsFieldsComponent', () => {
   it('displays error message when the date selected is in the future', () => {
     spyOn(toastrServiceStub, 'error');
 
-    component.entryToEdit = { ...entryToEdit };
     const futureDate = moment().add(1, 'days').format(DATE_FORMAT_YEAR);
     component.entryForm.setValue({ ...formValues, start_date: futureDate, end_date: futureDate });
     component.onSubmit();
@@ -403,7 +400,6 @@ describe('DetailsFieldsComponent', () => {
   it('when start_date is in the future and end_date is OK then throws an error', () => {
     spyOn(toastrServiceStub, 'error');
 
-    component.entryToEdit = { ...entryToEdit };
     const futureDate = moment().add(1, 'days').format(DATE_FORMAT_YEAR);
     const currentDate = moment().format(DATE_FORMAT_YEAR);
     component.entryForm.setValue({ ...formValues, start_date: futureDate, end_date: currentDate });
@@ -415,7 +411,6 @@ describe('DetailsFieldsComponent', () => {
   it('when start_date is OK and end_date is in the future then throws an error future', () => {
     spyOn(toastrServiceStub, 'error');
 
-    component.entryToEdit = { ...entryToEdit };
     const futureDate = moment().add(1, 'days').format(DATE_FORMAT_YEAR);
     const currentDate = moment().format(DATE_FORMAT_YEAR);
     component.entryForm.setValue({ ...formValues, start_date: currentDate, end_date: futureDate });
