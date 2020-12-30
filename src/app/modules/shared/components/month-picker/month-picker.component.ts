@@ -19,38 +19,31 @@ export class MonthPickerComponent implements OnInit {
 
   selectedYearText: string;
   months: Array<string> = [];
-  years: Array<number> = [];
 
   constructor() {
     this.selectedYearMoment = moment();
     this.selectedMonthMoment = moment();
     this.months = moment.months();
     this.selectedMonthIndex = this.selectedMonthMoment.month();
+    this.selectedYearText = moment(this.selectedYearMoment).format('YYYY');
     this.selectedYear = this.selectedYearMoment.year();
-    this.updateYearText();
   }
 
   ngOnInit() {
     this.selectDate(this.selectedMonthIndex, this.selectedYear);
   }
 
-  updateYearText() {
+  changeYear(changeAction: string) {
+    this.selectedYearMoment[changeAction](1, 'year');
+    this.selectedYear = this.selectedYearMoment.year();
+
+    const monthIndex = changeAction === 'add' ? 0 : 11;
+    this.selectMonth(monthIndex);
     this.selectedYearText = moment(this.selectedYearMoment).format('YYYY');
-  }
-
-  increment() {
-    this.selectedYearMoment = this.selectedYearMoment.add(1, 'year');
-    this.updateYearText();
-  }
-
-  decrement() {
-    this.selectedYearMoment = this.selectedYearMoment.subtract(1, 'year');
-    this.updateYearText();
   }
 
   selectMonth(monthIndex: number) {
     this.selectedMonthIndex = monthIndex;
-    this.selectedYear = this.selectedYearMoment.year();
     this.selectDate(this.selectedMonthIndex, this.selectedYear);
   }
 
@@ -65,4 +58,3 @@ export class MonthPickerComponent implements OnInit {
     this.dateSelected.emit({ monthIndex, year });
   }
 }
-

@@ -37,11 +37,11 @@ describe('MonthPickerComponent', () => {
   it('should add a year to current year', () => {
     component.selectedYearMoment = moment();
     const incrementYear = moment().add(1, 'year').format('Y');
-    spyOn(component, 'increment').and.callThrough();
+    spyOn(component, 'changeYear').and.callThrough();
 
-    component.increment();
+    component.changeYear('add');
 
-    expect(component.increment).toHaveBeenCalled();
+    expect(component.changeYear).toHaveBeenCalled();
     expect(component.selectedYearText).toEqual(incrementYear);
     expect(component.selectedYearMoment.format('Y')).toEqual(incrementYear);
   });
@@ -50,21 +50,19 @@ describe('MonthPickerComponent', () => {
   it('should subtract a year to current year', () => {
     component.selectedYearMoment = moment();
     const decrementYear = moment().subtract(1, 'year').format('Y');
-    spyOn(component, 'decrement').and.callThrough();
+    spyOn(component, 'changeYear').and.callThrough();
 
-    component.decrement();
+    component.changeYear('subtract');
 
-    expect(component.decrement).toHaveBeenCalled();
+    expect(component.changeYear).toHaveBeenCalled();
     expect(component.selectedYearMoment.format('Y')).toEqual(decrementYear);
   });
 
 
-  it('selectMonth should call selectDates', () => {
+  it('selectMonth should call selectDate', () => {
     spyOn(component, 'selectDate');
-
-    component.selectMonth(8);
-
-    expect(component.selectDate).toHaveBeenCalledWith(8, 2020);
+    component.selectMonth(10);
+    expect(component.selectDate).toHaveBeenCalledWith(10, 2020);
   });
 
 });
