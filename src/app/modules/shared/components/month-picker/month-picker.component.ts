@@ -35,11 +35,11 @@ export class MonthPickerComponent implements OnInit {
 
   changeYear(changeAction: string) {
     this.selectedYearMoment[changeAction](1, 'year');
+    this.selectedYearText = moment(this.selectedYearMoment).format('YYYY');
     this.selectedYear = this.selectedYearMoment.year();
 
     const monthIndex = changeAction === 'add' ? 0 : 11;
     this.selectMonth(monthIndex);
-    this.selectedYearText = moment(this.selectedYearMoment).format('YYYY');
   }
 
   selectMonth(monthIndex: number) {
