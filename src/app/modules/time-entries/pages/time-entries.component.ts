@@ -28,7 +28,8 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   canMarkEntryAsWIP = true;
   timeEntriesDataSource$: Observable<DataSource<Entry>>;
   selectedYearAsText: string;
-  selectedMonthIndex: number;
+  selectedMonth: number;
+  selectedYear: number;
   selectedMonthAsText: string;
 
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
@@ -40,7 +41,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1, new Date().getFullYear()));
     this.loadActiveEntry();
 
     this.entriesSubscription = this.actionsSubject$.pipe(
@@ -52,7 +52,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       )
     ).subscribe((action) => {
       this.loadActiveEntry();
-      this.store.dispatch(new entryActions.LoadEntries(this.selectedMonthIndex, new Date().getFullYear()));
+      this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
     });
   }
 
@@ -166,10 +166,11 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   }
 
   dateSelected(event: { monthIndex: number; year: number }) {
+    this.selectedYear = event.year;
     this.selectedYearAsText = event.year.toString();
-    this.selectedMonthIndex = event.monthIndex + 1;
+    this.selectedMonth = event.monthIndex + 1;
     this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
-    this.store.dispatch(new entryActions.LoadEntries(this.selectedMonthIndex, event.year));
+    this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
   }
 
   openModal(item: any) {
