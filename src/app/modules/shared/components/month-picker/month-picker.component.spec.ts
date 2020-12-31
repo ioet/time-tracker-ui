@@ -30,7 +30,7 @@ describe('MonthPickerComponent', () => {
     const year = new Date().getFullYear();
 
     spyOn(component.dateSelected, 'emit');
-    expect(component.dateSelected.emit({ monthIndex: month, year: year }));
+    expect(component.dateSelected.emit({ monthIndex: month, year }));
   });
 
 

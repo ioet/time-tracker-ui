@@ -29,9 +29,10 @@ describe('EntryFieldsComponent', () => {
     error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
     warning: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
   };
-  const lastDate = moment().format('YYYY-MM-DD');
-  const startHourTest = moment().subtract(5, 'hours').format('HH:mm:ss');
-  const endHourTest = moment().subtract(3, 'hours').format('HH:mm:ss');
+  const mockDate = '2020-12-01T12:00:00';
+  const lastDate = moment(mockDate).format(DATE_FORMAT_YEAR);
+  const startHourTest = moment(mockDate).subtract(5, 'hours').format('HH:mm:ss');
+  const endHourTest = moment(mockDate).subtract(3, 'hours').format('HH:mm:ss');
   const lastStartHourEntryEntered = new Date(`${lastDate}T${startHourTest.trim()}`).toISOString();
   const lastEndHourEntryEntered = new Date(`${lastDate}T${endHourTest.trim()}`).toISOString();
 
@@ -95,8 +96,8 @@ describe('EntryFieldsComponent', () => {
     project_id: 'project-id-15',
     description: 'description for active entry',
     uri: 'abc',
-    start_date : moment().format(DATE_FORMAT_YEAR),
-    start_hour : moment().format('HH:mm'),
+    start_date : moment(mockDate).format(DATE_FORMAT_YEAR),
+    start_hour : moment(mockDate).format('HH:mm'),
   };
 
   beforeEach(waitForAsync(() => {
@@ -144,16 +145,20 @@ describe('EntryFieldsComponent', () => {
         uri: entryDataForm.uri,
         activity_id: entryDataForm.activity_id,
         start_hour:  formatDate(entry.start_date, 'HH:mm', 'en'),
-        start_date : moment().format(DATE_FORMAT_YEAR),
+        start_date : moment(mockDate).format(DATE_FORMAT_YEAR),
       }
     );
     expect(component.selectedTechnologies).toEqual([]);
   });
 
   it('displays error message when the date selected is in the future', () => {
-    component.newData = entry;
-    component.activeEntry = entry ;
-    component.setDataToUpdate(entry);
+    const mockEntry = { ...entry,
+      start_date : moment().format(DATE_FORMAT_YEAR),
+      start_hour : moment().format('HH:mm')
+    };
+    component.newData = mockEntry;
+    component.activeEntry = mockEntry ;
+    component.setDataToUpdate(mockEntry);
     spyOn(toastrServiceStub, 'error');
 
     const hourInTheFuture = moment().add(1, 'hours').format('HH:mm');
@@ -170,7 +175,7 @@ describe('EntryFieldsComponent', () => {
     component.setDataToUpdate(entry);
     spyOn(toastrServiceStub, 'error');
 
-    const hourInThePast = moment().subtract(6, 'hour').format('HH:mm');
+    const hourInThePast = moment(mockDate).subtract(6, 'hour').format('HH:mm');
     component.entryForm.patchValue({ start_hour : hourInThePast});
     component.onUpdateStartHour();
 
@@ -188,7 +193,7 @@ describe('EntryFieldsComponent', () => {
     component.newData = entry;
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
-    const updatedTime = moment().format('HH:mm');
+    const updatedTime = moment(mockDate).format('HH:mm');
     component.entryForm.patchValue({ start_hour : updatedTime});
     spyOn(component.entryForm, 'patchValue');
     component.cancelTimeInUpdate();
@@ -206,7 +211,7 @@ describe('EntryFieldsComponent', () => {
     component.activeEntry = entry ;
     component.setDataToUpdate(entry);
 
-    const updatedTime = moment().subtract(6, 'hours').format('HH:mm');
+    const updatedTime = moment(mockDate).subtract(6, 'hours').format('HH:mm');
     component.entryForm.patchValue({ start_hour : updatedTime});
 
     spyOn(component.entryForm, 'patchValue');
@@ -221,9 +226,13 @@ describe('EntryFieldsComponent', () => {
   });
 
   it('If start hour is in the future, reset to initial start_date in form', () => {
-    component.newData = entry;
-    component.activeEntry = entry ;
-    component.setDataToUpdate(entry);
+    const mockEntry = { ...entry,
+      start_date : moment().format(DATE_FORMAT_YEAR),
+      start_hour : moment().format('HH:mm')
+    };
+    component.newData = mockEntry;
+    component.activeEntry = mockEntry;
+    component.setDataToUpdate(mockEntry);
 
     const hourInTheFuture = moment().add(1, 'hours').format('HH:mm');
     component.entryForm.patchValue({ start_hour : hourInTheFuture});
@@ -240,9 +249,10 @@ describe('EntryFieldsComponent', () => {
   });
 
   it('when a start hour is updated, then dispatch UpdateActiveEntry', () => {
-    component.activeEntry = entry ;
+    component.activeEntry = entry;
     component.setDataToUpdate(entry);
-    const updatedTime = moment().format('HH:mm');
+    const updatedTime = moment(mockDate).format('HH:mm');
+
     component.entryForm.patchValue({ start_hour : updatedTime});
     spyOn(store, 'dispatch');
 
@@ -252,9 +262,9 @@ describe('EntryFieldsComponent', () => {
   });
 
   it('When start_time is updated, component.last_entry is equal to time entry in the position 1', waitForAsync(() => {
-    component.activeEntry = entry ;
+    component.activeEntry = entry;
     component.setDataToUpdate(entry);
-    const updatedTime = moment().format('HH:mm');
+    const updatedTime = moment(mockDate).format('HH:mm');
 
     component.entryForm.patchValue({ start_hour : updatedTime});
     component.onUpdateStartHour();
@@ -263,9 +273,9 @@ describe('EntryFieldsComponent', () => {
   }));
 
   it('When start_time is updated for a time entry. UpdateCurrentOrLastEntry action is dispatched', () => {
-    component.activeEntry = entry ;
+    component.activeEntry = entry;
     component.setDataToUpdate(entry);
-    const updatedTime = moment().subtract(4, 'hours').format('HH:mm');
+    const updatedTime = moment(mockDate).subtract(4, 'hours').format('HH:mm');
     component.entryForm.patchValue({ start_hour : updatedTime});
     spyOn(store, 'dispatch');
 

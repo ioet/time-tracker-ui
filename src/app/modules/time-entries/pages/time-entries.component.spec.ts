@@ -327,7 +327,7 @@ describe('TimeEntriesComponent', () => {
     const year = new Date().getFullYear();
 
     spyOn(store, 'dispatch');
-    component.dateSelected({monthIndex: month, year: year});
+    component.dateSelected({ monthIndex: month, year });
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(month + 1, year));
   });
 

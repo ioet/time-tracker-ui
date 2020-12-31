@@ -77,6 +77,8 @@ describe('DetailsFieldsComponent', () => {
     technology: '',
   };
 
+  const mockCurrentDate = '2020-12-01T12:00:00';
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DetailsFieldsComponent, TechnologiesComponent],
@@ -343,14 +345,12 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should modify the start_date when start_hour has been modified', () => {
-    const currentDate = moment().format('YYYY-MM-DD');
-    const startHour = moment().format('HH:mm:ss');
-    const startDate = new Date(`${currentDate}T${startHour.trim()}`);
+    const startDate = new Date(mockCurrentDate);
 
     component.entryToEdit = {...entryToEdit, start_date: startDate };
     fixture.componentInstance.ngOnChanges();
 
-    const updatedStartDate = moment().subtract(1, 'hours');
+    const updatedStartDate = moment(startDate).subtract(1, 'hours');
     const updatedStartHour =  updatedStartDate.format('HH:mm');
     component.entryForm.patchValue({start_hour: updatedStartHour});
 
@@ -372,14 +372,12 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should modify the end_date when end_hour has been modified', () => {
-    const currentDate = moment().format('YYYY-MM-DD');
-    const endHour = moment().format('HH:mm:ss');
-    const endDate = new Date(`${currentDate}T${endHour.trim()}`);
+    const endDate = new Date(mockCurrentDate);
 
     component.entryToEdit = {...entryToEdit, end_date: endDate };
     fixture.componentInstance.ngOnChanges();
 
-    const updatedEndDate = moment().subtract(1, 'hours');
+    const updatedEndDate = moment(endDate).subtract(1, 'hours');
     const updatedEndHour =  updatedEndDate.format('HH:mm');
     component.entryForm.patchValue({end_hour: updatedEndHour});
 
