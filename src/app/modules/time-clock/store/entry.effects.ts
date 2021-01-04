@@ -232,7 +232,7 @@ export class EntryEffects {
       }).pipe(
         map((entries) => {
           const lastEntry = entries[1];
-          const isStartTimeInLastEntry = moment(entry.start_date).isBefore(lastEntry.end_date);
+          const isStartTimeInLastEntry = lastEntry && moment(entry.start_date).isBefore(lastEntry.end_date);
           if (isStartTimeInLastEntry) {
             return new actions.UpdateEntry({ id: lastEntry.id, end_date: entry.start_date });
           } else {

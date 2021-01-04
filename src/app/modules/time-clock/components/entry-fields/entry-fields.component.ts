@@ -138,7 +138,7 @@ export class EntryFieldsComponent implements OnInit {
       return;
     }
 
-    const lastEntryStartDate = get(this.lastEntry, 'start_date', moment().subtract(1, 'hours'));
+    const lastEntryStartDate = get(this.lastEntry, 'start_date', moment(newHourEntered).subtract(1, 'minutes'));
     const isEntryDateInLastStartDate = moment(newHourEntered).isSameOrBefore(lastEntryStartDate);
     if (isEntryDateInLastStartDate) {
       this.toastrService.error('There is another time entry registered in this time range');
