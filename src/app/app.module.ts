@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Component } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
@@ -13,6 +13,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -139,6 +140,7 @@ const maskConfig: Partial<IConfig> = {
     ReactiveFormsModule,
     HttpClientModule,
     NgxPaginationModule,
+    NgxSpinnerModule,
     DataTablesModule,
     AutocompleteLibModule,
     NgxMaterialTimepickerModule,
@@ -171,5 +173,6 @@ const maskConfig: Partial<IConfig> = {
     CookieService,
   ],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }

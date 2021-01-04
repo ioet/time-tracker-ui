@@ -1,4 +1,12 @@
 <app-time-entries-summary></app-time-entries-summary>
+<ngx-spinner
+  bdColor = "rgba(0, 0, 0, 0.7)"
+  size = "default"
+  type = "pacman"
+  [fullScreen] = "true"
+  >
+  <p style="color: #ffff" > Loading... </p>
+</ngx-spinner>
 
 <div class="col-12 col-md-9 px-0">
 
@@ -15,7 +23,7 @@
   </div>
 
   <app-project-list-hover></app-project-list-hover>
-  <div *ngIf="areFieldsVisible">
+  <div *ngIf="areFieldsVisible">  <!-- no recomendable-->
     <app-entry-fields></app-entry-fields>
   </div>
 

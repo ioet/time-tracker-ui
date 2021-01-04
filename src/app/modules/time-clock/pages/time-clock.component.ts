@@ -7,7 +7,8 @@ import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
 import { Entry } from './../../shared/models/entry.model';
 import { EntryActionTypes, LoadEntriesSummary, StopTimeEntryRunning } from './../store/entry.actions';
-import { getActiveTimeEntry } from './../store/entry.selectors';
+import { getActiveTimeEntry, getIsLoading } from './../store/entry.selectors';
+import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: 'app-time-clock',
   templateUrl: './time-clock.component.html',
@@ -26,7 +27,8 @@ export class TimeClockComponent implements OnInit, OnDestroy {
     private azureAdB2CService: AzureAdB2CService,
     private store: Store<Entry>,
     private toastrService: ToastrService,
-    private actionsSubject$: ActionsSubject
+    private actionsSubject$: ActionsSubject,
+    private spinner: NgxSpinnerService,
   ) {}
 
   ngOnDestroy(): void {
@@ -41,6 +43,14 @@ export class TimeClockComponent implements OnInit, OnDestroy {
         this.areFieldsVisible = true;
       } else {
         this.areFieldsVisible = false;
+      }
+    });
+
+    this.store.pipe(select(getIsLoading)).subscribe((isLoading) => {
+      if (isLoading) {
+        this.spinner.show();
+      } else {
+        this.spinner.hide();
       }
     });
 

@@ -72,7 +72,6 @@ export class EntryFieldsComponent implements OnInit {
           this.store.dispatch(new entryActions.LoadEntriesSummary());
         } else {
           this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
-          this.store.dispatch(new LoadActiveEntry());
           this.store.dispatch(new entryActions.LoadEntriesSummary());
         }
       });

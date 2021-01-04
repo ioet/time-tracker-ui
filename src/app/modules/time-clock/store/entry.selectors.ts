@@ -9,6 +9,8 @@ export const getActiveTimeEntry = createSelector(getEntryState, (state: EntrySta
 
 export const getCreateError = createSelector(getEntryState, (state: EntryState) => state?.createError);
 
+export const getIsLoading = createSelector(getEntryState, (state: EntryState) => state?.isLoading2);
+
 export const getUpdateError = createSelector(getEntryState, (state: EntryState) => state?.updateError);
 
 export const getStatusMessage = createSelector(getEntryState, (state: EntryState) => state?.message);

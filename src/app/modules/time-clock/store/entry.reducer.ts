@@ -6,6 +6,7 @@ import { EntryActions, EntryActionTypes } from './entry.actions';
 export interface EntryState {
   active: Entry;
   isLoading: boolean;
+  isLoading2: boolean;
   message: string;
   createError: boolean;
   updateError: boolean;
@@ -20,6 +21,7 @@ const emptyTimeEntriesSummary: TimeEntriesSummary = { day: emptyTimeDetails, wee
 export const initialState = {
   active: null,
   isLoading: false,
+  isLoading2: false,
   message: '',
   createError: null,
   updateError: null,
@@ -56,6 +58,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       return {
         ...state,
         isLoading: true,
+        isLoading2: true,
       };
     }
     case EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS:
@@ -63,12 +66,16 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         ...state,
         active: action.payload,
         isLoading: false,
+        isLoading2: false,
       };
     case EntryActionTypes.LOAD_ACTIVE_ENTRY_FAIL: {
+      console.log('jjsjd');
+
       return {
         ...state,
         active: null,
         isLoading: false,
+        isLoading2: false,
         message: 'Something went wrong fetching active entry!',
       };
     }
@@ -93,6 +100,8 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
 
     case EntryActionTypes.LOAD_ENTRIES_FAIL: {
+      console.log('here');
+
       return {
         ...state,
         message: 'Something went wrong fetching entries!',
@@ -210,6 +219,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       return {
         ...state,
         isLoading: true,
+        isLoading2: true,
       };
     }
 
@@ -221,10 +231,27 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       };
     }
 
+    case EntryActionTypes.UPDATE_ENTRY_RUNNING: {
+      console.log('UPDATE_ENTRY_RUNNING ');
+
+      return {
+        ...state,
+        isLoading2: true,
+      };
+    }
+
+    case EntryActionTypes.SWITCH_TIME_ENTRY: {
+      return {
+        ...state,
+        isLoading2: true,
+      };
+    }
+
     case EntryActionTypes.STOP_TIME_ENTRY_RUNNING: {
       return {
         ...state,
         isLoading: true,
+        isLoading2: true,
       };
     }
 
@@ -233,7 +260,15 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
         ...state,
         active: null,
         isLoading: false,
-        message: 'You clocked-out successfully',
+        isLoading2: false,
+        message: 'You clocked-out successfullys',
+      };
+    }
+
+    case EntryActionTypes.CLOCK_IN: {
+      return {
+        ...state,
+        isLoading2: true,
       };
     }
 
