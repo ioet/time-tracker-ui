@@ -16,9 +16,10 @@ export class MonthPickerComponent implements OnInit {
   selectedMonthIndex: number;
   selectedYearMoment: moment.Moment;
   selectedYear: number;
-
   selectedYearText: string;
   months: Array<string> = [];
+
+  currentYear = new Date().getFullYear();
 
   constructor() {
     this.selectedYearMoment = moment();
