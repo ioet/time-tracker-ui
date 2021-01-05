@@ -12,7 +12,7 @@
     </div>
 
     <div class="col-sm-4 text-right">
-      <button *ngIf="selectedYear < currentYear" class="btn ml-auto" (click)="changeYear('add')">
+      <button *ngIf="showArrowNext" class="btn ml-auto" (click)="changeYear('add')">
         <i class="fa fa-chevron-right"></i>
       </button>
     </div>
