@@ -59,11 +59,12 @@ describe('MonthPickerComponent', () => {
   });
 
   it('selectMonth should call selectDate', () => {
-    component.selectedYear = 2020;
-    spyOn(component, 'selectDate');
     const monthSelect = new Date().getMonth();
     const yearSelect = new Date().getFullYear();
+    spyOn(component, 'selectDate');
+
     component.selectMonth(monthSelect);
+
     expect(component.selectDate).toHaveBeenCalledWith(monthSelect, yearSelect);
   });
 
