@@ -18,8 +18,8 @@ export class MonthPickerComponent implements OnInit {
   selectedYear: number;
   selectedYearText: string;
   months: Array<string> = [];
-
   currentYear = new Date().getFullYear();
+  showArrowNext = false;
 
   constructor() {
     this.selectedYearMoment = moment();
@@ -41,6 +41,8 @@ export class MonthPickerComponent implements OnInit {
 
     const monthIndex = changeAction === 'add' ? 0 : 11;
     this.selectMonth(monthIndex);
+
+    this.showArrowNext = this.selectedYear < this.currentYear ?? !this.showArrowNext;
   }
 
   selectMonth(monthIndex: number) {

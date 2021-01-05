@@ -44,8 +44,8 @@ describe('MonthPickerComponent', () => {
     expect(component.changeYear).toHaveBeenCalled();
     expect(component.selectedYearText).toEqual(incrementYear);
     expect(component.selectedYearMoment.format('Y')).toEqual(incrementYear);
+    expect(component.showArrowNext).toEqual(false);
   });
-
 
   it('should subtract a year to current year', () => {
     component.selectedYearMoment = moment();
@@ -58,12 +58,13 @@ describe('MonthPickerComponent', () => {
     expect(component.selectedYearMoment.format('Y')).toEqual(decrementYear);
   });
 
-
   it('selectMonth should call selectDate', () => {
     component.selectedYear = 2020;
     spyOn(component, 'selectDate');
-    component.selectMonth(1);
-    expect(component.selectDate).toHaveBeenCalledWith(1, 2021);
+    const monthSelect = new Date().getMonth();
+    const yearSelect = new Date().getFullYear();
+    component.selectMonth(monthSelect);
+    expect(component.selectDate).toHaveBeenCalledWith(monthSelect, yearSelect);
   });
 
 });
