@@ -60,9 +60,10 @@ describe('MonthPickerComponent', () => {
 
 
   it('selectMonth should call selectDate', () => {
+    component.selectedYear = 2020;
     spyOn(component, 'selectDate');
     component.selectMonth(10);
-    expect(component.selectDate).toHaveBeenCalledWith(10, 2021);
+    expect(component.selectDate).toHaveBeenCalledWith(10, 2020);
   });
 
 });
