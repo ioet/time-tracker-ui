@@ -42,7 +42,7 @@ export class MonthPickerComponent implements OnInit {
     const monthIndex = changeAction === 'add' ? 0 : 11;
     this.selectMonth(monthIndex);
 
-    this.showArrowNext = this.selectedYear < this.currentYear ?? true;
+    this.showArrowNext = this.selectedYear < this.currentYear;
   }
 
   selectMonth(monthIndex: number) {
