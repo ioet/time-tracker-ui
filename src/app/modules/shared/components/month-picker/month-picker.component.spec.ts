@@ -44,7 +44,7 @@ describe('MonthPickerComponent', () => {
     expect(component.changeYear).toHaveBeenCalled();
     expect(component.selectedYearText).toEqual(incrementYear);
     expect(component.selectedYearMoment.format('Y')).toEqual(incrementYear);
-    expect(component.showArrowNext).toEqual(false);
+    expect(component.showArrowNext).toBe(false, 'false to hidden arrow next in current year');
   });
 
   it('should subtract a year to current year', () => {
@@ -56,6 +56,7 @@ describe('MonthPickerComponent', () => {
 
     expect(component.changeYear).toHaveBeenCalled();
     expect(component.selectedYearMoment.format('Y')).toEqual(decrementYear);
+    expect(component.showArrowNext).toBe(true, 'true to show arrow next in previous years');
   });
 
   it('selectMonth should call selectDate', () => {

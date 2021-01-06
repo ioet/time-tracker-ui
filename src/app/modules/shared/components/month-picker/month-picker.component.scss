@@ -24,6 +24,11 @@
   }
 }
 
+.align-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .active {
   @include highlight();
   border-radius: 0.2em;
