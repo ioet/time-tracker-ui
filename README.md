@@ -31,10 +31,10 @@ Run `npm install` to install the required node_modules for this project.
 Run `ng serve` to run the app in dev mode. After executing this command, you can navigate to `http://localhost:4200/` to see the app working.
 The app will automatically reload if you change anything in the source files.
 
-## Prepare your environment 
+## Prepare your environment
 
 ### Set environment variables
-Create a file keys.ts with the content pinned in our slack channel:
+Create a file keys.ts in the path `src/enviroment` with the content pinned in our slack channel:
 
 ```
 export const AUTHORITY = 'XXX';
@@ -54,9 +54,9 @@ Install the following extensions:
 - Go to user settings (`settings.json`) and enable formatting on save: `"editor.formatOnSave": true`.
 
 ### Commit messages format
-  Commit messages' format follows the [Conventional Commits guidelines](https://www.conventionalcommits.org/en/v1.0.0/#summary) specification, 
-  and specifically we are relying on the [Angular commit specifications](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines) to bump the [semantic version](https://semver.org/) and generate app change log. 
-  
+  Commit messages' format follows the [Conventional Commits guidelines](https://www.conventionalcommits.org/en/v1.0.0/#summary) specification,
+  and specifically we are relying on the [Angular commit specifications](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines) to bump the [semantic version](https://semver.org/) and generate app change log.
+
   Below there are some common examples you can use for your commit messages:
 
   - **feat**: A new feature.
@@ -67,10 +67,13 @@ Install the following extensions:
   - **docs**: Documentation only changes.
   - **refactor**: A code change that neither fixes a bug nor adds a feature.
   - **style**: Changes that do not affect the meaning of the code (typos, white-space, formatting, missing semi-colons, etc).
-               It is important to mention that this key is not related to css styles. 
+               It is important to mention that this key is not related to css styles.
   - **test**: Adding missing tests or correcting existing tests.
   ### Example
-    fix: #48 implement semantic versioning.
+    TT-48 fix: #48 implement semantic versioning.
+
+    Prefix to use in the space fix:
+    `(fix: |feat: |perf: |build: |ci: |docs: |refactor: |style: |test: )`
 
 ## Code scaffolding
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
