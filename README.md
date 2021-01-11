@@ -69,6 +69,7 @@ Install the following extensions:
   - **style**: Changes that do not affect the meaning of the code (typos, white-space, formatting, missing semi-colons, etc).
                It is important to mention that this key is not related to css styles.
   - **test**: Adding missing tests or correcting existing tests.
+
   ### Example
     TT-48 fix: #48 implement semantic versioning.
 
