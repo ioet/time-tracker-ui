@@ -120,4 +120,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 ## How declarate a bugs in git
-use te template user
+use the template user
