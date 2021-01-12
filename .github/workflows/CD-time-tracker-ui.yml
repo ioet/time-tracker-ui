@@ -5,8 +5,7 @@ name: CD process to deploy to App-Service service
 
 on:
   # Trigger the workflow on pull request but only for the master branch
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - master
 
