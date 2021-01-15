@@ -71,10 +71,16 @@ Install the following extensions:
   - **test**: Adding missing tests or correcting existing tests.
 
   ### Example
-    TT-48 fix: #48 implement semantic versioning.
+    fix: TT-48 implement semantic versioning
 
     Prefix to use in the space fix:
     `(fix: |feat: |perf: |build: |ci: |docs: |refactor: |style: |test: )`
+
+| Commit message                                                                                                                                                                                   | Release type               |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------|
+| `fix(pencil): stop graphite breaking when too much pressure applied`                                                                                                                             | Patch Release              |
+| `feat(pencil): add 'graphiteWidth' option`                                                                                                                                                       | ~~Minor~~ Feature Release  |
+| `perf(pencil): remove graphiteWidth option`<br><br>`BREAKING CHANGE: The graphiteWidth option has been removed.`<br>`The default graphite width of 10mm is always used for performance reasons.` | ~~Major~~ Breaking Release |
 
 ## Code scaffolding
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
@@ -117,5 +123,3 @@ You can visit the app in the following link:
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
-## Test to run semantic release
