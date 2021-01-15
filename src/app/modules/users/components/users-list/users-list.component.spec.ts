@@ -69,7 +69,7 @@ describe('UsersListComponent', () => {
     expect(component.users).toEqual(state.data);
   });
 
-  it('on success load users, the data of role should be an array and role null', () => {
+  it('on success load users, the data of roles should be an array and role null', () => {
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
     const action = {
       type: UserActionTypes.LOAD_USERS_SUCCESS,
@@ -81,6 +81,36 @@ describe('UsersListComponent', () => {
     component.users.map((user) => {
       expect(user.role).toEqual(null);
       expect(user.roles).toEqual(['admin', 'test']);
+    });
+  });
+
+  it('on success load users, the data of roles should be null and role a string', () => {
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+    const mockState: UserState = {
+      data: [
+        {
+          name: 'name',
+          email: 'email',
+          role: 'admin',
+          roles: null,
+          id: 'id',
+          tenant_id: 'tenant id',
+          deleted: 'delete',
+        },
+      ],
+      isLoading: false,
+      message: '',
+    };
+    const action = {
+      type: UserActionTypes.LOAD_USERS_SUCCESS,
+      payload: mockState.data,
+    };
+
+    actionSubject.next(action);
+
+    component.users.map((user) => {
+      expect(user.role).toEqual('admin');
+      expect(user.roles).toEqual(null);
     });
   });
 
