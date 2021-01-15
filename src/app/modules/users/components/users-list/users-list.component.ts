@@ -31,7 +31,6 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
     this.isFeatureToggleAactivated().subscribe((flag) => {
       this.isFlagOn = flag;
-      console.log(this.isFlagOn);
     });
   }
 
@@ -78,14 +77,10 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  isAdmin(role) {
-    return role ? true : false;
-  }
-
-  revokeOrGrantRole(userId: string, userRole: string) {
-    userRole
-      ? this.store.dispatch(new RevokeRoleUser(userId, 'admin'))
-      : this.store.dispatch(new GrantRoleUser(userId, 'admin'));
+  switchRole(userId: string, userRoles: string[], roleId: string, roleValue: string) {
+    userRoles.includes(roleValue)
+      ? this.store.dispatch(new RevokeRoleUser(userId, roleId))
+      : this.store.dispatch(new GrantRoleUser(userId, roleId));
   }
 
   isFeatureToggleAactivated() {

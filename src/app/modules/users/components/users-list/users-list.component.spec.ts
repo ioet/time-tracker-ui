@@ -69,7 +69,7 @@ describe('UsersListComponent', () => {
     expect(component.users).toEqual(state.data);
   });
   /*
-  TODO: blocke commented on purpose so that when the tests pass and the Feature toggle is removed,
+  TODO: block commented on purpose so that when the tests pass and the Feature toggle is removed,
         the table will be rendered again with dtInstance and not with dtOptions
 
   it('on success load users, the data of roles should be an array and role null', () => {
