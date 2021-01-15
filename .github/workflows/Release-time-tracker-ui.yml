@@ -2,7 +2,7 @@ name: bumping-versions-pipeline
 on:
   push:
     branches:
-      - master
+      - semantix-fix
 jobs:
   release:
     name: bumping-version
