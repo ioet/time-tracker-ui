@@ -72,6 +72,7 @@ import { DialogComponent } from './modules/shared/components/dialog/dialog.compo
 import { LoadingBarComponent } from './modules/shared/components/loading-bar/loading-bar.component';
 import { UsersComponent } from './modules/users/pages/users.component';
 import { UsersListComponent } from './modules/users/components/users-list/users-list.component';
+import { UiSwitchModule } from 'ngx-ui-switch';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 // tslint:disable-next-line: max-line-length
 import { TechnologyReportTableComponent } from './modules/technology-report/components/technology-report-table/technology-report-table.component';
@@ -142,6 +143,7 @@ const maskConfig: Partial<IConfig> = {
     DataTablesModule,
     AutocompleteLibModule,
     NgxMaterialTimepickerModule,
+    UiSwitchModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),

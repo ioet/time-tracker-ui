@@ -31,4 +31,24 @@ describe('UsersService', () => {
     const loadUserRequest = httpMock.expectOne(service.baseUrl);
     expect(loadUserRequest.request.method).toBe('GET');
   });
+
+  it('grant role to a User', () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+
+    service.grantRole(userId, roleId).subscribe();
+
+    const grantRoleRequest = httpMock.expectOne(`${service.baseUrl}/${userId}/roles/${roleId}/grant`);
+    expect(grantRoleRequest.request.method).toBe('POST');
+  });
+
+  it('revoke role to a User', () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+
+    service.revokeRole(userId, roleId).subscribe();
+
+    const grantRoleRequest = httpMock.expectOne(`${service.baseUrl}/${userId}/roles/${roleId}/revoke`);
+    expect(grantRoleRequest.request.method).toBe('POST');
+  });
 });

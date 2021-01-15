@@ -29,6 +29,7 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css",
+              "./node_modules/ngx-ui-switch/ui-switch.component.css",
               "node_modules/datatables.net-buttons-dt/css/buttons.dataTables.css"
             ],
             "scripts": [

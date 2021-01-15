@@ -51,4 +51,31 @@ describe('UserEffects', () => {
       expect(action.type).toEqual(UserActionTypes.LOAD_USERS_FAIL);
     });
   });
+
+  it('action type is GRANT_USER_ROLE_SUCCESS when service is executed sucessfully', async () => {
+    const userId = 'userId';
+    const roleId = 'roleId';
+    actions$ = of({ type: UserActionTypes.GRANT_USER_ROLE, userId, roleId });
+    const serviceSpy = spyOn(service, 'grantRole');
+    spyOn(toastrService, 'success');
+    serviceSpy.and.returnValue(of(user));
+
+    effects.grantUserRole$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('Grant User Role Success');
+      expect(action.type).toEqual(UserActionTypes.GRANT_USER_ROLE_SUCCESS);
+    });
+  });
+
+  it('action type is GRANT_USER_ROLE_FAIL when service is executed and fail', async () => {
+    const userId = 'userId';
+    const roleId = 'roleId';
+    actions$ = of({ type: UserActionTypes.GRANT_USER_ROLE, userId, roleId });
+    spyOn(service, 'grantRole').and.returnValue(throwError({ error: { message: 'error' } }));
+    spyOn(toastrService, 'error');
+
+    effects.grantUserRole$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(UserActionTypes.GRANT_USER_ROLE_FAIL);
+    });
+  });
 });
