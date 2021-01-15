@@ -32,6 +32,14 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedYear: number;
   selectedMonthAsText: string;
 
+  startDateAsLocalDate: Date;
+  endDateAsLocalDate: Date;
+  activeEntryAsLocalDate: Date;
+  isEditingEntryEqualToActiveEntry;
+  isStartDateGreaterThanActiveEntry;
+  isEndDateGreaterThanActiveEntry;
+  isTimeEntryOverlapping;
+
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
   }
@@ -105,17 +113,17 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
 
   saveEntry(event: SaveEntryEvent): void {
     if (this.activeTimeEntry) {
-      const startDateAsLocalDate = new Date(event.entry.start_date);
-      const endDateAsLocalDate = new Date(event.entry.end_date);
-      const activeEntryAsLocalDate = new Date(this.activeTimeEntry.start_date);
-      const isEditingEntryEqualToActiveEntry = this.entryId === this.activeTimeEntry.id;
-      const isStartDateGreaterThanActiveEntry = startDateAsLocalDate > activeEntryAsLocalDate;
-      const isEndDateGreaterThanActiveEntry = endDateAsLocalDate > activeEntryAsLocalDate;
-      const isTimeEntryOverlapping = isStartDateGreaterThanActiveEntry || isEndDateGreaterThanActiveEntry;
-      if (!isEditingEntryEqualToActiveEntry && isTimeEntryOverlapping) {
-        this.toastrService.error('You are on the clock and this entry overlaps it, try with earlier times.');
-      } else {
+      this.startDateAsLocalDate = new Date(event.entry.start_date);
+      this.endDateAsLocalDate = new Date(event.entry.end_date);
+      this.activeEntryAsLocalDate = new Date(this.activeTimeEntry.start_date);
+      this.isEditingEntryEqualToActiveEntry = this.entryId === this.activeTimeEntry.id;
+      this.isStartDateGreaterThanActiveEntry = this.startDateAsLocalDate > this.activeEntryAsLocalDate;
+      this.isEndDateGreaterThanActiveEntry = this.endDateAsLocalDate > this.activeEntryAsLocalDate;
+      this.isTimeEntryOverlapping = this.isStartDateGreaterThanActiveEntry || this.isEndDateGreaterThanActiveEntry;
+      if (this.isEditingEntryEqualToActiveEntry && !this.isTimeEntryOverlapping) {
         this.doSave(event);
+      } else {
+        this.toastrService.error('You are on the clock and this entry overlaps it, try with earlier times.');
       }
     } else {
       this.doSave(event);
