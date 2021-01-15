@@ -121,8 +121,3 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## How declarate a bugs in git
 use the template user of git, select the option issue.
-
-## how create a template issues
-(Documentation)[https://docs.github.com/en/free-pro-team@latest/github/building-a-strong-community/configuring-issue-templates-for-your-repository#:~:text=community%20health%20file.%22-,Creating%20issue%20templates,you'd%20like%20to%20create.]
-
-## Recommendation use this template issues to report a new task or bug.
