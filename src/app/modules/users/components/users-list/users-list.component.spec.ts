@@ -192,7 +192,7 @@ describe('UsersListComponent', () => {
 
   const toggleValues = [true, false];
   toggleValues.map((toggleValue) => {
-    it(`when FeatureToggle is ${toggleValue} should return true`, () => {
+    it(`when FeatureToggle is ${toggleValue} should return ${toggleValue}`, () => {
       spyOn(featureManagerService, 'isToggleEnabledForUser').and.returnValue(of(toggleValue));
 
       const isFeatureToggleActivated: Observable<boolean> = component.isFeatureToggleActivated();
