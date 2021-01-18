@@ -85,8 +85,10 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   isFeatureToggleActivated() {
-    return this.featureManagerService
-      .isToggleEnabledForUser('ui-list-test-users')
-      .pipe(map((enabled) => (enabled === true ? true : false)));
+    return this.featureManagerService.isToggleEnabledForUser('ui-list-test-users').pipe(
+      map((enabled) => {
+        return enabled === true ? true : false;
+      })
+    );
   }
 }
