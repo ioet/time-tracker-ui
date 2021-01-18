@@ -3,9 +3,10 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UsersListComponent } from './users-list.component';
-import { UserActionTypes, UserState, LoadUsers } from '../../store';
+import { UserActionTypes, UserState, LoadUsers, GrantRoleUser, RevokeRoleUser } from '../../store';
 import { ActionsSubject } from '@ngrx/store';
 import { DataTablesModule } from 'angular-datatables';
+import { of } from 'rxjs';
 
 describe('UsersListComponent', () => {
   let component: UsersListComponent;
@@ -29,13 +30,15 @@ describe('UsersListComponent', () => {
     message: '',
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [NgxPaginationModule, DataTablesModule],
-      declarations: [UsersListComponent],
-      providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NgxPaginationModule, DataTablesModule],
+        declarations: [UsersListComponent],
+        providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersListComponent);
@@ -68,9 +71,76 @@ describe('UsersListComponent', () => {
 
     expect(component.users).toEqual(state.data);
   });
-  /*
-  TODO: block commented on purpose so that when the tests pass and the Feature toggle is removed,
-        the table will be rendered again with dtInstance and not with dtOptions
+
+  it('When Component is created, should call the feature toggle method', () => {
+    spyOn(component, 'isFeatureToggleActivated').and.returnValue(of(true));
+
+    component.ngOnInit();
+
+    expect(component.isFeatureToggleActivated).toHaveBeenCalled();
+    expect(component.isFlagOn).toBe(true);
+  });
+
+  const actionsParams = [
+    { actionType: UserActionTypes.GRANT_USER_ROLE_SUCCESS },
+    { actionType: UserActionTypes.REVOKE_USER_ROLE_SUCCESS },
+  ];
+
+  actionsParams.map((param) => {
+    it(`When action ${param.actionType} is dispatched should triggered load Users action`, () => {
+      spyOn(store, 'dispatch');
+
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+      const action = {
+        type: param.actionType,
+        payload: state.data,
+      };
+
+      actionSubject.next(action);
+
+      expect(store.dispatch).toHaveBeenCalledWith(new LoadUsers());
+    });
+  });
+
+  const grantRoleTypes = [
+    { roleId: 'admin', roleValue: 'time-tracker-admin' },
+    { roleId: 'test', roleValue: 'time-tracker-tester' },
+  ];
+
+  grantRoleTypes.map((param) => {
+    it(`When user switchRole to ${param.roleId} and don't have any role, should grant ${param.roleValue} Role`, () => {
+      const roleId = param.roleId;
+      const roleValue = param.roleValue;
+      const userRoles = [];
+      const userId = 'userId';
+
+      spyOn(store, 'dispatch');
+
+      component.switchRole(userId, userRoles, roleId, roleValue);
+
+      expect(store.dispatch).toHaveBeenCalledWith(new GrantRoleUser(userId, roleId));
+    });
+  });
+
+  const revokeRoleTypes = [
+    { roleId: 'admin', roleValue: 'time-tracker-admin', userRoles: ['time-tracker-admin'] },
+    { roleId: 'test', roleValue: 'time-tracker-tester', userRoles: ['time-tracker-tester'] },
+  ];
+
+  revokeRoleTypes.map((param) => {
+    it(`When user switchRole to ${param.roleId} and have that rol asigned, should revoke ${param.roleValue} Role`, () => {
+      const roleId = param.roleId;
+      const roleValue = param.roleValue;
+      const userRoles = param.userRoles;
+      const userId = 'userId';
+
+      spyOn(store, 'dispatch');
+
+      component.switchRole(userId, userRoles, roleId, roleValue);
+
+      expect(store.dispatch).toHaveBeenCalledWith(new RevokeRoleUser(userId, roleId));
+    });
+  });
 
   it('on success load users, the data of roles should be an array and role null', () => {
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
@@ -117,7 +187,11 @@ describe('UsersListComponent', () => {
     });
   });
 
-  it('on success load users, the datatable should be reloaded', async () => {
+  /*
+    TODO: block commented on purpose so that when the tests pass and the Feature toggle is removed,
+        the table will be rendered again with dtInstance and not with dtOptions
+
+    it('on success load users, the datatable should be reloaded', async () => {
     const actionSubject = TestBed.inject(ActionsSubject);
     const action = {
       type: UserActionTypes.LOAD_USERS_SUCCESS,

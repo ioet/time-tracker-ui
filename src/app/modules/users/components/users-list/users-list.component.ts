@@ -29,12 +29,12 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     private featureManagerService: FeatureManagerService
   ) {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
-    this.isFeatureToggleAactivated().subscribe((flag) => {
-      this.isFlagOn = flag;
-    });
   }
 
   ngOnInit(): void {
+    this.isFeatureToggleActivated().subscribe((flag) => {
+      this.isFlagOn = flag;
+    });
     this.store.dispatch(new LoadUsers());
     this.loadUsersSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === UserActionTypes.LOAD_USERS_SUCCESS))
@@ -83,7 +83,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       : this.store.dispatch(new GrantRoleUser(userId, roleId));
   }
 
-  isFeatureToggleAactivated() {
+  isFeatureToggleActivated() {
     return this.featureManagerService.isToggleEnabledForUser('ui-list-test-users').pipe(
       map((enabled) => {
         if (enabled === true) {
