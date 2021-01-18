@@ -17,11 +17,12 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   users: User[] = [];
   isLoading$: Observable<boolean>;
   loadUsersSubscription: Subscription;
+  switchRoleSubscription: Subscription;
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   dtOptions: any = {};
-  isFlagOn;
+  isUserRoleToggleOn;
 
   constructor(
     private store: Store<User>,
@@ -33,7 +34,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.isFeatureToggleActivated().subscribe((flag) => {
-      this.isFlagOn = flag;
+      this.isUserRoleToggleOn = flag;
     });
     this.store.dispatch(new LoadUsers());
     this.loadUsersSubscription = this.actionsSubject$
@@ -43,7 +44,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
         this.rerenderDataTable();
       });
 
-    this.loadUsersSubscription = this.actionsSubject$
+    this.switchRoleSubscription = this.actionsSubject$
       .pipe(
         filter(
           (action: any) =>
@@ -86,11 +87,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   isFeatureToggleActivated() {
     return this.featureManagerService.isToggleEnabledForUser('ui-list-test-users').pipe(
       map((enabled) => {
-        if (enabled === true) {
-          return true;
-        } else {
-          return false;
-        }
+        return enabled === true ? true : false;
       })
     );
   }

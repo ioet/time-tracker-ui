@@ -8,7 +8,7 @@
     <tr class="d-flex">
       <th class="col">User Email</th>
       <th class="col">Names</th>
-      <th class="col" *ngIf="isFlagOn">Roles</th>
+      <th class="col" *ngIf="isUserRoleToggleOn">Roles</th>
     </tr>
   </thead>
   <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
@@ -16,7 +16,7 @@
     <tr class="d-flex" *ngFor="let user of users">
       <td class="col">{{ user.email }}</td>
       <td class="col">{{ user.name }}</td>
-      <td class="col text-center" *ngIf="isFlagOn">
+      <td class="col text-center" *ngIf="isUserRoleToggleOn">
         <div>
           <ui-switch
             size="small"

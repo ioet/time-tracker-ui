@@ -59,7 +59,7 @@ export const userReducer = (state: UserState = initialState, action: UserActions
         ...state,
         data: state.data,
         isLoading: false,
-        message: 'Something went wrong granted user rol',
+        message: 'Something went wrong granting user role',
       };
     }
 
@@ -85,7 +85,7 @@ export const userReducer = (state: UserState = initialState, action: UserActions
         ...state,
         data: state.data,
         isLoading: false,
-        message: 'Something went wrong revoking user rol',
+        message: 'Something went wrong revoking user role',
       };
     }
     default:

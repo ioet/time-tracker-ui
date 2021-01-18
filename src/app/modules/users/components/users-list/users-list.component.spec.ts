@@ -4,14 +4,16 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UsersListComponent } from './users-list.component';
 import { UserActionTypes, UserState, LoadUsers, GrantRoleUser, RevokeRoleUser } from '../../store';
+import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 import { ActionsSubject } from '@ngrx/store';
 import { DataTablesModule } from 'angular-datatables';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 describe('UsersListComponent', () => {
   let component: UsersListComponent;
   let fixture: ComponentFixture<UsersListComponent>;
   let store: MockStore<UserState>;
+  let featureManagerService: FeatureManagerService;
   const actionSub: ActionsSubject = new ActionsSubject();
 
   const state: UserState = {
@@ -37,6 +39,7 @@ describe('UsersListComponent', () => {
         declarations: [UsersListComponent],
         providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
       }).compileComponents();
+      featureManagerService = TestBed.inject(FeatureManagerService);
     })
   );
 
@@ -78,7 +81,7 @@ describe('UsersListComponent', () => {
     component.ngOnInit();
 
     expect(component.isFeatureToggleActivated).toHaveBeenCalled();
-    expect(component.isFlagOn).toBe(true);
+    expect(component.isUserRoleToggleOn).toBe(true);
   });
 
   const actionsParams = [
@@ -184,6 +187,18 @@ describe('UsersListComponent', () => {
     component.users.map((user) => {
       expect(user.role).toEqual('admin');
       expect(user.roles).toEqual(null);
+    });
+  });
+
+  const toggleValues = [true, false];
+  toggleValues.map((toggleValue) => {
+    it(`when FeatureToggle is ${toggleValue} should return true`, () => {
+      spyOn(featureManagerService, 'isToggleEnabledForUser').and.returnValue(of(toggleValue));
+
+      const isFeatureToggleActivated: Observable<boolean> = component.isFeatureToggleActivated();
+
+      expect(featureManagerService.isToggleEnabledForUser).toHaveBeenCalled();
+      isFeatureToggleActivated.subscribe((value) => expect(value).toEqual(toggleValue));
     });
   });
 

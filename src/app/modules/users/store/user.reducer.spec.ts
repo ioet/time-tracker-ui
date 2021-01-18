@@ -57,7 +57,7 @@ describe('userReducer', () => {
     const action = new actions.GrantRoleUserFail('error');
     const state = userReducer(initialState, action);
 
-    expect(state.message).toEqual('Something went wrong granted user rol');
+    expect(state.message).toEqual('Something went wrong granting user role');
     expect(state.isLoading).toEqual(false);
   });
 
@@ -89,7 +89,7 @@ describe('userReducer', () => {
     const action = new actions.RevokeRoleUserFail('error');
     const state = userReducer(initialState, action);
 
-    expect(state.message).toEqual('Something went wrong revoking user rol');
+    expect(state.message).toEqual('Something went wrong revoking user role');
     expect(state.isLoading).toEqual(false);
   });
 
