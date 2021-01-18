@@ -27,4 +27,40 @@ export class UserEffects {
       )
     )
   );
+
+  @Effect()
+  grantUserRole$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.UserActionTypes.GRANT_USER_ROLE),
+    map((action: actions.GrantRoleUser) => action),
+    mergeMap((action) =>
+      this.userService.grantRole(action.userId, action.roleId).pipe(
+        map((response) => {
+          this.toastrService.success('Grant User Role Success');
+          return new actions.GrantRoleUserSuccess(response);
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.GrantRoleUserFail(error));
+        })
+      )
+    )
+  );
+
+  @Effect()
+  revokeUserRole$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.UserActionTypes.REVOKE_USER_ROLE),
+    map((action: actions.RevokeRoleUser) => action),
+    mergeMap((action) =>
+      this.userService.revokeRole(action.userId, action.roleId).pipe(
+        map((response) => {
+          this.toastrService.success('Revoke User Role Success');
+          return new actions.RevokeRoleUserSuccess(response);
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.RevokeRoleUserFail(error));
+        })
+      )
+    )
+  );
 }

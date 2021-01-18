@@ -13,4 +13,14 @@ export class UsersService {
   loadUsers(): Observable<any> {
     return this.http.get(this.baseUrl);
   }
+
+  grantRole(userId: string, roleId: string): Observable<any> {
+    const url = `${this.baseUrl}/${userId}/roles/${roleId}/grant`;
+    return this.http.post(url, null);
+  }
+
+  revokeRole(userId: string, roleId: string): Observable<any> {
+    const url = `${this.baseUrl}/${userId}/roles/${roleId}/revoke`;
+    return this.http.post(url, null);
+  }
 }
