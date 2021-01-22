@@ -392,7 +392,7 @@ describe('TimeEntriesComponent', () => {
     expect(component.entry).toEqual(lastEntry);
   }));
 
-  it('when the data source is loaded, the entry should to have customer_name field', waitForAsync(() => {
+  it('when the data source is loaded, the table should to show the appropriated column titles', waitForAsync(() => {
     component.timeEntriesDataSource$.subscribe(() => {
 
       fixture.detectChanges();
@@ -423,7 +423,7 @@ describe('TimeEntriesComponent', () => {
     });
   }));
 
-  it('on success times entries data source charged, the entry should to have customer_name field', waitForAsync(() => {
+  it('when the data source is loaded, the entry should to have customer_name field', waitForAsync(() => {
     component.timeEntriesDataSource$.subscribe(dataSource => {
       const entryData = dataSource.data[0];
 
