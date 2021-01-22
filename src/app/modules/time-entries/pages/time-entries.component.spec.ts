@@ -18,6 +18,7 @@ import { TimeEntriesComponent } from './time-entries.component';
 import { ActionsSubject } from '@ngrx/store';
 import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatchesSnapshot } from 'jasmine-snapshot';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -390,4 +391,9 @@ describe('TimeEntriesComponent', () => {
     expect(component.entry).toEqual(lastEntry);
   }));
 
+  fit('matces simple snapshot', () => {
+    const actual = 'fried chicken';
+    const snapshot = 'fried chicken';
+    MatchesSnapshot(snapshot, actual);
+  });
 });

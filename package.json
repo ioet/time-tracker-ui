@@ -36,6 +36,7 @@
     "datatables.net-dt": "^1.10.21",
     "datatables.net-responsive": "^2.2.6",
     "datatables.net-responsive-dt": "^2.2.6",
+    "jasmine-snapshot": "^1.8.1",
     "jquery": "^3.5.1",
     "jszip": "^3.4.0",
     "minimist": "^1.2.5",
