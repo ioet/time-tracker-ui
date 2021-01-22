@@ -18,6 +18,7 @@ import { TimeEntriesComponent } from './time-entries.component';
 import { ActionsSubject } from '@ngrx/store';
 import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { DebugElement } from '@angular/core';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -57,6 +58,7 @@ describe('TimeEntriesComponent', () => {
       project_name: 'Time-tracker',
       start_date: new Date('2020-02-05T15:36:15.887Z'),
       end_date: new Date('2020-02-05T18:36:15.887Z'),
+      customer_name: 'ioet Inc.',
       activity_id: 'development',
       technologies: ['Angular', 'TypeScript'],
       description: 'No comments',
@@ -375,19 +377,59 @@ describe('TimeEntriesComponent', () => {
     component.entry = null;
     component.entryId = null;
     const lastEntry = {
-      description : 'testing is fun',
-      technologies : [],
-      uri : 'http://testing.is.fun',
-      activity_id : 'sss',
-      project_id : 'id',
-      start_date : new Date(new Date().setHours(0, 0, 0, 0)),
-      end_date : new Date(new Date().setHours(0, 0, 0, 0))
+      description: 'testing is fun',
+      technologies: [],
+      uri: 'http://testing.is.fun',
+      activity_id: 'sss',
+      project_id: 'id',
+      start_date: new Date(new Date().setHours(0, 0, 0, 0)),
+      end_date: new Date(new Date().setHours(0, 0, 0, 0))
     };
-    state.timeEntriesDataSource.data = [ lastEntry ];
+    state.timeEntriesDataSource.data = [lastEntry];
     mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
-    component.projectSelected({ projectId : 'id'});
+    component.projectSelected({ projectId: 'id' });
     expect(component.entry).toEqual(lastEntry);
+  }));
+
+  it('when the data source is loaded, the entry should to have customer_name field', waitForAsync(() => {
+    component.timeEntriesDataSource$.subscribe(() => {
+
+      fixture.detectChanges();
+
+      const expectedColumnTitles = [
+        'Date',
+        'Time in - out',
+        'Duration',
+        'Customer',
+        'Project',
+        'Activity',
+        '',
+      ];
+
+      const columnTitles: string[] = [];
+
+      const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
+      const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
+      const HTMLTimeEntriesTable = HTMLTimeEntriesElement.querySelector('.table') as HTMLTableElement;
+      const HTMLTableHead = HTMLTimeEntriesTable.rows[0];
+
+      Array.from(HTMLTableHead.cells).forEach(columnTitle => {
+        columnTitles.push(columnTitle.innerText);
+      });
+
+      expect(expectedColumnTitles).toEqual(columnTitles);
+
+    });
+  }));
+
+  it('on success times entries data source charged, the entry should to have customer_name field', waitForAsync(() => {
+    component.timeEntriesDataSource$.subscribe(dataSource => {
+      const entryData = dataSource.data[0];
+
+      expect(entryData.customer_name).toContain('ioet Inc.');
+
+    });
   }));
 
 });
