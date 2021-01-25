@@ -417,19 +417,14 @@ describe('TimeEntriesComponent', () => {
       Array.from(HTMLTableHead.cells).forEach(columnTitle => {
         columnTitles.push(columnTitle.innerText);
       });
-
       expect(expectedColumnTitles).toEqual(columnTitles);
-
     });
   }));
 
   it('when the data source is loaded, the entry should to have customer_name field', waitForAsync(() => {
     component.timeEntriesDataSource$.subscribe(dataSource => {
       const entryData = dataSource.data[0];
-
       expect(entryData.customer_name).toContain('ioet Inc.');
-
     });
   }));
-
 });
