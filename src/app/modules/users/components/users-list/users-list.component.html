@@ -1,38 +1,40 @@
-<table
-  *ngIf="users"
-  class="table table-sm table-bordered table-striped mb-0"
-  datatable
-  [dtTrigger]="dtTrigger"
-  [dtOptions]="dtOptions"
->
-  <thead class="thead-blue">
-    <tr class="d-flex">
-      <th class="col-4">User Email</th>
-      <th class="col-5">Names</th>
-      <th class="col-3">Roles</th>
-    </tr>
-  </thead>
-  <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
-  <tbody>
-    <tr class="d-flex" *ngFor="let user of users">
-      <td class="col-4">{{ user.email }}</td>
-      <td class="col-5">{{ user.name }}</td>
-      <td class="col-3 text-center">
-        <div>
-          <ui-switch
-            size="small"
-            (change)="switchRole(user.id, user.roles, 'admin', 'time-tracker-admin')"
-            [checked]="user.roles.includes('time-tracker-admin')"
-          ></ui-switch>
-          admin
-          <ui-switch
-            size="small"
-            (change)="switchRole(user.id, user.roles, 'test', 'time-tracker-tester')"
-            [checked]="user.roles.includes('time-tracker-tester')"
-          ></ui-switch>
-          test
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-responsive">
+    <table
+    *ngIf="users"
+    class="table table-sm table-bordered table-striped mb-0"
+    datatable
+    [dtTrigger]="dtTrigger"
+    [dtOptions]="dtOptions"
+  >
+    <thead class="thead-blue">
+      <tr class="d-flex flex-wrap">
+        <th class="col-4 ">User Email</th>
+        <th class="col-5 ">Names</th>
+        <th class="col-3 ">Roles</th>
+      </tr>
+    </thead>
+    <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
+    <tbody>
+      <tr class="d-flex flex-wrap" *ngFor="let user of users">
+        <td class="col-4 text-break">{{ user.email }}</td>
+        <td class="col-5 text-break">{{ user.name }}</td>
+        <td class="col-3 text-center">
+          <div>
+            <ui-switch
+              size="small"
+              (change)="switchRole(user.id, user.roles, 'admin', 'time-tracker-admin')"
+              [checked]="user.roles.includes('time-tracker-admin')"
+            ></ui-switch>
+            admin
+            <ui-switch
+              size="small"
+              (change)="switchRole(user.id, user.roles, 'test', 'time-tracker-tester')"
+              [checked]="user.roles.includes('time-tracker-tester')"
+            ></ui-switch>
+            test
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    </table>
+</div>
