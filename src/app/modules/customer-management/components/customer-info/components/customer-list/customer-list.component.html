@@ -1,23 +1,23 @@
 <table
   *ngIf="customers"
-  class="table table-sm table-bordered table-striped mb-0"
+  class="table table-responsive-sm table-bordered table-striped mb-0"
   datatable
   [dtTrigger]="dtTrigger"
   [dtOptions]="dtOptions"
 >
   <thead class="thead-blue">
     <tr class="d-flex">
-      <th class="col-4">Customer ID</th>
-      <th class="col-5">Name</th>
-      <th class="col-3 text-center">Options</th>
+      <th class="col-sm-4">Customer ID</th>
+      <th class="col-sm-5">Name</th>
+      <th class="col-sm-3 text-center">Options</th>
     </tr>
   </thead>
   <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
   <tbody *ngIf="((isLoading$ | async) === false)">
     <tr class="d-flex" *ngFor="let customer of customers">
-      <td class="col-sm-4">{{ customer.id }}</td>
-      <td class="col-sm-5">{{ customer.name }}</td>
-      <td class="col-sm-3 text-center">
+      <td class="col col-sm-4">{{ customer.id }}</td>
+      <td class="col col-sm-5">{{ customer.name }}</td>
+      <td class="col col-sm-3 text-center">
         <button
           (click)="editCustomer(customer.id)"
           type="button"
