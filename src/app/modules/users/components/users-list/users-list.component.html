@@ -1,22 +1,23 @@
 <table
-  *ngIf="users && (isLoading$ | async) === false"
+  *ngIf="users"
   class="table table-sm table-bordered table-striped mb-0"
   datatable
+  [dtTrigger]="dtTrigger"
   [dtOptions]="dtOptions"
 >
   <thead class="thead-blue">
     <tr class="d-flex">
-      <th class="col">User Email</th>
-      <th class="col">Names</th>
-      <th class="col" *ngIf="isUserRoleToggleOn">Roles</th>
+      <th class="col-4">User Email</th>
+      <th class="col-5">Names</th>
+      <th class="col-3">Roles</th>
     </tr>
   </thead>
   <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
-  <tbody *ngIf="(isLoading$ | async) === false">
+  <tbody>
     <tr class="d-flex" *ngFor="let user of users">
-      <td class="col">{{ user.email }}</td>
-      <td class="col">{{ user.name }}</td>
-      <td class="col text-center" *ngIf="isUserRoleToggleOn">
+      <td class="col-4">{{ user.email }}</td>
+      <td class="col-5">{{ user.name }}</td>
+      <td class="col-3 text-center">
         <div>
           <ui-switch
             size="small"

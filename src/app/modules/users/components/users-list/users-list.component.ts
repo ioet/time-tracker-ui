@@ -2,11 +2,10 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { delay, filter, map } from 'rxjs/operators';
+import { delay, filter } from 'rxjs/operators';
 import { User } from '../../models/users';
 import { GrantRoleUser, LoadUsers, RevokeRoleUser, UserActionTypes } from '../../store/user.actions';
 import { getIsLoading } from '../../store/user.selectors';
-import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 
 @Component({
   selector: 'app-users-list',
@@ -22,38 +21,17 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   dtOptions: any = {};
-  isUserRoleToggleOn;
 
-  constructor(
-    private store: Store<User>,
-    private actionsSubject$: ActionsSubject,
-    private featureManagerService: FeatureManagerService
-  ) {
+  constructor(private store: Store<User>, private actionsSubject$: ActionsSubject) {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
   }
 
   ngOnInit(): void {
-    this.isFeatureToggleActivated().subscribe((flag) => {
-      this.isUserRoleToggleOn = flag;
-    });
     this.store.dispatch(new LoadUsers());
     this.loadUsersSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === UserActionTypes.LOAD_USERS_SUCCESS))
       .subscribe((action) => {
         this.users = action.payload;
-        this.rerenderDataTable();
-      });
-
-    this.switchRoleSubscription = this.actionsSubject$
-      .pipe(
-        filter(
-          (action: any) =>
-            action.type === UserActionTypes.GRANT_USER_ROLE_SUCCESS ||
-            action.type === UserActionTypes.REVOKE_USER_ROLE_SUCCESS
-        )
-      )
-      .subscribe((action) => {
-        this.store.dispatch(new LoadUsers());
         this.rerenderDataTable();
       });
   }
@@ -82,13 +60,5 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     userRoles.includes(roleValue)
       ? this.store.dispatch(new RevokeRoleUser(userId, roleId))
       : this.store.dispatch(new GrantRoleUser(userId, roleId));
-  }
-
-  isFeatureToggleActivated() {
-    return this.featureManagerService.isToggleEnabledForUser('ui-list-test-users').pipe(
-      map((enabled) => {
-        return enabled === true ? true : false;
-      })
-    );
   }
 }
