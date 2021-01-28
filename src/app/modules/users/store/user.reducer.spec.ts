@@ -38,13 +38,13 @@ describe('userReducer', () => {
     expect(state.isLoading).toEqual(true);
   });
 
-  it('on GrantRoleUserSuccess, user role should change', () => {
+  it('on GrantRoleUserSuccess, user roles should change', () => {
     const currentState: UserState = {
-      data: [{ id: 'id', name: 'name', email: 'email', role: null }],
+      data: [{ id: 'id', name: 'name', email: 'email', roles: null }],
       isLoading: false,
       message: '',
     };
-    const userGranted: User = { id: 'id', name: 'name', email: 'email', role: 'admin' };
+    const userGranted: User = { id: 'id', name: 'name', email: 'email', roles: ['admin'] };
     const action = new actions.GrantRoleUserSuccess(userGranted);
     const state = userReducer(currentState, action);
 
@@ -70,13 +70,13 @@ describe('userReducer', () => {
     expect(state.isLoading).toEqual(true);
   });
 
-  it('on RevokeRoleUserSuccess, user role should change', () => {
+  it('on RevokeRoleUserSuccess, user roles should change', () => {
     const currentState: UserState = {
-      data: [{ id: 'id', name: 'name', email: 'email', role: 'admin' }],
+      data: [{ id: 'id', name: 'name', email: 'email', roles: ['admin'] }],
       isLoading: false,
       message: '',
     };
-    const userRevoked: User = { id: 'id', name: 'name', email: 'email', role: null };
+    const userRevoked: User = { id: 'id', name: 'name', email: 'email', roles: null };
     const action = new actions.RevokeRoleUserSuccess(userRevoked);
     const state = userReducer(currentState, action);
 
