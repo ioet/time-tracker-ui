@@ -244,7 +244,7 @@ describe('DetailsFieldsComponent', () => {
       },
       shouldRestartEntry: false
     };
-    expect(component.shouldRestartEntry).toBeFalse();
+
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
 
@@ -300,6 +300,23 @@ describe('DetailsFieldsComponent', () => {
     fixture.componentInstance.ngOnChanges();
 
     expect(component.goingToWorkOnThis).toBeFalse();
+    expect(component.shouldRestartEntry).toBeFalse();
+  });
+
+  it('when editing entry is running, shouldRestartEntry should be false', () => {
+    component.entryToEdit = { ...entryToEdit, running: true };
+
+    fixture.componentInstance.ngOnChanges();
+
+    expect(component.goingToWorkOnThis).toBeTrue();
+    expect(component.shouldRestartEntry).toBeFalse();
+  });
+
+  it('when editing entry change to going to work on this shouldRestartEntry should be true', () => {
+    component.onGoingToWorkOnThisChange({ currentTarget: { checked: true } });
+
+    expect(component.goingToWorkOnThis).toBeTrue();
+    expect(component.shouldRestartEntry).toBeTrue();
   });
 
   it('when submitting a entry that is currently running, the end date should not be sent ', () => {
@@ -322,7 +339,7 @@ describe('DetailsFieldsComponent', () => {
       },
       shouldRestartEntry: false
     };
-    expect(component.shouldRestartEntry).toBeFalse();
+
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
 
