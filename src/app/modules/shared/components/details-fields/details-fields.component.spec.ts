@@ -128,14 +128,14 @@ describe('DetailsFieldsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('onClearedComponent project id and name it is set to empty', () => {
+  it('onClearedComponent project id and name are set to empty', () => {
     component.onClearedComponent(null);
 
     expect(component.project_id.value).toBe('');
     expect(component.project_name.value).toBe('');
   });
 
-  it('onSelectedProject project id and name it is set using event data', () => {
+  it('onSelectedProject project id and name are set using event data', () => {
     spyOn(component.entryForm, 'patchValue');
 
     component.onSelectedProject( {id: 'id', search_field: 'foo'} );
@@ -143,7 +143,7 @@ describe('DetailsFieldsComponent', () => {
     expect(component.entryForm.patchValue).toHaveBeenCalledWith( { project_id: 'id', project_name: 'foo', } );
   });
 
-  it('if form is invalid then no save is emited', () => {
+  it('if form is invalid then saveEntry is not emited', () => {
     spyOn(component.saveEntry, 'emit');
 
     component.onSubmit();
@@ -172,6 +172,7 @@ describe('DetailsFieldsComponent', () => {
   it('should emit ngOnChange without data', () => {
     component.entryToEdit = null;
     component.ngOnChanges();
+    expect(component.shouldRestartEntry).toBeFalse();
     expect(component.entryForm.value).toEqual(initialData);
   });
 
@@ -243,6 +244,7 @@ describe('DetailsFieldsComponent', () => {
       },
       shouldRestartEntry: false
     };
+    expect(component.shouldRestartEntry).toBeFalse();
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
 
@@ -300,14 +302,6 @@ describe('DetailsFieldsComponent', () => {
     expect(component.goingToWorkOnThis).toBeFalse();
   });
 
-  it('when editing entry that already finished, then the entry should not be marked as running', () => {
-    component.entryToEdit = { ...entryToEdit, running: false };
-
-    fixture.componentInstance.ngOnChanges();
-
-    expect(component.goingToWorkOnThis).toBeFalse();
-  });
-
   it('when submitting a entry that is currently running, the end date should not be sent ', () => {
     component.goingToWorkOnThis = true;
     spyOn(component.saveEntry, 'emit');
@@ -328,6 +322,7 @@ describe('DetailsFieldsComponent', () => {
       },
       shouldRestartEntry: false
     };
+    expect(component.shouldRestartEntry).toBeFalse();
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
   });
 
