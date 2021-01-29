@@ -126,6 +126,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   ngOnChanges(): void {
     this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running : false;
+    this.shouldRestartEntry = false;
     if (this.entryToEdit) {
       this.selectedTechnologies = this.entryToEdit.technologies;
       const projectFound = this.listProjects.find((project) => project.id === this.entryToEdit.project_id);
