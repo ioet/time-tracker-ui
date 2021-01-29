@@ -34,6 +34,18 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
         this.users = action.payload;
         this.rerenderDataTable();
       });
+
+    this.switchRoleSubscription = this.actionsSubject$
+      .pipe(
+        filter(
+          (action: any) =>
+            action.type === UserActionTypes.GRANT_USER_ROLE_SUCCESS ||
+            action.type === UserActionTypes.REVOKE_USER_ROLE_SUCCESS
+        )
+      )
+      .subscribe((action) => {
+        this.store.dispatch(new LoadUsers());
+      });
   }
 
   ngAfterViewInit(): void {
