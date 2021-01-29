@@ -40,8 +40,9 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.dtOptions = {
-      scrollY: '290px',
+      scrollY: '325px',
       paging: false,
+      responsive: true,
     };
     this.loadCustomersSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS))
@@ -49,7 +50,6 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
         this.customers = action.payload;
         this.rerenderDataTable();
       });
-
     this.changeCustomerSubscription = this.actionsSubject$
       .pipe(
         filter(
@@ -109,4 +109,5 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.message = `Are you sure you want to delete ${item.name}?`;
     this.showModal = true;
   }
+
 }
