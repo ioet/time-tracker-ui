@@ -70,6 +70,27 @@ describe('UsersListComponent', () => {
     expect(component.users).toEqual(state.data);
   });
 
+  const actionsParams = [
+    { actionType: UserActionTypes.GRANT_USER_ROLE_SUCCESS },
+    { actionType: UserActionTypes.REVOKE_USER_ROLE_SUCCESS },
+  ];
+
+  actionsParams.map((param) => {
+    it(`When action ${param.actionType} is dispatched should triggered load Users action`, () => {
+      spyOn(store, 'dispatch');
+
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+      const action = {
+        type: param.actionType,
+        payload: state.data,
+      };
+
+      actionSubject.next(action);
+
+      expect(store.dispatch).toHaveBeenCalledWith(new LoadUsers());
+    });
+  });
+
   const grantRoleTypes = [
     { roleId: 'admin', roleValue: 'time-tracker-admin' },
     { roleId: 'test', roleValue: 'time-tracker-tester' },
