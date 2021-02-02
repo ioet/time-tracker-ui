@@ -17,7 +17,7 @@ import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
 })
 export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
   dtOptions: any = {
-    scrollY: '600px',
+    scrollY: '590px',
     paging: false,
     dom: 'Bfrtip',
     buttons: [
