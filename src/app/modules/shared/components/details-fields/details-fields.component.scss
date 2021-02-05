@@ -95,7 +95,7 @@ input[type="date"]::-webkit-clear-button {
 }
 
 .valid ::ng-deep .autocomplete-container ::ng-deep .input-container ::ng-deep input  {
-  border: 1px solid #80bdff;
+  border: 1px solid $primary;
   border-radius: 0.25rem;
 }
 
