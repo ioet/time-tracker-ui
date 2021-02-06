@@ -1,3 +1,4 @@
+import { of } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { StopTimeEntryRunning, EntryActionTypes, LoadEntriesSummary } from './../store/entry.actions';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -11,12 +12,14 @@ import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import { ActionsSubject } from '@ngrx/store';
 import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
 import { ToastrService } from 'ngx-toastr';
+import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
   let store: MockStore<ProjectState>;
   let azureAdB2CService: AzureAdB2CService;
+  let featureManagerService: FeatureManagerService;
   const actionSub: ActionsSubject = new ActionsSubject();
 
   let injectedToastrService;
@@ -69,6 +72,7 @@ describe('TimeClockComponent', () => {
     fixture.detectChanges();
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
     injectedToastrService = TestBed.inject(ToastrService);
+    featureManagerService = TestBed.inject(FeatureManagerService);
   });
 
   it('should be created', () => {
@@ -141,5 +145,15 @@ describe('TimeClockComponent', () => {
     component.clockOut();
 
     expect(injectedToastrService.error).toHaveBeenCalled();
+  });
+
+  const exponentialGrowth = [true, false];
+  exponentialGrowth.map((toggleValue) => {
+    it(`when FeatureToggle is ${toggleValue} should return true`, () => {
+      spyOn(featureManagerService, 'isToggleEnabled').and.returnValue(of(toggleValue));
+      const isFeatureToggleActivated: Promise<boolean> = component.isFeatureToggleActivated();
+      expect(featureManagerService.isToggleEnabled).toHaveBeenCalled();
+      isFeatureToggleActivated.then((value) => expect(value).toEqual(toggleValue));
+    });
   });
 });

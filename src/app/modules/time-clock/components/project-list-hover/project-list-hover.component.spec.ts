@@ -5,18 +5,20 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
 import { UpdateEntryRunning } from '../../store/entry.actions';
 import { ProjectListHoverComponent } from './project-list-hover.component';
+import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 
 describe('ProjectListHoverComponent', () => {
   let component: ProjectListHoverComponent;
   let fixture: ComponentFixture<ProjectListHoverComponent>;
   let store: MockStore<ProjectState>;
   let mockProjectsSelector;
+  let featureManagerService: FeatureManagerService;
   const toastrServiceStub = {
     error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
   };
@@ -56,6 +58,7 @@ describe('ProjectListHoverComponent', () => {
     fixture = TestBed.createComponent(ProjectListHoverComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    featureManagerService = TestBed.inject(FeatureManagerService);
   });
 
   it('should create', () => {
@@ -118,7 +121,15 @@ describe('ProjectListHoverComponent', () => {
       .toHaveBeenCalledWith({ project_id: 'customer - xyz'});
   });
 
-
+  const exponentialGrowth = [true, false];
+  exponentialGrowth.map((toggleValue) => {
+    it(`when FeatureToggle is ${toggleValue} should return true`, () => {
+      spyOn(featureManagerService, 'isToggleEnabled').and.returnValue(of(toggleValue));
+      const isFeatureToggleActivated: Promise<boolean> = component.isFeatureToggleActivated();
+      expect(featureManagerService.isToggleEnabled).toHaveBeenCalled();
+      isFeatureToggleActivated.then((value) => expect(value).toEqual(toggleValue));
+    });
+  });
   // TODO Fix this test since it is throwing this error
   // Expected spy dispatch to have been called with:
   // [CreateEntry({ payload: Object({ project_id: '1', start_date: '2020-07-27T22:30:26.743Z', timezone_offset: 300 }),
@@ -140,5 +151,4 @@ describe('ProjectListHoverComponent', () => {
   //     })
   //   );
   // });
-
 });

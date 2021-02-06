@@ -2,12 +2,15 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+
+import { filter, map } from 'rxjs/operators';
+import { threadId } from 'worker_threads';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
 import { Entry } from './../../shared/models/entry.model';
 import { EntryActionTypes, LoadEntriesSummary, StopTimeEntryRunning } from './../store/entry.actions';
 import { getActiveTimeEntry } from './../store/entry.selectors';
+import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 @Component({
   selector: 'app-time-clock',
   templateUrl: './time-clock.component.html',
@@ -20,22 +23,27 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   areFieldsVisible = false;
   activeTimeEntry: Entry;
   clockOutSubscription: Subscription;
+  storeSubscribe: Subscription;
+  storeSubject;
+  exponentialGrowth;
+
 
 
   constructor(
+    private featureManagerService: FeatureManagerService,
     private azureAdB2CService: AzureAdB2CService,
     private store: Store<Entry>,
     private toastrService: ToastrService,
     private actionsSubject$: ActionsSubject
   ) {}
 
-  ngOnDestroy(): void {
-    this.clockOutSubscription.unsubscribe();
-  }
+  async ngOnInit(): Promise<void> {
 
-  ngOnInit() {
+    this.exponentialGrowth = await this.isFeatureToggleActivated();
+
     this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
-    this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
+
+    this.storeSubscribe = this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
       this.activeTimeEntry = activeTimeEntry;
       if (this.activeTimeEntry) {
         this.areFieldsVisible = true;
@@ -43,9 +51,10 @@ export class TimeClockComponent implements OnInit, OnDestroy {
         this.areFieldsVisible = false;
       }
     });
+    // tslint:disable-next-line
+    this.exponentialGrowth ? this.storeSubscribe = this.storeSubject : this.storeSubject;
 
     this.reloadSummariesOnClockOut();
-
   }
 
   reloadSummariesOnClockOut() {
@@ -72,4 +81,22 @@ export class TimeClockComponent implements OnInit, OnDestroy {
       this.toastrService.error('Activity is required');
     }
   }
+
+ ngOnDestroy(): void {
+  // tslint:disable-next-line
+  this.exponentialGrowth && this.storeSubscribe.unsubscribe();
+  this.clockOutSubscription.unsubscribe();
+  this.storeSubscribe.unsubscribe();
 }
+
+isFeatureToggleActivated() {
+  return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
+     map((enabled) => {
+       return enabled === true ? true : false;
+     })
+   ).toPromise();
+}
+
+}
+
+

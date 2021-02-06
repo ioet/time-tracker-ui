@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
-import { delay, filter } from 'rxjs/operators';
+import { delay, filter, map } from 'rxjs/operators';
 import { Project } from 'src/app/modules/shared/models';
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
@@ -11,13 +11,13 @@ import * as entryActions from '../../store/entry.actions';
 import { getIsLoading, getProjects } from './../../../customer-management/components/projects/components/store/project.selectors';
 import { EntryActionTypes } from './../../store/entry.actions';
 import { getActiveTimeEntry } from './../../store/entry.selectors';
+import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 @Component({
   selector: 'app-project-list-hover',
   templateUrl: './project-list-hover.component.html',
   styleUrls: ['./project-list-hover.component.scss'],
 })
 export class ProjectListHoverComponent implements OnInit, OnDestroy {
-
   keyword = 'search_field';
   listProjects: Project[] = [];
   activeEntry;
@@ -25,17 +25,26 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   showClockIn: boolean;
   updateEntrySubscription: Subscription;
   isLoading$: Observable<boolean>;
+  projectsSubscribe: Subscription;
+  activeEntrySubscribe: Subscription;
+  projectsSubject;
+  activeEntrySubject;
+  exponentialGrowth;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<ProjectState>,
+  constructor(private featureManagerService: FeatureManagerService,
+              private formBuilder: FormBuilder, private store: Store<ProjectState>,
               private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
     this.projectsForm = this.formBuilder.group({ project_id: null, });
     this.isLoading$ = this.store.pipe(delay(0), select(getIsLoading));
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
+    this.exponentialGrowth = await this.isFeatureToggleActivated();
+
     this.store.dispatch(new actions.LoadProjects());
     const projects$ = this.store.pipe(select(getProjects));
-    projects$.subscribe((projects) => {
+    this.projectsSubject = projects$.subscribe((projects) => {
       this.listProjects = [];
       projects.forEach((project) => {
           const projectWithSearchField = {...project};
@@ -45,7 +54,8 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       );
       this.loadActiveTimeEntry();
     });
-
+    // tslint:disable-next-line
+    this.exponentialGrowth  ? this.projectsSubscribe = this.projectsSubject : this.projectsSubject;
     this.updateEntrySubscription = this.actionsSubject$.pipe(
       filter((action: any) => (
           action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS
@@ -61,7 +71,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   loadActiveTimeEntry() {
     this.store.dispatch(new entryActions.LoadActiveEntry());
     const activeEntry$ = this.store.pipe(select(getActiveTimeEntry));
-    activeEntry$.subscribe((activeEntry) => {
+    this.activeEntrySubject = activeEntry$.subscribe((activeEntry) => {
       this.activeEntry = activeEntry;
       if (activeEntry) {
         this.showClockIn = false;
@@ -71,8 +81,9 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
         this.projectsForm.setValue({ project_id: null });
       }
     });
+    // tslint:disable-next-line
+    this.exponentialGrowth  ? this.activeEntrySubscribe = this.activeEntrySubject : this.activeEntrySubject;
   }
-
   setSelectedProject() {
     this.listProjects.forEach( (project) => {
       if (project.id === this.activeEntry.project_id) {
@@ -110,6 +121,18 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.exponentialGrowth) {
+      this.projectsSubscribe.unsubscribe();
+      this.activeEntrySubscribe.unsubscribe();
+    }
     this.updateEntrySubscription.unsubscribe();
+  }
+
+  isFeatureToggleActivated() {
+    return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
+       map((enabled) => {
+         return enabled === true ? true : false;
+       })
+     ).toPromise();
   }
 }

@@ -1,3 +1,4 @@
+import { Observable, of } from 'rxjs';
 import { LoadActiveEntry, EntryActionTypes, UpdateEntry } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
@@ -15,6 +16,7 @@ import { formatDate } from '@angular/common';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import * as moment from 'moment';
 import { DATE_FORMAT_YEAR } from 'src/environments/environment';
+import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 
 describe('EntryFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState;
@@ -24,6 +26,7 @@ describe('EntryFieldsComponent', () => {
   let mockTechnologySelector;
   let mockProjectsSelector;
   let entryForm;
+  let featureManagerService: FeatureManagerService;
   const actionSub: ActionsSubject = new ActionsSubject();
   const toastrServiceStub = {
     error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
@@ -114,6 +117,7 @@ describe('EntryFieldsComponent', () => {
     entryForm = TestBed.inject(FormBuilder);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
+    featureManagerService = TestBed.inject(FeatureManagerService);
   }));
 
   beforeEach(() => {
@@ -136,8 +140,6 @@ describe('EntryFieldsComponent', () => {
 
     spyOn(component.entryForm, 'patchValue');
 
-    component.setDataToUpdate(entry);
-
     expect(component.entryForm.patchValue).toHaveBeenCalledTimes(1);
     expect(component.entryForm.patchValue).toHaveBeenCalledWith(
       {
@@ -151,11 +153,22 @@ describe('EntryFieldsComponent', () => {
     expect(component.selectedTechnologies).toEqual([]);
   });
 
+  const exponentialGrowth = [true, false];
+  exponentialGrowth.map((toggleValue) => {
+    it(`when FeatureToggle is ${toggleValue} should return true`, () => {
+      spyOn(featureManagerService, 'isToggleEnabled').and.returnValue(of(toggleValue));
+      const isFeatureToggleActivated: Promise<boolean> = component.isFeatureToggleActivated();
+      expect(featureManagerService.isToggleEnabled).toHaveBeenCalled();
+      isFeatureToggleActivated.then((value) => expect(value).toEqual(toggleValue));
+    });
+  });
+
   it('displays error message when the date selected is in the future', () => {
     const mockEntry = { ...entry,
       start_date : moment().format(DATE_FORMAT_YEAR),
       start_hour : moment().format('HH:mm')
     };
+
     component.newData = mockEntry;
     component.activeEntry = mockEntry ;
     component.setDataToUpdate(mockEntry);
@@ -411,5 +424,4 @@ describe('EntryFieldsComponent', () => {
 
     expect(component.selectedTechnologies).toBe(initialTechnologies);
   });
-
 });
