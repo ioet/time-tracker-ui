@@ -248,7 +248,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   onclickFormAction(isProjectSelected: boolean){
     if (isProjectSelected){
-      this.toastrService.warning('Please, select first a project');
+      this.toastrService.warning('Please, first select a project');
     }
   }
 
