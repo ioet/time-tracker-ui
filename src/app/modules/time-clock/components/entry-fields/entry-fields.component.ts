@@ -9,7 +9,6 @@ import { ProjectState } from '../../../customer-management/components/projects/c
 import { TechnologyState } from '../../../shared/store/technology.reducers';
 import { ActivityState, LoadActivities } from '../../../activities-management/store';
 import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
-
 import * as entryActions from '../../store/entry.actions';
 import { get } from 'lodash';
 import * as moment from 'moment';
@@ -37,10 +36,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   loadActivitiesSubscribe: Subscription;
   loadActiveEntrySubscribe: Subscription;
   actionSetDateSubscribe: Subscription;
-  loadActivitiesSubject;
-  loadActiveEntrySubject;
-  actionSetDateSubject;
-
   exponentialGrowth;
 
   constructor(
@@ -59,20 +54,17 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     });
   }
 
-
   async ngOnInit(): Promise<void> {
     this.exponentialGrowth = await this.isFeatureToggleActivated();
     this.store.dispatch(new LoadActivities());
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1, new Date().getFullYear()));
-    this.loadActivitiesSubject = this.actionsSubject$
+    this.loadActivitiesSubscribe = this.actionsSubject$
       .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
       .subscribe((action) => {
         this.activities = action.payload;
         this.store.dispatch(new LoadActiveEntry());
       });
-    // tslint:disable-next-line
-    this.exponentialGrowth ? this.loadActivitiesSubscribe = this.loadActivitiesSubject : this.loadActivitiesSubject;
-    this.loadActiveEntrySubject = this.actionsSubject$
+    this.loadActiveEntrySubscribe = this.actionsSubject$
       .pipe(
         filter(
           (action: any) =>
@@ -90,9 +82,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
           this.store.dispatch(new entryActions.LoadEntriesSummary());
         }
       });
-      // tslint:disable-next-line
-    this.exponentialGrowth ? this.loadActiveEntrySubscribe = this.loadActiveEntrySubject : this.loadActiveEntrySubject;
-    this.actionSetDateSubject = this.actionsSubject$
+    this.actionSetDateSubscribe = this.actionsSubject$
       .pipe(filter((action: any) => action.type === EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS))
       .subscribe((action) => {
         this.activeEntry = action.payload;
@@ -106,8 +96,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
           start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en'),
         };
     });
-      // tslint:disable-next-line
-      this.exponentialGrowth ? this.actionSetDateSubscribe = this.actionSetDateSubject : this.actionSetDateSubject;
   }
   get activity_id() {
     return this.entryForm.get('activity_id');
@@ -191,7 +179,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-
     if (this.exponentialGrowth) {
       this.loadActivitiesSubscribe.unsubscribe();
       this.loadActiveEntrySubscribe.unsubscribe();
@@ -200,10 +187,10 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   }
 
   isFeatureToggleActivated() {
-     return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
-        map((enabled) => {
+    return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
+      map((enabled) => {
           return enabled === true ? true : false;
-        })
-      ).toPromise();
+      })
+    ).toPromise();
   }
 }

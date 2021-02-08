@@ -27,8 +27,6 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   projectsSubscribe: Subscription;
   activeEntrySubscribe: Subscription;
-  projectsSubject;
-  activeEntrySubject;
   exponentialGrowth;
 
   constructor(private featureManagerService: FeatureManagerService,
@@ -39,12 +37,10 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-
     this.exponentialGrowth = await this.isFeatureToggleActivated();
-
     this.store.dispatch(new actions.LoadProjects());
     const projects$ = this.store.pipe(select(getProjects));
-    this.projectsSubject = projects$.subscribe((projects) => {
+    this.projectsSubscribe = projects$.subscribe((projects) => {
       this.listProjects = [];
       projects.forEach((project) => {
           const projectWithSearchField = {...project};
@@ -54,8 +50,6 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       );
       this.loadActiveTimeEntry();
     });
-    // tslint:disable-next-line
-    this.exponentialGrowth  ? this.projectsSubscribe = this.projectsSubject : this.projectsSubject;
     this.updateEntrySubscription = this.actionsSubject$.pipe(
       filter((action: any) => (
           action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS
@@ -65,13 +59,12 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       this.activeEntry = action.payload;
       this.setSelectedProject();
     });
-
   }
 
   loadActiveTimeEntry() {
     this.store.dispatch(new entryActions.LoadActiveEntry());
     const activeEntry$ = this.store.pipe(select(getActiveTimeEntry));
-    this.activeEntrySubject = activeEntry$.subscribe((activeEntry) => {
+    this.activeEntrySubscribe = activeEntry$.subscribe((activeEntry) => {
       this.activeEntry = activeEntry;
       if (activeEntry) {
         this.showClockIn = false;
@@ -81,9 +74,8 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
         this.projectsForm.setValue({ project_id: null });
       }
     });
-    // tslint:disable-next-line
-    this.exponentialGrowth  ? this.activeEntrySubscribe = this.activeEntrySubject : this.activeEntrySubject;
   }
+  
   setSelectedProject() {
     this.listProjects.forEach( (project) => {
       if (project.id === this.activeEntry.project_id) {
@@ -130,9 +122,9 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
 
   isFeatureToggleActivated() {
     return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
-       map((enabled) => {
+      map((enabled) => {
          return enabled === true ? true : false;
-       })
-     ).toPromise();
+      })
+    ).toPromise();
   }
 }

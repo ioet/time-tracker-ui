@@ -24,10 +24,7 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   activeTimeEntry: Entry;
   clockOutSubscription: Subscription;
   storeSubscribe: Subscription;
-  storeSubject;
   exponentialGrowth;
-
-
 
   constructor(
     private featureManagerService: FeatureManagerService,
@@ -38,11 +35,8 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
-
     this.exponentialGrowth = await this.isFeatureToggleActivated();
-
     this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
-
     this.storeSubscribe = this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
       this.activeTimeEntry = activeTimeEntry;
       if (this.activeTimeEntry) {
@@ -51,9 +45,6 @@ export class TimeClockComponent implements OnInit, OnDestroy {
         this.areFieldsVisible = false;
       }
     });
-    // tslint:disable-next-line
-    this.exponentialGrowth ? this.storeSubscribe = this.storeSubject : this.storeSubject;
-
     this.reloadSummariesOnClockOut();
   }
 
@@ -83,20 +74,18 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   }
 
  ngOnDestroy(): void {
-  // tslint:disable-next-line
   this.exponentialGrowth && this.storeSubscribe.unsubscribe();
   this.clockOutSubscription.unsubscribe();
   this.storeSubscribe.unsubscribe();
 }
 
-isFeatureToggleActivated() {
-  return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
-     map((enabled) => {
-       return enabled === true ? true : false;
-     })
-   ).toPromise();
-}
-
+  isFeatureToggleActivated() {
+    return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
+      map((enabled) => {
+        return enabled === true ? true : false;
+      })
+    ).toPromise();
+  }
 }
 
 
