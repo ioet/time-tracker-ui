@@ -123,3 +123,8 @@ You can visit the app in the following link:
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Feature Toggles dictionary
+
+Shared file with all the Feature Toggles we create, so we can have a history of them
+[Feature Toggles dictionary](https://github.com/ioet/time-tracker-ui/wiki/Feature-Toggles-dictionary)
