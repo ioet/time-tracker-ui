@@ -93,3 +93,13 @@ input[type="date"]::-webkit-clear-button {
   border: none;
   margin: 0em;
 }
+
+.valid ::ng-deep .autocomplete-container ::ng-deep .input-container ::ng-deep input  {
+  border: 1px solid $primary;
+  border-radius: 0.25rem;
+}
+
+.timepicker-input ::ng-deep div{
+  border-radius: 0.25rem;
+}
+

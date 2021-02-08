@@ -246,6 +246,12 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.saveEntry.emit({ entry, shouldRestartEntry: this.shouldRestartEntry });
   }
 
+  onclickFormAction(isProjectSelected: boolean){
+    if (isProjectSelected){
+      this.toastrService.warning('Please, first select a project');
+    }
+  }
+
   onGoingToWorkOnThisChange(event: any) {
     this.goingToWorkOnThis = event.currentTarget.checked;
     if (!this.goingToWorkOnThis) {

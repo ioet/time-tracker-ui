@@ -1,13 +1,20 @@
 <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
-  <label *ngIf='canMarkEntryAsWIP'><input id='isEntryRunning' type="checkbox" (change)="onGoingToWorkOnThisChange($event)" [checked]="goingToWorkOnThis"> I am working on
-    this</label>
+  <label *ngIf="canMarkEntryAsWIP">
+    <input
+      id="isEntryRunning"
+      type="checkbox"
+      (change)="onGoingToWorkOnThisChange($event)"
+      [checked]="goingToWorkOnThis"
+    />
+    I am working on this
+  </label>
 
   <div class="form-group row">
     <label class="col-12 col-sm-2 col-form-label">Project:</label>
     <div class="col-12 col-sm-10 autocomplete">
       <ng-autocomplete
-        (selected)='onSelectedProject($event)'
-        (inputCleared)='onClearedComponent($event)'
+        (selected)="onSelectedProject($event)"
+        (inputCleared)="onClearedComponent($event)"
         formControlName="project_name"
         [data]="listProjects"
         [searchKeyword]="keyword"
@@ -15,7 +22,9 @@
         notFoundText="No projects found"
         placeHolder="Enter the project name"
         [itemTemplate]="itemTemplate"
-        [notFoundTemplate]="notFoundTemplate">
+        [notFoundTemplate]="notFoundTemplate"
+        [class.valid]="project_name.invalid"
+      >
       </ng-autocomplete>
 
       <ng-template #itemTemplate let-item>
@@ -33,108 +42,115 @@
       <!-- <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar> -->
     </div>
   </div>
+  <div (click)="onclickFormAction(!(project_id.value && project_name.value))">
+    <fieldset [disabled]="!(project_id.value && project_name.value)">
+      <div class="form-group row">
+        <label class="col-12 col-sm-2 col-form-label">Activity:</label>
+        <div class="col-12 col-sm-10">
+          <select
+            [class.is-invalid]="activity_id.invalid && activity_id.touched"
+            required
+            id="activity_id"
+            class="custom-select"
+            formControlName="activity_id"
+          >
+            <option value="" selected="selected"></option>
+            <option *ngFor="let activity of activities" value="{{ activity.id }}">{{ activity.name }}</option>
+          </select>
+        </div>
+        <div
+          class="invalid-feedback"
+          *ngIf="(activity_id.dirty || activity_id.touched) && activity_id.invalid && activity_id.errors.required"
+        ></div>
+      </div>
 
+      <div class="form-group row">
+        <label class="col-12 col-sm-2 col-form-label">Ticket:</label>
+        <div class="col-12 col-sm-10">
+          <input
+            formControlName="uri"
+            id="uri"
+            type="text"
+            class="form-control"
+            aria-label="Small"
+            aria-describedby="inputGroup-sizing-sm"
+          />
+        </div>
+      </div>
 
-  <div class="form-group row">
-    <label class="col-12 col-sm-2 col-form-label">Activity:</label>
-    <div class="col-12 col-sm-10">
-      <select
-        [class.is-invalid]="activity_id.invalid"
-        required
-        id="activity_id"
-        class="custom-select"
-        formControlName="activity_id"
+      <div class="form-group row">
+        <label class="col-12 col-sm-2">Date in:</label>
+        <div class="col-12 col-sm-4">
+          <input
+            formControlName="start_date"
+            id="start_date"
+            type="date"
+            class="form-control"
+            aria-label="Small"
+            aria-describedby="inputGroup-sizing-sm"
+            [class.is-invalid]="start_date.invalid && start_date.touched"
+            required
+          />
+        </div>
+
+        <label class="col-12 col-sm-2">Time in:</label>
+        <div class="col-12 col-sm-4">
+          <ngx-timepicker-field
+            [format]="24"
+            formControlName="start_hour"
+            id="start_hour"
+            [disabled]="!(project_name.value && project_id.value)"
+            class="timepicker-input"
+          ></ngx-timepicker-field>
+        </div>
+      </div>
+
+      <div class="form-group row" *ngIf="!goingToWorkOnThis">
+        <label class="col-12 col-sm-2">Date out:</label>
+        <div class="col-12 col-sm-4">
+          <input
+            formControlName="end_date"
+            id="end_date"
+            type="date"
+            class="form-control"
+            aria-label="Small"
+            aria-describedby="inputGroup-sizing-sm"
+            [class.is-invalid]="end_date.invalid && end_date.touched"
+            required
+          />
+        </div>
+
+        <label class="col-12 col-sm-2">Time out:</label>
+        <div class="col-12 col-sm-4">
+          <ngx-timepicker-field
+            [format]="24"
+            formControlName="end_hour"
+            id="end_hour"
+            [disabled]="!(project_name.value && project_id.value)"
+            class="timepicker-input"
+            ></ngx-timepicker-field>
+        </div>
+      </div>
+
+      <app-technologies
+        (technologyAdded)="onTechnologiesUpdated($event)"
+        (technologyRemoved)="onTechnologiesUpdated($event)"
+        [selectedTechnologies]="selectedTechnologies"
       >
-        <option value="" selected="selected"></option>
-        <option *ngFor="let activity of activities" value="{{ activity.id }}">{{ activity.name }}</option>
-      </select>
-    </div>
-    <div
-      class="invalid-feedback"
-      *ngIf="(activity_id.dirty || activity_id.touched) && activity_id.invalid && activity_id.errors.required"
-    ></div>
-  </div>
+      </app-technologies>
 
-
-  <div class="form-group row">
-    <label class="col-12 col-sm-2 col-form-label">Ticket:</label>
-    <div class="col-12 col-sm-10">
-      <input
-        formControlName="uri"
-        id="uri"
-        type="text"
+      <div class="form-group text-left">
+        <label for="NotesTextarea">Description:</label>
+        <textarea
+        maxlength="1500"
+        formControlName="description"
         class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-      />
-    </div>
-  </div>
-
-
-  <div class="form-group row">
-    <label class="col-12 col-sm-2">Date in:</label>
-    <div class="col-12 col-sm-4">
-      <input
-        formControlName="start_date"
-        id="start_date"
-        type="date"
-        class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-        [class.is-invalid]="start_date.invalid && start_date.touched"
-        required
-      />
-    </div>
-
-    <label class="col-12 col-sm-2">Time in:</label>
-    <div class="col-12 col-sm-4">
-      <ngx-timepicker-field
-          [format]="24"
-          formControlName="start_hour"
-          id="start_hour"
-        ></ngx-timepicker-field>
-    </div>
-  </div>
-
-
-  <div class="form-group row" *ngIf="!goingToWorkOnThis">
-    <label class="col-12 col-sm-2">Date out:</label>
-    <div class="col-12 col-sm-4">
-      <input
-        formControlName="end_date"
-        id="end_date"
-        type="date"
-        class="form-control"
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-        [class.is-invalid]="end_date.invalid && end_date.touched"
-        required
-      />
-    </div>
-
-    <label class="col-12 col-sm-2">Time out:</label>
-    <div class="col-12 col-sm-4">
-      <ngx-timepicker-field
-      [format]="24"
-      formControlName="end_hour"
-      id="end_hour"
-    ></ngx-timepicker-field>
-    </div>
-  </div>
-
-
-  <app-technologies
-    (technologyAdded)="onTechnologiesUpdated($event)"
-    (technologyRemoved)="onTechnologiesUpdated($event)"
-    [selectedTechnologies]="selectedTechnologies"
-  >
-  </app-technologies>
-
-
-  <div class="form-group text-left">
-    <label for="NotesTextarea">Description:</label>
-    <textarea maxlength="1500" formControlName="description" class="form-control" id="NotesTextarea"
-              rows="3"></textarea>
+        id="NotesTextarea"
+        rows="3"
+        >
+        </textarea>
+      </div>
+    </fieldset>
   </div>
   <div class="modal-footer">
     <button type="submit" class="btn btn-primary">Save</button>
