@@ -72,7 +72,7 @@ describe('TimeClockComponent', () => {
     fixture.detectChanges();
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
     injectedToastrService = TestBed.inject(ToastrService);
-    featureManagerService = TestBed.inject(FeatureManagerService);
+    // featureManagerService = TestBed.inject(FeatureManagerService);
   });
 
   it('should be created', () => {
@@ -147,13 +147,13 @@ describe('TimeClockComponent', () => {
     expect(injectedToastrService.error).toHaveBeenCalled();
   });
 
-  const exponentialGrowth = [true, false];
-  exponentialGrowth.map((toggleValue) => {
-    it(`when FeatureToggle is ${toggleValue} should return true`, () => {
-      spyOn(featureManagerService, 'isToggleEnabled').and.returnValue(of(toggleValue));
-      const isFeatureToggleActivated: Promise<boolean> = component.isFeatureToggleActivated();
-      expect(featureManagerService.isToggleEnabled).toHaveBeenCalled();
-      isFeatureToggleActivated.then((value) => expect(value).toEqual(toggleValue));
-    });
-  });
+  // const exponentialGrowth = [true, false];
+  // exponentialGrowth.map((toggleValue) => {
+  //   it(`when FeatureToggle is ${toggleValue} should return true`, () => {
+  //     spyOn(featureManagerService, 'isToggleEnabled').and.returnValue(of(toggleValue));
+  //     const isFeatureToggleActivated: Promise<boolean> = component.isFeatureToggleActivated();
+  //     expect(featureManagerService.isToggleEnabled).toHaveBeenCalled();
+  //     isFeatureToggleActivated.then((value) => expect(value).toEqual(toggleValue));
+  //   });
+  // });
 });

@@ -25,8 +25,8 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   showClockIn: boolean;
   updateEntrySubscription: Subscription;
   isLoading$: Observable<boolean>;
-  projectsSubscribe: Subscription;
-  activeEntrySubscribe: Subscription;
+  projectsSubscription: Subscription;
+  activeEntrySubscription: Subscription;
   exponentialGrowth;
 
   constructor(private featureManagerService: FeatureManagerService,
@@ -36,11 +36,10 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.store.pipe(delay(0), select(getIsLoading));
   }
 
-  async ngOnInit(): Promise<void> {
-    this.exponentialGrowth = await this.isFeatureToggleActivated();
+   ngOnInit(): void {
     this.store.dispatch(new actions.LoadProjects());
     const projects$ = this.store.pipe(select(getProjects));
-    this.projectsSubscribe = projects$.subscribe((projects) => {
+    this.projectsSubscription = projects$.subscribe((projects) => {
       this.listProjects = [];
       projects.forEach((project) => {
           const projectWithSearchField = {...project};
@@ -64,7 +63,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   loadActiveTimeEntry() {
     this.store.dispatch(new entryActions.LoadActiveEntry());
     const activeEntry$ = this.store.pipe(select(getActiveTimeEntry));
-    this.activeEntrySubscribe = activeEntry$.subscribe((activeEntry) => {
+    this.activeEntrySubscription = activeEntry$.subscribe((activeEntry) => {
       this.activeEntry = activeEntry;
       if (activeEntry) {
         this.showClockIn = false;
@@ -75,7 +74,6 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
   setSelectedProject() {
     this.listProjects.forEach( (project) => {
       if (project.id === this.activeEntry.project_id) {
@@ -112,10 +110,11 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.exponentialGrowth) {
-      this.projectsSubscribe.unsubscribe();
-      this.activeEntrySubscribe.unsubscribe();
+  async ngOnDestroy(): Promise<void> {
+    this.exponentialGrowth = await this.isFeatureToggleActivated();
+    if(this.exponentialGrowth){
+      this.projectsSubscription.unsubscribe();
+      this.activeEntrySubscription.unsubscribe();
     }
     this.updateEntrySubscription.unsubscribe();
   }

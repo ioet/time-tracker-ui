@@ -58,7 +58,7 @@ describe('ProjectListHoverComponent', () => {
     fixture = TestBed.createComponent(ProjectListHoverComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    featureManagerService = TestBed.inject(FeatureManagerService);
+    // featureManagerService = TestBed.inject(FeatureManagerService);
   });
 
   it('should create', () => {
@@ -110,6 +110,29 @@ describe('ProjectListHoverComponent', () => {
     expect(component.updateEntrySubscription.unsubscribe).toHaveBeenCalled();
   });
 
+  // it('calls projectsSubscribe unsubscribe on ngDestroy', () => {
+  //   component.projectsSubscription = new Subscription();
+  //   spyOn(component.projectsSubscribe, 'unsubscribe');
+    
+  //     component.ngOnDestroy();
+    
+  //   expect(component.projectsSubscribe.unsubscribe).toHaveBeenCalledTimes(1);
+  // });
+
+  // fit('When Component is created, should call the feature toggle method', () => {
+  //   // component.exponentialGrowth = true;
+  //   component.projectsSubscribe = new Subscription();
+  //   component.activeEntrySubscribe = new Subscription();
+  //   spyOn(component.projectsSubscribe, 'unsubscribe');
+  //   spyOn(component.activeEntrySubscribe, 'unsubscribe');
+
+  //   component.ngOnDestroy();
+
+  //   expect(component.projectsSubscribe.unsubscribe).toHaveBeenCalled();
+  //   expect(component.activeEntrySubscribe.unsubscribe).toHaveBeenCalled();
+  
+  // });
+
   it('sets customer name and project name on setSelectedProject', () => {
     spyOn(component.projectsForm, 'setValue');
     component.activeEntry = { project_id : 'p1'};
@@ -121,15 +144,28 @@ describe('ProjectListHoverComponent', () => {
       .toHaveBeenCalledWith({ project_id: 'customer - xyz'});
   });
 
-  const exponentialGrowth = [true, false];
-  exponentialGrowth.map((toggleValue) => {
-    it(`when FeatureToggle is ${toggleValue} should return true`, () => {
-      spyOn(featureManagerService, 'isToggleEnabled').and.returnValue(of(toggleValue));
-      const isFeatureToggleActivated: Promise<boolean> = component.isFeatureToggleActivated();
-      expect(featureManagerService.isToggleEnabled).toHaveBeenCalled();
-      isFeatureToggleActivated.then((value) => expect(value).toEqual(toggleValue));
-    });
-  });
+  // const exponentialGrowth = [true, false];
+  // exponentialGrowth.map((toggleValue) => {
+  //   it(`when FeatureToggle is ${toggleValue} should return ${toggleValue}`, () => {
+  //     spyOn(featureManagerService, 'isToggleEnabled').and.returnValue(of(toggleValue));
+  //     const isFeatureToggleActivated: Promise<boolean> = component.isFeatureToggleActivated();
+  //     expect(featureManagerService.isToggleEnabled).toHaveBeenCalled();
+  //     isFeatureToggleActivated.then((value) => expect(value).toEqual(toggleValue));
+  //   });
+  // });
+
+  // it('deleteProject, should dispatch DeleteProject action', () => {
+  //   component.projectsSubscription = new Subscription();
+  //   const subscription = spyOn(component.projectsSubscription, 'unsubscribe');
+
+  //   component.idToDelete = project.id;
+  //   spyOn(store, 'dispatch');
+  //   component.deleteProject();
+  //   component.ngOnDestroy();
+  //   expect(subscription).toHaveBeenCalledTimes(1);
+  //   expect(store.dispatch).toHaveBeenCalledTimes(1);
+  //   expect(store.dispatch).toHaveBeenCalledWith(new DeleteProject(project.id));
+  // });
   // TODO Fix this test since it is throwing this error
   // Expected spy dispatch to have been called with:
   // [CreateEntry({ payload: Object({ project_id: '1', start_date: '2020-07-27T22:30:26.743Z', timezone_offset: 300 }),

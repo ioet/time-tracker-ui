@@ -23,7 +23,7 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   areFieldsVisible = false;
   activeTimeEntry: Entry;
   clockOutSubscription: Subscription;
-  storeSubscribe: Subscription;
+  storeSubscription: Subscription;
   exponentialGrowth;
 
   constructor(
@@ -34,10 +34,10 @@ export class TimeClockComponent implements OnInit, OnDestroy {
     private actionsSubject$: ActionsSubject
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    this.exponentialGrowth = await this.isFeatureToggleActivated();
+   ngOnInit(): void{
+   
     this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
-    this.storeSubscribe = this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
+    this.storeSubscription = this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
       this.activeTimeEntry = activeTimeEntry;
       if (this.activeTimeEntry) {
         this.areFieldsVisible = true;
@@ -73,10 +73,11 @@ export class TimeClockComponent implements OnInit, OnDestroy {
     }
   }
 
- ngOnDestroy(): void {
-  this.exponentialGrowth && this.storeSubscribe.unsubscribe();
+ async ngOnDestroy(): Promise<void> {
+  this.exponentialGrowth = await this.isFeatureToggleActivated();
+  this.exponentialGrowth && this.storeSubscription.unsubscribe();
   this.clockOutSubscription.unsubscribe();
-  this.storeSubscribe.unsubscribe();
+  this.storeSubscription.unsubscribe();
 }
 
   isFeatureToggleActivated() {

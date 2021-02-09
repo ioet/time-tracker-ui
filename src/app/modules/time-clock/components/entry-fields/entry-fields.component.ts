@@ -33,9 +33,9 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   newData;
   lastEntry;
   showTimeInbuttons = false;
-  loadActivitiesSubscribe: Subscription;
-  loadActiveEntrySubscribe: Subscription;
-  actionSetDateSubscribe: Subscription;
+  loadActivitiesSubscription: Subscription;
+  loadActiveEntrySubscription: Subscription;
+  actionSetDateSubscription: Subscription;
   exponentialGrowth;
 
   constructor(
@@ -54,17 +54,16 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     });
   }
 
-  async ngOnInit(): Promise<void> {
-    this.exponentialGrowth = await this.isFeatureToggleActivated();
+   ngOnInit(): void {
     this.store.dispatch(new LoadActivities());
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1, new Date().getFullYear()));
-    this.loadActivitiesSubscribe = this.actionsSubject$
+    this.loadActivitiesSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
       .subscribe((action) => {
         this.activities = action.payload;
         this.store.dispatch(new LoadActiveEntry());
       });
-    this.loadActiveEntrySubscribe = this.actionsSubject$
+    this.loadActiveEntrySubscription = this.actionsSubject$
       .pipe(
         filter(
           (action: any) =>
@@ -82,7 +81,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
           this.store.dispatch(new entryActions.LoadEntriesSummary());
         }
       });
-    this.actionSetDateSubscribe = this.actionsSubject$
+    this.actionSetDateSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS))
       .subscribe((action) => {
         this.activeEntry = action.payload;
@@ -178,11 +177,12 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   }
 
 
-  ngOnDestroy(): void {
+  async ngOnDestroy():Promise<void>  {
+    this.exponentialGrowth = await this.isFeatureToggleActivated();
     if (this.exponentialGrowth) {
-      this.loadActivitiesSubscribe.unsubscribe();
-      this.loadActiveEntrySubscribe.unsubscribe();
-      this.actionSetDateSubscribe.unsubscribe();
+      this.loadActivitiesSubscription.unsubscribe();
+      this.loadActiveEntrySubscription.unsubscribe();
+      this.actionSetDateSubscription.unsubscribe();
     }
   }
 

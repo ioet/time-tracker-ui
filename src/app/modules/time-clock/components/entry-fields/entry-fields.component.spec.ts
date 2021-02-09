@@ -117,7 +117,7 @@ describe('EntryFieldsComponent', () => {
     entryForm = TestBed.inject(FormBuilder);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
-    featureManagerService = TestBed.inject(FeatureManagerService);
+    // featureManagerService = TestBed.inject(FeatureManagerService);
   }));
 
   beforeEach(() => {
@@ -139,7 +139,7 @@ describe('EntryFieldsComponent', () => {
     };
 
     spyOn(component.entryForm, 'patchValue');
-
+    component.setDataToUpdate(entry);
     expect(component.entryForm.patchValue).toHaveBeenCalledTimes(1);
     expect(component.entryForm.patchValue).toHaveBeenCalledWith(
       {
@@ -153,15 +153,15 @@ describe('EntryFieldsComponent', () => {
     expect(component.selectedTechnologies).toEqual([]);
   });
 
-  const exponentialGrowth = [true, false];
-  exponentialGrowth.map((toggleValue) => {
-    it(`when FeatureToggle is ${toggleValue} should return true`, () => {
-      spyOn(featureManagerService, 'isToggleEnabled').and.returnValue(of(toggleValue));
-      const isFeatureToggleActivated: Promise<boolean> = component.isFeatureToggleActivated();
-      expect(featureManagerService.isToggleEnabled).toHaveBeenCalled();
-      isFeatureToggleActivated.then((value) => expect(value).toEqual(toggleValue));
-    });
-  });
+  // const exponentialGrowth = [true, false];
+  // exponentialGrowth.map((toggleValue) => {
+  //   it(`when FeatureToggle is ${toggleValue} should return ${toggleValue}`, () => {
+  //     spyOn(featureManagerService, 'isToggleEnabled').and.returnValue(of(toggleValue));
+  //     const isFeatureToggleActivated: Promise<boolean> = component.isFeatureToggleActivated();
+  //     expect(featureManagerService.isToggleEnabled).toHaveBeenCalled();
+  //     isFeatureToggleActivated.then((value) => expect(value).toEqual(toggleValue));
+  //   });
+  // });
 
   it('displays error message when the date selected is in the future', () => {
     const mockEntry = { ...entry,
