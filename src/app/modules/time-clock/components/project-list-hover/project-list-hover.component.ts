@@ -27,7 +27,6 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   projectsSubscription: Subscription;
   activeEntrySubscription: Subscription;
-  exponentialGrowth;
 
   constructor(private featureManagerService: FeatureManagerService,
               private formBuilder: FormBuilder, private store: Store<ProjectState>,
@@ -110,9 +109,8 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     }
   }
 
-  async ngOnDestroy(): Promise<void> {
-    this.exponentialGrowth = await this.isFeatureToggleActivated();
-    if(this.exponentialGrowth){
+   ngOnDestroy(): void {
+    if(this.isFeatureToggleActivated()){
       this.projectsSubscription.unsubscribe();
       this.activeEntrySubscription.unsubscribe();
     }
@@ -121,9 +119,6 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
 
   isFeatureToggleActivated() {
     return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
-      map((enabled) => {
-         return enabled === true ? true : false;
-      })
-    ).toPromise();
+      map((enabled) => enabled));
   }
 }

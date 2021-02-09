@@ -24,7 +24,6 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   activeTimeEntry: Entry;
   clockOutSubscription: Subscription;
   storeSubscription: Subscription;
-  exponentialGrowth;
 
   constructor(
     private featureManagerService: FeatureManagerService,
@@ -73,19 +72,15 @@ export class TimeClockComponent implements OnInit, OnDestroy {
     }
   }
 
- async ngOnDestroy(): Promise<void> {
-  this.exponentialGrowth = await this.isFeatureToggleActivated();
-  this.exponentialGrowth && this.storeSubscription.unsubscribe();
+ ngOnDestroy(): void {
+  this.isFeatureToggleActivated() && this.storeSubscription.unsubscribe();
   this.clockOutSubscription.unsubscribe();
   this.storeSubscription.unsubscribe();
 }
 
   isFeatureToggleActivated() {
     return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
-      map((enabled) => {
-        return enabled === true ? true : false;
-      })
-    ).toPromise();
+      map((enabled) => enabled));
   }
 }
 

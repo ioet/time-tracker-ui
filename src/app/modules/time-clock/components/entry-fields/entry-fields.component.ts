@@ -36,7 +36,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   loadActivitiesSubscription: Subscription;
   loadActiveEntrySubscription: Subscription;
   actionSetDateSubscription: Subscription;
-  exponentialGrowth;
 
   constructor(
     private featureManagerService: FeatureManagerService,
@@ -177,9 +176,8 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   }
 
 
-  async ngOnDestroy():Promise<void>  {
-    this.exponentialGrowth = await this.isFeatureToggleActivated();
-    if (this.exponentialGrowth) {
+   ngOnDestroy(): void  {
+    if (this.isFeatureToggleActivated()) {
       this.loadActivitiesSubscription.unsubscribe();
       this.loadActiveEntrySubscription.unsubscribe();
       this.actionSetDateSubscription.unsubscribe();
@@ -188,9 +186,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
 
   isFeatureToggleActivated() {
     return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
-      map((enabled) => {
-          return enabled === true ? true : false;
-      })
-    ).toPromise();
+      map((enabled) => enabled));
   }
 }
