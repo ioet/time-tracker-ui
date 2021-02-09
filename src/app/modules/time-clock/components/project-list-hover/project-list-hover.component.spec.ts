@@ -58,7 +58,7 @@ describe('ProjectListHoverComponent', () => {
     fixture = TestBed.createComponent(ProjectListHoverComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    // featureManagerService = TestBed.inject(FeatureManagerService);
+    featureManagerService = TestBed.inject(FeatureManagerService);
   });
 
   it('should create', () => {
@@ -143,6 +143,36 @@ describe('ProjectListHoverComponent', () => {
     expect(component.projectsForm.setValue)
       .toHaveBeenCalledWith({ project_id: 'customer - xyz'});
   });
+ 
+    var toggleValue = true;
+    fit(`when FeatureToggle is ${toggleValue} should return ${toggleValue}`, () => {
+      spyOn(featureManagerService, 'isToggleEnabledForUser').and.returnValue(of(toggleValue));
+      component.projectsSubscription = new Subscription();
+      component.activeEntrySubscription = new Subscription();
+
+      spyOn(component.projectsSubscription, 'unsubscribe');
+      spyOn(component.activeEntrySubscription, 'unsubscribe');
+
+      component.ngOnDestroy();
+
+      expect(component.projectsSubscription.unsubscribe).toHaveBeenCalled();
+      expect(component.activeEntrySubscription.unsubscribe).toHaveBeenCalled();
+    });
+
+    toggleValue = false;
+    fit(`when FeatureToggle is ${toggleValue} should return ${toggleValue}`, () => {
+      spyOn(component, 'isFeatureToggleActivated').and.returnValue(of(toggleValue));
+      component.projectsSubscription = new Subscription();
+      component.activeEntrySubscription = new Subscription();
+
+      spyOn(component.projectsSubscription, 'unsubscribe');
+      spyOn(component.activeEntrySubscription, 'unsubscribe');
+
+      component.ngOnDestroy();
+
+      expect(component.projectsSubscription.unsubscribe).not.toHaveBeenCalled();
+      expect(component.activeEntrySubscription.unsubscribe).not.toHaveBeenCalled();
+    });
 
   // const exponentialGrowth = [true, false];
   // exponentialGrowth.map((toggleValue) => {
@@ -187,4 +217,5 @@ describe('ProjectListHoverComponent', () => {
   //     })
   //   );
   // });
+  
 });

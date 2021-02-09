@@ -109,7 +109,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     }
   }
 
-   ngOnDestroy(): void {
+  ngOnDestroy(): void {
     if(this.isFeatureToggleActivated()){
       this.projectsSubscription.unsubscribe();
       this.activeEntrySubscription.unsubscribe();
@@ -119,6 +119,6 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
 
   isFeatureToggleActivated() {
     return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
-      map((enabled) => enabled));
+      map((enabled) => enabled === true ? true : false));
   }
 }
