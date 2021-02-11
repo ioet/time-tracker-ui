@@ -11,7 +11,6 @@ import * as entryActions from '../../store/entry.actions';
 import { getIsLoading, getProjects } from './../../../customer-management/components/projects/components/store/project.selectors';
 import { EntryActionTypes } from './../../store/entry.actions';
 import { getActiveTimeEntry } from './../../store/entry.selectors';
-import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 @Component({
   selector: 'app-project-list-hover',
   templateUrl: './project-list-hover.component.html',
@@ -28,8 +27,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   projectsSubscription: Subscription;
   activeEntrySubscription: Subscription;
 
-  constructor(private featureManagerService: FeatureManagerService,
-              private formBuilder: FormBuilder, private store: Store<ProjectState>,
+  constructor(private formBuilder: FormBuilder, private store: Store<ProjectState>,
               private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
     this.projectsForm = this.formBuilder.group({ project_id: null, });
     this.isLoading$ = this.store.pipe(delay(0), select(getIsLoading));
@@ -78,7 +76,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       if (project.id === this.activeEntry.project_id) {
         this.projectsForm.setValue(
             { project_id: `${project.customer_name} - ${project.name}`, }
-          );
+        );
       }
     });
   }
@@ -110,15 +108,8 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.isFeatureToggleActivated()){
-      this.projectsSubscription.unsubscribe();
-      this.activeEntrySubscription.unsubscribe();
-    }
+    this.projectsSubscription.unsubscribe();
+    this.activeEntrySubscription.unsubscribe();
     this.updateEntrySubscription.unsubscribe();
-  }
-
-  isFeatureToggleActivated() {
-    return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
-      map((enabled) => enabled === true ? true : false));
   }
 }

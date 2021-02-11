@@ -10,7 +10,6 @@ import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.co
 import { Entry } from './../../shared/models/entry.model';
 import { EntryActionTypes, LoadEntriesSummary, StopTimeEntryRunning } from './../store/entry.actions';
 import { getActiveTimeEntry } from './../store/entry.selectors';
-import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 @Component({
   selector: 'app-time-clock',
   templateUrl: './time-clock.component.html',
@@ -26,15 +25,13 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   storeSubscription: Subscription;
 
   constructor(
-    private featureManagerService: FeatureManagerService,
     private azureAdB2CService: AzureAdB2CService,
     private store: Store<Entry>,
     private toastrService: ToastrService,
     private actionsSubject$: ActionsSubject
   ) {}
 
-   ngOnInit(): void{
-   
+  ngOnInit(): void {
     this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
     this.storeSubscription = this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
       this.activeTimeEntry = activeTimeEntry;
@@ -72,16 +69,11 @@ export class TimeClockComponent implements OnInit, OnDestroy {
     }
   }
 
- ngOnDestroy(): void {
-  this.isFeatureToggleActivated() && this.storeSubscription.unsubscribe();
-  this.clockOutSubscription.unsubscribe();
-  this.storeSubscription.unsubscribe();
-}
-
-  isFeatureToggleActivated() {
-    return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
-      map((enabled) => enabled));
+  ngOnDestroy(): void {
+    this.clockOutSubscription.unsubscribe();
+    this.storeSubscription.unsubscribe();
   }
+
 }
 
 

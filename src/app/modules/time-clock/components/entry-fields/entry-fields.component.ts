@@ -8,7 +8,6 @@ import { Activity, NewEntry } from '../../../shared/models';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { TechnologyState } from '../../../shared/store/technology.reducers';
 import { ActivityState, LoadActivities } from '../../../activities-management/store';
-import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 import * as entryActions from '../../store/entry.actions';
 import { get } from 'lodash';
 import * as moment from 'moment';
@@ -38,7 +37,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   actionSetDateSubscription: Subscription;
 
   constructor(
-    private featureManagerService: FeatureManagerService,
     private formBuilder: FormBuilder,
     private store: Store<Merged>,
     private actionsSubject$: ActionsSubject,
@@ -175,17 +173,9 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, technologies: $event }));
   }
 
-
-   ngOnDestroy(): void  {
-    if (this.isFeatureToggleActivated()) {
-      this.loadActivitiesSubscription.unsubscribe();
-      this.loadActiveEntrySubscription.unsubscribe();
-      this.actionSetDateSubscription.unsubscribe();
-    }
-  }
-
-  isFeatureToggleActivated() {
-    return this.featureManagerService.isToggleEnabledForUser('exponential-growth').pipe(
-      map((enabled) => enabled));
+  ngOnDestroy(): void {
+    this.loadActivitiesSubscription.unsubscribe();
+    this.loadActiveEntrySubscription.unsubscribe();
+    this.actionSetDateSubscription.unsubscribe();
   }
 }
