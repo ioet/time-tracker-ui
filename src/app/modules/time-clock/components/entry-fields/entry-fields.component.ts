@@ -1,6 +1,6 @@
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import { EntryActionTypes, LoadActiveEntry } from './../../store/entry.actions';
-import { filter, map } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store, ActionsSubject, select } from '@ngrx/store';

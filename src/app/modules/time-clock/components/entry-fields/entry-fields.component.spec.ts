@@ -1,10 +1,9 @@
-import { Observable, of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { LoadActiveEntry, EntryActionTypes, UpdateEntry } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-
 import {TechnologyState} from '../../../shared/store/technology.reducers';
 import {allTechnologies} from '../../../shared/store/technology.selectors';
 import {EntryFieldsComponent} from './entry-fields.component';

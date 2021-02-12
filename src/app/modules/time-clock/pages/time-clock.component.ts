@@ -2,9 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-
-import { filter, map } from 'rxjs/operators';
-import { threadId } from 'worker_threads';
+import { filter } from 'rxjs/operators';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
 import { Entry } from './../../shared/models/entry.model';
