@@ -1,3 +1,4 @@
+import { of } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { StopTimeEntryRunning, EntryActionTypes, LoadEntriesSummary } from './../store/entry.actions';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -95,12 +96,14 @@ describe('TimeClockComponent', () => {
     expect(component.reloadSummariesOnClockOut).toHaveBeenCalled();
   });
 
-  it('unsubscribe clockOutSubscription onDestroy', () => {
+  it('unsubscribe clockOutSubscription, storeSubscription onDestroy', () => {
     spyOn(component.clockOutSubscription, 'unsubscribe');
+    spyOn(component.storeSubscription, 'unsubscribe');
 
     component.ngOnDestroy();
 
     expect(component.clockOutSubscription.unsubscribe).toHaveBeenCalled();
+    expect(component.storeSubscription.unsubscribe).toHaveBeenCalled();
   });
 
   it('onInit checks if isLogin and gets the userName', () => {

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
-import { delay, filter } from 'rxjs/operators';
+import { delay, filter, map } from 'rxjs/operators';
 import { Project } from 'src/app/modules/shared/models';
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
@@ -17,7 +17,6 @@ import { getActiveTimeEntry } from './../../store/entry.selectors';
   styleUrls: ['./project-list-hover.component.scss'],
 })
 export class ProjectListHoverComponent implements OnInit, OnDestroy {
-
   keyword = 'search_field';
   listProjects: Project[] = [];
   activeEntry;
@@ -25,6 +24,8 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   showClockIn: boolean;
   updateEntrySubscription: Subscription;
   isLoading$: Observable<boolean>;
+  projectsSubscription: Subscription;
+  activeEntrySubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder, private store: Store<ProjectState>,
               private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
@@ -32,10 +33,10 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.store.pipe(delay(0), select(getIsLoading));
   }
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.store.dispatch(new actions.LoadProjects());
     const projects$ = this.store.pipe(select(getProjects));
-    projects$.subscribe((projects) => {
+    this.projectsSubscription = projects$.subscribe((projects) => {
       this.listProjects = [];
       projects.forEach((project) => {
           const projectWithSearchField = {...project};
@@ -45,7 +46,6 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       );
       this.loadActiveTimeEntry();
     });
-
     this.updateEntrySubscription = this.actionsSubject$.pipe(
       filter((action: any) => (
           action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS
@@ -55,13 +55,12 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       this.activeEntry = action.payload;
       this.setSelectedProject();
     });
-
   }
 
   loadActiveTimeEntry() {
     this.store.dispatch(new entryActions.LoadActiveEntry());
     const activeEntry$ = this.store.pipe(select(getActiveTimeEntry));
-    activeEntry$.subscribe((activeEntry) => {
+    this.activeEntrySubscription = activeEntry$.subscribe((activeEntry) => {
       this.activeEntry = activeEntry;
       if (activeEntry) {
         this.showClockIn = false;
@@ -72,13 +71,12 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   setSelectedProject() {
     this.listProjects.forEach( (project) => {
       if (project.id === this.activeEntry.project_id) {
         this.projectsForm.setValue(
             { project_id: `${project.customer_name} - ${project.name}`, }
-          );
+        );
       }
     });
   }
@@ -110,6 +108,8 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.projectsSubscription.unsubscribe();
+    this.activeEntrySubscription.unsubscribe();
     this.updateEntrySubscription.unsubscribe();
   }
 }

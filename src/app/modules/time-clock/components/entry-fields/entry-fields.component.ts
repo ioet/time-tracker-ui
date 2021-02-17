@@ -1,14 +1,13 @@
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import { EntryActionTypes, LoadActiveEntry } from './../../store/entry.actions';
 import { filter } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store, ActionsSubject, select } from '@ngrx/store';
 import { Activity, NewEntry } from '../../../shared/models';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { TechnologyState } from '../../../shared/store/technology.reducers';
 import { ActivityState, LoadActivities } from '../../../activities-management/store';
-
 import * as entryActions from '../../store/entry.actions';
 import { get } from 'lodash';
 import * as moment from 'moment';
@@ -16,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
+import { Subscription } from 'rxjs';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 
@@ -24,7 +24,7 @@ type Merged = TechnologyState & ProjectState & ActivityState;
   templateUrl: './entry-fields.component.html',
   styleUrls: ['./entry-fields.component.scss'],
 })
-export class EntryFieldsComponent implements OnInit {
+export class EntryFieldsComponent implements OnInit, OnDestroy {
   entryForm: FormGroup;
   selectedTechnologies: string[] = [];
   activities: Activity[] = [];
@@ -32,6 +32,9 @@ export class EntryFieldsComponent implements OnInit {
   newData;
   lastEntry;
   showTimeInbuttons = false;
+  loadActivitiesSubscription: Subscription;
+  loadActiveEntrySubscription: Subscription;
+  actionSetDateSubscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,17 +51,16 @@ export class EntryFieldsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.store.dispatch(new LoadActivities());
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1, new Date().getFullYear()));
-    this.actionsSubject$
+    this.loadActivitiesSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
       .subscribe((action) => {
         this.activities = action.payload;
         this.store.dispatch(new LoadActiveEntry());
       });
-
-    this.actionsSubject$
+    this.loadActiveEntrySubscription = this.actionsSubject$
       .pipe(
         filter(
           (action: any) =>
@@ -76,8 +78,7 @@ export class EntryFieldsComponent implements OnInit {
           this.store.dispatch(new entryActions.LoadEntriesSummary());
         }
       });
-
-    this.actionsSubject$
+    this.actionSetDateSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS))
       .subscribe((action) => {
         this.activeEntry = action.payload;
@@ -90,17 +91,14 @@ export class EntryFieldsComponent implements OnInit {
           start_date: this.activeEntry.start_date,
           start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en'),
         };
-      });
+    });
   }
-
   get activity_id() {
     return this.entryForm.get('activity_id');
   }
-
   get start_hour() {
     return this.entryForm.get('start_hour');
   }
-
   setDataToUpdate(entryData: NewEntry) {
     if (entryData) {
       this.entryForm.patchValue({
@@ -173,5 +171,11 @@ export class EntryFieldsComponent implements OnInit {
 
   onTechnologyRemoved($event: string[]) {
     this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, technologies: $event }));
+  }
+
+  ngOnDestroy(): void {
+    this.loadActivitiesSubscription.unsubscribe();
+    this.loadActiveEntrySubscription.unsubscribe();
+    this.actionSetDateSubscription.unsubscribe();
   }
 }

@@ -1,9 +1,9 @@
+import { Subscription } from 'rxjs';
 import { LoadActiveEntry, EntryActionTypes, UpdateEntry } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-
 import {TechnologyState} from '../../../shared/store/technology.reducers';
 import {allTechnologies} from '../../../shared/store/technology.selectors';
 import {EntryFieldsComponent} from './entry-fields.component';
@@ -135,9 +135,7 @@ describe('EntryFieldsComponent', () => {
     };
 
     spyOn(component.entryForm, 'patchValue');
-
     component.setDataToUpdate(entry);
-
     expect(component.entryForm.patchValue).toHaveBeenCalledTimes(1);
     expect(component.entryForm.patchValue).toHaveBeenCalledWith(
       {
@@ -156,6 +154,7 @@ describe('EntryFieldsComponent', () => {
       start_date : moment().format(DATE_FORMAT_YEAR),
       start_hour : moment().format('HH:mm')
     };
+
     component.newData = mockEntry;
     component.activeEntry = mockEntry ;
     component.setDataToUpdate(mockEntry);
@@ -412,4 +411,18 @@ describe('EntryFieldsComponent', () => {
     expect(component.selectedTechnologies).toBe(initialTechnologies);
   });
 
+  it('calls unsubscribe on ngDestroy', () => {
+    component.loadActivitiesSubscription = new Subscription();
+    component.loadActiveEntrySubscription = new Subscription();
+    component.actionSetDateSubscription = new Subscription();
+    spyOn(component.loadActivitiesSubscription, 'unsubscribe');
+    spyOn(component.loadActiveEntrySubscription, 'unsubscribe');
+    spyOn(component.actionSetDateSubscription, 'unsubscribe');
+
+    component.ngOnDestroy();
+
+    expect(component.loadActivitiesSubscription.unsubscribe).toHaveBeenCalled();
+    expect(component.loadActiveEntrySubscription.unsubscribe).toHaveBeenCalled();
+    expect(component.actionSetDateSubscription.unsubscribe).toHaveBeenCalled();
+  });
 });

@@ -5,7 +5,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { FilterProjectPipe } from '../../../shared/pipes';
@@ -100,11 +100,17 @@ describe('ProjectListHoverComponent', () => {
 
   it('calls unsubscribe on ngDestroy', () => {
     component.updateEntrySubscription = new Subscription();
+    component.projectsSubscription = new Subscription();
+    component.activeEntrySubscription = new Subscription();
     spyOn(component.updateEntrySubscription, 'unsubscribe');
+    spyOn(component.projectsSubscription, 'unsubscribe');
+    spyOn(component.activeEntrySubscription, 'unsubscribe');
 
     component.ngOnDestroy();
 
     expect(component.updateEntrySubscription.unsubscribe).toHaveBeenCalled();
+    expect(component.projectsSubscription.unsubscribe).toHaveBeenCalled();
+    expect(component.activeEntrySubscription.unsubscribe).toHaveBeenCalled();
   });
 
   it('sets customer name and project name on setSelectedProject', () => {
@@ -115,9 +121,8 @@ describe('ProjectListHoverComponent', () => {
     component.setSelectedProject();
 
     expect(component.projectsForm.setValue)
-      .toHaveBeenCalledWith({ project_id: 'customer - xyz'});
+    .toHaveBeenCalledWith({ project_id: 'customer - xyz'});
   });
-
 
   // TODO Fix this test since it is throwing this error
   // Expected spy dispatch to have been called with:
@@ -140,5 +145,4 @@ describe('ProjectListHoverComponent', () => {
   //     })
   //   );
   // });
-
 });
