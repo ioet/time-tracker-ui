@@ -26,10 +26,9 @@
 .hidden-col{
   display: none;
 }
-.table {
-  overflow-x: auto;
-}
-.row{
+
+.scroll-table {
+  overflow-x: scroll;
   width: 100%;
   display: grid;
 }
