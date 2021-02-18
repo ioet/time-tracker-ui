@@ -1,58 +1,50 @@
-<div class="row mt-5">
-  <div class="col">
-    <table
-      class="table table-sm table-striped"
-      datatable
-      [dtTrigger]="dtTrigger"
-      [dtOptions]="dtOptions"
-      *ngIf="(reportDataSource$ | async) as dataSource"
-    >
-      <thead class="thead-blue">
-        <tr class="d-flex">
-          <th class="hidden-col" >ID</th>
-          <th class="col md-col">User email</th>
-          <th class="col sm-col">Date</th>
-          <th class="col x-sm-col" title="Duration (hours)">Duration (hours)</th>
-          <th class="col x-sm-col" title="Time in">Time in</th>
-          <th class="col x-sm-col" title="Time out">Time out</th>
-          <th class="col md-col">Project</th>
-          <th class="hidden-col">Project ID</th>
-          <th class="col md-col">Customer</th>
-          <th class="hidden-col">Customer ID</th>
-          <th class="col md-col">Activity</th>
-          <th class="col lg-col">Ticket</th>
-          <th class="col lg-col">Description</th>
-          <th class="col lg-col">Technologies</th>
-        </tr>
-      </thead>
-      <app-loading-bar
-        *ngIf="dataSource.isLoading"
-      ></app-loading-bar>
-      <tbody *ngIf="!dataSource.isLoading">
-        <tr
-          class="d-flex"
-          *ngFor="let entry of dataSource.data"
-        >
-          <td class="hidden-col">{{ entry.id }}</td>
-          <td class="col md-col">{{ entry.owner_email }}</td>
-          <td class="col sm-col">
-            {{ entry.start_date | date: 'MM/dd/yyyy' }}
-          </td>
-          <td class="col x-sm-col">
-            {{ entry.end_date | substractDate: entry.start_date }}
-          </td>
-          <td class="col x-sm-col">{{ entry.start_date | date: 'HH:mm' }}</td>
-          <td class="col x-sm-col">{{ entry.end_date | date: 'HH:mm' }}</td>
-          <td class="col md-col">{{ entry.project_name }}</td>
-          <td class="hidden-col">{{ entry.project_id }}</td>
-          <td class="col md-col">{{ entry.customer_name }}</td>
-          <td class="hidden-col">{{ entry.customer_id }}</td>
-          <td class="col md-col">{{ entry.activity_name }}</td>
-          <td class="col lg-col">{{ entry.uri }}</td>
-          <td class="col lg-col">{{ entry.description }}</td>
-          <td class="col lg-col">{{ entry.technologies }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div class="row scroll-table mt-5 ml-0">
+  <table
+    class="table table-striped mb-0"
+    datatable
+    [dtTrigger]="dtTrigger"
+    [dtOptions]="dtOptions"
+    *ngIf="(reportDataSource$ | async) as dataSource">
+    <thead class="thead-blue">
+      <tr class="d-flex">
+        <th class="hidden-col">ID</th>
+        <th class="col md-col">User email</th>
+        <th class="col sm-col">Date</th>
+        <th class="col x-sm-col" title="Duration (hours)">Duration (hours)</th>
+        <th class="col x-sm-col" title="Time in">Time in</th>
+        <th class="col x-sm-col" title="Time out">Time out</th>
+        <th class="col md-col">Project</th>
+        <th class="hidden-col">Project ID</th>
+        <th class="col md-col">Customer</th>
+        <th class="hidden-col">Customer ID</th>
+        <th class="col md-col">Activity</th>
+        <th class="col lg-col">Ticket</th>
+        <th class="col lg-col">Description</th>
+        <th class="col lg-col">Technologies</th>
+      </tr>
+    </thead>
+    <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
+    <tbody *ngIf="!dataSource.isLoading">
+      <tr class="d-flex" *ngFor="let entry of dataSource.data">
+        <td class="hidden-col">{{ entry.id }}</td>
+        <td class="col md-col">{{ entry.owner_email }}</td>
+        <td class="col sm-col">
+          {{ entry.start_date | date: 'MM/dd/yyyy' }}
+        </td>
+        <td class="col x-sm-col">
+          {{ entry.end_date | substractDate: entry.start_date }}
+        </td>
+        <td class="col x-sm-col">{{ entry.start_date | date: 'HH:mm' }}</td>
+        <td class="col x-sm-col">{{ entry.end_date | date: 'HH:mm' }}</td>
+        <td class="col md-col">{{ entry.project_name }}</td>
+        <td class="hidden-col">{{ entry.project_id }}</td>
+        <td class="col md-col">{{ entry.customer_name }}</td>
+        <td class="hidden-col">{{ entry.customer_id }}</td>
+        <td class="col md-col">{{ entry.activity_name }}</td>
+        <td class="col lg-col">{{ entry.uri }}</td>
+        <td class="col lg-col">{{ entry.description }}</td>
+        <td class="col lg-col">{{ entry.technologies }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
