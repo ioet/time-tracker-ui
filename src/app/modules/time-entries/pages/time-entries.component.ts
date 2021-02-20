@@ -31,6 +31,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedMonth: number;
   selectedYear: number;
   selectedMonthAsText: string;
+  isEdit: boolean;
 
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
@@ -75,6 +76,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
 
   editEntry(entryId: string) {
     this.entryId = entryId;
+    this.isEdit = true;
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
       this.entry = ds.data.find((entry) => entry.id === entryId);
       this.canMarkEntryAsWIP = this.isEntryRunningEqualsToEntryToEdit(this.getEntryRunning(ds.data), this.entry)
@@ -123,6 +125,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   }
 
   projectSelected(event: ProjectSelectedEvent): void {
+    this.isEdit = false;
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
       const dataToUse = ds.data.find(item => item.project_id === event.projectId);
       if (dataToUse && this.isNewEntry()) {

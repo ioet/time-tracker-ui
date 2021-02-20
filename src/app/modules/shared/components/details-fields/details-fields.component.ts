@@ -30,6 +30,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   keyword = 'search_field';
   @Input() entryToEdit: Entry;
   @Input() canMarkEntryAsWIP: boolean;
+  @Input() isEdit: boolean;
   @Output() saveEntry = new EventEmitter<SaveEntryEvent>();
   @Output() projectSelected = new EventEmitter<ProjectSelectedEvent>();
   @ViewChild('closeModal') closeModal: ElementRef;
@@ -143,7 +144,9 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         technology: '',
       });
     } else {
-      this.cleanForm();
+      if (this.isEdit) {
+        this.cleanForm();
+      }
     }
   }
 
