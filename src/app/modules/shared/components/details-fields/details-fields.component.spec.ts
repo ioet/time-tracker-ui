@@ -443,6 +443,38 @@ describe('DetailsFieldsComponent', () => {
     expect(component.projectSelected.emit).toHaveBeenCalledWith(data);
   });
 
+  it('on Selected Initial Date should change end date', () => {
+    const expectedDate = '2020-02-05';
+
+    component.onInitialDatepickerUpdated(expectedDate);
+    fixture.detectChanges();
+    const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
+
+    expect(endDateInput.value).toEqual(expectedDate);
+
+  });
+
+  it('on Selected End Date should not change initial date', () => {
+    const expectedInitialDate = '2020-02-05';
+    const expectedEndDate = '2020-02-06';
+    component.onInitialDatepickerUpdated(expectedInitialDate);
+    fixture.detectChanges();
+    const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
+
+    expect(endDateInput.value).toEqual(expectedInitialDate);
+
+  });
+
+  fit('should be ok', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
+    endDateInput.value = '2021-02-21';
+    endDateInput.dispatchEvent(new Event('#end_date'));
+
+    expect(endDateInput.value).toBe('2021-02-21');
+  });
+
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:
