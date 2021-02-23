@@ -466,6 +466,7 @@ describe('DetailsFieldsComponent', () => {
     endDateInput.dispatchEvent(new Event('#end_date'));
 
     expect(endDateInput.value).not.toEqual(startDateInput.value);
+    expect(startDateInput.value).toEqual(expectedStartDate);
   });
 
 
