@@ -443,47 +443,31 @@ describe('DetailsFieldsComponent', () => {
     expect(component.projectSelected.emit).toHaveBeenCalledWith(data);
   });
 
-  it('on Selected Initial Date should change end date', () => {
-    const expectedInitialDate = '2020-02-05';
+  it('on Selected Start Date should change End Date', () => {
+    const expectedStartDate = '2020-02-05';
 
-    component.onInitialDatepickerUpdated(expectedInitialDate);
+    component.onStartDateChange(expectedStartDate);
     fixture.detectChanges();
     const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
 
-    expect(endDateInput.value).toEqual(expectedInitialDate);
+    expect(endDateInput.value).toEqual(expectedStartDate);
   });
 
-  it('on Selected End Date should not change initial date', () => {
-    const expectedInitialDate = '2020-02-05';
+  it('on Selected End Date should not change Start Date', () => {
+    const expectedStartDate = '2020-02-05';
     const expectedEndDate = '2020-02-06';
 
     component.ngOnInit();
     fixture.detectChanges();
     const startDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#start_date');
     const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
-    startDateInput.value = expectedInitialDate;
+    startDateInput.value = expectedStartDate;
     endDateInput.value = expectedEndDate;
     endDateInput.dispatchEvent(new Event('#end_date'));
 
     expect(endDateInput.value).not.toEqual(startDateInput.value);
   });
 
-  /*
-  fit('should be ok', () => {
-    const expectedInitialDate = '2020-02-05';
-    const expectedEndDate = '2020-02-06';
-
-    component.ngOnInit();
-    fixture.detectChanges();
-    const startDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#start_date');
-    const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
-    startDateInput.value = expectedInitialDate;
-    endDateInput.value = expectedEndDate;
-    endDateInput.dispatchEvent(new Event('#end_date'));
-
-    expect(endDateInput.value).not.toEqual(expectedInitialDate);
-  });
-  */
 
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,

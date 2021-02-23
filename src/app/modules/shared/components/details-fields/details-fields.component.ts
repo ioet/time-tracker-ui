@@ -124,10 +124,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     });
   }
 
-  onInitialDatepickerUpdated($event: string) {
-    console.log($event);
+  onStartDateChange($event: string) {
     this.end_date.setValue($event);
-
   }
 
 
