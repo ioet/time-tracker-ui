@@ -145,7 +145,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       });
     } else {
       if (this.isEdit) {
-        this.cleanForm();
+          this.cleanForm();
       }
     }
   }
