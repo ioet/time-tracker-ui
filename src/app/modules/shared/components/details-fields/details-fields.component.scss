@@ -103,3 +103,8 @@ input[type="date"]::-webkit-clear-button {
   border-radius: 0.25rem;
 }
 
+.timepicker-input--disabled ::ng-deep div{
+  pointer-events: none;
+  background-color: #e9ecef;
+  opacity: 1;
+}

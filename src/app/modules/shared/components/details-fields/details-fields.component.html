@@ -99,8 +99,8 @@
             [format]="24"
             formControlName="start_hour"
             id="start_hour"
-            [disabled]="!(project_name.value && project_id.value)"
             class="timepicker-input"
+            [class.timepicker-input--disabled]="!(project_id.value && project_name.value)"
           ></ngx-timepicker-field>
         </div>
       </div>
@@ -126,8 +126,8 @@
             [format]="24"
             formControlName="end_hour"
             id="end_hour"
-            [disabled]="!(project_name.value && project_id.value)"
             class="timepicker-input"
+            [class.timepicker-input--disabled]="!(project_id.value && project_name.value)"
             ></ngx-timepicker-field>
         </div>
       </div>
