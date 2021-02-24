@@ -90,6 +90,7 @@
             aria-describedby="inputGroup-sizing-sm"
             [class.is-invalid]="start_date.invalid && start_date.touched"
             required
+            (ngModelChange)="onStartDateChange($event)"
           />
         </div>
 

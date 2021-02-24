@@ -443,6 +443,31 @@ describe('DetailsFieldsComponent', () => {
     expect(component.projectSelected.emit).toHaveBeenCalledWith(data);
   });
 
+  it('on selected start_date should change end_date', () => {
+    const expectedStartDate = '2020-02-05';
+
+    component.onStartDateChange(expectedStartDate);
+    fixture.detectChanges();
+    const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
+
+    expect(endDateInput.value).toEqual(expectedStartDate);
+  });
+
+  it('on selected end_date should not change start_date', () => {
+    const expectedStartDate = '2020-02-05';
+    const expectedEndDate = '2020-02-06';
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    const startDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#start_date');
+    const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
+    startDateInput.value = expectedStartDate;
+    endDateInput.value = expectedEndDate;
+    endDateInput.dispatchEvent(new Event('#end_date'));
+
+    expect(endDateInput.value).not.toEqual(startDateInput.value);
+    expect(startDateInput.value).toEqual(expectedStartDate);
+  });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:

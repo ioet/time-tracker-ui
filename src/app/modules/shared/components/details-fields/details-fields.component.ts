@@ -124,6 +124,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     });
   }
 
+  onStartDateChange($event: string) {
+    this.end_date.setValue($event);
+  }
+
   ngOnChanges(): void {
     this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running : false;
     this.shouldRestartEntry = false;
