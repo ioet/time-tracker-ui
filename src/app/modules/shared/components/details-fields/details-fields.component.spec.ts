@@ -171,7 +171,6 @@ describe('DetailsFieldsComponent', () => {
 
   it('should emit ngOnChange without data', () => {
     component.entryToEdit = null;
-    component.isEdit = true;
     component.ngOnChanges();
     expect(component.shouldRestartEntry).toBeFalse();
     expect(component.entryForm.value).toEqual(initialData);
@@ -193,7 +192,6 @@ describe('DetailsFieldsComponent', () => {
       technology: '',
     };
     component.entryToEdit = null;
-    component.isEdit = true;
     component.ngOnChanges();
     expect(component.entryForm.value).toEqual(formValue);
   });
@@ -443,20 +441,6 @@ describe('DetailsFieldsComponent', () => {
       projectId: 'id'
     };
     expect(component.projectSelected.emit).toHaveBeenCalledWith(data);
-  });
-
-  it('should clear the form fields', () => {
-    spyOn(component, 'cleanForm');
-    component.isEdit = true;
-    component.ngOnChanges();
-    expect(component.cleanForm).toHaveBeenCalled();
-  });
-
-  it('should persist entry form value', () => {
-    spyOn(component, 'cleanForm');
-    component.isEdit = false;
-    component.ngOnChanges();
-    expect(component.cleanForm).toHaveBeenCalledTimes(0);
   });
 
   /*
