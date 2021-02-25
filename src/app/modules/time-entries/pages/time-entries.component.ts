@@ -56,7 +56,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     if (this.wasEditingExistingTimeEntry) {
       this.entry = null;
     }
-    console.log('Esta es', this.entry);
     this.entryId = null;
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
       this.canMarkEntryAsWIP = !this.isThereAnEntryRunning(ds.data);

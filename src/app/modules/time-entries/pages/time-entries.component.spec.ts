@@ -429,6 +429,8 @@ describe('TimeEntriesComponent', () => {
 
   it('Should the entry be null if the flag is true', () => {
     component.wasEditingExistingTimeEntry = true;
+    const idEntry = '1';
+    component.editEntry(idEntry);
     component.newEntry();
     expect(component.entry).toBe(null);
   });
