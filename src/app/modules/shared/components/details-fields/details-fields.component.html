@@ -91,6 +91,8 @@
             [class.is-invalid]="start_date.invalid && start_date.touched"
             required
             (ngModelChange)="onStartDateChange($event)"
+            [max]="getActualDate()"
+            onkeydown="return false"
           />
         </div>
 
@@ -118,6 +120,8 @@
             aria-describedby="inputGroup-sizing-sm"
             [class.is-invalid]="end_date.invalid && end_date.touched"
             required
+            [max]="getActualDate()"
+            onkeydown="return false"
           />
         </div>
 

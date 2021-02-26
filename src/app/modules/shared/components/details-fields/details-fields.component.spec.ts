@@ -468,6 +468,12 @@ describe('DetailsFieldsComponent', () => {
     expect(endDateInput.value).not.toEqual(startDateInput.value);
     expect(startDateInput.value).toEqual(expectedStartDate);
   });
+
+  it('on get actual date should return the actual date in isoString ', () => {
+    const actualDateExpected = new Date().toISOString().split('T')[0];
+
+    expect(component.getActualDate()).toEqual(actualDateExpected);
+  });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:
