@@ -469,7 +469,7 @@ describe('DetailsFieldsComponent', () => {
     expect(startDateInput.value).toEqual(expectedStartDate);
   });
 
-  it('on get actual date should return the actual date in isoString ', () => {
+  it('on get actual date should return the current date', () => {
     const actualDateExpected = new Date().toISOString().split('T')[0];
 
     expect(component.getActualDate()).toEqual(actualDateExpected);
