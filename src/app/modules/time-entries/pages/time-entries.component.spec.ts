@@ -148,7 +148,6 @@ describe('TimeEntriesComponent', () => {
 
   it('when creating a new entry, then entryId should be null', () => {
     component.newEntry();
-    expect(component.entry).toBe(null);
     expect(component.entryId).toBe(null);
   });
 
@@ -427,4 +426,20 @@ describe('TimeEntriesComponent', () => {
       expect(entryData.customer_name).toContain('ioet Inc.');
     });
   }));
+
+  it('Should the entry be null if the flag is true', () => {
+    component.wasEditingExistingTimeEntry = true;
+    const idEntry = '1';
+    component.editEntry(idEntry);
+    component.newEntry();
+    expect(component.entry).toBe(null);
+  });
+
+  it('Should the input persist the data if the flag is false', () => {
+    const newEntry = { start_date: new Date(), id: '1234', technologies: [], project_name: 'time-tracker' };
+    component.entry = newEntry;
+    component.wasEditingExistingTimeEntry = false;
+    component.newEntry();
+    expect(component.entry).toEqual(newEntry);
+  });
 });

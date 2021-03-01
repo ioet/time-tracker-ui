@@ -147,7 +147,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         technology: '',
       });
     } else {
-      this.cleanForm();
+        this.cleanForm();
     }
   }
 

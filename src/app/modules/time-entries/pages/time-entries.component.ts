@@ -25,24 +25,21 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   message: string;
   idToDelete: string;
   entriesSubscription: Subscription;
+  wasEditingExistingTimeEntry = false;
   canMarkEntryAsWIP = true;
   timeEntriesDataSource$: Observable<DataSource<Entry>>;
   selectedYearAsText: string;
   selectedMonth: number;
   selectedYear: number;
   selectedMonthAsText: string;
-
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
   }
-
   ngOnDestroy(): void {
     this.entriesSubscription.unsubscribe();
   }
-
   ngOnInit(): void {
     this.loadActiveEntry();
-
     this.entriesSubscription = this.actionsSubject$.pipe(
       filter((action: any) => (
         action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
@@ -55,24 +52,22 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
     });
   }
-
   newEntry() {
-    this.entry = null;
+    if (this.wasEditingExistingTimeEntry) {
+      this.entry = null;
+    }
     this.entryId = null;
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
       this.canMarkEntryAsWIP = !this.isThereAnEntryRunning(ds.data);
     });
   }
-
   private getEntryRunning(entries: Entry[]) {
     const runningEntry: Entry = entries.find(entry => entry.running === true);
     return runningEntry;
   }
-
   private isThereAnEntryRunning(entries: Entry[]) {
     return !!this.getEntryRunning(entries);
   }
-
   editEntry(entryId: string) {
     this.entryId = entryId;
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
@@ -80,8 +75,8 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.canMarkEntryAsWIP = this.isEntryRunningEqualsToEntryToEdit(this.getEntryRunning(ds.data), this.entry)
         || this.isTheEntryToEditTheLastOne(ds.data);
     });
+    this.wasEditingExistingTimeEntry = true;
   }
-
   private isEntryRunningEqualsToEntryToEdit(entryRunning: Entry, entryToEdit: Entry) {
     if (entryRunning && entryToEdit) {
       return entryRunning.id === entryToEdit.id;
@@ -89,7 +84,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-
   private isTheEntryToEditTheLastOne(entries: Entry[]) {
     if (entries && entries.length > 0) {
       const lastEntry = entries[0];
@@ -98,11 +92,9 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-
   private isNewEntry() {
     return this.entryId === null;
   }
-
   saveEntry(event: SaveEntryEvent): void {
     if (this.activeTimeEntry) {
       const startDateAsLocalDate = new Date(event.entry.start_date);
@@ -121,8 +113,8 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.doSave(event);
     }
   }
-
   projectSelected(event: ProjectSelectedEvent): void {
+    this.wasEditingExistingTimeEntry = false;
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
       const dataToUse = ds.data.find(item => item.project_id === event.projectId);
       if (dataToUse && this.isNewEntry()) {
@@ -140,7 +132,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   doSave(event: SaveEntryEvent) {
     if (this.entryId) {
       event.entry.id = this.entryId;
@@ -152,19 +143,16 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.store.dispatch(new entryActions.CreateEntry(event.entry));
     }
   }
-
   loadActiveEntry() {
     this.store.dispatch(new entryActions.LoadActiveEntry());
     this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
       this.activeTimeEntry = activeTimeEntry;
     });
   }
-
   removeEntry() {
     this.store.dispatch(new entryActions.DeleteEntry(this.idToDelete));
     this.showModal = false;
   }
-
   dateSelected(event: { monthIndex: number; year: number }) {
     this.selectedYear = event.year;
     this.selectedYearAsText = event.year.toString();
@@ -172,7 +160,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
     this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
   }
-
   openModal(item: any) {
     this.idToDelete = item.id;
     this.message = `Are you sure you want to delete ${item.activity_name}?`;
