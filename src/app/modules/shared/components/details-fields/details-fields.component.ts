@@ -171,7 +171,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.selectedTechnologies = $event;
   }
 
-  getActualDate(): string {
+  getCurrentDate(): string {
     return new Date().toISOString().split('T')[0];
   }
 

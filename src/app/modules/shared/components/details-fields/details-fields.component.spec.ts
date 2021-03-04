@@ -472,7 +472,7 @@ describe('DetailsFieldsComponent', () => {
   it('on get actual date should return the current date', () => {
     const actualDateExpected = new Date().toISOString().split('T')[0];
 
-    expect(component.getActualDate()).toEqual(actualDateExpected);
+    expect(component.getCurrentDate()).toEqual(actualDateExpected);
   });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
