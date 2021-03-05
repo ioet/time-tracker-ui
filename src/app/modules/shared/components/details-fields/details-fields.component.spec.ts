@@ -474,6 +474,25 @@ describe('DetailsFieldsComponent', () => {
 
     expect(component.getCurrentDate()).toEqual(actualDateExpected);
   });
+
+  it('on the input with id #start_date we could get the id and max value', () => {
+   fixture.detectChanges();
+   const expectDate = new Date().toISOString().split('T')[0];
+   const slectInput: HTMLInputElement = fixture.debugElement.
+     nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
+
+   expect(slectInput.id).toEqual('start_date');
+   expect(slectInput.max).toEqual(expectDate);
+  });
+
+  it('on the input with id #end_date we could get the current Date ', () => {
+    fixture.detectChanges();
+    const expectDate = new Date().toISOString().split('T')[0];
+    const slectInput = fixture.debugElement.nativeElement.querySelector('[id=end_date]');
+
+    expect(slectInput.id).toEqual('end_date');
+    expect(slectInput.max).toEqual(expectDate);
+  });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:
