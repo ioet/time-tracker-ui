@@ -468,6 +468,31 @@ describe('DetailsFieldsComponent', () => {
     expect(endDateInput.value).not.toEqual(startDateInput.value);
     expect(startDateInput.value).toEqual(expectedStartDate);
   });
+
+  it('on get current date should return expected date', () => {
+    const expectedDate = new Date().toISOString().split('T')[0];
+
+    expect(component.getCurrentDate()).toEqual(expectedDate);
+  });
+
+  it('on the input with id #start_date we could get the id and max value', () => {
+   fixture.detectChanges();
+   const expectedDate = new Date().toISOString().split('T')[0];
+   const startDateInput: HTMLInputElement = fixture.debugElement.
+     nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
+
+   expect(startDateInput.id).toEqual('start_date');
+   expect(startDateInput.max).toEqual(expectedDate);
+  });
+
+  it('on the input with id #end_date we could get the current Date ', () => {
+    fixture.detectChanges();
+    const expectedDate = new Date().toISOString().split('T')[0];
+    const endDateInput = fixture.debugElement.nativeElement.querySelector('[id=end_date]');
+
+    expect(endDateInput.id).toEqual('end_date');
+    expect(endDateInput.max).toEqual(expectedDate);
+  });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:

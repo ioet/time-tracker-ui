@@ -171,6 +171,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.selectedTechnologies = $event;
   }
 
+  getCurrentDate(): string {
+    return new Date().toISOString().split('T')[0];
+  }
+
   get project_id() {
     return this.entryForm.get('project_id');
   }
