@@ -469,29 +469,29 @@ describe('DetailsFieldsComponent', () => {
     expect(startDateInput.value).toEqual(expectedStartDate);
   });
 
-  it('on get actual date should return the current date', () => {
-    const actualDateExpected = new Date().toISOString().split('T')[0];
+  it('on get current date should return expected date', () => {
+    const expectedDate = new Date().toISOString().split('T')[0];
 
-    expect(component.getCurrentDate()).toEqual(actualDateExpected);
+    expect(component.getCurrentDate()).toEqual(expectedDate);
   });
 
   it('on the input with id #start_date we could get the id and max value', () => {
    fixture.detectChanges();
-   const expectDate = new Date().toISOString().split('T')[0];
-   const slectInput: HTMLInputElement = fixture.debugElement.
+   const expectedDate = new Date().toISOString().split('T')[0];
+   const startDateInput: HTMLInputElement = fixture.debugElement.
      nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
 
-   expect(slectInput.id).toEqual('start_date');
-   expect(slectInput.max).toEqual(expectDate);
+   expect(startDateInput.id).toEqual('start_date');
+   expect(startDateInput.max).toEqual(expectedDate);
   });
 
   it('on the input with id #end_date we could get the current Date ', () => {
     fixture.detectChanges();
-    const expectDate = new Date().toISOString().split('T')[0];
-    const slectInput = fixture.debugElement.nativeElement.querySelector('[id=end_date]');
+    const expectedDate = new Date().toISOString().split('T')[0];
+    const endDateInput = fixture.debugElement.nativeElement.querySelector('[id=end_date]');
 
-    expect(slectInput.id).toEqual('end_date');
-    expect(slectInput.max).toEqual(expectDate);
+    expect(endDateInput.id).toEqual('end_date');
+    expect(endDateInput.max).toEqual(expectedDate);
   });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
