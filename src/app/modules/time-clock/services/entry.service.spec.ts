@@ -143,10 +143,13 @@ describe('EntryService', () => {
 
   it('entries are found by project id with a limit 2 by default', () => {
     const projectId = 'project-id';
+    const startDate = (moment().subtract(1, 'months')).format();
+    const endDate = moment().format();
 
     service.findEntriesByProjectId(projectId).subscribe();
 
-    const restartEntryRequest = httpMock.expectOne( `${service.baseUrl}?limit=2&project_id=${projectId}`);
+    const restartEntryRequest = httpMock.expectOne( `${service.baseUrl}?limit=2&project_id=${projectId}&start_date=${startDate}&end_date=${endDate}`);
     expect(restartEntryRequest.request.method).toBe('GET');
   });
+
 });
