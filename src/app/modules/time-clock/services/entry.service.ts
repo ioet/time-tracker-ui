@@ -7,6 +7,7 @@ import { environment } from './../../../../environments/environment';
 import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
 import { DatePipe } from '@angular/common';
 import { Entry } from '../../shared/models';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -59,7 +60,9 @@ export class EntryService {
   }
 
   findEntriesByProjectId(projectId: string): Observable<Entry[]> {
-    const findEntriesByProjectURL = `${this.baseUrl}?limit=2&project_id=${projectId}`;
+    const startDate = this.getDateLastMonth();
+    const endDate = this.getCurrentDate();
+    const findEntriesByProjectURL = `${this.baseUrl}?limit=2&project_id=${projectId}&start_date=${startDate}&end_date=${endDate}`;
     return this.http.get<Entry[]>(findEntriesByProjectURL);
   }
 
@@ -76,5 +79,13 @@ export class EntryService {
         }
       }
     );
+  }
+
+  getDateLastMonth() {
+    return (moment().subtract(1, 'months')).format();
+  }
+
+  getCurrentDate() {
+    return moment().format();
   }
 }
