@@ -88,6 +88,4 @@ export class EntryService {
   getCurrentDate() {
     return moment().format();
   }
-
-
 }
