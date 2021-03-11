@@ -10,6 +10,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
@@ -144,6 +145,7 @@ const maskConfig: Partial<IConfig> = {
     AutocompleteLibModule,
     NgxMaterialTimepickerModule,
     UiSwitchModule,
+    DragDropModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),
