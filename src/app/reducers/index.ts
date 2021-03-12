@@ -6,7 +6,8 @@ import { customerManagementReducer } from '../modules/customer-management/store/
 import { projectTypeReducer } from '../modules/customer-management/components/projects-type/store/project-type.reducers';
 import { entryReducer } from '../modules/time-clock/store/entry.reducer';
 import { environment } from '../../environments/environment';
-import { userReducer } from '../modules/users/store/user.reducers';
+import { userReducer } from '../modules/shared/components/user/store/user.reducer';
+import { userReducer as usersReducer } from '../modules/users/store/user.reducers';
 export interface State {
   projects;
   activities;
@@ -15,6 +16,7 @@ export interface State {
   projectType;
   entries;
   users;
+  user
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -24,7 +26,8 @@ export const reducers: ActionReducerMap<State> = {
   technologies: technologyReducer,
   projectType: projectTypeReducer,
   entries: entryReducer,
-  users: userReducer,
+  users: usersReducer,
+  user: userReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

@@ -83,4 +83,8 @@ export class AzureAdB2CService {
   getUserGroup(): string {
     return this.msal.getAccount().idToken?.extension_role;
   }
+
+  getUserId(): string{
+    return this.msal.getAccount().accountIdentifier;
+  }
 }
