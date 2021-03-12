@@ -8,26 +8,19 @@ export enum UserActionTypes {
 
 export class LoadUser implements Action {
   public readonly type = UserActionTypes.LOAD_USER;
-  constructor(readonly userId) {
-  }
+  constructor(readonly userId: string) {}
 }
 
 export class LoadUserSuccess implements Action {
-  readonly type = UserActionTypes.LOAD_USER_SUCCESS;
+  public readonly type = UserActionTypes.LOAD_USER_SUCCESS;
 
-  constructor(readonly payload) {
-  }
+  constructor(readonly payload: any) {}
 }
 
 export class LoadUserFail implements Action {
   public readonly type = UserActionTypes.LOAD_USER_FAIL;
 
-  constructor(public error: string) {
-  }
+  constructor(public error: string) {}
 }
 
-
-export type UserActions =
-  | LoadUser
-  | LoadUserSuccess
-  | LoadUserFail
+export type UserActions = LoadUser | LoadUserSuccess | LoadUserFail;

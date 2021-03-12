@@ -57,7 +57,8 @@ import { ProjectTypeListComponent } from './modules/customer-management/componen
 // tslint:disable-next-line: max-line-length
 import { CreateProjectTypeComponent } from './modules/customer-management/components/projects-type/components/create-project-type/create-project-type.component';
 import { CustomerEffects } from './modules/customer-management/store/customer-management.effects';
-import { UserEffects } from './modules/users/store/user.effects';
+import { UserEffects as UsersEffects } from './modules/users/store/user.effects';
+import { UserEffects } from './modules/login/store/user.effects';
 import { EntryEffects } from './modules/time-clock/store/entry.effects';
 import { InjectTokenInterceptor } from './modules/shared/interceptors/inject.token.interceptor';
 import { SubstractDatePipe } from './modules/shared/pipes/substract-date/substract-date.pipe';
@@ -74,7 +75,7 @@ import { LoadingBarComponent } from './modules/shared/components/loading-bar/loa
 import { UsersComponent } from './modules/users/pages/users.component';
 import { UsersListComponent } from './modules/users/components/users-list/users-list.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 // tslint:disable-next-line: max-line-length
 import { TechnologyReportTableComponent } from './modules/technology-report/components/technology-report-table/technology-report-table.component';
 import { TechnologyReportComponent } from './modules/technology-report/pages/technology-report.component';
@@ -151,8 +152,8 @@ const maskConfig: Partial<IConfig> = {
     }),
     !environment.production
       ? StoreDevtoolsModule.instrument({
-        maxAge: 15, // Retains last 15 states
-      })
+          maxAge: 15, // Retains last 15 states
+        })
       : [],
     EffectsModule.forRoot([
       ProjectEffects,
@@ -161,9 +162,10 @@ const maskConfig: Partial<IConfig> = {
       TechnologyEffects,
       ProjectTypeEffects,
       EntryEffects,
+      UsersEffects,
       UserEffects,
     ]),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
   ],
   providers: [
     {
@@ -176,4 +178,4 @@ const maskConfig: Partial<IConfig> = {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

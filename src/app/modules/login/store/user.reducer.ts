@@ -1,8 +1,8 @@
 import { UserActions, UserActionTypes } from './user.actions';
 
 export const initialState = {
-  name:'',
-  groups:[]
+  name: '',
+  groups: [],
 };
 
 export const userReducer = (state: any = initialState, action: UserActions): any => {
@@ -13,7 +13,7 @@ export const userReducer = (state: any = initialState, action: UserActions): any
       return {
         ...state,
         name: action.payload.name,
-        groups: action.payload.groups
+        groups: action.payload.groups,
       };
     case UserActionTypes.LOAD_USER_FAIL:
       return state;
