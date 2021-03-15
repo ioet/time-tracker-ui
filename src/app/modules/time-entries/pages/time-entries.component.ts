@@ -165,4 +165,5 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.message = `Are you sure you want to delete ${item.activity_name}?`;
     this.showModal = true;
   }
+
 }

@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 import { Customer } from 'src/app/modules/shared/models';
 import { SetCustomerToEdit } from 'src/app/modules/customer-management/store';
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-customer',
@@ -10,6 +10,8 @@ import { Component } from '@angular/core';
 })
 export class CustomerComponent {
   showCustomerForm = false;
+  haveChanges = false;
+
   activityName: string;
 
   constructor(private store: Store<Customer>) { }
@@ -21,4 +23,10 @@ export class CustomerComponent {
   closeCustomerForm(event) {
     this.showCustomerForm = event;
   }
+
+  getChangesInputs(event) {
+    this.haveChanges = event;
+    console.log('customer.component sending changes', this.haveChanges);
+  }
+
 }

@@ -10,7 +10,9 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 })
 export class ManagementCustomerProjectsComponent implements OnInit {
   @Output() closeCustemerForm = new EventEmitter<boolean>();
+  @Output() sendChanges = new EventEmitter<boolean>();
   areTabsActive: boolean;
+  haveChanges: boolean;
   activeTab: string;
   customerName: string;
 
@@ -42,4 +44,11 @@ export class ManagementCustomerProjectsComponent implements OnInit {
     this.activeTab = activeTab;
   }
 
+  getChangesInputs($haveChanges: boolean) {
+    setTimeout(() => {
+      this.haveChanges = $haveChanges;
+      this.sendChanges.emit($haveChanges);
+      console.log('manager-custome-project detect changes : ', this.haveChanges);
+    }, 1);
+  }
 }

@@ -77,6 +77,7 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 // tslint:disable-next-line: max-line-length
 import { TechnologyReportTableComponent } from './modules/technology-report/components/technology-report-table/technology-report-table.component';
 import { TechnologyReportComponent } from './modules/technology-report/pages/technology-report.component';
+import { ModalDialogModule } from 'ngx-modal-dialog';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -144,6 +145,7 @@ const maskConfig: Partial<IConfig> = {
     AutocompleteLibModule,
     NgxMaterialTimepickerModule,
     UiSwitchModule,
+    ModalDialogModule.forRoot(),
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),

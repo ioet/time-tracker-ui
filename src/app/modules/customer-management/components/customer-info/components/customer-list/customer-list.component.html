@@ -20,12 +20,28 @@
         <td class="col-3 text-break">{{ customer.name }}</td>
         <td class="col-4 text-center">
           <button
+            data-toggle="modal"
             (click)="editCustomer(customer.id)"
             type="button"
+            data-target="#editModal"
             class="btn btn-sm btn-primary"
           >
-            <i class="fa fa-pencil fa-xs"></i>
+            <i class="fa fa-pencil fa-xs">{{haveChanges}}</i>
           </button>
+
+          <app-dialog
+            *ngIf="showModal"
+            class="modal fade"
+            id="editModal"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+            [title]="'Edit Customer'"
+            [body]="message"
+            (closeModalEvent)="testMessage(customer.id)"
+            >
+          </app-dialog>
+
           <button
             data-toggle="modal"
             data-target="#deleteModal"

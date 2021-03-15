@@ -23,6 +23,8 @@ import { LoadCustomerProjects, CleanCustomerProjects } from '../../../projects/c
 export class CreateCustomerComponent implements OnInit, OnDestroy {
   customerForm: FormGroup;
   @Input() areTabsActive: boolean;
+  @Input() haveChanges: boolean;
+  @Output() ishaveChanges = new EventEmitter<boolean>();
   @Output() changeValueAreTabsActives = new EventEmitter<boolean>();
   @Output() closeCustomerComponent = new EventEmitter<boolean>();
   customerToEdit: Customer;
@@ -68,6 +70,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       this.store.dispatch(new LoadProjectTypes(customerData.id));
       this.store.dispatch(new LoadCustomerProjects(customerData.id));
       this.changeValueAreTabsActives.emit(true);
+      this.ishaveChanges.emit(this.haveChanges = false);
       this.customerForm.setValue({
         name: customerData.name,
         description: customerData.description,
@@ -93,5 +96,15 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     this.customerForm.reset();
     this.store.dispatch(new ResetCustomerToEdit());
     this.closeCustomerComponent.emit(false);
+  }
+
+  onSearchChange(searchValue: string): void {
+    if (searchValue) {
+      this.haveChanges = true;
+      this.ishaveChanges.emit(this.haveChanges);
+    } else {
+      this.haveChanges = false;
+      this.ishaveChanges.emit(this.haveChanges);
+    }
   }
 }

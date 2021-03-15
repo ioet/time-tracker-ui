@@ -55,6 +55,7 @@
       <app-create-customer
         [areTabsActive]="areTabsActive"
         (changeValueAreTabsActives)="activeTabs($event)"
+        (ishaveChanges)="getChangesInputs($event)"
         (closeCustomerComponent)="closeCustomer($event)"
       ></app-create-customer>
     </div>
