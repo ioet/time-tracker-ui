@@ -442,4 +442,17 @@ describe('TimeEntriesComponent', () => {
     component.newEntry();
     expect(component.entry).toEqual(newEntry);
   });
+
+  it('When I stop dragging the modal, it should reset Draggable Position', () => {
+    const dragEndEventStub = {
+      source: {
+        _dragRef: {
+          reset: () => { }
+        }
+      }
+    };
+    spyOn(dragEndEventStub.source._dragRef, 'reset');
+    component.resetDraggablePosition(dragEndEventStub);
+    expect(dragEndEventStub.source._dragRef.reset).toHaveBeenCalled();
+  });
 });
