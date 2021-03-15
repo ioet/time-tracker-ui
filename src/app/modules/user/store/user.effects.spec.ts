@@ -13,11 +13,11 @@ describe('UserEffects', () => {
   let effects: UserEffects;
   let service: UserService;
   const userInfo: User = {
-    name: 'Jerson Morocho',
-    email: 'jerson.morocho@ioet.com',
+    name: 'Unknown Name',
+    email: 'example@mail.com',
     roles: [],
     groups: [],
-    id: 'cc925a5d-9644-4a4f-8d99-0bee49aadd05',
+    id: 'dummy_tenant_id_load',
     tenant_id: null,
     deleted: null
   };
@@ -37,7 +37,7 @@ describe('UserEffects', () => {
   });
 
   it('action type is LOAD_USER_SUCCESS when service is executed successfully', async () => {
-    const userId = 'dd4a1571-b025-41c9-b35f-810841b43134';
+    const userId = 'dummy_id_load';
     const serviceSpy = spyOn(service, 'loadUser');
 
     actions$ = of(new LoadUser(userId));
@@ -49,7 +49,7 @@ describe('UserEffects', () => {
   });
 
   it('action type is LOAD_USER_FAIL when service fail in execution', async () => {
-    const userId = 'dd4a1571-b025-41c9-b35f-810841b43134';
+    const userId = 'dummy_id_load';
     const serviceSpy = spyOn(service, 'loadUser');
 
     actions$ = of(new LoadUser(userId));

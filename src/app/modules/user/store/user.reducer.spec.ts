@@ -11,7 +11,7 @@ describe('userReducer', () => {
   }
 
   it('on LoadUser, state equal to initState', () => {
-    const userId = 'dd4a1571-b025-41c9-b35f-810841b43134';
+    const userId = 'dummy_id_load';
     const action = new LoadUser(userId);
     const state = userReducer(initState, action);
 
@@ -20,11 +20,11 @@ describe('userReducer', () => {
 
   it('on LoadUserSuccess, userFound is saved in store', () => {
     const userFound: User = {
-      name: 'Jerson Morocho',
-      email: 'jerson.morocho@ioet.com',
+      name: 'Unknown Name',
+      email: 'example@mail.com',
       roles: [],
       groups: [],
-      id: 'dd4a1571-b025-41c9-b35f-810841b43134',
+      id: 'dummy_id_load',
       tenant_id: null,
       deleted: null
     };

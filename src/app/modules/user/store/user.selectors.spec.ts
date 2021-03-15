@@ -3,11 +3,11 @@ import { User } from '../models/user';
 
 describe('UserSelectors', () => {
   const userInfo: User = {
-      name: 'Jerson Morocho',
-      email: 'jerson.morocho@ioet.com',
+      name: 'Unknown Name',
+      email: 'example@mail.com',
       roles: [],
       groups: [],
-      id: 'cc925a5d-9644-4a4f-8d99-0bee49aadd05',
+      id: 'dummy_tenant_id_load',
       tenant_id: null,
       deleted: null
     };
@@ -15,7 +15,7 @@ describe('UserSelectors', () => {
   it('should select user info', () => {
     const result = getUserInfo.projector(userInfo);
 
-    expect(userInfo.email).toEqual('jerson.morocho@ioet.com');
+    expect(userInfo.email).toEqual('example@mail.com');
   });
 
 });
