@@ -443,10 +443,16 @@ describe('TimeEntriesComponent', () => {
     expect(component.entry).toEqual(newEntry);
   });
 
-  it('When I stop dragging the modal, it should call dragEnded', () => {
-    const dragEndEvent = new DragEvent('CdkDragEnd');
-    spyOn(component, 'dragEnded');
-    component.dragEnded(dragEndEvent);
-    expect(component.dragEnded).toHaveBeenCalledWith(dragEndEvent);
+  it('When I stop dragging the modal, it should reset Draggable Position', () => {
+    const dragEndEventStub = {
+      source: {
+        _dragRef: {
+          reset: () => { }
+        }
+      }
+    };
+    spyOn(dragEndEventStub.source._dragRef, 'reset');
+    component.resetDraggablePosition(dragEndEventStub);
+    expect(dragEndEventStub.source._dragRef.reset).toHaveBeenCalled();
   });
 });
