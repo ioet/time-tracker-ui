@@ -48,7 +48,6 @@ export class ManagementCustomerProjectsComponent implements OnInit {
     setTimeout(() => {
       this.haveChanges = $haveChanges;
       this.sendChanges.emit($haveChanges);
-      console.log('manager-custome-project detect changes : ', this.haveChanges);
     }, 1);
   }
 }

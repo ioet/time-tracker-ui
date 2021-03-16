@@ -32,6 +32,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   changeCustomerSubscription: Subscription;
   showModal = false;
   idToDelete: string;
+  idToEdit: string;
   message: string;
   isLoading$: Observable<boolean>;
 
@@ -90,10 +91,9 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  testMessage(customerId: string) {
+  discardChanges(customerId: string) {
     this.showCustomerForm = true;
     this.showModal = false;
-    this.haveChanges = null;
     this.changeValueShowCustomerForm.emit(this.showCustomerForm);
     this.resetProjectFieldsToEdit();
     this.store.dispatch(new SetCustomerToEdit(customerId));

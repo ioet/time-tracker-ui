@@ -26,7 +26,6 @@ export class CustomerComponent {
 
   getChangesInputs(event) {
     this.haveChanges = event;
-    console.log('customer.component sending changes', this.haveChanges);
   }
 
 }

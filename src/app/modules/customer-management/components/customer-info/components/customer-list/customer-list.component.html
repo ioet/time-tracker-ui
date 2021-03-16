@@ -26,7 +26,7 @@
             data-target="#editModal"
             class="btn btn-sm btn-primary"
           >
-            <i class="fa fa-pencil fa-xs">{{haveChanges}}</i>
+            <i class="fa fa-pencil fa-xs">{{ haveChanges}}</i>
           </button>
 
           <app-dialog
@@ -38,7 +38,7 @@
             aria-hidden="true"
             [title]="'Edit Customer'"
             [body]="message"
-            (closeModalEvent)="testMessage(customer.id)"
+            (closeModalEvent)="discardChanges(customer.id)"
             >
           </app-dialog>
 
