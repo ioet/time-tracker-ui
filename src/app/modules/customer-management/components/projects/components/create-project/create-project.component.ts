@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
@@ -16,6 +16,8 @@ import { getCustomerId } from 'src/app/modules/customer-management/store/custome
   styleUrls: ['./create-project.component.scss'],
 })
 export class CreateProjectComponent implements OnInit, OnDestroy {
+  @Input() haveChanges: boolean;
+  @Output() isHaveChanges = new EventEmitter<boolean>();
   projectForm;
   projectToEdit: Project;
   projectsTypes: ProjectType[] = [];
@@ -106,5 +108,10 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
       description: '',
       project_type_id: null,
     });
+  }
+
+  onSearchChanges(searchValue: string): void {
+    return searchValue ? this.isHaveChanges.emit(this.haveChanges = true) :
+      this.isHaveChanges.emit(this.haveChanges = false);
   }
 }

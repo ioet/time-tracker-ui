@@ -39,10 +39,19 @@ describe('CustomerComponent', () => {
   it('should change te value of var when method is called', () => {
     component.showCustomerForm = false;
     component.activateCustomerForm();
+
     expect(component.showCustomerForm).toBeTruthy();
   });
+
   it('should call close customer function', () => {
     component.closeCustomerForm(false);
+
     expect(component.showCustomerForm).toBe(false);
+  });
+
+  it('should call get changes inputs function', () => {
+    component.getChangesInputs(true);
+
+    expect(component.haveChanges).toBe(true);
   });
 });

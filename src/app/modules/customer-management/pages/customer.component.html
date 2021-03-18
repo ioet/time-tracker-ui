@@ -6,11 +6,12 @@
   </div>
   <app-customer-list
     [showCustomerForm]="showCustomerForm"
+    [haveChanges]="haveChanges"
     (changeValueShowCustomerForm)="showCustomerForm = $event"
   ></app-customer-list>
   <div class="row" *ngIf="showCustomerForm">
     <div class="col">
-      <app-management-customer-projects (closeCustemerForm)="closeCustomerForm($event)"></app-management-customer-projects>
+      <app-management-customer-projects (sendChanges)="getChangesInputs($event)" (closeCustemerForm)="closeCustomerForm($event)"></app-management-customer-projects>
     </div>
   </div>
 </div>

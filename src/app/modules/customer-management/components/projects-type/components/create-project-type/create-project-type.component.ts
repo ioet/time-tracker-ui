@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
@@ -14,6 +14,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./create-project-type.component.scss'],
 })
 export class CreateProjectTypeComponent implements OnInit, OnDestroy {
+  @Input() haveChanges: boolean;
+  @Output() isHaveChanges = new EventEmitter<boolean>();
   projectTypeForm: FormGroup;
   projectTypeToEdit: ProjectType;
   customerId: string;
@@ -63,9 +65,11 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
         id: this.projectTypeToEdit.id,
       };
       this.store.dispatch(new UpdateProjectType(projectType));
+      this.isHaveChanges.emit(this.haveChanges = false);
     } else {
       this.store.dispatch(new CreateProjectType({ ...projectTypeData, customer_id: this.customerId }));
       this.projectTypeForm.get('description').setValue('');
+      this.isHaveChanges.emit(this.haveChanges = false);
     }
   }
 
@@ -75,5 +79,10 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getCustomerIdSubscription.unsubscribe();
+  }
+
+  onSearchChanges(searchValue: string): void {
+    return searchValue ? this.isHaveChanges.emit(this.haveChanges = true) :
+      this.isHaveChanges.emit(this.haveChanges = false);
   }
 }
