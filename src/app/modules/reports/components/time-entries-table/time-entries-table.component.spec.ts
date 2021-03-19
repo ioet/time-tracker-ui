@@ -21,7 +21,7 @@ describe('Reports Page', () => {
       description: 'any comment',
       uri: 'custom uri',
       project_id: '123',
-      project_name: 'Time-Tracker'
+      project_name: 'Time-Tracker',
     };
 
     const state: EntryState = {
@@ -33,38 +33,41 @@ describe('Reports Page', () => {
       timeEntriesSummary: null,
       timeEntriesDataSource: {
         data: [timeEntry],
-        isLoading: false
+        isLoading: false,
       },
       reportDataSource: {
         data: [timeEntry],
-        isLoading: false
-      }
+        isLoading: false,
+      },
     };
 
-    beforeEach(waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [],
-        declarations: [TimeEntriesTableComponent, SubstractDatePipe],
-        providers: [provideMockStore({ initialState: state })],
-      }).compileComponents();
-      store = TestBed.inject(MockStore);
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          imports: [],
+          declarations: [TimeEntriesTableComponent, SubstractDatePipe],
+          providers: [provideMockStore({ initialState: state })],
+        }).compileComponents();
+        store = TestBed.inject(MockStore);
+      })
+    );
 
-    }));
-
-    beforeEach(waitForAsync(() => {
-      fixture = TestBed.createComponent(TimeEntriesTableComponent);
-      component = fixture.componentInstance;
-      store.setState(state);
-      getReportDataSourceSelectorMock = store.overrideSelector(getReportDataSource, state.reportDataSource);
-      fixture.detectChanges();
-    }));
+    beforeEach(
+      waitForAsync(() => {
+        fixture = TestBed.createComponent(TimeEntriesTableComponent);
+        component = fixture.componentInstance;
+        store.setState(state);
+        getReportDataSourceSelectorMock = store.overrideSelector(getReportDataSource, state.reportDataSource);
+        fixture.detectChanges();
+      })
+    );
 
     it('component should be created', async () => {
       expect(component).toBeTruthy();
     });
 
     it('on success load time entries, the report should be populated', () => {
-      component.reportDataSource$.subscribe(ds => {
+      component.reportDataSource$.subscribe((ds) => {
         expect(ds.data).toEqual(state.reportDataSource.data);
       });
     });
@@ -74,6 +77,34 @@ describe('Reports Page', () => {
       component.ngAfterViewInit();
 
       expect(component.dtTrigger.next).toHaveBeenCalled();
+    });
+
+    it('when the uri starts with http or https it should return true and open the url in a new tab', () => {
+      const url = 'http://customuri.com';
+      spyOn(component, 'isURL').and.returnValue(true);
+      spyOn(window, 'open');
+
+      expect(component.openURLInNewTab(url)).not.toEqual('');
+      expect(window.open).toHaveBeenCalledWith(url, '_blank');
+    });
+
+    it('when the uri starts without http or https it should return false and not navigate or open a new tab', () => {
+      const url = timeEntry.uri;
+      spyOn(component, 'isURL').and.returnValue(false);
+
+      expect(component.openURLInNewTab(url)).toEqual('');
+    });
+
+    const params = [
+      {url: 'http://example.com', expected_value: true},
+      {url: 'https://example.com', expected_value: true},
+      {url: 'no-url-example', expected_value: false}
+    ];
+    params.map((param) => {
+      it(`Given the url ${param.url}, the method isURL should return ${param.expected_value}`, () => {
+
+      expect(component.isURL(param.url)).toEqual(param.expected_value);
+      });
     });
 
     afterEach(() => {

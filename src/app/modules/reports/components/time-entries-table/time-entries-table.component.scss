@@ -1,3 +1,4 @@
+@import '../../../../../styles/colors.scss';
 .col{
   white-space: nowrap;
   overflow: hidden;
@@ -32,3 +33,25 @@
   width: 100%;
   display: grid;
 }
+
+$url-base-color: $primary;
+$url-hover-color: darken($url-base-color, 20);
+
+.is-url {
+  cursor: pointer;
+  color: $url-base-color;
+  text-decoration: underline;
+
+  &:visited {
+    color: $dark;
+  }
+
+  &:hover {
+    color: $url-hover-color;
+  }
+
+  &:active {
+    color: $url-base-color;
+  }
+}
+
