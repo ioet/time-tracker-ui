@@ -94,7 +94,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     return this.isURL(uri) ? window.open(uri, '_blank') : '';
   }
 
-  isURL(uri: string) {
+  isURL(uri: string): boolean {
     const regex = new RegExp('http*', 'g');
     return regex.test(uri);
   }
