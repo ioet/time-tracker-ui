@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, NgModule } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
@@ -30,7 +30,9 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         exportOptions: {
           format: {
             body: (data, row, column, node) => {
-              return column === 3 ? moment.duration(data).asHours().toFixed(4).slice(0, -1) : data;
+              return column === 3 ?
+              moment.duration(data).asHours().toFixed(4).slice(0, -1) :
+              data;
             },
           },
         },
@@ -42,7 +44,9 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         exportOptions: {
           format: {
             body: (data, row, column, node) => {
-              return column === 3 ? moment.duration(data).asHours().toFixed(4).slice(0, -1) : data;
+              return column === 3 ?
+              moment.duration(data).asHours().toFixed(4).slice(0, -1) :
+              data;
             },
           },
         },
@@ -92,6 +96,6 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
 
   isURL(uri: string) {
     const regex = new RegExp('http*', 'g');
-    return regex.test(uri) ? true : false;
+    return regex.test(uri);
   }
 }

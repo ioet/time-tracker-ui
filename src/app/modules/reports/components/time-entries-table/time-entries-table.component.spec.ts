@@ -89,19 +89,19 @@ describe('Reports Page', () => {
     });
 
     it('when the uri starts without http or https it should return false and not navigate or open a new tab', () => {
-      const uriExpected = timeEntry.uri;
+      const url = timeEntry.uri;
       spyOn(component, 'isURL').and.returnValue(false);
 
-      expect(component.openURLInNewTab(uriExpected)).toEqual('');
+      expect(component.openURLInNewTab(url)).toEqual('');
     });
 
     const params = [
-      {url: 'http://example.com', expected_value: true, with: 'with'},
-      {url: 'https://example.com', expected_value: true, with: 'with'},
-      {url: 'no-url-example', expected_value: false, with: 'without'}
+      {url: 'http://example.com', expected_value: true},
+      {url: 'https://example.com', expected_value: true},
+      {url: 'no-url-example', expected_value: false}
     ];
     params.map((param) => {
-      it(`when the url starts ${param.with} http or https it should return ${param.expected_value}`, () => {
+      it(`Given the url ${param.url}, the method isURL should return ${param.expected_value}`, () => {
 
       expect(component.isURL(param.url)).toEqual(param.expected_value);
       });

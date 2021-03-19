@@ -4,7 +4,7 @@
     datatable
     [dtTrigger]="dtTrigger"
     [dtOptions]="dtOptions"
-    *ngIf="reportDataSource$ | async as dataSource">
+    *ngIf="(reportDataSource$ | async) as dataSource">
     <thead class="thead-blue">
       <tr class="d-flex">
         <th class="hidden-col">ID</th>
