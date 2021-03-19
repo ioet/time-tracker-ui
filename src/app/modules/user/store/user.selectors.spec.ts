@@ -1,21 +1,22 @@
-import { getUserInfo } from './user.selectors';
+import { getUserGroups, getUserInfo } from './user.selectors';
 import { User } from '../models/user';
 
 describe('UserSelectors', () => {
-  const userInfo: User = {
-      name: 'Unknown Name',
-      email: 'example@mail.com',
-      roles: [],
-      groups: [],
-      id: 'dummy_tenant_id_load',
-      tenant_id: null,
-      deleted: null
-    };
+  const userState: User = {
+    name: 'Unknown Name',
+    email: 'example@mail.com',
+    roles: [],
+    groups: [],
+    id: 'dummy_tenant_id_load',
+    tenant_id: null,
+    deleted: null,
+  };
 
-  it('should select user info', () => {
-    const result = getUserInfo.projector(userInfo);
-
-    expect(userInfo.email).toEqual('example@mail.com');
+  it('should select user from store', () => {
+    expect(getUserInfo.projector(userState)).toEqual(userState);
   });
 
+  it('should select user groups from store', () => {
+    expect(getUserGroups.projector(userState)).toEqual(userState.groups);
+  });
 });

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
 
-
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',

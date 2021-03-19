@@ -1,7 +1,7 @@
 export interface User {
   name: string;
   email: string;
-  roles?: string[];  
+  roles?: string[];
   groups?: string[];
   id: string;
   tenant_id?: string;
