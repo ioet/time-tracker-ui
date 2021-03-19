@@ -5,7 +5,6 @@ import {NavigationStart, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import { FeatureManagerService } from '../../feature-toggles/feature-toggle-manager.service';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,8 +20,6 @@ export class SidebarComponent implements OnInit {
     private azureAdB2CService: AzureAdB2CService,
     private router: Router,
     private featureManagerService: FeatureManagerService,
-    private store: Store,
-    private bc2azure: AzureAdB2CService,
   ) {
     this.navStart = this.router.events.pipe(
       filter(evt => evt instanceof NavigationStart)
@@ -37,9 +34,6 @@ export class SidebarComponent implements OnInit {
     this.navStart.subscribe(evt => {
       this.highlightMenuOption(evt.url);
     });
-
-    console.log(this.bc2azure.getUserId());
-
   }
 
   toggleSideBar() {
