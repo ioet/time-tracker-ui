@@ -4,7 +4,7 @@
     datatable
     [dtTrigger]="dtTrigger"
     [dtOptions]="dtOptions"
-    *ngIf="(reportDataSource$ | async) as dataSource">
+    *ngIf="reportDataSource$ | async as dataSource">
     <thead class="thead-blue">
       <tr class="d-flex">
         <th class="hidden-col">ID</th>
@@ -41,7 +41,13 @@
         <td class="col md-col">{{ entry.customer_name }}</td>
         <td class="hidden-col">{{ entry.customer_id }}</td>
         <td class="col md-col">{{ entry.activity_name }}</td>
-        <td class="col lg-col">{{ entry.uri }}</td>
+        <td class="col lg-col">
+          <ng-container *ngIf="entry.uri !== null">
+            <a [class.is-url]="isURL(entry.uri)" (click)="openURLInNewTab(entry.uri)">
+              {{ entry.uri }}
+            </a>
+          </ng-container>
+        </td>
         <td class="col lg-col">{{ entry.description }}</td>
         <td class="col lg-col">{{ entry.technologies }}</td>
       </tr>

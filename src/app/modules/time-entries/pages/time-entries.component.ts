@@ -160,11 +160,13 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
     this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
   }
+
   openModal(item: any) {
     this.idToDelete = item.id;
     this.message = `Are you sure you want to delete ${item.activity_name}?`;
     this.showModal = true;
   }
+
   resetDraggablePosition(event: any): void {
     event.source._dragRef.reset();
   }

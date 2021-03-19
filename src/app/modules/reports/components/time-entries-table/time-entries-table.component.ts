@@ -1,19 +1,18 @@
 import { formatDate } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, NgModule } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
-
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
 
 @Component({
   selector: 'app-time-entries-table',
   templateUrl: './time-entries-table.component.html',
-  styleUrls: ['./time-entries-table.component.scss']
+  styleUrls: ['./time-entries-table.component.scss'],
 })
 export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
   dtOptions: any = {
@@ -24,7 +23,6 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       {
         extend: 'colvis',
         columns: ':not(.hidden-col)',
-
       },
       'print',
       {
@@ -32,30 +30,26 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         exportOptions: {
           format: {
             body: (data, row, column, node) => {
-              return column === 3 ?
-                moment.duration(data).asHours().toFixed(4).slice(0, -1) :
-                data;
-            }
-          }
+              return column === 3 ? moment.duration(data).asHours().toFixed(4).slice(0, -1) : data;
+            },
+          },
         },
         text: 'Excel',
-        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
+        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`,
       },
       {
         extend: 'csv',
         exportOptions: {
           format: {
             body: (data, row, column, node) => {
-              return column === 3 ?
-                moment.duration(data).asHours().toFixed(4).slice(0, -1) :
-                data;
-            }
-          }
+              return column === 3 ? moment.duration(data).asHours().toFixed(4).slice(0, -1) : data;
+            },
+          },
         },
         text: 'CSV',
-        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
-      }
-    ]
+        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`,
+      },
+    ],
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
@@ -90,5 +84,14 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     } else {
       this.dtTrigger.next();
     }
+  }
+
+  openURLInNewTab(uri: string): WindowProxy | string {
+    return this.isURL(uri) ? window.open(uri, '_blank') : '';
+  }
+
+  isURL(uri: string) {
+    const regex = new RegExp('http*', 'g');
+    return regex.test(uri) ? true : false;
   }
 }
