@@ -1,21 +1,33 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { getUserGroupsInfo } from '../store/user.selectors';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { getUserGroups } from '../store/user.selectors';
+import { GROUPS } from '../../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserInfoService {
+  constructor(private store: Store) {}
 
-  constructor(private store: Store) { }
+  groups(): Observable<string[]> {
+    return this.store.pipe(select(getUserGroups));
+  }
 
-  verifyGroup(groupName: string): boolean {
-    let isGroupBelongsToUser: boolean;
+  isMemberOf(groupName: string): Observable<boolean> {
+    return this.groups().pipe(
+      map((groups: string[]) => {
+        return groups.includes(groupName);
+      })
+    );
+  }
 
-    const groupsStored = this.store.pipe(select(getUserGroupsInfo)).subscribe((groups) => {
-      isGroupBelongsToUser = groups.includes(groupName);
-    });
+  isAdmin(): Observable<boolean> {
+    return this.isMemberOf(GROUPS.ADMIN);
+  }
 
-    return isGroupBelongsToUser;
+  isTester(): Observable<boolean> {
+    return this.isMemberOf(GROUPS.TESTER);
   }
 }
