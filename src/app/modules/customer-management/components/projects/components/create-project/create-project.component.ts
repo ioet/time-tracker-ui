@@ -16,8 +16,8 @@ import { getCustomerId } from 'src/app/modules/customer-management/store/custome
   styleUrls: ['./create-project.component.scss'],
 })
 export class CreateProjectComponent implements OnInit, OnDestroy {
-  @Input() haveChanges: boolean;
-  @Output() isHaveChanges = new EventEmitter<boolean>();
+  @Input() hasChange: boolean;
+  @Output() hasChangedEvent = new EventEmitter<boolean>();
   projectForm;
   projectToEdit: Project;
   projectsTypes: ProjectType[] = [];
@@ -110,8 +110,8 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSearchChanges(searchValue: string): void {
-    return searchValue ? this.isHaveChanges.emit(this.haveChanges = true) :
-      this.isHaveChanges.emit(this.haveChanges = false);
+  onInputChangeProject(searchValue: string): void {
+    return searchValue ? this.hasChangedEvent.emit(this.hasChange = true) :
+      this.hasChangedEvent.emit(this.hasChange = false);
   }
 }

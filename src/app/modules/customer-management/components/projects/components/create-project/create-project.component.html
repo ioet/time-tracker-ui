@@ -6,7 +6,7 @@
       placeholder="Project name"
       formControlName="name"
       [class.is-invalid]="name.invalid && name.touched"
-      (input)="onSearchChanges($event.target.value)"
+      (input)="onInputChangeProject($event.target.value)"
     />
     <div class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
       Project name is required.
@@ -17,7 +17,7 @@
     rows="3"
     formControlName="description"
     placeholder="Description"
-    (input)="onSearchChanges($event.target.value)"
+    (input)="onInputChangeProject($event.target.value)"
   ></textarea>
   <div class="form-group">
     <select class="custom-select custom-select-sm mt-2" formControlName="project_type_id">

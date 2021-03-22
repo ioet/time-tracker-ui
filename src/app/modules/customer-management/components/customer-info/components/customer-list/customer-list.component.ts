@@ -20,7 +20,7 @@ import { ResetProjectTypeToEdit } from '../../../projects-type/store';
 })
 export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() showCustomerForm: boolean;
-  @Input() haveChanges: boolean;
+  @Input() hasChange: boolean;
   @Output() changeValueShowCustomerForm = new EventEmitter<boolean>();
   @Input()
   customers: Customer[] = [];
@@ -80,7 +80,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   editCustomer(customerId: string) {
     this.idToEdit = customerId;
-    if (this.haveChanges === true) {
+    if (this.hasChange) {
       this.message = 'Do you have changes in a client, do you want to discard them?';
       this.showModal = true;
     } else {

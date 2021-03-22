@@ -23,8 +23,8 @@ import { LoadCustomerProjects, CleanCustomerProjects } from '../../../projects/c
 export class CreateCustomerComponent implements OnInit, OnDestroy {
   customerForm: FormGroup;
   @Input() areTabsActive: boolean;
-  @Input() haveChanges: boolean;
-  @Output() isHaveChanges = new EventEmitter<boolean>();
+  @Input() hasChange: boolean;
+  @Output() hasChangedEvent = new EventEmitter<boolean>();
   @Output() changeValueAreTabsActives = new EventEmitter<boolean>();
   @Output() closeCustomerComponent = new EventEmitter<boolean>();
   customerToEdit: Customer;
@@ -70,7 +70,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       this.store.dispatch(new LoadProjectTypes(customerData.id));
       this.store.dispatch(new LoadCustomerProjects(customerData.id));
       this.changeValueAreTabsActives.emit(true);
-      this.isHaveChanges.emit(this.haveChanges = false);
+      this.hasChangedEvent.emit(this.hasChange = false);
       this.customerForm.setValue({
         name: customerData.name,
         description: customerData.description,
@@ -98,8 +98,8 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     this.closeCustomerComponent.emit(false);
   }
 
-  onSearchChanges(searchValue: string): void {
-    return searchValue ? this.isHaveChanges.emit(this.haveChanges = true) :
-      this.isHaveChanges.emit(this.haveChanges = false);
+  onInputChangeCustomer(searchValue: string): void {
+    return searchValue ? this.hasChangedEvent.emit(this.hasChange = true) :
+      this.hasChangedEvent.emit(this.hasChange = false);
   }
 }

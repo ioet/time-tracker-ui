@@ -52,6 +52,6 @@ describe('CustomerComponent', () => {
   it('should call get changes inputs function', () => {
     component.getChangesInputs(true);
 
-    expect(component.haveChanges).toBe(true);
+    expect(component.hasChangeComponent).toBe(true);
   });
 });

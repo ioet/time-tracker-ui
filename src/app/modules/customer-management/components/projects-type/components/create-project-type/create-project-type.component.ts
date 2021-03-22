@@ -14,8 +14,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./create-project-type.component.scss'],
 })
 export class CreateProjectTypeComponent implements OnInit, OnDestroy {
-  @Input() haveChanges: boolean;
-  @Output() isHaveChanges = new EventEmitter<boolean>();
+  @Input() hasChange: boolean;
+  @Output() hasChangedEvent = new EventEmitter<boolean>();
   projectTypeForm: FormGroup;
   projectTypeToEdit: ProjectType;
   customerId: string;
@@ -65,11 +65,10 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
         id: this.projectTypeToEdit.id,
       };
       this.store.dispatch(new UpdateProjectType(projectType));
-      this.isHaveChanges.emit(this.haveChanges = false);
+      this.hasChangedEvent.emit(this.hasChange = false);
     } else {
       this.store.dispatch(new CreateProjectType({ ...projectTypeData, customer_id: this.customerId }));
       this.projectTypeForm.get('description').setValue('');
-      this.isHaveChanges.emit(this.haveChanges = false);
     }
   }
 
@@ -81,8 +80,8 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
     this.getCustomerIdSubscription.unsubscribe();
   }
 
-  onSearchChanges(searchValue: string): void {
-    return searchValue ? this.isHaveChanges.emit(this.haveChanges = true) :
-      this.isHaveChanges.emit(this.haveChanges = false);
+  onInputChangeProjectType(searchValue: string): void {
+    return searchValue ? this.hasChangedEvent.emit(this.hasChange = true) :
+      this.hasChangedEvent.emit(this.hasChange = false);
   }
 }

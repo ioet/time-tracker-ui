@@ -141,22 +141,22 @@ describe('CreateCustomerComponent', () => {
   });
 
   it('if detect changes in customer information, it should emit a true', () => {
-    component.haveChanges = true;
-    spyOn(component.isHaveChanges, 'emit');
+    component.hasChange = true;
+    spyOn(component.hasChangedEvent, 'emit');
 
-    component.onSearchChanges('changes text');
+    component.onInputChangeCustomer('changes text');
 
-    expect(component.haveChanges).toBe(true);
-    expect(component.isHaveChanges.emit).toHaveBeenCalledWith(component.haveChanges);
+    expect(component.hasChange).toBe(true);
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(component.hasChange);
   });
 
   it('if not detect changes in customer information, it should emit a false', () => {
-    component.haveChanges = false;
-    spyOn(component.isHaveChanges, 'emit');
+    component.hasChange = false;
+    spyOn(component.hasChangedEvent, 'emit');
 
-    component.onSearchChanges('');
+    component.onInputChangeCustomer('');
 
-    expect(component.haveChanges).toBe(false);
-    expect(component.isHaveChanges.emit).toHaveBeenCalledWith(component.haveChanges);
+    expect(component.hasChange).toBe(false);
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(component.hasChange);
   });
 });

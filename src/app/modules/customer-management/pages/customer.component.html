@@ -6,7 +6,7 @@
   </div>
   <app-customer-list
     [showCustomerForm]="showCustomerForm"
-    [haveChanges]="haveChanges"
+    [hasChange]="hasChangeComponent"
     (changeValueShowCustomerForm)="showCustomerForm = $event"
   ></app-customer-list>
   <div class="row" *ngIf="showCustomerForm">

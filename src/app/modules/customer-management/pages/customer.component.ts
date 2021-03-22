@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
 })
 export class CustomerComponent {
   showCustomerForm = false;
-  haveChanges = false;
+  hasChangeComponent = false;
 
   activityName: string;
 
@@ -26,6 +26,6 @@ export class CustomerComponent {
   }
 
   getChangesInputs(event) {
-    this.haveChanges = event;
+    this.hasChangeComponent = event;
   }
 }

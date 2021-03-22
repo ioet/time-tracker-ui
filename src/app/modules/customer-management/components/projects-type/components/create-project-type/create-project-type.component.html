@@ -6,7 +6,7 @@
       aria-describedby=""
       [class.is-invalid]="name.invalid && name.touched"
       required placeholder="Name"
-      (input)="onSearchChanges($event.target.value)"
+      (input)="onInputChangeProjectType($event.target.value)"
     />
     <div class="text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
       Name is required.
@@ -19,7 +19,7 @@
       rows="3"
       placeholder="Description"
       formControlName="description"
-      (input)="onSearchChanges($event.target.value)"
+      (input)="onInputChangeProjectType($event.target.value)"
     ></textarea>
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="!projectTypeForm.valid">

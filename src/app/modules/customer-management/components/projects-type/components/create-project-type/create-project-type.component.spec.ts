@@ -168,22 +168,22 @@ describe('InputProjectTypeComponent', () => {
   });
 
   it('if detect changes in create project type , it should emit a true', () => {
-    component.haveChanges = true;
-    spyOn(component.isHaveChanges, 'emit');
+    component.hasChange = true;
+    spyOn(component.hasChangedEvent, 'emit');
 
-    component.onSearchChanges('name project');
+    component.onInputChangeProjectType('name project');
 
-    expect(component.haveChanges).toBe(true);
-    expect(component.isHaveChanges.emit).toHaveBeenCalledWith(true);
+    expect(component.hasChange).toBe(true);
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(true);
   });
 
   it('if not detect changes in create project type, it should emit a false', () => {
-    component.haveChanges = false;
-    spyOn(component.isHaveChanges, 'emit');
+    component.hasChange = false;
+    spyOn(component.hasChangedEvent, 'emit');
 
-    component.onSearchChanges('');
+    component.onInputChangeProjectType('');
 
-    expect(component.haveChanges).toBe(false);
-    expect(component.isHaveChanges.emit).toHaveBeenCalledWith(false);
+    expect(component.hasChange).toBe(false);
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(false);
   });
 });

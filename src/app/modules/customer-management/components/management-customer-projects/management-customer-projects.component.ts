@@ -12,7 +12,7 @@ export class ManagementCustomerProjectsComponent implements OnInit {
   @Output() closeCustemerForm = new EventEmitter<boolean>();
   @Output() sendChanges = new EventEmitter<boolean>();
   areTabsActive: boolean;
-  haveChanges: boolean;
+  hasChanged: boolean;
   activeTab: string;
   customerName: string;
 
@@ -44,8 +44,8 @@ export class ManagementCustomerProjectsComponent implements OnInit {
     this.activeTab = activeTab;
   }
 
-  getChanges($haveChanges: boolean) {
-    this.haveChanges = $haveChanges;
-    this.sendChanges.emit($haveChanges);
+  getChanges($value: boolean) {
+    this.hasChanged = $value;
+    this.sendChanges.emit($value);
   }
 }

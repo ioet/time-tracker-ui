@@ -60,7 +60,7 @@ describe('CustomerTableListComponent', () => {
 
 
   it('Onclick Edit, if there are changes, the modal must be presented ', () => {
-    component.haveChanges = true;
+    component.hasChange = true;
     const expectMessage = 'Do you have changes in a client, do you want to discard them?';
 
     component.editCustomer('1');
@@ -70,7 +70,7 @@ describe('CustomerTableListComponent', () => {
   });
 
   it('onClick edit, if there are not have changes dispatch SetCustomerToEdit, enable customer form and hidden modal', () => {
-    component.haveChanges = false;
+    component.hasChange = false;
 
     spyOn(store, 'dispatch');
 
