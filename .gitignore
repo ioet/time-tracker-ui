@@ -43,6 +43,7 @@ testem.log
 .keys.json
 keys.ts
 src/environments/keys.ts
+debug.log
 
 # System Files
 .DS_Store
