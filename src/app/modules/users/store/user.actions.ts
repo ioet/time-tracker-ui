@@ -11,12 +11,21 @@ export enum UserActionTypes {
   REVOKE_USER_ROLE = '[User] REVOKE_USER_ROLE',
   REVOKE_USER_ROLE_SUCCESS = '[User] REVOKE_USER_ROLE_SUCCESS',
   REVOKE_USER_ROLE_FAIL = '[User] REVOKE_USER_ROLE_FAIL',
+<<<<<<< HEAD
   ADD_USER_TO_GROUP = '[User] ADD_USER_TO_GROUP',
   ADD_USER_TO_GROUP_SUCCESS = '[User] ADD_USER_TO_GROUP_SUCCESS',
   ADD_USER_TO_GROUP_FAIL = '[User] ADD_USER_TO_GROUP_FAIL',
   REMOVE_USER_FROM_GROUP = '[User] REMOVE_USER_FROM_GROUP',
   REMOVE_USER_FROM_GROUP_SUCCESS = '[User] REMOVE_USER_FROM_GROUP_SUCCESS',
   REMOVE_USER_FROM_GROUP_FAIL = '[User] REMOVE_USER_FROM_GROUP_FAIL',
+=======
+  ADD_GROUP_TO_USER = '[User] ADD_GROUP_TO_USER',
+  ADD_GROUP_TO_USER_SUCCESS = '[User] ADD_GROUP_TO_USER_SUCCESS',
+  ADD_GROUP_TO_USER_FAIL = '[User] ADD_GROUP_TO_USER_FAIL',
+  REMOVE_GROUP_TO_USER = '[User] REMOVE_GROUP_TO_USER',
+  REMOVE_GROUP_TO_USER_SUCCESS = '[User] REMOVE_GROUP_TO_USER_SUCCESS',
+  REMOVE_GROUP_TO_USER_FAIL = '[User] REMOVE_GROUP_TO_USER_FAIL',
+>>>>>>> feat: TT-188 add ngrx flow & test
   DEFAULT_USER = '[USER] DEFAULT_USER',
 }
 
@@ -64,6 +73,7 @@ export class RevokeRoleUserFail implements Action {
   constructor(public error: string) {}
 }
 
+<<<<<<< HEAD
 export class AddUserToGroup implements Action {
   public readonly type = UserActionTypes.ADD_USER_TO_GROUP;
   constructor(public userId: string, public groupName: string) {}
@@ -91,6 +101,35 @@ export class RemoveUserFromGroupSuccess implements Action {
 
 export class RemoveUserFromGroupFail implements Action {
   public readonly type = UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL;
+=======
+export class AddGroupToUser implements Action {
+  public readonly type = UserActionTypes.ADD_GROUP_TO_USER;
+  constructor(public userId: string, public groupName: string) {}
+}
+
+export class AddGroupToUserSuccess implements Action {
+  public readonly type = UserActionTypes.ADD_GROUP_TO_USER_SUCCESS;
+  constructor(readonly payload: User) {}
+}
+
+export class AddGroupToUserFail implements Action {
+  public readonly type = UserActionTypes.ADD_GROUP_TO_USER_FAIL;
+  constructor(public error: string) {}
+}
+
+export class RemoveGroupToUser implements Action {
+  public readonly type = UserActionTypes.REMOVE_GROUP_TO_USER;
+  constructor(public userId: string, public groupName: string) {}
+}
+
+export class RemoveGroupToUserSuccess implements Action {
+  public readonly type = UserActionTypes.REMOVE_GROUP_TO_USER_SUCCESS;
+  constructor(readonly payload: User) {}
+}
+
+export class RemoveGroupToUserFail implements Action {
+  public readonly type = UserActionTypes.REMOVE_GROUP_TO_USER_FAIL;
+>>>>>>> feat: TT-188 add ngrx flow & test
   constructor(public error: string) {}
 }
 
@@ -109,9 +148,18 @@ export type UserActions =
   | RevokeRoleUser
   | RevokeRoleUserSuccess
   | RevokeRoleUserFail
+<<<<<<< HEAD
   | AddUserToGroup
   | AddUserToGroupSuccess
   | AddUserToGroupFail
   | RemoveUserFromGroup
   | RemoveUserFromGroupSuccess
   | RemoveUserFromGroupFail;
+=======
+  | AddGroupToUser
+  | AddGroupToUserSuccess
+  | AddGroupToUserFail
+  | RemoveGroupToUser
+  | RemoveGroupToUserSuccess
+  | RemoveGroupToUserFail;
+>>>>>>> feat: TT-188 add ngrx flow & test

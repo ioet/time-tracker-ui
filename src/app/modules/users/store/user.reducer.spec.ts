@@ -93,27 +93,43 @@ describe('userReducer', () => {
     expect(state.isLoading).toEqual(false);
   });
 
+<<<<<<< HEAD
   it('on AddUserToGroup, isLoading is true', () => {
     const userId = 'userId';
     const groupName = 'groupName';
     const action = new actions.AddUserToGroup(userId, groupName);
+=======
+  it('on AddGroupToUser, isLoading is true', () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    const action = new actions.AddGroupToUser(userId, groupName);
+>>>>>>> feat: TT-188 add ngrx flow & test
     const state = userReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
   });
 
+<<<<<<< HEAD
   it('on AddUserToGroupSuccess, user groups should change', () => {
+=======
+  it('on AddGroupToUserSuccess, user groups should change', () => {
+>>>>>>> feat: TT-188 add ngrx flow & test
     const currentState: UserState = {
       data: [{ id: 'id', name: 'name', email: 'email', groups: null }],
       isLoading: false,
       message: '',
     };
     const userWithGroupAdded: User = { id: 'id', name: 'name', email: 'email', groups: ['group'] };
+<<<<<<< HEAD
     const action = new actions.AddUserToGroupSuccess(userWithGroupAdded);
+=======
+    const action = new actions.AddGroupToUserSuccess(userWithGroupAdded);
+>>>>>>> feat: TT-188 add ngrx flow & test
     const state = userReducer(currentState, action);
 
     expect(state.data).toEqual([userWithGroupAdded]);
     expect(state.isLoading).toEqual(false);
+<<<<<<< HEAD
     expect(state.message).toEqual('Add user to group success');
   });
 
@@ -129,23 +145,49 @@ describe('userReducer', () => {
     const userId = 'userId';
     const groupName = 'groupName';
     const action = new actions.RemoveUserFromGroup(userId, groupName);
+=======
+    expect(state.message).toEqual('Add group to a user success');
+  });
+
+  it('on AddGroupToUserFail, should show a message with an error message', () => {
+    const action = new actions.AddGroupToUserFail('error');
+    const state = userReducer(initialState, action);
+
+    expect(state.message).toEqual('Something went wrong adding group to a user');
+    expect(state.isLoading).toEqual(false);
+  });
+
+  it('on RemoveGroupToUser, isLoading is true', () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    const action = new actions.RemoveGroupToUser(userId, groupName);
+>>>>>>> feat: TT-188 add ngrx flow & test
     const state = userReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
   });
 
+<<<<<<< HEAD
   it('on RemoveUserFromGroupSuccess, user groups should change', () => {
+=======
+  it('on RemoveGroupToUserSuccess, user groups should change', () => {
+>>>>>>> feat: TT-188 add ngrx flow & test
     const currentState: UserState = {
       data: [{ id: 'id', name: 'name', email: 'email', groups: ['group'] }],
       isLoading: false,
       message: '',
     };
     const userWithGroupRemoved: User = { id: 'id', name: 'name', email: 'email', groups: null };
+<<<<<<< HEAD
     const action = new actions.RemoveUserFromGroupSuccess(userWithGroupRemoved);
+=======
+    const action = new actions.RemoveGroupToUserSuccess(userWithGroupRemoved);
+>>>>>>> feat: TT-188 add ngrx flow & test
     const state = userReducer(currentState, action);
 
     expect(state.data).toEqual([userWithGroupRemoved]);
     expect(state.isLoading).toEqual(false);
+<<<<<<< HEAD
     expect(state.message).toEqual('Remove user from group success');
   });
 
@@ -154,6 +196,16 @@ describe('userReducer', () => {
     const state = userReducer(initialState, action);
 
     expect(state.message).toEqual('Something went wrong removing user from group');
+=======
+    expect(state.message).toEqual('Remove group to a user success');
+  });
+
+  it('on RemoveGroupToUserFail, should show a message with an error message', () => {
+    const action = new actions.RemoveGroupToUserFail('error');
+    const state = userReducer(initialState, action);
+
+    expect(state.message).toEqual('Something went wrong removing group to a user');
+>>>>>>> feat: TT-188 add ngrx flow & test
     expect(state.isLoading).toEqual(false);
   });
 

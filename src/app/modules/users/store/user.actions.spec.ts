@@ -53,6 +53,7 @@ describe('UserActions', () => {
     expect(action.type).toEqual(actions.UserActionTypes.REVOKE_USER_ROLE_FAIL);
   });
 
+<<<<<<< HEAD
   it('AddUserToGroup type is UserActionTypes.ADD_USER_TO_GROUP', () => {
     const userId = 'userId';
     const groupName = 'groupName';
@@ -93,5 +94,47 @@ describe('UserActions', () => {
     const action = new actions.RemoveUserFromGroupFail('error');
 
     expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL);
+=======
+  it('AddGroupToUser type is UserActionTypes.ADD_GROUP_TO_USER', () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    const action = new actions.AddGroupToUser(userId, groupName);
+
+    expect(action.type).toEqual(actions.UserActionTypes.ADD_GROUP_TO_USER);
+  });
+
+  it('AddGroupToUserSuccess type is UserActionTypes.ADD_GROUP_TO_USER_SUCCESS', () => {
+    const payload: User = { id: 'id', email: 'email', name: 'name' };
+    const action = new actions.AddGroupToUserSuccess(payload);
+
+    expect(action.type).toEqual(actions.UserActionTypes.ADD_GROUP_TO_USER_SUCCESS);
+  });
+
+  it('AddGroupToUserFail type is UserActionTypes.ADD_GROUP_TO_USER_FAIL', () => {
+    const action = new actions.AddGroupToUserFail('error');
+
+    expect(action.type).toEqual(actions.UserActionTypes.ADD_GROUP_TO_USER_FAIL);
+  });
+
+  it('RemoveGroupToUser type is UserActionTypes.REMOVE_GROUP_TO_USER', () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    const action = new actions.RemoveGroupToUser(userId, groupName);
+
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_GROUP_TO_USER);
+  });
+
+  it('RemoveGroupToUserSuccess type is UserActionTypes.REMOVE_GROUP_TO_USER_SUCCESS', () => {
+    const payload: User = { id: 'id', email: 'email', name: 'name' };
+    const action = new actions.RemoveGroupToUserSuccess(payload);
+
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_GROUP_TO_USER_SUCCESS);
+  });
+
+  it('RemoveGroupToUserFail type is UserActionTypes.REMOVE_GROUP_TO_USER_FAIL', () => {
+    const action = new actions.RemoveGroupToUserFail('error');
+
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_GROUP_TO_USER_FAIL);
+>>>>>>> feat: TT-188 add ngrx flow & test
   });
 });

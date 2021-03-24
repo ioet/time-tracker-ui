@@ -88,18 +88,27 @@ export const userReducer = (state: UserState = initialState, action: UserActions
       };
     }
 
+<<<<<<< HEAD
     case UserActionTypes.ADD_USER_TO_GROUP: {
+=======
+    case UserActionTypes.ADD_GROUP_TO_USER: {
+>>>>>>> feat: TT-188 add ngrx flow & test
       return {
         ...state,
         isLoading: true,
       };
     }
+<<<<<<< HEAD
     case UserActionTypes.ADD_USER_TO_GROUP_SUCCESS: {
+=======
+    case UserActionTypes.ADD_GROUP_TO_USER_SUCCESS: {
+>>>>>>> feat: TT-188 add ngrx flow & test
       const index = userData.findIndex((user) => user.id === action.payload.id);
       userData[index] = action.payload;
       return {
         data: userData,
         isLoading: false,
+<<<<<<< HEAD
         message: 'Add user to group success',
       };
     }
@@ -112,17 +121,36 @@ export const userReducer = (state: UserState = initialState, action: UserActions
     }
 
     case UserActionTypes.REMOVE_USER_FROM_GROUP: {
+=======
+        message: 'Add group to a user success',
+      };
+    }
+    case UserActionTypes.ADD_GROUP_TO_USER_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+        message: 'Something went wrong adding group to a user',
+      };
+    }
+
+    case UserActionTypes.REMOVE_GROUP_TO_USER: {
+>>>>>>> feat: TT-188 add ngrx flow & test
       return {
         ...state,
         isLoading: true,
       };
     }
+<<<<<<< HEAD
     case UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS: {
+=======
+    case UserActionTypes.REMOVE_GROUP_TO_USER_SUCCESS: {
+>>>>>>> feat: TT-188 add ngrx flow & test
       const index = userData.findIndex((user) => user.id === action.payload.id);
       userData[index] = action.payload;
       return {
         data: userData,
         isLoading: false,
+<<<<<<< HEAD
         message: 'Remove user from group success',
       };
     }
@@ -131,6 +159,16 @@ export const userReducer = (state: UserState = initialState, action: UserActions
         ...state,
         isLoading: false,
         message: 'Something went wrong removing user from group',
+=======
+        message: 'Remove group to a user success',
+      };
+    }
+    case UserActionTypes.REMOVE_GROUP_TO_USER_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+        message: 'Something went wrong removing group to a user',
+>>>>>>> feat: TT-188 add ngrx flow & test
       };
     }
     default:
