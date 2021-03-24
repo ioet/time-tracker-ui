@@ -51,4 +51,24 @@ describe('UsersService', () => {
     const grantRoleRequest = httpMock.expectOne(`${service.baseUrl}/${userId}/roles/${roleId}/revoke`);
     expect(grantRoleRequest.request.method).toBe('POST');
   });
+
+  it('add group to a User', () => {
+    const userId = 'userId';
+    const group = 'admin';
+    const addGroupURL = `${service.baseUrl}/${userId}/groups/add`;
+
+    service.addGroupToUser(userId, group).subscribe();
+
+    expect(httpMock.expectOne(addGroupURL).request.method).toBe('POST');
+  });
+
+  it('remove group to a User', () => {
+    const userId = 'userId';
+    const group = 'admin';
+    const removeGroupURL = `${service.baseUrl}/${userId}/groups/remove`;
+
+    service.removeGroupToUser(userId, group).subscribe();
+
+    expect(httpMock.expectOne(removeGroupURL).request.method).toBe('POST');
+  });
 });
