@@ -55,6 +55,7 @@
       <app-create-customer
         [areTabsActive]="areTabsActive"
         (changeValueAreTabsActives)="activeTabs($event)"
+        (hasChangedEvent)="getChanges($event)"
         (closeCustomerComponent)="closeCustomer($event)"
       ></app-create-customer>
     </div>
@@ -66,7 +67,7 @@
       aria-labelledby="projects-type-tab"
     >
       <div class="container">
-        <app-create-project-type></app-create-project-type>
+        <app-create-project-type (hasChangedEvent)="getChanges($event)"></app-create-project-type>
         <app-project-type-list></app-project-type-list>
       </div>
     </div>
@@ -78,7 +79,7 @@
       aria-labelledby="projects-tab"
     >
       <div class="container mb-1">
-        <app-create-project></app-create-project>
+        <app-create-project (hasChangedEvent)="getChanges($event)"></app-create-project>
         <app-project-list></app-project-list>
       </div>
     </div>

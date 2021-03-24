@@ -140,4 +140,23 @@ describe('CreateCustomerComponent', () => {
     expect(component.changeValueAreTabsActives.emit).toHaveBeenCalledWith(component.areTabsActive);
   });
 
+  it('if detect changes in customer information, it should emit a true', () => {
+    component.hasChange = true;
+    spyOn(component.hasChangedEvent, 'emit');
+
+    component.onInputChangeCustomer('changes text');
+
+    expect(component.hasChange).toBe(true);
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(component.hasChange);
+  });
+
+  it('if not detect changes in customer information, it should emit a false', () => {
+    component.hasChange = false;
+    spyOn(component.hasChangedEvent, 'emit');
+
+    component.onInputChangeCustomer('');
+
+    expect(component.hasChange).toBe(false);
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(component.hasChange);
+  });
 });

@@ -8,6 +8,7 @@
         formControlName="name"
         placeholder="Customer name"
         [class.is-invalid]="customerForm.invalid && customerForm.touched"
+        (input)="onInputChangeCustomer($event.target.value)"
         required
       />
       <span
@@ -23,6 +24,7 @@
         rows="3"
         formControlName="description"
         placeholder="Customer description"
+        (input)="onInputChangeCustomer($event.target.value)"
       ></textarea>
     </div>
       <button type="submit" class="btn btn-primary" [disabled]="!customerForm.valid">Save</button>

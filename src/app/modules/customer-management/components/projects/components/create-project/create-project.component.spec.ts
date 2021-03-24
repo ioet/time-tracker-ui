@@ -246,4 +246,24 @@ describe('InputProjectComponent', () => {
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(new ResetProjectToEdit());
   });
+
+  it('if detect changes in create project , it should emit a true', () => {
+    component.hasChange = true;
+    spyOn(component.hasChangedEvent, 'emit');
+
+    component.onInputChangeProject('name project');
+
+    expect(component.hasChange).toBe(true);
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(true);
+  });
+
+  it('if not detect changes in create project, it should emit a false', () => {
+    component.hasChange = false;
+    spyOn(component.hasChangedEvent, 'emit');
+
+    component.onInputChangeProject('');
+
+    expect(component.hasChange).toBe(false);
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(false);
+  });
 });

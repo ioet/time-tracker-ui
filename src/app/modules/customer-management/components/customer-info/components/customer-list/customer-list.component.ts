@@ -20,6 +20,7 @@ import { ResetProjectTypeToEdit } from '../../../projects-type/store';
 })
 export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() showCustomerForm: boolean;
+  @Input() hasChange: boolean;
   @Output() changeValueShowCustomerForm = new EventEmitter<boolean>();
   @Input()
   customers: Customer[] = [];
@@ -31,6 +32,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   changeCustomerSubscription: Subscription;
   showModal = false;
   idToDelete: string;
+  idToEdit: string;
   message: string;
   isLoading$: Observable<boolean>;
 
@@ -77,10 +79,25 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   editCustomer(customerId: string) {
+    this.idToEdit = customerId;
+    if (this.hasChange) {
+      this.message = 'Do you have changes in a client, do you want to discard them?';
+      this.showModal = true;
+    } else {
+      this.showCustomerForm = true;
+      this.showModal = false;
+      this.changeValueShowCustomerForm.emit(this.showCustomerForm);
+      this.resetProjectFieldsToEdit();
+      this.store.dispatch(new SetCustomerToEdit(customerId));
+    }
+  }
+
+  closeModal() {
     this.showCustomerForm = true;
+    this.showModal = false;
     this.changeValueShowCustomerForm.emit(this.showCustomerForm);
-    this.store.dispatch(new SetCustomerToEdit(customerId));
     this.resetProjectFieldsToEdit();
+    this.store.dispatch(new SetCustomerToEdit(this.idToEdit));
   }
 
   private resetProjectFieldsToEdit() {
@@ -109,5 +126,4 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.message = `Are you sure you want to delete ${item.name}?`;
     this.showModal = true;
   }
-
 }

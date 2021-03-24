@@ -10,6 +10,8 @@ import { Component } from '@angular/core';
 })
 export class CustomerComponent {
   showCustomerForm = false;
+  hasChangeComponent = false;
+
   activityName: string;
 
   constructor(private store: Store<Customer>) { }
@@ -18,7 +20,12 @@ export class CustomerComponent {
     this.store.dispatch(new SetCustomerToEdit(null));
     this.showCustomerForm = true;
   }
+
   closeCustomerForm(event) {
     this.showCustomerForm = event;
+  }
+
+  getChangesInputs(event) {
+    this.hasChangeComponent = event;
   }
 }
