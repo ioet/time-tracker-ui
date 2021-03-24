@@ -7,3 +7,8 @@ export interface User {
   tenant_id?: string;
   deleted?: string;
 }
+
+export interface UserState extends User {
+  isLoading: boolean;
+  error: string;
+}

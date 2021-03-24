@@ -25,13 +25,21 @@ export class UsersService {
     return this.http.post(url, null);
   }
 
+<<<<<<< HEAD
   addUserToGroup(userId: string, group: string): Observable<User> {
+=======
+  addGroupToUser(userId: string, group: string): Observable<User> {
+>>>>>>> feat: TT-188 add & remove groups to user service
     return this.http.post<User>(`${this.baseUrl}/${userId}/groups/add`, {
       group_name: group,
     });
   }
 
+<<<<<<< HEAD
   removeUserFromGroup(userId: string, group: string): Observable<User> {
+=======
+  removeGroupToUser(userId: string, group: string): Observable<User> {
+>>>>>>> feat: TT-188 add & remove groups to user service
     return this.http.post<User>(`${this.baseUrl}/${userId}/groups/remove`, {
       group_name: group,
     });

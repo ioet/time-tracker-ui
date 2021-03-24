@@ -52,22 +52,38 @@ describe('UsersService', () => {
     expect(grantRoleRequest.request.method).toBe('POST');
   });
 
+<<<<<<< HEAD
   it('add user to group', () => {
+=======
+  it('add group to a User', () => {
+>>>>>>> feat: TT-188 add & remove groups to user service
     const userId = 'userId';
     const group = 'admin';
     const addGroupURL = `${service.baseUrl}/${userId}/groups/add`;
 
+<<<<<<< HEAD
     service.addUserToGroup(userId, group).subscribe();
+=======
+    service.addGroupToUser(userId, group).subscribe();
+>>>>>>> feat: TT-188 add & remove groups to user service
 
     expect(httpMock.expectOne(addGroupURL).request.method).toBe('POST');
   });
 
+<<<<<<< HEAD
   it('remove user from group', () => {
+=======
+  it('remove group to a User', () => {
+>>>>>>> feat: TT-188 add & remove groups to user service
     const userId = 'userId';
     const group = 'admin';
     const removeGroupURL = `${service.baseUrl}/${userId}/groups/remove`;
 
+<<<<<<< HEAD
     service.removeUserFromGroup(userId, group).subscribe();
+=======
+    service.removeGroupToUser(userId, group).subscribe();
+>>>>>>> feat: TT-188 add & remove groups to user service
 
     expect(httpMock.expectOne(removeGroupURL).request.method).toBe('POST');
   });
