@@ -74,6 +74,7 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
 
   cancelButton() {
     this.store.dispatch(new ResetProjectTypeToEdit());
+    this.hasChangedEvent.emit(this.hasChange = false);
   }
 
   ngOnDestroy(): void {

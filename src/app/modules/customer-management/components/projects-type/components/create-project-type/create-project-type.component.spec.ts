@@ -160,11 +160,13 @@ describe('InputProjectTypeComponent', () => {
 
   it('should dispatch a ResetProjectTypeToEdit action', () => {
     spyOn(store, 'dispatch');
+    spyOn(component.hasChangedEvent, 'emit');
 
     component.cancelButton();
 
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(new ResetProjectTypeToEdit());
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(false);
   });
 
   it('if detect changes in create project type , it should emit a true', () => {
