@@ -96,6 +96,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     this.customerForm.reset();
     this.store.dispatch(new ResetCustomerToEdit());
     this.closeCustomerComponent.emit(false);
+    this.hasChangedEvent.emit(this.hasChange = false);
   }
 
   onInputChangeCustomer(searchValue: string): void {
