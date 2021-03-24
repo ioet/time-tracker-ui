@@ -63,11 +63,12 @@ describe('CreateCustomerComponent', () => {
   it('should call resetCustomerForm', () => {
     spyOn(component.customerForm, 'reset');
     spyOn(component.closeCustomerComponent, 'emit');
-
+    spyOn(component.hasChangedEvent, 'emit');
     component.resetCustomerForm();
 
     expect(component.customerForm.reset).toHaveBeenCalled();
     expect(component.closeCustomerComponent.emit).toHaveBeenCalledWith(false);
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(false);
   });
 
   it('onSubmit, dispatch CreateCustomer and LoadCustomers actions', () => {
