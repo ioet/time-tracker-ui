@@ -14,7 +14,7 @@ export class UserEffects {
   loadUserInfo$: Observable<Action> = this.actions$.pipe(
     ofType(actions.UserActionTypes.LOAD_USER),
     map((action: actions.LoadUser) => action.userId),
-    mergeMap((userId) =>
+    mergeMap((userId: string) =>
       this.userService.loadUser(userId).pipe(
         map((response) => new actions.LoadUserSuccess(response)),
         catchError((error) => of(new actions.LoadUserFail(error)))

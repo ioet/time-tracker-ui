@@ -105,4 +105,76 @@ describe('UserEffects', () => {
       expect(action.type).toEqual(UserActionTypes.REVOKE_USER_ROLE_FAIL);
     });
   });
+
+  it('action type is ADD_GROUP_TO_USER_SUCCESS when service is executed sucessfully', async () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    actions$ = of({
+      type: UserActionTypes.ADD_GROUP_TO_USER,
+      userId,
+      groupName,
+    });
+
+    spyOn(toastrService, 'success');
+    spyOn(service, 'addGroupToUser').and.returnValue(of(user));
+
+    effects.addGroupToUser$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('Add group to a user success');
+      expect(action.type).toEqual(UserActionTypes.ADD_GROUP_TO_USER_SUCCESS);
+    });
+  });
+
+  it('action type is ADD_GROUP_TO_USER_FAIL when service is executed and fail', async () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    actions$ = of({
+      type: UserActionTypes.ADD_GROUP_TO_USER,
+      userId,
+      groupName,
+    });
+
+    spyOn(toastrService, 'error');
+    spyOn(service, 'addGroupToUser').and.returnValue(throwError({ error: { message: 'error' } }));
+
+    effects.addGroupToUser$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(UserActionTypes.ADD_GROUP_TO_USER_FAIL);
+    });
+  });
+
+  it('action type is REMOVE_GROUP_TO_USER_SUCCESS when service is executed succesfully', async () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    actions$ = of({
+      type: UserActionTypes.REMOVE_GROUP_TO_USER,
+      userId,
+      groupName,
+    });
+
+    spyOn(toastrService, 'success');
+    spyOn(service, 'removeGroupToUser').and.returnValue(of(user));
+
+    effects.removeGroupToUser$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('Remove group to a user success');
+      expect(action.type).toEqual(UserActionTypes.REMOVE_GROUP_TO_USER_SUCCESS);
+    });
+  });
+
+  it('action type is REMOVE_GROUP_TO_USER_FAIL when service is executed succesfully', async () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    actions$ = of({
+      type: UserActionTypes.REMOVE_GROUP_TO_USER,
+      userId,
+      groupName,
+    });
+
+    spyOn(toastrService, 'error');
+    spyOn(service, 'removeGroupToUser').and.returnValue(throwError({ error: { message: 'error' } }));
+
+    effects.removeGroupToUser$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(UserActionTypes.REMOVE_GROUP_TO_USER_FAIL);
+    });
+  });
 });

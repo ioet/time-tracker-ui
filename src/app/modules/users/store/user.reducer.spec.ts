@@ -93,6 +93,70 @@ describe('userReducer', () => {
     expect(state.isLoading).toEqual(false);
   });
 
+  it('on AddGroupToUser, isLoading is true', () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    const action = new actions.AddGroupToUser(userId, groupName);
+    const state = userReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(true);
+  });
+
+  it('on AddGroupToUserSuccess, user groups should change', () => {
+    const currentState: UserState = {
+      data: [{ id: 'id', name: 'name', email: 'email', groups: null }],
+      isLoading: false,
+      message: '',
+    };
+    const userWithGroupAdded: User = { id: 'id', name: 'name', email: 'email', groups: ['group'] };
+    const action = new actions.AddGroupToUserSuccess(userWithGroupAdded);
+    const state = userReducer(currentState, action);
+
+    expect(state.data).toEqual([userWithGroupAdded]);
+    expect(state.isLoading).toEqual(false);
+    expect(state.message).toEqual('Add group to a user success');
+  });
+
+  it('on AddGroupToUserFail, should show a message with an error message', () => {
+    const action = new actions.AddGroupToUserFail('error');
+    const state = userReducer(initialState, action);
+
+    expect(state.message).toEqual('Something went wrong adding group to a user');
+    expect(state.isLoading).toEqual(false);
+  });
+
+  it('on RemoveGroupToUser, isLoading is true', () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    const action = new actions.RemoveGroupToUser(userId, groupName);
+    const state = userReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(true);
+  });
+
+  it('on RemoveGroupToUserSuccess, user groups should change', () => {
+    const currentState: UserState = {
+      data: [{ id: 'id', name: 'name', email: 'email', groups: ['group'] }],
+      isLoading: false,
+      message: '',
+    };
+    const userWithGroupRemoved: User = { id: 'id', name: 'name', email: 'email', groups: null };
+    const action = new actions.RemoveGroupToUserSuccess(userWithGroupRemoved);
+    const state = userReducer(currentState, action);
+
+    expect(state.data).toEqual([userWithGroupRemoved]);
+    expect(state.isLoading).toEqual(false);
+    expect(state.message).toEqual('Remove group to a user success');
+  });
+
+  it('on RemoveGroupToUserFail, should show a message with an error message', () => {
+    const action = new actions.RemoveGroupToUserFail('error');
+    const state = userReducer(initialState, action);
+
+    expect(state.message).toEqual('Something went wrong removing group to a user');
+    expect(state.isLoading).toEqual(false);
+  });
+
   it('on Default, ', () => {
     const action = new actions.DefaultUser();
     const state = userReducer(initialState, action);
