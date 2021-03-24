@@ -10,7 +10,7 @@
       <tr class="d-flex flex-wrap">
         <th class="col-4">User Email</th>
         <th class="col-5">Names</th>
-        <th class="col-3">Roles</th>
+        <th class="col-3">{{ isUserGroupsToggleOn ? 'Groups' : 'Roles' }}</th>
       </tr>
     </thead>
     <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
@@ -19,7 +19,22 @@
         <td class="col-4 text-break">{{ user.email }}</td>
         <td class="col-5 text-break">{{ user.name }}</td>
         <td class="col-3 text-center">
-          <div>
+          <div *ngIf="isUserGroupsToggleOn">
+            <ui-switch
+              size="small"
+              (change)="switchGroup('time-tracker-admin', user)"
+              [checked]="user.groups.includes('time-tracker-admin')"
+            ></ui-switch>
+            admin
+            <ui-switch
+              size="small"
+              (change)="switchGroup('time-tracker-tester', user)"
+              [checked]="user.groups.includes('time-tracker-tester')"
+            ></ui-switch>
+            test
+          </div>
+
+          <div *ngIf="!isUserGroupsToggleOn">
             <ui-switch
               size="small"
               (change)="switchRole(user.id, user.roles, 'admin', 'time-tracker-admin')"
