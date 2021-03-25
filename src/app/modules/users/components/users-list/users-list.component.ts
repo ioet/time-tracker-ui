@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { delay, filter } from 'rxjs/operators';
+import { Observable, Subject, Subscription} from 'rxjs';
+import { delay, filter, map } from 'rxjs/operators';
+import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 import { User } from '../../models/users';
-import { GrantRoleUser, LoadUsers, RevokeRoleUser, UserActionTypes } from '../../store/user.actions';
+import { GrantRoleUser, LoadUsers, RevokeRoleUser, UserActionTypes, AddUserToGroup, RemoveUserToGroup} from '../../store/user.actions';
 import { getIsLoading } from '../../store/user.selectors';
 
 @Component({
@@ -21,8 +22,16 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   dtOptions: any = {};
+  switchGroupsSubscription: Subscription;
+  isEnableToggleSubscription: Subscription;
+  isUserRoleToggleOn;
+  flakyToggle: true;
 
-  constructor(private store: Store<User>, private actionsSubject$: ActionsSubject) {
+  constructor(
+    private store: Store<User>,
+    private actionsSubject$: ActionsSubject,
+    private featureManagerService: FeatureManagerService
+  ) {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
   }
 
@@ -32,6 +41,24 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(filter((action: any) => action.type === UserActionTypes.LOAD_USERS_SUCCESS))
       .subscribe((action) => {
         this.users = action.payload;
+        this.rerenderDataTable();
+      });
+
+    this.isEnableToggleSubscription = this.isFeatureToggleActivated().subscribe((flag) => {
+      this.isUserRoleToggleOn = flag;
+      console.log('in subscription', this.isUserRoleToggleOn);
+    });
+
+    this.switchGroupsSubscription = this.actionsSubject$
+      .pipe(
+        filter(
+          (action: any) =>
+            action.type === UserActionTypes.ADD_USER_TO_GROUP_SUCCESS ||
+            action.type === UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS
+        )
+      )
+      .subscribe((action) => {
+        this.store.dispatch(new LoadUsers());
         this.rerenderDataTable();
       });
 
@@ -55,6 +82,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.loadUsersSubscription.unsubscribe();
     this.dtTrigger.unsubscribe();
+    this.isEnableToggleSubscription.unsubscribe();
   }
 
   private rerenderDataTable(): void {
@@ -72,5 +100,19 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     userRoles.includes(roleValue)
       ? this.store.dispatch(new RevokeRoleUser(userId, roleId))
       : this.store.dispatch(new GrantRoleUser(userId, roleId));
+  }
+
+  isFeatureToggleActivated() {
+    return this.featureManagerService.isToggleEnabledForUser('ui-list-technologies').pipe(
+      map((enabled) => {
+        return enabled === true ? true : false;
+      })
+    );
+  }
+
+  switchGroups(userId: string, userGroups: string[], groupname: string, groupValue: string) {
+    userGroups.includes(groupValue)
+      ? this.store.dispatch(new RemoveUserToGroup(userId, groupname))
+      : this.store.dispatch(new AddUserToGroup(userId, groupname));
   }
 }

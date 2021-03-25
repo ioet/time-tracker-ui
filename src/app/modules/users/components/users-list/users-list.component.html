@@ -22,14 +22,14 @@
           <div>
             <ui-switch
               size="small"
-              (change)="switchRole(user.id, user.roles, 'admin', 'time-tracker-admin')"
-              [checked]="user.roles.includes('time-tracker-admin')"
+              (change)="switchGroups(user.id, user.groups, 'admin', 'time-tracker-admin')"
+              [checked]="user.groups.includes('time-tracker-admin')"
             ></ui-switch>
             admin
             <ui-switch
               size="small"
-              (change)="switchRole(user.id, user.roles, 'test', 'time-tracker-tester')"
-              [checked]="user.roles.includes('time-tracker-tester')"
+              (change)="switchGroups(user.id, user.groups, 'test', 'time-tracker-tester')"
+              [checked]="user.groups.includes('time-tracker-tester')"
             ></ui-switch>
             test
           </div>
