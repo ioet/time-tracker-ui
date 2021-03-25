@@ -1,11 +1,18 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
-import { Observable, Subject, Subscription} from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 import { User } from '../../models/users';
-import { GrantRoleUser, LoadUsers, RevokeRoleUser, UserActionTypes, AddUserToGroup, RemoveUserToGroup} from '../../store/user.actions';
+import {
+  GrantRoleUser,
+  LoadUsers,
+  RevokeRoleUser,
+  UserActionTypes,
+  AddUserToGroup,
+  RemoveUserFromGroup,
+} from '../../store/user.actions';
 import { getIsLoading } from '../../store/user.selectors';
 
 @Component({
@@ -24,8 +31,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   dtOptions: any = {};
   switchGroupsSubscription: Subscription;
   isEnableToggleSubscription: Subscription;
-  isUserRoleToggleOn;
-  flakyToggle: true;
+  isUserGroupsToggleOn: boolean;
 
   constructor(
     private store: Store<User>,
@@ -45,8 +51,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.isEnableToggleSubscription = this.isFeatureToggleActivated().subscribe((flag) => {
-      this.isUserRoleToggleOn = flag;
-      console.log('in subscription', this.isUserRoleToggleOn);
+      this.isUserGroupsToggleOn = flag;
     });
 
     this.switchGroupsSubscription = this.actionsSubject$
@@ -54,12 +59,11 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
         filter(
           (action: any) =>
             action.type === UserActionTypes.ADD_USER_TO_GROUP_SUCCESS ||
-            action.type === UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS
+            action.type === UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS
         )
       )
       .subscribe((action) => {
         this.store.dispatch(new LoadUsers());
-        this.rerenderDataTable();
       });
 
     this.switchRoleSubscription = this.actionsSubject$
@@ -102,17 +106,17 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       : this.store.dispatch(new GrantRoleUser(userId, roleId));
   }
 
+  switchGroup(userId: string, userGroups: string[], groupName: string) {
+    userGroups.includes(groupName)
+      ? this.store.dispatch(new RemoveUserFromGroup(userId, groupName))
+      : this.store.dispatch(new AddUserToGroup(userId, groupName));
+  }
+
   isFeatureToggleActivated() {
-    return this.featureManagerService.isToggleEnabledForUser('ui-list-technologies').pipe(
+    return this.featureManagerService.isToggleEnabledForUser('switch-group').pipe(
       map((enabled) => {
         return enabled === true ? true : false;
       })
     );
-  }
-
-  switchGroups(userId: string, userGroups: string[], groupname: string, groupValue: string) {
-    userGroups.includes(groupValue)
-      ? this.store.dispatch(new RemoveUserToGroup(userId, groupname))
-      : this.store.dispatch(new AddUserToGroup(userId, groupname));
   }
 }
