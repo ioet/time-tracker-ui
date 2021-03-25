@@ -65,36 +65,36 @@ export class UserEffects {
   );
 
   @Effect()
-  addGroupToUser$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.UserActionTypes.ADD_GROUP_TO_USER),
-    map((action: actions.AddGroupToUser) => action),
+  addUserToGroup$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.UserActionTypes.ADD_USER_TO_GROUP),
+    map((action: actions.AddUserToGroup) => action),
     mergeMap((action) =>
-      this.userService.addGroupToUser(action.userId, action.groupName).pipe(
+      this.userService.addUserToGroup(action.userId, action.groupName).pipe(
         map((response) => {
-          this.toastrService.success('Add group to a user success');
-          return new actions.AddGroupToUserSuccess(response);
+          this.toastrService.success('Add user to group success');
+          return new actions.AddUserToGroupSuccess(response);
         }),
         catchError((error) => {
           this.toastrService.error(error.error.message);
-          return of(new actions.AddGroupToUserFail(error));
+          return of(new actions.AddUserToGroupFail(error));
         })
       )
     )
   );
 
   @Effect()
-  removeGroupToUser$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.UserActionTypes.REMOVE_GROUP_TO_USER),
-    map((action: actions.RemoveGroupToUser) => action),
+  removeUserToGroup$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.UserActionTypes.REMOVE_USER_TO_GROUP),
+    map((action: actions.RemoveUserToGroup) => action),
     mergeMap((action) =>
-      this.userService.removeGroupToUser(action.userId, action.groupName).pipe(
+      this.userService.removeUserToGroup(action.userId, action.groupName).pipe(
         map((response) => {
-          this.toastrService.success('Remove group to a user success');
-          return new actions.RemoveGroupToUserSuccess(response);
+          this.toastrService.success('Remove user to group success');
+          return new actions.RemoveUserToGroupSuccess(response);
         }),
         catchError((error) => {
           this.toastrService.error(error.error.message);
-          return of(new actions.RemoveGroupToUserFail(error));
+          return of(new actions.RemoveUserToGroupFail(error));
         })
       )
     )

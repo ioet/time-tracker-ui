@@ -88,49 +88,49 @@ export const userReducer = (state: UserState = initialState, action: UserActions
       };
     }
 
-    case UserActionTypes.ADD_GROUP_TO_USER: {
+    case UserActionTypes.ADD_USER_TO_GROUP: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case UserActionTypes.ADD_GROUP_TO_USER_SUCCESS: {
+    case UserActionTypes.ADD_USER_TO_GROUP_SUCCESS: {
       const index = userData.findIndex((user) => user.id === action.payload.id);
       userData[index] = action.payload;
       return {
         data: userData,
         isLoading: false,
-        message: 'Add group to a user success',
+        message: 'Add user to group success',
       };
     }
-    case UserActionTypes.ADD_GROUP_TO_USER_FAIL: {
+    case UserActionTypes.ADD_USER_TO_GROUP_FAIL: {
       return {
         ...state,
         isLoading: false,
-        message: 'Something went wrong adding group to a user',
+        message: 'Something went wrong adding user to group',
       };
     }
 
-    case UserActionTypes.REMOVE_GROUP_TO_USER: {
+    case UserActionTypes.REMOVE_USER_TO_GROUP: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case UserActionTypes.REMOVE_GROUP_TO_USER_SUCCESS: {
+    case UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS: {
       const index = userData.findIndex((user) => user.id === action.payload.id);
       userData[index] = action.payload;
       return {
         data: userData,
         isLoading: false,
-        message: 'Remove group to a user success',
+        message: 'Remove user to group success',
       };
     }
-    case UserActionTypes.REMOVE_GROUP_TO_USER_FAIL: {
+    case UserActionTypes.REMOVE_USER_TO_GROUP_FAIL: {
       return {
         ...state,
         isLoading: false,
-        message: 'Something went wrong removing group to a user',
+        message: 'Something went wrong removing user to group',
       };
     }
     default:

@@ -57,7 +57,7 @@ describe('UsersService', () => {
     const group = 'admin';
     const addGroupURL = `${service.baseUrl}/${userId}/groups/add`;
 
-    service.addGroupToUser(userId, group).subscribe();
+    service.addUserToGroup(userId, group).subscribe();
 
     expect(httpMock.expectOne(addGroupURL).request.method).toBe('POST');
   });
@@ -67,7 +67,7 @@ describe('UsersService', () => {
     const group = 'admin';
     const removeGroupURL = `${service.baseUrl}/${userId}/groups/remove`;
 
-    service.removeGroupToUser(userId, group).subscribe();
+    service.removeUserToGroup(userId, group).subscribe();
 
     expect(httpMock.expectOne(removeGroupURL).request.method).toBe('POST');
   });
