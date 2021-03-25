@@ -62,10 +62,14 @@ describe('UsersService', () => {
     const addGroupURL = `${service.baseUrl}/${userId}/groups/add`;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     service.addUserToGroup(userId, group).subscribe();
 =======
     service.addGroupToUser(userId, group).subscribe();
 >>>>>>> feat: TT-188 add & remove groups to user service
+=======
+    service.addUserToGroup(userId, group).subscribe();
+>>>>>>> refactor: TT-188 refactor some names
 
     expect(httpMock.expectOne(addGroupURL).request.method).toBe('POST');
   });
@@ -80,10 +84,14 @@ describe('UsersService', () => {
     const removeGroupURL = `${service.baseUrl}/${userId}/groups/remove`;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     service.removeUserFromGroup(userId, group).subscribe();
 =======
     service.removeGroupToUser(userId, group).subscribe();
 >>>>>>> feat: TT-188 add & remove groups to user service
+=======
+    service.removeUserToGroup(userId, group).subscribe();
+>>>>>>> refactor: TT-188 refactor some names
 
     expect(httpMock.expectOne(removeGroupURL).request.method).toBe('POST');
   });

@@ -107,6 +107,7 @@ describe('UserEffects', () => {
   });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   it('action type is ADD_USER_TO_GROUP_SUCCESS when service is executed sucessfully', async () => {
     const userId = 'userId';
     const groupName = 'groupName';
@@ -119,11 +120,19 @@ describe('UserEffects', () => {
     actions$ = of({
       type: UserActionTypes.ADD_GROUP_TO_USER,
 >>>>>>> feat: TT-188 add ngrx flow & test
+=======
+  it('action type is ADD_USER_TO_GROUP_SUCCESS when service is executed sucessfully', async () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    actions$ = of({
+      type: UserActionTypes.ADD_USER_TO_GROUP,
+>>>>>>> refactor: TT-188 refactor some names
       userId,
       groupName,
     });
 
     spyOn(toastrService, 'success');
+<<<<<<< HEAD
 <<<<<<< HEAD
     spyOn(service, 'addUserToGroup').and.returnValue(of(user));
 
@@ -140,24 +149,32 @@ describe('UserEffects', () => {
       type: UserActionTypes.ADD_USER_TO_GROUP,
 =======
     spyOn(service, 'addGroupToUser').and.returnValue(of(user));
+=======
+    spyOn(service, 'addUserToGroup').and.returnValue(of(user));
+>>>>>>> refactor: TT-188 refactor some names
 
-    effects.addGroupToUser$.subscribe((action) => {
-      expect(toastrService.success).toHaveBeenCalledWith('Add group to a user success');
-      expect(action.type).toEqual(UserActionTypes.ADD_GROUP_TO_USER_SUCCESS);
+    effects.addUserToGroup$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('Add user to group success');
+      expect(action.type).toEqual(UserActionTypes.ADD_USER_TO_GROUP_SUCCESS);
     });
   });
 
-  it('action type is ADD_GROUP_TO_USER_FAIL when service is executed and fail', async () => {
+  it('action type is ADD_USER_TO_GROUP_FAIL when service is executed and fail', async () => {
     const userId = 'userId';
     const groupName = 'groupName';
     actions$ = of({
+<<<<<<< HEAD
       type: UserActionTypes.ADD_GROUP_TO_USER,
 >>>>>>> feat: TT-188 add ngrx flow & test
+=======
+      type: UserActionTypes.ADD_USER_TO_GROUP,
+>>>>>>> refactor: TT-188 refactor some names
       userId,
       groupName,
     });
 
     spyOn(toastrService, 'error');
+<<<<<<< HEAD
 <<<<<<< HEAD
     spyOn(service, 'addUserToGroup').and.returnValue(throwError({ error: { message: 'error' } }));
 
@@ -174,24 +191,32 @@ describe('UserEffects', () => {
       type: UserActionTypes.REMOVE_USER_FROM_GROUP,
 =======
     spyOn(service, 'addGroupToUser').and.returnValue(throwError({ error: { message: 'error' } }));
+=======
+    spyOn(service, 'addUserToGroup').and.returnValue(throwError({ error: { message: 'error' } }));
+>>>>>>> refactor: TT-188 refactor some names
 
-    effects.addGroupToUser$.subscribe((action) => {
+    effects.addUserToGroup$.subscribe((action) => {
       expect(toastrService.error).toHaveBeenCalled();
-      expect(action.type).toEqual(UserActionTypes.ADD_GROUP_TO_USER_FAIL);
+      expect(action.type).toEqual(UserActionTypes.ADD_USER_TO_GROUP_FAIL);
     });
   });
 
-  it('action type is REMOVE_GROUP_TO_USER_SUCCESS when service is executed succesfully', async () => {
+  it('action type is REMOVE_USER_TO_GROUP_SUCCESS when service is executed succesfully', async () => {
     const userId = 'userId';
     const groupName = 'groupName';
     actions$ = of({
+<<<<<<< HEAD
       type: UserActionTypes.REMOVE_GROUP_TO_USER,
 >>>>>>> feat: TT-188 add ngrx flow & test
+=======
+      type: UserActionTypes.REMOVE_USER_TO_GROUP,
+>>>>>>> refactor: TT-188 refactor some names
       userId,
       groupName,
     });
 
     spyOn(toastrService, 'success');
+<<<<<<< HEAD
 <<<<<<< HEAD
     spyOn(service, 'removeUserFromGroup').and.returnValue(of(user));
 
@@ -208,24 +233,32 @@ describe('UserEffects', () => {
       type: UserActionTypes.REMOVE_USER_FROM_GROUP,
 =======
     spyOn(service, 'removeGroupToUser').and.returnValue(of(user));
+=======
+    spyOn(service, 'removeUserToGroup').and.returnValue(of(user));
+>>>>>>> refactor: TT-188 refactor some names
 
-    effects.removeGroupToUser$.subscribe((action) => {
-      expect(toastrService.success).toHaveBeenCalledWith('Remove group to a user success');
-      expect(action.type).toEqual(UserActionTypes.REMOVE_GROUP_TO_USER_SUCCESS);
+    effects.removeUserToGroup$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('Remove user to group success');
+      expect(action.type).toEqual(UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS);
     });
   });
 
-  it('action type is REMOVE_GROUP_TO_USER_FAIL when service is executed succesfully', async () => {
+  it('action type is REMOVE_USER_TO_GROUP_FAIL when service is executed succesfully', async () => {
     const userId = 'userId';
     const groupName = 'groupName';
     actions$ = of({
+<<<<<<< HEAD
       type: UserActionTypes.REMOVE_GROUP_TO_USER,
 >>>>>>> feat: TT-188 add ngrx flow & test
+=======
+      type: UserActionTypes.REMOVE_USER_TO_GROUP,
+>>>>>>> refactor: TT-188 refactor some names
       userId,
       groupName,
     });
 
     spyOn(toastrService, 'error');
+<<<<<<< HEAD
 <<<<<<< HEAD
     spyOn(service, 'removeUserFromGroup').and.returnValue(throwError({ error: { message: 'error' } }));
 
@@ -234,11 +267,18 @@ describe('UserEffects', () => {
       expect(action.type).toEqual(UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL);
 =======
     spyOn(service, 'removeGroupToUser').and.returnValue(throwError({ error: { message: 'error' } }));
+=======
+    spyOn(service, 'removeUserToGroup').and.returnValue(throwError({ error: { message: 'error' } }));
+>>>>>>> refactor: TT-188 refactor some names
 
-    effects.removeGroupToUser$.subscribe((action) => {
+    effects.removeUserToGroup$.subscribe((action) => {
       expect(toastrService.error).toHaveBeenCalled();
+<<<<<<< HEAD
       expect(action.type).toEqual(UserActionTypes.REMOVE_GROUP_TO_USER_FAIL);
 >>>>>>> feat: TT-188 add ngrx flow & test
+=======
+      expect(action.type).toEqual(UserActionTypes.REMOVE_USER_TO_GROUP_FAIL);
+>>>>>>> refactor: TT-188 refactor some names
     });
   });
 });

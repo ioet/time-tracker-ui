@@ -89,25 +89,34 @@ export const userReducer = (state: UserState = initialState, action: UserActions
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     case UserActionTypes.ADD_USER_TO_GROUP: {
 =======
     case UserActionTypes.ADD_GROUP_TO_USER: {
 >>>>>>> feat: TT-188 add ngrx flow & test
+=======
+    case UserActionTypes.ADD_USER_TO_GROUP: {
+>>>>>>> refactor: TT-188 refactor some names
       return {
         ...state,
         isLoading: true,
       };
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     case UserActionTypes.ADD_USER_TO_GROUP_SUCCESS: {
 =======
     case UserActionTypes.ADD_GROUP_TO_USER_SUCCESS: {
 >>>>>>> feat: TT-188 add ngrx flow & test
+=======
+    case UserActionTypes.ADD_USER_TO_GROUP_SUCCESS: {
+>>>>>>> refactor: TT-188 refactor some names
       const index = userData.findIndex((user) => user.id === action.payload.id);
       userData[index] = action.payload;
       return {
         data: userData,
         isLoading: false,
+<<<<<<< HEAD
 <<<<<<< HEAD
         message: 'Add user to group success',
       };
@@ -123,33 +132,45 @@ export const userReducer = (state: UserState = initialState, action: UserActions
     case UserActionTypes.REMOVE_USER_FROM_GROUP: {
 =======
         message: 'Add group to a user success',
+=======
+        message: 'Add user to group success',
+>>>>>>> refactor: TT-188 refactor some names
       };
     }
-    case UserActionTypes.ADD_GROUP_TO_USER_FAIL: {
+    case UserActionTypes.ADD_USER_TO_GROUP_FAIL: {
       return {
         ...state,
         isLoading: false,
-        message: 'Something went wrong adding group to a user',
+        message: 'Something went wrong adding user to group',
       };
     }
 
+<<<<<<< HEAD
     case UserActionTypes.REMOVE_GROUP_TO_USER: {
 >>>>>>> feat: TT-188 add ngrx flow & test
+=======
+    case UserActionTypes.REMOVE_USER_TO_GROUP: {
+>>>>>>> refactor: TT-188 refactor some names
       return {
         ...state,
         isLoading: true,
       };
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     case UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS: {
 =======
     case UserActionTypes.REMOVE_GROUP_TO_USER_SUCCESS: {
 >>>>>>> feat: TT-188 add ngrx flow & test
+=======
+    case UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS: {
+>>>>>>> refactor: TT-188 refactor some names
       const index = userData.findIndex((user) => user.id === action.payload.id);
       userData[index] = action.payload;
       return {
         data: userData,
         isLoading: false,
+<<<<<<< HEAD
 <<<<<<< HEAD
         message: 'Remove user from group success',
       };
@@ -161,14 +182,21 @@ export const userReducer = (state: UserState = initialState, action: UserActions
         message: 'Something went wrong removing user from group',
 =======
         message: 'Remove group to a user success',
+=======
+        message: 'Remove user to group success',
+>>>>>>> refactor: TT-188 refactor some names
       };
     }
-    case UserActionTypes.REMOVE_GROUP_TO_USER_FAIL: {
+    case UserActionTypes.REMOVE_USER_TO_GROUP_FAIL: {
       return {
         ...state,
         isLoading: false,
+<<<<<<< HEAD
         message: 'Something went wrong removing group to a user',
 >>>>>>> feat: TT-188 add ngrx flow & test
+=======
+        message: 'Something went wrong removing user to group',
+>>>>>>> refactor: TT-188 refactor some names
       };
     }
     default:
