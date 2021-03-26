@@ -240,11 +240,13 @@ describe('InputProjectComponent', () => {
 
   it('should dispatch a ResetActivityToEdit action', () => {
     spyOn(store, 'dispatch');
+    spyOn(component.hasChangedEvent, 'emit');
 
     component.cancelButton();
 
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(new ResetProjectToEdit());
+    expect(component.hasChangedEvent.emit).toHaveBeenCalledWith(false);
   });
 
   it('if detect changes in create project , it should emit a true', () => {

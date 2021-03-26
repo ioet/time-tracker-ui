@@ -100,14 +100,11 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
 
   cancelButton() {
     this.store.dispatch(new actions.ResetProjectToEdit());
+    this.hasChangedEvent.emit(this.hasChange = false);
   }
 
   resetValuesForm() {
-    this.projectForm.setValue({
-      name: '',
-      description: '',
-      project_type_id: null,
-    });
+    this.projectForm.reset();
   }
 
   onInputChangeProject(searchValue: string): void {
