@@ -31,7 +31,7 @@ export class UsersService {
     });
   }
 
-  removeUserToGroup(userId: string, group: string): Observable<User> {
+  removeUserFromGroup(userId: string, group: string): Observable<User> {
     return this.http.post<User>(`${this.baseUrl}/${userId}/groups/remove`, {
       group_name: group,
     });

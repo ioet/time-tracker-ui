@@ -83,18 +83,18 @@ export class UserEffects {
   );
 
   @Effect()
-  removeUserToGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.UserActionTypes.REMOVE_USER_TO_GROUP),
-    map((action: actions.RemoveUserToGroup) => action),
+  removeUserFromGroup$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.UserActionTypes.REMOVE_USER_FROM_GROUP),
+    map((action: actions.RemoveUserFromGroup) => action),
     mergeMap((action) =>
-      this.userService.removeUserToGroup(action.userId, action.groupName).pipe(
+      this.userService.removeUserFromGroup(action.userId, action.groupName).pipe(
         map((response) => {
-          this.toastrService.success('Remove user to group success');
-          return new actions.RemoveUserToGroupSuccess(response);
+          this.toastrService.success('Remove user from group success');
+          return new actions.RemoveUserFromGroupSuccess(response);
         }),
         catchError((error) => {
           this.toastrService.error(error.error.message);
-          return of(new actions.RemoveUserToGroupFail(error));
+          return of(new actions.RemoveUserFromGroupFail(error));
         })
       )
     )

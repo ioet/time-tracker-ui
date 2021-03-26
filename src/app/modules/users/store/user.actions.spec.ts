@@ -74,24 +74,24 @@ describe('UserActions', () => {
     expect(action.type).toEqual(actions.UserActionTypes.ADD_USER_TO_GROUP_FAIL);
   });
 
-  it('RemoveUserToGroup type is UserActionTypes.REMOVE_USER_TO_GROUP', () => {
+  it('RemoveUserFromGroup type is UserActionTypes.REMOVE_USER_FROM_GROUP', () => {
     const userId = 'userId';
     const groupName = 'groupName';
-    const action = new actions.RemoveUserToGroup(userId, groupName);
+    const action = new actions.RemoveUserFromGroup(userId, groupName);
 
-    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_TO_GROUP);
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP);
   });
 
-  it('RemoveUserToGroupSuccess type is UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS', () => {
+  it('RemoveUserFromGroupSuccess type is UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS', () => {
     const payload: User = { id: 'id', email: 'email', name: 'name' };
-    const action = new actions.RemoveUserToGroupSuccess(payload);
+    const action = new actions.RemoveUserFromGroupSuccess(payload);
 
-    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS);
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS);
   });
 
-  it('RemoveUserToGroupFail type is UserActionTypes.REMOVE_USER_TO_GROUP_FAIL', () => {
-    const action = new actions.RemoveUserToGroupFail('error');
+  it('RemoveUserFromGroupFail type is UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL', () => {
+    const action = new actions.RemoveUserFromGroupFail('error');
 
-    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_TO_GROUP_FAIL);
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL);
   });
 });

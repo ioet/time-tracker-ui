@@ -14,9 +14,9 @@ export enum UserActionTypes {
   ADD_USER_TO_GROUP = '[User] ADD_USER_TO_GROUP',
   ADD_USER_TO_GROUP_SUCCESS = '[User] ADD_USER_TO_GROUP_SUCCESS',
   ADD_USER_TO_GROUP_FAIL = '[User] ADD_USER_TO_GROUP_FAIL',
-  REMOVE_USER_TO_GROUP = '[User] REMOVE_USER_TO_GROUP',
-  REMOVE_USER_TO_GROUP_SUCCESS = '[User] REMOVE_USER_TO_GROUP_SUCCESS',
-  REMOVE_USER_TO_GROUP_FAIL = '[User] REMOVE_USER_TO_GROUP_FAIL',
+  REMOVE_USER_FROM_GROUP = '[User] REMOVE_USER_FROM_GROUP',
+  REMOVE_USER_FROM_GROUP_SUCCESS = '[User] REMOVE_USER_FROM_GROUP_SUCCESS',
+  REMOVE_USER_FROM_GROUP_FAIL = '[User] REMOVE_USER_FROM_GROUP_FAIL',
   DEFAULT_USER = '[USER] DEFAULT_USER',
 }
 
@@ -79,18 +79,18 @@ export class AddUserToGroupFail implements Action {
   constructor(public error: string) {}
 }
 
-export class RemoveUserToGroup implements Action {
-  public readonly type = UserActionTypes.REMOVE_USER_TO_GROUP;
+export class RemoveUserFromGroup implements Action {
+  public readonly type = UserActionTypes.REMOVE_USER_FROM_GROUP;
   constructor(public userId: string, public groupName: string) {}
 }
 
-export class RemoveUserToGroupSuccess implements Action {
-  public readonly type = UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS;
+export class RemoveUserFromGroupSuccess implements Action {
+  public readonly type = UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS;
   constructor(readonly payload: User) {}
 }
 
-export class RemoveUserToGroupFail implements Action {
-  public readonly type = UserActionTypes.REMOVE_USER_TO_GROUP_FAIL;
+export class RemoveUserFromGroupFail implements Action {
+  public readonly type = UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL;
   constructor(public error: string) {}
 }
 
@@ -112,6 +112,6 @@ export type UserActions =
   | AddUserToGroup
   | AddUserToGroupSuccess
   | AddUserToGroupFail
-  | RemoveUserToGroup
-  | RemoveUserToGroupSuccess
-  | RemoveUserToGroupFail;
+  | RemoveUserFromGroup
+  | RemoveUserFromGroupSuccess
+  | RemoveUserFromGroupFail;

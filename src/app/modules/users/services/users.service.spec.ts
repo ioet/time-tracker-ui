@@ -52,7 +52,7 @@ describe('UsersService', () => {
     expect(grantRoleRequest.request.method).toBe('POST');
   });
 
-  it('add group to a User', () => {
+  it('add user to group', () => {
     const userId = 'userId';
     const group = 'admin';
     const addGroupURL = `${service.baseUrl}/${userId}/groups/add`;
@@ -62,12 +62,12 @@ describe('UsersService', () => {
     expect(httpMock.expectOne(addGroupURL).request.method).toBe('POST');
   });
 
-  it('remove group to a User', () => {
+  it('remove user from group', () => {
     const userId = 'userId';
     const group = 'admin';
     const removeGroupURL = `${service.baseUrl}/${userId}/groups/remove`;
 
-    service.removeUserToGroup(userId, group).subscribe();
+    service.removeUserFromGroup(userId, group).subscribe();
 
     expect(httpMock.expectOne(removeGroupURL).request.method).toBe('POST');
   });

@@ -142,39 +142,39 @@ describe('UserEffects', () => {
     });
   });
 
-  it('action type is REMOVE_USER_TO_GROUP_SUCCESS when service is executed succesfully', async () => {
+  it('action type is REMOVE_USER_FROM_GROUP_SUCCESS when service is executed succesfully', async () => {
     const userId = 'userId';
     const groupName = 'groupName';
     actions$ = of({
-      type: UserActionTypes.REMOVE_USER_TO_GROUP,
+      type: UserActionTypes.REMOVE_USER_FROM_GROUP,
       userId,
       groupName,
     });
 
     spyOn(toastrService, 'success');
-    spyOn(service, 'removeUserToGroup').and.returnValue(of(user));
+    spyOn(service, 'removeUserFromGroup').and.returnValue(of(user));
 
-    effects.removeUserToGroup$.subscribe((action) => {
-      expect(toastrService.success).toHaveBeenCalledWith('Remove user to group success');
-      expect(action.type).toEqual(UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS);
+    effects.removeUserFromGroup$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('Remove user from group success');
+      expect(action.type).toEqual(UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS);
     });
   });
 
-  it('action type is REMOVE_USER_TO_GROUP_FAIL when service is executed succesfully', async () => {
+  it('action type is REMOVE_USER_FROM_GROUP_FAIL when service is executed succesfully', async () => {
     const userId = 'userId';
     const groupName = 'groupName';
     actions$ = of({
-      type: UserActionTypes.REMOVE_USER_TO_GROUP,
+      type: UserActionTypes.REMOVE_USER_FROM_GROUP,
       userId,
       groupName,
     });
 
     spyOn(toastrService, 'error');
-    spyOn(service, 'removeUserToGroup').and.returnValue(throwError({ error: { message: 'error' } }));
+    spyOn(service, 'removeUserFromGroup').and.returnValue(throwError({ error: { message: 'error' } }));
 
-    effects.removeUserToGroup$.subscribe((action) => {
+    effects.removeUserFromGroup$.subscribe((action) => {
       expect(toastrService.error).toHaveBeenCalled();
-      expect(action.type).toEqual(UserActionTypes.REMOVE_USER_TO_GROUP_FAIL);
+      expect(action.type).toEqual(UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL);
     });
   });
 });
