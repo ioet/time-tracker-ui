@@ -77,6 +77,7 @@ describe('UserActions', () => {
   });
 
   it('RemoveUserFromGroup type is UserActionTypes.REMOVE_USER_FROM_GROUP', () => {
+<<<<<<< HEAD
     const userId = 'userId';
     const groupName = 'groupName';
     const action = new actions.RemoveUserFromGroup(userId, groupName);
@@ -121,28 +122,34 @@ describe('UserActions', () => {
   });
 
   it('RemoveUserToGroup type is UserActionTypes.REMOVE_USER_TO_GROUP', () => {
+=======
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
     const userId = 'userId';
     const groupName = 'groupName';
-    const action = new actions.RemoveUserToGroup(userId, groupName);
+    const action = new actions.RemoveUserFromGroup(userId, groupName);
 
-    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_TO_GROUP);
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP);
   });
 
-  it('RemoveUserToGroupSuccess type is UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS', () => {
+  it('RemoveUserFromGroupSuccess type is UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS', () => {
     const payload: User = { id: 'id', email: 'email', name: 'name' };
-    const action = new actions.RemoveUserToGroupSuccess(payload);
+    const action = new actions.RemoveUserFromGroupSuccess(payload);
 
-    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS);
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS);
   });
 
-  it('RemoveUserToGroupFail type is UserActionTypes.REMOVE_USER_TO_GROUP_FAIL', () => {
-    const action = new actions.RemoveUserToGroupFail('error');
+  it('RemoveUserFromGroupFail type is UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL', () => {
+    const action = new actions.RemoveUserFromGroupFail('error');
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     expect(action.type).toEqual(actions.UserActionTypes.REMOVE_GROUP_TO_USER_FAIL);
 >>>>>>> feat: TT-188 add ngrx flow & test
 =======
     expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_TO_GROUP_FAIL);
 >>>>>>> refactor: TT-188 refactor some names
+=======
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL);
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
   });
 });

@@ -146,16 +146,21 @@ export const userReducer = (state: UserState = initialState, action: UserActions
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     case UserActionTypes.REMOVE_GROUP_TO_USER: {
 >>>>>>> feat: TT-188 add ngrx flow & test
 =======
     case UserActionTypes.REMOVE_USER_TO_GROUP: {
 >>>>>>> refactor: TT-188 refactor some names
+=======
+    case UserActionTypes.REMOVE_USER_FROM_GROUP: {
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
       return {
         ...state,
         isLoading: true,
       };
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     case UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS: {
@@ -165,11 +170,15 @@ export const userReducer = (state: UserState = initialState, action: UserActions
 =======
     case UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS: {
 >>>>>>> refactor: TT-188 refactor some names
+=======
+    case UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS: {
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
       const index = userData.findIndex((user) => user.id === action.payload.id);
       userData[index] = action.payload;
       return {
         data: userData,
         isLoading: false,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         message: 'Remove user from group success',
@@ -185,18 +194,25 @@ export const userReducer = (state: UserState = initialState, action: UserActions
 =======
         message: 'Remove user to group success',
 >>>>>>> refactor: TT-188 refactor some names
+=======
+        message: 'Remove user from group success',
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
       };
     }
-    case UserActionTypes.REMOVE_USER_TO_GROUP_FAIL: {
+    case UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL: {
       return {
         ...state,
         isLoading: false,
+<<<<<<< HEAD
 <<<<<<< HEAD
         message: 'Something went wrong removing group to a user',
 >>>>>>> feat: TT-188 add ngrx flow & test
 =======
         message: 'Something went wrong removing user to group',
 >>>>>>> refactor: TT-188 refactor some names
+=======
+        message: 'Something went wrong removing user from group',
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
       };
     }
     default:

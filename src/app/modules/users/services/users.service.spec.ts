@@ -53,10 +53,14 @@ describe('UsersService', () => {
   });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   it('add user to group', () => {
 =======
   it('add group to a User', () => {
 >>>>>>> feat: TT-188 add & remove groups to user service
+=======
+  it('add user to group', () => {
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
     const userId = 'userId';
     const group = 'admin';
     const addGroupURL = `${service.baseUrl}/${userId}/groups/add`;
@@ -75,14 +79,19 @@ describe('UsersService', () => {
   });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   it('remove user from group', () => {
 =======
   it('remove group to a User', () => {
 >>>>>>> feat: TT-188 add & remove groups to user service
+=======
+  it('remove user from group', () => {
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
     const userId = 'userId';
     const group = 'admin';
     const removeGroupURL = `${service.baseUrl}/${userId}/groups/remove`;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     service.removeUserFromGroup(userId, group).subscribe();
@@ -92,6 +101,9 @@ describe('UsersService', () => {
 =======
     service.removeUserToGroup(userId, group).subscribe();
 >>>>>>> refactor: TT-188 refactor some names
+=======
+    service.removeUserFromGroup(userId, group).subscribe();
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
 
     expect(httpMock.expectOne(removeGroupURL).request.method).toBe('POST');
   });

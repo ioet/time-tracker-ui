@@ -41,6 +41,7 @@ export class UsersService {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   removeUserFromGroup(userId: string, group: string): Observable<User> {
 =======
   removeGroupToUser(userId: string, group: string): Observable<User> {
@@ -48,6 +49,9 @@ export class UsersService {
 =======
   removeUserToGroup(userId: string, group: string): Observable<User> {
 >>>>>>> refactor: TT-188 refactor some names
+=======
+  removeUserFromGroup(userId: string, group: string): Observable<User> {
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
     return this.http.post<User>(`${this.baseUrl}/${userId}/groups/remove`, {
       group_name: group,
     });

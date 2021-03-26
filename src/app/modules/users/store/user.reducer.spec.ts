@@ -158,6 +158,7 @@ describe('userReducer', () => {
   });
 
   it('on RemoveUserFromGroup, isLoading is true', () => {
+<<<<<<< HEAD
     const userId = 'userId';
     const groupName = 'groupName';
     const action = new actions.RemoveUserFromGroup(userId, groupName);
@@ -185,11 +186,17 @@ describe('userReducer', () => {
 =======
     const action = new actions.RemoveUserToGroup(userId, groupName);
 >>>>>>> refactor: TT-188 refactor some names
+=======
+    const userId = 'userId';
+    const groupName = 'groupName';
+    const action = new actions.RemoveUserFromGroup(userId, groupName);
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
     const state = userReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
   });
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   it('on RemoveUserFromGroupSuccess, user groups should change', () => {
@@ -199,12 +206,16 @@ describe('userReducer', () => {
 =======
   it('on RemoveUserToGroupSuccess, user groups should change', () => {
 >>>>>>> refactor: TT-188 refactor some names
+=======
+  it('on RemoveUserFromGroupSuccess, user groups should change', () => {
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
     const currentState: UserState = {
       data: [{ id: 'id', name: 'name', email: 'email', groups: ['group'] }],
       isLoading: false,
       message: '',
     };
     const userWithGroupRemoved: User = { id: 'id', name: 'name', email: 'email', groups: null };
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     const action = new actions.RemoveUserFromGroupSuccess(userWithGroupRemoved);
@@ -214,10 +225,14 @@ describe('userReducer', () => {
 =======
     const action = new actions.RemoveUserToGroupSuccess(userWithGroupRemoved);
 >>>>>>> refactor: TT-188 refactor some names
+=======
+    const action = new actions.RemoveUserFromGroupSuccess(userWithGroupRemoved);
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
     const state = userReducer(currentState, action);
 
     expect(state.data).toEqual([userWithGroupRemoved]);
     expect(state.isLoading).toEqual(false);
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     expect(state.message).toEqual('Remove user from group success');
@@ -233,18 +248,25 @@ describe('userReducer', () => {
 =======
     expect(state.message).toEqual('Remove user to group success');
 >>>>>>> refactor: TT-188 refactor some names
+=======
+    expect(state.message).toEqual('Remove user from group success');
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
   });
 
-  it('on RemoveUserToGroupFail, should show a message with an error message', () => {
-    const action = new actions.RemoveUserToGroupFail('error');
+  it('on RemoveUserFromGroupFail, should show a message with an error message', () => {
+    const action = new actions.RemoveUserFromGroupFail('error');
     const state = userReducer(initialState, action);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     expect(state.message).toEqual('Something went wrong removing group to a user');
 >>>>>>> feat: TT-188 add ngrx flow & test
 =======
     expect(state.message).toEqual('Something went wrong removing user to group');
 >>>>>>> refactor: TT-188 refactor some names
+=======
+    expect(state.message).toEqual('Something went wrong removing user from group');
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
     expect(state.isLoading).toEqual(false);
   });
 

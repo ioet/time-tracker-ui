@@ -31,10 +31,16 @@ export enum UserActionTypes {
   ADD_USER_TO_GROUP = '[User] ADD_USER_TO_GROUP',
   ADD_USER_TO_GROUP_SUCCESS = '[User] ADD_USER_TO_GROUP_SUCCESS',
   ADD_USER_TO_GROUP_FAIL = '[User] ADD_USER_TO_GROUP_FAIL',
+<<<<<<< HEAD
   REMOVE_USER_TO_GROUP = '[User] REMOVE_USER_TO_GROUP',
   REMOVE_USER_TO_GROUP_SUCCESS = '[User] REMOVE_USER_TO_GROUP_SUCCESS',
   REMOVE_USER_TO_GROUP_FAIL = '[User] REMOVE_USER_TO_GROUP_FAIL',
 >>>>>>> refactor: TT-188 refactor some names
+=======
+  REMOVE_USER_FROM_GROUP = '[User] REMOVE_USER_FROM_GROUP',
+  REMOVE_USER_FROM_GROUP_SUCCESS = '[User] REMOVE_USER_FROM_GROUP_SUCCESS',
+  REMOVE_USER_FROM_GROUP_FAIL = '[User] REMOVE_USER_FROM_GROUP_FAIL',
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
   DEFAULT_USER = '[USER] DEFAULT_USER',
 }
 
@@ -101,6 +107,7 @@ export class AddUserToGroupFail implements Action {
 
 export class RemoveUserFromGroup implements Action {
   public readonly type = UserActionTypes.REMOVE_USER_FROM_GROUP;
+<<<<<<< HEAD
   constructor(public userId: string, public groupName: string) {}
 }
 
@@ -133,14 +140,17 @@ export class AddUserToGroupFail implements Action {
 
 export class RemoveUserToGroup implements Action {
   public readonly type = UserActionTypes.REMOVE_USER_TO_GROUP;
+=======
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
   constructor(public userId: string, public groupName: string) {}
 }
 
-export class RemoveUserToGroupSuccess implements Action {
-  public readonly type = UserActionTypes.REMOVE_USER_TO_GROUP_SUCCESS;
+export class RemoveUserFromGroupSuccess implements Action {
+  public readonly type = UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS;
   constructor(readonly payload: User) {}
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 export class RemoveGroupToUserFail implements Action {
   public readonly type = UserActionTypes.REMOVE_GROUP_TO_USER_FAIL;
@@ -149,6 +159,10 @@ export class RemoveGroupToUserFail implements Action {
 export class RemoveUserToGroupFail implements Action {
   public readonly type = UserActionTypes.REMOVE_USER_TO_GROUP_FAIL;
 >>>>>>> refactor: TT-188 refactor some names
+=======
+export class RemoveUserFromGroupFail implements Action {
+  public readonly type = UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL;
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
   constructor(public error: string) {}
 }
 
@@ -187,7 +201,13 @@ export type UserActions =
   | AddUserToGroup
   | AddUserToGroupSuccess
   | AddUserToGroupFail
+<<<<<<< HEAD
   | RemoveUserToGroup
   | RemoveUserToGroupSuccess
   | RemoveUserToGroupFail;
 >>>>>>> refactor: TT-188 refactor some names
+=======
+  | RemoveUserFromGroup
+  | RemoveUserFromGroupSuccess
+  | RemoveUserFromGroupFail;
+>>>>>>> refactor: TT-188 refactor 'removeTo' to 'removeFrom'  references
