@@ -37,6 +37,7 @@ export const userReducer = (state: UserState = initialState, action: UserActions
         message: action.error,
       };
     }
+
     case UserActionTypes.GRANT_USER_ROLE: {
       return {
         ...state,
@@ -53,7 +54,6 @@ export const userReducer = (state: UserState = initialState, action: UserActions
         message: 'Grant User Role Success',
       };
     }
-
     case UserActionTypes.GRANT_USER_ROLE_FAIL: {
       return {
         ...state,
@@ -79,13 +79,58 @@ export const userReducer = (state: UserState = initialState, action: UserActions
         message: 'Revoke User Role Success',
       };
     }
-
     case UserActionTypes.REVOKE_USER_ROLE_FAIL: {
       return {
         ...state,
         data: state.data,
         isLoading: false,
         message: 'Something went wrong revoking user role',
+      };
+    }
+
+    case UserActionTypes.ADD_USER_TO_GROUP: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case UserActionTypes.ADD_USER_TO_GROUP_SUCCESS: {
+      const index = userData.findIndex((user) => user.id === action.payload.id);
+      userData[index] = action.payload;
+      return {
+        data: userData,
+        isLoading: false,
+        message: 'Add user to group success',
+      };
+    }
+    case UserActionTypes.ADD_USER_TO_GROUP_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+        message: 'Something went wrong adding user to group',
+      };
+    }
+
+    case UserActionTypes.REMOVE_USER_FROM_GROUP: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS: {
+      const index = userData.findIndex((user) => user.id === action.payload.id);
+      userData[index] = action.payload;
+      return {
+        data: userData,
+        isLoading: false,
+        message: 'Remove user from group success',
+      };
+    }
+    case UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+        message: 'Something went wrong removing user from group',
       };
     }
     default:

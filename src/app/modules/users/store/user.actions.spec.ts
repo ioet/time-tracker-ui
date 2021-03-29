@@ -52,4 +52,46 @@ describe('UserActions', () => {
     const action = new actions.RevokeRoleUserFail('error');
     expect(action.type).toEqual(actions.UserActionTypes.REVOKE_USER_ROLE_FAIL);
   });
+
+  it('AddUserToGroup type is UserActionTypes.ADD_USER_TO_GROUP', () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    const action = new actions.AddUserToGroup(userId, groupName);
+
+    expect(action.type).toEqual(actions.UserActionTypes.ADD_USER_TO_GROUP);
+  });
+
+  it('AddUserToGroupSuccess type is UserActionTypes.ADD_USER_TO_GROUP_SUCCESS', () => {
+    const payload: User = { id: 'id', email: 'email', name: 'name' };
+    const action = new actions.AddUserToGroupSuccess(payload);
+
+    expect(action.type).toEqual(actions.UserActionTypes.ADD_USER_TO_GROUP_SUCCESS);
+  });
+
+  it('AddUserToGroupFail type is UserActionTypes.ADD_USER_TO_GROUP_FAIL', () => {
+    const action = new actions.AddUserToGroupFail('error');
+
+    expect(action.type).toEqual(actions.UserActionTypes.ADD_USER_TO_GROUP_FAIL);
+  });
+
+  it('RemoveUserFromGroup type is UserActionTypes.REMOVE_USER_FROM_GROUP', () => {
+    const userId = 'userId';
+    const groupName = 'groupName';
+    const action = new actions.RemoveUserFromGroup(userId, groupName);
+
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP);
+  });
+
+  it('RemoveUserFromGroupSuccess type is UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS', () => {
+    const payload: User = { id: 'id', email: 'email', name: 'name' };
+    const action = new actions.RemoveUserFromGroupSuccess(payload);
+
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS);
+  });
+
+  it('RemoveUserFromGroupFail type is UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL', () => {
+    const action = new actions.RemoveUserFromGroupFail('error');
+
+    expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL);
+  });
 });

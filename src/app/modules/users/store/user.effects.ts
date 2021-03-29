@@ -63,4 +63,40 @@ export class UserEffects {
       )
     )
   );
+
+  @Effect()
+  addUserToGroup$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.UserActionTypes.ADD_USER_TO_GROUP),
+    map((action: actions.AddUserToGroup) => action),
+    mergeMap((action) =>
+      this.userService.addUserToGroup(action.userId, action.groupName).pipe(
+        map((response) => {
+          this.toastrService.success('Add user to group success');
+          return new actions.AddUserToGroupSuccess(response);
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.AddUserToGroupFail(error));
+        })
+      )
+    )
+  );
+
+  @Effect()
+  removeUserFromGroup$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.UserActionTypes.REMOVE_USER_FROM_GROUP),
+    map((action: actions.RemoveUserFromGroup) => action),
+    mergeMap((action) =>
+      this.userService.removeUserFromGroup(action.userId, action.groupName).pipe(
+        map((response) => {
+          this.toastrService.success('Remove user from group success');
+          return new actions.RemoveUserFromGroupSuccess(response);
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.RemoveUserFromGroupFail(error));
+        })
+      )
+    )
+  );
 }
