@@ -22,13 +22,13 @@
           <div *ngIf="isUserGroupsToggleOn">
             <ui-switch
               size="small"
-              (change)="switchGroup(user.id, user.groups, 'time-tracker-admin')"
+              (change)="switchGroup('time-tracker-admin', user)"
               [checked]="user.groups.includes('time-tracker-admin')"
             ></ui-switch>
             admin
             <ui-switch
               size="small"
-              (change)="switchGroup(user.id, user.groups, 'time-tracker-tester')"
+              (change)="switchGroup('time-tracker-tester', user)"
               [checked]="user.groups.includes('time-tracker-tester')"
             ></ui-switch>
             test

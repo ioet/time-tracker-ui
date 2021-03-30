@@ -12,6 +12,7 @@ import {
   AddUserToGroup,
   RemoveUserFromGroup,
 } from '../../store';
+import { User } from '../../../user/models/user';
 import { ActionsSubject } from '@ngrx/store';
 import { DataTablesModule } from 'angular-datatables';
 import { Observable, of } from 'rxjs';
@@ -118,12 +119,12 @@ describe('UsersListComponent', () => {
     });
   });
 
-  const actionsGroupsParams = [
+  const actionGroupParams = [
     { actionType: UserActionTypes.ADD_USER_TO_GROUP_SUCCESS },
     { actionType: UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS },
   ];
 
-  actionsGroupsParams.map((param) => {
+  actionGroupParams.map((param) => {
     it(`When action ${param.actionType} is dispatched should triggered load Users action`, () => {
       spyOn(store, 'dispatch');
 
@@ -167,14 +168,21 @@ describe('UsersListComponent', () => {
   AddGroupTypes.map((param) => {
     it(`When user switchGroup to ${param.groupName} and doesn't belong to any group, should add ${param.groupName} group to user`, () => {
       const groupName = param.groupName;
-      const userGroups = [];
-      const userId = 'userId';
+      const user = {
+        name: 'name',
+        email: 'email',
+        roles: [],
+        groups: [],
+        id: 'id',
+        tenant_id: 'tenant id',
+        deleted: 'delete',
+      } ;
 
       spyOn(store, 'dispatch');
 
-      component.switchGroup(userId, userGroups, groupName);
+      component.switchGroup(groupName, user);
 
-      expect(store.dispatch).toHaveBeenCalledWith(new AddUserToGroup(userId, groupName));
+      expect(store.dispatch).toHaveBeenCalledWith(new AddUserToGroup(user.id, groupName));
     });
   });
 
@@ -206,14 +214,22 @@ describe('UsersListComponent', () => {
   removeGroupTypes.map((param) => {
     it(`When user switchGroup to ${param.groupName} and belongs to group, should remove ${param.groupName} group from user`, () => {
       const groupName = param.groupName;
-      const userGroups = param.userGroups;
-      const userId = 'userId';
+      const user = {
+        name: 'name',
+        email: 'email',
+        roles: [],
+        groups: param.userGroups,
+        id: 'id',
+        tenant_id: 'tenant id',
+        deleted: 'delete',
+      } ;
+
 
       spyOn(store, 'dispatch');
 
-      component.switchGroup(userId, userGroups, groupName);
+      component.switchGroup(groupName, user);
 
-      expect(store.dispatch).toHaveBeenCalledWith(new RemoveUserFromGroup(userId, groupName));
+      expect(store.dispatch).toHaveBeenCalledWith(new RemoveUserFromGroup(user.id, groupName));
     });
   });
 

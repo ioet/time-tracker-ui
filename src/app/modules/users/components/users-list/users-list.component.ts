@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActionsSubject, select, Store } from '@ngrx/store';
+import { ActionsSubject, select, Store, Action } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
@@ -54,17 +54,9 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       this.isUserGroupsToggleOn = flag;
     });
 
-    this.switchGroupsSubscription = this.actionsSubject$
-      .pipe(
-        filter(
-          (action: any) =>
-            action.type === UserActionTypes.ADD_USER_TO_GROUP_SUCCESS ||
-            action.type === UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS
-        )
-      )
-      .subscribe((action) => {
-        this.store.dispatch(new LoadUsers());
-      });
+    this.switchGroupsSubscription = this.filterUserGroup().subscribe((action) => {
+      this.store.dispatch(new LoadUsers());
+    });
 
     this.switchRoleSubscription = this.actionsSubject$
       .pipe(
@@ -106,17 +98,26 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       : this.store.dispatch(new GrantRoleUser(userId, roleId));
   }
 
-  switchGroup(userId: string, userGroups: string[], groupName: string) {
-    userGroups.includes(groupName)
-      ? this.store.dispatch(new RemoveUserFromGroup(userId, groupName))
-      : this.store.dispatch(new AddUserToGroup(userId, groupName));
+  switchGroup(groupName: string, user: User): void {
+    this.store.dispatch(
+      user.groups.includes(groupName)
+        ? new RemoveUserFromGroup(user.id, groupName)
+        : new AddUserToGroup(user.id, groupName)
+    );
   }
 
-  isFeatureToggleActivated() {
-    return this.featureManagerService.isToggleEnabledForUser('switch-group').pipe(
-      map((enabled) => {
-        return enabled === true ? true : false;
-      })
+  isFeatureToggleActivated(): Observable<boolean> {
+    return this.featureManagerService.isToggleEnabledForUser('switch-group')
+      .pipe(map((enabled: boolean) => enabled));
+  }
+
+  filterUserGroup(): Observable<Action> {
+    return this.actionsSubject$.pipe(
+      filter(
+        (action: Action) =>
+          action.type === UserActionTypes.ADD_USER_TO_GROUP_SUCCESS ||
+          action.type === UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS
+      )
     );
   }
 }
