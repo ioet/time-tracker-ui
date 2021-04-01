@@ -31,10 +31,10 @@ Run `npm install` to install the required node_modules for this project.
 Run `ng serve` to run the app in dev mode. After executing this command, you can navigate to `http://localhost:4200/` to see the app working.
 The app will automatically reload if you change anything in the source files.
 
-## Prepare your environment
+# Prepare your environment
 
 ### Set environment variables
-Create a file keys.ts in the path `src/enviroment` with the content pinned in our slack channel:
+**1**. Create a file keys.ts in the path `src/enviroment` with the content pinned in our slack channel #time-tracker-developer:
 
 ```
 export const AUTHORITY = 'XXX';
@@ -44,7 +44,14 @@ export const STACK_EXCHANGE_ID = 'XXX';
 export const STACK_EXCHANGE_ACCESS_TOKEN = 'XXX';
 export const AZURE_APP_CONFIGURATION_CONNECTION_STRING = 'XXX';
 ```
-
+**2**. Create a second file `.keys.json` with the content pinned in the slack channel #time-tracker-developer:
+```
+{
+    "authority": 'XXX',
+    "client_id": 'XXX',
+    "scopes": ["XXX"]
+}
+```
 ### Prepare your environment for vscode
 Install the following extensions:
 
@@ -81,6 +88,12 @@ Install the following extensions:
 | `fix(pencil): stop graphite breaking when too much pressure applied`                                                                                                                             | Patch Release              |
 | `feat(pencil): add 'graphiteWidth' option`                                                                                                                                                       | ~~Minor~~ Feature Release  |
 | `perf(pencil): remove graphiteWidth option`<br><br>`BREAKING CHANGE: The graphiteWidth option has been removed.`<br>`The default graphite width of 10mm is always used for performance reasons.` | ~~Major~~ Breaking Release |
+
+### Branch names format
+For example if your task in Jira is **TT-48 implement semantic versioning** your branch name is:
+```
+   TT-48-implement-semantic-versioning
+```
 
 ## Code scaffolding
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
@@ -128,3 +141,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 Shared file with all the Feature Toggles we create, so we can have a history of them
 [Feature Toggles dictionary](https://github.com/ioet/time-tracker-ui/wiki/Feature-Toggles-dictionary)
+
+## More information about the project
+[Starting in Time Tracker](https://github.com/ioet/time-tracker-ui/wiki/Time-tracker)
