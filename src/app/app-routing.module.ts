@@ -1,4 +1,4 @@
-import { AdminGuard } from './guards/admin-guard/admin-guard';
+import { AdminGuard } from './guards/admin-guard/admin.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -26,7 +26,11 @@ const routes: Routes = [
       { path: 'activities-management', component: ActivitiesManagementComponent },
       { path: 'customers-management', canActivate: [AdminGuard], component: CustomerComponent },
       { path: 'users', canActivate: [AdminGuard], component: UsersComponent },
-      { path: 'technology-report', canActivate: [AdminGuard, TechnologiesReportGuard], component: TechnologyReportComponent},
+      {
+        path: 'technology-report',
+        canActivate: [AdminGuard, TechnologiesReportGuard],
+        component: TechnologyReportComponent,
+      },
       { path: '', pathMatch: 'full', redirectTo: 'time-clock' },
     ],
   },

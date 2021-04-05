@@ -42,9 +42,12 @@ describe('AzureAdB2CService', () => {
     expect(UserAgentApplication.prototype.loginPopup).toHaveBeenCalled();
   });
 
-  it('on logout should call msal logout', () => {
+  it('on logout should call msal logout and verify if user localStorage is removed', () => {
     spyOn(UserAgentApplication.prototype, 'logout').and.returnValue();
+    spyOn(localStorage, 'removeItem').withArgs('user');
     service.logout();
+
+    expect(localStorage.removeItem).toHaveBeenCalledWith('user');
     expect(UserAgentApplication.prototype.logout).toHaveBeenCalled();
   });
 
@@ -66,7 +69,7 @@ describe('AzureAdB2CService', () => {
   });
 
   it('isAdmin when extension_role === time-tracker-admin', async () => {
-    const adminAccount = {...account};
+    const adminAccount = { ...account };
     adminAccount.idToken.extension_role = 'time-tracker-admin';
 
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(adminAccount);
