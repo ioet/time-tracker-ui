@@ -120,6 +120,7 @@ describe('AdminGuard', () => {
             expect(router.navigate).toHaveBeenCalledWith(['login']);
           } else {
             expect(router.navigate).not.toHaveBeenCalled();
+            expect(enabled).toBeTrue();
           }
         });
       }

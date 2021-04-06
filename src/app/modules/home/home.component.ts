@@ -11,7 +11,7 @@ import { FeatureSwitchGroupService } from '../shared/feature-toggles/switch-grou
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  ftSwitchGroup$: Subscription;
+  FTSwitchGroup$: Subscription;
 
   constructor(
     private featureSwitchGroup: FeatureSwitchGroupService,
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.ftSwitchGroup$ = this.featureSwitchGroup.isActivated().subscribe((enabled) => {
+    this.FTSwitchGroup$ = this.featureSwitchGroup.isActivated().subscribe((enabled) => {
       if (enabled) {
         const userId = this.azureAdB2CService.getUserId();
         this.store.dispatch(new LoadUser(userId));
@@ -29,6 +29,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ftSwitchGroup$.unsubscribe();
+    this.FTSwitchGroup$.unsubscribe();
   }
 }

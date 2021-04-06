@@ -26,11 +26,7 @@ const routes: Routes = [
       { path: 'activities-management', component: ActivitiesManagementComponent },
       { path: 'customers-management', canActivate: [AdminGuard], component: CustomerComponent },
       { path: 'users', canActivate: [AdminGuard], component: UsersComponent },
-      {
-        path: 'technology-report',
-        canActivate: [AdminGuard, TechnologiesReportGuard],
-        component: TechnologyReportComponent,
-      },
+      { path: 'technology-report', canActivate: [AdminGuard, TechnologiesReportGuard], component: TechnologyReportComponent },
       { path: '', pathMatch: 'full', redirectTo: 'time-clock' },
     ],
   },
@@ -41,4 +37,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
