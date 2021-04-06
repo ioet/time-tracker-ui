@@ -122,9 +122,11 @@ describe('InputProjectTypeComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new CreateProjectType(projectTypeData));
   });
 
-  it('should reset Project Type Form if projectTypeIdToEdit is null', () => {
+  it('should reset projectTypeForm if projectTypeIdToEdit is null', () => {
+
     spyOn(component.projectTypeForm, 'reset');
-    projectTypeIdToEditMock = store.overrideSelector(projectTypeIdToEdit, null);
+
+    store.overrideSelector(projectTypeIdToEdit, null);
     store.refreshState();
     expect(component.projectTypeForm.reset).toHaveBeenCalled();
   });
