@@ -12,8 +12,8 @@ import {
 } from 'src/app/modules/customer-management/store';
 import { DataTablesModule } from 'angular-datatables';
 import { ActionsSubject } from '@ngrx/store';
-import { ResetProjectToEdit } from '../../../projects/components/store/project.actions';
-import { ResetProjectTypeToEdit } from '../../../projects-type/store';
+import { ResetProjectToEdit, SetProjectToEdit } from '../../../projects/components/store/project.actions';
+import { ResetProjectTypeToEdit, SetProjectTypeToEdit } from '../../../projects-type/store';
 
 describe('CustomerTableListComponent', () => {
   let component: CustomerListComponent;
@@ -58,7 +58,6 @@ describe('CustomerTableListComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new LoadCustomers());
   });
 
-
   it('Onclick Edit, if there are changes, the modal must be presented ', () => {
     component.hasChange = true;
     const expectMessage = 'Do you have changes in a client, do you want to discard them?';
@@ -86,6 +85,8 @@ describe('CustomerTableListComponent', () => {
 
     component.editCustomer('1');
 
+    expect(store.dispatch).toHaveBeenCalledWith(new SetProjectToEdit(null));
+    expect(store.dispatch).toHaveBeenCalledWith(new SetProjectTypeToEdit(null));
     expect(store.dispatch).toHaveBeenCalledWith(new ResetProjectToEdit());
     expect(store.dispatch).toHaveBeenCalledWith(new ResetProjectTypeToEdit());
   });

@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 
 import { ProjectType } from '../../../../../shared/models';
-import { ProjectTypeState } from '../../store';
+import { projectTypeIdToEdit, ProjectTypeState } from '../../store';
 import { CreateProjectType, ResetProjectTypeToEdit, UpdateProjectType, getProjectTypeById } from '../../store';
 import { getCustomerId } from 'src/app/modules/customer-management/store/customer-management.selectors';
 import { Subscription } from 'rxjs';
@@ -20,6 +20,7 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
   projectTypeToEdit: ProjectType;
   customerId: string;
   getCustomerIdSubscription: Subscription;
+  projectTypeIdToEditSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder, private store: Store<ProjectTypeState>) {
     this.projectTypeForm = this.formBuilder.group({
@@ -29,6 +30,13 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const projectTypeIdToEdit$ = this.store.pipe(select(projectTypeIdToEdit));
+    this.projectTypeIdToEditSubscription = projectTypeIdToEdit$.subscribe((projectTypeId: string) => {
+      if (projectTypeId === null) {
+        this.projectTypeForm.reset();
+      }
+    });
+
     const projectType$ = this.store.pipe(select(getProjectTypeById));
     projectType$.subscribe((projectType) => {
       this.projectTypeToEdit = projectType;
@@ -79,6 +87,7 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getCustomerIdSubscription.unsubscribe();
+    this.projectTypeIdToEditSubscription.unsubscribe();
   }
 
   onInputChangeProjectType(searchValue: string): void {

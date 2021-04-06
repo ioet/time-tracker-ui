@@ -5,11 +5,11 @@ import { ProjectTypeState } from './project-type.reducers';
 const getProjectTypeState = createFeatureSelector<ProjectTypeState>('projectType');
 
 export const allProjectTypes = createSelector(getProjectTypeState, (state: ProjectTypeState) => {
-  return state.data;
+  return state?.data;
 });
 
 export const projectTypeIdToEdit = createSelector(getProjectTypeState, (state: ProjectTypeState) => {
-  return state.projectTypeIdToEdit;
+  return state?.projectTypeIdToEdit;
 });
 
 export const getProjectTypeById = createSelector(
