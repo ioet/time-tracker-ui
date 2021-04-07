@@ -16,11 +16,7 @@ export class UserInfoService {
   }
 
   isMemberOf(groupName: string): Observable<boolean> {
-    return this.groups().pipe(
-      map((groups: string[]) => {
-        return groups.includes(groupName);
-      })
-    );
+    return this.groups().pipe(map((groups: string[]) => groups.includes(groupName)));
   }
 
   isAdmin(): Observable<boolean> {
