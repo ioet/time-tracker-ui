@@ -1,7 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { CreateProjectTypeComponent } from './create-project-type.component';
 import {
   ProjectTypeState,
@@ -40,6 +40,7 @@ describe('InputProjectTypeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule],
       declarations: [CreateProjectTypeComponent],
       providers: [FormBuilder, provideMockStore({ initialState: state })],
     }).compileComponents();
@@ -119,6 +120,15 @@ describe('InputProjectTypeComponent', () => {
     expect(component.projectTypeForm.reset).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(new CreateProjectType(projectTypeData));
+  });
+
+  it('should reset projectTypeForm if projectTypeIdToEdit is null', () => {
+
+    spyOn(component.projectTypeForm, 'reset');
+
+    store.overrideSelector(projectTypeIdToEdit, null);
+    store.refreshState();
+    expect(component.projectTypeForm.reset).toHaveBeenCalled();
   });
 
   it('should get name using projectTypeForm', () => {

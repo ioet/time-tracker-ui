@@ -11,8 +11,9 @@ import {
   LoadCustomers,
   SetCustomerToEdit,
 } from './../../../../store/customer-management.actions';
-import { ResetProjectToEdit } from '../../../projects/components/store/project.actions';
-import { ResetProjectTypeToEdit } from '../../../projects-type/store';
+import { ResetProjectToEdit, SetProjectToEdit } from '../../../projects/components/store/project.actions';
+import { ResetProjectTypeToEdit, SetProjectTypeToEdit } from '../../../projects-type/store';
+
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
@@ -101,6 +102,8 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private resetProjectFieldsToEdit() {
+    this.store.dispatch(new SetProjectTypeToEdit(null));
+    this.store.dispatch(new SetProjectToEdit(null));
     this.store.dispatch(new ResetProjectToEdit());
     this.store.dispatch(new ResetProjectTypeToEdit());
   }
