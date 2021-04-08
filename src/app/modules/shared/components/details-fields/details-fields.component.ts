@@ -130,6 +130,17 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.end_date.setValue($event);
   }
 
+  getTimeDifference(){
+    const horainico = this.start_hour.value;
+    const horafinal = this.end_hour.value;
+    console.log(horainico + ' ' + horafinal);
+    const ab = moment(horainico, 'HH:mm');
+    const ac = moment(horafinal, 'HH:mm');
+    console.error(moment.duration(ab.diff(ac)).humanize());
+    const diff = [moment.duration(ab.diff(ac)).humanize()];
+    return diff;
+  }
+
   ngOnChanges(): void {
     this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running : false;
     this.shouldRestartEntry = false;
