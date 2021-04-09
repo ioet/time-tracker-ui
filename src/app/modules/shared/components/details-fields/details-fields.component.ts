@@ -172,7 +172,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     });
   }
 
-  cleanFormWithSkipProject(): void {
+  cleanFieldsForm(): void {
     this.cleanForm(true);
   }
 

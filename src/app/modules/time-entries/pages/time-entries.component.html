@@ -64,7 +64,7 @@
     <div class="modal-content" cdkDrag (cdkDragEnded)="resetDraggablePosition($event)">
       <div class="modal-header" cdkDragHandle>
         <h5 class="modal-title">{{ entryId ? 'Edit Entry' : 'New Entry' }}</h5>
-        <button type="button" class="btn" (click)="detailsFields.cleanFormWithSkipProject()">
+        <button type="button" class="btn" (click)="detailsFields.cleanFieldsForm()">
           <i class="fa fa-undo" aria-hidden="true"></i>
         </button>
       </div>

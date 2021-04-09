@@ -169,7 +169,7 @@ describe('DetailsFieldsComponent', () => {
     });
   });
 
-  it('on cleanFormWithSkipProject the project_id and project_name should be kept', () => {
+  it('on cleanFieldsForm the project_id and project_name should be kept', () => {
     const entryFormValueExpected = {
       ...formValues,
       activity_id: '',
@@ -183,7 +183,7 @@ describe('DetailsFieldsComponent', () => {
     };
 
     component.entryForm.setValue(formValues);
-    component.cleanFormWithSkipProject();
+    component.cleanFieldsForm();
 
     expect(component.entryForm.value).toEqual(entryFormValueExpected);
   });
