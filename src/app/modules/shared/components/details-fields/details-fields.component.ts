@@ -131,14 +131,23 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   getTimeDifference(){
-    const horainico = this.start_hour.value;
-    const horafinal = this.end_hour.value;
-    console.log(horainico + ' ' + horafinal);
-    const ab = moment(horainico, 'HH:mm');
-    const ac = moment(horafinal, 'HH:mm');
-    console.error(moment.duration(ab.diff(ac)).humanize());
-    const diff = [moment.duration(ab.diff(ac)).humanize()];
-    return diff;
+    moment.locale('es');
+    const hourStart = this.start_hour.value;
+    const hourEnd = this.end_hour.value;
+    const ab = moment(hourStart, 'HH:mm');
+    const ac = moment(hourEnd, 'HH:mm');
+    if (hourStart === '00:00') {
+      const hourTotal = '00:00';
+      return hourTotal;
+    }
+    if (hourEnd === '00:00') {
+      const hourTotal = '00:00';
+      return hourTotal;
+    }else {
+      const hourTotal = [moment.duration(ab.diff(ac))];
+      return hourTotal;
+    }
+
   }
 
   ngOnChanges(): void {

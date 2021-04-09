@@ -137,11 +137,13 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group row" *ngIf="!goingToWorkOnThis">
         <label class="col-12 col-sm-2">Total Hours:</label>
         <div class="col-12 col-sm-4">
-          <span>
-
+          <span class="border-tag"
+            [class.border-tag--disabled]="!(project_id.value && project_name.value)"
+            >
+            {{ this.getTimeDifference() }}
           </span>
         </div>
       </div>
