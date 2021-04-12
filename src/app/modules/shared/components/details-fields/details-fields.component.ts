@@ -19,6 +19,7 @@ import { SaveEntryEvent } from './save-entry-event';
 import { ProjectSelectedEvent } from './project-selected-event';
 import { get } from 'lodash';
 import { DATE_FORMAT } from 'src/environments/environment';
+import { TechnologiesComponent } from '../technologies/technologies.component';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 @Component({
@@ -33,6 +34,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   @Output() saveEntry = new EventEmitter<SaveEntryEvent>();
   @Output() projectSelected = new EventEmitter<ProjectSelectedEvent>();
   @ViewChild('closeModal') closeModal: ElementRef;
+  @ViewChild('technologies', { static: true }) technologies: TechnologiesComponent;
   entryForm: FormGroup;
   selectedTechnologies: string[] = [];
   isLoading = false;
@@ -151,11 +153,14 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     }
   }
 
-  cleanForm() {
+  cleanForm(skipProject: boolean = false): void {
     this.selectedTechnologies = [];
-    this.entryForm.setValue({
-      project_name: '',
-      project_id: '',
+    this.technologies.query = '';
+    const projectNameField = this.project_name.value;
+    const projectName = get(projectNameField, 'search_field', projectNameField);
+    this.entryForm.reset({
+      project_name: skipProject ? projectName : '',
+      project_id: skipProject ? this.project_id.value : '',
       activity_id: '',
       description: '',
       start_date: formatDate(new Date(), DATE_FORMAT, 'en'),
@@ -165,6 +170,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       uri: '',
       technology: '',
     });
+  }
+
+  cleanFieldsForm(): void {
+    this.cleanForm(true);
   }
 
   onTechnologiesUpdated($event: string[]) {

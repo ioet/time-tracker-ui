@@ -169,6 +169,25 @@ describe('DetailsFieldsComponent', () => {
     });
   });
 
+  it('on cleanFieldsForm the project_id and project_name should be kept', () => {
+    const entryFormValueExpected = {
+      ...formValues,
+      activity_id: '',
+      uri: '',
+      start_date: formatDate(new Date(), DATE_FORMAT, 'en'),
+      end_date: formatDate(new Date(), DATE_FORMAT, 'en'),
+      start_hour: '00:00',
+      end_hour: '00:00',
+      description: '',
+      technology: '',
+    };
+
+    component.entryForm.setValue(formValues);
+    component.cleanFieldsForm();
+
+    expect(component.entryForm.value).toEqual(entryFormValueExpected);
+  });
+
   it('should emit ngOnChange without data', () => {
     component.entryToEdit = null;
     component.ngOnChanges();
