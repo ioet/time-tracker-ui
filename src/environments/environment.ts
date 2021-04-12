@@ -18,6 +18,7 @@ export const STACK_EXCHANGE_ACCESS_TOKEN = keys.STACK_EXCHANGE_ACCESS_TOKEN;
 export const AZURE_APP_CONFIGURATION_CONNECTION_STRING = keys.AZURE_APP_CONFIGURATION_CONNECTION_STRING;
 export const DATE_FORMAT = 'yyyy-MM-dd';
 export const DATE_FORMAT_YEAR = 'YYYY-MM-DD';
+export const DATE_FORMAT_HOUR = 'DD/MM/YYYY HH:mm';
 export const GROUPS = {
   ADMIN: 'time-tracker-admin',
   TESTER: 'time-tracker-tester',
