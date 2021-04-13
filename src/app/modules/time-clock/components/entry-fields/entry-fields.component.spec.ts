@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { LoadActiveEntry, EntryActionTypes, UpdateEntry } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
@@ -15,6 +15,8 @@ import { formatDate } from '@angular/common';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import * as moment from 'moment';
 import { DATE_FORMAT_YEAR } from 'src/environments/environment';
+import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
+
 
 describe('EntryFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState;
@@ -24,6 +26,7 @@ describe('EntryFieldsComponent', () => {
   let mockTechnologySelector;
   let mockProjectsSelector;
   let entryForm;
+  let featureManagerService: FeatureManagerService;
   const actionSub: ActionsSubject = new ActionsSubject();
   const toastrServiceStub = {
     error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
@@ -114,6 +117,7 @@ describe('EntryFieldsComponent', () => {
     entryForm = TestBed.inject(FormBuilder);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
+    featureManagerService = TestBed.inject(FeatureManagerService);
   }));
 
   beforeEach(() => {
@@ -424,5 +428,39 @@ describe('EntryFieldsComponent', () => {
     expect(component.loadActivitiesSubscription.unsubscribe).toHaveBeenCalled();
     expect(component.loadActiveEntrySubscription.unsubscribe).toHaveBeenCalled();
     expect(component.actionSetDateSubscription.unsubscribe).toHaveBeenCalled();
+  });
+
+  it('The flag "update_last_entry_if_overlap" is added to the "newData" when feature flag "update-entries" is enabled for user', () => {
+    spyOn(featureManagerService, 'isToggleEnabledForUser').and.returnValue(of(true));
+
+    const mockEntry = { ...entry,
+      start_date : moment().format(DATE_FORMAT_YEAR),
+      start_hour : moment().format('HH:mm'),
+      update_last_entry_if_overlap: true
+    };
+    component.newData = mockEntry;
+
+    component.isFeatureToggleActivated();
+
+    const expected = { update_last_entry_if_overlap: true };
+
+    expect(component.newData.update_last_entry_if_overlap).toEqual(expected.update_last_entry_if_overlap);
+  });
+
+  it('The flag "update_last_entry_if_overlap" is not added to the "newData" when feature flag "update-entries" is disable for user', () => {
+    spyOn(featureManagerService, 'isToggleEnabledForUser').and.returnValue(of(false));
+
+    const mockEntry = { ...entry,
+      start_date : moment().format(DATE_FORMAT_YEAR),
+      start_hour : moment().format('HH:mm'),
+      update_last_entry_if_overlap: false
+    };
+    component.newData = mockEntry;
+
+    component.isFeatureToggleActivated();
+
+    const expected = { update_last_entry_if_overlap: false };
+
+    expect(component.newData.update_last_entry_if_overlap).toEqual(expected.update_last_entry_if_overlap);
   });
 });
