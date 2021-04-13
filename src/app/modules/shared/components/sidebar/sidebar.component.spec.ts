@@ -89,16 +89,12 @@ describe('SidebarComponent', () => {
     const route = 'time-clock';
     router.navigate([route]);
 
-    component.itemsSidebar
-      .filter((item) => item.route === `/${route}`)
-      .map((item) => {
-        expect(item.active).toBeTrue();
-      });
-    component.itemsSidebar
-      .filter((item) => item.route !== `/${route}`)
-      .map((item) => {
-        expect(item.active).toBeFalse();
-      });
+    component.itemsSidebar.filter((item) => item.route === `/${route}`).map((item) => {
+      expect(item.active).toBeTrue();
+    });
+    component.itemsSidebar.filter((item) => item.route !== `/${route}`).map((item) => {
+      expect(item.active).toBeFalse();
+    });
   });
 
   it('List Technologies item is added when feature flag "ui-list-technologies" is enabled for user', () => {

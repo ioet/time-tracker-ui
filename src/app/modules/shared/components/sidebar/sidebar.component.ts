@@ -25,9 +25,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private featureManagerService: FeatureManagerService,
     private featureSwitchGroup: FeatureSwitchGroupService
   ) {
-    this.navStart = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart)) as Observable<
-      NavigationStart
-    >;
+    this.navStart = this.router.events.pipe(
+      filter((evt) => evt instanceof NavigationStart)
+    ) as Observable<NavigationStart>;
   }
 
   ngOnInit(): void {
@@ -78,17 +78,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   toggleListTechnologies(itemsSidebar: ItemSidebar[]) {
-    this.featureManagerService.isToggleEnabledForUser('ui-list-technologies').subscribe((enabled) => {
-      if (enabled === true) {
-        const listTechnologiesItem = {
-          route: '/technology-report',
-          icon: 'fas fa-user',
-          text: 'Technology Report',
-          active: false,
-        };
-        itemsSidebar.push(listTechnologiesItem);
-      }
-    });
+    this.featureManagerService
+      .isToggleEnabledForUser('ui-list-technologies')
+      .subscribe((enabled) => {
+        if (enabled === true) {
+          const listTechnologiesItem = {
+            route: '/technology-report',
+            icon: 'fas fa-user',
+            text: 'Technology Report',
+            active: false,
+          };
+          itemsSidebar.push(listTechnologiesItem);
+        }
+      });
   }
 
   highlightMenuOption(route) {
