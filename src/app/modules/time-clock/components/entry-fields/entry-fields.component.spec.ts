@@ -1,3 +1,4 @@
+import { FeatureToggleGeneralService } from './../../../shared/feature-toggles/feature-toggle-general/feature-toggle-general.service';
 import { Subscription, of, Observable } from 'rxjs';
 import { LoadActiveEntry, EntryActionTypes, UpdateEntry } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
@@ -16,7 +17,6 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import * as moment from 'moment';
 import { DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
-import { FeatureToggleGeneralService } from './../../../shared/feature-toggles/feature-toggle-general/feature-toggle-general.service';
 import { FeatureToggle } from 'src/environments/enum';
 
 
