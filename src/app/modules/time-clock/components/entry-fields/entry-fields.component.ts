@@ -16,7 +16,6 @@ import { formatDate } from '@angular/common';
 import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
 import { Subscription, Observable } from 'rxjs';
-
 import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
 import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.service';
 

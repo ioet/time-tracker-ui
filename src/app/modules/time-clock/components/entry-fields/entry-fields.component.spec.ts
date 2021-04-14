@@ -439,11 +439,8 @@ describe('EntryFieldsComponent', () => {
       update_last_entry_if_overlap: true
     };
     component.newData = mockEntry;
-
     component.isFeatureToggleActivated();
-
     const expected = { update_last_entry_if_overlap: true };
-
     expect(component.newData.update_last_entry_if_overlap).toEqual(expected.update_last_entry_if_overlap);
   });
 
@@ -456,11 +453,8 @@ describe('EntryFieldsComponent', () => {
       update_last_entry_if_overlap: false
     };
     component.newData = mockEntry;
-
     component.isFeatureToggleActivated();
-
     const expected = { update_last_entry_if_overlap: false };
-
     expect(component.newData.update_last_entry_if_overlap).toEqual(expected.update_last_entry_if_overlap);
   });
 });
