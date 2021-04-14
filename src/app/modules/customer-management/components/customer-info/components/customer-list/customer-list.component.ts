@@ -39,6 +39,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   showModal = false;
   idToDelete: string;
   idToEdit: string;
+  currentCustomerIdToEdit: string;
   message: string;
   isLoading$: Observable<boolean>;
 
@@ -55,7 +56,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const customerIdToEdit$ = this.store.pipe(select(customerIdtoEdit));
     this.customerIdToEditSubscription = customerIdToEdit$.subscribe((customerId: string) => {
-      this.idToEdit = customerId;
+      this.currentCustomerIdToEdit = customerId;
     });
 
     this.loadCustomersSubscription = this.actionsSubject$
@@ -110,6 +111,9 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.showModal = false;
     this.changeValueShowCustomerForm.emit(this.showCustomerForm);
     this.resetProjectFieldsToEdit();
+    if (this.currentCustomerIdToEdit === this.idToEdit) {
+      this.store.dispatch(new ResetCustomerToEdit());
+    }
     this.store.dispatch(new SetCustomerToEdit(this.idToEdit));
   }
 
@@ -121,7 +125,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   deleteCustomer() {
-    if (this.idToDelete === this.idToEdit) {
+    if (this.idToDelete === this.currentCustomerIdToEdit) {
       this.store.dispatch(new ResetCustomerToEdit());
       this.resetProjectFieldsToEdit();
     }
