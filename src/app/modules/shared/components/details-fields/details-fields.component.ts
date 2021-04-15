@@ -18,7 +18,7 @@ import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from './save-entry-event';
 import { ProjectSelectedEvent } from './project-selected-event';
 import { get } from 'lodash';
-import { DATE_FORMAT, DATE_FORMAT_HOUR } from 'src/environments/environment';
+import { DATE_FORMAT } from 'src/environments/environment';
 import { TechnologiesComponent } from '../technologies/technologies.component';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
@@ -130,17 +130,15 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.end_date.setValue($event);
   }
 
-  getTimeDifference(){
-    const startDate = moment(`${this.start_date.value} ${this.start_hour.value}`).format(DATE_FORMAT_HOUR);
-    const endDate = moment(`${this.end_date.value} ${this.end_hour.value}`).format(DATE_FORMAT_HOUR);
-    if (this.end_hour.value !== '00:00') {
-      const diffDate = moment(endDate, DATE_FORMAT_HOUR).diff(moment(startDate, DATE_FORMAT_HOUR));
+  getTimeDifference() {
+    const startDate = moment(`${this.start_date.value} ${this.start_hour.value}`);
+    const endDate = moment(`${this.end_date.value} ${this.end_hour.value}`);
+    if (startDate <= endDate) {
+      const diffDate = endDate.diff(startDate);
       const duration = moment.duration(diffDate);
-      const diferenceTime = Math.floor(duration.asHours()) + moment.utc(diffDate).format(':mm');
-      return diferenceTime;
-    } else {
-      return '0:00';
+      return moment.utc(duration.asMilliseconds()).format('HH:mm');
     }
+    return '00:00';
   }
 
   ngOnChanges(): void {

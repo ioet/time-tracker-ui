@@ -513,15 +513,23 @@ describe('DetailsFieldsComponent', () => {
     expect(endDateInput.max).toEqual(expectedDate);
   });
 
-  const params = [
-    {formatDate: 'YYY-MM-DD'},
-    {dateFormatHour: 'DD/MM/YYYY HH:mm'},
-  ];
-  params.map((param) => {
-    fit('should return the difference if there is data in the time in and in the time out', () => {
-      const date = moment('2016-01-05');
-      expect(4).toEqual(component.getTimeDifference());
-    });
+  fit('should return the difference if there is data in the time in and in the time out', () => {
+    component.ngOnChanges();
+    const StartHour = '08:00';
+    const EndHour = '19:00';
+    const StartDate = '2021-04-14';
+    const EndDate = '2021-04-15';
+    const startDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#start_date');
+    const startHourInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#start_hour');
+    const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
+    const endHourInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_hour');
+    startDateInput.value = StartDate;
+    startHourInput.value = StartHour;
+    endDateInput.value = EndDate;
+    endHourInput.value = EndHour;
+    spyOn(component, 'getTimeDifference');
+
+    expect(component.getTimeDifference).toHaveBeenCalled();
   });
 
   /*
