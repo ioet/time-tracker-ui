@@ -39,7 +39,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   loadActiveEntrySubscription: Subscription;
   actionSetDateSubscription: Subscription;
   isEnableToggleSubscription: Subscription;
-  isTestUser: boolean;
+  isFeatureToggleActive: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,7 +69,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
       });
 
     this.isEnableToggleSubscription = this.isFeatureToggleActivated().subscribe((flag) => {
-      this.isTestUser = flag;
+      this.isFeatureToggleActive = flag;
     });
 
     this.loadActiveEntrySubscription = this.actionsSubject$
@@ -157,10 +157,10 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
       return;
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
-    if (this.isTestUser) {
+    if (this.isFeatureToggleActive) {
       this.newData.owner_id = this.getOwnerId();
       this.newData.update_last_entry_if_overlap = true;
-      this.store.dispatch(new entryActions.UpdateEntry({ ...this.newData, ...this.entryForm.value }));
+      this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
     } else {
       this.store.dispatch(new entryActions.UpdateCurrentOrLastEntry({ ...this.newData, ...this.entryForm.value }));
     }
