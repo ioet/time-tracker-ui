@@ -111,9 +111,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.showModal = false;
     this.changeValueShowCustomerForm.emit(this.showCustomerForm);
     this.resetProjectFieldsToEdit();
-    if (this.currentCustomerIdToEdit === this.idToEdit) {
-      this.store.dispatch(new ResetCustomerToEdit());
-    }
+    this.checkResetCustomerToEdit(this.idToEdit);
     this.store.dispatch(new SetCustomerToEdit(this.idToEdit));
   }
 
@@ -125,8 +123,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   deleteCustomer() {
-    if (this.idToDelete === this.currentCustomerIdToEdit) {
-      this.store.dispatch(new ResetCustomerToEdit());
+    if (this.checkResetCustomerToEdit(this.idToDelete)) {
       this.resetProjectFieldsToEdit();
     }
     this.store.dispatch(new DeleteCustomer(this.idToDelete));
@@ -142,6 +139,14 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.dtTrigger.next();
     }
+  }
+
+  private checkResetCustomerToEdit(id: string): boolean {
+    const isResetCustomerToEdit = this.currentCustomerIdToEdit === id;
+    if (isResetCustomerToEdit) {
+      this.store.dispatch(new ResetCustomerToEdit());
+    }
+    return isResetCustomerToEdit;
   }
 
   openModal(item: Customer) {
