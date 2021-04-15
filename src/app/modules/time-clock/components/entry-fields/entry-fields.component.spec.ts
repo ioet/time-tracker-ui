@@ -469,13 +469,6 @@ describe('EntryFieldsComponent', () => {
       isFeatureToggleActivated.subscribe((value) => expect(value).toEqual(toggleValue));
     });
   });
-
-  // fit('should return the id of the active user', () => {
-
-  //   const userId = 'user_id';
-
-  //   expect( component.getOwnerId()).
-  // });
 });
 
 
