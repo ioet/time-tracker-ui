@@ -513,23 +513,24 @@ describe('DetailsFieldsComponent', () => {
     expect(endDateInput.max).toEqual(expectedDate);
   });
 
-  fit('should return the difference if there is data in the time in and in the time out', () => {
-    component.ngOnChanges();
-    const StartHour = '08:00';
-    const EndHour = '19:00';
-    const StartDate = '2021-04-14';
-    const EndDate = '2021-04-15';
-    const startDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#start_date');
-    const startHourInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#start_hour');
-    const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
-    const endHourInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_hour');
-    startDateInput.value = StartDate;
-    startHourInput.value = StartHour;
-    endDateInput.value = EndDate;
-    endHourInput.value = EndHour;
-    spyOn(component, 'getTimeDifference');
-
-    expect(component.getTimeDifference).toHaveBeenCalled();
+  const diffParams = [
+    {
+      case: 'positive should return correctly diff',
+      entryDates: {
+        start_date: '2021-04-15',
+        end_date: '2021-04-15',
+        start_hour: '18:05',
+        end_hour: '19:00',
+      },
+      expectedTimeDiff: '00:55',
+    },
+  ];
+  diffParams.map((param) => {
+    fit(`if [start_date, start_hour] and [end_date, end_hour] diff is ${param.case}`, () => {
+      component.entryForm.setValue({ ...formValues, ...param.entryDates });
+      const timeDiff = component.getTimeDifference();
+      expect(timeDiff).toBe(param.expectedTimeDiff);
+    });
   });
 
   /*
