@@ -17,8 +17,6 @@ import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
 import { Subscription, Observable } from 'rxjs';
 import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
-import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.service';
-
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 
@@ -46,7 +44,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     private store: Store<Merged>,
     private actionsSubject$: ActionsSubject,
     private toastrService: ToastrService,
-    private azureService: AzureAdB2CService,
     private featureManagerService: FeatureManagerService
   ) {
     this.entryForm = this.formBuilder.group({
@@ -158,17 +155,12 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
     if (this.isFeatureToggleActive) {
-      this.newData.owner_id = this.getOwnerId();
       this.newData.update_last_entry_if_overlap = true;
       this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
     } else {
       this.store.dispatch(new entryActions.UpdateCurrentOrLastEntry({ ...this.newData, ...this.entryForm.value }));
     }
     this.showTimeInbuttons = false;
-  }
-
-  getOwnerId(){
-    return this.azureService.getUserId();
   }
 
   private getLastEntry() {
