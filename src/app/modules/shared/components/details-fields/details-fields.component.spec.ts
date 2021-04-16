@@ -541,7 +541,6 @@ describe('DetailsFieldsComponent', () => {
       const timeDiff = component.getTimeDifference();
 
       expect(timeDiff).toBe(param.expectedTimeDiff);
-      expect(timeDiff).toBe(param.expectedTimeDiff);
     });
   });
 
