@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { Subscription, of, Observable } from 'rxjs';
 import { LoadActiveEntry, EntryActionTypes, UpdateEntry } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
@@ -15,6 +15,8 @@ import { formatDate } from '@angular/common';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import * as moment from 'moment';
 import { DATE_FORMAT_YEAR } from 'src/environments/environment';
+import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
+
 
 describe('EntryFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState;
@@ -24,6 +26,7 @@ describe('EntryFieldsComponent', () => {
   let mockTechnologySelector;
   let mockProjectsSelector;
   let entryForm;
+  let featureManagerService: FeatureManagerService;
   const actionSub: ActionsSubject = new ActionsSubject();
   const toastrServiceStub = {
     error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
@@ -114,6 +117,7 @@ describe('EntryFieldsComponent', () => {
     entryForm = TestBed.inject(FormBuilder);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
+    featureManagerService = TestBed.inject(FeatureManagerService);
   }));
 
   beforeEach(() => {
@@ -425,4 +429,46 @@ describe('EntryFieldsComponent', () => {
     expect(component.loadActiveEntrySubscription.unsubscribe).toHaveBeenCalled();
     expect(component.actionSetDateSubscription.unsubscribe).toHaveBeenCalled();
   });
+
+  it('when feature-toggle "update-entries" enable for the user, the updateEntry function is executes to update the entries', () => {
+    spyOn(featureManagerService, 'isToggleEnabledForUser').and.returnValue(of(true));
+
+    const mockEntry = { ...entry,
+      start_date : moment().format(DATE_FORMAT_YEAR),
+      start_hour : moment().format('HH:mm'),
+      update_last_entry_if_overlap: true
+    };
+    component.newData = mockEntry;
+    component.isFeatureToggleActivated();
+    const expected = { update_last_entry_if_overlap: true };
+    expect(component.newData.update_last_entry_if_overlap).toEqual(expected.update_last_entry_if_overlap);
+  });
+
+  it('when FT "update-entries" disable for the user,the UpdateCurrentOrLastEntry function is called to update the entries', () => {
+    spyOn(featureManagerService, 'isToggleEnabledForUser').and.returnValue(of(false));
+
+    const mockEntry = { ...entry,
+      start_date : moment().format(DATE_FORMAT_YEAR),
+      start_hour : moment().format('HH:mm'),
+      update_last_entry_if_overlap: false
+    };
+    component.newData = mockEntry;
+    component.isFeatureToggleActivated();
+    const expected = { update_last_entry_if_overlap: false };
+    expect(component.newData.update_last_entry_if_overlap).toEqual(expected.update_last_entry_if_overlap);
+  });
+
+  const toggleValues = [true, false];
+  toggleValues.map((toggleValue) => {
+    it(`when FeatureToggle is ${toggleValue} should return ${toggleValue}`, () => {
+      spyOn(featureManagerService, 'isToggleEnabledForUser').and.returnValue(of(toggleValue));
+
+      const isFeatureToggleActivated: Observable<boolean> = component.isFeatureToggleActivated();
+
+      expect(featureManagerService.isToggleEnabledForUser).toHaveBeenCalled();
+      isFeatureToggleActivated.subscribe((value) => expect(value).toEqual(toggleValue));
+    });
+  });
 });
+
+

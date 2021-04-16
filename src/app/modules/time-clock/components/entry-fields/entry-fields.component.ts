@@ -1,6 +1,6 @@
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
-import { EntryActionTypes, LoadActiveEntry } from './../../store/entry.actions';
-import { filter } from 'rxjs/operators';
+import { EntryActionTypes, LoadActiveEntry, UpdateCurrentOrLastEntry, UpdateEntry } from './../../store/entry.actions';
+import { filter, map } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store, ActionsSubject, select } from '@ngrx/store';
@@ -15,7 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 
@@ -35,12 +36,15 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   loadActivitiesSubscription: Subscription;
   loadActiveEntrySubscription: Subscription;
   actionSetDateSubscription: Subscription;
+  isEnableToggleSubscription: Subscription;
+  isFeatureToggleActive: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<Merged>,
     private actionsSubject$: ActionsSubject,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private featureManagerService: FeatureManagerService
   ) {
     this.entryForm = this.formBuilder.group({
       description: '',
@@ -60,6 +64,11 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
         this.activities = action.payload;
         this.store.dispatch(new LoadActiveEntry());
       });
+
+    this.isEnableToggleSubscription = this.isFeatureToggleActivated().subscribe((flag) => {
+      this.isFeatureToggleActive = flag;
+    });
+
     this.loadActiveEntrySubscription = this.actionsSubject$
       .pipe(
         filter(
@@ -145,7 +154,12 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
       return;
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
-    this.store.dispatch(new entryActions.UpdateCurrentOrLastEntry({ ...this.newData, ...this.entryForm.value }));
+    if (this.isFeatureToggleActive) {
+      this.newData.update_last_entry_if_overlap = true;
+      this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
+    } else {
+      this.store.dispatch(new entryActions.UpdateCurrentOrLastEntry({ ...this.newData, ...this.entryForm.value }));
+    }
     this.showTimeInbuttons = false;
   }
 
@@ -177,5 +191,10 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.loadActivitiesSubscription.unsubscribe();
     this.loadActiveEntrySubscription.unsubscribe();
     this.actionSetDateSubscription.unsubscribe();
+  }
+
+  isFeatureToggleActivated(): Observable<boolean> {
+    return this.featureManagerService.isToggleEnabledForUser('update-entries')
+      .pipe(map((enabled: boolean) => enabled));
   }
 }
