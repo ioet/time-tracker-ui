@@ -526,7 +526,7 @@ describe('DetailsFieldsComponent', () => {
     },
   ];
   diffParams.map((param) => {
-    fit(`if [start_date, start_hour] and [end_date, end_hour] diff is ${param.case}`, () => {
+    it(`if [start_date, start_hour] and [end_date, end_hour] diff is ${param.case}`, () => {
       component.entryForm.setValue({ ...formValues, ...param.entryDates });
       const timeDiff = component.getTimeDifference();
       expect(timeDiff).toBe(param.expectedTimeDiff);
