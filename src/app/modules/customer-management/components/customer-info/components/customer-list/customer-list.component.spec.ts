@@ -8,6 +8,7 @@ import {
   CustomerState,
   DeleteCustomer,
   LoadCustomers,
+  ResetCustomerToEdit,
   SetCustomerToEdit,
 } from 'src/app/modules/customer-management/store';
 import { DataTablesModule } from 'angular-datatables';
@@ -103,12 +104,34 @@ describe('CustomerTableListComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new SetCustomerToEdit('1'));
   });
 
+  it('when you click close modal, if the idToEdit is equal currentCustomerIdToEdit should dispatch ResetCustomerToEdit', () => {
+
+    spyOn(store, 'dispatch');
+
+    component.idToEdit = '1';
+    component.currentCustomerIdToEdit = '1';
+    component.closeModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new ResetCustomerToEdit());
+  });
+
   it('onClick delete, dispatch DeleteCustomer', () => {
     spyOn(store, 'dispatch');
     component.idToDelete = '1';
     component.deleteCustomer();
 
     expect(store.dispatch).toHaveBeenCalledWith(new DeleteCustomer('1'));
+  });
+
+  it('onClick delete, if idToDelete is equal to currentCustomerIdToEdit should dispatch ResetCustomerToEdit', () => {
+
+    spyOn(store, 'dispatch');
+
+    component.idToDelete = '1';
+    component.currentCustomerIdToEdit = '1';
+    component.deleteCustomer();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new ResetCustomerToEdit());
   });
 
   const params = [

@@ -53,6 +53,7 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
         ...state,
         data: [...state.data, action.payload],
         customerId: action.payload.id,
+        customerIdToEdit: action.payload.id,
         isLoading: false,
         message: 'Customer created successfully!',
       };

@@ -3,12 +3,16 @@ import { ActionsSubject, select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { delay, filter } from 'rxjs/operators';
-import { getIsLoading } from 'src/app/modules/customer-management/store/customer-management.selectors';
+import {
+  customerIdtoEdit,
+  getIsLoading
+} from 'src/app/modules/customer-management/store/customer-management.selectors';
 import { Customer } from './../../../../../shared/models/customer.model';
 import {
   CustomerManagementActionTypes,
   DeleteCustomer,
   LoadCustomers,
+  ResetCustomerToEdit,
   SetCustomerToEdit,
 } from './../../../../store/customer-management.actions';
 import { ResetProjectToEdit, SetProjectToEdit } from '../../../projects/components/store/project.actions';
@@ -31,9 +35,11 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   loadCustomersSubscription: Subscription;
   changeCustomerSubscription: Subscription;
+  customerIdToEditSubscription: Subscription;
   showModal = false;
   idToDelete: string;
   idToEdit: string;
+  currentCustomerIdToEdit: string;
   message: string;
   isLoading$: Observable<boolean>;
 
@@ -47,6 +53,12 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
       paging: false,
       responsive: true,
     };
+
+    const customerIdToEdit$ = this.store.pipe(select(customerIdtoEdit));
+    this.customerIdToEditSubscription = customerIdToEdit$.subscribe((customerId: string) => {
+      this.currentCustomerIdToEdit = customerId;
+    });
+
     this.loadCustomersSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS))
       .subscribe((action) => {
@@ -76,6 +88,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.loadCustomersSubscription.unsubscribe();
     this.changeCustomerSubscription.unsubscribe();
+    this.customerIdToEditSubscription.unsubscribe();
     this.dtTrigger.unsubscribe();
   }
 
@@ -98,6 +111,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.showModal = false;
     this.changeValueShowCustomerForm.emit(this.showCustomerForm);
     this.resetProjectFieldsToEdit();
+    this.checkResetCustomerToEdit(this.idToEdit);
     this.store.dispatch(new SetCustomerToEdit(this.idToEdit));
   }
 
@@ -109,6 +123,9 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   deleteCustomer() {
+    if (this.checkResetCustomerToEdit(this.idToDelete)) {
+      this.resetProjectFieldsToEdit();
+    }
     this.store.dispatch(new DeleteCustomer(this.idToDelete));
     this.showModal = false;
   }
@@ -122,6 +139,14 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.dtTrigger.next();
     }
+  }
+
+  private checkResetCustomerToEdit(id: string): boolean {
+    const isResetCustomerToEdit = this.currentCustomerIdToEdit === id;
+    if (isResetCustomerToEdit) {
+      this.store.dispatch(new ResetCustomerToEdit());
+    }
+    return isResetCustomerToEdit;
   }
 
   openModal(item: Customer) {

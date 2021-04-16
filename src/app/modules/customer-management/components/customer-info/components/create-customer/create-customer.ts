@@ -70,7 +70,6 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       this.store.dispatch(new LoadProjectTypes(customerData.id));
       this.store.dispatch(new LoadCustomerProjects(customerData.id));
       this.changeValueAreTabsActives.emit(true);
-      this.hasChangedEvent.emit(this.hasChange = false);
       this.customerForm.setValue({
         name: customerData.name,
         description: customerData.description,
@@ -81,6 +80,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       this.markTabsAsInactive();
       this.customerForm.reset();
     }
+    this.hasChangedEvent.emit((this.hasChange = false));
   }
 
   markTabsAsInactive() {
