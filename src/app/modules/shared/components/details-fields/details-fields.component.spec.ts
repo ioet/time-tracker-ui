@@ -524,11 +524,23 @@ describe('DetailsFieldsComponent', () => {
       },
       expectedTimeDiff: '00:55',
     },
+    {
+      case: 'negative should return 00:00',
+      entryDates: {
+        start_date: '2021-04-15',
+        end_date: '2021-04-14',
+        start_hour: '18:05',
+        end_hour: '17:00',
+      },
+      expectedTimeDiff: '00:00',
+    },
   ];
   diffParams.map((param) => {
     it(`if [start_date, start_hour] and [end_date, end_hour] diff is ${param.case}`, () => {
       component.entryForm.setValue({ ...formValues, ...param.entryDates });
       const timeDiff = component.getTimeDifference();
+
+      expect(timeDiff).toBe(param.expectedTimeDiff);
       expect(timeDiff).toBe(param.expectedTimeDiff);
     });
   });

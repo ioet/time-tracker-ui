@@ -130,7 +130,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.end_date.setValue($event);
   }
 
-  getTimeDifference() {
+  getTimeDifference(): string {
     const startDate = moment(`${this.start_date.value} ${this.start_hour.value}`);
     const endDate = moment(`${this.end_date.value} ${this.end_hour.value}`);
     if (startDate <= endDate) {
