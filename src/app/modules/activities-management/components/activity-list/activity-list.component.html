@@ -5,39 +5,49 @@
         <th class="col-4 text-center">Activity ID</th>
         <th class="col-4 text-center">Activity</th>
         <th class="col-2 text-center">Options</th>
-        <th class="col-2 text-center">Status</th>
+        <th class="col-2 text-center">Visibility</th>
       </tr>
     </thead>
-    <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
+    <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
     <tbody *ngIf="(isLoading$ | async) === false">
       <tr class="d-flex" *ngFor="let activity of activities">
         <td class="col-4 text-break">{{ activity.id }}</td>
-        <td class="col-4 ">{{ activity.name }}</td>
+        <td class="col-4">{{ activity.name }}</td>
         <td class="col-2 text-center">
           <button type="button" class="btn btn-sm btn-primary" (click)="updateActivity(activity.id)">
             <i class="fa fa-pencil fa-xs"></i>
           </button>
-          <button type="button" class="btn btn-sm btn-danger ml-2" data-toggle="modal" data-target="#deleteModal"
-            (click)="openModal(activity)">
+          <button
+            type="button"
+            class="btn btn-sm btn-danger ml-2"
+            data-toggle="modal"
+            data-target="#deleteModal"
+            (click)="openModal(activity)"
+          >
             <i class="fas fa-trash-alt fa-xs"></i>
           </button>
         </td>
         <td class="col-2 text-center">
-          status
+          <ui-switch
+            size="small"
+            (change)="switchStatus('active')"
+            [checked]="activity.status === 'active'"
+          ></ui-switch>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<app-dialog 
-  *ngIf="showModal" 
-  class="modal fade" 
-  id="deleteModal" 
-  tabindex="-1" 
-  role="dialog" 
+<app-dialog
+  *ngIf="showModal"
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
   aria-hidden="true"
-  [title]="'Delete Activity'" 
-  [body]="message" 
-  (closeModalEvent)="deleteActivity()">
+  [title]="'Delete Activity'"
+  [body]="message"
+  (closeModalEvent)="deleteActivity()"
+>
 </app-dialog>
