@@ -512,6 +512,38 @@ describe('DetailsFieldsComponent', () => {
     expect(endDateInput.id).toEqual('end_date');
     expect(endDateInput.max).toEqual(expectedDate);
   });
+
+  const diffParams = [
+    {
+      case: 'positive should return correctly diff',
+      entryDates: {
+        start_date: '2021-04-15',
+        end_date: '2021-04-15',
+        start_hour: '18:05',
+        end_hour: '19:00',
+      },
+      expectedTimeDiff: '00:55',
+    },
+    {
+      case: 'negative should return 00:00',
+      entryDates: {
+        start_date: '2021-04-15',
+        end_date: '2021-04-14',
+        start_hour: '18:05',
+        end_hour: '17:00',
+      },
+      expectedTimeDiff: '00:00',
+    },
+  ];
+  diffParams.map((param) => {
+    it(`if [start_date, start_hour] and [end_date, end_hour] diff is ${param.case}`, () => {
+      component.entryForm.setValue({ ...formValues, ...param.entryDates });
+      const timeDiff = component.getTimeDifference();
+
+      expect(timeDiff).toBe(param.expectedTimeDiff);
+    });
+  });
+
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:

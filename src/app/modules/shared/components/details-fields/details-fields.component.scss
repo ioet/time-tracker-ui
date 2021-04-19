@@ -108,3 +108,10 @@ input[type="date"]::-webkit-clear-button {
   background-color: #e9ecef;
   opacity: 1;
 }
+
+.border-tag {
+  border: 1px solid $primary;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
