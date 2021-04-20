@@ -5,3 +5,8 @@ export interface Activity {
   tenant_id?: string;
   status?: string;
 }
+
+export interface Status {
+  id: string;
+  status: string;
+}

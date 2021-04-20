@@ -5,7 +5,7 @@ import { delay } from 'rxjs/operators';
 import { getIsLoading } from 'src/app/modules/activities-management/store/activity-management.selectors';
 import { Activity } from '../../../shared/models';
 import { allActivities } from '../../store';
-import { DeleteActivity, LoadActivities, SetActivityToEdit } from './../../store/activity-management.actions';
+import { DeleteActivity, LoadActivities, SetActivityToEdit, UnarchiveActivity } from './../../store/activity-management.actions';
 import { ActivityState } from './../../store/activity-management.reducers';
 
 @Component({
@@ -34,8 +34,7 @@ export class ActivityListComponent implements OnInit {
   }
 
   deleteActivity() {
-    // this.store.dispatch(new DeleteActivity(this.idToDelete));
-    console.log('despachado el evento');
+    this.store.dispatch(new DeleteActivity(this.idToDelete));
     this.showModal = false;
   }
 
@@ -47,7 +46,6 @@ export class ActivityListComponent implements OnInit {
     this.idToDelete = item.id;
     this.message = `Are you sure you want to archive activity ${item.name}?`;
     this.showModal = true;
-    console.log(`Despliegue del modal para id: ${item.id}`);
   }
 
   switchStatus(evt: boolean, item: Activity): void {
@@ -57,8 +55,7 @@ export class ActivityListComponent implements OnInit {
       this.openModal(item);
     } else {
       this.showModal = false;
-      // TODO: dispatch para actualizar la operacion
-      // this.store.dispatch(new SetToTrueActivity());
+      this.store.dispatch(new UnarchiveActivity(item.id));
     }
   }
 

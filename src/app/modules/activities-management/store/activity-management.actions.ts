@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Activity } from './../../shared/models/activity.model';
+import { Activity, Status } from './../../shared/models/activity.model';
 
 export enum ActivityManagementActionTypes {
   LOAD_ACTIVITIES = '[ActivityManagement] LOAD_ACTIVITIES',
@@ -15,6 +15,9 @@ export enum ActivityManagementActionTypes {
   UPDATE_ACTIVITY = '[ActivityManagement] UPDATE_ACTIVITY',
   UPDATE_ACTIVITY_SUCCESS = '[ActivityManagement] UPDATE_ACTIVITY_SUCCESS',
   UPDATE_ACTIVITY_FAIL = '[ActivityManagement] UPDATE_ACTIVITY_FAIL',
+  UNARCHIVE_ACTIVITY = '[ActivityManagement] UNARCHIVE_ACTIVITY',
+  UNARCHIVE_ACTIVITY_SUCCESS = '[ActivityManagement] UNARCHIVE_ACTIVITY_SUCCESS',
+  UNARCHIVE_ACTIVITY_FAIL = '[ActivityManagement] UNARCHIVE_ACTIVITY_FAIL',
   SET_ACTIVITY_ID_TO_EDIT = '[ActivityManagement] SET_ACTIVITY_ID_TO_EDIT',
   RESET_ACTIVITY_ID_TO_EDIT = '[ActivityManagement] RESET_ACTIVITY_ID_TO_EDIT',
 }
@@ -26,72 +29,88 @@ export class LoadActivities implements Action {
 export class LoadActivitiesSuccess implements Action {
   public readonly type = ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS;
 
-  constructor(public payload: Activity[]) {}
+  constructor(public payload: Activity[]) { }
 }
 
 export class LoadActivitiesFail implements Action {
   public readonly type = ActivityManagementActionTypes.LOAD_ACTIVITIES_FAIL;
 
-  constructor(public error: string) {}
+  constructor(public error: string) { }
 }
 
 export class CreateActivity implements Action {
   public readonly type = ActivityManagementActionTypes.CREATE_ACTIVITY;
 
-  constructor(public payload: Activity) {}
+  constructor(public payload: Activity) { }
 }
 
 export class CreateActivitySuccess implements Action {
   public readonly type = ActivityManagementActionTypes.CREATE_ACTIVITY_SUCCESS;
 
-  constructor(public payload: Activity) {}
+  constructor(public payload: Activity) { }
 }
 
 export class CreateActivityFail implements Action {
   public readonly type = ActivityManagementActionTypes.CREATE_ACTIVITY_FAIL;
 
-  constructor(public error: string) {}
+  constructor(public error: string) { }
 }
 
 export class DeleteActivity implements Action {
   public readonly type = ActivityManagementActionTypes.DELETE_ACTIVITY;
 
-  constructor(public activityId: string) {}
+  constructor(public activityId: string) { }
 }
 
 export class DeleteActivitySuccess implements Action {
   public readonly type = ActivityManagementActionTypes.DELETE_ACTIVITY_SUCCESS;
 
-  constructor(public activityId: string) {}
+  constructor(public activityId: string) { }
 }
 
 export class DeleteActivityFail implements Action {
   public readonly type = ActivityManagementActionTypes.DELETE_ACTIVITY_FAIL;
 
-  constructor(public error: string) {}
+  constructor(public error: string) { }
 }
 export class UpdateActivity implements Action {
   public readonly type = ActivityManagementActionTypes.UPDATE_ACTIVITY;
 
-  constructor(public payload: Activity) {}
+  constructor(public payload: Activity) { }
 }
 
 export class UpdateActivitySuccess implements Action {
   public readonly type = ActivityManagementActionTypes.UPDATE_ACTIVITY_SUCCESS;
 
-  constructor(public payload: Activity) {}
+  constructor(public payload: Activity) { }
 }
 
 export class UpdateActivityFail implements Action {
   public readonly type = ActivityManagementActionTypes.UPDATE_ACTIVITY_FAIL;
 
-  constructor(public error: string) {}
+  constructor(public error: string) { }
+}
+
+export class UnarchiveActivity implements Action {
+  public readonly type = ActivityManagementActionTypes.UNARCHIVE_ACTIVITY;
+
+  constructor(public payload: string) { }
+}
+export class UnarchiveActivitySuccess implements Action {
+  public readonly type = ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_SUCCESS;
+
+  constructor(public payload: Status) { }
+}
+export class UnarchiveActivityFail implements Action {
+  public readonly type = ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_FAIL;
+
+  constructor(public error: string) { }
 }
 
 export class SetActivityToEdit implements Action {
   public readonly type = ActivityManagementActionTypes.SET_ACTIVITY_ID_TO_EDIT;
 
-  constructor(public payload: string) {}
+  constructor(public payload: string) { }
 }
 
 export class ResetActivityToEdit implements Action {
@@ -111,5 +130,8 @@ export type ActivityManagementActions =
   | UpdateActivity
   | UpdateActivitySuccess
   | UpdateActivityFail
+  | UnarchiveActivity
+  | UnarchiveActivitySuccess
+  | UnarchiveActivityFail
   | SetActivityToEdit
   | ResetActivityToEdit;
