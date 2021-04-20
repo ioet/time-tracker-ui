@@ -25,6 +25,24 @@ describe('LoadActivitiesSuccess', () => {
     expect(createActivityFail.type).toEqual(actions.ActivityManagementActionTypes.CREATE_ACTIVITY_FAIL);
   });
 
+  fit('ArchiveActivity type is ActivityManagementActionTypes.ARCHIVE_ACTIVITY', () => {
+    const archiveActivity = new actions.ArchiveActivity('id_test');
+    expect(archiveActivity.type).toEqual(actions.ActivityManagementActionTypes.ARCHIVE_ACTIVITY);
+  });
+
+  fit('ArchiveActivitySuccess type is ActivityManagementActionTypes.ARCHIVE_ACTIVITY_SUCCESS', () => {
+    const archiveActivitySuccess = new actions.ArchiveActivitySuccess({
+      id: 'id_test',
+      status: 'inactive'
+    });
+    expect(archiveActivitySuccess.type).toEqual(actions.ActivityManagementActionTypes.ARCHIVE_ACTIVITY_SUCCESS);
+  });
+
+  fit('ArchiveActivityFail type is ActivityManagementActionTypes.ARCHIVE_ACTIVITY_FAIL', () => {
+    const archiveActivityFail = new actions.ArchiveActivityFail('error');
+    expect(archiveActivityFail.type).toEqual(actions.ActivityManagementActionTypes.ARCHIVE_ACTIVITY_FAIL);
+  });
+
   it('UpdateActivitySuccess type is ActivityManagementActionTypes.UPDATE_ACTIVITY_SUCCESS', () => {
     const updateActivitySuccess = new actions.UpdateActivitySuccess({
       id: '1',

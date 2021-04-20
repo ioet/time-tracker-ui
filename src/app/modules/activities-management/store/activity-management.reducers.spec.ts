@@ -56,27 +56,29 @@ describe('activityManagementReducer', () => {
     expect(state.isLoading).toEqual(false);
   });
 
-  it('on DeleteActivity, isLoading is true', () => {
+  fit('on ArchiveActivity, isLoading is true', () => {
     const activityToDeleteId = '1';
-    const action = new actions.DeleteActivity(activityToDeleteId);
+    const action = new actions.ArchiveActivity(activityToDeleteId);
 
     const state = activityManagementReducer(initialState, action);
-    expect(state.isLoading).toEqual(true);
+    expect(state.isLoading).toBeTrue();
   });
 
-  it('on DeleteActivitySuccess, message equal to Activity removed successfully!', () => {
-    const currentState: ActivityState = { data: [activity], isLoading: false, message: '', activityIdToEdit: '' };
-    const activityToDeleteId = '1';
-    const action = new actions.DeleteActivitySuccess(activityToDeleteId);
-
+  fit('on ArchiveActivitySuccess, message equal to Activity archived successfully!', () => {
+    const currentActivity = { ...activity };
+    currentActivity.status = 'active';
+    const currentState: ActivityState = { data: [currentActivity], isLoading: false, message: '', activityIdToEdit: '' };
+    const activityArchived: Status = { id: '1', status: 'inactive' };
+    const action = new actions.ArchiveActivitySuccess(activityArchived);
     const state = activityManagementReducer(currentState, action);
-    expect(state.data).toEqual([]);
-    expect(state.message).toEqual('Activity removed successfully!');
+
+    expect(state.data).toEqual([activity]);
+    expect(state.message).toEqual('Activity archived successfully!');
   });
 
-  it('on DeleteActivityFail, message equal to Something went wrong deleting activity!', () => {
+  it('on ArchiveActivityFail, message equal to Something went wrong deleting activity!', () => {
     const activityToDeleteId = '1';
-    const action = new actions.DeleteActivityFail(activityToDeleteId);
+    const action = new actions.ArchiveActivityFail(activityToDeleteId);
 
     const state = activityManagementReducer(initialState, action);
     expect(state.isLoading).toEqual(false);

@@ -9,9 +9,9 @@ export enum ActivityManagementActionTypes {
   CREATE_ACTIVITY = '[ActivityManagement] CREATE_ACTIVITY',
   CREATE_ACTIVITY_SUCCESS = '[ActivityManagement] CREATE_ACTIVITY_SUCCESS',
   CREATE_ACTIVITY_FAIL = '[ActivityManagement] CREATE_ACTIVITY_FAIL',
-  DELETE_ACTIVITY = '[ActivityManagement] DELETE_ACTIVITY',
-  DELETE_ACTIVITY_SUCCESS = '[ActivityManagement] DELETE_ACTIVITY_SUCESS',
-  DELETE_ACTIVITY_FAIL = '[ActivityManagement] DELETE_ACTIVITY_FAIL',
+  ARCHIVE_ACTIVITY = '[ActivityManagement] ARCHIVE_ACTIVITY',
+  ARCHIVE_ACTIVITY_SUCCESS = '[ActivityManagement] ARCHIVE_ACTIVITY_SUCCESS',
+  ARCHIVE_ACTIVITY_FAIL = '[ActivityManagement] ARCHIVE_ACTIVITY_FAIL',
   UPDATE_ACTIVITY = '[ActivityManagement] UPDATE_ACTIVITY',
   UPDATE_ACTIVITY_SUCCESS = '[ActivityManagement] UPDATE_ACTIVITY_SUCCESS',
   UPDATE_ACTIVITY_FAIL = '[ActivityManagement] UPDATE_ACTIVITY_FAIL',
@@ -56,23 +56,24 @@ export class CreateActivityFail implements Action {
   constructor(public error: string) { }
 }
 
-export class DeleteActivity implements Action {
-  public readonly type = ActivityManagementActionTypes.DELETE_ACTIVITY;
+export class ArchiveActivity implements Action {
+  public readonly type = ActivityManagementActionTypes.ARCHIVE_ACTIVITY;
 
   constructor(public activityId: string) { }
 }
 
-export class DeleteActivitySuccess implements Action {
-  public readonly type = ActivityManagementActionTypes.DELETE_ACTIVITY_SUCCESS;
+export class ArchiveActivitySuccess implements Action {
+  public readonly type = ActivityManagementActionTypes.ARCHIVE_ACTIVITY_SUCCESS;
 
-  constructor(public activityId: string) { }
+  constructor(public payload: Status) { }
 }
 
-export class DeleteActivityFail implements Action {
-  public readonly type = ActivityManagementActionTypes.DELETE_ACTIVITY_FAIL;
+export class ArchiveActivityFail implements Action {
+  public readonly type = ActivityManagementActionTypes.ARCHIVE_ACTIVITY_FAIL;
 
   constructor(public error: string) { }
 }
+
 export class UpdateActivity implements Action {
   public readonly type = ActivityManagementActionTypes.UPDATE_ACTIVITY;
 
@@ -124,9 +125,9 @@ export type ActivityManagementActions =
   | CreateActivity
   | CreateActivitySuccess
   | CreateActivityFail
-  | DeleteActivity
-  | DeleteActivitySuccess
-  | DeleteActivityFail
+  | ArchiveActivity
+  | ArchiveActivitySuccess
+  | ArchiveActivityFail
   | UpdateActivity
   | UpdateActivitySuccess
   | UpdateActivityFail

@@ -5,7 +5,7 @@ import { delay } from 'rxjs/operators';
 import { getIsLoading } from 'src/app/modules/activities-management/store/activity-management.selectors';
 import { Activity } from '../../../shared/models';
 import { allActivities } from '../../store';
-import { DeleteActivity, LoadActivities, SetActivityToEdit, UnarchiveActivity } from './../../store/activity-management.actions';
+import { ArchiveActivity, LoadActivities, SetActivityToEdit, UnarchiveActivity } from './../../store/activity-management.actions';
 import { ActivityState } from './../../store/activity-management.reducers';
 
 @Component({
@@ -34,7 +34,7 @@ export class ActivityListComponent implements OnInit {
   }
 
   deleteActivity() {
-    this.store.dispatch(new DeleteActivity(this.idToDelete));
+    this.store.dispatch(new ArchiveActivity(this.idToDelete));
     this.showModal = false;
   }
 
