@@ -1,14 +1,14 @@
 import { Subscription, of, Observable } from 'rxjs';
 import { LoadActiveEntry, EntryActionTypes, UpdateEntry } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
-import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MockStore, provideMockStore} from '@ngrx/store/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import {TechnologyState} from '../../../shared/store/technology.reducers';
-import {allTechnologies} from '../../../shared/store/technology.selectors';
-import {EntryFieldsComponent} from './entry-fields.component';
-import {ProjectState} from '../../../customer-management/components/projects/components/store/project.reducer';
-import {getCustomerProjects} from '../../../customer-management/components/projects/components/store/project.selectors';
+import { TechnologyState } from '../../../shared/store/technology.reducers';
+import { allTechnologies } from '../../../shared/store/technology.selectors';
+import { EntryFieldsComponent } from './entry-fields.component';
+import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
+import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import { ActionsSubject } from '@ngrx/store';
 import { IndividualConfig, ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
@@ -41,18 +41,18 @@ describe('EntryFieldsComponent', () => {
 
   const state = {
     projects: {
-      projects: [{id: 'id', name: 'name', project_type_id: ''}],
-      customerProjects: [{id: 'id', name: 'name', description: 'description', project_type_id: '123'}],
+      projects: [{ id: 'id', name: 'name', project_type_id: '' }],
+      customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
     },
     technologies: {
-      technologyList: {items: [{name: 'java'}]},
+      technologyList: { items: [{ name: 'java' }] },
       isLoading: false,
     },
     activities: {
-      data: [{id: 'xyz', tenant_id: 'ioet', deleted: null, name: 'Training 2'}],
+      data: [{ id: 'xyz', tenant_id: 'ioet', deleted: null, name: 'Training 2', status: 'active' }],
       isLoading: false,
       message: 'Data fetch successfully!',
       activityIdToEdit: '',
@@ -68,28 +68,30 @@ describe('EntryFieldsComponent', () => {
       },
       entryList: [],
       message: '',
-      timeEntriesDataSource: { data: [
-        {
-          activity_id: 'xyz',
-          activity_name: 'abc',
-          id: 'id-15',
-          project_id: 'project-id-15',
-          description: 'description for an entry',
-          uri: 'abc',
-          start_date : moment().toISOString(),
-          end_date : moment().toISOString(),
-        },
-        {
-          activity_id: 'xyz',
-          activity_name: 'abc',
-          id: 'id-15',
-          project_id: 'project-id-15',
-          description: 'description for an entry',
-          uri: 'abc',
-          start_date : lastStartHourEntryEntered,
-          end_date : lastEndHourEntryEntered,
-        }
-      ]}
+      timeEntriesDataSource: {
+        data: [
+          {
+            activity_id: 'xyz',
+            activity_name: 'abc',
+            id: 'id-15',
+            project_id: 'project-id-15',
+            description: 'description for an entry',
+            uri: 'abc',
+            start_date: moment().toISOString(),
+            end_date: moment().toISOString(),
+          },
+          {
+            activity_id: 'xyz',
+            activity_name: 'abc',
+            id: 'id-15',
+            project_id: 'project-id-15',
+            description: 'description for an entry',
+            uri: 'abc',
+            start_date: lastStartHourEntryEntered,
+            end_date: lastEndHourEntryEntered,
+          }
+        ]
+      }
     },
   };
 
@@ -99,15 +101,15 @@ describe('EntryFieldsComponent', () => {
     project_id: 'project-id-15',
     description: 'description for active entry',
     uri: 'abc',
-    start_date : moment(mockDate).format(DATE_FORMAT_YEAR),
-    start_hour : moment(mockDate).format('HH:mm'),
+    start_date: moment(mockDate).format(DATE_FORMAT_YEAR),
+    start_hour: moment(mockDate).format('HH:mm'),
   };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EntryFieldsComponent],
       providers: [
-        provideMockStore({initialState: state}),
+        provideMockStore({ initialState: state }),
         { provide: ActionsSubject, useValue: actionSub },
         { provide: ToastrService, useValue: toastrServiceStub }
       ],
@@ -146,26 +148,27 @@ describe('EntryFieldsComponent', () => {
         description: entryDataForm.description,
         uri: entryDataForm.uri,
         activity_id: entryDataForm.activity_id,
-        start_hour:  formatDate(entry.start_date, 'HH:mm', 'en'),
-        start_date : moment(mockDate).format(DATE_FORMAT_YEAR),
+        start_hour: formatDate(entry.start_date, 'HH:mm', 'en'),
+        start_date: moment(mockDate).format(DATE_FORMAT_YEAR),
       }
     );
     expect(component.selectedTechnologies).toEqual([]);
   });
 
   it('displays error message when the date selected is in the future', () => {
-    const mockEntry = { ...entry,
-      start_date : moment().format(DATE_FORMAT_YEAR),
-      start_hour : moment().format('HH:mm')
+    const mockEntry = {
+      ...entry,
+      start_date: moment().format(DATE_FORMAT_YEAR),
+      start_hour: moment().format('HH:mm')
     };
 
     component.newData = mockEntry;
-    component.activeEntry = mockEntry ;
+    component.activeEntry = mockEntry;
     component.setDataToUpdate(mockEntry);
     spyOn(toastrServiceStub, 'error');
 
     const hourInTheFuture = moment().add(1, 'hours').format('HH:mm');
-    component.entryForm.patchValue({ start_hour : hourInTheFuture});
+    component.entryForm.patchValue({ start_hour: hourInTheFuture });
     component.onUpdateStartHour();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
@@ -174,12 +177,12 @@ describe('EntryFieldsComponent', () => {
 
   it('Displays an error message when the active entry has start_time before the start_time of another entry', () => {
     component.newData = entry;
-    component.activeEntry = entry ;
+    component.activeEntry = entry;
     component.setDataToUpdate(entry);
     spyOn(toastrServiceStub, 'error');
 
     const hourInThePast = moment(mockDate).subtract(6, 'hour').format('HH:mm');
-    component.entryForm.patchValue({ start_hour : hourInThePast});
+    component.entryForm.patchValue({ start_hour: hourInThePast });
     component.onUpdateStartHour();
 
     expect(toastrServiceStub.error).toHaveBeenCalled();
@@ -194,10 +197,10 @@ describe('EntryFieldsComponent', () => {
 
   it('should reset displayed time and hide control buttons when cancelTimeInUpdate', () => {
     component.newData = entry;
-    component.activeEntry = entry ;
+    component.activeEntry = entry;
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).format('HH:mm');
-    component.entryForm.patchValue({ start_hour : updatedTime});
+    component.entryForm.patchValue({ start_hour: updatedTime });
     spyOn(component.entryForm, 'patchValue');
     component.cancelTimeInUpdate();
 
@@ -211,11 +214,11 @@ describe('EntryFieldsComponent', () => {
 
   it('should reset to current start_date when start_date has an error', () => {
     component.newData = entry;
-    component.activeEntry = entry ;
+    component.activeEntry = entry;
     component.setDataToUpdate(entry);
 
     const updatedTime = moment(mockDate).subtract(6, 'hours').format('HH:mm');
-    component.entryForm.patchValue({ start_hour : updatedTime});
+    component.entryForm.patchValue({ start_hour: updatedTime });
 
     spyOn(component.entryForm, 'patchValue');
     component.onUpdateStartHour();
@@ -229,16 +232,17 @@ describe('EntryFieldsComponent', () => {
   });
 
   it('If start hour is in the future, reset to initial start_date in form', () => {
-    const mockEntry = { ...entry,
-      start_date : moment().format(DATE_FORMAT_YEAR),
-      start_hour : moment().format('HH:mm')
+    const mockEntry = {
+      ...entry,
+      start_date: moment().format(DATE_FORMAT_YEAR),
+      start_hour: moment().format('HH:mm')
     };
     component.newData = mockEntry;
     component.activeEntry = mockEntry;
     component.setDataToUpdate(mockEntry);
 
     const hourInTheFuture = moment().add(1, 'hours').format('HH:mm');
-    component.entryForm.patchValue({ start_hour : hourInTheFuture});
+    component.entryForm.patchValue({ start_hour: hourInTheFuture });
 
     spyOn(component.entryForm, 'patchValue');
     component.onUpdateStartHour();
@@ -256,7 +260,7 @@ describe('EntryFieldsComponent', () => {
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).format('HH:mm');
 
-    component.entryForm.patchValue({ start_hour : updatedTime});
+    component.entryForm.patchValue({ start_hour: updatedTime });
     spyOn(store, 'dispatch');
 
     component.onUpdateStartHour();
@@ -269,7 +273,7 @@ describe('EntryFieldsComponent', () => {
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).format('HH:mm');
 
-    component.entryForm.patchValue({ start_hour : updatedTime});
+    component.entryForm.patchValue({ start_hour: updatedTime });
     component.onUpdateStartHour();
 
     expect(component.lastEntry).toBe(state.entries.timeEntriesDataSource.data[1]);
@@ -279,7 +283,7 @@ describe('EntryFieldsComponent', () => {
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).subtract(4, 'hours').format('HH:mm');
-    component.entryForm.patchValue({ start_hour : updatedTime});
+    component.entryForm.patchValue({ start_hour: updatedTime });
     spyOn(store, 'dispatch');
 
     component.onUpdateStartHour();
@@ -332,7 +336,7 @@ describe('EntryFieldsComponent', () => {
 
 
   it('sets the technologies on the class when entry has technologies', () => {
-    const entryData = { ...entry, technologies: ['foo']};
+    const entryData = { ...entry, technologies: ['foo'] };
 
     component.setDataToUpdate(entryData);
 
@@ -340,7 +344,7 @@ describe('EntryFieldsComponent', () => {
   });
 
 
-  it('activites are populated using the payload of the action', () => {
+  fit('activites are populated using the payload of the action', () => {
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
     const action = {
       type: ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS,
@@ -372,7 +376,7 @@ describe('EntryFieldsComponent', () => {
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
     const action = {
       type: EntryActionTypes.CREATE_ENTRY_SUCCESS,
-      payload: {end_date: null},
+      payload: { end_date: null },
     };
 
     actionSubject.next(action);
@@ -386,7 +390,7 @@ describe('EntryFieldsComponent', () => {
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
     const action = {
       type: EntryActionTypes.CREATE_ENTRY_SUCCESS,
-      payload: {end_date: new Date()},
+      payload: { end_date: new Date() },
     };
 
     actionSubject.next(action);
@@ -433,9 +437,10 @@ describe('EntryFieldsComponent', () => {
   it('when feature-toggle "update-entries" enable for the user, the updateEntry function is executes to update the entries', () => {
     spyOn(featureManagerService, 'isToggleEnabledForUser').and.returnValue(of(true));
 
-    const mockEntry = { ...entry,
-      start_date : moment().format(DATE_FORMAT_YEAR),
-      start_hour : moment().format('HH:mm'),
+    const mockEntry = {
+      ...entry,
+      start_date: moment().format(DATE_FORMAT_YEAR),
+      start_hour: moment().format('HH:mm'),
       update_last_entry_if_overlap: true
     };
     component.newData = mockEntry;
@@ -447,9 +452,10 @@ describe('EntryFieldsComponent', () => {
   it('when FT "update-entries" disable for the user,the UpdateCurrentOrLastEntry function is called to update the entries', () => {
     spyOn(featureManagerService, 'isToggleEnabledForUser').and.returnValue(of(false));
 
-    const mockEntry = { ...entry,
-      start_date : moment().format(DATE_FORMAT_YEAR),
-      start_hour : moment().format('HH:mm'),
+    const mockEntry = {
+      ...entry,
+      start_date: moment().format(DATE_FORMAT_YEAR),
+      start_hour: moment().format('HH:mm'),
       update_last_entry_if_overlap: false
     };
     component.newData = mockEntry;

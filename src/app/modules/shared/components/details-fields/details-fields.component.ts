@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { filter } from 'rxjs/operators';
 import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
-import { ActivityState, allActivities, LoadActivities } from '../../../activities-management/store';
+import { ActivityState, allActiveActivities, LoadActivities } from '../../../activities-management/store';
 import * as projectActions from '../../../customer-management/components/projects/components/store/project.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
@@ -78,7 +78,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     });
 
     this.store.dispatch(new LoadActivities());
-    const activities$ = this.store.pipe(select(allActivities));
+    const activities$ = this.store.pipe(select(allActiveActivities));
     activities$.subscribe((response) => {
       this.activities = response;
     });
@@ -149,7 +149,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         technology: '',
       });
     } else {
-        this.cleanForm();
+      this.cleanForm();
     }
   }
 
@@ -263,8 +263,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.saveEntry.emit({ entry, shouldRestartEntry: this.shouldRestartEntry });
   }
 
-  onclickFormAction(isProjectSelected: boolean){
-    if (isProjectSelected){
+  onclickFormAction(isProjectSelected: boolean) {
+    if (isProjectSelected) {
       this.toastrService.warning('Please, first select a project');
     }
   }

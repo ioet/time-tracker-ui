@@ -55,13 +55,13 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     });
   }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.store.dispatch(new LoadActivities());
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1, new Date().getFullYear()));
     this.loadActivitiesSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
       .subscribe((action) => {
-        this.activities = action.payload;
+        this.activities = action.payload.filter((item) => item.status !== 'inactive');
         this.store.dispatch(new LoadActiveEntry());
       });
 
@@ -100,7 +100,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
           start_date: this.activeEntry.start_date,
           start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en'),
         };
-    });
+      });
   }
   get activity_id() {
     return this.entryForm.get('activity_id');

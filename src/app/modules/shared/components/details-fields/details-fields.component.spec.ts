@@ -53,7 +53,7 @@ describe('DetailsFieldsComponent', () => {
       isLoading: false,
     },
     activities: {
-      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc' }],
+      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc', status: 'active' }],
       isLoading: false,
       message: 'Data fetch successfully!',
       activityIdToEdit: '',
@@ -138,9 +138,9 @@ describe('DetailsFieldsComponent', () => {
   it('onSelectedProject project id and name are set using event data', () => {
     spyOn(component.entryForm, 'patchValue');
 
-    component.onSelectedProject( {id: 'id', search_field: 'foo'} );
+    component.onSelectedProject({ id: 'id', search_field: 'foo' });
 
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith( { project_id: 'id', project_name: 'foo', } );
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith({ project_id: 'id', project_name: 'foo', });
   });
 
   it('if form is invalid then saveEntry is not emited', () => {
@@ -296,7 +296,7 @@ describe('DetailsFieldsComponent', () => {
 
     component.onGoingToWorkOnThisChange({ currentTarget: { checked: false } });
 
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith( { end_date: '2020-12-30', end_hour: '09:45', } );
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith({ end_date: '2020-12-30', end_hour: '09:45', });
   });
 
   it('when creating a new entry, then the new entry should be marked as not run', () => {
@@ -367,7 +367,7 @@ describe('DetailsFieldsComponent', () => {
     const startHour = moment().subtract(3, 'hours').format('HH:mm:ss');
     const expectedStartDate = new Date(`${currentDate}T${startHour.trim()}`);
 
-    component.entryToEdit = {...entryToEdit, start_date: expectedStartDate };
+    component.entryToEdit = { ...entryToEdit, start_date: expectedStartDate };
     fixture.componentInstance.ngOnChanges();
 
     component.entryForm.patchValue({ description: 'test' });
@@ -378,23 +378,23 @@ describe('DetailsFieldsComponent', () => {
   it('should modify the start_date when start_hour has been modified', () => {
     const startDate = new Date(mockCurrentDate);
 
-    component.entryToEdit = {...entryToEdit, start_date: startDate };
+    component.entryToEdit = { ...entryToEdit, start_date: startDate };
     fixture.componentInstance.ngOnChanges();
 
     const updatedStartDate = moment(startDate).subtract(1, 'hours');
-    const updatedStartHour =  updatedStartDate.format('HH:mm');
-    component.entryForm.patchValue({start_hour: updatedStartHour});
+    const updatedStartHour = updatedStartDate.format('HH:mm');
+    component.entryForm.patchValue({ start_hour: updatedStartHour });
 
     const expectedStartDate = moment(updatedStartDate).seconds(0).millisecond(0).toISOString();
     expect(component.dateToSubmit('start_date', 'start_hour')).toEqual(expectedStartDate);
-   });
+  });
 
   it('should not modify the end_date when end_hour has not been modified', () => {
     const currentDate = moment().format('YYYY-MM-DD');
     const endHour = moment().subtract(3, 'hours').format('HH:mm:ss');
     const expectedEndDate = new Date(`${currentDate}T${endHour.trim()}`);
 
-    component.entryToEdit = {...entryToEdit, end_date: expectedEndDate };
+    component.entryToEdit = { ...entryToEdit, end_date: expectedEndDate };
     fixture.componentInstance.ngOnChanges();
 
     component.entryForm.patchValue({ description: 'test' });
@@ -405,16 +405,16 @@ describe('DetailsFieldsComponent', () => {
   it('should modify the end_date when end_hour has been modified', () => {
     const endDate = new Date(mockCurrentDate);
 
-    component.entryToEdit = {...entryToEdit, end_date: endDate };
+    component.entryToEdit = { ...entryToEdit, end_date: endDate };
     fixture.componentInstance.ngOnChanges();
 
     const updatedEndDate = moment(endDate).subtract(1, 'hours');
-    const updatedEndHour =  updatedEndDate.format('HH:mm');
-    component.entryForm.patchValue({end_hour: updatedEndHour});
+    const updatedEndHour = updatedEndDate.format('HH:mm');
+    component.entryForm.patchValue({ end_hour: updatedEndHour });
 
     const expectedEndDate = moment(updatedEndDate).seconds(0).millisecond(0).toISOString();
     expect(component.dateToSubmit('end_date', 'end_hour')).toEqual(expectedEndDate);
-   });
+  });
 
   it('displays error message when the date selected is in the future', () => {
     spyOn(toastrServiceStub, 'error');
@@ -451,8 +451,8 @@ describe('DetailsFieldsComponent', () => {
   it('should emit projectSelected event', () => {
     spyOn(component.projectSelected, 'emit');
     const item = {
-      id : 'id',
-      search_field : 'TimeTracker'
+      id: 'id',
+      search_field: 'TimeTracker'
     };
     component.onSelectedProject(item);
 
@@ -495,13 +495,13 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('on the input with id #start_date we could get the id and max value', () => {
-   fixture.detectChanges();
-   const expectedDate = new Date().toISOString().split('T')[0];
-   const startDateInput: HTMLInputElement = fixture.debugElement.
-     nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
+    fixture.detectChanges();
+    const expectedDate = new Date().toISOString().split('T')[0];
+    const startDateInput: HTMLInputElement = fixture.debugElement.
+      nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
 
-   expect(startDateInput.id).toEqual('start_date');
-   expect(startDateInput.max).toEqual(expectedDate);
+    expect(startDateInput.id).toEqual('start_date');
+    expect(startDateInput.max).toEqual(expectedDate);
   });
 
   it('on the input with id #end_date we could get the current Date ', () => {
