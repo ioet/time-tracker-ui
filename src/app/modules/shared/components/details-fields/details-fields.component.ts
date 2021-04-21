@@ -192,7 +192,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   getCurrentDate(): string {
-    return new Date().toISOString().split('T')[0];
+    return moment(new Date()).format('YYYY-MM-DD');
   }
 
   get project_id() {
