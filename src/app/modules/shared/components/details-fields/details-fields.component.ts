@@ -18,7 +18,7 @@ import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from './save-entry-event';
 import { ProjectSelectedEvent } from './project-selected-event';
 import { get } from 'lodash';
-import { DATE_FORMAT } from 'src/environments/environment';
+import { DATE_FORMAT, DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { TechnologiesComponent } from '../technologies/technologies.component';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
@@ -192,7 +192,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   getCurrentDate(): string {
-    return moment(new Date()).format('YYYY-MM-DD');
+    return moment(new Date()).format(DATE_FORMAT_YEAR);
   }
 
   get project_id() {
