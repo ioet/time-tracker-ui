@@ -127,11 +127,8 @@ describe('activityManagementReducer', () => {
     const currentState: ActivityState = { data: [activity], isLoading: false, message: '', activityIdToEdit: '1' };
     const activityEdited: Status = { id: '1', status: 'active' };
     const expectedActivity: Activity = { id: '1', name: 'Training', description: 'It is good for learning', status: 'active' };
-
     const action = new actions.UnarchiveActivitySuccess(activityEdited);
-
     const state = activityManagementReducer(currentState, action);
-    console.log(state.data);
 
     expect(state.data).toEqual([expectedActivity]);
     expect(state.isLoading).toBeFalse();
