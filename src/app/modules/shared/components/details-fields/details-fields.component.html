@@ -93,7 +93,7 @@
             (ngModelChange)="onStartDateChange($event)"
             [max]="getCurrentDate()"
             onkeydown="return false"
-            (click)="datepickerStartDate.opened ? datepickerStartDate.close() : datepickerStartDate.open()"
+            (click)="openOrCloseDatePicker(datepickerStartDate)"
             (dateInput)="start_date.setValue($event.value.format('YYYY-MM-DD'))"
             [matDatepicker]="datepickerStartDate"
           />
@@ -126,7 +126,7 @@
             required
             [max]="getCurrentDate()"
             onkeydown="return false"
-            (click)="datepickerEndDate.opened ? datepickerEndDate.close() : datepickerEndDate.open()"
+            (click)="openOrCloseDatePicker(datepickerEndDate)"
             (dateInput)="end_date.setValue($event.value.format('YYYY-MM-DD'))"
             [matDatepicker]="datepickerEndDate"
           />

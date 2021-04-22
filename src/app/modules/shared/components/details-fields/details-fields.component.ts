@@ -20,6 +20,7 @@ import { ProjectSelectedEvent } from './project-selected-event';
 import { get } from 'lodash';
 import { DATE_FORMAT, DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { TechnologiesComponent } from '../technologies/technologies.component';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 @Component({
@@ -289,5 +290,9 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       });
     }
     this.shouldRestartEntry = !this.entryToEdit?.running && this.goingToWorkOnThis;
+  }
+
+  openOrCloseDatePicker(datepicker: MatDatepicker<Date>): void {
+    return datepicker.opened ? datepicker.close() : datepicker.open();
   }
 }

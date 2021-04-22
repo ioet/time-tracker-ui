@@ -115,3 +115,7 @@ input[type="date"]::-webkit-clear-button {
   border-radius: 5px;
   margin-top: 10px;
 }
+
+::ng-deep .cdk-overlay-container {
+  z-index: 1100 !important;
+}
