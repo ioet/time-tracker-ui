@@ -77,7 +77,7 @@ describe('ActivityEffects', () => {
     });
   });
 
-  fit('action type is UNARCHIVE_ACTIVITY_SUCCESS when service is executed sucessfully', async () => {
+  it('action type is UNARCHIVE_ACTIVITY_SUCCESS when service is executed sucessfully', async () => {
     const activityId = 'activityId';
     actions$ = of({ type: ActivityManagementActionTypes.UNARCHIVE_ACTIVITY, activityId });
     spyOn(service, 'updateActivity').and.returnValue(of(activity));
@@ -89,7 +89,7 @@ describe('ActivityEffects', () => {
     });
   });
 
-  fit('action type is UNARCHIVE_ACTIVITY_FAIL when service fail in execution', async () => {
+  it('action type is UNARCHIVE_ACTIVITY_FAIL when service fail in execution', async () => {
     actions$ = of({ type: ActivityManagementActionTypes.UNARCHIVE_ACTIVITY, activity });
     spyOn(service, 'updateActivity').and.returnValue(throwError({ error: { message: 'fail!' } }));
     spyOn(toastrService, 'error');
@@ -122,7 +122,7 @@ describe('ActivityEffects', () => {
     });
   });
 
-  fit('action type is ARCHIVE_ACTIVITY_SUCCESS when service is executed sucessfully', async () => {
+  it('action type is ARCHIVE_ACTIVITY_SUCCESS when service is executed sucessfully', async () => {
     const activityId = 'activityId';
     actions$ = of({ type: ActivityManagementActionTypes.ARCHIVE_ACTIVITY, activityId });
     spyOn(service, 'deleteActivity').and.returnValue(of({}));

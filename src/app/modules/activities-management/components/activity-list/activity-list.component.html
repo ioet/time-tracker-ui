@@ -5,7 +5,7 @@
         <th class="col-4 text-center">Activity ID</th>
         <th class="col-4 text-center">Activity</th>
         <th class="col-2 text-center">Options</th>
-        <th class="col-2 text-center">Visibility</th>
+        <th class="col-2 text-center">Operation</th>
       </tr>
     </thead>
     <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
@@ -19,14 +19,17 @@
           </button>
         </td>
         <td class="col-2 text-center">
-          <ui-switch
-            size="small"
+          <button
+            class="btn btn-sm"
             data-toggle="modal"
             data-target="#deleteModal"
-            [checked]="activity.status === 'active'"
-            (valueChange)="switchStatus($event, activity)"
-            [beforeChange]="OnSwitch(activity)"
-          ></ui-switch>
+            [ngClass]="activity.btnColor"
+            (click)="changeOperation(activity)"
+          >
+            <i class="fa" [ngClass]="activity.btnIcon"></i>
+            {{ activity.btnName }}
+            <span *ngIf="activity._status">&nbsp;</span>
+          </button>
         </td>
       </tr>
     </tbody>
