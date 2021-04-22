@@ -25,12 +25,12 @@ describe('LoadActivitiesSuccess', () => {
     expect(createActivityFail.type).toEqual(actions.ActivityManagementActionTypes.CREATE_ACTIVITY_FAIL);
   });
 
-  fit('ArchiveActivity type is ActivityManagementActionTypes.ARCHIVE_ACTIVITY', () => {
+  it('ArchiveActivity type is ActivityManagementActionTypes.ARCHIVE_ACTIVITY', () => {
     const archiveActivity = new actions.ArchiveActivity('id_test');
     expect(archiveActivity.type).toEqual(actions.ActivityManagementActionTypes.ARCHIVE_ACTIVITY);
   });
 
-  fit('ArchiveActivitySuccess type is ActivityManagementActionTypes.ARCHIVE_ACTIVITY_SUCCESS', () => {
+  it('ArchiveActivitySuccess type is ActivityManagementActionTypes.ARCHIVE_ACTIVITY_SUCCESS', () => {
     const archiveActivitySuccess = new actions.ArchiveActivitySuccess({
       id: 'id_test',
       status: 'inactive'
@@ -38,7 +38,7 @@ describe('LoadActivitiesSuccess', () => {
     expect(archiveActivitySuccess.type).toEqual(actions.ActivityManagementActionTypes.ARCHIVE_ACTIVITY_SUCCESS);
   });
 
-  fit('ArchiveActivityFail type is ActivityManagementActionTypes.ARCHIVE_ACTIVITY_FAIL', () => {
+  it('ArchiveActivityFail type is ActivityManagementActionTypes.ARCHIVE_ACTIVITY_FAIL', () => {
     const archiveActivityFail = new actions.ArchiveActivityFail('error');
     expect(archiveActivityFail.type).toEqual(actions.ActivityManagementActionTypes.ARCHIVE_ACTIVITY_FAIL);
   });
@@ -57,12 +57,12 @@ describe('LoadActivitiesSuccess', () => {
     expect(updateActivityFail.type).toEqual(actions.ActivityManagementActionTypes.UPDATE_ACTIVITY_FAIL);
   });
 
-  fit('UnarchiveActivity type is ActivityManagementActionTypes.UNARCHIVE_ACTIVITY', () => {
+  it('UnarchiveActivity type is ActivityManagementActionTypes.UNARCHIVE_ACTIVITY', () => {
     const unarchiveActivity = new actions.UnarchiveActivity('id_test');
     expect(unarchiveActivity.type).toEqual(actions.ActivityManagementActionTypes.UNARCHIVE_ACTIVITY);
   });
 
-  fit('UnarchiveActivitySuccess type is ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_SUCCESS', () => {
+  it('UnarchiveActivitySuccess type is ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_SUCCESS', () => {
     const unarchiveActivitySuccess = new actions.UnarchiveActivitySuccess({
       id: 'id_test',
       status: 'active'
@@ -70,7 +70,7 @@ describe('LoadActivitiesSuccess', () => {
     expect(unarchiveActivitySuccess.type).toEqual(actions.ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_SUCCESS);
   });
 
-  fit('UnarchiveActivityFail type is ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_FAIL', () => {
+  it('UnarchiveActivityFail type is ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_FAIL', () => {
     const unarchiveActivityFail = new actions.UnarchiveActivityFail('error');
     expect(unarchiveActivityFail.type).toEqual(actions.ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_FAIL);
   });

@@ -346,7 +346,7 @@ describe('EntryFieldsComponent', () => {
   });
 
 
-  fit('activites are populated using the payload of the action', () => {
+  it('activites are populated using the payload of the action', () => {
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
     const action = {
       type: ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS,

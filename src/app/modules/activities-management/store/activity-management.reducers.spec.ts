@@ -56,7 +56,7 @@ describe('activityManagementReducer', () => {
     expect(state.isLoading).toEqual(false);
   });
 
-  fit('on ArchiveActivity, isLoading is true', () => {
+  it('on ArchiveActivity, isLoading is true', () => {
     const activityToDeleteId = '1';
     const action = new actions.ArchiveActivity(activityToDeleteId);
 
@@ -64,7 +64,7 @@ describe('activityManagementReducer', () => {
     expect(state.isLoading).toBeTrue();
   });
 
-  fit('on ArchiveActivitySuccess, message equal to Activity archived successfully!', () => {
+  it('on ArchiveActivitySuccess, message equal to Activity archived successfully!', () => {
     const currentActivity = { ...activity };
     currentActivity.status = 'active';
     const currentState: ActivityState = { data: [currentActivity], isLoading: false, message: '', activityIdToEdit: '' };
@@ -115,7 +115,7 @@ describe('activityManagementReducer', () => {
   });
 
 
-  fit('on UnarchiveActivity, isLoading is true', () => {
+  it('on UnarchiveActivity, isLoading is true', () => {
     const action = new actions.UnarchiveActivity('id_test');
 
     const state = activityManagementReducer(initialState, action);
@@ -123,7 +123,7 @@ describe('activityManagementReducer', () => {
     expect(state.isLoading).toBeTrue();
   });
 
-  fit('on UnarchiveActivitySuccess, status activity is change to \"active\" in the store', () => {
+  it('on UnarchiveActivitySuccess, status activity is change to \"active\" in the store', () => {
     const currentState: ActivityState = { data: [activity], isLoading: false, message: '', activityIdToEdit: '1' };
     const activityEdited: Status = { id: '1', status: 'active' };
     const expectedActivity: Activity = { id: '1', name: 'Training', description: 'It is good for learning', status: 'active' };
@@ -134,7 +134,7 @@ describe('activityManagementReducer', () => {
     expect(state.isLoading).toBeFalse();
   });
 
-  fit('on UnarchiveActivityFail, message equal to \"Something went wrong unarchiving activities!\"', () => {
+  it('on UnarchiveActivityFail, message equal to \"Something went wrong unarchiving activities!\"', () => {
     const action = new actions.UnarchiveActivityFail('error');
 
     const state = activityManagementReducer(initialState, action);

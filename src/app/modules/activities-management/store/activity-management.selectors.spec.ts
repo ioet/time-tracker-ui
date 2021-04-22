@@ -24,7 +24,7 @@ describe('ActivityManagement Selectors', () => {
     expect(selectors.allActivities.projector(activityState)).toBe(activities);
   });
 
-  fit('should return all active data in the state when the selector allActiveActivities is called', () => {
+  it('should return all active data in the state when the selector allActiveActivities is called', () => {
     const activities = [{ id: 'id', name: 'abc', description: 'xxx', status: 'active' },
     { id: '2', name: 'xyz', description: 'yyy', status: 'inactive' },
     { id: '3', name: 'xyzw', description: 'www', status: 'active' }];
