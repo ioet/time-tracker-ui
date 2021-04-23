@@ -5,9 +5,9 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { delay, filter } from 'rxjs/operators';
 import {
   customerIdtoEdit,
-  getIsLoading
+  getIsLoading,
 } from 'src/app/modules/customer-management/store/customer-management.selectors';
-import { Customer } from './../../../../../shared/models/customer.model';
+import { Customer, CustomerUI } from './../../../../../shared/models/customer.model';
 import {
   CustomerManagementActionTypes,
   DeleteCustomer,
@@ -17,6 +17,7 @@ import {
 } from './../../../../store/customer-management.actions';
 import { ResetProjectToEdit, SetProjectToEdit } from '../../../projects/components/store/project.actions';
 import { ResetProjectTypeToEdit, SetProjectTypeToEdit } from '../../../projects-type/store';
+import { UnArchiveCustomer } from '../../../../store/customer-management.actions';
 
 @Component({
   selector: 'app-customer-list',
@@ -28,7 +29,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() hasChange: boolean;
   @Output() changeValueShowCustomerForm = new EventEmitter<boolean>();
   @Input()
-  customers: Customer[] = [];
+  customers: CustomerUI[] = [];
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
@@ -48,6 +49,23 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    const btnProps = [
+      {
+        key: 'active',
+        _status: false,
+        btnColor: 'btn-danger',
+        btnIcon: 'fa-arrow-circle-down',
+        btnName: 'Archive',
+      },
+      {
+        key: 'inactive',
+        _status: true,
+        btnColor: 'btn-primary',
+        btnIcon: 'fa-arrow-circle-up',
+        btnName: 'Active',
+      },
+    ];
+
     this.dtOptions = {
       scrollY: '325px',
       paging: false,
@@ -62,7 +80,10 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadCustomersSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS))
       .subscribe((action) => {
-        this.customers = action.payload;
+        this.customers = action.payload.map((customer: CustomerUI) => {
+          const addProps = btnProps.find((prop) => prop.key === this.setActive(customer.status));
+          return { ...customer, ...addProps };
+        });
         this.rerenderDataTable();
       });
     this.changeCustomerSubscription = this.actionsSubject$
@@ -151,7 +172,20 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   openModal(item: Customer) {
     this.idToDelete = item.id;
-    this.message = `Are you sure you want to delete ${item.name}?`;
+    this.message = `Are you sure you want to archive ${item.name}?`;
     this.showModal = true;
+  }
+
+  switchStatus(item: CustomerUI): void {
+    if (item.key !== 'inactive') {
+      this.openModal(item);
+    } else {
+      this.showModal = false;
+      this.store.dispatch(new UnArchiveCustomer(item.id));
+    }
+  }
+
+  setActive(status: any): string {
+    return status === 'inactive' ? 'inactive' : 'active';
   }
 }

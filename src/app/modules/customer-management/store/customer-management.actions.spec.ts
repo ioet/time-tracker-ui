@@ -77,4 +77,23 @@ describe('CustomerManagmentActions', () => {
     const resetCustomerIdToEdit = new actions.ResetCustomerToEdit();
     expect(resetCustomerIdToEdit.type).toEqual(actions.CustomerManagementActionTypes.RESET_CUSTOMER_ID_TO_EDIT);
   });
+
+  it('UnArchiveCustomer type is CustomerManagementActionTypes.UNARCHIVE_CUSTOMER', () => {
+    const unArchiveCustomer = new actions.UnArchiveCustomer('id_test');
+    expect(unArchiveCustomer.type).toEqual(actions.CustomerManagementActionTypes.UNARCHIVE_CUSTOMER);
+  });
+
+  it('UnArchiveCustomerSuccess type is CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_SUCCESS', () => {
+    const unArchiveCustomerSuccess = new actions.UnArchiveCustomerSuccess({
+      id: 'id_test',
+      status: 'active',
+    });
+    expect(unArchiveCustomerSuccess.type).toEqual(actions.CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_SUCCESS);
+  });
+
+  it('UnArchiveCustomerFail type is CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_FAIL', () => {
+    const unArchiveCustomerFail  = new actions.UnArchiveCustomerFail('error');
+    expect(unArchiveCustomerFail.type).toEqual(actions.CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_FAIL);
+  });
+
 });

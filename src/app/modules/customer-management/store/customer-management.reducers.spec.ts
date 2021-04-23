@@ -1,10 +1,10 @@
 import { CustomerState, customerManagementReducer } from './customer-management.reducers';
-import { Customer } from '../../shared/models/index';
+import { Customer, Status } from '../../shared/models/index';
 import * as actions from './customer-management.actions';
 
 describe('customerManagementReducer', () => {
   const initialState: CustomerState = { data: [], isLoading: false, message: '', customerIdToEdit: '', customerId: '' };
-  const customer: Customer = { name: 'aa', description: 'bb' };
+  const customer: Customer = { name: 'aa', description: 'bb', status: 'inactive' };
 
   it('on LoadCustomer, isLoading is true ', () => {
     const action = new actions.LoadCustomers();
@@ -63,11 +63,11 @@ describe('customerManagementReducer', () => {
 
   it('on DeleteCustomerSuccess, message equal to Customer removed successfully!', () => {
     const currentState = {
-      data: [{ name: 'aa', description: 'bb', tenant_id: 'cc', id: '1' }],
+      data: [{ name: 'aa', description: 'bb', tenant_id: 'cc', id: '1', status: 'inactive' }],
       isLoading: false,
       message: '',
       customerIdToEdit: '',
-      customerId: ''
+      customerId: '',
     };
     const customerToDeleteId = '1';
     const action = new actions.DeleteCustomerSuccesss(customerToDeleteId);
@@ -75,7 +75,7 @@ describe('customerManagementReducer', () => {
 
     expect(state.isLoading).toEqual(false);
     expect(state.data.length).toEqual(0);
-    expect(state.message).toEqual('Customer removed successfully!');
+    expect(state.message).toEqual('Customer archived successfully!');
   });
 
   it('on DeleteCustomeryFail, message equal to Something went wrong deleting customer!', () => {
@@ -100,7 +100,7 @@ describe('customerManagementReducer', () => {
       isLoading: false,
       message: '',
       customerIdToEdit: '1',
-      customerId: ''
+      customerId: '',
     };
     const customerEdited = { name: 'xx', description: 'yy', tenant_id: 'cc', id: '1' };
     const action = new actions.UpdateCustomerSuccess(customerEdited);
@@ -132,5 +132,38 @@ describe('customerManagementReducer', () => {
     const state = customerManagementReducer(initialState, action);
 
     expect(state.customerIdToEdit).toEqual('');
+  });
+
+  it('on UnarchiveCustomer, isLoading is true', () => {
+    const action = new actions.UnArchiveCustomer('1');
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(true);
+  });
+
+  it('on UnarchiveCustomerSuccess, status customer is change to "active" in the store', () => {
+    const currentState = {
+      data: [{ name: 'aa', description: 'bb', tenant_id: 'cc', id: '1', status: 'inactive' }],
+      isLoading: false,
+      message: '',
+      customerIdToEdit: '1',
+      customerId: '',
+    };
+    const customerEdited: Status = { id: '1', status: 'active' };
+    const expectedCustomer = { name: 'aa', description: 'bb', tenant_id: 'cc', id: '1', status: 'active' };
+    const action = new actions.UnArchiveCustomerSuccess(customerEdited);
+    const state = customerManagementReducer(currentState, action);
+
+    expect(state.data).toEqual([expectedCustomer]);
+    expect(state.isLoading).toEqual(false);
+    expect(state.message).toEqual('Customer unarchive successfully!');
+  });
+
+  it('on UnarchiveCustomerFail, message equal to Something went wrong unarchiving customer!', () => {
+    const action = new actions.UnArchiveCustomerFail('error');
+    const state = customerManagementReducer(initialState, action);
+
+    expect(state.message).toEqual('Something went wrong unarchiving customer!');
+    expect(state.isLoading).toEqual(false);
   });
 });
