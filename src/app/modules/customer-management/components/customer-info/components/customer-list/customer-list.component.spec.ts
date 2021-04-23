@@ -215,7 +215,7 @@ describe('CustomerTableListComponent', () => {
     expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
   });
 
-  it('openModal should set on true and display "Are you sure you want to archive activity"', () => {
+  it('openModal should set on true and display "Are you sure you want to archive customer"', () => {
     const message = 'Are you sure you want to archive name?';
     const itemData = {
       id: '1',

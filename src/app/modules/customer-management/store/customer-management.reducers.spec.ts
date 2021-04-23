@@ -135,7 +135,7 @@ describe('customerManagementReducer', () => {
   });
 
   it('on UnarchiveCustomer, isLoading is true', () => {
-    const action = new actions.UnArchiveCustomer('1');
+    const action = new actions.UnarchiveCustomer('1');
     const state = customerManagementReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
@@ -151,7 +151,7 @@ describe('customerManagementReducer', () => {
     };
     const customerEdited: Status = { id: '1', status: 'active' };
     const expectedCustomer = { name: 'aa', description: 'bb', tenant_id: 'cc', id: '1', status: 'active' };
-    const action = new actions.UnArchiveCustomerSuccess(customerEdited);
+    const action = new actions.UnarchiveCustomerSuccess(customerEdited);
     const state = customerManagementReducer(currentState, action);
 
     expect(state.data).toEqual([expectedCustomer]);
@@ -160,7 +160,7 @@ describe('customerManagementReducer', () => {
   });
 
   it('on UnarchiveCustomerFail, message equal to Something went wrong unarchiving customer!', () => {
-    const action = new actions.UnArchiveCustomerFail('error');
+    const action = new actions.UnarchiveCustomerFail('error');
     const state = customerManagementReducer(initialState, action);
 
     expect(state.message).toEqual('Something went wrong unarchiving customer!');

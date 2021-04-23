@@ -17,7 +17,7 @@ import {
 } from './../../../../store/customer-management.actions';
 import { ResetProjectToEdit, SetProjectToEdit } from '../../../projects/components/store/project.actions';
 import { ResetProjectTypeToEdit, SetProjectTypeToEdit } from '../../../projects-type/store';
-import { UnArchiveCustomer } from '../../../../store/customer-management.actions';
+import { UnarchiveCustomer } from '../../../../store/customer-management.actions';
 
 @Component({
   selector: 'app-customer-list',
@@ -181,7 +181,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
       this.openModal(item);
     } else {
       this.showModal = false;
-      this.store.dispatch(new UnArchiveCustomer(item.id));
+      this.store.dispatch(new UnarchiveCustomer(item.id));
     }
   }
 

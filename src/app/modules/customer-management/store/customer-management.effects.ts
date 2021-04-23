@@ -92,7 +92,7 @@ export class CustomerEffects {
   @Effect()
   unarchiveCustomer$: Observable<Action> = this.actions$.pipe(
     ofType(actions.CustomerManagementActionTypes.UNARCHIVE_CUSTOMER),
-    map((action: actions.UnArchiveCustomer) => ({
+    map((action: actions.UnarchiveCustomer) => ({
       id: action.payload,
       status: 'active',
     })),

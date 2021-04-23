@@ -100,19 +100,19 @@ export class ResetCustomerToEdit implements Action {
   public readonly type = CustomerManagementActionTypes.RESET_CUSTOMER_ID_TO_EDIT;
 }
 
-export class UnArchiveCustomer implements Action {
+export class UnarchiveCustomer implements Action {
   public readonly type = CustomerManagementActionTypes.UNARCHIVE_CUSTOMER;
 
   constructor(public payload: string) {}
 }
 
-export class UnArchiveCustomerSuccess implements Action {
+export class UnarchiveCustomerSuccess implements Action {
   public readonly type = CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_SUCCESS;
 
   constructor(public payload: Status) {}
 }
 
-export class UnArchiveCustomerFail implements Action {
+export class UnarchiveCustomerFail implements Action {
   public readonly type = CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_FAIL;
 
   constructor(public error: string) {}
@@ -133,6 +133,6 @@ export type CustomerManagementActions =
   | UpdateCustomerFail
   | SetCustomerToEdit
   | ResetCustomerToEdit
-  | UnArchiveCustomer
-  | UnArchiveCustomerSuccess
-  | UnArchiveCustomerFail;
+  | UnarchiveCustomer
+  | UnarchiveCustomerSuccess
+  | UnarchiveCustomerFail;
