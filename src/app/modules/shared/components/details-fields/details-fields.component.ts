@@ -18,8 +18,9 @@ import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from './save-entry-event';
 import { ProjectSelectedEvent } from './project-selected-event';
 import { get } from 'lodash';
-import { DATE_FORMAT } from 'src/environments/environment';
+import { DATE_FORMAT, DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { TechnologiesComponent } from '../technologies/technologies.component';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 @Component({
@@ -192,7 +193,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   getCurrentDate(): string {
-    return new Date().toISOString().split('T')[0];
+    return moment(new Date()).format(DATE_FORMAT_YEAR);
   }
 
   get project_id() {
@@ -289,5 +290,9 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       });
     }
     this.shouldRestartEntry = !this.entryToEdit?.running && this.goingToWorkOnThis;
+  }
+
+  openOrCloseDatePicker(datepicker: MatDatepicker<Date>): void {
+    return datepicker.opened ? datepicker.close() : datepicker.open();
   }
 }

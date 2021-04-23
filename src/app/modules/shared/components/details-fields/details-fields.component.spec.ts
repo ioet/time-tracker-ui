@@ -489,14 +489,14 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('on get current date should return expected date', () => {
-    const expectedDate = new Date().toISOString().split('T')[0];
+    const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
 
     expect(component.getCurrentDate()).toEqual(expectedDate);
   });
 
   it('on the input with id #start_date we could get the id and max value', () => {
    fixture.detectChanges();
-   const expectedDate = new Date().toISOString().split('T')[0];
+   const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
    const startDateInput: HTMLInputElement = fixture.debugElement.
      nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
 
@@ -506,7 +506,7 @@ describe('DetailsFieldsComponent', () => {
 
   it('on the input with id #end_date we could get the current Date ', () => {
     fixture.detectChanges();
-    const expectedDate = new Date().toISOString().split('T')[0];
+    const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
     const endDateInput = fixture.debugElement.nativeElement.querySelector('[id=end_date]');
 
     expect(endDateInput.id).toEqual('end_date');
