@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { filter } from 'rxjs/operators';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
-import { ActivityState, allActiveActivities, LoadActivities } from '../../../activities-management/store';
+import { ActivityState, allActiveActivities, allActivities, LoadActivities } from '../../../activities-management/store';
 import * as projectActions from '../../../customer-management/components/projects/components/store/project.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
@@ -21,6 +21,7 @@ import { get } from 'lodash';
 import { DATE_FORMAT, DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { TechnologiesComponent } from '../technologies/technologies.component';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { Observable } from 'rxjs';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 @Component({
@@ -40,7 +41,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   selectedTechnologies: string[] = [];
   isLoading = false;
   listProjects: Project[] = [];
-  activities: Activity[] = [];
+  activities$: Observable<Activity[]>;
   goingToWorkOnThis = false;
   shouldRestartEntry = false;
 
@@ -79,10 +80,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     });
 
     this.store.dispatch(new LoadActivities());
-    const activities$ = this.store.pipe(select(allActiveActivities));
-    activities$.subscribe((response) => {
-      this.activities = response;
-    });
 
     const updateError$ = this.store.pipe(select(getUpdateError));
     updateError$.subscribe((updateError) => {
@@ -145,6 +142,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   ngOnChanges(): void {
     this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running : false;
     this.shouldRestartEntry = false;
+
     if (this.entryToEdit) {
       this.selectedTechnologies = this.entryToEdit.technologies;
       const projectFound = this.listProjects.find((project) => project.id === this.entryToEdit.project_id);
@@ -160,6 +158,17 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         uri: this.entryToEdit.uri,
         technology: '',
       });
+
+      this.activities$ = this.store.pipe(
+        select(allActiveActivities),
+        mergeMap(activeActivities => this.store.pipe(
+          select(allActivities),
+          map(activities => this.findInactiveActivity(activities) !== undefined
+            ? [...activeActivities, this.findInactiveActivity(activities)]
+            : activeActivities
+          )
+        ))
+      );
     } else {
       this.cleanForm();
     }
@@ -186,6 +195,12 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   cleanFieldsForm(): void {
     this.cleanForm(true);
+  }
+
+  findInactiveActivity(activities) {
+    return activities.find(activity => activity.status === 'inactive' &&
+      activity.id === this.entryToEdit.activity_id
+    );
   }
 
   onTechnologiesUpdated($event: string[]) {

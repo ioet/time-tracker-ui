@@ -53,7 +53,10 @@ describe('DetailsFieldsComponent', () => {
       isLoading: false,
     },
     activities: {
-      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc', status: 'active' }],
+      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc', status: 'active' },
+      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd07', tenant_id: 'ioet_1', deleted: null, name: 'def', status: 'active' },
+      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', tenant_id: 'ioet_2', deleted: null, name: 'ghi', status: 'inactive' },
+      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd09', tenant_id: 'ioet_3', deleted: null, name: 'jkl', status: 'active' }],
       isLoading: false,
       message: 'Data fetch successfully!',
       activityIdToEdit: '',
@@ -193,6 +196,7 @@ describe('DetailsFieldsComponent', () => {
     component.ngOnChanges();
     expect(component.shouldRestartEntry).toBeFalse();
     expect(component.entryForm.value).toEqual(initialData);
+    expect(component.activities$).toBe(undefined);
   });
 
   it('should emit ngOnChange with new data', () => {
@@ -213,6 +217,24 @@ describe('DetailsFieldsComponent', () => {
     component.entryToEdit = null;
     component.ngOnChanges();
     expect(component.entryForm.value).toEqual(formValue);
+  });
+
+  const activitiesParams = [
+    { select_activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd07', expected_size_activities: 3, title: 'active' },
+    { select_activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', expected_size_activities: 4, title: 'inactive' }
+  ];
+  activitiesParams.map(param => {
+    it(`should emit ngOnChange to set ${param.expected_size_activities} activities for select (${param.title} time entry clicked)`, () => {
+      component.entryToEdit = { ...entryToEdit, activity_id: param.select_activity_id };
+      spyOn(component.entryForm, 'patchValue');
+      component.ngOnChanges();
+
+      component.activities$.subscribe(items => {
+        console.log(items);
+
+        expect(items.length).toBe(param.expected_size_activities);
+      });
+    });
   });
 
   it('should call createError ', () => {
@@ -544,6 +566,16 @@ describe('DetailsFieldsComponent', () => {
     });
   });
 
+  it('should find an activity with given id & status: inactive', () => {
+
+    const expectedActivity = { id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', tenant_id: 'ioet_2', deleted: null, name: 'ghi', status: 'inactive' };
+
+    component.entryToEdit = { ...entryToEdit, activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd08' };
+    spyOn(component.entryForm, 'patchValue');
+
+    const foundActivity = component.findInactiveActivity(state.activities.data);
+    expect(foundActivity).toEqual(expectedActivity);
+  });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:
