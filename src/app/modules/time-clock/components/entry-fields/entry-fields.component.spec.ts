@@ -459,7 +459,7 @@ describe('EntryFieldsComponent', () => {
     const mockEntry = {
       ...entry,
       start_date: moment().format(DATE_FORMAT_YEAR),
-      start_hour: moment().format('HH:mm'),
+      start_hour: moment().format('HH:mm')
     };
     component.newData = mockEntry;
     featureToggleGeneralService.isActivated(FeatureToggle.UPDATE_ENTRIES).subscribe(() => {
