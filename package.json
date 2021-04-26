@@ -1,6 +1,6 @@
 {
   "name": "time-tracker",
-  "version": "1.39.1",
+  "version": "1.40.0",
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
     "ng": "ng",
