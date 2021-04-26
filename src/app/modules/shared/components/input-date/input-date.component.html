@@ -1,7 +1,7 @@
 <input
   [value]="value"
   [disabled]="isDisabled"
-  (dateInput)="onInput($event.target.value.format('YYYY-MM-DD'))"
+  (dateInput)="onInput($event.target.value)"
   class="form-control"
   aria-label="Small"
   aria-describedby="inputGroup-sizing-sm"

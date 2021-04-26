@@ -1,6 +1,8 @@
 import {Component, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { DATE_FORMAT_YEAR } from 'src/environments/environment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-input-date',
@@ -23,8 +25,8 @@ export class InputDateComponent implements ControlValueAccessor {
   constructor() {
   }
 
-  onInput(value: string) {
-    this.value = value;
+  onInput(value: moment.Moment) {
+    this.value = value.format(DATE_FORMAT_YEAR);
     this.onTouch();
     this.onChange(this.value);
   }
