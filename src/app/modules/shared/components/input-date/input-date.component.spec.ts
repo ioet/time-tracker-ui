@@ -1,16 +1,23 @@
-import {waitForAsync, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {InputDateComponent} from './input-date.component';
+import { waitForAsync, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { InputDateComponent } from './input-date.component';
+import * as moment from 'moment';
 
 describe('InputDateComponent', () => {
   let component: InputDateComponent;
   let fixture: ComponentFixture<InputDateComponent>;
   let input;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [InputDateComponent]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [InputDateComponent],
+        imports: [MatInputModule, MatDatepickerModule, MatMomentDateModule],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(InputDateComponent);
@@ -25,7 +32,7 @@ describe('InputDateComponent', () => {
   });
 
   it('should insert the provided text into the component', fakeAsync(() => {
-    setInputValue('input', '2020-05-20');
+    setInputValue('input', moment('2020-05-20').format('l'));
 
     expect(component.value).toEqual('2020-05-20');
   }));

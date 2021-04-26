@@ -1,5 +1,6 @@
 import {Component, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-input-date',
@@ -46,5 +47,9 @@ export class InputDateComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
+  }
+
+  openOrCloseDatePicker(datepicker: MatDatepicker<Date>): void {
+    return datepicker.opened ? datepicker.close() : datepicker.open();
   }
 }
