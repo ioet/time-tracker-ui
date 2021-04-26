@@ -3,7 +3,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { allActivities } from './../../store/activity-management.selectors';
 import { ActivityState } from './../../store/activity-management.reducers';
-import { DeleteActivity, SetActivityToEdit } from './../../store/activity-management.actions';
+import { ArchiveActivity, SetActivityToEdit } from './../../store/activity-management.actions';
 import { ActivityListComponent } from './activity-list.component';
 
 fdescribe('ActivityListComponent', () => {
@@ -53,7 +53,7 @@ fdescribe('ActivityListComponent', () => {
     component.idToDelete = 'id';
     component.deleteActivity();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new DeleteActivity('id'));
+    expect(store.dispatch).toHaveBeenCalledWith(new ArchiveActivity('id'));
   });
 
   it('updateActivity, dispatchs SetActivityToEdit action', () => {
