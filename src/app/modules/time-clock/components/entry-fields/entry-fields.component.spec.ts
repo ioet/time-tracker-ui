@@ -1,3 +1,4 @@
+import { AzureAdB2CService } from './../../../login/services/azure.ad.b2c.service';
 import { Subscription, of, Observable } from 'rxjs';
 import { LoadActiveEntry, EntryActionTypes, UpdateEntry } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
@@ -113,7 +114,7 @@ describe('EntryFieldsComponent', () => {
       providers: [
         provideMockStore({ initialState: state }),
         { provide: ActionsSubject, useValue: actionSub },
-        { provide: ToastrService, useValue: toastrServiceStub }
+        { provide: ToastrService, useValue: toastrServiceStub },
       ],
       imports: [FormsModule, ReactiveFormsModule, NgxMaterialTimepickerModule],
     }).compileComponents();

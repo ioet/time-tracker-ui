@@ -18,7 +18,6 @@ import { formatDate } from '@angular/common';
 import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
 import { Subscription, Observable } from 'rxjs';
-import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
 import { FeatureToggle } from './../../../../../environments/enum';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
@@ -48,6 +47,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     private actionsSubject$: ActionsSubject,
     private toastrService: ToastrService,
     private featureToggleGeneralService: FeatureToggleGeneralService,
+    private azureAdB2CService: AzureAdB2CService
   ) {
     this.entryForm = this.formBuilder.group({
       description: '',
@@ -159,6 +159,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.entryForm.patchValue({ start_date: newHourEntered });
     if (this.isFeatureToggleActive) {
       this.newData.update_last_entry_if_overlap = true;
+      this.newData.owner_id = this.azureAdB2CService.getUserId();
       this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
     } else {
       this.store.dispatch(new entryActions.UpdateCurrentOrLastEntry({ ...this.newData, ...this.entryForm.value }));
@@ -194,5 +195,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.loadActivitiesSubscription.unsubscribe();
     this.loadActiveEntrySubscription.unsubscribe();
     this.actionSetDateSubscription.unsubscribe();
+    this.isEnableToggleSubscription.unsubscribe();
   }
 }
