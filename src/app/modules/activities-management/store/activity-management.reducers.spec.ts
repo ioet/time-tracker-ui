@@ -1,4 +1,4 @@
-import { Activity, Status } from './../../shared/models/activity.model';
+import { Activity, ActivityStatus } from './../../shared/models/activity.model';
 import * as actions from './activity-management.actions';
 import { activityManagementReducer, ActivityState } from './activity-management.reducers';
 
@@ -68,7 +68,7 @@ describe('activityManagementReducer', () => {
     const currentActivity = { ...activity };
     currentActivity.status = 'active';
     const currentState: ActivityState = { data: [currentActivity], isLoading: false, message: '', activityIdToEdit: '' };
-    const activityArchived: Status = { id: '1', status: 'inactive' };
+    const activityArchived: ActivityStatus = { id: '1', status: 'inactive' };
     const action = new actions.ArchiveActivitySuccess(activityArchived);
     const state = activityManagementReducer(currentState, action);
 
@@ -125,7 +125,7 @@ describe('activityManagementReducer', () => {
 
   it('on UnarchiveActivitySuccess, status activity is change to \"active\" in the store', () => {
     const currentState: ActivityState = { data: [activity], isLoading: false, message: '', activityIdToEdit: '1' };
-    const activityEdited: Status = { id: '1', status: 'active' };
+    const activityEdited: ActivityStatus = { id: '1', status: 'active' };
     const expectedActivity: Activity = { id: '1', name: 'Training', description: 'It is good for learning', status: 'active' };
     const action = new actions.UnarchiveActivitySuccess(activityEdited);
     const state = activityManagementReducer(currentState, action);

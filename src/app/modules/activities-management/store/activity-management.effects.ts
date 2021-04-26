@@ -7,7 +7,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import * as actions from './activity-management.actions';
-import { Activity, Status } from './../../shared/models/activity.model';
+import { Activity, ActivityStatus } from './../../shared/models/activity.model';
 import { ActivityService } from './../services/activity.service';
 
 @Injectable()
@@ -59,7 +59,7 @@ export class ActivityEffects {
       id: action.activityId,
       status: 'inactive'
     })),
-    mergeMap((activity: Status) =>
+    mergeMap((activity: ActivityStatus) =>
       this.activityService.deleteActivity(activity.id).pipe(
         map(() => {
           this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
@@ -99,7 +99,7 @@ export class ActivityEffects {
       status: 'active'
     })
     ),
-    mergeMap((activity: Status) =>
+    mergeMap((activity: ActivityStatus) =>
       this.activityService.updateActivity(activity).pipe(
         map((activityData) => {
           this.toastrService.success(INFO_SAVED_SUCCESSFULLY);

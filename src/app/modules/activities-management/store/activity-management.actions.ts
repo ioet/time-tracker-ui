@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Activity, Status } from './../../shared/models/activity.model';
+import { Activity, ActivityStatus } from './../../shared/models/activity.model';
 
 export enum ActivityManagementActionTypes {
   LOAD_ACTIVITIES = '[ActivityManagement] LOAD_ACTIVITIES',
@@ -65,7 +65,7 @@ export class ArchiveActivity implements Action {
 export class ArchiveActivitySuccess implements Action {
   public readonly type = ActivityManagementActionTypes.ARCHIVE_ACTIVITY_SUCCESS;
 
-  constructor(public payload: Status) { }
+  constructor(public payload: ActivityStatus) { }
 }
 
 export class ArchiveActivityFail implements Action {
@@ -100,7 +100,7 @@ export class UnarchiveActivity implements Action {
 export class UnarchiveActivitySuccess implements Action {
   public readonly type = ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_SUCCESS;
 
-  constructor(public payload: Status) { }
+  constructor(public payload: ActivityStatus) { }
 }
 export class UnarchiveActivityFail implements Action {
   public readonly type = ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_FAIL;

@@ -19,7 +19,7 @@ export interface ActivityFront {
   btnName: string;
 }
 
-export interface Status {
+export interface ActivityStatus {
   id: string;
   status: string;
 }
