@@ -118,6 +118,37 @@ export function activityManagementReducer(state: ActivityState = initialState, a
       };
     }
 
+    case ActivityManagementActionTypes.UNARCHIVE_ACTIVITY: {
+      return {
+        ...state,
+        isLoading: true,
+        message: 'Set activityIdToUnarchive property',
+        activityIdToEdit: action.payload,
+      };
+    }
+
+    case ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_SUCCESS: {
+      const index = activityList.findIndex((activity) => activity.id === action.payload.id);
+      activityList[index] = { ...activityList[index], ...action.payload };
+
+      return {
+        ...state,
+        data: activityList,
+        isLoading: false,
+        message: 'Unarchive activity successfully!',
+        activityIdToEdit: '',
+      };
+    }
+
+    case ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+        message: 'Something went wrong unarchiving activities!',
+        activityIdToEdit: '',
+      };
+    }
+
     case ActivityManagementActionTypes.SET_ACTIVITY_ID_TO_EDIT: {
       return {
         ...state,

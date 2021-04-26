@@ -1,10 +1,10 @@
-import { Activity } from './../../shared/models/activity.model';
+import { Activity, Status } from './../../shared/models/activity.model';
 import * as actions from './activity-management.actions';
 import { activityManagementReducer, ActivityState } from './activity-management.reducers';
 
 describe('activityManagementReducer', () => {
   const initialState: ActivityState = { data: [], isLoading: false, message: '', activityIdToEdit: '' };
-  const activity: Activity = { id: '1', name: 'Training', description: 'It is good for learning' };
+  const activity: Activity = { id: '1', name: 'Training', description: 'It is good for learning', status: 'inactive' };
 
   it('on LoadActivities, isLoading is true', () => {
     const action = new actions.LoadActivities();
@@ -110,6 +110,38 @@ describe('activityManagementReducer', () => {
 
     expect(state.message).toEqual('Something went wrong updating activities!');
     expect(state.isLoading).toEqual(false);
+  });
+
+
+  fit('on UnarchiveActivity, isLoading is true', () => {
+    const action = new actions.UnarchiveActivity('id_test');
+
+    const state = activityManagementReducer(initialState, action);
+
+    expect(state.isLoading).toBeTrue();
+  });
+
+  fit('on UnarchiveActivitySuccess, status activity is change to \"active\" in the store', () => {
+    const currentState: ActivityState = { data: [activity], isLoading: false, message: '', activityIdToEdit: '1' };
+    const activityEdited: Status = { id: '1', status: 'active' };
+    const expectedActivity: Activity = { id: '1', name: 'Training', description: 'It is good for learning', status: 'active' };
+
+    const action = new actions.UnarchiveActivitySuccess(activityEdited);
+
+    const state = activityManagementReducer(currentState, action);
+    console.log(state.data);
+
+    expect(state.data).toEqual([expectedActivity]);
+    expect(state.isLoading).toBeFalse();
+  });
+
+  fit('on UnarchiveActivityFail, message equal to \"Something went wrong unarchiving activities!\"', () => {
+    const action = new actions.UnarchiveActivityFail('error');
+
+    const state = activityManagementReducer(initialState, action);
+
+    expect(state.message).toEqual('Something went wrong unarchiving activities!');
+    expect(state.isLoading).toBeFalse();
   });
 
   it('on SetActivityToEdit, should save the activityId to edit', () => {

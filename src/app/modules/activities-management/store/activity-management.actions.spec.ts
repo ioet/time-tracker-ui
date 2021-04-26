@@ -39,6 +39,24 @@ describe('LoadActivitiesSuccess', () => {
     expect(updateActivityFail.type).toEqual(actions.ActivityManagementActionTypes.UPDATE_ACTIVITY_FAIL);
   });
 
+  fit('UnarchiveActivity type is ActivityManagementActionTypes.UNARCHIVE_ACTIVITY', () => {
+    const unarchiveActivity = new actions.UnarchiveActivity('id_test');
+    expect(unarchiveActivity.type).toEqual(actions.ActivityManagementActionTypes.UNARCHIVE_ACTIVITY);
+  });
+
+  fit('UnarchiveActivitySuccess type is ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_SUCCESS', () => {
+    const unarchiveActivitySuccess = new actions.UnarchiveActivitySuccess({
+      id: 'id_test',
+      status: 'active'
+    });
+    expect(unarchiveActivitySuccess.type).toEqual(actions.ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_SUCCESS);
+  });
+
+  fit('UnarchiveActivityFail type is ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_FAIL', () => {
+    const unarchiveActivityFail = new actions.UnarchiveActivityFail('error');
+    expect(unarchiveActivityFail.type).toEqual(actions.ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_FAIL);
+  });
+
   it('SetActivityToEdit type is ActivityManagementActionTypes.SET_ACTIVITY_ID_TO_EDIT', () => {
     const setActivityToEdit = new actions.SetActivityToEdit('123');
     expect(setActivityToEdit.type).toEqual(actions.ActivityManagementActionTypes.SET_ACTIVITY_ID_TO_EDIT);

@@ -15,7 +15,7 @@ describe('ActivityEffects', () => {
   let effects: ActivityEffects;
   let service: ActivityService;
   let toastrService;
-  const activity: Activity = { id: 'id', name: 'name', description: 'description', tenant_id: 'tenantId' };
+  const activity: Activity = { id: 'id', name: 'name', description: 'description', tenant_id: 'tenantId', status: 'inactive' };
   const activityList: Activity[] = [];
 
   beforeEach(() => {
@@ -74,6 +74,28 @@ describe('ActivityEffects', () => {
     effects.updateActivity$.subscribe((action) => {
       expect(toastrService.error).toHaveBeenCalled();
       expect(action.type).toEqual(ActivityManagementActionTypes.UPDATE_ACTIVITY_FAIL);
+    });
+  });
+
+  fit('action type is UNARCHIVE_ACTIVITY_SUCCESS when service is executed sucessfully', async () => {
+    actions$ = of({ type: ActivityManagementActionTypes.UNARCHIVE_ACTIVITY, activity });
+    spyOn(service, 'updateActivity').and.returnValue(of(activity));
+    spyOn(toastrService, 'success');
+
+    effects.unarchiveActivity$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith(INFO_SAVED_SUCCESSFULLY);
+      expect(action.type).toEqual(ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_SUCCESS);
+    });
+  });
+
+  fit('action type is UNARCHIVE_ACTIVITY_FAIL when service fail in execution', async () => {
+    actions$ = of({ type: ActivityManagementActionTypes.UNARCHIVE_ACTIVITY, activity });
+    spyOn(service, 'updateActivity').and.returnValue(throwError({ error: { message: 'fail!' } }));
+    spyOn(toastrService, 'error');
+
+    effects.updateActivity$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_FAIL);
     });
   });
 

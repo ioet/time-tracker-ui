@@ -6,14 +6,14 @@ import { ActivityState } from './../../store/activity-management.reducers';
 import { DeleteActivity, SetActivityToEdit } from './../../store/activity-management.actions';
 import { ActivityListComponent } from './activity-list.component';
 
-describe('ActivityListComponent', () => {
+fdescribe('ActivityListComponent', () => {
   let component: ActivityListComponent;
   let fixture: ComponentFixture<ActivityListComponent>;
   let store: MockStore<ActivityState>;
   let mockActivitiesSelector;
 
   const state = {
-    data: [{ id: 'id', name: 'name', description: 'description' }],
+    data: [{ id: 'id', name: 'name', description: 'description', status: 'inactive' }],
     isLoading: false,
     message: '',
     activityIdToEdit: '',
