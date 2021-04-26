@@ -81,7 +81,7 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
         ...state,
         data: customers,
         isLoading: false,
-        message: 'Customer removed successfully!',
+        message: 'Customer archived successfully!',
       };
     }
 
@@ -134,6 +134,33 @@ export const customerManagementReducer = (state: CustomerState = initialState, a
       return {
         ...state,
         customerIdToEdit: '',
+      };
+    }
+
+    case CustomerManagementActionTypes.UNARCHIVE_CUSTOMER: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_SUCCESS: {
+      const index = customersList.findIndex((customer) => customer.id === action.payload.id);
+      customersList[index] = { ...customersList[index], ...action.payload };
+      return {
+        ...state,
+        data: customersList,
+        isLoading: false,
+        message: 'Customer unarchive successfully!',
+      };
+    }
+
+    case CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_FAIL: {
+      return {
+        ...state,
+        data: [],
+        isLoading: false,
+        message: 'Something went wrong unarchiving customer!',
       };
     }
 

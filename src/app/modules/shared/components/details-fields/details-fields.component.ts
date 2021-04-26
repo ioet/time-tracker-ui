@@ -18,8 +18,9 @@ import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from './save-entry-event';
 import { ProjectSelectedEvent } from './project-selected-event';
 import { get } from 'lodash';
-import { DATE_FORMAT } from 'src/environments/environment';
+import { DATE_FORMAT, DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { TechnologiesComponent } from '../technologies/technologies.component';
+import { MatDatepicker } from '@angular/material/datepicker';
 import { Observable } from 'rxjs';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
@@ -127,6 +128,17 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.end_date.setValue($event);
   }
 
+  getTimeDifference(): string {
+    const startDate = moment(`${this.start_date.value} ${this.start_hour.value}`);
+    const endDate = moment(`${this.end_date.value} ${this.end_hour.value}`);
+    if (startDate <= endDate) {
+      const diffDate = endDate.diff(startDate);
+      const duration = moment.duration(diffDate);
+      return moment.utc(duration.asMilliseconds()).format('HH:mm');
+    }
+    return '00:00';
+  }
+
   ngOnChanges(): void {
     this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running : false;
     this.shouldRestartEntry = false;
@@ -196,7 +208,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   getCurrentDate(): string {
-    return new Date().toISOString().split('T')[0];
+    return moment(new Date()).format(DATE_FORMAT_YEAR);
   }
 
   get project_id() {
@@ -293,5 +305,9 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       });
     }
     this.shouldRestartEntry = !this.entryToEdit?.running && this.goingToWorkOnThis;
+  }
+
+  openOrCloseDatePicker(datepicker: MatDatepicker<Date>): void {
+    return datepicker.opened ? datepicker.close() : datepicker.open();
   }
 }

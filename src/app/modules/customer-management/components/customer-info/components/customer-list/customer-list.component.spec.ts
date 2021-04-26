@@ -23,20 +23,39 @@ describe('CustomerTableListComponent', () => {
   const actionSub: ActionsSubject = new ActionsSubject();
 
   const state = {
-    data: [{ tenant_id: 'id', name: 'name', description: 'description' }],
+    data: [{ tenant_id: 'id', name: 'name', description: 'description', status: 'inactive' }],
     isLoading: false,
     message: '',
     customerIdToEdit: '',
     customerId: '',
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [NgxPaginationModule, DataTablesModule],
-      declarations: [CustomerListComponent],
-      providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
-    }).compileComponents();
-  }));
+  const btnProps = [
+    {
+      key: 'active',
+      _status: false,
+      btnColor: 'btn-danger',
+      btnIcon: 'fa-arrow-circle-down',
+      btnName: 'Archive',
+    },
+    {
+      key: 'inactive',
+      _status: true,
+      btnColor: 'btn-primary',
+      btnIcon: 'fa-arrow-circle-up',
+      btnName: 'Active',
+    },
+  ];
+
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NgxPaginationModule, DataTablesModule],
+        declarations: [CustomerListComponent],
+        providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerListComponent);
@@ -175,7 +194,12 @@ describe('CustomerTableListComponent', () => {
 
     actionSubject.next(action);
 
-    expect(component.customers).toEqual(state.data);
+    const StateWithBtnProperties = state.data.map((customer) => {
+      const addProps = btnProps.find((prop) => prop.key === component.setActive(customer.status));
+      return { ...customer, ...addProps };
+    });
+
+    expect(component.customers).toEqual(StateWithBtnProperties);
   });
 
   it('on success load customer, the datatable should be reloaded', async () => {
@@ -189,6 +213,60 @@ describe('CustomerTableListComponent', () => {
     actionSubject.next(action);
 
     expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
+  });
+
+  it('openModal should set on true and display "Are you sure you want to archive customer"', () => {
+    const message = 'Are you sure you want to archive name?';
+    const itemData = {
+      id: '1',
+      name: 'name',
+      description: 'description',
+      status: 'active',
+      key: 'active',
+      _status: false,
+      btnColor: 'btn-danger',
+      btnIcon: 'fa-arrow-circle-down',
+      btnName: 'Archive',
+    };
+
+    component.openModal(itemData);
+    expect(component.showModal).toBeTrue();
+    expect(component.message).toBe(message);
+  });
+
+  it('switchStatus should call openModal() on item.status = activate', () => {
+    const itemData = {
+      id: '1',
+      name: 'name',
+      description: 'description',
+      status: 'activate',
+      key: 'activate',
+      _status: false,
+      btnColor: 'btn-danger',
+      btnIcon: 'fa-arrow-circle-down',
+      btnName: 'Archive',
+    };
+
+    spyOn(component, 'openModal');
+    component.switchStatus(itemData);
+    expect(component.openModal).toHaveBeenCalled();
+  });
+
+  it('switchStatus should set showModal false when item.status = inactive', () => {
+    const itemData = {
+      id: '1',
+      name: 'name',
+      description: 'description',
+      status: 'inactive',
+      key: 'inactive',
+      _status: true,
+      btnColor: 'btn-primary',
+      btnIcon: 'fa-arrow-circle-up',
+      btnName: 'Active',
+    };
+
+    component.switchStatus(itemData);
+    expect(component.showModal).toBeFalse();
   });
 
   afterEach(() => {

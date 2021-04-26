@@ -11,7 +11,9 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
@@ -134,6 +136,9 @@ const maskConfig: Partial<IConfig> = {
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
+    MatInputModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,

@@ -511,30 +511,60 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('on get current date should return expected date', () => {
-    const expectedDate = new Date().toISOString().split('T')[0];
+    const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
 
     expect(component.getCurrentDate()).toEqual(expectedDate);
   });
 
   it('on the input with id #start_date we could get the id and max value', () => {
     fixture.detectChanges();
-    const expectedDate = new Date().toISOString().split('T')[0];
+    const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
     const startDateInput: HTMLInputElement = fixture.debugElement.
-      nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
-
+     nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
     expect(startDateInput.id).toEqual('start_date');
     expect(startDateInput.max).toEqual(expectedDate);
   });
 
   it('on the input with id #end_date we could get the current Date ', () => {
     fixture.detectChanges();
-    const expectedDate = new Date().toISOString().split('T')[0];
+    const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
     const endDateInput = fixture.debugElement.nativeElement.querySelector('[id=end_date]');
 
     expect(endDateInput.id).toEqual('end_date');
     expect(endDateInput.max).toEqual(expectedDate);
   });
 
+  const diffParams = [
+    {
+      case: 'positive should return correctly diff',
+      entryDates: {
+        start_date: '2021-04-15',
+        end_date: '2021-04-15',
+        start_hour: '18:05',
+        end_hour: '19:00',
+      },
+      expectedTimeDiff: '00:55',
+    },
+    {
+      case: 'negative should return 00:00',
+      entryDates: {
+        start_date: '2021-04-15',
+        end_date: '2021-04-14',
+        start_hour: '18:05',
+        end_hour: '17:00',
+      },
+      expectedTimeDiff: '00:00',
+    },
+  ];
+  diffParams.map((param) => {
+    it(`if [start_date, start_hour] and [end_date, end_hour] diff is ${param.case}`, () => {
+      component.entryForm.setValue({ ...formValues, ...param.entryDates });
+      const timeDiff = component.getTimeDifference();
+
+      expect(timeDiff).toBe(param.expectedTimeDiff);
+    });
+  });
+  
   it('should find an activity with given id & status: inactive', () => {
 
     const expectedActivity = { id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', tenant_id: 'ioet_2', deleted: null, name: 'ghi', status: 'inactive' };
@@ -545,6 +575,7 @@ describe('DetailsFieldsComponent', () => {
     const foundActivity = component.findInactiveActivity(state.activities.data);
     expect(foundActivity).toEqual(expectedActivity);
   });
+
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:

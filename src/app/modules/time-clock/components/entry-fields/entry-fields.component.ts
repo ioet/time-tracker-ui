@@ -1,5 +1,7 @@
+import { AzureAdB2CService } from './../../../login/services/azure.ad.b2c.service';
+import { FeatureToggleGeneralService } from './../../../shared/feature-toggles/feature-toggle-general/feature-toggle-general.service';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
-import { EntryActionTypes, LoadActiveEntry, UpdateCurrentOrLastEntry, UpdateEntry } from './../../store/entry.actions';
+import { EntryActionTypes, LoadActiveEntry, UpdateCurrentOrLastEntry, UpdateEntry, UpdateEntryRunning } from './../../store/entry.actions';
 import { filter, map } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -17,6 +19,7 @@ import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
 import { Subscription, Observable } from 'rxjs';
 import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
+import { FeatureToggle } from './../../../../../environments/enum';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 
@@ -44,7 +47,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     private store: Store<Merged>,
     private actionsSubject$: ActionsSubject,
     private toastrService: ToastrService,
-    private featureManagerService: FeatureManagerService
+    private featureToggleGeneralService: FeatureToggleGeneralService,
   ) {
     this.entryForm = this.formBuilder.group({
       description: '',
@@ -65,7 +68,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
         this.store.dispatch(new LoadActiveEntry());
       });
 
-    this.isEnableToggleSubscription = this.isFeatureToggleActivated().subscribe((flag) => {
+    this.isEnableToggleSubscription = this.featureToggleGeneralService.isActivated(FeatureToggle.UPDATE_ENTRIES).subscribe((flag) => {
       this.isFeatureToggleActive = flag;
     });
 
@@ -191,10 +194,5 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.loadActivitiesSubscription.unsubscribe();
     this.loadActiveEntrySubscription.unsubscribe();
     this.actionSetDateSubscription.unsubscribe();
-  }
-
-  isFeatureToggleActivated(): Observable<boolean> {
-    return this.featureManagerService.isToggleEnabledForUser('update-entries')
-      .pipe(map((enabled: boolean) => enabled));
   }
 }

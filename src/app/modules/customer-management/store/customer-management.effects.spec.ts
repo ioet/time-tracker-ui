@@ -121,4 +121,27 @@ describe('CustomerEffects', () => {
       expect(action.type).toEqual(CustomerManagementActionTypes.DELETE_CUSTOMER_FAIL);
     });
   });
+
+  it('action type is UNARCHIVE_CUSTOMER_SUCCESS when service is executed sucessfully', async () => {
+    const customerId = 'customerId';
+    actions$ = of({ type: CustomerManagementActionTypes.UNARCHIVE_CUSTOMER, customerId });
+    spyOn(toastrService, 'success');
+    spyOn(service, 'updateCustomer').and.returnValue(of(customer));
+
+    effects.updateCustomer$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith(INFO_SAVED_SUCCESSFULLY);
+      expect(action.type).toEqual(CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_SUCCESS);
+    });
+  });
+
+  it('action type is UNARCHIVE_CUSTOMER_FAIL when service fail in execution', async () => {
+    actions$ = of({ type: CustomerManagementActionTypes.UNARCHIVE_CUSTOMER, customer });
+    spyOn(toastrService, 'error');
+    spyOn(service, 'updateCustomer').and.returnValue(throwError({ error: { message: 'fail!' } }));
+
+    effects.updateCustomer$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_FAIL);
+    });
+  });
 });

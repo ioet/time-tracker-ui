@@ -8,35 +8,36 @@
   >
     <thead class="thead-blue">
       <tr class="d-flex">
-        <th class="col-5 text-center">Customer ID</th>
-        <th class="col-3 text-center">Name</th>
-        <th class="col-4 text-center">Options</th>
+        <th class="col-4 text-center">Customer ID</th>
+        <th class="col-4 text-center">Name</th>
+        <th class="col-2 text-center">Options</th>
+        <th class="col-2 text-center">Visibility</th>
       </tr>
     </thead>
     <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
     <tbody *ngIf="((isLoading$ | async) === false)">
       <tr class="d-flex" *ngFor="let customer of customers">
-        <td class="col-5 text-break">{{ customer.id }}</td>
-        <td class="col-3 text-break">{{ customer.name }}</td>
-        <td class="col-4 text-center">
-          <button
-            data-toggle="modal"
-            (click)="editCustomer(customer.id)"
-            type="button"
-            data-target="#editModal"
-            class="btn btn-sm btn-primary"
-          >
+        <td class="col-4 text-break">{{ customer.id }}</td>
+        <td class="col-4 text-break">{{ customer.name }}</td>
+        <td class="col-2 text-center">
+          <button 
+            data-toggle="modal" 
+            (click)="editCustomer(customer.id)" 
+            type="button" data-target="#editModal"
+            class="btn btn-sm btn-primary">
             <i class="fa fa-pen fa-xs"></i>
           </button>
-
-          <button
-            data-toggle="modal"
-            data-target="#deleteModal"
-            (click)="openModal(customer)"
-            type="button"
-            class="btn btn-sm btn-danger ml-2"
+        </td>
+        <td class="col-2 text-center">
+          <button 
+          class="btn btn-sm"
+          data-toggle="modal" 
+          data-target="#deleteModal"
+          [ngClass]="customer.btnColor"
+          (click)="switchStatus(customer)"
           >
-            <i class="fa fa-trash-alt fa-xs"></i>
+            <i class="fa" [ngClass]="customer.btnIcon" ></i>
+            {{customer.btnName}}
           </button>
         </td>
       </tr>
