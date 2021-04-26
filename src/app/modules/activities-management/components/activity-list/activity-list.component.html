@@ -17,21 +17,15 @@
           <button type="button" class="btn btn-sm btn-primary" (click)="updateActivity(activity.id)">
             <i class="fa fa-pencil fa-xs"></i>
           </button>
-          <button
-            type="button"
-            class="btn btn-sm btn-danger ml-2"
-            data-toggle="modal"
-            data-target="#deleteModal"
-            (click)="openModal(activity)"
-          >
-            <i class="fas fa-trash-alt fa-xs"></i>
-          </button>
         </td>
         <td class="col-2 text-center">
           <ui-switch
             size="small"
-            (change)="switchStatus('active')"
+            data-toggle="modal"
+            data-target="#deleteModal"
             [checked]="activity.status === 'active'"
+            (valueChange)="switchStatus($event, activity)"
+            [beforeChange]="OnSwitch(activity)"
           ></ui-switch>
         </td>
       </tr>
@@ -46,7 +40,7 @@
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
-  [title]="'Delete Activity'"
+  [title]="'Archive Activity'"
   [body]="message"
   (closeModalEvent)="deleteActivity()"
 >
