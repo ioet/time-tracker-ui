@@ -8,6 +8,7 @@ import { map, catchError, mergeMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from '../services/customer.service';
 import * as actions from './customer-management.actions';
+import { Status } from '../../shared/models/customer.model';
 
 @Injectable()
 export class CustomerEffects {
@@ -75,6 +76,27 @@ export class CustomerEffects {
     ofType(actions.CustomerManagementActionTypes.UPDATE_CUSTOMER),
     map((action: actions.UpdateCustomer) => action.payload),
     mergeMap((customer) =>
+      this.customerService.updateCustomer(customer).pipe(
+        map((customerData) => {
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
+          return new actions.UpdateCustomerSuccess(customerData);
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.UpdateCustomerFail(error));
+        })
+      )
+    )
+  );
+
+  @Effect()
+  unarchiveCustomer$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.CustomerManagementActionTypes.UNARCHIVE_CUSTOMER),
+    map((action: actions.UnarchiveCustomer) => ({
+      id: action.payload,
+      status: 'active',
+    })),
+    mergeMap((customer: Status) =>
       this.customerService.updateCustomer(customer).pipe(
         map((customerData) => {
           this.toastrService.success(INFO_SAVED_SUCCESSFULLY);

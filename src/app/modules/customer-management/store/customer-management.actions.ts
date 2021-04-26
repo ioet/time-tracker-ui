@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Customer } from '../../shared/models/customer.model';
+import { Customer, Status } from '../../shared/models/customer.model';
 
 export enum CustomerManagementActionTypes {
   CREATE_CUSTOMER = '[CustomerManagement] CREATE_CUSTOMER',
@@ -16,6 +16,9 @@ export enum CustomerManagementActionTypes {
   UPDATE_CUSTOMER_FAIL = '[CustomerManagement] UPDATE_CUSTOMER_FAIL',
   SET_CUSTOMER_ID_TO_EDIT = '[CustomerManagement] SET_CUSTOMER_ID_TO_EDIT',
   RESET_CUSTOMER_ID_TO_EDIT = '[CustomerManagement] RESET_CUSTOMER_ID_TO_EDIT',
+  UNARCHIVE_CUSTOMER = '[CustomerManagement] UNARCHIVE_CUSTOMER',
+  UNARCHIVE_CUSTOMER_SUCCESS = '[CustomerManagement] UNARCHIVE_CUSTOMER_SUCCESS',
+  UNARCHIVE_CUSTOMER_FAIL = '[CustomerManagement] UNARCHIVE_CUSTOMER_FAIL',
 }
 
 export class LoadCustomers implements Action {
@@ -97,6 +100,24 @@ export class ResetCustomerToEdit implements Action {
   public readonly type = CustomerManagementActionTypes.RESET_CUSTOMER_ID_TO_EDIT;
 }
 
+export class UnarchiveCustomer implements Action {
+  public readonly type = CustomerManagementActionTypes.UNARCHIVE_CUSTOMER;
+
+  constructor(public payload: string) {}
+}
+
+export class UnarchiveCustomerSuccess implements Action {
+  public readonly type = CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_SUCCESS;
+
+  constructor(public payload: Status) {}
+}
+
+export class UnarchiveCustomerFail implements Action {
+  public readonly type = CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_FAIL;
+
+  constructor(public error: string) {}
+}
+
 export type CustomerManagementActions =
   | CreateCustomer
   | CreateCustomerSuccess
@@ -111,4 +132,7 @@ export type CustomerManagementActions =
   | UpdateCustomerSuccess
   | UpdateCustomerFail
   | SetCustomerToEdit
-  | ResetCustomerToEdit;
+  | ResetCustomerToEdit
+  | UnarchiveCustomer
+  | UnarchiveCustomerSuccess
+  | UnarchiveCustomerFail;
