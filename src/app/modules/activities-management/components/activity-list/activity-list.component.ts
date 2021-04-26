@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 import { getIsLoading } from 'src/app/modules/activities-management/store/activity-management.selectors';
-import { Activity } from '../../../shared/models';
+import { Activity, ActivityFront } from '../../../shared/models';
 import { allActivities } from '../../store';
-import { DeleteActivity, LoadActivities, SetActivityToEdit } from './../../store/activity-management.actions';
+import { ArchiveActivity, LoadActivities, SetActivityToEdit, UnarchiveActivity } from './../../store/activity-management.actions';
 import { ActivityState } from './../../store/activity-management.reducers';
-
 
 @Component({
   selector: 'app-activity-list',
@@ -15,37 +14,68 @@ import { ActivityState } from './../../store/activity-management.reducers';
   styleUrls: ['./activity-list.component.scss'],
 })
 export class ActivityListComponent implements OnInit {
-  activities: Activity[] = [];
-  showModal = false;
-  activityToDelete: Activity;
-  message: string;
-  idToDelete: string;
-  isLoading$: Observable<boolean>;
   constructor(private store: Store<ActivityState>) {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
   }
+  activities: ActivityFront[] = [];
+  showModal = false;
+  activityToDelete: Activity;
+  message: string;
+  idToModify: string;
+  isLoading$: Observable<boolean>;
 
   ngOnInit() {
+    const operationBtnProps = [{
+      key: 'active',
+      _status: false,
+      btnColor: 'btn-danger',
+      btnIcon: 'fa-arrow-circle-down',
+      btnName: 'Archive',
+    }, {
+      key: 'inactive',
+      _status: true,
+      btnColor: 'btn-primary',
+      btnIcon: 'fa-arrow-circle-up',
+      btnName: 'Active',
+    }];
+
     this.store.dispatch(new LoadActivities());
-    const activities$ = this.store.pipe(select(allActivities));
+    const activities$ = this.store.pipe(
+      select(allActivities),
+      map((activity: Activity[]) => {
+        return activity.map(item => {
+          const addProps = operationBtnProps.find(prop => (prop.key === item.status));
+          return { ...item, ...addProps };
+        });
+      }),
+    );
 
     activities$.subscribe((response) => {
       this.activities = response;
     });
   }
 
-  deleteActivity() {
-    this.store.dispatch(new DeleteActivity(this.idToDelete));
-    this.showModal = true;
+  deleteActivity(): void {
+    this.store.dispatch(new ArchiveActivity(this.idToModify));
+    this.showModal = false;
   }
 
-  updateActivity(activityId: string) {
+  updateActivity(activityId: string): void {
     this.store.dispatch(new SetActivityToEdit(activityId));
   }
 
-  openModal(item: Activity) {
-    this.idToDelete = item.id;
-    this.message = `Are you sure you want to delete ${item.name}?`;
+  unarchiveActivity(): void {
+    this.store.dispatch(new UnarchiveActivity(this.idToModify));
+    this.showModal = false;
+  }
+
+  openModal(item: Activity): void {
+    this.message = `Are you sure you want to archive activity ${item.name}?`;
     this.showModal = true;
+  }
+
+  changeOperation(item: ActivityFront): void {
+    this.idToModify = item.id;
+    !item._status ? this.openModal(item) : this.unarchiveActivity();
   }
 }

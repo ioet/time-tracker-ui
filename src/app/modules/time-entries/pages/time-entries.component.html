@@ -12,11 +12,11 @@
       </button>
     </div>
   </div>
-  <div style="height: 15px;"></div>
+  <div style="height: 15px"></div>
   <app-month-picker (dateSelected)="dateSelected($event)"></app-month-picker>
-  <div style="height: 15px;"></div>
+  <div style="height: 15px"></div>
 
-  <table class="table table-sm table-striped mb-0" *ngIf="(timeEntriesDataSource$ | async) as dataSource">
+  <table class="table table-sm table-striped mb-0" *ngIf="timeEntriesDataSource$ | async as dataSource">
     <thead class="thead-blue">
       <tr class="d-flex">
         <th class="col">Date</th>
@@ -73,7 +73,7 @@
           [entryToEdit]="entry"
           (saveEntry)="saveEntry($event)"
           (projectSelected)="projectSelected($event)"
-          [canMarkEntryAsWIP]='canMarkEntryAsWIP'
+          [canMarkEntryAsWIP]="canMarkEntryAsWIP"
           #detailsFields
         >
         </app-details-fields>

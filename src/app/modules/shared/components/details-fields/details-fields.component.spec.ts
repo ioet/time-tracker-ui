@@ -53,7 +53,10 @@ describe('DetailsFieldsComponent', () => {
       isLoading: false,
     },
     activities: {
-      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc' }],
+      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc', status: 'active' },
+      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd07', tenant_id: 'ioet_1', deleted: null, name: 'def', status: 'active' },
+      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', tenant_id: 'ioet_2', deleted: null, name: 'ghi', status: 'inactive' },
+      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd09', tenant_id: 'ioet_3', deleted: null, name: 'jkl', status: 'active' }],
       isLoading: false,
       message: 'Data fetch successfully!',
       activityIdToEdit: '',
@@ -138,9 +141,9 @@ describe('DetailsFieldsComponent', () => {
   it('onSelectedProject project id and name are set using event data', () => {
     spyOn(component.entryForm, 'patchValue');
 
-    component.onSelectedProject( {id: 'id', search_field: 'foo'} );
+    component.onSelectedProject({ id: 'id', search_field: 'foo' });
 
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith( { project_id: 'id', project_name: 'foo', } );
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith({ project_id: 'id', project_name: 'foo', });
   });
 
   it('if form is invalid then saveEntry is not emited', () => {
@@ -193,6 +196,7 @@ describe('DetailsFieldsComponent', () => {
     component.ngOnChanges();
     expect(component.shouldRestartEntry).toBeFalse();
     expect(component.entryForm.value).toEqual(initialData);
+    expect(component.activities$).toBe(undefined);
   });
 
   it('should emit ngOnChange with new data', () => {
@@ -213,6 +217,24 @@ describe('DetailsFieldsComponent', () => {
     component.entryToEdit = null;
     component.ngOnChanges();
     expect(component.entryForm.value).toEqual(formValue);
+  });
+
+  const activitiesParams = [
+    { select_activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd07', expected_size_activities: 3, title: 'active' },
+    { select_activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', expected_size_activities: 4, title: 'inactive' }
+  ];
+  activitiesParams.map(param => {
+    it(`should emit ngOnChange to set ${param.expected_size_activities} activities for select (${param.title} time entry clicked)`, () => {
+      component.entryToEdit = { ...entryToEdit, activity_id: param.select_activity_id };
+      spyOn(component.entryForm, 'patchValue');
+      component.ngOnChanges();
+
+      component.activities$.subscribe(items => {
+        console.log(items);
+
+        expect(items.length).toBe(param.expected_size_activities);
+      });
+    });
   });
 
   it('should call createError ', () => {
@@ -296,7 +318,7 @@ describe('DetailsFieldsComponent', () => {
 
     component.onGoingToWorkOnThisChange({ currentTarget: { checked: false } });
 
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith( { end_date: '2020-12-30', end_hour: '09:45', } );
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith({ end_date: '2020-12-30', end_hour: '09:45', });
   });
 
   it('when creating a new entry, then the new entry should be marked as not run', () => {
@@ -367,7 +389,7 @@ describe('DetailsFieldsComponent', () => {
     const startHour = moment().subtract(3, 'hours').format('HH:mm:ss');
     const expectedStartDate = new Date(`${currentDate}T${startHour.trim()}`);
 
-    component.entryToEdit = {...entryToEdit, start_date: expectedStartDate };
+    component.entryToEdit = { ...entryToEdit, start_date: expectedStartDate };
     fixture.componentInstance.ngOnChanges();
 
     component.entryForm.patchValue({ description: 'test' });
@@ -378,23 +400,23 @@ describe('DetailsFieldsComponent', () => {
   it('should modify the start_date when start_hour has been modified', () => {
     const startDate = new Date(mockCurrentDate);
 
-    component.entryToEdit = {...entryToEdit, start_date: startDate };
+    component.entryToEdit = { ...entryToEdit, start_date: startDate };
     fixture.componentInstance.ngOnChanges();
 
     const updatedStartDate = moment(startDate).subtract(1, 'hours');
-    const updatedStartHour =  updatedStartDate.format('HH:mm');
-    component.entryForm.patchValue({start_hour: updatedStartHour});
+    const updatedStartHour = updatedStartDate.format('HH:mm');
+    component.entryForm.patchValue({ start_hour: updatedStartHour });
 
     const expectedStartDate = moment(updatedStartDate).seconds(0).millisecond(0).toISOString();
     expect(component.dateToSubmit('start_date', 'start_hour')).toEqual(expectedStartDate);
-   });
+  });
 
   it('should not modify the end_date when end_hour has not been modified', () => {
     const currentDate = moment().format('YYYY-MM-DD');
     const endHour = moment().subtract(3, 'hours').format('HH:mm:ss');
     const expectedEndDate = new Date(`${currentDate}T${endHour.trim()}`);
 
-    component.entryToEdit = {...entryToEdit, end_date: expectedEndDate };
+    component.entryToEdit = { ...entryToEdit, end_date: expectedEndDate };
     fixture.componentInstance.ngOnChanges();
 
     component.entryForm.patchValue({ description: 'test' });
@@ -405,16 +427,16 @@ describe('DetailsFieldsComponent', () => {
   it('should modify the end_date when end_hour has been modified', () => {
     const endDate = new Date(mockCurrentDate);
 
-    component.entryToEdit = {...entryToEdit, end_date: endDate };
+    component.entryToEdit = { ...entryToEdit, end_date: endDate };
     fixture.componentInstance.ngOnChanges();
 
     const updatedEndDate = moment(endDate).subtract(1, 'hours');
-    const updatedEndHour =  updatedEndDate.format('HH:mm');
-    component.entryForm.patchValue({end_hour: updatedEndHour});
+    const updatedEndHour = updatedEndDate.format('HH:mm');
+    component.entryForm.patchValue({ end_hour: updatedEndHour });
 
     const expectedEndDate = moment(updatedEndDate).seconds(0).millisecond(0).toISOString();
     expect(component.dateToSubmit('end_date', 'end_hour')).toEqual(expectedEndDate);
-   });
+  });
 
   it('displays error message when the date selected is in the future', () => {
     spyOn(toastrServiceStub, 'error');
@@ -451,8 +473,8 @@ describe('DetailsFieldsComponent', () => {
   it('should emit projectSelected event', () => {
     spyOn(component.projectSelected, 'emit');
     const item = {
-      id : 'id',
-      search_field : 'TimeTracker'
+      id: 'id',
+      search_field: 'TimeTracker'
     };
     component.onSelectedProject(item);
 
@@ -495,13 +517,13 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('on the input with id #start_date we could get the id and max value', () => {
-   fixture.detectChanges();
-   const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
-   const startDateInput: HTMLInputElement = fixture.debugElement.
-     nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
+    fixture.detectChanges();
+    const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
+    const startDateInput: HTMLInputElement = fixture.debugElement.
+      nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
 
-   expect(startDateInput.id).toEqual('start_date');
-   expect(startDateInput.max).toEqual(expectedDate);
+    expect(startDateInput.id).toEqual('start_date');
+    expect(startDateInput.max).toEqual(expectedDate);
   });
 
   it('on the input with id #end_date we could get the current Date ', () => {
@@ -544,6 +566,16 @@ describe('DetailsFieldsComponent', () => {
     });
   });
 
+  it('should find an activity with given id & status: inactive', () => {
+
+    const expectedActivity = { id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', tenant_id: 'ioet_2', deleted: null, name: 'ghi', status: 'inactive' };
+
+    component.entryToEdit = { ...entryToEdit, activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd08' };
+    spyOn(component.entryForm, 'patchValue');
+
+    const foundActivity = component.findInactiveActivity(state.activities.data);
+    expect(foundActivity).toEqual(expectedActivity);
+  });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:
