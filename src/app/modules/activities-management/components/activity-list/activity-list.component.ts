@@ -48,4 +48,12 @@ export class ActivityListComponent implements OnInit {
     this.message = `Are you sure you want to delete ${item.name}?`;
     this.showModal = true;
   }
+
+  switchStatus(state: string): void {
+    // this.store.dispatch(
+    //   user.groups.includes(groupName)
+    //     ? new RemoveUserFromGroup(user.id, groupName)
+    //     : new AddUserToGroup(user.id, groupName)
+    // );
+  }
 }

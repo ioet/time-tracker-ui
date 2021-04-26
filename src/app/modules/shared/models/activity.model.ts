@@ -3,4 +3,5 @@ export interface Activity {
   name: string;
   description: string;
   tenant_id?: string;
+  status?: string;
 }
