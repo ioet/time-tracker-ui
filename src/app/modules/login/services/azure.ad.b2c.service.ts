@@ -2,15 +2,13 @@ import { Injectable } from '@angular/core';
 import { UserAgentApplication } from 'msal';
 import { from, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
-
 import { AUTHORITY, CLIENT_ID, SCOPES } from '../../../../environments/environment';
-import { FeatureSwitchGroupService } from '../../shared/feature-toggles/switch-group/feature-switch-group.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AzureAdB2CService {
-  constructor(private cookieService?: CookieService) {}
+  constructor(private cookieService?: CookieService) { }
 
   msalConfig: any = {
     auth: {
@@ -44,6 +42,7 @@ export class AzureAdB2CService {
     return this.msal.getAccount().name;
   }
 
+  // TODO: inused method
   isAdmin() {
     return this.msal.getAccount()?.idToken?.extension_role === 'time-tracker-admin';
   }

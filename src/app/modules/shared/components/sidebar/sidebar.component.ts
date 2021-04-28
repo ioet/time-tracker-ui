@@ -1,12 +1,10 @@
-import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ItemSidebar } from './models/item-sidebar.model';
 import { NavigationStart, Router } from '@angular/router';
-import { Observable, of, Subscription } from 'rxjs';
-import { filter, map, mergeMap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { FeatureManagerService } from '../../feature-toggles/feature-toggle-manager.service';
 import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
-import { FeatureSwitchGroupService } from '../../feature-toggles/switch-group/feature-switch-group.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,14 +14,12 @@ import { FeatureSwitchGroupService } from '../../feature-toggles/switch-group/fe
 export class SidebarComponent implements OnInit, OnDestroy {
   itemsSidebar: ItemSidebar[] = [];
   navStart;
-  FTSwitchGroup$: Subscription;
+  sidebarItems$: Subscription;
 
   constructor(
     private router: Router,
     private userInfoService: UserInfoService,
-    private azureAdB2CService: AzureAdB2CService,
     private featureManagerService: FeatureManagerService,
-    private featureSwitchGroup: FeatureSwitchGroupService
   ) {
     this.navStart = this.router.events.pipe(
       filter((evt) => evt instanceof NavigationStart)
@@ -32,7 +28,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.toggleSideBar();
-    this.FTSwitchGroup$ = this.getSidebarItems().subscribe();
+    this.sidebarItems$ = this.getSidebarItems().subscribe();
     this.toggleListTechnologies(this.itemsSidebar);
     this.highlightMenuOption(this.router.routerState.snapshot.url);
     this.navStart.subscribe((evt) => {
@@ -40,7 +36,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    this.FTSwitchGroup$.unsubscribe();
+    this.sidebarItems$.unsubscribe();
   }
 
   toggleSideBar() {
@@ -51,12 +47,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   getSidebarItems(): Observable<void> {
-    const isAdminBasedInRole = of(this.azureAdB2CService.isAdmin());
-    const isAdminBasedInGroup = this.userInfoService.isAdmin();
-    return this.featureSwitchGroup.isActivated().pipe(
-      mergeMap((enabled) => {
-        return enabled ? isAdminBasedInGroup : isAdminBasedInRole;
-      }),
+    return this.userInfoService.isAdmin().pipe(
       map((isAdmin) => {
         if (isAdmin) {
           this.itemsSidebar = [
