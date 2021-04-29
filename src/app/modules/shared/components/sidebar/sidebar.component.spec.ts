@@ -6,7 +6,6 @@ import { Router, Routes } from '@angular/router';
 import { TimeClockComponent } from '../../../time-clock/pages/time-clock.component';
 import { of } from 'rxjs';
 import { FeatureManagerService } from '../../feature-toggles/feature-toggle-manager.service';
-import { FeatureSwitchGroupService } from '../../feature-toggles/switch-group/feature-switch-group.service';
 import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
 
 describe('SidebarComponent', () => {
@@ -14,7 +13,6 @@ describe('SidebarComponent', () => {
   let fixture: ComponentFixture<SidebarComponent>;
   let azureAdB2CServiceStubInjected;
   let featureManagerServiceStubInjected: FeatureManagerService;
-  let featureSwitchGroupService: FeatureSwitchGroupService;
   let userInfoService: UserInfoService;
   let router;
   const routes: Routes = [{ path: 'time-clock', component: TimeClockComponent }];
@@ -32,17 +30,12 @@ describe('SidebarComponent', () => {
     isAdmin: () => of(true),
   };
 
-  const featureSwitchGroupServiceStub = {
-    isActivated: () => of(true),
-  };
-
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [SidebarComponent],
         providers: [
           { provide: AzureAdB2CService, useValue: azureAdB2CServiceStub },
-          { provide: FeatureSwitchGroupService, useValue: featureSwitchGroupServiceStub },
           { provide: UserInfoService, useValue: userInfoServiceStub },
         ],
         imports: [RouterTestingModule.withRoutes(routes)],
@@ -55,7 +48,6 @@ describe('SidebarComponent', () => {
     fixture = TestBed.createComponent(SidebarComponent);
     azureAdB2CServiceStubInjected = TestBed.inject(AzureAdB2CService);
     featureManagerServiceStubInjected = TestBed.inject(FeatureManagerService);
-    featureSwitchGroupService = TestBed.inject(FeatureSwitchGroupService);
     userInfoService = TestBed.inject(UserInfoService);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -67,8 +59,6 @@ describe('SidebarComponent', () => {
   });
 
   it('admin users have six menu items', () => {
-    spyOn(featureSwitchGroupService, 'isActivated').and.returnValue(of(true));
-
     component.getSidebarItems().subscribe(() => {
       const menuItems = component.itemsSidebar;
       expect(menuItems.length).toBe(6);
@@ -76,7 +66,6 @@ describe('SidebarComponent', () => {
   });
 
   it('non admin users have two menu items', () => {
-    spyOn(featureSwitchGroupService, 'isActivated').and.returnValue(of(true));
     spyOn(userInfoServiceStub, 'isAdmin').and.returnValue(of(false));
 
     component.getSidebarItems().subscribe(() => {

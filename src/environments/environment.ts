@@ -22,9 +22,6 @@ export const GROUPS = {
   ADMIN: 'time-tracker-admin',
   TESTER: 'time-tracker-tester',
 };
-export const TOGGLES = {
-  SWITCH_GROUP: 'switch-group',
-};
 
 /*
  * For easier debugging in development mode, you can import the following file

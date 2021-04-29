@@ -1,4 +1,3 @@
-import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -7,28 +6,17 @@ import {
   UserActionTypes,
   UserState,
   LoadUsers,
-  GrantRoleUser,
-  RevokeRoleUser,
   AddUserToGroup,
   RemoveUserFromGroup,
 } from '../../store';
-import { User } from '../../../user/models/user';
 import { ActionsSubject } from '@ngrx/store';
 import { DataTablesModule } from 'angular-datatables';
-import { Observable, of } from 'rxjs';
-import { FeatureToggleProvider } from 'src/app/modules/shared/feature-toggles/feature-toggle-provider.service';
-import { AppConfigurationClient } from '@azure/app-configuration';
-import { FeatureFilterProvider } from '../../../shared/feature-toggles/filters/feature-filter-provider.service';
-import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
 
 describe('UsersListComponent', () => {
   let component: UsersListComponent;
   let fixture: ComponentFixture<UsersListComponent>;
   let store: MockStore<UserState>;
   const actionSub: ActionsSubject = new ActionsSubject();
-  const fakeAppConfigurationConnectionString = 'Endpoint=http://fake.foo;Id=fake.id;Secret=fake.secret';
-  let service: FeatureManagerService;
-  let fakeFeatureToggleProvider;
 
   const state: UserState = {
     data: [
@@ -48,19 +36,12 @@ describe('UsersListComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
-      fakeFeatureToggleProvider = new FeatureToggleProvider(
-        new AppConfigurationClient(fakeAppConfigurationConnectionString),
-        new FeatureFilterProvider(new AzureAdB2CService())
-      );
-      service = new FeatureManagerService(fakeFeatureToggleProvider);
-
       TestBed.configureTestingModule({
         imports: [NgxPaginationModule, DataTablesModule],
         declarations: [UsersListComponent],
         providers: [
           provideMockStore({ initialState: state }),
           { provide: ActionsSubject, useValue: actionSub },
-          { provide: FeatureManagerService, useValue: service }
         ],
       }).compileComponents();
     })
@@ -98,27 +79,6 @@ describe('UsersListComponent', () => {
     expect(component.users).toEqual(state.data);
   });
 
-  const actionsParams = [
-    { actionType: UserActionTypes.GRANT_USER_ROLE_SUCCESS },
-    { actionType: UserActionTypes.REVOKE_USER_ROLE_SUCCESS },
-  ];
-
-  actionsParams.map((param) => {
-    it(`When action ${param.actionType} is dispatched should triggered load Users action`, () => {
-      spyOn(store, 'dispatch');
-
-      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
-      const action = {
-        type: param.actionType,
-        payload: state.data,
-      };
-
-      actionSubject.next(action);
-
-      expect(store.dispatch).toHaveBeenCalledWith(new LoadUsers());
-    });
-  });
-
   const actionGroupParams = [
     { actionType: UserActionTypes.ADD_USER_TO_GROUP_SUCCESS },
     { actionType: UserActionTypes.REMOVE_USER_FROM_GROUP_SUCCESS },
@@ -140,26 +100,6 @@ describe('UsersListComponent', () => {
     });
   });
 
-  const grantRoleTypes = [
-    { roleId: 'admin', roleValue: 'time-tracker-admin' },
-    { roleId: 'test', roleValue: 'time-tracker-tester' },
-  ];
-
-  grantRoleTypes.map((param) => {
-    it(`When user switchRole to ${param.roleId} and don't have any role, should grant ${param.roleValue} Role`, () => {
-      const roleId = param.roleId;
-      const roleValue = param.roleValue;
-      const userRoles = [];
-      const userId = 'userId';
-
-      spyOn(store, 'dispatch');
-
-      component.switchRole(userId, userRoles, roleId, roleValue);
-
-      expect(store.dispatch).toHaveBeenCalledWith(new GrantRoleUser(userId, roleId));
-    });
-  });
-
   const AddGroupTypes = [
     { groupName: 'time-tracker-admin' },
     { groupName: 'time-tracker-tester' }
@@ -176,33 +116,13 @@ describe('UsersListComponent', () => {
         id: 'id',
         tenant_id: 'tenant id',
         deleted: 'delete',
-      } ;
+      };
 
       spyOn(store, 'dispatch');
 
       component.switchGroup(groupName, user);
 
       expect(store.dispatch).toHaveBeenCalledWith(new AddUserToGroup(user.id, groupName));
-    });
-  });
-
-  const revokeRoleTypes = [
-    { roleId: 'admin', roleValue: 'time-tracker-admin', userRoles: ['time-tracker-admin'] },
-    { roleId: 'test', roleValue: 'time-tracker-tester', userRoles: ['time-tracker-tester'] },
-  ];
-
-  revokeRoleTypes.map((param) => {
-    it(`When user switchRole to ${param.roleId} and have that rol asigned, should revoke ${param.roleValue} Role`, () => {
-      const roleId = param.roleId;
-      const roleValue = param.roleValue;
-      const userRoles = param.userRoles;
-      const userId = 'userId';
-
-      spyOn(store, 'dispatch');
-
-      component.switchRole(userId, userRoles, roleId, roleValue);
-
-      expect(store.dispatch).toHaveBeenCalledWith(new RevokeRoleUser(userId, roleId));
     });
   });
 
@@ -222,28 +142,13 @@ describe('UsersListComponent', () => {
         id: 'id',
         tenant_id: 'tenant id',
         deleted: 'delete',
-      } ;
-
+      };
 
       spyOn(store, 'dispatch');
 
       component.switchGroup(groupName, user);
 
       expect(store.dispatch).toHaveBeenCalledWith(new RemoveUserFromGroup(user.id, groupName));
-    });
-  });
-
-  it('on success load users, the data of roles should be an array', () => {
-    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
-    const action = {
-      type: UserActionTypes.LOAD_USERS_SUCCESS,
-      payload: state.data,
-    };
-
-    actionSubject.next(action);
-
-    component.users.map((user) => {
-      expect(user.roles).toEqual(['admin', 'test']);
     });
   });
 
@@ -272,27 +177,6 @@ describe('UsersListComponent', () => {
     actionSubject.next(action);
 
     expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
-  });
-
-  it('When Component is created, should call the feature toggle method', () => {
-    spyOn(component, 'isFeatureToggleActivated').and.returnValue(of(true));
-
-    component.ngOnInit();
-
-    expect(component.isFeatureToggleActivated).toHaveBeenCalled();
-    expect(component.isUserGroupsToggleOn).toBe(true);
-  });
-
-  const toggleValues = [true, false];
-  toggleValues.map((toggleValue) => {
-    it(`when FeatureToggle is ${toggleValue} should return ${toggleValue}`, () => {
-      spyOn(service, 'isToggleEnabledForUser').and.returnValue(of(toggleValue));
-
-      const isFeatureToggleActivated: Observable<boolean> = component.isFeatureToggleActivated();
-
-      expect(service.isToggleEnabledForUser).toHaveBeenCalled();
-      isFeatureToggleActivated.subscribe((value) => expect(value).toEqual(toggleValue));
-    });
   });
 
   afterEach(() => {

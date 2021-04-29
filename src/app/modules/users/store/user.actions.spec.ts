@@ -17,42 +17,6 @@ describe('UserActions', () => {
     expect(action.type).toEqual(actions.UserActionTypes.LOAD_USERS_FAIL);
   });
 
-  it('GrantRoleUser type is UserActionTypes.GRANT_USER_ROLE', () => {
-    const UserId = 'UserId';
-    const RoleId = 'RoleId';
-    const action = new actions.GrantRoleUser(UserId, RoleId);
-    expect(action.type).toEqual(actions.UserActionTypes.GRANT_USER_ROLE);
-  });
-
-  it('GrantRoleUserSuccess type is UserActionTypes.GRANT_USER_ROLE_SUCCESS', () => {
-    const payload: User = { id: 'id', email: 'email', name: 'name' };
-    const action = new actions.GrantRoleUserSuccess(payload);
-    expect(action.type).toEqual(actions.UserActionTypes.GRANT_USER_ROLE_SUCCESS);
-  });
-
-  it('GrantRoleUserFail type is UserActionTypes.GRANT_USER_ROLE_FAIL', () => {
-    const action = new actions.GrantRoleUserFail('error');
-    expect(action.type).toEqual(actions.UserActionTypes.GRANT_USER_ROLE_FAIL);
-  });
-
-  it('RevokeRoleUser type is UserActionTypes.REVOKE_USER_ROLE', () => {
-    const UserId = 'UserId';
-    const RoleId = 'RoleId';
-    const action = new actions.RevokeRoleUser(UserId, RoleId);
-    expect(action.type).toEqual(actions.UserActionTypes.REVOKE_USER_ROLE);
-  });
-
-  it('RevokeRoleUserSuccess type is UserActionTypes.REVOKE_USER_ROLE_SUCCESS', () => {
-    const payload: User = { id: 'id', email: 'email', name: 'name' };
-    const action = new actions.RevokeRoleUserSuccess(payload);
-    expect(action.type).toEqual(actions.UserActionTypes.REVOKE_USER_ROLE_SUCCESS);
-  });
-
-  it('RevokeRoleUserFail type is UserActionTypes.REVOKE_USER_ROLE_FAIL', () => {
-    const action = new actions.RevokeRoleUserFail('error');
-    expect(action.type).toEqual(actions.UserActionTypes.REVOKE_USER_ROLE_FAIL);
-  });
-
   it('AddUserToGroup type is UserActionTypes.ADD_USER_TO_GROUP', () => {
     const userId = 'userId';
     const groupName = 'groupName';

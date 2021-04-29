@@ -2,13 +2,10 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { ActionsSubject, select, Store, Action } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { delay, filter, map } from 'rxjs/operators';
-import { FeatureManagerService } from 'src/app/modules/shared/feature-toggles/feature-toggle-manager.service';
+import { delay, filter } from 'rxjs/operators';
 import { User } from '../../models/users';
 import {
-  GrantRoleUser,
   LoadUsers,
-  RevokeRoleUser,
   UserActionTypes,
   AddUserToGroup,
   RemoveUserFromGroup,
@@ -30,13 +27,10 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   dtElement: DataTableDirective;
   dtOptions: any = {};
   switchGroupsSubscription: Subscription;
-  isEnableToggleSubscription: Subscription;
-  isUserGroupsToggleOn: boolean;
 
   constructor(
     private store: Store<User>,
     private actionsSubject$: ActionsSubject,
-    private featureManagerService: FeatureManagerService
   ) {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
   }
@@ -50,25 +44,9 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
         this.rerenderDataTable();
       });
 
-    this.isEnableToggleSubscription = this.isFeatureToggleActivated().subscribe((flag) => {
-      this.isUserGroupsToggleOn = flag;
-    });
-
     this.switchGroupsSubscription = this.filterUserGroup().subscribe((action) => {
       this.store.dispatch(new LoadUsers());
     });
-
-    this.switchRoleSubscription = this.actionsSubject$
-      .pipe(
-        filter(
-          (action: any) =>
-            action.type === UserActionTypes.GRANT_USER_ROLE_SUCCESS ||
-            action.type === UserActionTypes.REVOKE_USER_ROLE_SUCCESS
-        )
-      )
-      .subscribe((action) => {
-        this.store.dispatch(new LoadUsers());
-      });
   }
 
   ngAfterViewInit(): void {
@@ -78,7 +56,6 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.loadUsersSubscription.unsubscribe();
     this.dtTrigger.unsubscribe();
-    this.isEnableToggleSubscription.unsubscribe();
   }
 
   private rerenderDataTable(): void {
@@ -92,23 +69,12 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  switchRole(userId: string, userRoles: string[], roleId: string, roleValue: string) {
-    userRoles.includes(roleValue)
-      ? this.store.dispatch(new RevokeRoleUser(userId, roleId))
-      : this.store.dispatch(new GrantRoleUser(userId, roleId));
-  }
-
   switchGroup(groupName: string, user: User): void {
     this.store.dispatch(
       user.groups.includes(groupName)
         ? new RemoveUserFromGroup(user.id, groupName)
         : new AddUserToGroup(user.id, groupName)
     );
-  }
-
-  isFeatureToggleActivated(): Observable<boolean> {
-    return this.featureManagerService.isToggleEnabledForUser('switch-group')
-      .pipe(map((enabled: boolean) => enabled));
   }
 
   filterUserGroup(): Observable<Action> {
