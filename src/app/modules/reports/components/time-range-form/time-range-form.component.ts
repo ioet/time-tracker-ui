@@ -29,8 +29,8 @@ export class TimeRangeFormComponent implements OnInit {
 
   setInitialDataOnScreen() {
     this.reportForm.setValue({
-      startDate: formatDate(moment().startOf('week').toString(), DATE_FORMAT, 'en'),
-      endDate: formatDate(moment().endOf('week').toString(), DATE_FORMAT, 'en')
+      startDate: formatDate(moment().startOf('week').format('l'), DATE_FORMAT, 'en'),
+      endDate: formatDate(moment().endOf('week').format('l'), DATE_FORMAT, 'en')
     });
     this.onSubmit();
   }
