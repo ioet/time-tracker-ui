@@ -576,6 +576,12 @@ describe('DetailsFieldsComponent', () => {
     const foundActivity = component.findInactiveActivity(state.activities.data);
     expect(foundActivity).toEqual(expectedActivity);
   });
+
+  it('should return false when the start time entry is not greater than the end time', () => {
+    const result = component.isStartTimeEntryAfterEndedEntry();
+
+    expect(result).toBeFalse();
+  });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:

@@ -244,6 +244,12 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.closeModal?.nativeElement?.click();
   }
 
+  isStartTimeEntryAfterEndedEntry(): boolean {
+    const startDate = moment(`${this.start_date.value} ${this.start_hour.value}`);
+    const endDate = moment(`${this.end_date.value} ${this.end_hour.value}`);
+    return startDate >= endDate;
+  }
+
   dateToSubmit(date, hour) {
     const entryFormDate = this.entryForm.value[date];
     const updatedHour = this.entryForm.value[hour];
@@ -263,6 +269,11 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
     const startDateToSubmit = this.dateToSubmit('start_date', 'start_hour');
     const endDateToSubmit = this.dateToSubmit('end_date', 'end_hour');
+
+    if (this.isStartTimeEntryAfterEndedEntry()) {
+      this.toastrService.error('You must end the time entry after it started');
+      return;
+    }
 
     const entry = {
       project_id: this.entryForm.value.project_id,
