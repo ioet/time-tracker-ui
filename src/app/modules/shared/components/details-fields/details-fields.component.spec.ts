@@ -599,7 +599,7 @@ describe('DetailsFieldsComponent', () => {
       expected_result: false,
     },
   ];
-  datesParams.map((param) => {
+  datesParams.forEach((param) => {
     it(`${param.case}`, () => {
       component.entryForm.setValue({ ...formValues, ...param.entryDates });
       const result = component.isStartTimeEntryAfterEndedEntry();
