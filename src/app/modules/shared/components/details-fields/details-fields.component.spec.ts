@@ -318,7 +318,9 @@ describe('DetailsFieldsComponent', () => {
 
     component.onGoingToWorkOnThisChange({ currentTarget: { checked: false } });
 
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith({ end_date: '2020-12-30', end_hour: '09:45', });
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith(
+      { end_date: '2020-12-30', end_hour: formatDate(new Date(), 'HH:mm', 'en'), }
+    );
   });
 
   it('when creating a new entry, then the new entry should be marked as not run', () => {
