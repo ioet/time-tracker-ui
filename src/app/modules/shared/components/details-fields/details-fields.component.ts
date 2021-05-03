@@ -301,7 +301,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     if (!this.goingToWorkOnThis) {
       this.entryForm.patchValue({
         end_date: formatDate(get(this.entryToEdit, 'start_date', ''), DATE_FORMAT, 'en'),
-        end_hour: formatDate(get(this.entryToEdit, 'start_date', '00:00'), 'HH:mm', 'en'),
+        end_hour: formatDate(new Date(), 'HH:mm', 'en'),
       });
     }
     this.shouldRestartEntry = !this.entryToEdit?.running && this.goingToWorkOnThis;

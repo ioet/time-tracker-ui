@@ -140,6 +140,7 @@
             formControlName="end_hour"
             id="end_hour"
             class="timepicker-input"
+            [defaultTime]="'00:00'"
             [class.timepicker-input--disabled]="!(project_id.value && project_name.value)"
           ></ngx-timepicker-field>
         </div>
