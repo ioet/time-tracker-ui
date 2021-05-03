@@ -577,10 +577,35 @@ describe('DetailsFieldsComponent', () => {
     expect(foundActivity).toEqual(expectedActivity);
   });
 
-  it('should return false when the start time entry is not greater than the end time', () => {
-    const result = component.isStartTimeEntryAfterEndedEntry();
+  const datesParams = [
+    {
+      case: 'should return true when the start time entry is greater than the end time',
+      entryDates: {
+        start_date: '2021-04-21',
+        end_date: '2021-04-21',
+        start_hour: '20:00',
+        end_hour: '08:00',
+      },
+      expected_result: true,
+    },
+    {
+      case: 'should return false when the start time entry is not greater than the end time',
+      entryDates: {
+        start_date: '2021-04-21',
+        end_date: '2021-04-21',
+        start_hour: '19:00',
+        end_hour: '20:00',
+      },
+      expected_result: false,
+    },
+  ];
+  datesParams.map((param) => {
+    it(`${param.case}`, () => {
+      component.entryForm.setValue({ ...formValues, ...param.entryDates });
+      const result = component.isStartTimeEntryAfterEndedEntry();
 
-    expect(result).toBeFalse();
+      expect(result).toBe(param.expected_result);
+    });
   });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
