@@ -177,7 +177,7 @@ describe('TimeEntryActionEffects', () => {
     spyOn(toastrService, 'success');
 
     effects.updateEntryRunning$.subscribe(action => {
-      expect(toastrService.success).toHaveBeenCalledTimes(0);
+      expect(toastrService.success).toHaveBeenCalledTimes(1);
       expect(action.type).toBe(EntryActionTypes.UPDATE_ENTRY_SUCCESS);
     });
   });
