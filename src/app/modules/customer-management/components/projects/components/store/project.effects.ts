@@ -114,11 +114,11 @@ export class ProjectEffects {
       this.projectService.updateProject(project).pipe(
         map((projectData) => {
           this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
-          return new actions.UpdateProjectSuccess(projectData);
+          return new actions.UnarchiveProjectSuccess(projectData);
         }),
         catchError((error) => {
           this.toastrService.error(error.error.message);
-          return of(new actions.UpdateProjectFail(error));
+          return of(new actions.UnarchiveProjectFail(error));
         })
       )
     )

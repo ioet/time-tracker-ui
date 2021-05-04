@@ -81,4 +81,22 @@ describe('Actions for Projects', () => {
     const deleteProjectFail = new actions.DeleteProjectFail('error');
     expect(deleteProjectFail.type).toEqual(actions.ProjectActionTypes.DELETE_PROJECT_FAIL);
   });
+
+  it('UnarchiveProject type is ProjectActionTypes.UNARCHIVE_PROJECT', () => {
+    const unarchiveProject = new actions.UnarchiveProject('id');
+    expect(unarchiveProject.type).toEqual(actions.ProjectActionTypes.UNARCHIVE_PROJECT);
+  });
+
+  it('UnarchiveProjectSuccess type is ProjectActionTypes.UNARCHIVE_PROJECT_SUCCESS', () => {
+    const unarchiveProjecttSuccess = new actions.UnarchiveProjectSuccess({
+      id: 'id_test',
+      status: 'active',
+    });
+    expect(unarchiveProjecttSuccess.type).toEqual(actions.ProjectActionTypes.UNARCHIVE_PROJECT_SUCCESS);
+  });
+
+  it('UnarchiveProjectProjectFail type is ProjectActionTypes.UNARCHIVE_PROJECT_FAIL', () => {
+    const unarchiveProjecttFail = new actions.UnarchiveProjectFail('error');
+    expect(unarchiveProjecttFail.type).toEqual(actions.ProjectActionTypes.UNARCHIVE_PROJECT_FAIL);
+  });
 });

@@ -9,6 +9,7 @@ import { ProjectState } from '../store/project.reducer';
 import { getCustomerProjects } from '../store/project.selectors';
 import { SetProjectToEdit, DeleteProject } from '../store/project.actions';
 import { FilterProjectPipe } from '../../../../../shared/pipes';
+import { ProjectUI } from 'src/app/modules/shared/models';
 
 describe('ProjectListComponent', () => {
   let component: ProjectListComponent;
@@ -17,18 +18,34 @@ describe('ProjectListComponent', () => {
   let getCustomerProjectsSelectorMock;
   let allCustomerProjectsSelectorMock;
 
+  const project = { id: '123', name: 'aaa', description: 'xxx', project_type_id: '1234', status: 'inactive' };
+
   const state: ProjectState = {
-    projects: [],
-    customerProjects: [],
+    projects: [project],
+    customerProjects: [project],
     isLoading: false,
     message: '',
     projectToEdit: undefined,
   };
 
-  const project = { id: '123', name: 'aaa', description: 'xxx', project_type_id: '1234' };
+  const btnProps = [
+    {
+      key: 'active',
+      _status: false,
+      btnColor: 'btn-danger',
+      btnIcon: 'fa-arrow-circle-down',
+      btnName: 'Archive',
+    },
+    {
+      key: 'inactive',
+      _status: true,
+      btnColor: 'btn-primary',
+      btnIcon: 'fa-arrow-circle-up',
+      btnName: 'Active',
+    },
+  ];
 
-  beforeEach(
-    () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NgxPaginationModule],
       declarations: [ProjectListComponent, FilterProjectPipe],
@@ -58,7 +75,11 @@ describe('ProjectListComponent', () => {
   it('loads projects from state onInit', () => {
     component.ngOnInit();
 
-    expect(component.projects).toBe(state.customerProjects);
+    const StateWithBtnProperties = state.customerProjects.map((projectfilter: ProjectUI) => {
+      const addProps = btnProps.find((prop) => prop.key === component.setActive(projectfilter.status));
+      return { ...projectfilter, ...addProps };
+    });
+    expect(component.projects).toEqual(StateWithBtnProperties);
   });
 
   it('should destroy the subscriptions', () => {
@@ -95,5 +116,42 @@ describe('ProjectListComponent', () => {
     expect(subscription).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(new DeleteProject(project.id));
+  });
+
+  it('switchStatus should call openModal() on item.status = activate', () => {
+    const itemData = {
+      id: '123',
+      name: 'aaa',
+      description: 'xxx',
+      project_type_id: '1234',
+      status: 'activate',
+      key: 'activate',
+      _status: false,
+      btnColor: 'btn-danger',
+      btnIcon: 'fa-arrow-circle-down',
+      btnName: 'Archive',
+    };
+
+    spyOn(component, 'openModal');
+    component.switchStatus(itemData);
+    expect(component.openModal).toHaveBeenCalled();
+  });
+
+  it('switchStatus should set showModal false when item.status = inactive', () => {
+    const itemData = {
+      id: '123',
+      name: 'aaa',
+      description: 'xxx',
+      project_type_id: '1234',
+      status: 'inactive',
+      key: 'inactive',
+      _status: true,
+      btnColor: 'btn-primary',
+      btnIcon: 'fa-arrow-circle-up',
+      btnName: 'Active',
+    };
+
+    component.switchStatus(itemData);
+    expect(component.showModal).toBeFalse();
   });
 });
