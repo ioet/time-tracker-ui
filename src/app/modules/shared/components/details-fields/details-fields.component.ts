@@ -80,6 +80,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     });
 
     this.store.dispatch(new LoadActivities());
+    this.activities$ = this.selectActiveActivities();
 
     const updateError$ = this.store.pipe(select(getUpdateError));
     updateError$.subscribe((updateError) => {
@@ -171,6 +172,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       );
     } else {
       this.cleanForm();
+      this.activities$ = this.selectActiveActivities();
     }
   }
 
@@ -195,6 +197,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   cleanFieldsForm(): void {
     this.cleanForm(true);
+  }
+
+  selectActiveActivities() {
+    return this.store.pipe(select(allActiveActivities));
   }
 
   findInactiveActivity(activities) {
