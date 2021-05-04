@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Project } from '../../../../../shared/models';
+import { Project, Status } from '../../../../../shared/models';
 
 export enum ProjectActionTypes {
   LOAD_PROJECTS = '[Projects] LOAD_PROJECTS',
@@ -20,6 +20,9 @@ export enum ProjectActionTypes {
   DELETE_PROJECT_SUCCESS = '[Projects] DELETE_PROJECT_SUCESS',
   DELETE_PROJECT_FAIL = '[Projects] DELETE_PROJECT_FAIL',
   CLEAN_CUSTOMER_PROJECTS = '[Projects] CLEAN_CUSTOMER_PROJECTS',
+  UNARCHIVE_PROJECT = '[Projects] UNARCHIVE_PROJECT',
+  UNARCHIVE_PROJECT_SUCCESS = '[Projects] UNARCHIVE_PROJECT_SUCCESS',
+  UNARCHIVE_PROJECT_FAIL = '[Projects] UNARCHIVE_PROJECT_FAIL',
 }
 
 export class CleanCustomerProjects implements Action {
@@ -41,7 +44,6 @@ export class LoadProjectsFail implements Action {
   public readonly type = ProjectActionTypes.LOAD_PROJECTS_FAIL;
   constructor(public error: string) {}
 }
-
 
 export class LoadCustomerProjects implements Action {
   public readonly type = ProjectActionTypes.LOAD_CUSTOMER_PROJECTS;
@@ -122,6 +124,24 @@ export class DeleteProjectFail implements Action {
   constructor(public error: string) {}
 }
 
+export class UnarchiveProject implements Action {
+  public readonly type = ProjectActionTypes.UNARCHIVE_PROJECT;
+
+  constructor(public payload: string) {}
+}
+
+export class UnarchiveProjectSuccess implements Action {
+  public readonly type = ProjectActionTypes.UNARCHIVE_PROJECT_SUCCESS;
+
+  constructor(public payload: Status) {}
+}
+
+export class UnarchiveProjectFail implements Action {
+  public readonly type = ProjectActionTypes.UNARCHIVE_PROJECT_FAIL;
+
+  constructor(public error: string) {}
+}
+
 export type ProjectActions =
   | CleanCustomerProjects
   | LoadProjects
@@ -140,4 +160,7 @@ export type ProjectActions =
   | ResetProjectToEdit
   | DeleteProject
   | DeleteProjectSuccess
-  | DeleteProjectFail;
+  | DeleteProjectFail
+  | UnarchiveProject
+  | UnarchiveProjectSuccess
+  | UnarchiveProjectFail;

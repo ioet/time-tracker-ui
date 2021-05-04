@@ -7,6 +7,7 @@ import { ofType, Actions, Effect } from '@ngrx/effects';
 import { ProjectService } from '../services/project.service';
 import * as actions from './project.actions';
 import { ToastrService } from 'ngx-toastr';
+import { Status } from 'src/app/modules/shared/models';
 
 @Injectable()
 export class ProjectEffects {
@@ -97,6 +98,27 @@ export class ProjectEffects {
         catchError((error) => {
           this.toastrService.error(error.error.message);
           return of(new actions.DeleteProjectFail(error));
+        })
+      )
+    )
+  );
+
+  @Effect()
+  unarchiveProject$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ProjectActionTypes.UNARCHIVE_PROJECT),
+    map((action: actions.UnarchiveProject) => ({
+      id: action.payload,
+      status: 'active',
+    })),
+    mergeMap((project: Status) =>
+      this.projectService.updateProject(project).pipe(
+        map((projectData) => {
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
+          return new actions.UpdateProjectSuccess(projectData);
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.UpdateProjectFail(error));
         })
       )
     )
