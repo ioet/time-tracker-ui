@@ -2,12 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { ITEMS_PER_PAGE } from 'src/environments/environment';
-import { Project } from 'src/app/modules/shared/models';
 import { ProjectState } from '../store/project.reducer';
 import { getCustomerProjects } from '../store/project.selectors';
 import * as actions from '../store/project.actions';
 import { ProjectUI } from '../../../../../shared/models/project.model';
-import { UnarchiveProject } from '../store/project.actions';
 
 @Component({
   selector: 'app-project-list',
@@ -80,7 +78,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       this.openModal(item);
     } else {
       this.showModal = false;
-      this.store.dispatch(new UnarchiveProject(item.id));
+      this.store.dispatch(new actions.UnarchiveProject(item.id));
     }
   }
 

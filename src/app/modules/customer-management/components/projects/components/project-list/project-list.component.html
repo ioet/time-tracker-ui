@@ -2,10 +2,10 @@
   <table class="table table-sm table-bordered table-striped">
     <thead class="thead-blue">
       <tr class="d-flex">
-        <th class="col-4 text-center">Project ID</th>
-        <th class="col-4 text-center">Project</th>
-        <th class="col-2 text-center">Options</th>
-        <th class="col-2 text-center">Visibility</th>
+        <th scope="col" class="col-4 text-center">Project ID</th>
+        <th scope="col" class="col-4 text-center">Project</th>
+        <th scope="col" class="col-2 text-center">Options</th>
+        <th scope="col" class="col-2 text-center">Visibility</th>
       </tr>
     </thead>
     <tbody>
@@ -25,7 +25,7 @@
           [ngClass]="project.btnColor"
           (click)="switchStatus(project)"
           >
-            <i class="fa" [ngClass]="project.btnIcon" ></i>
+            <em class="fa" [ngClass]="project.btnIcon" ></em>
             {{project.btnName}}
           </button>
         </td>
