@@ -20,7 +20,6 @@ export const initialState = {
 export const projectReducer = (state: ProjectState = initialState, action: ProjectActions) => {
   const projects = [...state.customerProjects];
   switch (action.type) {
-
     case ProjectActionTypes.LOAD_PROJECTS: {
       return {
         ...state,
@@ -139,17 +138,19 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
       return {
         ...state,
         isLoading: true,
-        message: 'Loading delete project',
+        message: 'Loading archive project',
       };
     }
 
     case ProjectActionTypes.DELETE_PROJECT_SUCCESS: {
-      const newProjects = state.customerProjects.filter((project) => project.id !== action.projectId);
+      const index = projects.findIndex((project) => project.id === action.projectId);
+      const archived = { ...projects[index], ...{ status: 'inactive' } };
+      projects[index] = archived;
       return {
         ...state,
-        customerProjects: newProjects,
+        customerProjects: projects,
         isLoading: false,
-        message: 'Project removed successfully!',
+        message: 'Project archived successfully!',
       };
     }
 
@@ -157,7 +158,7 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
       return {
         customerProjects: [],
         isLoading: false,
-        message: 'Something went wrong deleting the project!',
+        message: 'Something went wrong archiving the project!',
         projectToEdit: undefined,
       };
     }
@@ -165,6 +166,34 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
       return {
         ...state,
         customerProjects: [],
+      };
+    }
+
+    case ProjectActionTypes.UNARCHIVE_PROJECT: {
+      return {
+        ...state,
+        isLoading: true,
+        message: 'Loading unarchive project',
+      };
+    }
+
+    case ProjectActionTypes.UNARCHIVE_PROJECT_SUCCESS: {
+      const index = projects.findIndex((project) => project.id === action.payload.id);
+      projects[index] = { ...projects[index], ...action.payload };
+      return {
+        ...state,
+        customerProjects: projects,
+        isLoading: false,
+        message: 'Data unarchived successfully!',
+        projectToEdit: undefined,
+      };
+    }
+
+    case ProjectActionTypes.UNARCHIVE_PROJECT_FAIL: {
+      return {
+        isLoading: false,
+        message: 'Something went wrong unarchiving projects!',
+        projectToEdit: undefined,
       };
     }
 

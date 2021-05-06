@@ -2,27 +2,31 @@
   <table class="table table-sm table-bordered table-striped">
     <thead class="thead-blue">
       <tr class="d-flex">
-        <th class="col-4">Project ID</th>
-        <th class="col-5">Project</th>
-        <th class="col-3 text-center"></th>
+        <th scope="col" class="col-4 text-center">Project ID</th>
+        <th scope="col" class="col-4 text-center">Project</th>
+        <th scope="col" class="col-2 text-center">Options</th>
+        <th scope="col" class="col-2 text-center">Visibility</th>
       </tr>
     </thead>
     <tbody>
       <tr class="d-flex" *ngFor="let project of projects">
         <td class="col-sm-4">{{ project.id }}</td>
-        <td class="col-sm-5">{{ project.name }}</td>
-        <td class="col-sm-3 text-center">
+        <td class="col-sm-4">{{ project.name }}</td>
+        <td class="col-sm-2 text-center">
           <button type="button" class="btn btn-sm btn-primary" (click)="updateProject(project)">
             <i class="fa fa-pencil fa-xs"></i>
           </button>
-          <button
-            type="button"
-            data-toggle="modal"
-            data-target="#deleteModal"
-            class="btn btn-sm btn-danger ml-2"
-            (click)="openModal(project)"
+        </td>
+        <td class="col-sm-2 text-center">
+          <button 
+          class="btn btn-sm"
+          data-toggle="modal" 
+          data-target="#deleteModal"
+          [ngClass]="project.btnColor"
+          (click)="switchStatus(project)"
           >
-            <i class="fa fa-trash-alt fa-xs"></i>
+            <em class="fa" [ngClass]="project.btnIcon" ></em>
+            {{project.btnName}}
           </button>
         </td>
       </tr>
@@ -37,7 +41,7 @@
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
-  [title]="'Delete Project'"
+  [title]="'Archive Project'"
   [body]="message"
   (closeModalEvent)="deleteProject()"
 >

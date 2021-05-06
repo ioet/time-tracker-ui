@@ -15,7 +15,7 @@ describe('ProjectEffects', () => {
   let effects: ProjectEffects;
   let service: ProjectService;
   let toastrService;
-  const project: Project = { id: 'id', name: 'name', description: 'descrition' };
+  const project: Project = { id: 'id', name: 'name', description: 'descrition', status: 'inactive' };
   const projects: Project[] = [];
 
   beforeEach(() => {
@@ -144,6 +144,29 @@ describe('ProjectEffects', () => {
     effects.loadCustomerProjects$.subscribe((action) => {
       expect(toastrService.error).toHaveBeenCalled();
       expect(action.type).toEqual(ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_FAIL);
+    });
+  });
+
+  it('action type is UNARCHIVE_PROJECT_SUCCESS when service is executed sucessfully', async () => {
+    const projectId = 'projectId';
+    actions$ = of({ type: ProjectActionTypes.UNARCHIVE_PROJECT, projectId });
+    spyOn(toastrService, 'success');
+    spyOn(service, 'updateProject').and.returnValue(of(project));
+
+    effects.unarchiveProject$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith(INFO_SAVED_SUCCESSFULLY);
+      expect(action.type).toEqual(ProjectActionTypes.UNARCHIVE_PROJECT_SUCCESS);
+    });
+  });
+
+  it('action type is UNARCHIVE_PROJECT_FAIL when service fail in execution', async () => {
+    actions$ = of({ type: ProjectActionTypes.UNARCHIVE_PROJECT, project });
+    spyOn(toastrService, 'error');
+    spyOn(service, 'updateProject').and.returnValue(throwError({ error: { message: 'fail!' } }));
+
+    effects.unarchiveProject$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(ProjectActionTypes.UNARCHIVE_PROJECT_FAIL);
     });
   });
 });

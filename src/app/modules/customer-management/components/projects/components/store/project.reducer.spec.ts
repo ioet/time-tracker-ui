@@ -1,13 +1,14 @@
-import { Project } from '../../../../../shared/models';
+import { Project, Status } from '../../../../../shared/models';
 import * as actions from './project.actions';
 import { projectReducer, ProjectState } from './project.reducer';
 
 describe('projectReducer', () => {
   const initialState: ProjectState = {
-    projects: [{ id: 'id', name: 'name', project_type_id: '' }],
+    projects: [{ id: 'id', name: 'name', project_type_id: '', status: 'inactive' }],
     customerProjects: [], isLoading: false, message: '', projectToEdit: undefined
   };
-  const project: Project = { id: '1', name: 'aaa', description: 'bbb', project_type_id: '123' };
+  const archivedProject: Project = { id: '1', name: 'aaa', description: 'bbb', project_type_id: '123', status: 'inactive' };
+  const project: Project = { id: '1', name: 'aaa', description: 'bbb', project_type_id: '123', status: 'active' };
 
   it('on CLEAN_CUSTOMER_PROJECTS, customerProjects is empty', () => {
     initialState.customerProjects = [project];
@@ -116,10 +117,10 @@ describe('projectReducer', () => {
 
     const state = projectReducer(initialState, action);
     expect(state.isLoading).toEqual(true);
-    expect(state.message).toEqual('Loading delete project');
+    expect(state.message).toEqual('Loading archive project');
   });
 
-  it('on DeleteProjectSuccess, message equal to Project removed successfully!', () => {
+  it('on DeleteProjectSuccess, message equal to Project archived successfully!', () => {
     const currentState: ProjectState = {
       projects: [project],
       customerProjects: [project],
@@ -131,17 +132,51 @@ describe('projectReducer', () => {
     const action = new actions.DeleteProjectSuccess(projectIdToDelete);
 
     const state = projectReducer(currentState, action);
-    expect(state.customerProjects).toEqual([]);
-    expect(state.message).toEqual('Project removed successfully!');
+    expect(state.customerProjects).toEqual([archivedProject]);
+    expect(state.message).toEqual('Project archived successfully!');
   });
 
-  it('on DeleteProjectFail, message equal to Something went wrong deleting the project!', () => {
+  it('on DeleteProjectFail, message equal to Something went wrong archiving the project!', () => {
     const projectToEdit = '1';
     const action = new actions.DeleteProjectFail(projectToEdit);
 
     const state = projectReducer(initialState, action);
     expect(state.customerProjects).toEqual([]);
     expect(state.isLoading).toEqual(false);
-    expect(state.message).toEqual('Something went wrong deleting the project!');
+    expect(state.message).toEqual('Something went wrong archiving the project!');
+  });
+
+  it('on UnarchiveProject, isLoading is true', () => {
+    const action = new actions.UnarchiveProject('1');
+    const state = projectReducer(initialState, action);
+
+    expect(state.isLoading).toEqual(true);
+    expect(state.message).toEqual('Loading unarchive project');
+  });
+
+  it('on UnarchiveProjectSuccess, Project status is change to "active" in the store', () => {
+    const currentState: ProjectState = {
+      projects: [project],
+      customerProjects: [archivedProject],
+      isLoading: false,
+      message: '',
+      projectToEdit: project,
+    };
+    const projectEdited: Status = { id: '1', status: 'active' };
+
+    const action = new actions.UnarchiveProjectSuccess(projectEdited);
+    const state = projectReducer(currentState, action);
+
+    expect(state.customerProjects).toEqual([project]);
+    expect(state.isLoading).toEqual(false);
+  });
+
+  it('on UnarchiveProjectFail, message equal to Something went wrong unarchiving projects!', () => {
+    const action = new actions.UnarchiveProjectFail('error');
+    const state = projectReducer(initialState, action);
+
+    expect(state.customerProjects).toEqual(state.customerProjects);
+    expect(state.message).toEqual('Something went wrong unarchiving projects!');
+    expect(state.isLoading).toEqual(false);
   });
 });

@@ -15,12 +15,14 @@ describe('ProjectSelectors', () => {
 
   it('should select getProjects', () => {
     const project = [
-      { id: 'id', name: 'abc', description: 'xxx' },
-      { id: 'id', name: 'abc', description: 'xxx' },
+      { id: '1', name: 'abc', description: 'xxx', status: 'inactive' },
+      { id: '2', name: 'abc', description: 'xxx', status: 'active' },
+      { id: '3', name: 'abc', description: 'xxx', status: 'inactive' },
     ];
     const projectState = { projects: project };
+    const filteredProjects = project.filter((item) => item.status === 'active');
 
-    expect(selectors.getProjects.projector(projectState)).toBe(project);
+    expect(selectors.getProjects.projector(projectState)).toEqual(filteredProjects);
   });
 
   it('should select getProjectsToEdit', () => {

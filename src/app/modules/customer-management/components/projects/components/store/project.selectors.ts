@@ -5,7 +5,9 @@ const getProjectState = createFeatureSelector<ProjectState>('projects');
 
 export const getCustomerProjects = createSelector(getProjectState, (state: ProjectState) => state);
 
-export const getProjects = createSelector(getProjectState, (state: ProjectState) => state?.projects);
+export const getProjects = createSelector(getProjectState, (state: ProjectState) =>
+  state?.projects.filter((item) => item.status !== 'inactive')
+);
 
 export const getProjectToEdit = createSelector(getProjectState, (state: ProjectState) => state?.projectToEdit);
 
