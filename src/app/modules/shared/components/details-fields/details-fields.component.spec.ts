@@ -196,7 +196,10 @@ describe('DetailsFieldsComponent', () => {
     component.ngOnChanges();
     expect(component.shouldRestartEntry).toBeFalse();
     expect(component.entryForm.value).toEqual(initialData);
-    expect(component.activities$).toBe(undefined);
+    component.activities$.subscribe(item => {
+      expect(item.length).not.toBe(null);
+      expect(item.length).toBe(3);
+    });
   });
 
   it('should emit ngOnChange with new data', () => {
@@ -232,6 +235,15 @@ describe('DetailsFieldsComponent', () => {
       component.activities$.subscribe(items => {
         expect(items.length).toBe(param.expected_size_activities);
       });
+    });
+  });
+
+  it('selectActiveActivities should return 3 active activities', () => {
+    const activeActivities = component.selectActiveActivities();
+
+    activeActivities.subscribe(item => {
+      expect(item.length).not.toBe(null);
+      expect(item.length).toBe(3);
     });
   });
 
