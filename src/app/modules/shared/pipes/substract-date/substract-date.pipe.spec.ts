@@ -7,12 +7,21 @@ describe('SubstractDatePipe', () => {
   });
 
   it('returns the date diff using hh:mm', () => {
-    const fromDate = new Date('2011-04-11T10:20:40Z');
-    const substractDate = new Date('2011-04-11T08:00:30Z');
+    [
+      { endDate: '2021-04-11T10:20:00Z', startDate: '2021-04-11T08:00:00Z', expectedDiff: '02:20' },
+      { endDate: '2021-04-11T17:40:00Z', startDate: '2021-04-11T17:10:00Z', expectedDiff: '00:30' },
+      { endDate: '2021-04-11T18:18:00Z', startDate: '2021-04-11T18:00:00Z', expectedDiff: '00:18' },
+      { endDate: '2021-04-12T12:18:00Z', startDate: '2021-04-11T10:00:00Z', expectedDiff: '26:18' },
+      { endDate: '2021-04-12T10:01:00Z', startDate: '2021-04-12T10:00:00Z', expectedDiff: '00:01' },
+      { endDate: '2021-04-11T11:27:00Z', startDate: '2021-04-11T10:03:45Z', expectedDiff: '01:24' },
+    ].forEach(({ startDate, endDate, expectedDiff }) => {
+      const fromDate = new Date(endDate);
+      const substractDate = new Date(startDate);
 
-    const diff = new SubstractDatePipe().transform(fromDate, substractDate);
+      const diff = new SubstractDatePipe().transform(fromDate, substractDate);
 
-    expect(diff).toBe('02:20');
+      expect(diff).toBe(expectedDiff);
+    });
   });
 
   it('returns the date diff using hh:mm:ss for a diff < 1 min when displaySeconds is true', () => {
@@ -43,8 +52,8 @@ describe('SubstractDatePipe', () => {
   });
 
   it('returns --:-- if substractDate is null', () => {
-    const substractDate = null;
     const fromDate = new Date('2011-04-11T08:00:30Z');
+    const substractDate = null;
 
     const diff = new SubstractDatePipe().transform(fromDate, substractDate);
 
