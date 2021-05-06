@@ -193,6 +193,7 @@ export class EntryEffects {
     mergeMap((entry) =>
       this.entryService.updateEntry(entry).pipe(
         map((entryResponse) => {
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           return new actions.UpdateEntrySuccess(entryResponse);
         }),
         catchError((error) => {
