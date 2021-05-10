@@ -141,7 +141,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(): void {
-    this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running : false;
+    this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running ?? true : false;
     this.shouldRestartEntry = false;
 
     if (this.entryToEdit) {
@@ -276,7 +276,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     const startDateToSubmit = this.dateToSubmit('start_date', 'start_hour');
     const endDateToSubmit = this.dateToSubmit('end_date', 'end_hour');
 
-    if (this.isStartTimeEntryAfterEndedEntry()) {
+    if (this.isStartTimeEntryAfterEndedEntry() && !this.goingToWorkOnThis) {
       this.toastrService.error('You must end the time entry after it started');
       return;
     }
@@ -291,6 +291,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       uri: this.entryForm.value.uri,
       timezone_offset: new Date().getTimezoneOffset(),
     };
+
     if (this.goingToWorkOnThis) {
       delete entry.end_date;
     }

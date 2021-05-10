@@ -233,8 +233,6 @@ describe('DetailsFieldsComponent', () => {
       component.ngOnChanges();
 
       component.activities$.subscribe(items => {
-        console.log(items);
-
         expect(items.length).toBe(param.expected_size_activities);
       });
     });
@@ -620,6 +618,20 @@ describe('DetailsFieldsComponent', () => {
 
       expect(result).toBe(param.expected_result);
     });
+  });
+
+  it('should display an error message when isStartTimeEntryAfterEndedEntry() is true & goingToWorkOnThis is false', () => {
+    const times = {
+      start_date: '2021-04-21',
+      end_date: '2021-04-21',
+      start_hour: '10:00',
+      end_hour: '00:00',
+    };
+    component.goingToWorkOnThis = false;
+    component.entryForm.setValue({ ...formValues, ...times });
+    const displayError = component.isStartTimeEntryAfterEndedEntry() && !component.goingToWorkOnThis;
+    component.onSubmit();
+    expect(displayError).toBeTrue();
   });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
