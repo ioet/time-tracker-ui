@@ -5,11 +5,14 @@ import { of } from 'rxjs';
 
 import { LoginComponent } from './login.component';
 import { Router } from '@angular/router';
+import { FeatureToggleCookiesService } from '../shared/feature-toggles/feature-toggle-cookies/feature-toggle-cookies.service';
+import { promise } from 'selenium-webdriver';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let azureAdB2CService: AzureAdB2CService;
+  let featureToggleCookiesService: FeatureToggleCookiesService;
 
   const azureAdB2CServiceStub = {
     isLogin() {
@@ -22,12 +25,19 @@ describe('LoginComponent', () => {
     }
   };
 
+  const featureToggleCookiesServiceStub = {
+    setCookies() {
+    }
+  };
+
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule ],
       declarations: [ LoginComponent ],
       providers: [
-        { providers: AzureAdB2CService, useValue: azureAdB2CServiceStub}
+        { providers: AzureAdB2CService, useValue: azureAdB2CServiceStub},
+        { providers: FeatureToggleCookiesService, useValue: featureToggleCookiesServiceStub}
       ]
     })
     .compileComponents();
@@ -38,12 +48,18 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
-
+    featureToggleCookiesService = TestBed.inject(FeatureToggleCookiesService);
   });
 
-  it('Service injected via inject(...) and TestBed.get(...) should be the same instance',
+  it('AzureAdB2CService injected via inject(...) and TestBed.get(...) should be the same instance',
     inject([AzureAdB2CService], (injectService: AzureAdB2CService) => {
       expect(injectService).toEqual(azureAdB2CService);
+    })
+  );
+
+  it('FeatureToggleCookiesService injected via inject(...) and TestBed.get(...) should be the same instance',
+    inject([FeatureToggleCookiesService], (injectService: FeatureToggleCookiesService) => {
+      expect(injectService).toEqual(featureToggleCookiesService);
     })
   );
 
@@ -55,9 +71,13 @@ describe('LoginComponent', () => {
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(azureAdB2CService, 'setCookies').and.returnValue();
     spyOn(azureAdB2CService, 'signIn').and.returnValue(of(() => {}));
+    spyOn(featureToggleCookiesService, 'setCookies').and.returnValue(featureToggleCookiesService.setCookies());
+
     component.login();
+
     expect(azureAdB2CService.signIn).toHaveBeenCalled();
     expect(azureAdB2CService.setCookies).toHaveBeenCalled();
+    expect(featureToggleCookiesService.setCookies).toHaveBeenCalled();
   }));
 
   it('should not sign-up or login with google if is already logged-in into the app', inject([Router],  (router: Router) => {

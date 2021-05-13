@@ -1,5 +1,5 @@
-import { Subscription, of, Observable } from 'rxjs';
-import { LoadActiveEntry, EntryActionTypes, UpdateEntry } from './../../store/entry.actions';
+import { Subscription, of } from 'rxjs';
+import { LoadActiveEntry, EntryActionTypes } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -15,7 +15,7 @@ import { formatDate } from '@angular/common';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import * as moment from 'moment';
 import { DATE_FORMAT_YEAR } from 'src/environments/environment';
-import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
+import { CookieService } from 'ngx-cookie-service';
 import { FeatureToggleGeneralService } from './../../../shared/feature-toggles/feature-toggle-general/feature-toggle-general.service';
 import { FeatureToggle } from 'src/environments/enum';
 
@@ -25,6 +25,7 @@ describe('EntryFieldsComponent', () => {
   let component: EntryFieldsComponent;
   let fixture: ComponentFixture<EntryFieldsComponent>;
   let store: MockStore<Merged>;
+  let cookieService: CookieService;
   let mockTechnologySelector;
   let mockProjectsSelector;
   let entryForm;
@@ -122,6 +123,7 @@ describe('EntryFieldsComponent', () => {
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
     featureToggleGeneralService = TestBed.inject(FeatureToggleGeneralService);
+    cookieService = TestBed.inject(CookieService);
   }));
 
   beforeEach(() => {
@@ -451,6 +453,84 @@ describe('EntryFieldsComponent', () => {
       expect(featureToggleGeneralService.isActivated).toHaveBeenCalled();
       expect(component.newData.update_last_entry_if_overlap).toEqual(expected.update_last_entry_if_overlap);
     });
+  });
+
+  it('Set true in isCookieFeatureToggleActive when feature-toggle "feature-toggle-in-cookies" is enable for user', () => {
+    const expectedValue = true;
+    spyOn(featureToggleGeneralService, 'isActivated').and.returnValue(of(true));
+
+    component.ngOnInit();
+
+    expect(component.isCookieFeatureToggleActive).toEqual(expectedValue);
+  });
+
+  it('Set false in isCookieFeatureToggleActive when feature-toggle "feature-toggle-in-cookies" is not enable for user', () => {
+    const expectedValue = false;
+    spyOn(featureToggleGeneralService, 'isActivated').and.returnValue(of(false));
+
+    component.ngOnInit();
+
+    expect(component.isCookieFeatureToggleActive).toEqual(expectedValue);
+  });
+
+
+  it('Call cookieService.get() when isCookieFeatureToggleActive is True', () => {
+    const expectedValue = true;
+    component.isCookieFeatureToggleActive = expectedValue;
+    spyOn(cookieService, 'get').and.returnValue(`${expectedValue}`);
+
+    component.ngOnInit();
+
+    expect(cookieService.get).toHaveBeenCalledWith(FeatureToggle.UPDATE_ENTRIES);
+  });
+
+  it('Call featureToggleGeneralService.isActivated() when isCookieFeatureToggleActive is False', () => {
+    const expectedValue = false;
+    spyOn(featureToggleGeneralService, 'isActivated').and.returnValue(of(expectedValue));
+
+    component.ngOnInit();
+
+    expect(featureToggleGeneralService.isActivated).toHaveBeenCalledWith(FeatureToggle.UPDATE_ENTRIES);
+  });
+
+  it('Set True in isFeatureToggleActive when cookieService.get() return "true" and isCookieFeatureToggleActive is true', () => {
+    const expectedValue = true;
+    component.isCookieFeatureToggleActive = expectedValue;
+    spyOn(cookieService, 'get').and.returnValue(`${expectedValue}`);
+
+    component.ngOnInit();
+
+    expect(component.isFeatureToggleActive).toEqual(expectedValue);
+  });
+
+  it('Set True in isFeatureToggleActive when cookieService.get() return "false" and isCookieFeatureToggleActive is true', () => {
+    const expectedValue = false;
+    component.isCookieFeatureToggleActive = !expectedValue;
+    spyOn(cookieService, 'get').and.returnValue(`${expectedValue}`);
+
+    component.ngOnInit();
+
+    expect(component.isFeatureToggleActive).toEqual(expectedValue);
+  });
+
+  it('Set True in isFeatureToggleActive when featureToggleGeneralService.isActivated() return true', () => {
+    const expectedValue = true;
+    spyOn(featureToggleGeneralService, 'isActivated').and.callFake(
+      (featureToggle) => featureToggle === FeatureToggle.COOKIES ? of(false) : of(true) );
+
+    component.ngOnInit();
+
+    expect(featureToggleGeneralService.isActivated).toHaveBeenCalledWith(FeatureToggle.UPDATE_ENTRIES);
+    expect(component.isFeatureToggleActive).toEqual(expectedValue);
+  });
+
+  it('Set False in isFeatureToggleActive when featureToggleGeneralService.isActivated() return false and isCookieFeatureToggleActive is false', () => {
+    const expectedValue = false;
+    spyOn(featureToggleGeneralService, 'isActivated').and.returnValue(of(expectedValue));
+
+    component.ngOnInit();
+
+    expect(component.isFeatureToggleActive).toEqual(expectedValue);
   });
 
   it('when FT "update-entries" disable for the user,the UpdateCurrentOrLastEntry function is called to update the entries', () => {

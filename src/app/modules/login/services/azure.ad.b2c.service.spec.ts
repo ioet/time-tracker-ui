@@ -44,9 +44,12 @@ describe('AzureAdB2CService', () => {
 
   it('on logout should call msal logout and verify if user localStorage is removed', () => {
     spyOn(UserAgentApplication.prototype, 'logout').and.returnValue();
+    spyOn(cookieService, 'deleteAll');
     spyOn(localStorage, 'removeItem').withArgs('user');
+
     service.logout();
 
+    expect(cookieService.deleteAll).toHaveBeenCalled();
     expect(localStorage.removeItem).toHaveBeenCalledWith('user');
     expect(UserAgentApplication.prototype.logout).toHaveBeenCalled();
   });
