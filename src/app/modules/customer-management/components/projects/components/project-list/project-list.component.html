@@ -3,24 +3,26 @@
     <thead class="thead-blue">
       <tr class="d-flex">
         <th scope="col" class="col-4 text-center">Project ID</th>
-        <th scope="col" class="col-4 text-center">Project</th>
-        <th scope="col" class="col-2 text-center">Options</th>
-        <th scope="col" class="col-2 text-center">Visibility</th>
+        <th scope="col" class="col-3 text-center">Project</th>
+        <th scope="col" class="col-3 text-center">Project Type</th>
+        <th scope="col" class="col-1 text-center">Options</th>
+        <th scope="col" class="col-1 text-center">Visibility</th>
       </tr>
     </thead>
     <tbody>
       <tr class="d-flex" *ngFor="let project of projects">
         <td class="col-sm-4">{{ project.id }}</td>
-        <td class="col-sm-4">{{ project.name }}</td>
-        <td class="col-sm-2 text-center">
+        <td class="col-sm-3">{{ project.name }}</td>
+        <td class="col-sm-3">{{ getProjectType(project.project_type_id) }}</td>
+        <td class="col-sm-1 text-center">
           <button type="button" class="btn btn-sm btn-primary" (click)="updateProject(project)">
             <i class="fa fa-pencil fa-xs"></i>
           </button>
         </td>
-        <td class="col-sm-2 text-center">
-          <button 
+        <td class="col-sm-1 text-center">
+          <button
           class="btn btn-sm"
-          data-toggle="modal" 
+          data-toggle="modal"
           data-target="#deleteModal"
           [ngClass]="project.btnColor"
           (click)="switchStatus(project)"
