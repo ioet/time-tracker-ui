@@ -70,7 +70,9 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.projectsSubscription.unsubscribe();
-    this.projectTypesSubscription.unsubscribe();
+    if (this.projectTypesSubscription){
+      this.projectTypesSubscription.unsubscribe();
+    }
   }
 
   getProjectType(typeId: string) {

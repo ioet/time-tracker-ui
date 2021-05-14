@@ -174,7 +174,6 @@ describe('ProjectListComponent', () => {
       name: 'BK',
       description: 'test',
     };
-    const id = '1234';
     component.projectsTypes = [nameType];
     fixture.detectChanges();
     fixture.whenStable().then(() => {
