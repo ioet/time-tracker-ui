@@ -5,7 +5,7 @@
       (change)="onSubmit()"
       class="form-control"
       formControlName="activity_id"
-      [class.is-invalid]="activity_id.invalid && activity_id.touched"
+      [class.is-invalid]="activity_id.invalid && activity_id.touched || activity_id.value == '-1'"
       required>
       <option value="-1"></option>
       <option *ngFor="let activity of activities" value="{{ activity.id }}">{{ activity.name }}</option>
