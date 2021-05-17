@@ -133,10 +133,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.entryForm.value.activity_id === '-1') {
-      this.toastrService.error('Please enter a valid activity');
-      return;
-    }
     this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
   }
 

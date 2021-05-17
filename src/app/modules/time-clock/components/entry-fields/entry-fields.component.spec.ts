@@ -18,7 +18,6 @@ import { DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
 import { FeatureToggleGeneralService } from './../../../shared/feature-toggles/feature-toggle-general/feature-toggle-general.service';
 import { FeatureToggle } from 'src/environments/enum';
-import { By } from '@angular/platform-browser';
 
 
 describe('EntryFieldsComponent', () => {
@@ -466,15 +465,6 @@ describe('EntryFieldsComponent', () => {
     featureToggleGeneralService.isActivated(FeatureToggle.UPDATE_ENTRIES).subscribe(() => {
       expect(featureToggleGeneralService.isActivated).toHaveBeenCalled();
     });
-  });
-
-  it('toastrService should be called when the activity field is empty', () => {
-    fixture.detectChanges();
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('select')).nativeElement;
-    spyOn(toastrServiceStub, 'error');
-    select.value = select.options[0].value;
-    select.dispatchEvent(new Event('change'));
-    expect(toastrServiceStub.error).toHaveBeenCalled();
   });
 });
 
