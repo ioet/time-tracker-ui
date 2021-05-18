@@ -156,25 +156,28 @@ describe('ProjectListComponent', () => {
   });
 
   it('getProjectType should be called to display it in projects table', () => {
-    const nameType = {
+    const projectType = {
       id: '1234',
       name: 'BK',
       description: 'test',
     };
     const id = '1234';
-    component.projectsTypes = [nameType];
+
+    component.projectsTypes = [projectType];
     component.ngOnInit();
-    const nameTest = component.getProjectType(id);
-    expect(nameTest).toBe('BK');
+
+    const projectNameTest = component.getProjectTypeName(id);
+    expect(projectNameTest).toBe('BK');
   });
 
   it('projects table should display Project Type', (done) => {
-    const nameType = {
+    const projectType = {
       id: '1234',
       name: 'BK',
       description: 'test',
     };
-    component.projectsTypes = [nameType];
+
+    component.projectsTypes = [projectType];
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();

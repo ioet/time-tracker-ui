@@ -75,11 +75,11 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     }
   }
 
-  getProjectType(typeId: string) {
-    const typeName = this.projectsTypes.find(
+  getProjectTypeName(typeId: string) {
+    const typeProject = this.projectsTypes.find(
       (prop) => prop.id === typeId
     );
-    return typeName !== undefined ? typeName.name : '';
+    return typeProject !== undefined ? typeProject.name : '';
   }
 
   updateProject(project) {
