@@ -6,6 +6,8 @@ import { ProjectState } from '../store/project.reducer';
 import { getCustomerProjects } from '../store/project.selectors';
 import * as actions from '../store/project.actions';
 import { ProjectUI } from '../../../../../shared/models/project.model';
+import { allProjectTypes, ProjectTypeState } from '../../../projects-type/store';
+import { ProjectType } from 'src/app/modules/shared/models';
 
 @Component({
   selector: 'app-project-list',
@@ -17,14 +19,19 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   itemsPerPage = ITEMS_PER_PAGE;
   isLoading = false;
   projects: ProjectUI[] = [];
+  projectsTypes: ProjectType[] = [];
   filterProjects = '';
   showModal = false;
   idToDelete: string;
   message: string;
 
   projectsSubscription: Subscription;
+  projectTypesSubscription: Subscription;
 
-  constructor(private store: Store<ProjectState>) {}
+  constructor(
+    private store: Store<ProjectState>,
+    private projectTypeStore: Store<ProjectTypeState>
+  ) {}
 
   ngOnInit(): void {
     const btnProps = [
@@ -44,6 +51,13 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       },
     ];
 
+    const projectsTypes$ = this.projectTypeStore.pipe(select(allProjectTypes));
+    this.projectTypesSubscription = projectsTypes$.subscribe((projectsType) => {
+      this.projectsTypes = projectsType.map((type: ProjectType) => {
+        return type;
+      });
+    });
+
     const projects$ = this.store.pipe(select(getCustomerProjects));
     this.projectsSubscription = projects$.subscribe((response) => {
       this.isLoading = response.isLoading;
@@ -56,6 +70,16 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.projectsSubscription.unsubscribe();
+    if (this.projectTypesSubscription){
+      this.projectTypesSubscription.unsubscribe();
+    }
+  }
+
+  getProjectTypeName(typeId: string) {
+    const typeProject = this.projectsTypes.find(
+      (prop) => prop.id === typeId
+    );
+    return typeProject !== undefined ? typeProject.name : '';
   }
 
   updateProject(project) {

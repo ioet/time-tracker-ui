@@ -154,4 +154,44 @@ describe('ProjectListComponent', () => {
     component.switchStatus(itemData);
     expect(component.showModal).toBeFalse();
   });
+
+  it('getProjectType should be called to display it in projects table', () => {
+    const projectType = {
+      id: '1234',
+      name: 'BK',
+      description: 'test',
+    };
+    const id = '1234';
+
+    component.projectsTypes = [projectType];
+    component.ngOnInit();
+
+    const projectNameTest = component.getProjectTypeName(id);
+    expect(projectNameTest).toBe('BK');
+  });
+
+  it('projects table should display Project Type', (done) => {
+    const projectType = {
+      id: '1234',
+      name: 'BK',
+      description: 'test',
+    };
+
+    component.projectsTypes = [projectType];
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+
+      const tableRows = fixture.nativeElement.querySelectorAll('tr');
+      expect(tableRows.length).toBe(2);
+
+      const headerRow = tableRows[0];
+      expect(headerRow.cells[2].innerHTML).toBe('Project Type');
+
+      const dataRow = tableRows[1];
+      expect(dataRow.cells[2].innerHTML).toBe('BK');
+
+      done();
+    });
+  });
 });
