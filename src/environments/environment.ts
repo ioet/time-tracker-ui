@@ -6,6 +6,7 @@ import * as keys from './keys';
 export const environment = {
   production: false,
   timeTrackerApiUrl: 'https://timetracker-api.azurewebsites.net',
+  // timeTrackerApiUrl: 'https://127.0.0.1:5000',
   stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 
