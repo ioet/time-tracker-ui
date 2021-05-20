@@ -65,8 +65,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         const addProps = btnProps.find((prop) => prop.key === this.setActive(project.status));
         return { ...project, ...addProps };
       });
-      //console.log(this.projects[0])
-
     });
   }
 
