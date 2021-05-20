@@ -7,7 +7,7 @@ export interface Project {
   project_type_id?: string;
   search_field?: string;
   status?: any;
-  technologies?: string[]
+  technologies?: string[];
 }
 
 export interface ProjectUI {
@@ -19,7 +19,7 @@ export interface ProjectUI {
   project_type_id?: string;
   search_field?: string;
   status?: any;
-  technologies?: string[]
+  technologies?: string[];
   key?: string;
   btnColor?: string;
   btnIcon?: string;
