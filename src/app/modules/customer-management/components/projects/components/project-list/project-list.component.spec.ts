@@ -18,7 +18,7 @@ describe('ProjectListComponent', () => {
   let getCustomerProjectsSelectorMock;
   let allCustomerProjectsSelectorMock;
 
-  const project = { id: '123', name: 'aaa', description: 'xxx', project_type_id: '1234', status: 'inactive' };
+  const project = { id: '123', name: 'aaa', description: 'xxx', project_type_id: '1234', technologies: ['python', 'angular'], status: 'inactive' };
 
   const state: ProjectState = {
     projects: [project],
@@ -125,6 +125,7 @@ describe('ProjectListComponent', () => {
       name: 'aaa',
       description: 'xxx',
       project_type_id: '1234',
+      technologies: ['python', 'angular'],
       status: 'activate',
       key: 'activate',
       _status: false,
@@ -144,6 +145,7 @@ describe('ProjectListComponent', () => {
       name: 'aaa',
       description: 'xxx',
       project_type_id: '1234',
+      technologies: ['python', 'angular'],
       status: 'inactive',
       key: 'inactive',
       _status: true,
@@ -172,10 +174,10 @@ describe('ProjectListComponent', () => {
       expect(tableRows.length).toBe(2);
 
       const headerRow = tableRows[0];
-      expect(headerRow.cells[2].innerHTML).toBe('Project Type');
+      expect(headerRow.cells[3].innerHTML).toBe('Project Type');
 
       const dataRow = tableRows[1];
-      expect(dataRow.cells[2].innerHTML).toBe('BK');
+      expect(dataRow.cells[3].innerHTML).toBe('BK');
 
       done();
     });

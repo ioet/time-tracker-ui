@@ -8,6 +8,7 @@ import * as actions from '../store/project.actions';
 import { ProjectUI } from '../../../../../shared/models/project.model';
 import { allProjectTypes, ProjectTypeState } from '../../../projects-type/store';
 import { ProjectType } from 'src/app/modules/shared/models';
+import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-project-list',
