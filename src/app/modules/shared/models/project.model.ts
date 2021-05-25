@@ -6,8 +6,8 @@ export interface Project {
   description?: string;
   project_type_id?: string;
   search_field?: string;
-  status?: any;
   technologies?: string[];
+  status?: any;
 }
 
 export interface ProjectUI {
@@ -18,8 +18,8 @@ export interface ProjectUI {
   description?: string;
   project_type_id?: string;
   search_field?: string;
-  status?: any;
   technologies?: string[];
+  status?: any;
   key?: string;
   btnColor?: string;
   btnIcon?: string;
