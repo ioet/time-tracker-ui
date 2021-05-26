@@ -51,13 +51,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       },
     ];
 
-    const projectsTypes$ = this.projectTypeStore.pipe(select(allProjectTypes));
-    this.projectTypesSubscription = projectsTypes$.subscribe((projectsType) => {
-      this.projectsTypes = projectsType.map((type: ProjectType) => {
-        return type;
-      });
-    });
-
     const projects$ = this.store.pipe(select(getCustomerProjects));
     this.projectsSubscription = projects$.subscribe((response) => {
       this.isLoading = response.isLoading;
@@ -76,6 +69,12 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   }
 
   getProjectTypeName(typeId: string) {
+    const projectsTypes$ = this.projectTypeStore.pipe(select(allProjectTypes));
+    this.projectTypesSubscription = projectsTypes$.subscribe((projectsType) => {
+      this.projectsTypes = projectsType.map((type: ProjectType) => {
+        return type;
+      });
+    });
     const typeProject = this.projectsTypes.find(
       (prop) => prop.id === typeId
     );
