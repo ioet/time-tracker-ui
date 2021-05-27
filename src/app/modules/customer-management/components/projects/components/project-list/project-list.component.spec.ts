@@ -62,6 +62,7 @@ describe('ProjectListComponent', () => {
     getCustomerProjectsSelectorMock = store.overrideSelector(getCustomerProjects, state);
     allCustomerProjectsSelectorMock = store.overrideSelector(getProjects, state.projects);
     component.projectsSubscription = new Subscription();
+    spyOn(component, 'getProjectTypeName').and.callFake((typeId: string) => 'BK');
   });
 
   afterEach(() => {
@@ -153,21 +154,6 @@ describe('ProjectListComponent', () => {
 
     component.switchStatus(itemData);
     expect(component.showModal).toBeFalse();
-  });
-
-  it('getProjectType should be called to display it in projects table', () => {
-    const projectType = {
-      id: '1234',
-      name: 'BK',
-      description: 'test',
-    };
-    const id = '1234';
-
-    component.projectsTypes = [projectType];
-    component.ngOnInit();
-
-    const projectNameTest = component.getProjectTypeName(id);
-    expect(projectNameTest).toBe('BK');
   });
 
   it('projects table should display Project Type', (done) => {
