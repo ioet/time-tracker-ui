@@ -292,7 +292,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       timezone_offset: new Date().getTimezoneOffset(),
     };
 
-    if (this.goingToWorkOnThis) {
+    if (this.goingToWorkOnThis && this.canMarkEntryAsWIP) {
       delete entry.end_date;
     }
 

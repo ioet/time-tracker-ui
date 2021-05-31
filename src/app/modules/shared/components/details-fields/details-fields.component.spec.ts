@@ -633,6 +633,23 @@ describe('DetailsFieldsComponent', () => {
     component.onSubmit();
     expect(displayError).toBeTrue();
   });
+
+  it('should show Date out field on details field component on time entry page when another entry is running', () => {
+    const times = {
+      start_date: '2021-04-21',
+      end_date: '2021-04-21',
+      start_hour: '10:00',
+      end_hour: '12:00',
+    };
+    component.goingToWorkOnThis = true;
+    spyOn(toastrServiceStub, 'error');
+
+    const fixtureToTest = TestBed.createComponent(DetailsFieldsComponent);
+    const componentToTest = fixtureToTest.componentInstance;
+    componentToTest.entryForm.setValue({ ...formValues, ...times });
+    componentToTest.onSubmit();
+    expect(toastrServiceStub.error).not.toHaveBeenCalled();
+  });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:
