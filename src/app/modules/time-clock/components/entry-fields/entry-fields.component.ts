@@ -20,6 +20,7 @@ import { DATE_FORMAT } from 'src/environments/environment';
 import { Subscription, Observable } from 'rxjs';
 import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
 import { FeatureToggle } from './../../../../../environments/enum';
+import { CookieService } from 'ngx-cookie-service';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 
@@ -39,7 +40,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   loadActivitiesSubscription: Subscription;
   loadActiveEntrySubscription: Subscription;
   actionSetDateSubscription: Subscription;
-  isEnableToggleSubscription: Subscription;
+  isCookieFeatureToggleActive: boolean;
   isFeatureToggleActive: boolean;
 
   constructor(
@@ -48,6 +49,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     private actionsSubject$: ActionsSubject,
     private toastrService: ToastrService,
     private featureToggleGeneralService: FeatureToggleGeneralService,
+    private cookiesService: CookieService
   ) {
     this.entryForm = this.formBuilder.group({
       description: '',
@@ -68,9 +70,17 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
         this.store.dispatch(new LoadActiveEntry());
       });
 
-    this.isEnableToggleSubscription = this.featureToggleGeneralService.isActivated(FeatureToggle.UPDATE_ENTRIES).subscribe((flag) => {
-      this.isFeatureToggleActive = flag;
+    this.featureToggleGeneralService.isActivated(FeatureToggle.COOKIES).subscribe((flag) => {
+      this.isCookieFeatureToggleActive = flag;
     });
+
+    if (this.isCookieFeatureToggleActive){
+      this.isFeatureToggleActive = this.cookiesService.get(FeatureToggle.UPDATE_ENTRIES) === 'true' ? true : false;
+    }else{
+      this.featureToggleGeneralService.isActivated(FeatureToggle.UPDATE_ENTRIES).subscribe((flag) => {
+        this.isFeatureToggleActive = flag;
+      });
+    }
 
     this.loadActiveEntrySubscription = this.actionsSubject$
       .pipe(

@@ -32,8 +32,7 @@ export class AzureAdB2CService {
   }
 
   logout() {
-    this.cookieService.delete('msal.idtoken');
-    this.cookieService.delete('msal.client.info');
+    this.cookieService.deleteAll();
     this.msal.logout();
     localStorage.removeItem('user');
   }

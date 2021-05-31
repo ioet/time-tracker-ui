@@ -91,5 +91,48 @@ describe('FeatureToggleManager', () => {
         expect(value).toEqual(false);
       });
     });
+
+    it('Get empty when getAllFeatureToggle() return empty', () => {
+      const fakeAllFeatureaToggleWithFilters = [];
+      spyOn(fakeFeatureToggleProvider, 'getAllFeatureToggle').and.returnValue(Promise.resolve(fakeAllFeatureaToggleWithFilters));
+
+      const response = service.getAllFeatureToggleEnableForUser();
+
+      response.subscribe((result) => {
+        expect(result.length).toEqual(0);
+        expect(result).toEqual([]);
+      });
+      expect().nothing();
+    });
+
+    it('Get empty when getAllFeatureToggle() return FeatureToggle without fakeuser', () => {
+      const fakeAllFeatureaToggleWithFilters = [new FeatureToggleModel('any-other-id', true, [anyNotMatchingFilter])];
+      spyOn(fakeFeatureToggleProvider, 'getAllFeatureToggle').and.returnValue(Promise.resolve(fakeAllFeatureaToggleWithFilters));
+
+      const response = service.getAllFeatureToggleEnableForUser();
+
+      response.subscribe((result) => {
+        expect(result.length).toEqual(0);
+        expect(result).toEqual([]);
+      });
+      expect().nothing();
+    });
+
+    it('Get FeatureToggleModel[] when getAllFeatureToggle() return FeatureToggle with fakeuser', () => {
+      const fakeFeatureToggleModel: FeatureToggleModel = new FeatureToggleModel('good-other-id', false, [anyMatchingFilter]);
+      const fakeAllFeatureaToggleWithFilters = [
+        new FeatureToggleModel('any-other-id', true, [anyNotMatchingFilter]),
+        fakeFeatureToggleModel
+      ];
+      spyOn(fakeFeatureToggleProvider, 'getAllFeatureToggle').and.returnValue(Promise.resolve(fakeAllFeatureaToggleWithFilters));
+
+      const response = service.getAllFeatureToggleEnableForUser();
+
+      response.subscribe((result) => {
+        expect(result.length).toEqual(1);
+        expect(result[0]).toEqual(fakeFeatureToggleModel);
+      });
+      expect().nothing();
+    });
   });
 });
