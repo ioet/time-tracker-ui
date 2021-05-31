@@ -86,7 +86,7 @@ describe('FeatureToggleProvider', () => {
   });
 
   it('toggle model is built', async () => {
-    const getFilterConfigurationSpy = spyOn(fakeFeatureFilterProvider, 'getFilterFromConfiguration').and.returnValue(
+    spyOn(fakeFeatureFilterProvider, 'getFilterFromConfiguration').and.returnValue(
       fakeFeatureFilterModel
     );
 

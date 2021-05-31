@@ -48,7 +48,6 @@ describe('FeatureToggleGeneralService', () => {
       expect(featureToggleEnableForUser.length).toEqual(1);
       expect(featureToggleEnableForUser).toEqual(fakeAllFeatureaToggleWithFilters);
     });
-
   });
 
   it('getActivated return empty', () => {
@@ -59,6 +58,5 @@ describe('FeatureToggleGeneralService', () => {
       expect(featureToggleEnableForUser.length).toEqual(0);
       expect(featureToggleEnableForUser).toEqual(fakeAllFeatureaToggleWithFilters);
     });
-
   });
 });

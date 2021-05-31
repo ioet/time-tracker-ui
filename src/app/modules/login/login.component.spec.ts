@@ -2,11 +2,9 @@ import { waitForAsync, ComponentFixture, TestBed, inject } from '@angular/core/t
 import { RouterTestingModule } from '@angular/router/testing';
 import { AzureAdB2CService } from '../../modules/login/services/azure.ad.b2c.service';
 import { of } from 'rxjs';
-
 import { LoginComponent } from './login.component';
 import { Router } from '@angular/router';
 import { FeatureToggleCookiesService } from '../shared/feature-toggles/feature-toggle-cookies/feature-toggle-cookies.service';
-import { promise } from 'selenium-webdriver';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -27,9 +25,9 @@ describe('LoginComponent', () => {
 
   const featureToggleCookiesServiceStub = {
     setCookies() {
+      return null;
     }
   };
-
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
