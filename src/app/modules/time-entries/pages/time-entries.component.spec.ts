@@ -381,7 +381,7 @@ describe('TimeEntriesComponent', () => {
       uri: 'http://testing.is.fun',
       activity_id: 'sss',
       project_id: 'id',
-      start_date: component.canMarkEntryAsWIP ? new Date() : new Date(new Date().setHours(0, 0, 0, 0)),
+      start_date: new Date(),
       end_date: new Date(new Date().setHours(0, 0, 0, 0))
     };
     state.timeEntriesDataSource.data = [lastEntry];
