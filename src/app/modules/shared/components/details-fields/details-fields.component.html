@@ -112,7 +112,7 @@
         </div>
       </div>
 
-      <div class="form-group row" *ngIf="!goingToWorkOnThis">
+      <div class="form-group row" *ngIf="!goingToWorkOnThis || !canMarkEntryAsWIP">
         <label class="col-12 col-sm-2">Date out:</label>
         <div class="col-12 col-sm-4">
           <input
@@ -146,7 +146,7 @@
         </div>
       </div>
 
-      <div class="form-group row" *ngIf="!goingToWorkOnThis">
+      <div class="form-group row" *ngIf="!goingToWorkOnThis || !canMarkEntryAsWIP">
         <label class="col-12 col-sm-2">Total Hours:</label>
         <div class="col-12 col-sm-4">
           <span class="border-tag"
