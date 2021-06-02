@@ -176,7 +176,7 @@ describe('DetailsFieldsComponent', () => {
     expect(component.saveEntry.emit).toHaveBeenCalledTimes(0);
   });
 
-  [{ actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS }, { actionType: EntryActionTypes.UPDATE_ENTRY_SUCCESS }].map(
+  [{ actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS }, { actionType: EntryActionTypes.UPDATE_ENTRY_SUCCESS }].forEach(
     (param) => {
       it(`cleanForm after an action type ${param.actionType} is received`, () => {
         const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
@@ -247,7 +247,7 @@ describe('DetailsFieldsComponent', () => {
     { select_activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd07', expected_size_activities: 3, title: 'active' },
     { select_activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', expected_size_activities: 4, title: 'inactive' },
   ];
-  activitiesParams.map((param) => {
+  activitiesParams.forEach((param) => {
     it(`should emit ngOnChange to set ${param.expected_size_activities} activities for select (${param.title} time entry clicked)`, () => {
       component.entryToEdit = { ...entryToEdit, activity_id: param.select_activity_id };
       spyOn(component.entryForm, 'patchValue');
@@ -592,7 +592,7 @@ describe('DetailsFieldsComponent', () => {
       expectedTimeDiff: '00:00',
     },
   ];
-  diffParams.map((param) => {
+  diffParams.forEach((param) => {
     it(`if [start_date, start_hour] and [end_date, end_hour] diff is ${param.case}`, () => {
       component.entryForm.setValue({ ...formValues, ...param.entryDates });
       const timeDiff = component.getTimeDifference();
