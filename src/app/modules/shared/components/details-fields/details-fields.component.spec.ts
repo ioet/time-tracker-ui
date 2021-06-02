@@ -36,13 +36,13 @@ describe('DetailsFieldsComponent', () => {
   let formValues;
   const actionSub: ActionsSubject = new ActionsSubject();
   const toastrServiceStub = {
-    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
-    warning: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => {},
+    warning: (message?: string, title?: string, override?: Partial<IndividualConfig>) => {},
   };
 
   const state = {
     projects: {
-      projects: [{ id: 'id', name: 'name', project_type_id: '' }],
+      projects: [{ id: 'id', name: 'name', project_type_id: '', customer: { name: 'Juan', description: 'sadsa' } }],
       customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
       isLoading: false,
       message: '',
@@ -53,10 +53,30 @@ describe('DetailsFieldsComponent', () => {
       isLoading: false,
     },
     activities: {
-      data: [{ id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc', status: 'active' },
-      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd07', tenant_id: 'ioet_1', deleted: null, name: 'def', status: 'active' },
-      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', tenant_id: 'ioet_2', deleted: null, name: 'ghi', status: 'inactive' },
-      { id: 'fc5fab41-a21e-4155-9d05-511b956ebd09', tenant_id: 'ioet_3', deleted: null, name: 'jkl', status: 'active' }],
+      data: [
+        { id: 'fc5fab41-a21e-4155-9d05-511b956ebd05', tenant_id: 'ioet', deleted: null, name: 'abc', status: 'active' },
+        {
+          id: 'fc5fab41-a21e-4155-9d05-511b956ebd07',
+          tenant_id: 'ioet_1',
+          deleted: null,
+          name: 'def',
+          status: 'active',
+        },
+        {
+          id: 'fc5fab41-a21e-4155-9d05-511b956ebd08',
+          tenant_id: 'ioet_2',
+          deleted: null,
+          name: 'ghi',
+          status: 'inactive',
+        },
+        {
+          id: 'fc5fab41-a21e-4155-9d05-511b956ebd09',
+          tenant_id: 'ioet_3',
+          deleted: null,
+          name: 'jkl',
+          status: 'active',
+        },
+      ],
       isLoading: false,
       message: 'Data fetch successfully!',
       activityIdToEdit: '',
@@ -82,22 +102,24 @@ describe('DetailsFieldsComponent', () => {
 
   const mockCurrentDate = '2020-12-01T12:00:00';
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [DetailsFieldsComponent, TechnologiesComponent],
-      providers: [
-        provideMockStore({ initialState: state }),
-        { provide: ActionsSubject, useValue: actionSub },
-        { provide: ToastrService, useValue: toastrServiceStub }
-      ],
-      imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule, NgxMaterialTimepickerModule],
-    }).compileComponents();
-    store = TestBed.inject(MockStore);
-    mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
-    mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
-    mockEntriesUpdateErrorSelector = store.overrideSelector(getUpdateError, state.Entries.updateError);
-    mockEntriesCreateErrorSelector = store.overrideSelector(getCreateError, state.Entries.createError);
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [DetailsFieldsComponent, TechnologiesComponent],
+        providers: [
+          provideMockStore({ initialState: state }),
+          { provide: ActionsSubject, useValue: actionSub },
+          { provide: ToastrService, useValue: toastrServiceStub },
+        ],
+        imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule, NgxMaterialTimepickerModule],
+      }).compileComponents();
+      store = TestBed.inject(MockStore);
+      mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
+      mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
+      mockEntriesUpdateErrorSelector = store.overrideSelector(getUpdateError, state.Entries.updateError);
+      mockEntriesCreateErrorSelector = store.overrideSelector(getCreateError, state.Entries.createError);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DetailsFieldsComponent);
@@ -110,7 +132,7 @@ describe('DetailsFieldsComponent', () => {
       end_date: null,
       description: '',
       technologies: [],
-      id: 'xyz'
+      id: 'xyz',
     };
     formValues = {
       project_id: 'id',
@@ -143,7 +165,7 @@ describe('DetailsFieldsComponent', () => {
 
     component.onSelectedProject({ id: 'id', search_field: 'foo' });
 
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith({ project_id: 'id', project_name: 'foo', });
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith({ project_id: 'id', project_name: 'foo' });
   });
 
   it('if form is invalid then saveEntry is not emited', () => {
@@ -154,23 +176,22 @@ describe('DetailsFieldsComponent', () => {
     expect(component.saveEntry.emit).toHaveBeenCalledTimes(0);
   });
 
-  [
-    { actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS },
-    { actionType: EntryActionTypes.UPDATE_ENTRY_SUCCESS },
-  ].map((param) => {
-    it(`cleanForm after an action type ${param.actionType} is received`, () => {
-      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
-      const action = {
-        type: param.actionType,
-      };
-      spyOn(component, 'cleanForm');
+  [{ actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS }, { actionType: EntryActionTypes.UPDATE_ENTRY_SUCCESS }].map(
+    (param) => {
+      it(`cleanForm after an action type ${param.actionType} is received`, () => {
+        const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+        const action = {
+          type: param.actionType,
+        };
+        spyOn(component, 'cleanForm');
 
-      component.ngOnInit();
-      actionSubject.next(action);
+        component.ngOnInit();
+        actionSubject.next(action);
 
-      expect(component.cleanForm).toHaveBeenCalled();
-    });
-  });
+        expect(component.cleanForm).toHaveBeenCalled();
+      });
+    }
+  );
 
   it('on cleanFieldsForm the project_id and project_name should be kept', () => {
     const entryFormValueExpected = {
@@ -196,7 +217,7 @@ describe('DetailsFieldsComponent', () => {
     component.ngOnChanges();
     expect(component.shouldRestartEntry).toBeFalse();
     expect(component.entryForm.value).toEqual(initialData);
-    component.activities$.subscribe(item => {
+    component.activities$.subscribe((item) => {
       expect(item.length).not.toBe(null);
       expect(item.length).toBe(3);
     });
@@ -224,15 +245,15 @@ describe('DetailsFieldsComponent', () => {
 
   const activitiesParams = [
     { select_activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd07', expected_size_activities: 3, title: 'active' },
-    { select_activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', expected_size_activities: 4, title: 'inactive' }
+    { select_activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', expected_size_activities: 4, title: 'inactive' },
   ];
-  activitiesParams.map(param => {
+  activitiesParams.map((param) => {
     it(`should emit ngOnChange to set ${param.expected_size_activities} activities for select (${param.title} time entry clicked)`, () => {
       component.entryToEdit = { ...entryToEdit, activity_id: param.select_activity_id };
       spyOn(component.entryForm, 'patchValue');
       component.ngOnChanges();
 
-      component.activities$.subscribe(items => {
+      component.activities$.subscribe((items) => {
         expect(items.length).toBe(param.expected_size_activities);
       });
     });
@@ -241,7 +262,7 @@ describe('DetailsFieldsComponent', () => {
   it('selectActiveActivities should return 3 active activities', () => {
     const activeActivities = component.selectActiveActivities();
 
-    activeActivities.subscribe(item => {
+    activeActivities.subscribe((item) => {
       expect(item.length).not.toBe(null);
       expect(item.length).toBe(3);
     });
@@ -293,7 +314,7 @@ describe('DetailsFieldsComponent', () => {
         uri: '',
         timezone_offset: new Date().getTimezoneOffset(),
       },
-      shouldRestartEntry: false
+      shouldRestartEntry: false,
     };
 
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
@@ -328,9 +349,10 @@ describe('DetailsFieldsComponent', () => {
 
     component.onGoingToWorkOnThisChange({ currentTarget: { checked: false } });
 
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith(
-      { end_date: '2020-12-30', end_hour: formatDate(new Date(), 'HH:mm', 'en'), }
-    );
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith({
+      end_date: '2020-12-30',
+      end_hour: formatDate(new Date(), 'HH:mm', 'en'),
+    });
   });
 
   it('when creating a new entry, then the new entry should be marked as not run', () => {
@@ -390,7 +412,7 @@ describe('DetailsFieldsComponent', () => {
         uri: 'ticketUri',
         timezone_offset: new Date().getTimezoneOffset(),
       },
-      shouldRestartEntry: false
+      shouldRestartEntry: false,
     };
 
     expect(component.saveEntry.emit).toHaveBeenCalledWith(data);
@@ -486,12 +508,12 @@ describe('DetailsFieldsComponent', () => {
     spyOn(component.projectSelected, 'emit');
     const item = {
       id: 'id',
-      search_field: 'TimeTracker'
+      search_field: 'TimeTracker',
     };
     component.onSelectedProject(item);
 
     const data: ProjectSelectedEvent = {
-      projectId: 'id'
+      projectId: 'id',
     };
     expect(component.projectSelected.emit).toHaveBeenCalledWith(data);
   });
@@ -531,8 +553,9 @@ describe('DetailsFieldsComponent', () => {
   it('on the input with id #start_date we could get the id and max value', () => {
     fixture.detectChanges();
     const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
-    const startDateInput: HTMLInputElement = fixture.debugElement.
-      nativeElement.querySelector(`input[id="start_date"],input[max="${component.getCurrentDate()}"]`);
+    const startDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector(
+      `input[id="start_date"],input[max="${component.getCurrentDate()}"]`
+    );
 
     expect(startDateInput.id).toEqual('start_date');
     expect(startDateInput.max).toEqual(expectedDate);
@@ -579,8 +602,13 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should find an activity with given id & status: inactive', () => {
-
-    const expectedActivity = { id: 'fc5fab41-a21e-4155-9d05-511b956ebd08', tenant_id: 'ioet_2', deleted: null, name: 'ghi', status: 'inactive' };
+    const expectedActivity = {
+      id: 'fc5fab41-a21e-4155-9d05-511b956ebd08',
+      tenant_id: 'ioet_2',
+      deleted: null,
+      name: 'ghi',
+      status: 'inactive',
+    };
 
     component.entryToEdit = { ...entryToEdit, activity_id: 'fc5fab41-a21e-4155-9d05-511b956ebd08' };
     spyOn(component.entryForm, 'patchValue');
