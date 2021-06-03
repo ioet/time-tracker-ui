@@ -12,22 +12,34 @@
         placeHolder="Enter the project name"
         [itemTemplate]="itemTemplate"
         (closed)="loadActiveTimeEntry()"
-        [notFoundTemplate]="notFoundTemplate">
+        [notFoundTemplate]="notFoundTemplate"
+      >
       </ng-autocomplete>
 
       <ng-template #itemTemplate let-item>
         <div class="d-flex container">
           <div class="mr-auto p-2">
-            <span [innerHTML]="item.customer_name"></span> -
+            <span [innerHTML]="item.customer.name"></span> -
             <strong><span [innerHTML]="item.name"></span></strong>
           </div>
           <div class="p-2 pr-3">
-            <button *ngIf="showClockIn" class="btn btn-sm btn-primary btn-select"
-                    (click)="clockIn(item.id, item.customer_name, item.name)">Clock In</button>
-            <button *ngIf="!showClockIn" class="btn btn-sm btn-primary btn-select"
-                    (click)="switch(item.id, item.customer_name, item.name)">Switch</button>&nbsp;
-            <button *ngIf="!showClockIn" class="btn btn-sm btn-update btn-select"
-                    (click)="updateProject(item.id)">Update project</button>
+            <button
+              *ngIf="showClockIn"
+              class="btn btn-sm btn-primary btn-select"
+              (click)="clockIn(item.id, item.customer.name, item.name)"
+            >
+              Clock In
+            </button>
+            <button
+              *ngIf="!showClockIn"
+              class="btn btn-sm btn-primary btn-select"
+              (click)="switch(item.id, item.customer.name, item.name)"
+            >
+              Switch</button
+            >&nbsp;
+            <button *ngIf="!showClockIn" class="btn btn-sm btn-update btn-select" (click)="updateProject(item.id)">
+              Update project
+            </button>
           </div>
         </div>
       </ng-template>
@@ -35,7 +47,7 @@
       <ng-template #notFoundTemplate let-notFound>
         <div [innerHTML]="notFound"></div>
       </ng-template>
-      <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
+      <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
     </div>
   </div>
 </form>

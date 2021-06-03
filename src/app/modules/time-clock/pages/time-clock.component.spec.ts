@@ -27,7 +27,7 @@ describe('TimeClockComponent', () => {
 
   const state = {
     projects: {
-      projects: [{ id: 'id', name: 'name', project_type_id: '' }],
+      projects: [{ id: 'id', name: 'name', project_type_id: '', customer: { name: 'customer', description: '' } }],
       customerProjects: [{ id: 'id', name: 'name', description: 'description' }],
       isLoading: false,
     },
@@ -49,20 +49,22 @@ describe('TimeClockComponent', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe, EntryFieldsComponent],
-      providers: [
-        FormBuilder,
-        AzureAdB2CService,
-        provideMockStore({ initialState: state }),
-        { provide: ActionsSubject, useValue: actionSub },
-        { provide: ToastrService, useValue: toastrService },
-      ],
-    }).compileComponents();
-    store = TestBed.inject(MockStore);
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule],
+        declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe, EntryFieldsComponent],
+        providers: [
+          FormBuilder,
+          AzureAdB2CService,
+          provideMockStore({ initialState: state }),
+          { provide: ActionsSubject, useValue: actionSub },
+          { provide: ToastrService, useValue: toastrService },
+        ],
+      }).compileComponents();
+      store = TestBed.inject(MockStore);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TimeClockComponent);
@@ -79,7 +81,7 @@ describe('TimeClockComponent', () => {
   it('on STOP_TIME_ENTRY_RUNNING_SUCCESS summaries are reloaded', () => {
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
     const action = {
-      type: EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS
+      type: EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS,
     };
     spyOn(store, 'dispatch');
 

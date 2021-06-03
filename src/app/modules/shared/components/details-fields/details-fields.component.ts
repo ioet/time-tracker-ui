@@ -6,7 +6,12 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
-import { ActivityState, allActiveActivities, allActivities, LoadActivities } from '../../../activities-management/store';
+import {
+  ActivityState,
+  allActiveActivities,
+  allActivities,
+  LoadActivities,
+} from '../../../activities-management/store';
 import * as projectActions from '../../../customer-management/components/projects/components/store/project.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
@@ -73,7 +78,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         this.listProjects = [];
         projects.forEach((project) => {
           const projectWithSearchField = { ...project };
-          projectWithSearchField.search_field = `${project.customer_name} - ${project.name}`;
+          projectWithSearchField.search_field = `${project.customer.name} - ${project.name}`;
           this.listProjects.push(projectWithSearchField);
         });
       }
@@ -162,13 +167,16 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
       this.activities$ = this.store.pipe(
         select(allActiveActivities),
-        mergeMap(activeActivities => this.store.pipe(
-          select(allActivities),
-          map(activities => this.findInactiveActivity(activities) !== undefined
-            ? [...activeActivities, this.findInactiveActivity(activities)]
-            : activeActivities
+        mergeMap((activeActivities) =>
+          this.store.pipe(
+            select(allActivities),
+            map((activities) =>
+              this.findInactiveActivity(activities) !== undefined
+                ? [...activeActivities, this.findInactiveActivity(activities)]
+                : activeActivities
+            )
           )
-        ))
+        )
       );
     } else {
       this.cleanForm();
@@ -204,8 +212,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   findInactiveActivity(activities) {
-    return activities.find(activity => activity.status === 'inactive' &&
-      activity.id === this.entryToEdit.activity_id
+    return activities.find(
+      (activity) => activity.status === 'inactive' && activity.id === this.entryToEdit.activity_id
     );
   }
 

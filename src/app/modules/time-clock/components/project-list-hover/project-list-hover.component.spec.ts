@@ -18,7 +18,7 @@ describe('ProjectListHoverComponent', () => {
   let store: MockStore<ProjectState>;
   let mockProjectsSelector;
   const toastrServiceStub = {
-    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => {},
   };
 
   const state = {
@@ -41,16 +41,21 @@ describe('ProjectListHoverComponent', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProjectListHoverComponent, FilterProjectPipe],
-      providers: [FormBuilder, provideMockStore({ initialState: state }),
-        { provide: ToastrService, useValue: toastrServiceStub }],
-      imports: [HttpClientTestingModule, AutocompleteLibModule],
-    }).compileComponents();
-    store = TestBed.inject(MockStore);
-    mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProjectListHoverComponent, FilterProjectPipe],
+        providers: [
+          FormBuilder,
+          provideMockStore({ initialState: state }),
+          { provide: ToastrService, useValue: toastrServiceStub },
+        ],
+        imports: [HttpClientTestingModule, AutocompleteLibModule],
+      }).compileComponents();
+      store = TestBed.inject(MockStore);
+      mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProjectListHoverComponent);
@@ -77,7 +82,9 @@ describe('ProjectListHoverComponent', () => {
 
     component.updateProject(1);
 
-    expect(store.dispatch).toHaveBeenCalledWith(new UpdateEntryRunning({ id: component.activeEntry.id, project_id: 1 }));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UpdateEntryRunning({ id: component.activeEntry.id, project_id: 1 })
+    );
   });
 
   it('displays a message when the activity_id is null', () => {
@@ -115,13 +122,12 @@ describe('ProjectListHoverComponent', () => {
 
   it('sets customer name and project name on setSelectedProject', () => {
     spyOn(component.projectsForm, 'setValue');
-    component.activeEntry = { project_id : 'p1'};
-    component.listProjects = [{ id: 'p1', customer_name: 'customer', name: 'xyz' }];
+    component.activeEntry = { project_id: 'p1' };
+    component.listProjects = [{ id: 'p1', customer: { name: 'customer', description: 'nomatter' }, name: 'xyz' }];
 
     component.setSelectedProject();
 
-    expect(component.projectsForm.setValue)
-    .toHaveBeenCalledWith({ project_id: 'customer - xyz'});
+    expect(component.projectsForm.setValue).toHaveBeenCalledWith({ project_id: 'customer - xyz' });
   });
 
   // TODO Fix this test since it is throwing this error

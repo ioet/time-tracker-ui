@@ -8,7 +8,10 @@ import { Project } from 'src/app/modules/shared/models';
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import * as entryActions from '../../store/entry.actions';
-import { getIsLoading, getProjects } from './../../../customer-management/components/projects/components/store/project.selectors';
+import {
+  getIsLoading,
+  getProjects,
+} from './../../../customer-management/components/projects/components/store/project.selectors';
 import { EntryActionTypes } from './../../store/entry.actions';
 import { getActiveTimeEntry } from './../../store/entry.selectors';
 @Component({
@@ -27,34 +30,34 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   projectsSubscription: Subscription;
   activeEntrySubscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<ProjectState>,
-              private actionsSubject$: ActionsSubject, private toastrService: ToastrService) {
-    this.projectsForm = this.formBuilder.group({ project_id: null, });
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store<ProjectState>,
+    private actionsSubject$: ActionsSubject,
+    private toastrService: ToastrService
+  ) {
+    this.projectsForm = this.formBuilder.group({ project_id: null });
     this.isLoading$ = this.store.pipe(delay(0), select(getIsLoading));
   }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.store.dispatch(new actions.LoadProjects());
     const projects$ = this.store.pipe(select(getProjects));
     this.projectsSubscription = projects$.subscribe((projects) => {
       this.listProjects = [];
       projects.forEach((project) => {
-          const projectWithSearchField = {...project};
-          projectWithSearchField.search_field = `${project.customer_name} - ${project.name}`;
-          this.listProjects.push(projectWithSearchField);
-        }
-      );
+        const projectWithSearchField = { ...project };
+        projectWithSearchField.search_field = `${project.customer.name} - ${project.name}`;
+        this.listProjects.push(projectWithSearchField);
+      });
       this.loadActiveTimeEntry();
     });
-    this.updateEntrySubscription = this.actionsSubject$.pipe(
-      filter((action: any) => (
-          action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS
-        )
-      )
-    ).subscribe((action) => {
-      this.activeEntry = action.payload;
-      this.setSelectedProject();
-    });
+    this.updateEntrySubscription = this.actionsSubject$
+      .pipe(filter((action: any) => action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS))
+      .subscribe((action) => {
+        this.activeEntry = action.payload;
+        this.setSelectedProject();
+      });
   }
 
   loadActiveTimeEntry() {
@@ -72,11 +75,9 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     });
   }
   setSelectedProject() {
-    this.listProjects.forEach( (project) => {
+    this.listProjects.forEach((project) => {
       if (project.id === this.activeEntry.project_id) {
-        this.projectsForm.setValue(
-            { project_id: `${project.customer_name} - ${project.name}`, }
-        );
+        this.projectsForm.setValue({ project_id: `${project.customer.name} - ${project.name}` });
       }
     });
   }
@@ -86,10 +87,10 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       project_id: selectedProject,
       start_date: new Date().toISOString(),
       timezone_offset: new Date().getTimezoneOffset(),
-      technologies: []
+      technologies: [],
     };
     this.store.dispatch(new entryActions.ClockIn(entry));
-    this.projectsForm.setValue( { project_id: `${customerName} - ${name}`, } );
+    this.projectsForm.setValue({ project_id: `${customerName} - ${name}` });
   }
 
   updateProject(selectedProject) {
@@ -103,7 +104,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       this.toastrService.error('Before switching, please select an activity');
     } else {
       this.store.dispatch(new entryActions.SwitchTimeEntry(this.activeEntry.id, selectedProject));
-      this.projectsForm.setValue( { project_id: `${customerName} - ${name}`, } );
+      this.projectsForm.setValue({ project_id: `${customerName} - ${name}` });
     }
   }
 
