@@ -32,6 +32,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedMonth: number;
   selectedYear: number;
   selectedMonthAsText: string;
+  isActiveEntryOverlapping = false;
   constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
   }
@@ -104,8 +105,20 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       const isStartDateGreaterThanActiveEntry = startDateAsLocalDate > activeEntryAsLocalDate;
       const isEndDateGreaterThanActiveEntry = endDateAsLocalDate > activeEntryAsLocalDate;
       const isTimeEntryOverlapping = isStartDateGreaterThanActiveEntry || isEndDateGreaterThanActiveEntry;
-      if (!isEditingEntryEqualToActiveEntry && isTimeEntryOverlapping) {
-        this.toastrService.error('You are on the clock and this entry overlaps it, try with earlier times.');
+
+      if (isEditingEntryEqualToActiveEntry) {
+        this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
+          const overlappingEntry = ds.data.find((item) => {
+            const itemEndDate = new Date(item.end_date);
+            return startDateAsLocalDate  < itemEndDate;
+          });
+          this.isActiveEntryOverlapping = overlappingEntry ? true : false;
+        });
+      }
+      if (!isEditingEntryEqualToActiveEntry && isTimeEntryOverlapping || this.isActiveEntryOverlapping ) {
+        const message = this.isActiveEntryOverlapping ? 'try another "Time in"' : 'try with earlier times';
+        this.toastrService.error(`You are on the clock and this entry overlaps it, ${message}.`);
+        this.isActiveEntryOverlapping = false;
       } else {
         this.doSave(event);
       }
