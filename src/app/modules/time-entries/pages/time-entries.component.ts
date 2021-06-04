@@ -105,16 +105,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       const isStartDateGreaterThanActiveEntry = startDateAsLocalDate > activeEntryAsLocalDate;
       const isEndDateGreaterThanActiveEntry = endDateAsLocalDate > activeEntryAsLocalDate;
       const isTimeEntryOverlapping = isStartDateGreaterThanActiveEntry || isEndDateGreaterThanActiveEntry;
-
-      if (isEditingEntryEqualToActiveEntry) {
-        this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
-          const overlappingEntry = ds.data.find((item) => {
-            const itemEndDate = new Date(item.end_date);
-            return startDateAsLocalDate  < itemEndDate;
-          });
-          this.isActiveEntryOverlapping = overlappingEntry ? true : false;
-        });
-      }
+      this.checkIfActiveEntryOverlapping(isEditingEntryEqualToActiveEntry, startDateAsLocalDate);
       if (!isEditingEntryEqualToActiveEntry && isTimeEntryOverlapping || this.isActiveEntryOverlapping ) {
         const message = this.isActiveEntryOverlapping ? 'try another "Time in"' : 'try with earlier times';
         this.toastrService.error(`You are on the clock and this entry overlaps it, ${message}.`);
@@ -182,5 +173,17 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
 
   resetDraggablePosition(event: any): void {
     event.source._dragRef.reset();
+  }
+
+  checkIfActiveEntryOverlapping(isEditingEntryEqualToActiveEntry: boolean, startDateAsLocalDate: Date) {
+    if (isEditingEntryEqualToActiveEntry) {
+      this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
+        const overlappingEntry = ds.data.find((item) => {
+          const itemEndDate = new Date(item.end_date);
+          return startDateAsLocalDate  < itemEndDate;
+        });
+        this.isActiveEntryOverlapping = overlappingEntry ? true : false;
+      });
+    }
   }
 }
