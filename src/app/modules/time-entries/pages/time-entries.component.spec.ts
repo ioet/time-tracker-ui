@@ -455,4 +455,30 @@ describe('TimeEntriesComponent', () => {
     component.resetDraggablePosition(dragEndEventStub);
     expect(dragEndEventStub.source._dragRef.reset).toHaveBeenCalled();
   });
+
+  it('component.doSave shouldn´t be called when saving the runningEntry with start_date overlapped', () => {
+    const startDate = new Date(2021, 6, 1, 10, 0);
+    const endDate = new Date(2021, 6, 1, 10, 55);
+    const newRunningEntry = { start_date: endDate, id: '1234', technologies: [], project_name: 'time-tracker', running: true };
+    const newEntry = { start_date: startDate, end_date: endDate, id: '4321', technologies: [], project_name: 'time-tracker'};
+
+    state.timeEntriesDataSource.data = [newRunningEntry, newEntry];
+    component.activeTimeEntry = newRunningEntry;
+    component.entryId = newRunningEntry.id;
+    spyOn(component, 'doSave');
+
+    const startDateModified = new Date(2021, 6, 1, 10, 50);
+    const RunningEntryModified = {
+      entry: {
+        start_date: startDateModified,
+        id: '1234',
+        technologies: ['py'],
+        project_name: 'time-tracker',
+        running: true
+      }, shouldRestartEntry: false
+    };
+    component.saveEntry(RunningEntryModified);
+
+    expect(component.doSave).toHaveBeenCalledTimes(0);
+  });
 });
