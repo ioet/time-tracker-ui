@@ -54,4 +54,7 @@ export class InputDateComponent implements ControlValueAccessor {
   openOrCloseDatePicker(datepicker: MatDatepicker<Date>): void {
     return datepicker.opened ? datepicker.close() : datepicker.open();
   }
+  getCurrentDate(): string {
+    return moment(new Date()).format(DATE_FORMAT_YEAR);
+  }
 }

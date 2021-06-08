@@ -7,7 +7,6 @@ import { MonthPickerComponent } from './month-picker.component';
 describe('MonthPickerComponent', () => {
   let component: MonthPickerComponent;
   let fixture: ComponentFixture<MonthPickerComponent>;
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MonthPickerComponent ]
@@ -67,6 +66,16 @@ describe('MonthPickerComponent', () => {
     component.selectMonth(monthSelect);
 
     expect(component.selectDate).toHaveBeenCalledWith(monthSelect, yearSelect);
+  });
+
+  it('monthEnable set disable true in the buttoms futures', () => {
+    const monthFuture =  component.monthCurrent + 1;
+    expect(component.monthEnable(monthFuture)).toBeTrue();
+  });
+
+  it('monthEnable set disable false in the buttoms presents and past', () => {
+    const monthFuture = component.monthCurrent;
+    expect(component.monthEnable(monthFuture)).toBeFalse();
   });
 
 });
