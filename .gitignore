@@ -44,6 +44,7 @@ testem.log
 keys.ts
 src/environments/keys.ts
 debug.log
+/.vscode
 
 # System Files
 .DS_Store
