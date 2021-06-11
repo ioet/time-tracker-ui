@@ -6,23 +6,36 @@ import { FeatureFilterModel } from './feature-filter.model';
 import { TargetingFilterParameters } from './targeting/targeting-feature-filter-parameters';
 import { TargetingFeatureFilterModel } from './targeting/targeting-feature-filter.model';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class FeatureFilterProvider {
-
-  constructor(private userService: AzureAdB2CService) { }
+  constructor(private userService: AzureAdB2CService) {}
 
   getFilterFromConfiguration(featureFilterConfiguration: FeatureFilterConfiguration): FeatureFilterModel {
     const featureName = featureFilterConfiguration.name;
     switch (featureName) {
       case FeatureFilterTypes.TARGETING: {
+        let username: string;
+        let group: string;
+        if (this.userService) {
+          try {
+            username = this.userService.getUserEmail();
+            group = this.userService.getUserGroup();
+          } catch (error) {
+            username = 'fakeuser@ioet.com';
+            group = 'fake-group';
+          }
+        }
+
         const appContext = {
-          username: this.userService.getUserEmail(),
-          group: this.userService.getUserGroup()
+          username,
+          group,
         };
-        const filter = new TargetingFeatureFilterModel(featureFilterConfiguration.parameters as TargetingFilterParameters, appContext);
+        const filter = new TargetingFeatureFilterModel(
+          featureFilterConfiguration.parameters as TargetingFilterParameters,
+          appContext
+        );
         return filter;
       }
       default: {
