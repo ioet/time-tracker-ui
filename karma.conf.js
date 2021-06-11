@@ -5,21 +5,21 @@ module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
-    files: [
-      'node_modules/jquery/dist/jquery.js',
-      'node_modules/datatables.net/js/jquery.dataTables.js',
-    ],
+    files: ['node_modules/jquery/dist/jquery.js', 'node_modules/datatables.net/js/jquery.dataTables.js'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-jasmine-html-reporter'),
       require('karma-spec-reporter'),
-      require('karma-coverage-istanbul-reporter')
-
+      require('karma-coverage-istanbul-reporter'),
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false,
+      jasmine: {
+        random: true,
+        seed: '90967',
+      }, // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, './coverage/time-tracker'),
@@ -29,8 +29,8 @@ module.exports = function (config) {
         statements: 80,
         lines: 80,
         branches: 80,
-        functions: 80
-      }
+        functions: 80,
+      },
     },
     reporters: ['spec', 'kjhtml'],
     specReporter: {
@@ -39,7 +39,7 @@ module.exports = function (config) {
       suppressFailed: false,
       suppressPassed: false,
       suppressSkipped: true,
-      showSpecTiming: false
+      showSpecTiming: false,
     },
 
     port: 9876,
@@ -48,6 +48,6 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
   });
 };
