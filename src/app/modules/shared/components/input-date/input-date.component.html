@@ -8,5 +8,6 @@
   required="required"
   [matDatepicker]="datepicker"
   (click)="openOrCloseDatePicker(datepicker)"
+  [max]="getCurrentDate()"
 />
 <mat-datepicker #datepicker ></mat-datepicker>
