@@ -1,7 +1,7 @@
 export interface Entry {
   running?: boolean;
   id?: string;
-  start_date: Date;
+  start_date?: Date;
   end_date?: Date;
   activity_id?: string;
   technologies?: string[];
