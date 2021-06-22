@@ -16,7 +16,6 @@ describe('CustomerEffects', () => {
   let service: CustomerService;
   let toastrService;
   const customer: Customer = { id: 'id', name: 'name', description: 'description' };
-  // const objeto: Object = {id: 'id', status: 'activate'}
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [CustomerEffects, provideMockActions(() => actions$)],
