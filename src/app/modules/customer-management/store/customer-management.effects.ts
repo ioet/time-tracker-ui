@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from '../services/customer.service';
 import * as actions from './customer-management.actions';
 import { Status } from '../../shared/models/customer.model';
+import { UpdateCustomerSuccess } from './customer-management.actions';
 
 @Injectable()
 export class CustomerEffects {

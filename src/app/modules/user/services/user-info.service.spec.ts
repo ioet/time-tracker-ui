@@ -57,4 +57,20 @@ describe('UserInfoService', () => {
       });
     });
   });
+
+  it('should return true if is Admin', () => {
+    const isMemberOf = spyOn(service, 'isMemberOf').and.returnValue(of(true));
+    service.isAdmin().subscribe((value) => {
+      expect(value).toBeTrue();
+    });
+    expect(isMemberOf).toHaveBeenCalled();
+  });
+
+  it('should return true if  is Tester', () => {
+    const isMemberOf = spyOn(service, 'isMemberOf').and.returnValue(of(true));
+    service.isTester().subscribe((value) => {
+      expect(value).toBeTrue();
+    });
+    expect(isMemberOf).toHaveBeenCalled();
+  });
 });

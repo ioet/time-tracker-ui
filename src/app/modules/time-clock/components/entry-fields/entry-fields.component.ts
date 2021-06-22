@@ -170,6 +170,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     if (this.isFeatureToggleActive) {
       this.newData.update_last_entry_if_overlap = true;
       this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
+
     } else {
       this.store.dispatch(new entryActions.UpdateCurrentOrLastEntry({ ...this.newData, ...this.entryForm.value }));
     }

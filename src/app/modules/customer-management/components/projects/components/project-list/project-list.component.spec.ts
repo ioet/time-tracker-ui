@@ -62,7 +62,6 @@ describe('ProjectListComponent', () => {
     getCustomerProjectsSelectorMock = store.overrideSelector(getCustomerProjects, state);
     allCustomerProjectsSelectorMock = store.overrideSelector(getProjects, state.projects);
     component.projectsSubscription = new Subscription();
-    spyOn(component, 'getProjectTypeName').and.callFake((typeId: string) => 'BK');
   });
 
   afterEach(() => {
@@ -86,12 +85,19 @@ describe('ProjectListComponent', () => {
   it('should destroy the subscriptions', () => {
     component.projectsSubscription = new Subscription();
     const subscription = spyOn(component.projectsSubscription, 'unsubscribe');
-
     component.ngOnDestroy();
 
     expect(subscription).toHaveBeenCalledTimes(1);
+
   });
 
+  it('should destroy the projectTypesSubscription', () => {
+    component.projectTypesSubscription = new Subscription();
+    const subscriptionProjectTypes = spyOn(component.projectTypesSubscription, 'unsubscribe');
+    component.ngOnDestroy();
+    expect(subscriptionProjectTypes).toHaveBeenCalledTimes(1);
+
+  });
   it('updateProject, should dispatch SetProjectToEdit action', () => {
     spyOn(store, 'dispatch');
     component.projectsSubscription = new Subscription();
@@ -136,6 +142,7 @@ describe('ProjectListComponent', () => {
     spyOn(component, 'openModal');
     component.switchStatus(itemData);
     expect(component.openModal).toHaveBeenCalled();
+
   });
 
   it('switchStatus should set showModal false when item.status = inactive', () => {
@@ -156,28 +163,22 @@ describe('ProjectListComponent', () => {
     expect(component.showModal).toBeFalse();
   });
 
-  it('projects table should display Project Type', (done) => {
-    const projectType = {
-      id: '1234',
-      name: 'BK',
-      description: 'test',
+  it('openModal should set showModal true when item.key !== inactive', () => {
+    const itemData = {
+      id: '123',
+      name: 'aaa',
+      description: 'xxx',
+      project_type_id: '1234',
+      status: 'activate',
+      key: 'activate',
+      _status: false,
+      btnColor: 'btn-danger',
+      btnIcon: 'fa-arrow-circle-down',
+      btnName: 'Archive',
     };
 
-    component.projectsTypes = [projectType];
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-
-      const tableRows = fixture.nativeElement.querySelectorAll('tr');
-      expect(tableRows.length).toBe(2);
-
-      const headerRow = tableRows[0];
-      expect(headerRow.cells[2].innerHTML).toBe('Project Type');
-
-      const dataRow = tableRows[1];
-      expect(dataRow.cells[2].innerHTML).toBe('BK');
-
-      done();
-    });
+    component.openModal(itemData);
+    expect(component.idToDelete).toEqual(itemData.id);
+    expect(component.showModal).toBeTrue();
   });
 });

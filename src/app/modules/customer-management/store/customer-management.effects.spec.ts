@@ -16,7 +16,7 @@ describe('CustomerEffects', () => {
   let service: CustomerService;
   let toastrService;
   const customer: Customer = { id: 'id', name: 'name', description: 'description' };
-
+  // const objeto: Object = {id: 'id', status: 'activate'}
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [CustomerEffects, provideMockActions(() => actions$)],
@@ -125,23 +125,23 @@ describe('CustomerEffects', () => {
   it('action type is UNARCHIVE_CUSTOMER_SUCCESS when service is executed sucessfully', async () => {
     const customerId = 'customerId';
     actions$ = of({ type: CustomerManagementActionTypes.UNARCHIVE_CUSTOMER, customerId });
-    spyOn(toastrService, 'success');
     spyOn(service, 'updateCustomer').and.returnValue(of(customer));
+    spyOn(toastrService, 'success');
 
-    effects.updateCustomer$.subscribe((action) => {
+    effects.unarchiveCustomer$.subscribe((action) => {
       expect(toastrService.success).toHaveBeenCalledWith(INFO_SAVED_SUCCESSFULLY);
-      expect(action.type).toEqual(CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_SUCCESS);
+      expect(action.type).toEqual(CustomerManagementActionTypes.UPDATE_CUSTOMER_SUCCESS);
     });
   });
 
   it('action type is UNARCHIVE_CUSTOMER_FAIL when service fail in execution', async () => {
     actions$ = of({ type: CustomerManagementActionTypes.UNARCHIVE_CUSTOMER, customer });
-    spyOn(toastrService, 'error');
     spyOn(service, 'updateCustomer').and.returnValue(throwError({ error: { message: 'fail!' } }));
+    spyOn(toastrService, 'error');
 
-    effects.updateCustomer$.subscribe((action) => {
+    effects.unarchiveCustomer$.subscribe((action) => {
       expect(toastrService.error).toHaveBeenCalled();
-      expect(action.type).toEqual(CustomerManagementActionTypes.UNARCHIVE_CUSTOMER_FAIL);
+      expect(action.type).toEqual(CustomerManagementActionTypes.UPDATE_CUSTOMER_FAIL);
     });
   });
 });

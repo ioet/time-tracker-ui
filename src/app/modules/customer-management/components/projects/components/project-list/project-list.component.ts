@@ -68,19 +68,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     }
   }
 
-  getProjectTypeName(typeId: string) {
-    const projectsTypes$ = this.projectTypeStore.pipe(select(allProjectTypes));
-    this.projectTypesSubscription = projectsTypes$.subscribe((projectsType) => {
-      this.projectsTypes = projectsType.map((type: ProjectType) => {
-        return type;
-      });
-    });
-    const typeProject = this.projectsTypes.find(
-      (prop) => prop.id === typeId
-    );
-    return typeProject !== undefined ? typeProject.name : '';
-  }
-
   updateProject(project) {
     this.store.dispatch(new actions.SetProjectToEdit(project));
   }

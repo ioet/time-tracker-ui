@@ -439,20 +439,29 @@ describe('EntryFieldsComponent', () => {
   });
 
   it('when feature-toggle "update-entries" enable for the user, the updateEntry function is executes to update the entries', () => {
-    spyOn(featureToggleGeneralService, 'isActivated').and.returnValue(of(true));
-
+    spyOn(store, 'dispatch');
+    const expected = { update_last_entry_if_overlap: true };
     const mockEntry = {
       ...entry,
       start_date: moment().format(DATE_FORMAT_YEAR),
-      start_hour: moment().format('HH:mm'),
-      update_last_entry_if_overlap: true
+      start_hour: moment().format('HH:mm')
     };
+    const lastMockEntry = {
+      ...entry,
+      end_date: moment().format(DATE_FORMAT_YEAR),
+      end_hour: moment().format('HH:mm')
+    };
+    const hourInTheFuture = moment().format('HH:mm');
     component.newData = mockEntry;
-    const expected = { update_last_entry_if_overlap: true };
-    featureToggleGeneralService.isActivated(FeatureToggle.UPDATE_ENTRIES).subscribe(() => {
-      expect(featureToggleGeneralService.isActivated).toHaveBeenCalled();
-      expect(component.newData.update_last_entry_if_overlap).toEqual(expected.update_last_entry_if_overlap);
-    });
+    component.activeEntry = mockEntry;
+    component.lastEntry = lastMockEntry;
+    component.isFeatureToggleActive = true;
+    component.entryForm.patchValue({ start_hour: hourInTheFuture });
+
+    component.onUpdateStartHour();
+
+    expect(component.newData.update_last_entry_if_overlap).toEqual(expected.update_last_entry_if_overlap);
+    expect(store.dispatch).toHaveBeenCalled();
   });
 
   it('Set true in isCookieFeatureToggleActive when feature-toggle "feature-toggle-in-cookies" is enable for user', () => {

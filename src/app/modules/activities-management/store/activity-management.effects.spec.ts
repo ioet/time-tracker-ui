@@ -94,7 +94,7 @@ describe('ActivityEffects', () => {
     spyOn(service, 'updateActivity').and.returnValue(throwError({ error: { message: 'fail!' } }));
     spyOn(toastrService, 'error');
 
-    effects.updateActivity$.subscribe((action) => {
+    effects.unarchiveActivity$.subscribe((action) => {
       expect(toastrService.error).toHaveBeenCalled();
       expect(action.type).toEqual(ActivityManagementActionTypes.UNARCHIVE_ACTIVITY_FAIL);
     });
