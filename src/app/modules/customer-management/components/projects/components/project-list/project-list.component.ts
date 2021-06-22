@@ -6,7 +6,7 @@ import { ProjectState } from '../store/project.reducer';
 import { getCustomerProjects } from '../store/project.selectors';
 import * as actions from '../store/project.actions';
 import { ProjectUI } from '../../../../../shared/models/project.model';
-import { allProjectTypes, ProjectTypeState } from '../../../projects-type/store';
+import {  ProjectTypeState } from '../../../projects-type/store';
 import { ProjectType } from 'src/app/modules/shared/models';
 
 @Component({
