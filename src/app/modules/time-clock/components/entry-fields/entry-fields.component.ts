@@ -1,9 +1,8 @@
-import { AzureAdB2CService } from './../../../login/services/azure.ad.b2c.service';
 import { FeatureToggleGeneralService } from './../../../shared/feature-toggles/feature-toggle-general/feature-toggle-general.service';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import { EntryActionTypes, LoadActiveEntry, UpdateCurrentOrLastEntry, UpdateEntry, UpdateEntryRunning } from './../../store/entry.actions';
-import { filter, map } from 'rxjs/operators';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { filter} from 'rxjs/operators';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store, ActionsSubject, select } from '@ngrx/store';
 import { Activity, NewEntry } from '../../../shared/models';
@@ -11,14 +10,13 @@ import { ProjectState } from '../../../customer-management/components/projects/c
 import { TechnologyState } from '../../../shared/store/technology.reducers';
 import { ActivityState, LoadActivities } from '../../../activities-management/store';
 import * as entryActions from '../../store/entry.actions';
-import { get } from 'lodash';
+import { get, head } from 'lodash';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
-import { Subscription, Observable } from 'rxjs';
-import { FeatureManagerService } from './../../../shared/feature-toggles/feature-toggle-manager.service';
+import { Subscription,  } from 'rxjs';
 import { FeatureToggle } from './../../../../../environments/enum';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -30,6 +28,9 @@ type Merged = TechnologyState & ProjectState & ActivityState;
   styleUrls: ['./entry-fields.component.scss'],
 })
 export class EntryFieldsComponent implements OnInit, OnDestroy {
+
+  @ViewChild('autofocus') autofocus!: ElementRef<HTMLSelectElement>;
+
   entryForm: FormGroup;
   selectedTechnologies: string[] = [];
   activities: Activity[] = [];
@@ -42,14 +43,13 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   actionSetDateSubscription: Subscription;
   isCookieFeatureToggleActive: boolean;
   isFeatureToggleActive: boolean;
-
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<Merged>,
     private actionsSubject$: ActionsSubject,
     private toastrService: ToastrService,
     private featureToggleGeneralService: FeatureToggleGeneralService,
-    private cookiesService: CookieService
+    private cookiesService: CookieService,
   ) {
     this.entryForm = this.formBuilder.group({
       description: '',
@@ -63,7 +63,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new LoadActivities());
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1, new Date().getFullYear()));
-    this.loadActivitiesSubscription = this.actionsSubject$
+    this.loadActivitiesSubscription =  this.actionsSubject$
       .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
       .subscribe((action) => {
         this.activities = action.payload.filter((item) => item.status !== 'inactive');
@@ -81,7 +81,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
         this.isFeatureToggleActive = flag;
       });
     }
-
     this.loadActiveEntrySubscription = this.actionsSubject$
       .pipe(
         filter(
@@ -113,6 +112,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
           start_date: this.activeEntry.start_date,
           start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en'),
         };
+        this.activateFocus();
       });
   }
   get activity_id() {
@@ -121,6 +121,13 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   get start_hour() {
     return this.entryForm.get('start_hour');
   }
+
+  activateFocus(){
+    if ((this.activities.length > 0) && (this.entryForm.value.activity_id === head(this.activities).id)){
+      this.autofocus.nativeElement.focus();
+    }
+  }
+
   setDataToUpdate(entryData: NewEntry) {
     if (entryData) {
       this.entryForm.patchValue({
@@ -143,7 +150,9 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
+    if (this.entryFormIsValidate()){
+      this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
+    }
   }
 
   onUpdateStartHour() {

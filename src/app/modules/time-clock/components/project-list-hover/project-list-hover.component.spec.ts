@@ -39,8 +39,8 @@ describe('ProjectListHoverComponent', () => {
       isLoading: false,
       message: '',
     },
-  };
 
+  };
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -69,6 +69,12 @@ describe('ProjectListHoverComponent', () => {
 
   it('dispatchs a CreateEntry action on clockIn', () => {
     component.activeEntry = null;
+    const activitiesMock  = [{
+      id: 'xyz',
+      name: 'test',
+      description : 'test1'
+    }];
+    component.activities = activitiesMock;
     spyOn(store, 'dispatch');
 
     component.clockIn(1, 'customer', 'project');

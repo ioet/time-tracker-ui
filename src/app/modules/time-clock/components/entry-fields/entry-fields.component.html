@@ -6,8 +6,9 @@
       class="form-control"
       formControlName="activity_id"
       [class.is-invalid]="activity_id.invalid && activity_id.touched"
+      #autofocus      
       required>
-      <option *ngFor="let activity of activities" value="{{ activity.id }}">{{ activity.name }}</option>
+      <option *ngFor="let activity of activities" value="{{ activity.id }}" class = "id">{{ activity.name }}</option>
     </select>
   </div>
 
