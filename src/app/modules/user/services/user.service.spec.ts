@@ -30,6 +30,7 @@ describe('UserService', () => {
   it('load a user to idUser using GET', () => {
     service.baseUrl = '/users';
     service.loadUser('xyz').subscribe();
+
     const loadUserRequest = httpMock.expectOne(`${service.baseUrl}/xyz`);
     expect(loadUserRequest.request.method).toBe('GET');
   });

@@ -94,17 +94,19 @@ describe('ProjectListComponent', () => {
   it('should destroy the projectTypesSubscription', () => {
     component.projectTypesSubscription = new Subscription();
     const subscriptionProjectTypes = spyOn(component.projectTypesSubscription, 'unsubscribe');
+
     component.ngOnDestroy();
+
     expect(subscriptionProjectTypes).toHaveBeenCalledTimes(1);
 
   });
+
   it('updateProject, should dispatch SetProjectToEdit action', () => {
     spyOn(store, 'dispatch');
     component.projectsSubscription = new Subscription();
     const subscription = spyOn(component.projectsSubscription, 'unsubscribe');
 
     component.updateProject(project);
-
     component.ngOnDestroy();
 
     expect(subscription).toHaveBeenCalledTimes(1);
@@ -178,6 +180,7 @@ describe('ProjectListComponent', () => {
     };
 
     component.openModal(itemData);
+
     expect(component.idToDelete).toEqual(itemData.id);
     expect(component.showModal).toBeTrue();
   });
