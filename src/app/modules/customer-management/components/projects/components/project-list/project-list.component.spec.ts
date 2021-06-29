@@ -88,7 +88,6 @@ describe('ProjectListComponent', () => {
     component.ngOnDestroy();
 
     expect(subscription).toHaveBeenCalledTimes(1);
-
   });
 
   it('should destroy the projectTypesSubscription', () => {
@@ -98,7 +97,6 @@ describe('ProjectListComponent', () => {
     component.ngOnDestroy();
 
     expect(subscriptionProjectTypes).toHaveBeenCalledTimes(1);
-
   });
 
   it('updateProject, should dispatch SetProjectToEdit action', () => {
@@ -144,7 +142,6 @@ describe('ProjectListComponent', () => {
     spyOn(component, 'openModal');
     component.switchStatus(itemData);
     expect(component.openModal).toHaveBeenCalled();
-
   });
 
   it('switchStatus should set showModal false when item.status = inactive', () => {
