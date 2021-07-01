@@ -171,4 +171,12 @@ describe('AzureAdB2CService', () => {
 
     expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
   });
+
+  it('should get userId from UserAgentApplication', () => {
+    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValues(account);
+
+    service.getUserId();
+
+    expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
+  });
 });

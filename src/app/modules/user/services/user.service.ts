@@ -14,7 +14,8 @@ export class UserService {
 
   baseUrl = `${environment.timeTrackerApiUrl}/users`;
 
-  loadUser(userId: string): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/${userId}`);
+  loadUser(userId: any): Observable<User> {
+    const url = `${this.baseUrl}/${userId}`;
+    return this.http.get<User>(url);
   }
 }

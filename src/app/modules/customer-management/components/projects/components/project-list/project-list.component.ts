@@ -6,7 +6,7 @@ import { ProjectState } from '../store/project.reducer';
 import { getCustomerProjects } from '../store/project.selectors';
 import * as actions from '../store/project.actions';
 import { ProjectUI } from '../../../../../shared/models/project.model';
-import { allProjectTypes, ProjectTypeState } from '../../../projects-type/store';
+import {  ProjectTypeState } from '../../../projects-type/store';
 import { ProjectType } from 'src/app/modules/shared/models';
 
 @Component({
@@ -66,19 +66,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     if (this.projectTypesSubscription){
       this.projectTypesSubscription.unsubscribe();
     }
-  }
-
-  getProjectTypeName(typeId: string) {
-    const projectsTypes$ = this.projectTypeStore.pipe(select(allProjectTypes));
-    this.projectTypesSubscription = projectsTypes$.subscribe((projectsType) => {
-      this.projectsTypes = projectsType.map((type: ProjectType) => {
-        return type;
-      });
-    });
-    const typeProject = this.projectsTypes.find(
-      (prop) => prop.id === typeId
-    );
-    return typeProject !== undefined ? typeProject.name : '';
   }
 
   updateProject(project) {
