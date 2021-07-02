@@ -14,6 +14,11 @@ import {
 } from './../../../customer-management/components/projects/components/store/project.selectors';
 import { EntryActionTypes } from './../../store/entry.actions';
 import { getActiveTimeEntry } from './../../store/entry.selectors';
+import { Activity, } from '../../../shared/models';
+import { LoadActivities } from './../../../activities-management/store/activity-management.actions';
+import { allActivities } from 'src/app/modules/activities-management/store/activity-management.selectors';
+import { head } from 'lodash';
+
 @Component({
   selector: 'app-project-list-hover',
   templateUrl: './project-list-hover.component.html',
@@ -22,6 +27,7 @@ import { getActiveTimeEntry } from './../../store/entry.selectors';
 export class ProjectListHoverComponent implements OnInit, OnDestroy {
   keyword = 'search_field';
   listProjects: Project[] = [];
+  activities: Activity[] = [];
   activeEntry;
   projectsForm: FormGroup;
   showClockIn: boolean;
@@ -29,6 +35,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   projectsSubscription: Subscription;
   activeEntrySubscription: Subscription;
+  loadActivitiesSubscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,6 +58,11 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
         this.listProjects.push(projectWithSearchField);
       });
       this.loadActiveTimeEntry();
+    });
+    this.store.dispatch(new LoadActivities());
+    const activities$ = this.store.pipe(select(allActivities));
+    activities$.subscribe((response) => {
+      this.activities = response;
     });
     this.updateEntrySubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS))
@@ -88,6 +100,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       start_date: new Date().toISOString(),
       timezone_offset: new Date().getTimezoneOffset(),
       technologies: [],
+      activity_id: head(this.activities).id,
     };
     this.store.dispatch(new entryActions.ClockIn(entry));
     this.projectsForm.setValue({ project_id: `${customerName} - ${name}` });
