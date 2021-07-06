@@ -2,7 +2,6 @@ import { formatDate } from '@angular/common';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
-import * as console from 'console';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
