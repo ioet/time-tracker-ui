@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
+import * as console from 'console';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
@@ -82,11 +83,15 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   private rerenderDataTable(): void {
     if (this.dtElement && this.dtElement.dtInstance) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
-        this.dtTrigger.next();
+        try {
+          dtInstance.destroy();
+          this.dtTrigger.next();
+        } catch (error) {}
       });
     } else {
-      this.dtTrigger.next();
+      try {
+        this.dtTrigger.next();
+      } catch (error) {}
     }
   }
 
