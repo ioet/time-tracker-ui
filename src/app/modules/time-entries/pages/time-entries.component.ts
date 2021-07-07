@@ -12,6 +12,8 @@ import * as moment from 'moment';
 import { EntryState } from '../../time-clock/store/entry.reducer';
 import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 import { getActiveTimeEntry, getTimeEntriesDataSource } from './../../time-clock/store/entry.selectors';
+import { CookieService } from 'ngx-cookie-service';
+import { FeatureToggle } from './../../../../environments/enum';
 @Component({
   selector: 'app-time-entries',
   templateUrl: './time-entries.component.html',
@@ -28,12 +30,21 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   wasEditingExistingTimeEntry = false;
   canMarkEntryAsWIP = true;
   timeEntriesDataSource$: Observable<DataSource<Entry>>;
+  isFeatureToggleCalendarActive: boolean;
+  displayGridView: boolean;
+  selectedDate: moment.Moment;
   selectedYearAsText: string;
   selectedMonth: number;
   selectedYear: number;
   selectedMonthAsText: string;
   isActiveEntryOverlapping = false;
-  constructor(private store: Store<EntryState>, private toastrService: ToastrService, private actionsSubject$: ActionsSubject) {
+  constructor(
+    private store: Store<EntryState>,
+    private toastrService: ToastrService,
+    private actionsSubject$: ActionsSubject,
+    private cookiesService: CookieService) {
+    this.displayGridView = false;
+    this.selectedDate = moment(new Date());
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
   }
   ngOnDestroy(): void {
@@ -41,6 +52,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.loadActiveEntry();
+    this.isFeatureToggleCalendarActive = (this.cookiesService.get(FeatureToggle.TIME_TRACKER_CALENDAR) === 'true');
     this.entriesSubscription = this.actionsSubject$.pipe(
       filter((action: any) => (
         action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
@@ -153,6 +165,9 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.activeTimeEntry = activeTimeEntry;
     });
   }
+  onDisplayModeChange() {
+    this.displayGridView = !this.displayGridView;
+  }
   removeEntry() {
     this.store.dispatch(new entryActions.DeleteEntry(this.idToDelete));
     this.showModal = false;
@@ -163,6 +178,21 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.selectedMonth = event.monthIndex + 1;
     this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
     this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
+    this.selectedDate = moment().month(event.monthIndex).year(event.year);
+  }
+
+  changeDate(event: { date: Date }){
+    const newDate: moment.Moment = moment(event.date);
+    if (this.selectedDate.month() !== newDate.month()){
+      const monthSelected = newDate.month();
+      const yearSelected = newDate.year();
+      const selectedDate = {
+        monthIndex: monthSelected,
+        year: yearSelected
+      };
+      this.dateSelected(selectedDate);
+    }
+    this.selectedDate = newDate;
   }
 
   openModal(item: any) {

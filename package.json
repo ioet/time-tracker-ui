@@ -31,6 +31,8 @@
     "@ngrx/store": "^10.0.1",
     "@ngrx/store-devtools": "^10.0.1",
     "@types/datatables.net-buttons": "^1.4.3",
+    "angular-calendar": "^0.28.24",
+    "date-fns": "^2.22.1",
     "angular-datatables": "^9.0.2",
     "bootstrap": "^4.4.1",
     "datatables.net": "^1.10.21",

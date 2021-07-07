@@ -18,11 +18,15 @@ import { TimeEntriesComponent } from './time-entries.component';
 import { ActionsSubject } from '@ngrx/store';
 import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { CookieService } from 'ngx-cookie-service';
 import { DebugElement } from '@angular/core';
+import { FeatureToggle } from './../../../../environments/enum';
+import * as moment from 'moment';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
   let component: TimeEntriesComponent;
+  let cookieService: CookieService;
   let fixture: ComponentFixture<TimeEntriesComponent>;
   let store: MockStore<Merged>;
   let mockEntriesSelector;
@@ -87,6 +91,7 @@ describe('TimeEntriesComponent', () => {
     };
     mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
     injectedToastrService = TestBed.inject(ToastrService);
+    cookieService = TestBed.inject(CookieService);
   }));
 
   beforeEach(() => {
@@ -480,5 +485,187 @@ describe('TimeEntriesComponent', () => {
     component.saveEntry(RunningEntryModified);
 
     expect(component.doSave).toHaveBeenCalledTimes(0);
+  });
+
+  it('call cookieService.get() when call ngOnInit', () => {
+    spyOn(cookieService, 'get');
+    const sentParameter = FeatureToggle.TIME_TRACKER_CALENDAR;
+
+    component.ngOnInit();
+
+    expect(cookieService.get).toHaveBeenCalledWith(sentParameter);
+  });
+
+  it('set false in isFeatureToggleCalendarActive when cookie does not exist', () => {
+    spyOn(cookieService, 'get');
+
+    component.ngOnInit();
+
+    expect(component.isFeatureToggleCalendarActive).toBeFalse();
+  });
+
+  it('set true in isFeatureToggleCalendarActive when cookiesService.get() return true', () => {
+    const cookieResponseValue = 'true';
+    spyOn(cookieService, 'get').and.returnValue(cookieResponseValue);
+
+    component.ngOnInit();
+
+    expect(component.isFeatureToggleCalendarActive).toBeTrue();
+  });
+
+  it('set false in isFeatureToggleCalendarActive when cookiesService.get() return false', () => {
+    const cookieResponseValue = 'false';
+    spyOn(cookieService, 'get').and.returnValue(cookieResponseValue);
+
+    component.ngOnInit();
+
+    expect(component.isFeatureToggleCalendarActive).toBeFalse();
+  });
+
+  it('set true in displayGridView when its initial value is false and call onDisplayModeChange', () => {
+    const expectedValue = true;
+    const initialValue = false;
+    component.displayGridView = initialValue;
+
+    component.onDisplayModeChange();
+
+    expect(component.displayGridView).toEqual(expectedValue);
+  });
+
+  it('set false in displayGridView when its initial value is true and call onDisplayModeChange', () => {
+    const expectedValue = false;
+    const initialValue = true;
+    component.displayGridView = initialValue;
+
+    component.onDisplayModeChange();
+
+    expect(component.displayGridView).toEqual(expectedValue);
+  });
+
+  it('set true in displayGridView when set false in constructor and call onDisplayModeChange', () => {
+    const expectedValue = true;
+
+    component.onDisplayModeChange();
+
+    expect(component.displayGridView).toEqual(expectedValue);
+  });
+
+  it('set date in selectedDate when call dateSelected', () => {
+    const monthIndex = 6;
+    const year = 2021;
+    const eventData = {
+      monthIndex,
+      year
+    };
+    const dateMoment: moment.Moment = moment().month(monthIndex).year(year);
+    jasmine.clock().mockDate(dateMoment.toDate());
+
+    component.dateSelected(eventData);
+
+    expect(component.selectedDate).toEqual(dateMoment);
+  });
+
+  it('set date in selectedDate when call changeDate and selectedDate.month() is same to incoming date', () => {
+    const incomingDate = new Date('2021-06-07');
+    const incomingMoment: moment.Moment = moment(incomingDate);
+    const eventData = {
+      date: incomingDate,
+    };
+    spyOn(component, 'dateSelected');
+    component.selectedDate = moment(incomingMoment).subtract(1, 'day');
+
+    component.changeDate(eventData);
+
+    expect(component.dateSelected).not.toHaveBeenCalled();
+    expect(component.selectedDate).toEqual(incomingMoment);
+  });
+
+  it('call dateSelected when call changeDate and selectedDate.month() is different to incoming date', () => {
+    const incomingDate = new Date('2021-01-07');
+    const incomingMoment: moment.Moment = moment(incomingDate);
+    const eventData = {
+      date: incomingDate,
+    };
+    const selectedDate = {
+      monthIndex: incomingMoment.month(),
+      year: incomingMoment.year()
+    };
+    spyOn(component, 'dateSelected');
+    component.selectedDate = moment(new Date('2021-07-07'));
+
+    component.changeDate(eventData);
+
+    expect(component.dateSelected).toHaveBeenCalledWith(selectedDate);
+  });
+
+  it('not view button onDisplayModeChange when isFeatureToggleCalendarActive is false', () => {
+    component.isFeatureToggleCalendarActive = false;
+
+    fixture.detectChanges();
+
+    const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
+    const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
+    const HTMLTimeEntriesButton = HTMLTimeEntriesElement.querySelector('.btn.btn-primary.float-right');
+    expect(HTMLTimeEntriesButton).toBeNull();
+  });
+
+  it('view list button when displayGridView is true and isFeatureToggleCalendarActive is true', () => {
+    const expectedIconInsideButton = '.fa-list';
+    const unexpectedIconInsideButton = '.fa-th';
+    component.isFeatureToggleCalendarActive = true;
+    component.displayGridView = true;
+
+    fixture.detectChanges();
+
+    const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
+    const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
+    const HTMLTimeEntriesButton = HTMLTimeEntriesElement.querySelector('.btn.btn-primary.float-right');
+    const HTMLExpectedChildButton = HTMLTimeEntriesButton.querySelector(expectedIconInsideButton);
+    const HTMLUnexpectedChildButton = HTMLTimeEntriesButton.querySelector(unexpectedIconInsideButton);
+    expect(HTMLExpectedChildButton).not.toBeNull();
+    expect(HTMLUnexpectedChildButton).toBeNull();
+  });
+
+  it('view calendar button when displayGridView is false and isFeatureToggleCalendarActive is true', () => {
+    const expectedIconInsideButton = '.fa-th';
+    const unexpectedIconInsideButton = '.fa-list';
+    component.isFeatureToggleCalendarActive = true;
+    component.displayGridView = false;
+
+    fixture.detectChanges();
+
+    const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
+    const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
+    const HTMLTimeEntriesButton = HTMLTimeEntriesElement.querySelector('.btn.btn-primary.float-right');
+    const HTMLExpectedChildButton = HTMLTimeEntriesButton.querySelector(expectedIconInsideButton);
+    const HTMLUnexpectedChildButton = HTMLTimeEntriesButton.querySelector(unexpectedIconInsideButton);
+    expect(HTMLExpectedChildButton).not.toBeNull();
+    expect(HTMLUnexpectedChildButton).toBeNull();
+  });
+
+  it('view calendarView when displayGridView is true', () => {
+    const expectedView = '#gridView';
+    component.displayGridView = true;
+
+    fixture.detectChanges();
+
+    const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
+    const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
+    const HTMLTimeEntriesView = HTMLTimeEntriesElement.querySelector(expectedView);
+
+    expect(HTMLTimeEntriesView).not.toBeNull();
+  });
+
+  it('view listView when displayGridView is false', () => {
+    const expectedView = '#listView';
+    component.displayGridView = false;
+
+    fixture.detectChanges();
+
+    const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
+    const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
+    const HTMLTimeEntriesView = HTMLTimeEntriesElement.querySelector(expectedView);
+
+    expect(HTMLTimeEntriesView).not.toBeNull();
   });
 });
