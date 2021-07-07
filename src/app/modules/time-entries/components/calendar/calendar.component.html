@@ -1,0 +1,150 @@
+<ng-template #contentTimeEntry let-timeEntries="timeEntries">
+  <div
+    class="time-entries"
+    data-toggle="tooltip"
+    data-toggle="modal"
+    data-placement="top"
+    data-target="#editRecordsByDate"
+    title="{{ timeEntries.description }}"
+    (click)="handleEditEvent(timeEntries)"
+    [ngClass]="{ 'running-entry': timeEntries.running }"
+  >
+    <p class="project-name">
+      {{ timeEntries.project_name }}
+    </p>
+    <div *ngIf="timeIsGreaterThan(timeEntries.start_date, timeEntries.end_date, 15)">
+      <p>
+        {{ timeEntries.activity_name }}
+      </p>
+      <p class="additional" *ngIf="isVisibleForCurrentView(calendarView, CalendarViewEnum.Month)">
+        <i class="far fa-clock"></i>
+        {{ timeEntries.start_date | date: 'HH:mm' }} -
+        {{ timeEntries.end_date | date: 'HH:mm' }}
+      </p>
+    </div>
+    <div
+      *ngIf="
+        isVisibleForCurrentView(calendarView, CalendarViewEnum.Week) ||
+        isVisibleForCurrentView(calendarView, CalendarViewEnum.Day)
+      "
+    >
+      <p class="additional" *ngIf="timeIsGreaterThan(timeEntries.start_date, timeEntries.end_date, 60)">
+        {{ timeEntries.description }}
+      </p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteIcon let-timeEntry="timeEntry">
+  <div
+    class="close-icon position-absolute d-flex justify-content-center align-items-center btn-danger"
+    data-toggle="modal"
+    data-target="#deleteModal"
+    (click)="handleDeleteEvent(timeEntry)"
+  >
+    <i class="far fa-trash-alt"></i>
+  </div>
+</ng-template>
+
+<ng-template #timeEntriesInsideMonthCalendarTemplate let-day="day" let-locale="locale">
+  <div class="call-cell-top">
+    <span class="cal-day-number">{{ day.date | calendarDate: 'monthViewDayNumber':locale }}</span>
+  </div>
+  <div class="container-time-entries position-relative" *ngFor="let timeEntry of day.events">
+    <ng-container *ngTemplateOutlet="contentTimeEntry; context: { timeEntries: timeEntry.meta }"></ng-container>
+    <ng-container *ngTemplateOutlet="deleteIcon; context: { timeEntry: timeEntry }"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #timeEntriesInsideDaysCalendarTemplate let-weekEvent="weekEvent" let-locale="locale">
+  <div class="container-time-entries container-time-entries-adapt-height position-relative">
+    <ng-container *ngTemplateOutlet="contentTimeEntry; context: { timeEntries: weekEvent.event.meta }"></ng-container>
+    <ng-container *ngTemplateOutlet="deleteIcon; context: { timeEntry: weekEvent.event }"></ng-container>
+  </div>
+</ng-template>
+
+<div>
+  <div class="row justify-content-between mb-2 align-items-center">
+    <div class="col-sm-4">
+      <div class="btn-group" role="group" aria-label="Move date">
+        <button
+          mwlCalendarPreviousView
+          type="button"
+          [(view)]="calendarView"
+          [(viewDate)]="currentDate"
+          class="btn btn-light btn-block"
+          (click)="handleChangeDateEvent()"
+        >
+          Previus
+        </button>
+        <button
+          mwlCalendarToday
+          type="button"
+          [(viewDate)]="currentDate"
+          class="btn btn-light btn-block"
+          (click)="handleChangeDateEvent()"
+        >
+          Today
+        </button>
+        <button
+          mwlCalendarNextView
+          type="button"
+          [(view)]="calendarView"
+          [(viewDate)]="currentDate"
+          class="btn btn-light btn-block"
+          (click)="handleChangeDateEvent()"
+          [disabled]="nextDateDisabled"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-4 text-center currentDate">
+      <p class="font-weight-bold h4">
+        {{ currentDate | date: 'EEEE' }}
+      </p>
+      <P class="h5">
+        {{ currentDate | date: 'MMM d' }}
+      </P>
+    </div>
+    <div class="col-sm-4 text-right">
+      <div class="btn-group" role="group" aria-label="Calendar View">
+        <button type="button" class="btn btn-light btn-block" (click)="changeCalendarView(CalendarViewEnum.Month)">
+          Month
+        </button>
+        <button type="button" class="btn btn-light btn-block" (click)="changeCalendarView(CalendarViewEnum.Week)">
+          Week
+        </button>
+        <button type="button" class="btn btn-light btn-block" (click)="changeCalendarView(CalendarViewEnum.Day)">
+          Day
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div [ngSwitch]="calendarView">
+    <mwl-calendar-month-view
+      *ngSwitchCase="CalendarViewEnum.Month"
+      [viewDate]="currentDate"
+      [events]="timeEntriesAsEvent"
+      [cellTemplate]="timeEntriesInsideMonthCalendarTemplate"
+    >
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view
+      *ngSwitchCase="CalendarViewEnum.Week"
+      [viewDate]="currentDate"
+      [events]="timeEntriesAsEvent"
+      [hourSegmentHeight]="60"
+      [eventTemplate]="timeEntriesInsideDaysCalendarTemplate"
+    >
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view
+      *ngSwitchCase="CalendarViewEnum.Day"
+      [viewDate]="currentDate"
+      [events]="timeEntriesAsEvent"
+      [hourSegmentHeight]="60"
+      [eventTemplate]="timeEntriesInsideDaysCalendarTemplate"
+    >
+    </mwl-calendar-day-view>
+  </div>
+</div>

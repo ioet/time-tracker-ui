@@ -1,12 +1,22 @@
 $font-size-base: 0.9rem;
 
 $dark: #5c4e63;
-$primary: #00BAEE;
+$primary: #00baee;
 $secondary: #555164;
-$success: #00CC6C;
-$warning: #FF5E0A;
+$success: #00cc6c;
+$warning: #ff5e0a;
 $danger: #ff3948;
-$info: #00BAEE;
+$info: #00baee;
+
+/*
+  Angular Calendar Corlors
+*/
+$background-calendar-cell: white;
+$background-card-entry: #e0effb;
+$background-card-entry-activate: #e1fbf0;
+$primary-text: #8598b7;
+$activate-text: #86b49f;
+$shadow-card-entry: black;
 
 .bg-primary,
 .btn-primary,
@@ -18,8 +28,8 @@ $info: #00BAEE;
   &:active,
   &:visited,
   &:focus {
-      background-color: #0c8aae;
-      border: white;
+    background-color: #0c8aae;
+    border: white;
   }
 }
 
@@ -36,7 +46,6 @@ $info: #00BAEE;
   border: none;
 }
 
-
 .thead-blue {
   background-color: $primary;
   color: white;
@@ -51,7 +60,6 @@ $info: #00BAEE;
 .btn:active {
   border: none;
 }
-
 
 /**
 General Datatable adjustment styles
@@ -72,12 +80,12 @@ General Datatable adjustment styles
   .dt-button {
     background-image: linear-gradient($info);
   }
-  .dt-button:hover:not(.disabled){
+  .dt-button:hover:not(.disabled) {
     background-image: linear-gradient($info);
     opacity: 0.5;
   }
 
-  .dt-button.disabled{
+  .dt-button.disabled {
     background-image: linear-gradient($info);
     opacity: 0.5;
   }

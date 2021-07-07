@@ -1,63 +1,91 @@
 <div>
-  <div class="row">
-    <div class="col">
-      <button
-        type="button"
-        (click)="newEntry()"
-        data-toggle="modal"
-        data-target="#editRecordsByDate"
-        class="btn btn-primary"
-      >
-        Add new entry
-      </button>
-    </div>
+  <div>
+    <button
+      type="button"
+      (click)="newEntry()"
+      data-toggle="modal"
+      data-target="#editRecordsByDate"
+      class="btn btn-primary"
+    >
+      Add new entry
+    </button>
+    <button
+      type="button"
+      (click)="onDisplayModeChange()"
+      class="btn btn-primary float-right"
+      *ngIf="isFeatureToggleCalendarActive"
+    >
+      <i class="fas fa-list" *ngIf="displayGridView"></i>
+      <i class="fas fa-th" *ngIf="!displayGridView"></i>
+    </button>
   </div>
   <div style="height: 15px"></div>
-  <app-month-picker (dateSelected)="dateSelected($event)"></app-month-picker>
+  <app-month-picker [selectedDate]="selectedDate" (dateSelected)="dateSelected($event)"></app-month-picker>
   <div style="height: 15px"></div>
 
-  <table class="table table-sm table-striped mb-0" *ngIf="timeEntriesDataSource$ | async as dataSource">
-    <thead class="thead-blue">
-      <tr class="d-flex">
-        <th class="col">Date</th>
-        <th class="col">Time in - out</th>
-        <th class="col">Duration</th>
-        <th class="col">Customer</th>
-        <th class="col">Project</th>
-        <th class="col">Activity</th>
-        <th class="col"></th>
-      </tr>
-    </thead>
-    <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
-    <tbody *ngIf="!dataSource.isLoading">
-      <tr class="d-flex" *ngFor="let entry of dataSource.data">
-        <td class="col">{{ entry.start_date | date: 'MM/dd/yyyy' }}</td>
-        <td class="col">{{ entry.start_date | date: 'HH:mm' }} - {{ entry.end_date | date: 'HH:mm' }}</td>
-        <td class="col">{{ entry.end_date | substractDate: entry.start_date }}</td>
-        <td class="col">{{ entry.customer_name }}</td>
-        <td class="col">{{ entry.project_name }}</td>
-        <td class="col">{{ entry.activity_name }}</td>
-        <td class="col">
-          <button
-            class="btn btn-sm btn-primary"
-            data-toggle="modal"
-            data-target="#editRecordsByDate"
-            (click)="editEntry(entry.id)"
-          >
-            <i class="fa fa-edit fa-xs"></i>
-          </button>
-          <button
-            class="btn btn-sm btn-danger ml-2"
-            data-toggle="modal"
-            data-target="#deleteModal"
-            (click)="openModal(entry)"
-          >
-            <i class="fa fa-trash fa-xs"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="displayGridView; then gridView; else listView"></div>
+  <ng-template #gridView>
+    <div id="gridView">
+      <div *ngIf="timeEntriesDataSource$ | async as dataSource">
+        <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
+        <app-calendar
+          *ngIf="!dataSource.isLoading"
+          [timeEntries$]="timeEntriesDataSource$"
+          [currentDate]="selectedDate.toDate()"
+          (changeDate)="changeDate($event)"
+          (viewModal)="editEntry($event.id)"
+          (deleteTimeEntry)="openModal($event.timeEntry)"
+        >
+        </app-calendar>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #listView>
+    <div id="listView">
+      <table class="table table-sm table-striped mb-0" *ngIf="timeEntriesDataSource$ | async as dataSource">
+        <thead class="thead-blue">
+          <tr class="d-flex">
+            <th class="col">Date</th>
+            <th class="col">Time in - out</th>
+            <th class="col">Duration</th>
+            <th class="col">Customer</th>
+            <th class="col">Project</th>
+            <th class="col">Activity</th>
+            <th class="col"></th>
+          </tr>
+        </thead>
+        <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
+        <tbody *ngIf="!dataSource.isLoading">
+          <tr class="d-flex" *ngFor="let entry of dataSource.data">
+            <td class="col">{{ entry.start_date | date: 'MM/dd/yyyy' }}</td>
+            <td class="col">{{ entry.start_date | date: 'HH:mm' }} - {{ entry.end_date | date: 'HH:mm' }}</td>
+            <td class="col">{{ entry.end_date | substractDate: entry.start_date }}</td>
+            <td class="col">{{ entry.customer_name }}</td>
+            <td class="col">{{ entry.project_name }}</td>
+            <td class="col">{{ entry.activity_name }}</td>
+            <td class="col">
+              <button
+                class="btn btn-sm btn-primary"
+                data-toggle="modal"
+                data-target="#editRecordsByDate"
+                (click)="editEntry(entry.id)"
+              >
+                <i class="fa fa-edit fa-xs"></i>
+              </button>
+              <button
+                class="btn btn-sm btn-danger ml-2"
+                data-toggle="modal"
+                data-target="#deleteModal"
+                (click)="openModal(entry)"
+              >
+                <i class="fa fa-trash fa-xs"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-template>
 </div>
 <div class="modal fade" id="editRecordsByDate" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
