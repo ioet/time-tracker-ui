@@ -53,7 +53,7 @@ export class CalendarComponent implements OnInit {
       map((timeEntriesDatasorce) => timeEntriesDatasorce.data.map(
           (timeEntries) => ({
               start: new Date(timeEntries.start_date),
-              end: timeEntries.end_date === null ? null : new Date(timeEntries.end_date),
+              end: timeEntries.end_date ? new Date(timeEntries.end_date) : null ,
               title: timeEntries.description,
               id: timeEntries.id,
               meta: timeEntries
@@ -105,7 +105,7 @@ export class CalendarComponent implements OnInit {
   }
 
   getTimeWork(startDate: Date, endDate: Date): number{
-    if (endDate === null){
+    if (!endDate){
       return 30;
     }
     return new SubstractDatePipe().transformInMinutes( endDate , startDate);

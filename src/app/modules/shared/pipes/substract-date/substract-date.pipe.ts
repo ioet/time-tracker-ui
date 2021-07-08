@@ -44,7 +44,7 @@ export class SubstractDatePipe implements PipeTransform {
 
   transformInMinutes(fromDate: Date, substractDate: Date): number{
 
-    if (fromDate === null || substractDate === null) {
+    if (!fromDate || !substractDate) {
       return 0;
     }
 
