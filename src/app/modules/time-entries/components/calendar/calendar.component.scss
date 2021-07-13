@@ -5,7 +5,7 @@
 }
 
 @function calculate-bold-text-color($text-color) {
-  @return darken(adjust-hue($text-color, 1), 35);
+  @return darken(saturate(adjust-hue($text-color, 6), 46.19), 40.98);
 }
 
 .container-time-entries {
@@ -26,7 +26,6 @@
     }
     p.project-name {
       color: calculate-bold-text-color($primary-text);
-      font-weight: bold;
       line-height: 1;
     }
     p.additional {

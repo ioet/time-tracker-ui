@@ -22,12 +22,6 @@
         {{ timeEntries.end_date | date: 'HH:mm' }}
       </p>
     </div>
-    <div
-      *ngIf="
-        isVisibleForCurrentView(calendarView, CalendarViewEnum.Week) ||
-        isVisibleForCurrentView(calendarView, CalendarViewEnum.Day)
-      "
-    ></div>
   </div>
 </ng-template>
 
