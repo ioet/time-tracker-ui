@@ -9,7 +9,6 @@ import { DataSource } from '../../../shared/models/data-source.model';
 import { Entry } from 'src/app/modules/shared/models';
 import { map } from 'rxjs/operators';
 import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/substract-date.pipe';
-import { initialConfig } from 'ngx-mask';
 
 @Component({
   selector: 'app-calendar',
