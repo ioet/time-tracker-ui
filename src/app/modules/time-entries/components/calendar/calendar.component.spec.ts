@@ -119,6 +119,14 @@ describe('CalendarComponent', () => {
     expect(component.timeEntriesAsEvent.length).toEqual(1);
   });
 
+  it('Call isVisibleForCurrentDate when call ngOnInit()', () => {
+    spyOn(component, 'isVisibleForCurrentDate');
+
+    component.ngOnInit();
+
+    expect(component.isVisibleForCurrentDate).toHaveBeenCalled();
+  });
+
   it('Call navigationEnable when call ngOnInit()', () => {
     spyOn(component, 'navigationEnable');
 
@@ -170,10 +178,12 @@ describe('CalendarComponent', () => {
     const calendarView = CalendarView.Month;
     spyOn(component, 'navigationEnable');
     spyOn(component.changeDate, 'emit');
+    spyOn(component, 'isVisibleForCurrentDate');
 
     component.handleChangeDateEvent();
 
     expect(component.navigationEnable).toHaveBeenCalledWith(calendarView);
+    expect(component.isVisibleForCurrentDate).toHaveBeenCalled();
     expect(component.changeDate.emit).toHaveBeenCalledWith(fakeValueEmit);
   });
 
@@ -287,5 +297,21 @@ describe('CalendarComponent', () => {
     const response = component.isVisibleForCurrentView(currentCalendarView, desiredView);
 
     expect(response).toBeFalse();
+  });
+
+  it('returns boolean when call isVisibleForCurrentDate', () => {
+    [
+      { current: '2021-04-11T10:20:00Z', initial: '2021-04-11T08:00:00Z', expected: true },
+      { current: '2021-04-12T17:00:00Z', initial: '2021-04-11T17:00:00Z', expected: false },
+      { current: '2021-04-11T18:00:00Z', initial: '2021-04-12T18:00:00Z', expected: false },
+      { current: '2021-04-12T12:00:00Z', initial: '2021-04-12T12:00:00Z', expected: true },
+    ].forEach(({ current, initial, expected }) => {
+      component.currentDate = new Date(current);
+      component.initialDate = new Date(initial);
+
+      const result = component.isVisibleForCurrentDate();
+
+      expect(result).toBe(expected);
+    });
   });
 });

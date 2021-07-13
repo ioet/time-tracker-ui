@@ -9,6 +9,7 @@ import { DataSource } from '../../../shared/models/data-source.model';
 import { Entry } from 'src/app/modules/shared/models';
 import { map } from 'rxjs/operators';
 import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/substract-date.pipe';
+import { initialConfig } from 'ngx-mask';
 
 @Component({
   selector: 'app-calendar',
@@ -30,17 +31,20 @@ export class CalendarComponent implements OnInit {
 
   initialDate: Date;
   previusDate: Date;
+  isToday: boolean;
   timeEntriesAsEvent: CalendarEvent[];
   nextDateDisabled: boolean;
 
   constructor() {
     this.initialDate = new Date();
     this.previusDate = new Date();
+    this.isToday = false;
     this.timeEntriesAsEvent = [];
     this.nextDateDisabled = true;
    }
 
   ngOnInit(): void {
+    this.isToday = this.isVisibleForCurrentDate();
     this.navigationEnable(this.calendarView);
   }
 
@@ -80,6 +84,7 @@ export class CalendarComponent implements OnInit {
 
   handleChangeDateEvent(): void{
     const date = this.currentDate;
+    this.isToday = this.isVisibleForCurrentDate();
     this.navigationEnable(this.calendarView);
     this.changeDate.emit({date});
   }
@@ -118,5 +123,11 @@ export class CalendarComponent implements OnInit {
 
   isVisibleForCurrentView(currentCalendarView: CalendarView, desiredView: CalendarView ): boolean{
     return currentCalendarView === desiredView;
+  }
+
+  isVisibleForCurrentDate(): boolean{
+    const currentDate: Date = new Date(this.currentDate);
+    const initialDate: Date = new Date(this.initialDate);
+    return currentDate.setHours(0, 0, 0, 0) === initialDate.setHours(0, 0, 0, 0);
   }
 }

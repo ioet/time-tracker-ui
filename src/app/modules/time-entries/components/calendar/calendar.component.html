@@ -27,11 +27,7 @@
         isVisibleForCurrentView(calendarView, CalendarViewEnum.Week) ||
         isVisibleForCurrentView(calendarView, CalendarViewEnum.Day)
       "
-    >
-      <p class="additional" *ngIf="timeIsGreaterThan(timeEntries.start_date, timeEntries.end_date, 60)">
-        {{ timeEntries.description }}
-      </p>
-    </div>
+    ></div>
   </div>
 </ng-template>
 
@@ -72,16 +68,17 @@
           type="button"
           [(view)]="calendarView"
           [(viewDate)]="currentDate"
-          class="btn btn-light btn-block"
+          class="btn btn-light btn-block m-0"
           (click)="handleChangeDateEvent()"
         >
           Previus
         </button>
         <button
           mwlCalendarToday
+          [ngClass]="{ active: isToday }"
           type="button"
           [(viewDate)]="currentDate"
-          class="btn btn-light btn-block"
+          class="btn btn-light btn-block m-0"
           (click)="handleChangeDateEvent()"
         >
           Today
@@ -91,7 +88,7 @@
           type="button"
           [(view)]="calendarView"
           [(viewDate)]="currentDate"
-          class="btn btn-light btn-block"
+          class="btn btn-light btn-block m-0"
           (click)="handleChangeDateEvent()"
           [disabled]="nextDateDisabled"
         >
@@ -109,13 +106,28 @@
     </div>
     <div class="col-sm-4 text-right">
       <div class="btn-group" role="group" aria-label="Calendar View">
-        <button type="button" class="btn btn-light btn-block" (click)="changeCalendarView(CalendarViewEnum.Month)">
+        <button
+          [ngClass]="{ active: isVisibleForCurrentView(calendarView, CalendarViewEnum.Month) }"
+          type="button"
+          class="btn btn-light btn-block m-0"
+          (click)="changeCalendarView(CalendarViewEnum.Month)"
+        >
           Month
         </button>
-        <button type="button" class="btn btn-light btn-block" (click)="changeCalendarView(CalendarViewEnum.Week)">
+        <button
+          [ngClass]="{ active: isVisibleForCurrentView(calendarView, CalendarViewEnum.Week) }"
+          type="button"
+          class="btn btn-light btn-block m-0"
+          (click)="changeCalendarView(CalendarViewEnum.Week)"
+        >
           Week
         </button>
-        <button type="button" class="btn btn-light btn-block" (click)="changeCalendarView(CalendarViewEnum.Day)">
+        <button
+          [ngClass]="{ active: isVisibleForCurrentView(calendarView, CalendarViewEnum.Day) }"
+          type="button"
+          class="btn btn-light btn-block m-0"
+          (click)="changeCalendarView(CalendarViewEnum.Day)"
+        >
           Day
         </button>
       </div>
