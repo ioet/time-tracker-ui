@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/
 import { select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
@@ -60,13 +60,14 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   dtElement: DataTableDirective;
   isLoading$: Observable<boolean>;
   reportDataSource$: Observable<DataSource<Entry>>;
+  rerenderTableSubscription: Subscription;
 
   constructor(private store: Store<EntryState>) {
     this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
   }
 
   ngOnInit(): void {
-    this.reportDataSource$.subscribe((ds) => {
+    this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
       this.rerenderDataTable();
     });
   }
@@ -76,17 +77,18 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   ngOnDestroy(): void {
+    this.rerenderTableSubscription.unsubscribe();
     this.dtTrigger.unsubscribe();
   }
 
   private rerenderDataTable(): void {
     if (this.dtElement && this.dtElement.dtInstance) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
-        this.dtTrigger.next();
+          dtInstance.destroy();
+          this.dtTrigger.next();
       });
     } else {
-      this.dtTrigger.next();
+        this.dtTrigger.next();
     }
   }
 
