@@ -1,5 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import * as moment from 'moment';
+import { CookieService } from 'ngx-cookie-service';
+import { FeatureToggle } from 'src/environments/enum';
 
 @Component({
   selector: 'app-month-picker',
@@ -7,6 +9,10 @@ import * as moment from 'moment';
   styleUrls: ['./month-picker.component.scss']
 })
 export class MonthPickerComponent implements OnInit {
+  @Input()
+  set selectedDate(selectedDateMoment: moment.Moment){
+    this.refreshDate(selectedDateMoment);
+  }
   @Output() dateSelected = new EventEmitter<{
     monthIndex: number;
     year: number;
@@ -21,7 +27,9 @@ export class MonthPickerComponent implements OnInit {
   currentYear = new Date().getFullYear();
   showArrowNext = false;
   monthCurrent = moment().month();
-  constructor() {
+  selectedDateMoment: moment.Moment = moment();
+  isFeatureToggleCalendarActive: boolean;
+  constructor(private cookiesService: CookieService) {
     this.selectedYearMoment = moment();
     this.selectedMonthMoment = moment();
     this.months = moment.months();
@@ -31,7 +39,18 @@ export class MonthPickerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isFeatureToggleCalendarActive = (this.cookiesService.get(FeatureToggle.TIME_TRACKER_CALENDAR) === 'true');
     this.selectDate(this.selectedMonthIndex, this.selectedYear);
+  }
+
+  refreshDate(newDate: moment.Moment){
+    if (this.isFeatureToggleCalendarActive){
+      this.selectedDateMoment = newDate;
+      this.selectedMonthIndex = this.selectedDateMoment.month();
+      this.selectedYearText = moment(this.selectedDateMoment).format('YYYY');
+      this.selectedYear = this.selectedDateMoment.year();
+      this.showArrowNext = this.selectedYear < this.currentYear;
+    }
   }
 
   changeYear(changeAction: string) {
@@ -56,6 +75,12 @@ export class MonthPickerComponent implements OnInit {
     );
   }
   isSelectedMonth(monthIndex: number) {
+    if (this.isFeatureToggleCalendarActive) {
+      return (
+        this.selectedMonthIndex === monthIndex &&
+        this.selectedYear === this.selectedDateMoment.year()
+      );
+    }
     return (
       this.selectedMonthIndex === monthIndex &&
       this.selectedYear === this.selectedYearMoment.year()

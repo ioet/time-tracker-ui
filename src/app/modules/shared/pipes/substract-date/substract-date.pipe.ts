@@ -41,4 +41,17 @@ export class SubstractDatePipe implements PipeTransform {
   formatTime(time: number): string {
     return new NumberFormatter(time).getAsAtLeastTwoDigitString();
   }
+
+  transformInMinutes(fromDate: Date, substractDate: Date): number{
+
+    if (!fromDate || !substractDate) {
+      return 0;
+    }
+
+    const startDate = moment(substractDate);
+    const endDate = moment(fromDate);
+    const duration = this.getTimeDifference(startDate, endDate);
+
+    return duration.asMinutes();
+  }
 }

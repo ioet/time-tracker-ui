@@ -2,6 +2,7 @@
 
 @import '~bootstrap/scss/bootstrap';
 @import './styles/colors.scss';
+@import '../node_modules/angular-calendar/css/angular-calendar.css';
 
 html,
 body {
@@ -32,3 +33,13 @@ body {
   z-index: 1100 !important;
 }
 
+/**
+Overwritten calendar style
+*/
+
+.cal-today {
+  background-color: $background-calendar-cell !important;
+}
+.cal-today:hover {
+  background-color: darken($background-calendar-cell, 7%) !important;
+}
