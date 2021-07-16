@@ -25,9 +25,9 @@
             data-target="#deleteModal"
             [ngClass]="activity.btnColor"
             (click)="changeOperation(activity)">
-            <i class="fa" [ngClass]="[activity.btnIcon, activity.iconColor]"></i>
+            <em class="fa" [ngClass]="[activity.btnIcon, activity.iconColor]"></em>
             {{ activity.btnName }}
-            <i class="fa iconTwo" [ngClass]="activity.btnIconTwo"></i>
+            <em class="fa iconTwo" [ngClass]="activity.btnIconTwo"></em>
             <span *ngIf="activity._status">&nbsp;</span>
           </button>
         </td>

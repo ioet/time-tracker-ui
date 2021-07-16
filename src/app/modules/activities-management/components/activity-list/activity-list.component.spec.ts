@@ -18,19 +18,26 @@ describe('ActivityListComponent', () => {
     message: '',
     activityIdToEdit: '',
   };
-  const operationBtnProps = [{
-    key: 'active',
-    _status: false,
-    btnColor: 'btn-danger',
-    btnIcon: 'fa-arrow-circle-down',
-    btnName: 'Archive',
-  }, {
-    key: 'inactive',
-    _status: true,
-    btnColor: 'btn-primary',
-    btnIcon: 'fa-arrow-circle-up',
-    btnName: 'Active',
-  }];
+  const operationBtnProps = [
+    {
+      key: 'active',
+      _status: false,
+      btnColor: 'btn-white',
+      btnIcon: 'fa-circle',
+      btnIconTwo:  'fa-caret-down',
+      btnName: 'Active',
+      iconColor: 'text-success'
+    },
+    {
+      key: 'inactive',
+      _status: true,
+      btnColor: 'btn-white',
+      btnIcon: 'fa-circle',
+      btnIconTwo:  'fa-caret-up',
+      btnName: 'Inactive',
+      iconColor: 'text-danger'
+    },
+  ];
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
