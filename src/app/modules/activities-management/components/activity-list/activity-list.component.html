@@ -20,14 +20,14 @@
         </td>
         <td class="col-2 text-center">
           <button
-            class="btn btn-sm"
+            class="btn btn-sm btn--switch"
             data-toggle="modal"
             data-target="#deleteModal"
             [ngClass]="activity.btnColor"
-            (click)="changeOperation(activity)"
-          >
-            <i class="fa" [ngClass]="activity.btnIcon"></i>
+            (click)="changeOperation(activity)">
+            <i class="fa" [ngClass]="[activity.btnIcon, activity.iconColor]"></i>
             {{ activity.btnName }}
+            <i class="fa iconTwo" [ngClass]="activity.btnIconTwo"></i>
             <span *ngIf="activity._status">&nbsp;</span>
           </button>
         </td>

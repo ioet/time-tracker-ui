@@ -30,14 +30,14 @@
         </td>
         <td class="col-2 text-center">
           <button 
-          class="btn btn-sm"
+          class="btn btn-sm btn--switch"
           data-toggle="modal" 
           data-target="#deleteModal"
           [ngClass]="customer.btnColor"
-          (click)="switchStatus(customer)"
-          >
-            <i class="fa" [ngClass]="customer.btnIcon" ></i>
+          (click)="switchStatus(customer)">
+            <i class="fa" [ngClass]="[customer.btnIcon, customer.iconColor]" ></i>
             {{customer.btnName}}
+            <i class="fa iconTwo" [ngClass]="customer.btnIconTwo"></i>
           </button>
         </td>
       </tr>
