@@ -28,15 +28,19 @@ export class ActivityListComponent implements OnInit {
     const operationBtnProps = [{
       key: 'active',
       _status: false,
-      btnColor: 'btn-danger',
-      btnIcon: 'fa-arrow-circle-down',
-      btnName: 'Archive',
+      btnColor: 'btn-white',
+      btnIcon: 'fa-circle',
+      btnIconTwo: 'fa-check',
+      btnName: 'Active',
+      iconColor: 'text-success'
     }, {
       key: 'inactive',
       _status: true,
-      btnColor: 'btn-primary',
-      btnIcon: 'fa-arrow-circle-up',
-      btnName: 'Active',
+      btnColor: 'btn-white',
+      btnIcon: 'fa-circle',
+      btnIconTwo:  'fa-check',
+      btnName: 'Inactive',
+      iconColor: 'text-danger'
     }];
 
     this.store.dispatch(new LoadActivities());
@@ -70,7 +74,7 @@ export class ActivityListComponent implements OnInit {
   }
 
   openModal(item: Activity): void {
-    this.message = `Are you sure you want to archive activity ${item.name}?`;
+    this.message = `Are you sure you want to disable activity ${item.name}?`;
     this.showModal = true;
   }
 

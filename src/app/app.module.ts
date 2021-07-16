@@ -84,6 +84,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { TechnologyReportTableComponent } from './modules/technology-report/components/technology-report-table/technology-report-table.component';
 import { TechnologyReportComponent } from './modules/technology-report/pages/technology-report.component';
 import { CalendarComponent } from './modules/time-entries/components/calendar/calendar.component';
+import { DropdownComponent } from './modules/shared/components/dropdown/dropdown.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -137,6 +138,7 @@ const maskConfig: Partial<IConfig> = {
     TechnologyReportComponent,
     TechnologyReportTableComponent,
     CalendarComponent,
+    DropdownComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),

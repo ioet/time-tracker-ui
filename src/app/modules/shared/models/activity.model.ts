@@ -14,9 +14,11 @@ export interface ActivityFront {
   status?: string;
   key: string;
   _status: boolean;
-  btnColor: string;
+  btnColor?: string;
   btnIcon: string;
+  btnIconTwo: string;
   btnName: string;
+  iconColor: string;
 }
 
 export interface ActivityStatus {
