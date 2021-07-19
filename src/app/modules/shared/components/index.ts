@@ -5,3 +5,5 @@ export * from './month-picker/month-picker.component';
 export * from './navbar/navbar.component';
 export * from './sidebar/sidebar.component';
 export * from './user/user.component';
+export * from './dropdown/dropdown.component';
+

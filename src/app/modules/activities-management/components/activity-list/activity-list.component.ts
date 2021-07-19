@@ -30,7 +30,7 @@ export class ActivityListComponent implements OnInit {
       _status: false,
       btnColor: 'btn-white',
       btnIcon: 'fa-circle',
-      btnIconTwo: 'fa-caret-down',
+      btnIconTwo: 'fa-check',
       btnName: 'Active',
       iconColor: 'text-success'
     }, {
@@ -38,7 +38,7 @@ export class ActivityListComponent implements OnInit {
       _status: true,
       btnColor: 'btn-white',
       btnIcon: 'fa-circle',
-      btnIconTwo:  'fa-caret-up',
+      btnIconTwo:  'fa-check',
       btnName: 'Inactive',
       iconColor: 'text-danger'
     }];
@@ -74,7 +74,7 @@ export class ActivityListComponent implements OnInit {
   }
 
   openModal(item: Activity): void {
-    this.message = `Are you sure you want to archive activity ${item.name}?`;
+    this.message = `Are you sure you want to inactive activity ${item.name}?`;
     this.showModal = true;
   }
 

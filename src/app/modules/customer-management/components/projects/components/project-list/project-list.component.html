@@ -20,18 +20,10 @@
           </button>
         </td>
         <td class="col-sm-2 text-center">
-          <button
-          class="btn btn-sm btn--switch"
-          data-toggle="modal"
-          data-target="#deleteModal"
-          [ngClass]="project.btnColor"
-          (click)="switchStatus(project)"
-          >
-          <em class="fa" [ngClass]="[project.btnIcon, project.iconColor]"></em>
-          {{project.btnName}}
-          <em class="fa iconTwo" [ngClass]="project.btnIconTwo"></em>
-
-          </button>
+          <app-dropdown
+            [info] = "project"
+            (updateInfo) = "switchStatus($event)"> 
+          </app-dropdown>
         </td>
       </tr>
     </tbody>
@@ -45,7 +37,7 @@
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
-  [title]="'Archive Project'"
+  [title]="'Inactive Project'"
   [body]="message"
   (closeModalEvent)="deleteProject()"
 >

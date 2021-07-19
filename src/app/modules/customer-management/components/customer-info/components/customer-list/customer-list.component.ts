@@ -55,7 +55,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
         _status: false,
         btnColor: 'btn-white',
         btnIcon: 'fa-circle',
-        btnIconTwo:  'fa-caret-down',
+        btnIconTwo:  'fa-check',
         btnName: 'Active',
         iconColor: 'text-success'
       },
@@ -64,7 +64,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
         _status: true,
         btnColor: 'btn-white',
         btnIcon: 'fa-circle',
-        btnIconTwo:  'fa-caret-up',
+        btnIconTwo:  'fa-check',
         btnName: 'Inactive',
         iconColor: 'text-danger'
       },
@@ -176,7 +176,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   openModal(item: Customer) {
     this.idToDelete = item.id;
-    this.message = `Are you sure you want to archive ${item.name}?`;
+    this.message = `Are you sure you want to inactive ${item.name}?`;
     this.showModal = true;
   }
 

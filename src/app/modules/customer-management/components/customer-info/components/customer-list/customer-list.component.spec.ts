@@ -36,7 +36,7 @@ describe('CustomerTableListComponent', () => {
       _status: false,
       btnColor: 'btn-white',
       btnIcon: 'fa-circle',
-      btnIconTwo:  'fa-caret-down',
+      btnIconTwo:  'fa-check',
       btnName: 'Active',
       iconColor: 'text-success'
     },
@@ -45,7 +45,7 @@ describe('CustomerTableListComponent', () => {
       _status: true,
       btnColor: 'btn-white',
       btnIcon: 'fa-circle',
-      btnIconTwo:  'fa-caret-up',
+      btnIconTwo:  'fa-check',
       btnName: 'Inactive',
       iconColor: 'text-danger'
     },
@@ -220,7 +220,7 @@ describe('CustomerTableListComponent', () => {
   });
 
   it('openModal should set on true and display "Are you sure you want to archive customer"', () => {
-    const message = 'Are you sure you want to archive name?';
+    const message = 'Are you sure you want to inactive name?';
     const itemData = {
       id: '1',
       name: 'name',
@@ -248,7 +248,9 @@ describe('CustomerTableListComponent', () => {
       _status: false,
       btnColor: 'btn-danger',
       btnIcon: 'fa-arrow-circle-down',
+      btnIconTwo:  'fa-caret-check',
       btnName: 'Archive',
+      iconColor: 'text-success'
     };
 
     spyOn(component, 'openModal');
@@ -266,7 +268,9 @@ describe('CustomerTableListComponent', () => {
       _status: true,
       btnColor: 'btn-primary',
       btnIcon: 'fa-arrow-circle-up',
+      btnIconTwo:  'fa-check',
       btnName: 'Active',
+      iconColor: 'text-danger'
     };
 
     component.switchStatus(itemData);

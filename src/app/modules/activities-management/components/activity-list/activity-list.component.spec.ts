@@ -24,7 +24,7 @@ describe('ActivityListComponent', () => {
       _status: false,
       btnColor: 'btn-white',
       btnIcon: 'fa-circle',
-      btnIconTwo:  'fa-caret-down',
+      btnIconTwo:  'fa-check',
       btnName: 'Active',
       iconColor: 'text-success'
     },
@@ -33,7 +33,7 @@ describe('ActivityListComponent', () => {
       _status: true,
       btnColor: 'btn-white',
       btnIcon: 'fa-circle',
-      btnIconTwo:  'fa-caret-up',
+      btnIconTwo:  'fa-check',
       btnName: 'Inactive',
       iconColor: 'text-danger'
     },
@@ -107,8 +107,8 @@ describe('ActivityListComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new UnarchiveActivity('id'));
   });
 
-  it('openModal should set on true and display \"Are you sure you want to archive activity\"', () => {
-    const message = 'Are you sure you want to archive activity name?';
+  it('openModal should set on true and display \"Are you sure you want to inactive activity\"', () => {
+    const message = 'Are you sure you want to inactive activity name?';
     const itemData = {
       id: '1',
       name: 'name',
@@ -136,7 +136,9 @@ describe('ActivityListComponent', () => {
       _status: true,
       btnColor: 'btn-primary',
       btnIcon: 'fa-arrow-circle-up',
+      btnIconTwo:  'fa-check',
       btnName: 'Active',
+      iconColor: 'text-danger'
     };
 
     spyOn(component, 'unarchiveActivity');
@@ -154,7 +156,9 @@ describe('ActivityListComponent', () => {
       _status: false,
       btnColor: 'btn-danger',
       btnIcon: 'fa-arrow-circle-down',
+      btnIconTwo:  'fa-caret-check',
       btnName: 'Archive',
+      iconColor: 'text-success'
     };
 
     spyOn(component, 'openModal');
