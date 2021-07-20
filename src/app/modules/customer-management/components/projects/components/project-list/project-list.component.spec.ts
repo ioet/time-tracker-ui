@@ -32,16 +32,20 @@ describe('ProjectListComponent', () => {
     {
       key: 'active',
       _status: false,
-      btnColor: 'btn-danger',
-      btnIcon: 'fa-arrow-circle-down',
-      btnName: 'Archive',
+      btnColor: 'btn-white',
+      btnIcon: 'fa-circle',
+      btnIconTwo:  'fa-check',
+      btnName: 'Active',
+      iconColor: 'text-success'
     },
     {
       key: 'inactive',
       _status: true,
-      btnColor: 'btn-primary',
-      btnIcon: 'fa-arrow-circle-up',
-      btnName: 'Active',
+      btnColor: 'btn-white',
+      btnIcon: 'fa-circle',
+      btnIconTwo:  'fa-check',
+      btnName: 'Inactive',
+      iconColor: 'text-danger'
     },
   ];
 
@@ -136,7 +140,9 @@ describe('ProjectListComponent', () => {
       _status: false,
       btnColor: 'btn-danger',
       btnIcon: 'fa-arrow-circle-down',
+      btnIconTwo:  'fa-caret-check',
       btnName: 'Archive',
+      iconColor: 'text-success'
     };
 
     spyOn(component, 'openModal');
@@ -155,7 +161,9 @@ describe('ProjectListComponent', () => {
       _status: true,
       btnColor: 'btn-primary',
       btnIcon: 'fa-arrow-circle-up',
+      btnIconTwo:  'fa-check',
       btnName: 'Active',
+      iconColor: 'text-danger'
     };
 
     component.switchStatus(itemData);
@@ -173,7 +181,9 @@ describe('ProjectListComponent', () => {
       _status: false,
       btnColor: 'btn-danger',
       btnIcon: 'fa-arrow-circle-down',
+      btnIconTwo:  'fa-caret-check',
       btnName: 'Archive',
+      iconColor: 'text-success'
     };
 
     component.openModal(itemData);
