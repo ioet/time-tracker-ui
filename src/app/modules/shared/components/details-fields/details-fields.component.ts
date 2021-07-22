@@ -311,7 +311,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       this.toastrService.error('You cannot start a time-entry in the future');
       return;
     }
-
     this.saveEntry.emit({ entry, shouldRestartEntry: this.shouldRestartEntry });
   }
 
