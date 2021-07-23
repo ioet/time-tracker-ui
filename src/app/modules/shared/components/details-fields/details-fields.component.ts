@@ -269,7 +269,6 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     const updatedHour = this.entryForm.value[hour];
     const updatedDate = new Date(`${entryFormDate}T${updatedHour.trim()}`).toISOString();
     const initialDate = get(this.entryToEdit, date, updatedDate);
-    const initialHour = formatDate(get(this.entryToEdit, date, updatedDate), 'HH:mm', 'en');
     const dateHasNotChanged = (initialDate === updatedDate);
     const result = dateHasNotChanged ? initialDate : updatedDate;
     return result;
