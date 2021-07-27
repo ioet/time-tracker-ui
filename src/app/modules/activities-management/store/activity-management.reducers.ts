@@ -68,7 +68,8 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         ...state,
         isLoading: true,
         message: 'Set activityIdToArchive property',
-        activityIdToEdit: action.activityId,
+        // activityIdToEdit: action.activityId,
+        activityIdToEdit: undefined,
       };
     }
 
@@ -81,6 +82,7 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         data: activityList,
         isLoading: false,
         message: 'Activity archived successfully!',
+        activityIdToEdit: undefined,
       };
     }
 
@@ -89,7 +91,7 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         data: [],
         isLoading: false,
         message: 'Something went wrong deleting activity!',
-        activityIdToEdit: '',
+        activityIdToEdit: undefined,
       };
     }
 
@@ -127,7 +129,8 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         ...state,
         isLoading: true,
         message: 'Set activityIdToUnarchive property',
-        activityIdToEdit: action.payload,
+        // activityIdToEdit: action.payload,
+        activityIdToEdit: undefined,
       };
     }
 
@@ -140,7 +143,7 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         data: activityList,
         isLoading: false,
         message: 'Unarchive activity successfully!',
-        activityIdToEdit: '',
+        activityIdToEdit: undefined,
       };
     }
 
@@ -149,7 +152,7 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         ...state,
         isLoading: false,
         message: 'Something went wrong unarchiving activities!',
-        activityIdToEdit: '',
+        activityIdToEdit: undefined,
       };
     }
 
