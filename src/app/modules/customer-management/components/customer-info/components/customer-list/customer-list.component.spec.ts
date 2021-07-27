@@ -248,7 +248,7 @@ describe('CustomerTableListComponent', () => {
       _status: false,
       btnColor: 'btn-danger',
       btnIcon: 'fa-arrow-circle-down',
-      btnIconTwo:  'fa-caret-check',
+      btnIconTwo: 'fa-check',
       btnName: 'Archive',
       iconColor: 'text-success'
     };
