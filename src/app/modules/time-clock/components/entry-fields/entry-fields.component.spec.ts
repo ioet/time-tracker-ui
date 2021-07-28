@@ -99,7 +99,12 @@ describe('EntryFieldsComponent', () => {
     description: 'description for active entry',
     uri: 'abc',
     start_date: moment(mockDate).format(DATE_FORMAT_YEAR),
-    start_hour: moment(mockDate).format('HH:mm'),
+    start_hour: moment(mockDate).format('HH:mm')
+  };
+
+  const mockEntryOverlap = {
+    ...entry,
+    update_last_entry_if_overlap: true
   };
 
   beforeEach(waitForAsync(() => {
@@ -252,19 +257,22 @@ describe('EntryFieldsComponent', () => {
   });
 
   it('when a start hour is updated, then dispatch UpdateActiveEntry', () => {
+    component.newData = mockEntryOverlap;
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).format('HH:mm');
-    // this.newData.update_last_entry_if_overlap = true;
+
     component.entryForm.patchValue({ start_hour: updatedTime });
     spyOn(store, 'dispatch');
 
     component.onUpdateStartHour();
+
     expect(store.dispatch).toHaveBeenCalled();
     expect(component.showTimeInbuttons).toEqual(false);
   });
 
   it('When start_time is updated, component.last_entry is equal to time entry in the position 1', waitForAsync(() => {
+    component.newData = mockEntryOverlap;
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).format('HH:mm');
@@ -276,6 +284,7 @@ describe('EntryFieldsComponent', () => {
   }));
 
   it('When start_time is updated for a time entry. UpdateCurrentOrLastEntry action is dispatched', () => {
+    component.newData = mockEntryOverlap;
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).subtract(4, 'hours').format('HH:mm');

@@ -94,7 +94,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
           uri: this.activeEntry.uri,
           activity_id: this.activeEntry.activity_id,
           start_date: this.activeEntry.start_date,
-          start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en'),
+          start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en')
         };
         this.activateFocus();
       });
