@@ -255,7 +255,7 @@ describe('EntryFieldsComponent', () => {
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).format('HH:mm');
-
+    // this.newData.update_last_entry_if_overlap = true;
     component.entryForm.patchValue({ start_hour: updatedTime });
     spyOn(store, 'dispatch');
 

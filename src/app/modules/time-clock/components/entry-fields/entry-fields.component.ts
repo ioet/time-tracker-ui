@@ -160,7 +160,8 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
       return;
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
-    this.store.dispatch(new entryActions.UpdateCurrentOrLastEntry({ ...this.newData, ...this.entryForm.value }));
+    this.newData.update_last_entry_if_overlap = true;
+    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
     this.showTimeInbuttons = false;
   }
 

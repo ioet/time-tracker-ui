@@ -27,7 +27,7 @@ describe('FeatureToggleGeneralService', () => {
   params.map((param) => {
     it(`isActivated should return a boolean ${param.bool}`, () => {
       const toggleName = FeatureToggle.SWITCH_GROUP;
-      featureManagerService.isToggleEnabledForUser = (toggleNameV) => of(param.bool);
+      featureManagerService.isToggleEnabledForUser = () => of(param.bool);
 
       featureToggleGeneralService.isActivated(toggleName).subscribe((enabled) => {
         expect(enabled).toBe(param.bool);
