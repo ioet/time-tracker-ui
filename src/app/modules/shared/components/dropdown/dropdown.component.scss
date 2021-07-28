@@ -1,0 +1,33 @@
+@import '../../../../../styles/colors.scss';
+
+.btn-switch {
+    font-size: 1rem;
+    border: 1px solid lighten($primary-text, 10%);
+    border-radius: 20px;
+    width: clamp(7rem, 50%, 12rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.iconTwo {
+    color: lighten($primary-text, 10%);
+    text-align: center;
+}
+
+.container-description-status {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.icon {
+    flex: 0 0 20%;
+}
+
+.description {
+    flex: 1 1 60%;
+    padding: 0;
+    margin: 0;
+}

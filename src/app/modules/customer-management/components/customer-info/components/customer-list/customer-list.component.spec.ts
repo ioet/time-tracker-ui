@@ -34,16 +34,20 @@ describe('CustomerTableListComponent', () => {
     {
       key: 'active',
       _status: false,
-      btnColor: 'btn-danger',
-      btnIcon: 'fa-arrow-circle-down',
-      btnName: 'Archive',
+      btnColor: 'btn-white',
+      btnIcon: 'fa-circle',
+      btnIconTwo:  'fa-check',
+      btnName: 'Active',
+      iconColor: 'text-success'
     },
     {
       key: 'inactive',
       _status: true,
-      btnColor: 'btn-primary',
-      btnIcon: 'fa-arrow-circle-up',
-      btnName: 'Active',
+      btnColor: 'btn-white',
+      btnIcon: 'fa-circle',
+      btnIconTwo:  'fa-check',
+      btnName: 'Inactive',
+      iconColor: 'text-danger'
     },
   ];
 
@@ -215,8 +219,8 @@ describe('CustomerTableListComponent', () => {
     expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
   });
 
-  it('openModal should set on true and display "Are you sure you want to archive customer"', () => {
-    const message = 'Are you sure you want to archive name?';
+  it('openModal should set on true and display "Are you sure you want to disable customer"', () => {
+    const message = 'Are you sure you want to disable name?';
     const itemData = {
       id: '1',
       name: 'name',
@@ -244,7 +248,9 @@ describe('CustomerTableListComponent', () => {
       _status: false,
       btnColor: 'btn-danger',
       btnIcon: 'fa-arrow-circle-down',
+      btnIconTwo: 'fa-check',
       btnName: 'Archive',
+      iconColor: 'text-success'
     };
 
     spyOn(component, 'openModal');
@@ -262,7 +268,9 @@ describe('CustomerTableListComponent', () => {
       _status: true,
       btnColor: 'btn-primary',
       btnIcon: 'fa-arrow-circle-up',
+      btnIconTwo:  'fa-check',
       btnName: 'Active',
+      iconColor: 'text-danger'
     };
 
     component.switchStatus(itemData);

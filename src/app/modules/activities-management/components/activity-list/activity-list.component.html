@@ -19,17 +19,10 @@
           </button>
         </td>
         <td class="col-2 text-center">
-          <button
-            class="btn btn-sm"
-            data-toggle="modal"
-            data-target="#deleteModal"
-            [ngClass]="activity.btnColor"
-            (click)="changeOperation(activity)"
-          >
-            <i class="fa" [ngClass]="activity.btnIcon"></i>
-            {{ activity.btnName }}
-            <span *ngIf="activity._status">&nbsp;</span>
-          </button>
+            <app-dropdown
+              [info] = "activity"
+              (updateInfo) = "changeOperation($event)"
+            > </app-dropdown>
         </td>
       </tr>
     </tbody>
@@ -43,7 +36,7 @@
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
-  [title]="'Archive Activity'"
+  [title]="'Disable Activity'"
   [body]="message"
   (closeModalEvent)="deleteActivity()"
 >

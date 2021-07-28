@@ -6,7 +6,6 @@ import { ProjectState } from '../store/project.reducer';
 import { getCustomerProjects } from '../store/project.selectors';
 import * as actions from '../store/project.actions';
 import { ProjectUI } from '../../../../../shared/models/project.model';
-import {  ProjectTypeState } from '../../../projects-type/store';
 import { ProjectType } from 'src/app/modules/shared/models';
 
 @Component({
@@ -30,7 +29,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<ProjectState>,
-    private projectTypeStore: Store<ProjectTypeState>
   ) {}
 
   ngOnInit(): void {
@@ -38,16 +36,20 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       {
         key: 'active',
         _status: false,
-        btnColor: 'btn-danger',
-        btnIcon: 'fa-arrow-circle-down',
-        btnName: 'Archive',
+        btnColor: 'btn-white',
+        btnIcon: 'fa-circle',
+        btnIconTwo:  'fa-check',
+        btnName: 'Active',
+        iconColor: 'text-success'
       },
       {
         key: 'inactive',
         _status: true,
-        btnColor: 'btn-primary',
-        btnIcon: 'fa-arrow-circle-up',
-        btnName: 'Active',
+        btnColor: 'btn-white',
+        btnIcon: 'fa-circle',
+        btnIconTwo: 'fa-check',
+        btnName: 'Inactive',
+        iconColor: 'text-danger'
       },
     ];
 
@@ -79,7 +81,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   openModal(item: ProjectUI) {
     this.idToDelete = item.id;
-    this.message = `Are you sure you want archive ${item.name}?`;
+    this.message = `Are you sure you want Disable ${item.name}?`;
     this.showModal = true;
   }
 

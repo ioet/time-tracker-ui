@@ -1,0 +1,20 @@
+<button class="btn btn-sm dropdown-toggle btn-switch" type="button" data-toggle="dropdown" aria-haspopup="true"
+    aria-expanded="false" [ngClass]="info.btnColor"
+    (click)=changePropertiesItem(info)>
+    <em class="fa icon" [ngClass]="[info.btnIcon, info.iconColor]"></em>
+    {{ info.btnName }}
+    <span *ngIf="info._status">&nbsp;</span>
+</button>
+<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <div class="container-description-status dropdown-item">
+        <em class="fa icon" [ngClass]="[info.btnIcon, info.iconColor]"></em>
+        <p class=" description"> {{ info.btnName }}</p>
+        <em class="fa icon iconTwo" [ngClass]="info.btnIconTwo"></em>
+    </div>
+    <div class="dropdown-divider"></div>
+    <div class="container-description-status dropdown-item" *ngIf="dataChange !== undefined" data-toggle="modal"
+        data-target="#deleteModal" (click)=changeOperation(info)>
+        <em class="fa icon" [ngClass]="[dataChange.btnIcon, dataChange.iconColor]"></em>
+        <p class=" description">{{ dataChange.btnName }} </p>
+    </div>
+</div>
