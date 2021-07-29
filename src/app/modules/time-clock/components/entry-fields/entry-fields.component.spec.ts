@@ -103,7 +103,6 @@ describe('EntryFieldsComponent', () => {
   };
 
   const mockEntryOverlap = {
-    ...entry,
     update_last_entry_if_overlap: true
   };
 
