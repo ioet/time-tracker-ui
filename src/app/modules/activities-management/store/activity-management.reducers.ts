@@ -128,7 +128,6 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         ...state,
         isLoading: true,
         message: 'Set activityIdToUnarchive property',
-        // activityIdToEdit: action.payload,
         activityIdToEdit: undefined,
       };
     }
