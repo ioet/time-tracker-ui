@@ -68,7 +68,7 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         ...state,
         isLoading: true,
         message: 'Set activityIdToArchive property',
-        activityIdToEdit: action.activityId,
+        activityIdToEdit: undefined,
       };
     }
 
@@ -127,7 +127,7 @@ export function activityManagementReducer(state: ActivityState = initialState, a
         ...state,
         isLoading: true,
         message: 'Set activityIdToUnarchive property',
-        activityIdToEdit: action.payload,
+        activityIdToEdit: undefined,
       };
     }
 
