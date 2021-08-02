@@ -314,4 +314,22 @@ describe('CalendarComponent', () => {
       expect(result).toBe(expected);
     });
   });
+
+  it('return card entry height multiplied by height variation when call getCardEntryHeight', () => {
+    [
+      { startDate: '2021-04-11T08:00:00Z', endDate: '2021-04-11T10:20:00Z', expected: 28 },
+      { startDate: '2021-04-12T17:00:00Z', endDate: '2021-04-12T17:00:00Z', expected: 0 },
+      { startDate: '2021-04-11T18:00:00Z', endDate: '2021-04-12T18:00:00Z', expected: 288 },
+      { startDate: '2021-04-12T12:00:00Z', endDate: '2021-04-12T12:01:01Z', expected: 0 },
+    ].forEach(({startDate, endDate, expected}) => {
+      const fakeStartDate = new Date(startDate);
+      const fakeEndDate = new Date(endDate);
+
+      const result = component.getCardEntryHeight(fakeStartDate, fakeEndDate);
+
+      expect(result).toBe(expected);
+    });
+
+
+  });
 });
