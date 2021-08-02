@@ -16,6 +16,9 @@ import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/s
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
+  readonly HALF_HOUR: number = 30;
+  readonly VARIATION_HEIGHT: number = 2;
+
   @Input() set timeEntries$(timeEntries: Observable<DataSource<Entry>>){
     this.castEntryToCalendarEvent(timeEntries);
   }
@@ -113,6 +116,12 @@ export class CalendarComponent implements OnInit {
       return 30;
     }
     return new SubstractDatePipe().transformInMinutes( endDate , startDate);
+  }
+
+  getCardEntryHeight(startDate: Date, endDate: Date): number{
+    const heightCard = this.getTimeWork(startDate, endDate) * this.VARIATION_HEIGHT;
+    const finalHeightCard = heightCard / 10;
+    return Math.floor(finalHeightCard) ;
   }
 
   timeIsGreaterThan(startDate: Date, endDate: Date, timeRange: number ): boolean{

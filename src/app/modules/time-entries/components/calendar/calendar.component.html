@@ -22,6 +22,19 @@
         {{ timeEntries.end_date | date: 'HH:mm' }}
       </p>
     </div>
+    <div
+      *ngIf="
+        isVisibleForCurrentView(calendarView, CalendarViewEnum.Week) ||
+        isVisibleForCurrentView(calendarView, CalendarViewEnum.Day)
+      "
+    >
+      <p
+        class="additional {{ 'line-' + getCardEntryHeight(timeEntries.start_date, timeEntries.end_date) }}"
+        *ngIf="timeIsGreaterThan(timeEntries.start_date, timeEntries.end_date, 60)"
+      >
+        {{ timeEntries.description }}
+      </p>
+    </div>
   </div>
 </ng-template>
 
@@ -140,7 +153,7 @@
       *ngSwitchCase="CalendarViewEnum.Week"
       [viewDate]="currentDate"
       [events]="timeEntriesAsEvent"
-      [hourSegmentHeight]="60"
+      [hourSegmentHeight]="HALF_HOUR * VARIATION_HEIGHT"
       [eventTemplate]="timeEntriesInsideDaysCalendarTemplate"
     >
     </mwl-calendar-week-view>
@@ -148,7 +161,7 @@
       *ngSwitchCase="CalendarViewEnum.Day"
       [viewDate]="currentDate"
       [events]="timeEntriesAsEvent"
-      [hourSegmentHeight]="60"
+      [hourSegmentHeight]="HALF_HOUR * VARIATION_HEIGHT"
       [eventTemplate]="timeEntriesInsideDaysCalendarTemplate"
     >
     </mwl-calendar-day-view>
