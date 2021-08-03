@@ -121,7 +121,11 @@ describe('TimeEntryActionEffects', () => {
   it('returns a LOAD_ACTIVE_ENTRY_SUCCESS when the entry that is running it is in the same day', async () => {
     actions$ = of({ type: EntryActionTypes.LOAD_ACTIVE_ENTRY });
     const serviceSpy = spyOn(service, 'loadActiveEntry');
-    serviceSpy.and.returnValue(of(entry));
+    const mockEntry = {
+      ...entry,
+      start_date: new Date()
+    };
+    serviceSpy.and.returnValue(of(mockEntry));
 
     effects.loadActiveEntry$.subscribe(action => {
       expect(action.type).toEqual(EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS);
@@ -355,8 +359,12 @@ describe('TimeEntryActionEffects', () => {
 
   it('should update last entry when UPDATE_CURRENT_OR_LAST_ENTRY is executed', async () => {
     actions$ = of({ type: EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY, payload: entry });
-    spyOn(service, 'loadEntries').and.returnValue(of([entry, entry]));
-
+    const lastEntryMock: Entry = {
+      ...entry,
+      end_date: moment(entry.start_date).add(4, 'h').toDate(),
+    };
+    spyOn(service, 'loadEntries').and.returnValue(of([entry, lastEntryMock]));
+    console.log('here is entry...', entry);
     effects.updateCurrentOrLastEntry$.subscribe(action => {
       expect(action.type).toEqual(EntryActionTypes.UPDATE_ENTRY);
     });
