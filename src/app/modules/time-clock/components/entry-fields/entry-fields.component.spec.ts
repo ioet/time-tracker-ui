@@ -1,4 +1,4 @@
-import { Subscription, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { LoadActiveEntry, EntryActionTypes } from './../../store/entry.actions';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -15,21 +15,15 @@ import { formatDate } from '@angular/common';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import * as moment from 'moment';
 import { DATE_FORMAT_YEAR } from 'src/environments/environment';
-import { CookieService } from 'ngx-cookie-service';
-import { FeatureToggleGeneralService } from './../../../shared/feature-toggles/feature-toggle-general/feature-toggle-general.service';
-import { FeatureToggle } from 'src/environments/enum';
-
 
 describe('EntryFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState;
   let component: EntryFieldsComponent;
   let fixture: ComponentFixture<EntryFieldsComponent>;
   let store: MockStore<Merged>;
-  let cookieService: CookieService;
   let mockTechnologySelector;
   let mockProjectsSelector;
   let entryForm;
-  let featureToggleGeneralService: FeatureToggleGeneralService;
   const actionSub: ActionsSubject = new ActionsSubject();
   const toastrServiceStub = {
     error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
@@ -105,7 +99,11 @@ describe('EntryFieldsComponent', () => {
     description: 'description for active entry',
     uri: 'abc',
     start_date: moment(mockDate).format(DATE_FORMAT_YEAR),
-    start_hour: moment(mockDate).format('HH:mm'),
+    start_hour: moment(mockDate).format('HH:mm')
+  };
+
+  const mockEntryOverlap = {
+    update_last_entry_if_overlap: true
   };
 
   beforeEach(waitForAsync(() => {
@@ -122,8 +120,6 @@ describe('EntryFieldsComponent', () => {
     entryForm = TestBed.inject(FormBuilder);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
     mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
-    featureToggleGeneralService = TestBed.inject(FeatureToggleGeneralService);
-    cookieService = TestBed.inject(CookieService);
   }));
 
   beforeEach(() => {
@@ -260,6 +256,7 @@ describe('EntryFieldsComponent', () => {
   });
 
   it('when a start hour is updated, then dispatch UpdateActiveEntry', () => {
+    component.newData = mockEntryOverlap;
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).format('HH:mm');
@@ -268,11 +265,13 @@ describe('EntryFieldsComponent', () => {
     spyOn(store, 'dispatch');
 
     component.onUpdateStartHour();
+
     expect(store.dispatch).toHaveBeenCalled();
     expect(component.showTimeInbuttons).toEqual(false);
   });
 
   it('When start_time is updated, component.last_entry is equal to time entry in the position 1', waitForAsync(() => {
+    component.newData = mockEntryOverlap;
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).format('HH:mm');
@@ -284,6 +283,7 @@ describe('EntryFieldsComponent', () => {
   }));
 
   it('When start_time is updated for a time entry. UpdateCurrentOrLastEntry action is dispatched', () => {
+    component.newData = mockEntryOverlap;
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
     const updatedTime = moment(mockDate).subtract(4, 'hours').format('HH:mm');
@@ -438,124 +438,6 @@ describe('EntryFieldsComponent', () => {
     expect(component.loadActivitiesSubscription.unsubscribe).toHaveBeenCalled();
     expect(component.loadActiveEntrySubscription.unsubscribe).toHaveBeenCalled();
     expect(component.actionSetDateSubscription.unsubscribe).toHaveBeenCalled();
-  });
-
-  it('when feature-toggle "update-entries" enable for the user, the updateEntry function is executes to update the entries', () => {
-    spyOn(store, 'dispatch');
-    const expected = { update_last_entry_if_overlap: true };
-    const mockEntry = {
-      ...entry,
-      start_date: moment().format(DATE_FORMAT_YEAR),
-      start_hour: moment().format('HH:mm')
-    };
-    const lastMockEntry = {
-      ...entry,
-      end_date: moment().format(DATE_FORMAT_YEAR),
-      end_hour: moment().format('HH:mm')
-    };
-    const hourInTheFuture = moment().format('HH:mm');
-    component.newData = mockEntry;
-    component.activeEntry = mockEntry;
-    component.lastEntry = lastMockEntry;
-    component.isFeatureToggleActive = true;
-    component.entryForm.patchValue({ start_hour: hourInTheFuture });
-
-    component.onUpdateStartHour();
-
-    expect(component.newData.update_last_entry_if_overlap).toEqual(expected.update_last_entry_if_overlap);
-    expect(store.dispatch).toHaveBeenCalled();
-  });
-
-  it('Set true in isCookieFeatureToggleActive when feature-toggle "feature-toggle-in-cookies" is enable for user', () => {
-    const expectedValue = true;
-    spyOn(featureToggleGeneralService, 'isActivated').and.returnValue(of(true));
-
-    component.ngOnInit();
-
-    expect(component.isCookieFeatureToggleActive).toEqual(expectedValue);
-  });
-
-  it('Set false in isCookieFeatureToggleActive when feature-toggle "feature-toggle-in-cookies" is not enable for user', () => {
-    const expectedValue = false;
-    spyOn(featureToggleGeneralService, 'isActivated').and.returnValue(of(false));
-
-    component.ngOnInit();
-
-    expect(component.isCookieFeatureToggleActive).toEqual(expectedValue);
-  });
-
-
-  it('Call cookieService.get() when isCookieFeatureToggleActive is True', () => {
-    const expectedValue = true;
-    component.isCookieFeatureToggleActive = expectedValue;
-    spyOn(cookieService, 'get').and.returnValue(`${expectedValue}`);
-
-    component.ngOnInit();
-
-    expect(cookieService.get).toHaveBeenCalledWith(FeatureToggle.UPDATE_ENTRIES);
-  });
-
-  it('Call featureToggleGeneralService.isActivated() when isCookieFeatureToggleActive is False', () => {
-    const expectedValue = false;
-    spyOn(featureToggleGeneralService, 'isActivated').and.returnValue(of(expectedValue));
-
-    component.ngOnInit();
-
-    expect(featureToggleGeneralService.isActivated).toHaveBeenCalledWith(FeatureToggle.UPDATE_ENTRIES);
-  });
-
-  it('Set True in isFeatureToggleActive when cookieService.get() return "true" and isCookieFeatureToggleActive is true', () => {
-    const expectedValue = true;
-    component.isCookieFeatureToggleActive = expectedValue;
-    spyOn(cookieService, 'get').and.returnValue(`${expectedValue}`);
-
-    component.ngOnInit();
-
-    expect(component.isFeatureToggleActive).toEqual(expectedValue);
-  });
-
-  it('Set True in isFeatureToggleActive when cookieService.get() return "false" and isCookieFeatureToggleActive is true', () => {
-    const expectedValue = false;
-    component.isCookieFeatureToggleActive = !expectedValue;
-    spyOn(cookieService, 'get').and.returnValue(`${expectedValue}`);
-
-    component.ngOnInit();
-
-    expect(component.isFeatureToggleActive).toEqual(expectedValue);
-  });
-
-  it('Set True in isFeatureToggleActive when featureToggleGeneralService.isActivated() return true', () => {
-    const expectedValue = true;
-    spyOn(featureToggleGeneralService, 'isActivated').and.callFake(
-      (featureToggle) => featureToggle === FeatureToggle.COOKIES ? of(false) : of(true) );
-
-    component.ngOnInit();
-
-    expect(featureToggleGeneralService.isActivated).toHaveBeenCalledWith(FeatureToggle.UPDATE_ENTRIES);
-    expect(component.isFeatureToggleActive).toEqual(expectedValue);
-  });
-
-  it('Set False in isFeatureToggleActive when featureToggleGeneralService.isActivated() return false and isCookieFeatureToggleActive is false', () => {
-    const expectedValue = false;
-    spyOn(featureToggleGeneralService, 'isActivated').and.returnValue(of(expectedValue));
-
-    component.ngOnInit();
-
-    expect(component.isFeatureToggleActive).toEqual(expectedValue);
-  });
-
-  it('when FT "update-entries" disable for the user,the UpdateCurrentOrLastEntry function is called to update the entries', () => {
-    spyOn(featureToggleGeneralService, 'isActivated').and.returnValue(of(false));
-
-    const mockEntry = {
-      ...entry,
-      start_date: moment().format(DATE_FORMAT_YEAR),
-      start_hour: moment().format('HH:mm')
-    };
-    component.newData = mockEntry;
-    featureToggleGeneralService.isActivated(FeatureToggle.UPDATE_ENTRIES).subscribe(() => {
-      expect(featureToggleGeneralService.isActivated).toHaveBeenCalled();
-    });
   });
 
   it('when a activity is not register in DB should show activatefocus in select activity', () => {

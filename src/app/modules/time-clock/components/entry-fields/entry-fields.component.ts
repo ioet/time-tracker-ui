@@ -1,6 +1,5 @@
-import { FeatureToggleGeneralService } from './../../../shared/feature-toggles/feature-toggle-general/feature-toggle-general.service';
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
-import { EntryActionTypes, LoadActiveEntry, UpdateCurrentOrLastEntry, UpdateEntry, UpdateEntryRunning } from './../../store/entry.actions';
+import { EntryActionTypes, LoadActiveEntry } from './../../store/entry.actions';
 import { filter} from 'rxjs/operators';
 import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -17,8 +16,6 @@ import { formatDate } from '@angular/common';
 import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
 import { Subscription,  } from 'rxjs';
-import { FeatureToggle } from './../../../../../environments/enum';
-import { CookieService } from 'ngx-cookie-service';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 
@@ -48,8 +45,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     private store: Store<Merged>,
     private actionsSubject$: ActionsSubject,
     private toastrService: ToastrService,
-    private featureToggleGeneralService: FeatureToggleGeneralService,
-    private cookiesService: CookieService,
   ) {
     this.entryForm = this.formBuilder.group({
       description: '',
@@ -70,17 +65,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
         this.store.dispatch(new LoadActiveEntry());
       });
 
-    this.featureToggleGeneralService.isActivated(FeatureToggle.COOKIES).subscribe((flag) => {
-      this.isCookieFeatureToggleActive = flag;
-    });
-
-    if (this.isCookieFeatureToggleActive){
-      this.isFeatureToggleActive = this.cookiesService.get(FeatureToggle.UPDATE_ENTRIES) === 'true' ? true : false;
-    }else{
-      this.featureToggleGeneralService.isActivated(FeatureToggle.UPDATE_ENTRIES).subscribe((flag) => {
-        this.isFeatureToggleActive = flag;
-      });
-    }
     this.loadActiveEntrySubscription = this.actionsSubject$
       .pipe(
         filter(
@@ -110,7 +94,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
           uri: this.activeEntry.uri,
           activity_id: this.activeEntry.activity_id,
           start_date: this.activeEntry.start_date,
-          start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en'),
+          start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en')
         };
         this.activateFocus();
       });
@@ -176,13 +160,8 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
       return;
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
-    if (this.isFeatureToggleActive) {
-      this.newData.update_last_entry_if_overlap = true;
-      this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
-
-    } else {
-      this.store.dispatch(new entryActions.UpdateCurrentOrLastEntry({ ...this.newData, ...this.entryForm.value }));
-    }
+    this.newData.update_last_entry_if_overlap = true;
+    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
     this.showTimeInbuttons = false;
   }
 
