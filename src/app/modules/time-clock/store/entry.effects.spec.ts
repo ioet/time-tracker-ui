@@ -364,7 +364,6 @@ describe('TimeEntryActionEffects', () => {
       end_date: moment(entry.start_date).add(4, 'h').toDate(),
     };
     spyOn(service, 'loadEntries').and.returnValue(of([entry, lastEntryMock]));
-    console.log('here is entry...', entry);
     effects.updateCurrentOrLastEntry$.subscribe(action => {
       expect(action.type).toEqual(EntryActionTypes.UPDATE_ENTRY);
     });
