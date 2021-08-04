@@ -18,6 +18,8 @@ import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/s
 export class CalendarComponent implements OnInit {
   readonly HALF_HOUR: number = 30;
   readonly VARIATION_HEIGHT: number = 2;
+  readonly VISIBLE_TARGETS_FOR_TIME_ENTRIES_DESCRIPTION: CalendarView[] = [CalendarView.Week, CalendarView.Day];
+  readonly CALENDAR_VIEW_ENUM: typeof CalendarView = CalendarView;
 
   @Input() set timeEntries$(timeEntries: Observable<DataSource<Entry>>){
     this.castEntryToCalendarEvent(timeEntries);
@@ -48,10 +50,6 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.isToday = this.isVisibleForCurrentDate();
     this.navigationEnable(this.calendarView);
-  }
-
-  get CalendarViewEnum(): typeof CalendarView{
-    return CalendarView;
   }
 
   castEntryToCalendarEvent(timeEntries$: Observable<DataSource<Entry>>) {
@@ -129,8 +127,8 @@ export class CalendarComponent implements OnInit {
     return timeWorkInMinutes > timeRange;
   }
 
-  isVisibleForCurrentView(currentCalendarView: CalendarView, desiredView: CalendarView ): boolean{
-    return currentCalendarView === desiredView;
+  isVisibleForCurrentView(currentCalendarView: CalendarView, desiredView: CalendarView[] ): boolean{
+    return desiredView.includes(currentCalendarView);
   }
 
   isVisibleForCurrentDate(): boolean{

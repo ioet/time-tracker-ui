@@ -7,47 +7,73 @@ import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 
 import { CalendarComponent } from './calendar.component';
 
+type MockCardEntryHeight = {
+  startDate: string;
+  endDate: string;
+  expected: number;
+};
+
+type MockEntryVisibleCurrentDate = {
+  current: string;
+  initial: string;
+  expected: boolean;
+};
+
 describe('CalendarComponent', () => {
   let component: CalendarComponent;
   let fixture: ComponentFixture<CalendarComponent>;
   let currentDate: moment.Moment;
   let fakeEntry: Entry;
   let fakeEntryRunning: Entry;
+  let mockCardEntriesHeight: MockCardEntryHeight[];
+  let mockEntriesVisibleCurrentDate: MockEntryVisibleCurrentDate[];
 
-  beforeEach(waitForAsync( () => {
-    TestBed.configureTestingModule({
-      declarations: [ CalendarComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CalendarComponent],
+      }).compileComponents();
+      mockCardEntriesHeight = [
+        { startDate: '2021-04-11T08:00:00Z', endDate: '2021-04-11T10:20:00Z', expected: 28 },
+        { startDate: '2021-04-12T17:00:00Z', endDate: '2021-04-12T17:00:00Z', expected: 0 },
+        { startDate: '2021-04-11T18:00:00Z', endDate: '2021-04-12T18:00:00Z', expected: 288 },
+        { startDate: '2021-04-12T12:00:00Z', endDate: '2021-04-12T12:01:01Z', expected: 0 },
+      ];
+      mockEntriesVisibleCurrentDate = [
+        { current: '2021-04-11T10:20:00Z', initial: '2021-04-11T08:00:00Z', expected: true },
+        { current: '2021-04-12T17:00:00Z', initial: '2021-04-11T17:00:00Z', expected: false },
+        { current: '2021-04-11T18:00:00Z', initial: '2021-04-12T18:00:00Z', expected: false },
+        { current: '2021-04-12T12:00:00Z', initial: '2021-04-12T12:00:00Z', expected: true },
+      ];
+      currentDate = moment();
+      fakeEntry = {
+        id: 'entry_1',
+        project_id: 'abc',
+        project_name: 'Time-tracker',
+        start_date: new Date('2020-02-05T15:36:15.887Z'),
+        end_date: new Date('2020-02-05T18:36:15.887Z'),
+        customer_name: 'ioet Inc.',
+        activity_id: 'development',
+        technologies: ['Angular', 'TypeScript'],
+        description: 'No comments',
+        uri: 'EY-25',
+      };
+      fakeEntryRunning = {
+        id: 'entry_1',
+        project_id: 'abc',
+        project_name: 'Time-tracker',
+        start_date: new Date('2020-02-05T15:36:15.887Z'),
+        end_date: null,
+        customer_name: 'ioet Inc.',
+        activity_id: 'development',
+        technologies: ['Angular', 'TypeScript'],
+        description: 'No comments',
+        uri: 'EY-25',
+      };
+
+      jasmine.clock().mockDate(currentDate.toDate());
     })
-    .compileComponents();
-
-    currentDate = moment();
-    fakeEntry = {
-      id: 'entry_1',
-      project_id: 'abc',
-      project_name: 'Time-tracker',
-      start_date: new Date('2020-02-05T15:36:15.887Z'),
-      end_date: new Date('2020-02-05T18:36:15.887Z'),
-      customer_name: 'ioet Inc.',
-      activity_id: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      description: 'No comments',
-      uri: 'EY-25',
-    };
-    fakeEntryRunning = {
-      id: 'entry_1',
-      project_id: 'abc',
-      project_name: 'Time-tracker',
-      start_date: new Date('2020-02-05T15:36:15.887Z'),
-      end_date: null,
-      customer_name: 'ioet Inc.',
-      activity_id: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      description: 'No comments',
-      uri: 'EY-25',
-    };
-
-    jasmine.clock().mockDate(currentDate.toDate());
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CalendarComponent);
@@ -83,11 +109,11 @@ describe('CalendarComponent', () => {
       end: fakeEntry.end_date,
       title: fakeEntry.description,
       id: fakeEntry.id,
-      meta: fakeEntry
+      meta: fakeEntry,
     };
     const fakeDatasource = {
       isLoading: false,
-      data: [fakeEntry]
+      data: [fakeEntry],
     };
     const fakeTimeEntries = of(fakeDatasource);
     const expectedtimeEntriesAsEvent = [fakeTimeEntryAsEvent];
@@ -104,11 +130,11 @@ describe('CalendarComponent', () => {
       end: fakeEntryRunning.end_date,
       title: fakeEntryRunning.description,
       id: fakeEntryRunning.id,
-      meta: fakeEntryRunning
+      meta: fakeEntryRunning,
     };
     const fakeDatasource = {
       isLoading: false,
-      data: [fakeEntryRunning]
+      data: [fakeEntryRunning],
     };
     const fakeTimeEntries = of(fakeDatasource);
     const expectedtimeEntriesAsEvent = [fakeTimeEntryAsEvent];
@@ -141,7 +167,7 @@ describe('CalendarComponent', () => {
       end: fakeEntry.end_date,
       title: fakeEntry.description,
       id: fakeEntry.id,
-      meta: fakeEntry
+      meta: fakeEntry,
     };
     const fakeValueEmit = {
       id: fakeEntry.id,
@@ -159,7 +185,7 @@ describe('CalendarComponent', () => {
       end: fakeEntry.end_date,
       title: fakeEntry.description,
       id: fakeEntry.id,
-      meta: fakeEntry
+      meta: fakeEntry,
     };
     const fakeValueEmit = {
       timeEntry: fakeEntry,
@@ -284,8 +310,7 @@ describe('CalendarComponent', () => {
   it('return true when call isVisibleForCurrentView and currentCalendarView is equal to desiredView', () => {
     const currentCalendarView: CalendarView = CalendarView.Week;
     const desiredView: CalendarView = CalendarView.Week;
-
-    const response = component.isVisibleForCurrentView(currentCalendarView, desiredView);
+    const response = component.isVisibleForCurrentView(currentCalendarView, [desiredView]);
 
     expect(response).toBeTrue();
   });
@@ -293,43 +318,28 @@ describe('CalendarComponent', () => {
   it('return false when call isVisibleForCurrentView and currentCalendarView is different to desiredView', () => {
     const currentCalendarView: CalendarView = CalendarView.Day;
     const desiredView: CalendarView = CalendarView.Week;
-
-    const response = component.isVisibleForCurrentView(currentCalendarView, desiredView);
+    const response = component.isVisibleForCurrentView(currentCalendarView, [desiredView]);
 
     expect(response).toBeFalse();
   });
 
   it('returns boolean when call isVisibleForCurrentDate', () => {
-    [
-      { current: '2021-04-11T10:20:00Z', initial: '2021-04-11T08:00:00Z', expected: true },
-      { current: '2021-04-12T17:00:00Z', initial: '2021-04-11T17:00:00Z', expected: false },
-      { current: '2021-04-11T18:00:00Z', initial: '2021-04-12T18:00:00Z', expected: false },
-      { current: '2021-04-12T12:00:00Z', initial: '2021-04-12T12:00:00Z', expected: true },
-    ].forEach(({ current, initial, expected }) => {
-      component.currentDate = new Date(current);
-      component.initialDate = new Date(initial);
-
+    mockEntriesVisibleCurrentDate.forEach((item: MockEntryVisibleCurrentDate) => {
+      component.currentDate = new Date(item.current);
+      component.initialDate = new Date(item.initial);
       const result = component.isVisibleForCurrentDate();
 
-      expect(result).toBe(expected);
+      expect(result).toBe(item.expected);
     });
   });
 
   it('return card entry height multiplied by height variation when call getCardEntryHeight', () => {
-    [
-      { startDate: '2021-04-11T08:00:00Z', endDate: '2021-04-11T10:20:00Z', expected: 28 },
-      { startDate: '2021-04-12T17:00:00Z', endDate: '2021-04-12T17:00:00Z', expected: 0 },
-      { startDate: '2021-04-11T18:00:00Z', endDate: '2021-04-12T18:00:00Z', expected: 288 },
-      { startDate: '2021-04-12T12:00:00Z', endDate: '2021-04-12T12:01:01Z', expected: 0 },
-    ].forEach(({startDate, endDate, expected}) => {
-      const fakeStartDate = new Date(startDate);
-      const fakeEndDate = new Date(endDate);
-
+    mockCardEntriesHeight.forEach((item: MockCardEntryHeight) => {
+      const fakeStartDate = new Date(item.startDate);
+      const fakeEndDate = new Date(item.endDate);
       const result = component.getCardEntryHeight(fakeStartDate, fakeEndDate);
 
-      expect(result).toBe(expected);
+      expect(result).toBe(item.expected);
     });
-
-
   });
 });

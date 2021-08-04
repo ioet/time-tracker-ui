@@ -16,7 +16,7 @@
       <p>
         {{ timeEntries.activity_name }}
       </p>
-      <p class="additional" *ngIf="isVisibleForCurrentView(calendarView, CalendarViewEnum.Month)">
+      <p class="additional" *ngIf="isVisibleForCurrentView(calendarView, [CALENDAR_VIEW_ENUM.Month])">
         <em class="far fa-clock"></em>
         {{ timeEntries.start_date | date: 'HH:mm' }} -
         {{ timeEntries.end_date | date: 'HH:mm' }}
@@ -24,9 +24,7 @@
     </div>
     <div
       *ngIf="
-        isVisibleForCurrentView(calendarView, CalendarViewEnum.Week) ||
-        isVisibleForCurrentView(calendarView, CalendarViewEnum.Day)
-      "
+        isVisibleForCurrentView(calendarView, VISIBLE_TARGETS_FOR_TIME_ENTRIES_DESCRIPTION)"
     >
       <p
         class="additional {{ 'line-' + getCardEntryHeight(timeEntries.start_date, timeEntries.end_date) }}"
@@ -114,26 +112,26 @@
     <div class="col-sm-4 text-right">
       <div class="btn-group" role="group" aria-label="Calendar View">
         <button
-          [ngClass]="{ active: isVisibleForCurrentView(calendarView, CalendarViewEnum.Month) }"
+          [ngClass]="{ active: isVisibleForCurrentView(calendarView, [CALENDAR_VIEW_ENUM.Month]) }"
           type="button"
           class="btn btn-light btn-block m-0"
-          (click)="changeCalendarView(CalendarViewEnum.Month)"
+          (click)="changeCalendarView(CALENDAR_VIEW_ENUM.Month)"
         >
           Month
         </button>
         <button
-          [ngClass]="{ active: isVisibleForCurrentView(calendarView, CalendarViewEnum.Week) }"
+          [ngClass]="{ active: isVisibleForCurrentView(calendarView, [CALENDAR_VIEW_ENUM.Week]) }"
           type="button"
           class="btn btn-light btn-block m-0"
-          (click)="changeCalendarView(CalendarViewEnum.Week)"
+          (click)="changeCalendarView(CALENDAR_VIEW_ENUM.Week)"
         >
           Week
         </button>
         <button
-          [ngClass]="{ active: isVisibleForCurrentView(calendarView, CalendarViewEnum.Day) }"
+          [ngClass]="{ active: isVisibleForCurrentView(calendarView, [CALENDAR_VIEW_ENUM.Day]) }"
           type="button"
           class="btn btn-light btn-block m-0"
-          (click)="changeCalendarView(CalendarViewEnum.Day)"
+          (click)="changeCalendarView(CALENDAR_VIEW_ENUM.Day)"
         >
           Day
         </button>
@@ -143,14 +141,14 @@
 
   <div [ngSwitch]="calendarView">
     <mwl-calendar-month-view
-      *ngSwitchCase="CalendarViewEnum.Month"
+      *ngSwitchCase="CALENDAR_VIEW_ENUM.Month"
       [viewDate]="currentDate"
       [events]="timeEntriesAsEvent"
       [cellTemplate]="timeEntriesInsideMonthCalendarTemplate"
     >
     </mwl-calendar-month-view>
     <mwl-calendar-week-view
-      *ngSwitchCase="CalendarViewEnum.Week"
+      *ngSwitchCase="CALENDAR_VIEW_ENUM.Week"
       [viewDate]="currentDate"
       [events]="timeEntriesAsEvent"
       [hourSegmentHeight]="HALF_HOUR * VARIATION_HEIGHT"
@@ -158,7 +156,7 @@
     >
     </mwl-calendar-week-view>
     <mwl-calendar-day-view
-      *ngSwitchCase="CalendarViewEnum.Day"
+      *ngSwitchCase="CALENDAR_VIEW_ENUM.Day"
       [viewDate]="currentDate"
       [events]="timeEntriesAsEvent"
       [hourSegmentHeight]="HALF_HOUR * VARIATION_HEIGHT"
