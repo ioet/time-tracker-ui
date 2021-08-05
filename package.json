@@ -106,7 +106,7 @@
   },
   "config": {
     "commit-message-validator": {
-      "pattern": "^(fix: TT-|feat: TT-|perf: TT-|build: TT-|ci: TT-|docs: TT-|refactor: TT-|style: TT-|test: TT-)[0-9].*",
+      "pattern": "^(fix: TT-|feat: TT-|perf: TT-|build: TT-|ci: TT-|docs: TT-|refactor: TT-|style: TT-|test: TT-|code-smell: TT-)[0-9].*",
       "errorMessage": "Your commit message needs to start with fix: , feat:, or perf: followed by any commit message, e.g. fix: TT-43 any commit message"
     }
   },
