@@ -142,20 +142,4 @@ describe('activityManagementReducer', () => {
     expect(state.message).toEqual('Something went wrong unarchiving activities!');
     expect(state.isLoading).toBeFalse();
   });
-
-  it('on SetActivityToEdit, should save the activityId to edit', () => {
-    const action = new actions.SetActivityToEdit(activity.id);
-
-    const state = activityManagementReducer(initialState, action);
-
-    expect(state.activityIdToEdit).toEqual('1');
-  });
-
-  it('on ResetActivityToEdit, should clean the activityIdToEdit variable', () => {
-    const action = new actions.ResetActivityToEdit();
-
-    const state = activityManagementReducer(initialState, action);
-
-    expect(state.activityIdToEdit).toEqual('');
-  });
 });
