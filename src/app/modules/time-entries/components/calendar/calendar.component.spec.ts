@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
-import { differenceInMinutes, startOfDay, startOfHour } from 'date-fns';
 import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
