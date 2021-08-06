@@ -64,9 +64,7 @@ export class CalendarComponent implements OnInit {
   }
 
   scrollToCurrentTimeMarker() {
-    console.log('Si entro');
     if (this.calendarView === CalendarView.Week || CalendarView.Day) {
-      console.log(`Calendar View ${this.calendarView}`);
       const minutesSinceStartOfDay = differenceInMinutes(startOfHour(this.currentDate), startOfDay(this.currentDate));
       const headerHeight = this.calendarView === CalendarView.Week ? this.DEFAULT_HEADER_HEIGHT : 0;
       this.scrollContainer.nativeElement.scrollTop = minutesSinceStartOfDay * this.VARIATION_HEIGHT + headerHeight;
