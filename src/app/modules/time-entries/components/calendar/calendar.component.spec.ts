@@ -14,40 +14,41 @@ describe('CalendarComponent', () => {
   let fakeEntry: Entry;
   let fakeEntryRunning: Entry;
 
-  beforeEach(waitForAsync( () => {
-    TestBed.configureTestingModule({
-      declarations: [ CalendarComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CalendarComponent],
+      }).compileComponents();
+
+      currentDate = moment();
+      fakeEntry = {
+        id: 'entry_1',
+        project_id: 'abc',
+        project_name: 'Time-tracker',
+        start_date: new Date('2020-02-05T15:36:15.887Z'),
+        end_date: new Date('2020-02-05T18:36:15.887Z'),
+        customer_name: 'ioet Inc.',
+        activity_id: 'development',
+        technologies: ['Angular', 'TypeScript'],
+        description: 'No comments',
+        uri: 'EY-25',
+      };
+      fakeEntryRunning = {
+        id: 'entry_1',
+        project_id: 'abc',
+        project_name: 'Time-tracker',
+        start_date: new Date('2020-02-05T15:36:15.887Z'),
+        end_date: null,
+        customer_name: 'ioet Inc.',
+        activity_id: 'development',
+        technologies: ['Angular', 'TypeScript'],
+        description: 'No comments',
+        uri: 'EY-25',
+      };
+
+      jasmine.clock().mockDate(currentDate.toDate());
     })
-    .compileComponents();
-
-    currentDate = moment();
-    fakeEntry = {
-      id: 'entry_1',
-      project_id: 'abc',
-      project_name: 'Time-tracker',
-      start_date: new Date('2020-02-05T15:36:15.887Z'),
-      end_date: new Date('2020-02-05T18:36:15.887Z'),
-      customer_name: 'ioet Inc.',
-      activity_id: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      description: 'No comments',
-      uri: 'EY-25',
-    };
-    fakeEntryRunning = {
-      id: 'entry_1',
-      project_id: 'abc',
-      project_name: 'Time-tracker',
-      start_date: new Date('2020-02-05T15:36:15.887Z'),
-      end_date: null,
-      customer_name: 'ioet Inc.',
-      activity_id: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      description: 'No comments',
-      uri: 'EY-25',
-    };
-
-    jasmine.clock().mockDate(currentDate.toDate());
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CalendarComponent);
@@ -83,11 +84,11 @@ describe('CalendarComponent', () => {
       end: fakeEntry.end_date,
       title: fakeEntry.description,
       id: fakeEntry.id,
-      meta: fakeEntry
+      meta: fakeEntry,
     };
     const fakeDatasource = {
       isLoading: false,
-      data: [fakeEntry]
+      data: [fakeEntry],
     };
     const fakeTimeEntries = of(fakeDatasource);
     const expectedtimeEntriesAsEvent = [fakeTimeEntryAsEvent];
@@ -104,11 +105,11 @@ describe('CalendarComponent', () => {
       end: fakeEntryRunning.end_date,
       title: fakeEntryRunning.description,
       id: fakeEntryRunning.id,
-      meta: fakeEntryRunning
+      meta: fakeEntryRunning,
     };
     const fakeDatasource = {
       isLoading: false,
-      data: [fakeEntryRunning]
+      data: [fakeEntryRunning],
     };
     const fakeTimeEntries = of(fakeDatasource);
     const expectedtimeEntriesAsEvent = [fakeTimeEntryAsEvent];
@@ -141,7 +142,7 @@ describe('CalendarComponent', () => {
       end: fakeEntry.end_date,
       title: fakeEntry.description,
       id: fakeEntry.id,
-      meta: fakeEntry
+      meta: fakeEntry,
     };
     const fakeValueEmit = {
       id: fakeEntry.id,
@@ -159,7 +160,7 @@ describe('CalendarComponent', () => {
       end: fakeEntry.end_date,
       title: fakeEntry.description,
       id: fakeEntry.id,
-      meta: fakeEntry
+      meta: fakeEntry,
     };
     const fakeValueEmit = {
       timeEntry: fakeEntry,
@@ -193,6 +194,13 @@ describe('CalendarComponent', () => {
     component.changeCalendarView(CalendarView.Day);
 
     expect(component.calendarView).toEqual(fakeCalendarView);
+  });
+
+  it('set srcoll to current time marker in calendarView when is call scrollToCurrentTimeMarker', () => {
+    const fakeCalendarView: CalendarView = CalendarView.Week;
+    spyOn(component, 'scrollToCurrentTimeMarker');
+    component.changeCalendarView(fakeCalendarView);
+    expect(component.scrollToCurrentTimeMarker).toHaveBeenCalled();
   });
 
   it('set false in nextDateDisabled when call navigationEnable and calendarView != Month and currentDate + 1 day is not greater to initialDate', () => {

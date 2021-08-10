@@ -128,7 +128,7 @@
     </div>
   </div>
 
-  <div [ngSwitch]="calendarView">
+  <div class="switch-calendar-view" [ngSwitch]="calendarView" #scrollContainer>
     <mwl-calendar-month-view
       *ngSwitchCase="CalendarViewEnum.Month"
       [viewDate]="currentDate"
