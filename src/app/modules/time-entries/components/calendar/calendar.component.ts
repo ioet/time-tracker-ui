@@ -33,6 +33,7 @@ export class CalendarComponent implements OnInit {
   @Input() set timeEntries$(timeEntries: Observable<DataSource<Entry>>) {
     this.castEntryToCalendarEvent(timeEntries);
   }
+
   @Input() calendarView: CalendarView = CalendarView.Month;
   @Input() currentDate: Date = new Date();
 
@@ -141,19 +142,18 @@ export class CalendarComponent implements OnInit {
     return new SubstractDatePipe().transformInMinutes(endDate, startDate);
   }
 
-  timeIsGreaterThan(startDate: Date, endDate: Date, timeRange: number): boolean {
-  getCardEntryHeight(startDate: Date, endDate: Date): number{
+  getCardEntryHeight(startDate: Date, endDate: Date): number {
     const heightCard = this.getTimeWork(startDate, endDate) * this.VARIATION_HEIGHT;
     const finalHeightCard = heightCard / 10;
-    return Math.floor(finalHeightCard) ;
+    return Math.floor(finalHeightCard);
   }
 
-  timeIsGreaterThan(startDate: Date, endDate: Date, timeRange: number ): boolean{
+  timeIsGreaterThan(startDate: Date, endDate: Date, timeRange: number): boolean {
     const timeWorkInMinutes = this.getTimeWork(startDate, endDate);
     return timeWorkInMinutes > timeRange;
   }
 
-  isVisibleForCurrentView(currentCalendarView: CalendarView, desiredView: CalendarView[] ): boolean{
+  isVisibleForCurrentView(currentCalendarView: CalendarView, desiredView: CalendarView[]): boolean {
     return desiredView.includes(currentCalendarView);
   }
 
