@@ -668,4 +668,11 @@ describe('TimeEntriesComponent', () => {
 
     expect(HTMLTimeEntriesView).not.toBeNull();
   });
+
+  it('after the component is initialized it should initialize the table', () => {
+    spyOn(component.dtTrigger, 'next');
+    component.ngAfterViewInit();
+
+    expect(component.dtTrigger.next).toHaveBeenCalled();
+  });
 });
