@@ -1,4 +1,17 @@
 @import '/src/styles/colors.scss';
+@import '/src/styles/vars.scss';
+
+$line-height-value: $line-height-base * $font-size-base;
+
+$max-lines-project: 2;
+$max-lines-activity: 1;
+$max-lines-description: 50;
+$container-time-entries-margin: 0.125;
+$time-entries-padding: 0.5rem;
+$project-name-line-height: 1;
+
+$project-text-size: $max-lines-project * $project-name-line-height;
+$activity-text-size: $max-lines-activity * $line-height-base;
 
 @function calculate-border-color($base-background-color) {
   @return darken(desaturate(adjust-hue($base-background-color, 6), 18), 27);
@@ -31,12 +44,29 @@
   border-radius: 5px;
 }
 
+@for $card-height from 12 through $max-lines-description {
+  $wrap-height: ($card-height * 0.625rem) -
+    $project-text-size -
+    $activity-text-size -
+    $container-time-entries-margin -
+    $time-entries-padding;
+  $line-clamp: ($wrap-height / $line-height-value);
+  .line-#{$card-height} {
+    overflow-y: hidden;
+    height: $wrap-height;
+    display: -webkit-box;
+    -webkit-line-clamp: round($line-clamp);
+    -webkit-box-orient: vertical;
+  }
+}
+
 .container-time-entries {
-  margin: 2px;
+  margin: $container-time-entries-margin;
   div.time-entries {
-    padding: 8px;
+    padding: $time-entries-padding;
     height: 100%;
     border-radius: 7px;
+    overflow-y: hidden;
     color: $primary-text;
     margin: 2px 6px 0px 5px;
     background-color: $background-card-entry;
@@ -50,8 +80,12 @@
     p.project-name {
       color: calculate-bold-text-color($primary-text);
       line-height: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: $max-lines-project;
+      -webkit-box-orient: vertical;
     }
     p.additional {
+      overflow-wrap: break-word;
       color: calculate-bold-text-color($primary-text);
     }
   }

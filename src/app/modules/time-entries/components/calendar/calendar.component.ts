@@ -25,12 +25,15 @@ import { differenceInMinutes, startOfDay, startOfHour } from 'date-fns';
 export class CalendarComponent implements OnInit {
   readonly DEFAULT_HEADER_HEIGHT = 52;
   readonly VARIATION_HEIGHT: number = 2;
+  readonly VISIBLE_TARGETS_FOR_TIME_ENTRIES_DESCRIPTION: CalendarView[] = [CalendarView.Week, CalendarView.Day];
+  readonly CALENDAR_VIEW_ENUM: typeof CalendarView = CalendarView;
 
   @ViewChild('scrollContainer') scrollContainer: ElementRef<HTMLElement>;
 
   @Input() set timeEntries$(timeEntries: Observable<DataSource<Entry>>) {
     this.castEntryToCalendarEvent(timeEntries);
   }
+
   @Input() calendarView: CalendarView = CalendarView.Month;
   @Input() currentDate: Date = new Date();
 
@@ -57,10 +60,6 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.isToday = this.isVisibleForCurrentDate();
     this.navigationEnable(this.calendarView);
-  }
-
-  get CalendarViewEnum(): typeof CalendarView {
-    return CalendarView;
   }
 
   scrollToCurrentTimeMarker() {
@@ -143,13 +142,19 @@ export class CalendarComponent implements OnInit {
     return new SubstractDatePipe().transformInMinutes(endDate, startDate);
   }
 
+  getCardEntryHeight(startDate: Date, endDate: Date): number {
+    const heightCard = this.getTimeWork(startDate, endDate) * this.VARIATION_HEIGHT;
+    const finalHeightCard = heightCard / 10;
+    return Math.floor(finalHeightCard);
+  }
+
   timeIsGreaterThan(startDate: Date, endDate: Date, timeRange: number): boolean {
     const timeWorkInMinutes = this.getTimeWork(startDate, endDate);
     return timeWorkInMinutes > timeRange;
   }
 
-  isVisibleForCurrentView(currentCalendarView: CalendarView, desiredView: CalendarView): boolean {
-    return currentCalendarView === desiredView;
+  isVisibleForCurrentView(currentCalendarView: CalendarView, desiredView: CalendarView[]): boolean {
+    return desiredView.includes(currentCalendarView);
   }
 
   isVisibleForCurrentDate(): boolean {

@@ -49,5 +49,8 @@ module.exports = function (config) {
     browsers: ['Chrome'],
     singleRun: false,
     restartOnFileChange: true,
+    proxies: {
+      '/assets/': '/src/assets/',
+    },
   });
 };
