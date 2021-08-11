@@ -221,6 +221,13 @@ describe('CalendarComponent', () => {
     expect(component.calendarView).toEqual(fakeCalendarView);
   });
 
+  it('set srcoll to current time marker in calendarView when is call scrollToCurrentTimeMarker', () => {
+    const fakeCalendarView: CalendarView = CalendarView.Week;
+    spyOn(component, 'scrollToCurrentTimeMarker');
+    component.changeCalendarView(fakeCalendarView);
+    expect(component.scrollToCurrentTimeMarker).toHaveBeenCalled();
+  });
+
   it('set false in nextDateDisabled when call navigationEnable and calendarView != Month and currentDate + 1 day is not greater to initialDate', () => {
     component.currentDate = moment().subtract(2, 'day').toDate();
     component.initialDate = moment().toDate();

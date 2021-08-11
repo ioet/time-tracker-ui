@@ -1,14 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-  CalendarEvent,
-  CalendarView,
-} from 'angular-calendar';
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DataSource } from '../../../shared/models/data-source.model';
 import { Entry } from 'src/app/modules/shared/models';
 import { map } from 'rxjs/operators';
 import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/substract-date.pipe';
+import { differenceInMinutes, startOfDay, startOfHour } from 'date-fns';
 
 @Component({
   selector: 'app-calendar',
@@ -16,12 +23,14 @@ import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/s
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
-  readonly HALF_HOUR: number = 30;
+  readonly DEFAULT_HEADER_HEIGHT = 52;
   readonly VARIATION_HEIGHT: number = 2;
   readonly VISIBLE_TARGETS_FOR_TIME_ENTRIES_DESCRIPTION: CalendarView[] = [CalendarView.Week, CalendarView.Day];
   readonly CALENDAR_VIEW_ENUM: typeof CalendarView = CalendarView;
 
-  @Input() set timeEntries$(timeEntries: Observable<DataSource<Entry>>){
+  @ViewChild('scrollContainer') scrollContainer: ElementRef<HTMLElement>;
+
+  @Input() set timeEntries$(timeEntries: Observable<DataSource<Entry>>) {
     this.castEntryToCalendarEvent(timeEntries);
   }
   @Input() calendarView: CalendarView = CalendarView.Month;
@@ -30,7 +39,7 @@ export class CalendarComponent implements OnInit {
   @Output() viewModal: EventEmitter<any> = new EventEmitter<string>();
   @Output() deleteTimeEntry: EventEmitter<any> = new EventEmitter<string>();
   @Output() changeDate: EventEmitter<any> = new EventEmitter<{
-    date: Date
+    date: Date;
   }>();
 
   initialDate: Date;
@@ -39,83 +48,100 @@ export class CalendarComponent implements OnInit {
   timeEntriesAsEvent: CalendarEvent[];
   nextDateDisabled: boolean;
 
-  constructor() {
+  constructor(private referenceChangeDetector: ChangeDetectorRef) {
     this.initialDate = new Date();
     this.previusDate = new Date();
     this.isToday = false;
     this.timeEntriesAsEvent = [];
     this.nextDateDisabled = true;
-   }
+  }
 
   ngOnInit(): void {
     this.isToday = this.isVisibleForCurrentDate();
     this.navigationEnable(this.calendarView);
   }
 
+  scrollToCurrentTimeMarker() {
+    if (this.calendarView === CalendarView.Week || CalendarView.Day) {
+      const minutesSinceStartOfDay = differenceInMinutes(startOfHour(this.currentDate), startOfDay(this.currentDate));
+      const headerHeight = this.calendarView === CalendarView.Week ? this.DEFAULT_HEADER_HEIGHT : 0;
+      this.scrollContainer.nativeElement.scrollTop = minutesSinceStartOfDay * this.VARIATION_HEIGHT + headerHeight;
+    }
+  }
+
   castEntryToCalendarEvent(timeEntries$: Observable<DataSource<Entry>>) {
-    timeEntries$.pipe(
-      map((timeEntriesDatasorce) => timeEntriesDatasorce.data.map(
-          (timeEntries) => ({
-              start: new Date(timeEntries.start_date),
-              end: timeEntries.end_date ? new Date(timeEntries.end_date) : null ,
-              title: timeEntries.description,
-              id: timeEntries.id,
-              meta: timeEntries
-            } as CalendarEvent)
+    timeEntries$
+      .pipe(
+        map((timeEntriesDatasorce) =>
+          timeEntriesDatasorce.data.map(
+            (timeEntries) =>
+              ({
+                start: new Date(timeEntries.start_date),
+                end: timeEntries.end_date ? new Date(timeEntries.end_date) : null,
+                title: timeEntries.description,
+                id: timeEntries.id,
+                meta: timeEntries,
+              } as CalendarEvent)
+          )
         )
       )
-    )
-    .subscribe((timeEntriesAsEvent) => {
+      .subscribe((timeEntriesAsEvent) => {
         this.timeEntriesAsEvent = [...timeEntriesAsEvent].reverse();
-    });
+      });
   }
 
   handleEditEvent(timeEntryAsEvent: CalendarEvent): void {
-    this.viewModal.emit( {
-      id: timeEntryAsEvent.id
+    this.viewModal.emit({
+      id: timeEntryAsEvent.id,
     });
   }
 
   handleDeleteEvent(timeEntryAsEvent: CalendarEvent): void {
     this.deleteTimeEntry.emit({
-      timeEntry: timeEntryAsEvent.meta
+      timeEntry: timeEntryAsEvent.meta,
     });
   }
 
-  handleChangeDateEvent(): void{
+  handleChangeDateEvent(): void {
     const date = this.currentDate;
     this.isToday = this.isVisibleForCurrentDate();
     this.navigationEnable(this.calendarView);
-    this.changeDate.emit({date});
+    this.changeDate.emit({ date });
   }
 
-  changeCalendarView(calendarView: CalendarView){
+  changeCalendarView(calendarView: CalendarView) {
     this.calendarView = calendarView;
+    this.scrollContainer.nativeElement.scrollTop = 0;
+    if (this.calendarView !== CalendarView.Month) {
+      this.referenceChangeDetector.detectChanges();
+      this.scrollToCurrentTimeMarker();
+    }
   }
 
-  navigationEnable(calendarView: CalendarView){
+  navigationEnable(calendarView: CalendarView) {
     let enable = false;
     const currentDate = moment(this.currentDate);
     const initialDate = moment(this.initialDate);
-    if (calendarView === CalendarView.Month){
+    if (calendarView === CalendarView.Month) {
       if (currentDate.month() === initialDate.month() && currentDate.year() === initialDate.year()) {
         enable = true;
       }
     }
     currentDate.add(1, 'day');
-    if (currentDate > initialDate){
+    if (currentDate > initialDate) {
       enable = true;
     }
     this.nextDateDisabled = enable;
   }
 
-  getTimeWork(startDate: Date, endDate: Date): number{
-    if (!endDate){
+  getTimeWork(startDate: Date, endDate: Date): number {
+    if (!endDate) {
       return 30;
     }
-    return new SubstractDatePipe().transformInMinutes( endDate , startDate);
+    return new SubstractDatePipe().transformInMinutes(endDate, startDate);
   }
 
+  timeIsGreaterThan(startDate: Date, endDate: Date, timeRange: number): boolean {
   getCardEntryHeight(startDate: Date, endDate: Date): number{
     const heightCard = this.getTimeWork(startDate, endDate) * this.VARIATION_HEIGHT;
     const finalHeightCard = heightCard / 10;
@@ -131,7 +157,7 @@ export class CalendarComponent implements OnInit {
     return desiredView.includes(currentCalendarView);
   }
 
-  isVisibleForCurrentDate(): boolean{
+  isVisibleForCurrentDate(): boolean {
     const currentDate: Date = new Date(this.currentDate);
     const initialDate: Date = new Date(this.initialDate);
     return currentDate.setHours(0, 0, 0, 0) === initialDate.setHours(0, 0, 0, 0);

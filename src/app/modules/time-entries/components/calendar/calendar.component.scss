@@ -21,6 +21,29 @@ $activity-text-size: $max-lines-activity * $line-height-base;
   @return darken(saturate(adjust-hue($text-color, 6), 46.19), 40.98);
 }
 
+.switch-calendar-view {
+  height: calc(100vh - 320px);
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+  border-radius: 5px;
+}
+
 @for $card-height from 12 through $max-lines-description {
   $wrap-height: ($card-height * 0.625rem) -
     $project-text-size -
