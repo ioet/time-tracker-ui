@@ -23,6 +23,7 @@ import { differenceInMinutes, startOfDay, startOfHour } from 'date-fns';
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
+  readonly HALF_HOUR: number = 30;
   readonly DEFAULT_HEADER_HEIGHT = 52;
   readonly VARIATION_HEIGHT: number = 2;
   readonly VISIBLE_TARGETS_FOR_TIME_ENTRIES_DESCRIPTION: CalendarView[] = [CalendarView.Week, CalendarView.Day];
