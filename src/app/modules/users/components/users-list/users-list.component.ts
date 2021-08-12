@@ -1,4 +1,4 @@
-import { GrantUserRole } from './../../store/user.actions';
+import { GrantUserRole, RevokeUserRole } from './../../store/user.actions';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActionsSubject, select, Store, Action } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
@@ -8,7 +8,6 @@ import { ROLES } from 'src/environments/environment';
 import { User } from '../../models/users';
 import { LoadUsers, UserActionTypes, AddUserToGroup, RemoveUserFromGroup } from '../../store/user.actions';
 import { getIsLoading } from '../../store/user.selectors';
-import { RevokeUserRole } from '../../store/user.actions';
 
 @Component({
   selector: 'app-users-list',

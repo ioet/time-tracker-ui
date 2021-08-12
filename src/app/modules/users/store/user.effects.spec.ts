@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { Observable, of, throwError } from 'rxjs';
 import { UsersService } from '../services/users.service';
-import { UserActionTypes, RevokeUserRoleFail } from './user.actions';
+import { UserActionTypes } from './user.actions';
 import { UserEffects } from './user.effects';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
