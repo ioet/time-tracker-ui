@@ -82,6 +82,55 @@ export const userReducer = (state: UserState = initialState, action: UserActions
         message: 'Something went wrong removing user from group',
       };
     }
+    case UserActionTypes.GRANT_USER_ROLE: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case UserActionTypes.GRANT_USER_ROLE_SUCCESS: {
+      const index = userData.findIndex((user) => user.id === action.payload.id);
+      userData[index] = action.payload;
+      return {
+        data: userData,
+        isLoading: false,
+        message: 'User role successfully granted',
+      };
+    }
+
+    case UserActionTypes.GRANT_USER_ROLE_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+        message: 'Something went wrong granting access role to the user',
+      };
+    }
+
+    case UserActionTypes.REVOKE_USER_ROLE: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case UserActionTypes.REVOKE_USER_ROLE_SUCCESS: {
+      const index = userData.findIndex((user) => user.id === action.payload.id);
+      userData[index] = action.payload;
+      return {
+        data: userData,
+        isLoading: false,
+        message: 'User role successfully revoked',
+      };
+    }
+
+    case UserActionTypes.REVOKE_USER_ROLE_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+        message: 'Something went wrong revoking access role to the user',
+      };
+    }
     default:
       return state;
   }

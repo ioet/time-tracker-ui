@@ -23,6 +23,16 @@ export const GROUPS = {
   TESTER: 'time-tracker-tester',
 };
 
+export const ROLES = {
+  admin: {
+    name: 'admin',
+    value: 'time-tracker-admin',
+  },
+  tester: {
+    name: 'test',
+    value: 'time-tracker-tester',
+  },
+};
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

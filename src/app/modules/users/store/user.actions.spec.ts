@@ -58,4 +58,46 @@ describe('UserActions', () => {
 
     expect(action.type).toEqual(actions.UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL);
   });
+
+  it('GrantUserRole type is UserActionTypes.GRANT_USER_ROLE', () => {
+    const userId = 'no-matter-id';
+    const roleId = 'no-matter-role-id';
+    const action = new actions.GrantUserRole(userId, roleId);
+
+    expect(action.type).toEqual(actions.UserActionTypes.GRANT_USER_ROLE);
+  });
+
+  it('GrantUserRoleSuccess type is UserActionTypes.GRANT_USER_ROLE_SUCCESS', () => {
+    const user: User = { id: 'id', email: 'email', name: 'name' };
+    const action = new actions.GrantUserRoleSuccess(user);
+
+    expect(action.type).toEqual(actions.UserActionTypes.GRANT_USER_ROLE_SUCCESS);
+  });
+
+  it('GrantUserRoleFail type is UserActionTypes.GRANT_USER_ROLE_FAIL', () => {
+    const action = new actions.GrantUserRoleFail('error');
+
+    expect(action.type).toEqual(actions.UserActionTypes.GRANT_USER_ROLE_FAIL);
+  });
+
+  it('RevokeUserRole type is UserActionTypes.REVOKE_USER_ROLE', () => {
+    const userId = 'no-matter-id';
+    const roleId = 'no-matter-role-id';
+    const action = new actions.RevokeUserRole(userId, roleId);
+
+    expect(action.type).toEqual(actions.UserActionTypes.REVOKE_USER_ROLE);
+  });
+
+  it('RevokeUserRoleSuccess type is UserActionTypes.REVOKE_USER_ROLE_SUCCESS', () => {
+    const user: User = { id: 'id', email: 'email', name: 'name' };
+    const action = new actions.RevokeUserRoleSuccess(user);
+
+    expect(action.type).toEqual(actions.UserActionTypes.REVOKE_USER_ROLE_SUCCESS);
+  });
+
+  it('RevokeUserRoleFail type is UserActionTypes.REVOKE_USER_ROLE_FAIL', () => {
+    const action = new actions.RevokeUserRoleFail('error');
+
+    expect(action.type).toEqual(actions.UserActionTypes.REVOKE_USER_ROLE_FAIL);
+  });
 });

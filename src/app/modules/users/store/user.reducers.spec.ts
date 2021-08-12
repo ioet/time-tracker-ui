@@ -93,6 +93,100 @@ describe('userReducer', () => {
     expect(state.isLoading).toEqual(false);
   });
 
+  it('on GrantUserRole, isLoading should be true', () => {
+    const userId = 'no-matter-id';
+    const roleId = 'no-maatter-role-id';
+    const action = new actions.GrantUserRole(userId, roleId);
+
+    const state = userReducer(initialState, action);
+
+    expect(state.isLoading).toBeTrue();
+  });
+
+  it('on GrantUserRoleSuccess, state should be updated', () => {
+    const currentState: UserState = {
+      data: [
+        {
+          id: '1',
+          name: 'no-matter-name',
+          email: 'no-matter-email',
+          roles: [],
+        },
+      ],
+      isLoading: false,
+      message: '',
+    };
+
+    const userWithRoleAdded: User = {
+      id: '1',
+      name: 'no-matter-name',
+      email: 'no-matter-email',
+      roles: ['time-tracker-admin'],
+    };
+
+    const action = new actions.GrantUserRoleSuccess(userWithRoleAdded);
+    const state = userReducer(currentState, action);
+
+    expect(state.isLoading).toBeFalse();
+    expect(state.message).toBe('User role successfully granted');
+    expect(state.data).toEqual([userWithRoleAdded]);
+  });
+
+  it('on GrantUserRoleFail, state should not be updated', () => {
+    const action = new actions.GrantUserRoleFail('error');
+    const state = userReducer(initialState, action);
+
+    expect(state.isLoading).toBeFalse();
+    expect(state.message).toBe('Something went wrong granting access role to the user');
+  });
+
+  it('on RevokeUserRole, state should be updated', () => {
+    const userId = 'no-matter-id';
+    const roleId = 'no-maatter-role-id';
+    const action = new actions.RevokeUserRole(userId, roleId);
+
+    const state = userReducer(initialState, action);
+
+    expect(state.isLoading).toBeTrue();
+  });
+
+  it('on RevokeUserRoleSuccess, state data should be updated', () => {
+    const currentState: UserState = {
+      data: [
+        {
+          id: '1',
+          name: 'no-matter-name',
+          email: 'no-matter-email',
+          roles: ['time-tracker-admin'],
+        },
+      ],
+      isLoading: false,
+      message: '',
+    };
+
+    const user: User = {
+      id: '1',
+      name: 'no-matter-name',
+      email: 'no-matter-email',
+      roles: [],
+    };
+
+    const action = new actions.RevokeUserRoleSuccess(user);
+    const state = userReducer(currentState, action);
+
+    expect(state.isLoading).toBeFalse();
+    expect(state.message).toBe('User role successfully revoked');
+    expect(state.data).toEqual([user]);
+  });
+
+  it('on RevokeUserRoleFail, state should not be updated', () => {
+    const action = new actions.RevokeUserRoleFail('error');
+    const state = userReducer(initialState, action);
+
+    expect(state.isLoading).toBeFalse();
+    expect(state.message).toBe('Something went wrong revoking access role to the user');
+  });
+
   it('on Default, ', () => {
     const action = new actions.DefaultUser();
     const state = userReducer(initialState, action);

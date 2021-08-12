@@ -1,16 +1,14 @@
+import { GrantUserRole } from './../../store/user.actions';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActionsSubject, select, Store, Action } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { delay, filter } from 'rxjs/operators';
+import { ROLES } from 'src/environments/environment';
 import { User } from '../../models/users';
-import {
-  LoadUsers,
-  UserActionTypes,
-  AddUserToGroup,
-  RemoveUserFromGroup,
-} from '../../store/user.actions';
+import { LoadUsers, UserActionTypes, AddUserToGroup, RemoveUserFromGroup } from '../../store/user.actions';
 import { getIsLoading } from '../../store/user.selectors';
+import { RevokeUserRole } from '../../store/user.actions';
 
 @Component({
   selector: 'app-users-list',
@@ -28,10 +26,11 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   dtOptions: any = {};
   switchGroupsSubscription: Subscription;
 
-  constructor(
-    private store: Store<User>,
-    private actionsSubject$: ActionsSubject,
-  ) {
+  public get ROLES() {
+    return ROLES;
+  }
+
+  constructor(private store: Store<User>, private actionsSubject$: ActionsSubject) {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
   }
 
@@ -75,6 +74,13 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
         ? new RemoveUserFromGroup(user.id, groupName)
         : new AddUserToGroup(user.id, groupName)
     );
+  }
+
+  updateRole(role: { name: string; value: string }, user: User) {
+    const userHasRole = user.roles.includes(role.value);
+    const action = userHasRole ? new RevokeUserRole(user.id, role.name) : new GrantUserRole(user.id, role.name);
+
+    this.store.dispatch(action);
   }
 
   filterUserGroup(): Observable<Action> {

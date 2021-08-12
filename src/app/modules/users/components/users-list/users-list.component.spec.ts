@@ -2,15 +2,10 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UsersListComponent } from './users-list.component';
-import {
-  UserActionTypes,
-  UserState,
-  LoadUsers,
-  AddUserToGroup,
-  RemoveUserFromGroup,
-} from '../../store';
+import { UserActionTypes, UserState, LoadUsers, AddUserToGroup, RemoveUserFromGroup } from '../../store';
 import { ActionsSubject } from '@ngrx/store';
 import { DataTablesModule } from 'angular-datatables';
+import { GrantUserRole, RevokeUserRole } from '../../store/user.actions';
 
 describe('UsersListComponent', () => {
   let component: UsersListComponent;
@@ -39,10 +34,7 @@ describe('UsersListComponent', () => {
       TestBed.configureTestingModule({
         imports: [NgxPaginationModule, DataTablesModule],
         declarations: [UsersListComponent],
-        providers: [
-          provideMockStore({ initialState: state }),
-          { provide: ActionsSubject, useValue: actionSub },
-        ],
+        providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
       }).compileComponents();
     })
   );
@@ -100,10 +92,7 @@ describe('UsersListComponent', () => {
     });
   });
 
-  const AddGroupTypes = [
-    { groupName: 'time-tracker-admin' },
-    { groupName: 'time-tracker-tester' }
-  ];
+  const AddGroupTypes = [{ groupName: 'time-tracker-admin' }, { groupName: 'time-tracker-tester' }];
 
   AddGroupTypes.map((param) => {
     it(`When user switchGroup to ${param.groupName} and doesn't belong to any group, should add ${param.groupName} group to user`, () => {
@@ -177,6 +166,60 @@ describe('UsersListComponent', () => {
     actionSubject.next(action);
 
     expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
+  });
+
+  it('When the user does not have the role, this role must be added', () => {
+    const availableRoles = [
+      {
+        name: 'admin',
+        value: 'time-tracker-admin',
+      },
+      {
+        name: 'test',
+        value: 'time-tracker-tester',
+      },
+    ];
+
+    spyOn(store, 'dispatch');
+
+    const user = {
+      id: 'no-matter-id',
+      name: 'no-matter-name',
+      email: 'no-matter-email',
+      roles: [],
+    };
+
+    availableRoles.forEach((role) => {
+      component.updateRole(role, user);
+      expect(store.dispatch).toHaveBeenCalledWith(new GrantUserRole(user.id, role.name));
+    });
+  });
+
+  it('When the user has the role, this role must be removed', () => {
+    const availableRoles = [
+      {
+        name: 'admin',
+        value: 'time-tracker-admin',
+      },
+      {
+        name: 'test',
+        value: 'time-tracker-tester',
+      },
+    ];
+
+    spyOn(store, 'dispatch');
+
+    const user = {
+      id: 'no-matter-id',
+      name: 'no-matter-name',
+      email: 'no-matter-email',
+      roles: ['time-tracker-admin', 'time-tracker-tester'],
+    };
+
+    availableRoles.forEach((role) => {
+      component.updateRole(role, user);
+      expect(store.dispatch).toHaveBeenCalledWith(new RevokeUserRole(user.id, role.name));
+    });
   });
 
   afterEach(() => {

@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { Observable, of, throwError } from 'rxjs';
 import { UsersService } from '../services/users.service';
-import { UserActionTypes } from './user.actions';
+import { UserActionTypes, RevokeUserRoleFail } from './user.actions';
 import { UserEffects } from './user.effects';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
@@ -121,6 +121,82 @@ describe('UserEffects', () => {
     effects.removeUserFromGroup$.subscribe((action) => {
       expect(toastrService.error).toHaveBeenCalled();
       expect(action.type).toEqual(UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL);
+    });
+  });
+
+  it('action type should be GRANT_USER_ROLE_SUCCESS when grantUserRole effect was executed successfully', async () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+
+    actions$ = of({
+      type: UserActionTypes.GRANT_USER_ROLE,
+      userId,
+      roleId,
+    });
+
+    spyOn(toastrService, 'success');
+    spyOn(service, 'grantRole').and.returnValue(of(user));
+
+    effects.grantUserRole$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('User role successfully granted');
+      expect(action.type).toEqual(UserActionTypes.GRANT_USER_ROLE_SUCCESS);
+    });
+  });
+
+  it('action type should be GRANT_USER_ROLE_FAIL when grantUserRole effect failed', async () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+
+    actions$ = of({
+      type: UserActionTypes.GRANT_USER_ROLE,
+      userId,
+      roleId,
+    });
+
+    spyOn(toastrService, 'error');
+    spyOn(service, 'grantRole').and.returnValue(throwError({ error: { message: 'error' } }));
+
+    effects.grantUserRole$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(UserActionTypes.GRANT_USER_ROLE_FAIL);
+    });
+  });
+
+  it('action type should be REVOKE_USER_SUCCESS when revokeUserRole effect was executed successfully', async () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+
+    actions$ = of({
+      type: UserActionTypes.REVOKE_USER_ROLE,
+      userId,
+      roleId,
+    });
+
+    spyOn(toastrService, 'success');
+    spyOn(service, 'revokeRole').and.returnValue(throwError({ error: { message: 'error' } }));
+
+    effects.grantUserRole$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('User role successfully revoked');
+      expect(action.type).toEqual(UserActionTypes.REVOKE_USER_ROLE_SUCCESS);
+    });
+  });
+
+  it('action type should be REVOKE_USER_FAIL when revokeUserRole effect failed', async () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+
+    actions$ = of({
+      type: UserActionTypes.REVOKE_USER_ROLE,
+      userId,
+      roleId,
+    });
+
+    spyOn(toastrService, 'error');
+    spyOn(service, 'revokeRole').and.returnValue(throwError({ error: { message: 'error' } }));
+
+    effects.grantUserRole$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(UserActionTypes.REVOKE_USER_ROLE_FAIL);
     });
   });
 });
