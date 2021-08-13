@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { delay, filter } from 'rxjs/operators';
 import { ProjectSelectedEvent } from '../../shared/components/details-fields/project-selected-event';
 import { SaveEntryEvent } from '../../shared/components/details-fields/save-entry-event';
@@ -14,12 +14,13 @@ import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 import { getActiveTimeEntry, getTimeEntriesDataSource } from './../../time-clock/store/entry.selectors';
 import { CookieService } from 'ngx-cookie-service';
 import { FeatureToggle } from './../../../../environments/enum';
+import { DataTableDirective } from 'angular-datatables';
 @Component({
   selector: 'app-time-entries',
   templateUrl: './time-entries.component.html',
   styleUrls: ['./time-entries.component.scss'],
 })
-export class TimeEntriesComponent implements OnInit, OnDestroy {
+export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   entryId: string;
   entry: Entry;
   activeTimeEntry: Entry;
@@ -38,6 +39,11 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedYear: number;
   selectedMonthAsText: string;
   isActiveEntryOverlapping = false;
+  dtOptions: any = {};
+  dtTrigger: Subject<any> = new Subject();
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
+  rerenderTableSubscription: Subscription;
   constructor(
     private store: Store<EntryState>,
     private toastrService: ToastrService,
@@ -49,8 +55,18 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.entriesSubscription.unsubscribe();
+    this.rerenderTableSubscription.unsubscribe();
+    this.dtTrigger.unsubscribe();
   }
   ngOnInit(): void {
+    this.dtOptions = {
+      scrollY: '325px',
+      paging: false,
+      responsive: true,
+    };
+    this.rerenderTableSubscription = this.timeEntriesDataSource$.subscribe((ds) => {
+      this.rerenderDataTable();
+    });
     this.loadActiveEntry();
     this.isFeatureToggleCalendarActive = (this.cookiesService.get(FeatureToggle.TIME_TRACKER_CALENDAR) === 'true');
     this.entriesSubscription = this.actionsSubject$.pipe(
@@ -64,6 +80,9 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.loadActiveEntry();
       this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
     });
+  }
+  ngAfterViewInit(): void {
+    this.rerenderDataTable();
   }
   newEntry() {
     if (this.wasEditingExistingTimeEntry) {
@@ -214,6 +233,17 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
         });
         this.isActiveEntryOverlapping = overlappingEntry ? true : false;
       });
+    }
+  }
+
+  private rerenderDataTable(): void {
+    if (this.dtElement && this.dtElement.dtInstance) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          dtInstance.destroy();
+          this.dtTrigger.next();
+      });
+    } else {
+        this.dtTrigger.next();
     }
   }
 }
