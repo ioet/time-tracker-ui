@@ -269,15 +269,13 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     const secondsInISOFormat: string = this.getNumberInISOFornat(seconds);
     const milisecondsInISOFormat: string = this.getNumberInISOFornat(miliseconds);
     const ISOFormat = `${date}T${hourAndMinutes}:${secondsInISOFormat}.${milisecondsInISOFormat}`;
-    const dateISOFormat: string = new Date(ISOFormat).toISOString();
-    return dateISOFormat;
+    return new Date(ISOFormat).toISOString();
   }
 
   getNumberInISOFornat(numberToFormat: number): string {
     const limitSingleNumber = 9;
     const isNumberGreaterThanLimitNumber = numberToFormat > limitSingleNumber;
-    const numberInISOFormat: string = isNumberGreaterThanLimitNumber ? numberToFormat.toString() : `0${numberToFormat}`;
-    return numberInISOFormat;
+    return isNumberGreaterThanLimitNumber ? numberToFormat.toString() : `0${numberToFormat}`;
   }
 
   dateToSubmit(date: string, hour: string) {
