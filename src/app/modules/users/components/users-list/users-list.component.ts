@@ -75,10 +75,8 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  updateRole(role: { name: string; value: string }, user: User) {
-    const userHasRole = user.roles.includes(role.value);
-    const action = userHasRole ? new RevokeUserRole(user.id, role.name) : new GrantUserRole(user.id, role.name);
-
+  updateRole(role: { name: string; value: string }, user: User, isToggleEnabled: boolean) {
+    const action = isToggleEnabled ? new GrantUserRole(user.id, role.name) : new RevokeUserRole(user.id, role.name);
     this.store.dispatch(action);
   }
 

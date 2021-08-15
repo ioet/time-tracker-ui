@@ -168,7 +168,7 @@ describe('UsersListComponent', () => {
     expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
   });
 
-  it('When the user does not have the role, this role must be added', () => {
+  it('When the toggle is enabled, the role must be added to the user ', () => {
     const availableRoles = [
       {
         name: 'admin',
@@ -190,12 +190,13 @@ describe('UsersListComponent', () => {
     };
 
     availableRoles.forEach((role) => {
-      component.updateRole(role, user);
+      const isToggleEnabled = true;
+      component.updateRole(role, user, isToggleEnabled);
       expect(store.dispatch).toHaveBeenCalledWith(new GrantUserRole(user.id, role.name));
     });
   });
 
-  it('When the user has the role, this role must be removed', () => {
+  it('When the toggle is disabled, the role must be removed from the user', () => {
     const availableRoles = [
       {
         name: 'admin',
@@ -217,7 +218,8 @@ describe('UsersListComponent', () => {
     };
 
     availableRoles.forEach((role) => {
-      component.updateRole(role, user);
+      const isToggleEnabled = false;
+      component.updateRole(role, user, isToggleEnabled);
       expect(store.dispatch).toHaveBeenCalledWith(new RevokeUserRole(user.id, role.name));
     });
   });
