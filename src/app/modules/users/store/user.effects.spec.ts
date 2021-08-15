@@ -173,9 +173,9 @@ describe('UserEffects', () => {
     });
 
     spyOn(toastrService, 'success');
-    spyOn(service, 'revokeRole').and.returnValue(throwError({ error: { message: 'error' } }));
+    spyOn(service, 'revokeRole').and.returnValue(of(user));
 
-    effects.grantUserRole$.subscribe((action) => {
+    effects.revokeUserRole$.subscribe((action) => {
       expect(toastrService.success).toHaveBeenCalledWith('User role successfully revoked');
       expect(action.type).toEqual(UserActionTypes.REVOKE_USER_ROLE_SUCCESS);
     });
@@ -194,7 +194,7 @@ describe('UserEffects', () => {
     spyOn(toastrService, 'error');
     spyOn(service, 'revokeRole').and.returnValue(throwError({ error: { message: 'error' } }));
 
-    effects.grantUserRole$.subscribe((action) => {
+    effects.revokeUserRole$.subscribe((action) => {
       expect(toastrService.error).toHaveBeenCalled();
       expect(action.type).toEqual(UserActionTypes.REVOKE_USER_ROLE_FAIL);
     });
