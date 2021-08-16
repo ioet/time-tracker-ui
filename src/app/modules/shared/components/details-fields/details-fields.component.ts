@@ -264,12 +264,37 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     return startDate >= endDate;
   }
 
-  dateToSubmit(date, hour) {
-    const entryFormDate = this.entryForm.value[date];
-    const updatedHour = this.entryForm.value[hour];
-    const updatedDate = new Date(`${entryFormDate}T${updatedHour.trim()}`).toISOString();
+  getDateISOFormat(date: string, hourAndMinutes: string, seconds: number, miliseconds: number): string {
+    hourAndMinutes = hourAndMinutes.trim();
+    const secondsInISOFormat: string = this.getNumberInISOFormat(seconds);
+    const milisecondsInISOFormat: string = this.getNumberInISOFormat(miliseconds);
+    const ISOFormat = `${date}T${hourAndMinutes}:${secondsInISOFormat}.${milisecondsInISOFormat}`;
+    return new Date(ISOFormat).toISOString();
+  }
+
+  getNumberInISOFormat(numberToFormat: number): string {
+    const limitSingleNumber = 9;
+    const isNumberGreaterThanLimitNumber = numberToFormat > limitSingleNumber;
+    return isNumberGreaterThanLimitNumber ? numberToFormat.toString() : `0${numberToFormat}`;
+  }
+
+  dateToSubmit(date: string, hour: string) {
+    const timeEntryISODate: string = get(this.entryToEdit, date);
+    let seconds = 0;
+    let miliseconds = 0;
+
+    if (timeEntryISODate) {
+      const timeEntryDate: Date = new Date(timeEntryISODate);
+      seconds = timeEntryDate.getSeconds();
+      miliseconds = timeEntryDate.getMilliseconds();
+    }
+
+    const newEntryDate: string = this.entryForm.value[date];
+    const newEntryHour: string = this.entryForm.value[hour];
+
+    const updatedDate: string = this.getDateISOFormat(newEntryDate, newEntryHour, seconds, miliseconds);
     const initialDate = get(this.entryToEdit, date, updatedDate);
-    const dateHasNotChanged = (initialDate === updatedDate);
+    const dateHasNotChanged = initialDate === updatedDate;
     const result = dateHasNotChanged ? initialDate : updatedDate;
     return result;
   }

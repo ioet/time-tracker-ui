@@ -141,8 +141,8 @@ describe('DetailsFieldsComponent', () => {
       uri: 'ticketUri',
       start_date: '',
       end_date: '',
-      start_hour: '00:00:10',
-      end_hour: '00:00:11',
+      start_hour: '00:00',
+      end_hour: '00:00',
       description: '',
       technology: '',
     };
@@ -176,22 +176,23 @@ describe('DetailsFieldsComponent', () => {
     expect(component.saveEntry.emit).toHaveBeenCalledTimes(0);
   });
 
-  [{ actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS }, { actionType: EntryActionTypes.UPDATE_ENTRY_SUCCESS }].forEach(
-    (param) => {
-      it(`cleanForm after an action type ${param.actionType} is received`, () => {
-        const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
-        const action = {
-          type: param.actionType,
-        };
-        spyOn(component, 'cleanForm');
+  [
+    { actionType: EntryActionTypes.CREATE_ENTRY_SUCCESS },
+    { actionType: EntryActionTypes.UPDATE_ENTRY_SUCCESS },
+  ].forEach((param) => {
+    it(`cleanForm after an action type ${param.actionType} is received`, () => {
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+      const action = {
+        type: param.actionType,
+      };
+      spyOn(component, 'cleanForm');
 
-        component.ngOnInit();
-        actionSubject.next(action);
+      component.ngOnInit();
+      actionSubject.next(action);
 
-        expect(component.cleanForm).toHaveBeenCalled();
-      });
-    }
-  );
+      expect(component.cleanForm).toHaveBeenCalled();
+    });
+  });
 
   it('on cleanFieldsForm the project_id and project_name should be kept', () => {
     const entryFormValueExpected = {
@@ -295,8 +296,8 @@ describe('DetailsFieldsComponent', () => {
       uri: '',
       start_date: '2020-02-05',
       end_date: '2020-02-05',
-      start_hour: '00:00:01',
-      end_hour: '00:01:01',
+      start_hour: '00:00',
+      end_hour: '00:01',
       description: '',
       technology: '',
     });
@@ -309,8 +310,8 @@ describe('DetailsFieldsComponent', () => {
         activity_id: 'a1',
         technologies: [],
         description: '',
-        start_date: new Date('2020-02-05T00:00:01').toISOString(),
-        end_date: new Date('2020-02-05T00:01:01').toISOString(),
+        start_date: new Date('2020-02-05T00:00:00').toISOString(),
+        end_date: new Date('2020-02-05T00:01:00').toISOString(),
         uri: '',
         timezone_offset: new Date().getTimezoneOffset(),
       },
@@ -408,7 +409,7 @@ describe('DetailsFieldsComponent', () => {
         activity_id: 'a1',
         technologies: [],
         description: '',
-        start_date: new Date('2020-06-11T00:00:10').toISOString(),
+        start_date: new Date('2020-06-11T00:00:00').toISOString(),
         uri: 'ticketUri',
         timezone_offset: new Date().getTimezoneOffset(),
       },
@@ -651,6 +652,58 @@ describe('DetailsFieldsComponent', () => {
     componentToTest.entryForm.setValue({ ...formValues, ...times });
     componentToTest.onSubmit();
     expect(toastrServiceStub.error).not.toHaveBeenCalled();
+  });
+
+  it('Should return a date in ISO format given a date, hour, minute, second and milisecond', () => {
+    const fakeDates = [
+      {
+        date: '2021-04-20',
+        hourAndMinutes: '10:00',
+        seconds: 20,
+        miliseconds: 100,
+      },
+      {
+        date: '2020-09-21',
+        hourAndMinutes: '08:00',
+        seconds: 10,
+        miliseconds: 100,
+      },
+      {
+        date: '2021-04-15',
+        hourAndMinutes: '23:00',
+        seconds: 0,
+        miliseconds: 0,
+      },
+      {
+        date: '2019-03-29',
+        hourAndMinutes: '12:00',
+        seconds: 30,
+        miliseconds: 400,
+      },
+    ];
+
+    const expectedISODates = [
+      new Date('2021-04-20T10:00:20.100').toISOString(),
+      new Date('2020-09-21T08:00:10.100').toISOString(),
+      new Date('2021-04-15T23:00:00.000').toISOString(),
+      new Date('2019-03-29T12:00:30.400').toISOString(),
+    ];
+
+    fakeDates.forEach(({ date, hourAndMinutes, seconds, miliseconds }, fakeDateIndex) => {
+      const dateInISOFormat = component.getDateISOFormat(date, hourAndMinutes, seconds, miliseconds);
+      expect(dateInISOFormat).toBe(expectedISODates[fakeDateIndex]);
+    });
+  });
+
+  it('should return a number in ISO format given a normal number', () => {
+    const numbersForTest = [1, 2, 3, 4, 20, 30, 40, 32, 45];
+
+    const expectedISOFormatNumbers = ['01', '02', '03', '04', '20', '30', '40', '32', '45'];
+
+    numbersForTest.forEach((currentNumber, numberIndex) => {
+      const numberinISOFormat = component.getNumberInISOFormat(currentNumber);
+      expect(numberinISOFormat).toBe(expectedISOFormatNumbers[numberIndex]);
+    });
   });
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
