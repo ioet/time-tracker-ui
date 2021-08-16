@@ -42,7 +42,7 @@
   </ng-template>
   <ng-template #listView>
     <div id="listView">
-      <table class="table table-sm table-striped mb-0" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" *ngIf="timeEntriesDataSource$ | async as dataSource">
+      <table class="table table-sm table-striped mb-0" *ngIf="timeEntriesDataSource$ | async as dataSource">
         <thead class="thead-blue">
           <tr class="d-flex">
             <th class="col">Date</th>
