@@ -701,7 +701,7 @@ describe('DetailsFieldsComponent', () => {
     const expectedISOFormatNumbers = ['01', '02', '03', '04', '20', '30', '40', '32', '45'];
 
     numbersForTest.forEach((currentNumber, numberIndex) => {
-      const numberinISOFormat = component.getNumberInISOFornat(currentNumber);
+      const numberinISOFormat = component.getNumberInISOFormat(currentNumber);
       expect(numberinISOFormat).toBe(expectedISOFormatNumbers[numberIndex]);
     });
   });
