@@ -660,13 +660,13 @@ describe('DetailsFieldsComponent', () => {
         date: '2021-04-20',
         hourAndMinutes: '10:00',
         seconds: 20,
-        miliseconds: 10,
+        miliseconds: 100,
       },
       {
         date: '2020-09-21',
         hourAndMinutes: '08:00',
         seconds: 10,
-        miliseconds: 10,
+        miliseconds: 100,
       },
       {
         date: '2021-04-15',
@@ -678,15 +678,15 @@ describe('DetailsFieldsComponent', () => {
         date: '2019-03-29',
         hourAndMinutes: '12:00',
         seconds: 30,
-        miliseconds: 40,
+        miliseconds: 400,
       },
     ];
 
     const expectedISODates = [
-      '2021-04-20T15:00:20.100Z',
-      '2020-09-21T13:00:10.100Z',
-      '2021-04-16T04:00:00.000Z',
-      '2019-03-29T17:00:30.400Z',
+      new Date('2021-04-20T10:00:20.100').toISOString(),
+      new Date('2020-09-21T08:00:10.100').toISOString(),
+      new Date('2021-04-15T23:00:00.000').toISOString(),
+      new Date('2019-03-29T12:00:30.400').toISOString(),
     ];
 
     fakeDates.forEach(({ date, hourAndMinutes, seconds, miliseconds }, fakeDateIndex) => {
