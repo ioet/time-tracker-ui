@@ -6,6 +6,7 @@ import { UserActionTypes, UserState, LoadUsers, AddUserToGroup, RemoveUserFromGr
 import { ActionsSubject } from '@ngrx/store';
 import { DataTablesModule } from 'angular-datatables';
 import { GrantUserRole, RevokeUserRole } from '../../store/user.actions';
+import { ROLES } from '../../../../../environments/environment';
 
 describe('UsersListComponent', () => {
   let component: UsersListComponent;
@@ -222,6 +223,10 @@ describe('UsersListComponent', () => {
       component.updateRole(role, user, isToggleEnabled);
       expect(store.dispatch).toHaveBeenCalledWith(new RevokeUserRole(user.id, role.name));
     });
+  });
+
+  it('When we call ROLES variable should return available roles', () => {
+    expect(component.ROLES).toEqual(ROLES);
   });
 
   afterEach(() => {

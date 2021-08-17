@@ -1,5 +1,9 @@
 <div class="table-responsive">
-  <table *ngIf="users" class="table table-sm table-bordered table-striped mb-0" datatable [dtTrigger]="dtTrigger"
+  <table
+    *ngIf="users"
+    class="table table-sm table-bordered table-striped mb-0"
+    datatable
+    [dtTrigger]="dtTrigger"
     [dtOptions]="dtOptions">
     <thead class="thead-blue">
       <tr class="d-flex flex-wrap">
@@ -14,11 +18,14 @@
         <td class="col-4 text-break">{{ user.email }}</td>
         <td class="col-5 text-break">{{ user.name }}</td>
         <td class="col-3 text-center">
-          <ui-switch size="small"
+          <ui-switch
+            size="small"
             (change)="switchGroup('time-tracker-admin', user); updateRole(ROLES.admin, user, $event);"
             [checked]="user.groups.includes('time-tracker-admin')"></ui-switch>
           admin
-          <ui-switch size="small" (change)="switchGroup('time-tracker-tester', user)"
+          <ui-switch
+            size="small"
+            (change)="switchGroup('time-tracker-tester', user)"
             [checked]="user.groups.includes('time-tracker-tester')"></ui-switch>
           test
         </td>
