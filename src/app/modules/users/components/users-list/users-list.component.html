@@ -4,8 +4,7 @@
     class="table table-sm table-bordered table-striped mb-0"
     datatable
     [dtTrigger]="dtTrigger"
-    [dtOptions]="dtOptions"
-  >
+    [dtOptions]="dtOptions">
     <thead class="thead-blue">
       <tr class="d-flex flex-wrap">
         <th class="col-4">User Email</th>
@@ -21,15 +20,13 @@
         <td class="col-3 text-center">
           <ui-switch
             size="small"
-            (change)="switchGroup('time-tracker-admin', user)"
-            [checked]="user.groups.includes('time-tracker-admin')"
-          ></ui-switch>
+            (change)="switchGroup('time-tracker-admin', user); updateRole(ROLES.admin, user, $event);"
+            [checked]="user.groups.includes('time-tracker-admin')"></ui-switch>
           admin
           <ui-switch
             size="small"
             (change)="switchGroup('time-tracker-tester', user)"
-            [checked]="user.groups.includes('time-tracker-tester')"
-          ></ui-switch>
+            [checked]="user.groups.includes('time-tracker-tester')"></ui-switch>
           test
         </td>
       </tr>

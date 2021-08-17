@@ -10,7 +10,7 @@ import * as actions from './user.actions';
 
 @Injectable()
 export class UserEffects {
-  constructor(private actions$: Actions, private userService: UsersService, private toastrService: ToastrService) { }
+  constructor(private actions$: Actions, private userService: UsersService, private toastrService: ToastrService) {}
 
   @Effect()
   loadUsers$: Observable<Action> = this.actions$.pipe(
@@ -59,6 +59,42 @@ export class UserEffects {
         catchError((error) => {
           this.toastrService.error(error.error.message);
           return of(new actions.RemoveUserFromGroupFail(error));
+        })
+      )
+    )
+  );
+
+  @Effect()
+  grantUserRole$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.UserActionTypes.GRANT_USER_ROLE),
+    map((action: actions.GrantUserRole) => action),
+    mergeMap((action) =>
+      this.userService.grantRole(action.userId, action.roleId).pipe(
+        map((response) => {
+          this.toastrService.success('User role successfully granted');
+          return new actions.GrantUserRoleSuccess(response);
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.GrantUserRoleFail(error));
+        })
+      )
+    )
+  );
+
+  @Effect()
+  revokeUserRole$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.UserActionTypes.REVOKE_USER_ROLE),
+    map((action: actions.RevokeUserRole) => action),
+    mergeMap((action) =>
+      this.userService.revokeRole(action.userId, action.roleId).pipe(
+        map((response) => {
+          this.toastrService.success('User role successfully revoked');
+          return new actions.RevokeUserRoleSuccess(response);
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.RevokeUserRoleFail(error));
         })
       )
     )

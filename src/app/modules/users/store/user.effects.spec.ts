@@ -123,4 +123,80 @@ describe('UserEffects', () => {
       expect(action.type).toEqual(UserActionTypes.REMOVE_USER_FROM_GROUP_FAIL);
     });
   });
+
+  it('action type should be GRANT_USER_ROLE_SUCCESS when grantUserRole effect was executed successfully', async () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+
+    actions$ = of({
+      type: UserActionTypes.GRANT_USER_ROLE,
+      userId,
+      roleId,
+    });
+
+    spyOn(toastrService, 'success');
+    spyOn(service, 'grantRole').and.returnValue(of(user));
+
+    effects.grantUserRole$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('User role successfully granted');
+      expect(action.type).toEqual(UserActionTypes.GRANT_USER_ROLE_SUCCESS);
+    });
+  });
+
+  it('action type should be GRANT_USER_ROLE_FAIL when grantUserRole effect failed', async () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+
+    actions$ = of({
+      type: UserActionTypes.GRANT_USER_ROLE,
+      userId,
+      roleId,
+    });
+
+    spyOn(toastrService, 'error');
+    spyOn(service, 'grantRole').and.returnValue(throwError({ error: { message: 'error' } }));
+
+    effects.grantUserRole$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(UserActionTypes.GRANT_USER_ROLE_FAIL);
+    });
+  });
+
+  it('action type should be REVOKE_USER_SUCCESS when revokeUserRole effect was executed successfully', async () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+
+    actions$ = of({
+      type: UserActionTypes.REVOKE_USER_ROLE,
+      userId,
+      roleId,
+    });
+
+    spyOn(toastrService, 'success');
+    spyOn(service, 'revokeRole').and.returnValue(of(user));
+
+    effects.revokeUserRole$.subscribe((action) => {
+      expect(toastrService.success).toHaveBeenCalledWith('User role successfully revoked');
+      expect(action.type).toEqual(UserActionTypes.REVOKE_USER_ROLE_SUCCESS);
+    });
+  });
+
+  it('action type should be REVOKE_USER_FAIL when revokeUserRole effect failed', async () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+
+    actions$ = of({
+      type: UserActionTypes.REVOKE_USER_ROLE,
+      userId,
+      roleId,
+    });
+
+    spyOn(toastrService, 'error');
+    spyOn(service, 'revokeRole').and.returnValue(throwError({ error: { message: 'error' } }));
+
+    effects.revokeUserRole$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(UserActionTypes.REVOKE_USER_ROLE_FAIL);
+    });
+  });
 });
