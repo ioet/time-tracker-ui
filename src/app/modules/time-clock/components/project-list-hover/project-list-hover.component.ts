@@ -18,6 +18,8 @@ import { Activity, } from '../../../shared/models';
 import { LoadActivities } from './../../../activities-management/store/activity-management.actions';
 import { allActivities } from 'src/app/modules/activities-management/store/activity-management.selectors';
 import { head } from 'lodash';
+import { updateProjectStorage } from '../../../shared/utils/project-storage.util';
+import { PROJECTS_KEY_FOR_LOCAL_STORAGE } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-project-list-hover',
@@ -36,6 +38,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   projectsSubscription: Subscription;
   activeEntrySubscription: Subscription;
   loadActivitiesSubscription: Subscription;
+  projectKeyForLocalStorage = PROJECTS_KEY_FOR_LOCAL_STORAGE;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,6 +60,8 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
         projectWithSearchField.search_field = `${project.customer.name} - ${project.name}`;
         this.listProjects.push(projectWithSearchField);
       });
+
+      updateProjectStorage(projects);
       this.loadActiveTimeEntry();
     });
     this.store.dispatch(new LoadActivities());
