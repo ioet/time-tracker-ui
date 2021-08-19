@@ -6,32 +6,28 @@ describe('Project Storage', () => {
   let storageProjects: Project[];
   let projectsIdentifier: string;
   let serverProjects: Project[];
+  let testProject: Project;
+  let localStorageGetItemMock;
 
   beforeEach(() => {
     projectsIdentifier = 'projectsSelected';
 
+    testProject = {
+      customer: {
+        name: 'ioet Inc. (was E&Y)',
+      },
+      id: 'f3630e59-9408-497e-945b-848112bd5a44',
+      name: 'Time Tracker',
+      customer_id: '20c96c4d-5e26-4426-a704-8bdd98c83319',
+      status: 'active',
+    };
+
     storageProjects = [
-      {
-        customer: {
-          name: 'ioet Inc. (was E&Y)',
-        },
-        id: 'f3630e59-9408-497e-945b-848112bd5a44',
-        name: 'Time Tracker',
-        customer_id: '20c96c4d-5e26-4426-a704-8bdd98c83319',
-        status: 'active',
-      }
+      testProject
     ];
 
     serverProjects = [
-      {
-        customer: {
-          name: 'ioet Inc. (was E&Y)',
-        },
-        id: 'f3630e59-9408-497e-945b-848112bd5a44',
-        name: 'Time Tracker',
-        customer_id: '20c96c4d-5e26-4426-a704-8bdd98c83319',
-        status: 'active',
-      },
+      testProject,
       {
         customer: {
           name: 'No Matter Name',
@@ -43,12 +39,12 @@ describe('Project Storage', () => {
       }
     ];
 
+    localStorageGetItemMock = spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(storageProjects));
+    spyOn(localStorage, 'setItem');
+
   });
 
   it('If exists projects in localStorage and the server returns the same project, should keep the same localStorage variables', () => {
-    spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(storageProjects));
-    spyOn(localStorage, 'setItem');
-
     updateProjectStorage(serverProjects);
 
     expect(localStorage.setItem).toHaveBeenCalledWith(projectsIdentifier, JSON.stringify(storageProjects));
@@ -56,8 +52,6 @@ describe('Project Storage', () => {
 
   it('If exists projects in localStorage and the server does not return that project, should update the localStorage variable', () => {
     serverProjects.shift();
-    spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(storageProjects));
-    spyOn(localStorage, 'setItem');
 
     updateProjectStorage(serverProjects);
 
@@ -66,8 +60,6 @@ describe('Project Storage', () => {
 
   it('If Server projects is empty, should not update the localStorage', () => {
     serverProjects = [];
-    spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(storageProjects));
-    spyOn(localStorage, 'setItem');
 
     updateProjectStorage(serverProjects);
 
@@ -76,7 +68,8 @@ describe('Project Storage', () => {
 
   it('If variables does not exists on localStorage, getProjectsOnStorage should return undefined', () => {
     projectsIdentifier = 'no-matter-identifier';
-    spyOn(localStorage, 'getItem').and.returnValue(undefined);
+
+    localStorageGetItemMock.and.returnValue(undefined);
 
     const projects = getProjectsOnStorage(projectsIdentifier);
 
@@ -85,7 +78,7 @@ describe('Project Storage', () => {
 
   it('If variables not exists on localStorage, getProjectsOnStorage should return an array of Projects', () => {
     const storageProjectsString = JSON.stringify(storageProjects);
-    spyOn(localStorage, 'getItem').and.returnValue(storageProjectsString);
+    localStorageGetItemMock.and.returnValue(storageProjectsString);
 
     const projects = getProjectsOnStorage(projectsIdentifier);
 

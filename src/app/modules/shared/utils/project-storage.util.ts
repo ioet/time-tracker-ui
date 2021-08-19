@@ -1,14 +1,13 @@
 import { Project } from '../models/project.model';
-import { PROJECTS_KEY_FOR_LOCAL_STORAGE } from '../../../../environments/environment';
-
-const projectsKey = PROJECTS_KEY_FOR_LOCAL_STORAGE;
+import { PROJECTS_KEY_FOR_LOCAL_STORAGE as projectsKey } from '../../../../environments/environment';
+import { isEmpty } from 'lodash';
 
 export function updateProjectStorage(serverProjects: Project[]): void {
   const storageProjects: Project[] = getProjectsOnStorage(projectsKey);
-  const isServerProjectsNotEmpty = serverProjects && serverProjects.length !== 0;
+  const isServerProjectsEmpty = isEmpty(serverProjects);
   const updatedStorageProjects: Project[] = [];
 
-  if (serverProjects && isServerProjectsNotEmpty && storageProjects) {
+  if (!isServerProjectsEmpty && storageProjects) {
     storageProjects.forEach((storageProject: Project) => {
       const project = serverProjects.find((serverProject) => serverProject.id === storageProject.id);
 
