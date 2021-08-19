@@ -668,4 +668,16 @@ describe('TimeEntriesComponent', () => {
 
     expect(HTMLTimeEntriesView).not.toBeNull();
   });
+
+  it('checkIfDataSourceIsLoading should be false when dataSource.isLoading is false', () => {
+    const expectedValue = false;
+
+    expect(component.checkIfDataSourceIsLoading(state.timeEntriesDataSource)).toEqual(expectedValue);
+  });
+
+  it('checkIfDataSourceIsEmpty should be false when dataSource.data.length is not zero', () => {
+    const expectedValue = false;
+
+    expect(component.checkIfDataSourceIsEmpty(state.timeEntriesDataSource)).toEqual(expectedValue);
+  });
 });

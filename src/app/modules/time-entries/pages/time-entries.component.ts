@@ -38,6 +38,8 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedYear: number;
   selectedMonthAsText: string;
   isActiveEntryOverlapping = false;
+  readonly NO_DATA_MESSAGE: string = 'No data available in table';
+  timeEntry: DataSource<Entry>;
   constructor(
     private store: Store<EntryState>,
     private toastrService: ToastrService,
@@ -215,5 +217,19 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
         this.isActiveEntryOverlapping = overlappingEntry ? true : false;
       });
     }
+  }
+
+  checkIfDataSourceIsLoading(data: DataSource<Entry>): boolean {
+    if (data.isLoading) {
+      return true;
+    }
+    return false;
+  }
+
+  checkIfDataSourceIsEmpty(data: DataSource<Entry>): boolean {
+    if (data.data.length === 0) {
+      return true;
+    }
+    return false;
   }
 }
