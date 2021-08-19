@@ -1,5 +1,6 @@
 import { updateProjectStorage, getProjectsOnStorage } from './project-storage.util';
 import { Project } from '../models/project.model';
+import { PROJECTS_KEY_FOR_LOCAL_STORAGE } from '../../../../environments/environment';
 
 describe('Project Storage', () => {
 
@@ -10,7 +11,7 @@ describe('Project Storage', () => {
   let localStorageGetItemMock;
 
   beforeEach(() => {
-    projectsIdentifier = 'projectsSelected';
+    projectsIdentifier = PROJECTS_KEY_FOR_LOCAL_STORAGE;
 
     testProject = {
       customer: {
