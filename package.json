@@ -100,7 +100,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commit-message-validator",
-      "pre-commit": "ng lint"
+      "pre-commit": "ng lint && ng test --watch=false --browsers=ChromeHeadless"
     }
   },
   "config": {
