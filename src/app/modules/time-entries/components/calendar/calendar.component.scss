@@ -62,6 +62,7 @@ $activity-text-size: $max-lines-activity * $line-height-base;
 
 .container-time-entries {
   margin: $container-time-entries-margin;
+
   div.time-entries {
     padding: $time-entries-padding;
     height: 100%;
@@ -74,16 +75,21 @@ $activity-text-size: $max-lines-activity * $line-height-base;
     -webkit-box-shadow: 0px 2px 5px 0px lighten($shadow-card-entry, 50%);
     -moz-box-shadow: 0px 2px 5px 0px lighten($shadow-card-entry, 50%);
     box-shadow: 0px 2px 5px 0px lighten($shadow-card-entry, 50%);
+
     p {
       margin: 0px;
     }
+
     p.project-name {
       color: calculate-bold-text-color($primary-text);
       line-height: 1;
       display: -webkit-box;
       -webkit-line-clamp: $max-lines-project;
       -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+
     p.additional {
       overflow-wrap: break-word;
       color: calculate-bold-text-color($primary-text);
@@ -94,9 +100,11 @@ $activity-text-size: $max-lines-activity * $line-height-base;
     border-left: 5px solid calculate-border-color($background-card-entry-activate);
     background-color: $background-card-entry-activate;
     color: $activate-text;
+
     p.project-name {
       color: calculate-bold-text-color($activate-text);
     }
+
     p.additional {
       color: calculate-bold-text-color($activate-text);
     }
@@ -124,5 +132,23 @@ $activity-text-size: $max-lines-activity * $line-height-base;
 .currentDate {
   p {
     margin: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .custom-right-buttons-group {
+    text-align: center;
+  }
+  .custom-left-buttons-group {
+    text-align: center;
+  }
+}
+
+@media (min-width: 576px) {
+  .custom-right-buttons-group {
+    text-align: end;
+  }
+  .custom-left-buttons-group {
+    text-align: start;
   }
 }
