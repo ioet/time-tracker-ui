@@ -42,7 +42,7 @@
     "datatables.net-responsive-dt": "2.2.6",
     "date-fns": "2.22.1",
     "jquery": "3.5.1",
-    "jszip": "3.4.0",
+    "jszip": "3.7.0",
     "minimist": "1.2.5",
     "moment": "2.25.3",
     "msal": "1.2.1",
