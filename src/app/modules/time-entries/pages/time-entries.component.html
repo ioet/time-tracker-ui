@@ -59,7 +59,7 @@
         </tr>
         <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
         <tbody *ngIf="!dataSource.isLoading">
-          <tr *ngIf="checkIfDataSourceIsLoadingorEmpty(dataSource)">
+          <tr *ngIf="!checkIfDataSourceIsLoadingorEmpty(dataSource)">
             <td class="text-center" colspan="7">{{NO_DATA_MESSAGE}}</td>
           </tr>
           <tr class="d-flex" *ngFor="let entry of dataSource.data">

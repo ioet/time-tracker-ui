@@ -220,7 +220,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   }
 
   checkIfDataSourceIsLoadingorEmpty(source?: DataSource<Entry>): boolean {
-    if (source.isLoading || source.data.length === 0) {
+    if (source.isLoading && source.data.length === 0) {
       return true;
     }
     return false;
