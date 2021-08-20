@@ -133,6 +133,7 @@ $activity-text-size: $max-lines-activity * $line-height-base;
   p {
     margin: 0;
   }
+  padding-right: 0px;
 }
 
 @media (max-width: 576px) {
@@ -150,5 +151,20 @@ $activity-text-size: $max-lines-activity * $line-height-base;
   }
   .custom-left-buttons-group {
     text-align: start;
+  }
+}
+
+.btn-navigation{
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+@media only screen and (min-width : 576px) and (max-width : 767px) {
+  .currentDate{
+    margin-left: 14px;
+    p {
+      margin: 0;
+    }
+    padding-right: 0px;
   }
 }
