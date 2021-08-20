@@ -219,15 +219,8 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkIfDataSourceIsLoading(data: DataSource<Entry>): boolean {
-    if (data.isLoading) {
-      return true;
-    }
-    return false;
-  }
-
-  checkIfDataSourceIsEmpty(data: DataSource<Entry>): boolean {
-    if (data.data.length === 0) {
+  checkIfDataSourceIsLoadingorEmpty(source?: DataSource<Entry>): boolean {
+    if (source.isLoading || source.data.length === 0) {
       return true;
     }
     return false;
