@@ -66,14 +66,14 @@
 
 <div>
     <div class="row justify-content-between ">
-      <div class="col-xs-12 col-sm-5 col-md-5 custom-left-buttons-group">
+      <div class="col-xs-12 col-sm-4 col-md-5 custom-left-buttons-group">
         <div class="btn-group" role="group" aria-label="Move date">
           <button
             mwlCalendarPreviousView
             type="button"
             [(view)]="calendarView"
             [(viewDate)]="currentDate"
-            class="btn btn-light btn-block m-0"
+            class="btn btn-navigation btn-light btn-block m-0"
             (click)="handleChangeDateEvent()"
           >
             Previous
@@ -83,7 +83,7 @@
             [ngClass]="{ active: isToday }"
             type="button"
             [(viewDate)]="currentDate"
-            class="btn btn-light btn-block m-0"
+            class="btn btn-navigation btn-light btn-block m-0"
             (click)="handleChangeDateEvent()"
           >
             Today
@@ -93,7 +93,7 @@
             type="button"
             [(view)]="calendarView"
             [(viewDate)]="currentDate"
-            class="btn btn-light btn-block m-0"
+            class="btn btn-navigation btn-light btn-block m-0"
             (click)="handleChangeDateEvent()"
             [disabled]="nextDateDisabled"
           >
@@ -102,7 +102,7 @@
         </div>
       </div>
       <div class="col-xs-12 col-sm-2 col-md-2 text-center currentDate">
-        <p class="font-weight-bold h4">
+        <p class="font-weight-bold h5">
           {{ currentDate | date: 'EEEE' }}
         </p>
         <P class="h5">
@@ -114,7 +114,7 @@
           <button
             [ngClass]="{ active: isVisibleForCurrentView(calendarView, [CALENDAR_VIEW_ENUM.Month]) }"
             type="button"
-            class="btn btn-light btn-block m-0"
+            class="btn btn-navigation btn-light btn-block m-0"
             (click)="changeCalendarView(CALENDAR_VIEW_ENUM.Month)"
           >
             Month
@@ -122,7 +122,7 @@
           <button
             [ngClass]="{ active: isVisibleForCurrentView(calendarView, [CALENDAR_VIEW_ENUM.Week]) }"
             type="button"
-            class="btn btn-light btn-block m-0"
+            class="btn btn-navigation btn-light btn-block m-0"
             (click)="changeCalendarView(CALENDAR_VIEW_ENUM.Week)"
           >
             Week
@@ -130,7 +130,7 @@
           <button
             [ngClass]="{ active: isVisibleForCurrentView(calendarView, [CALENDAR_VIEW_ENUM.Day]) }"
             type="button"
-            class="btn btn-light btn-block m-0"
+            class="btn btn-navigation btn-light btn-block m-0"
             (click)="changeCalendarView(CALENDAR_VIEW_ENUM.Day)"
           >
             Day
