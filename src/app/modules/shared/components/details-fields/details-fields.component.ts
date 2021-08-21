@@ -27,6 +27,8 @@ import { DATE_FORMAT, DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { TechnologiesComponent } from '../technologies/technologies.component';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Observable } from 'rxjs';
+import { updateProjectStorage } from '../../utils/project-storage.util';
+import { PROJECTS_KEY_FOR_LOCAL_STORAGE } from '../../../../../environments/environment';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 @Component({
@@ -49,6 +51,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   activities$: Observable<Activity[]>;
   goingToWorkOnThis = false;
   shouldRestartEntry = false;
+  projectKeyForLocalStorage = PROJECTS_KEY_FOR_LOCAL_STORAGE;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -81,6 +84,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
           projectWithSearchField.search_field = `${project.customer.name} - ${project.name}`;
           this.listProjects.push(projectWithSearchField);
         });
+
+        updateProjectStorage(projects);
       }
     });
 

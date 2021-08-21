@@ -33,6 +33,14 @@ export const ROLES = {
     value: 'time-tracker-tester',
   },
 };
+
+/*
+This variable is used by the ng-autocomplete component used in these files:
+- details-fielfs.component.ts
+- project-list-hover.component.ts
+The purpose is to store the latest projects in the Local Storage with the next key.
+*/
+export const PROJECTS_KEY_FOR_LOCAL_STORAGE = 'projectsSelected';
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

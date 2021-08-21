@@ -18,7 +18,7 @@
         formControlName="project_name"
         [data]="listProjects"
         [searchKeyword]="keyword"
-        historyIdentifier="projectsSelected"
+        [historyIdentifier]="projectKeyForLocalStorage"
         notFoundText="No projects found"
         placeHolder="Enter the project name"
         [itemTemplate]="itemTemplate"
