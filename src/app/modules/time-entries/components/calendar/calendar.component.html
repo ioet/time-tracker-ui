@@ -144,6 +144,7 @@
       [viewDate]="currentDate"
       [events]="timeEntriesAsEvent"
       [cellTemplate]="timeEntriesInsideMonthCalendarTemplate"
+      [weekStartsOn]="WEEK_START_DAY"
     >
     </mwl-calendar-month-view>
     <mwl-calendar-week-view
@@ -152,6 +153,7 @@
       [events]="timeEntriesAsEvent"
       [hourSegmentHeight]="HALF_HOUR * VARIATION_HEIGHT"
       [eventTemplate]="timeEntriesInsideDaysCalendarTemplate"
+      [weekStartsOn]="WEEK_START_DAY"
     >
     </mwl-calendar-week-view>
     <mwl-calendar-day-view

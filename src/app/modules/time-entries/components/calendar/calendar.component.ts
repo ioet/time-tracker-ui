@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { CalendarEvent, CalendarView, DAYS_OF_WEEK } from 'angular-calendar';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DataSource } from '../../../shared/models/data-source.model';
@@ -28,6 +28,7 @@ export class CalendarComponent implements OnInit {
   readonly VARIATION_HEIGHT: number = 2;
   readonly VISIBLE_TARGETS_FOR_TIME_ENTRIES_DESCRIPTION: CalendarView[] = [CalendarView.Week, CalendarView.Day];
   readonly CALENDAR_VIEW_ENUM: typeof CalendarView = CalendarView;
+  readonly WEEK_START_DAY = DAYS_OF_WEEK.MONDAY;
 
   @ViewChild('scrollContainer') scrollContainer: ElementRef<HTMLElement>;
 
