@@ -6,7 +6,7 @@
       class="form-control"
       formControlName="activity_id"
       [class.is-invalid]="activity_id.invalid && activity_id.touched"
-      #autofocus      
+      #autofocus
       required>
       <option *ngFor="let activity of activities" value="{{ activity.id }}" class = "id">{{ activity.name }}</option>
     </select>
@@ -44,8 +44,7 @@
   </div>
 
   <app-technologies
-    (technologyAdded)="onTechnologyAdded($event)"
-    (technologyRemoved)="onTechnologyRemoved($event)"
+    (technologyUpdated)="onTechnologyUpdated($event)"
     [selectedTechnologies]="selectedTechnologies"
   >
   </app-technologies>

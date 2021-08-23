@@ -40,49 +40,34 @@ describe('Technologies component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('when a new technology is added, it should be added to the selectedTechnologies list', () => {
-    const name = 'ngrx';
-    component.selectedTechnologies = ['java', 'javascript'];
-    component.selectedTechnologies.indexOf(name);
-    length = component.selectedTechnologies.length;
-    component.addTechnology(name);
-    expect(component.selectedTechnologies.length).toBe(3);
-  });
+  it('When technologies are updated, technolgyUpdated should emit an event with new Technologies', () => {
+    const selectedTechnologies = ['java', 'angular'];
+    const technologyUpdatedSpy = spyOn(component.technologyUpdated, 'emit');
+    component.selectedTechnologies = selectedTechnologies;
 
-  it('when the max number of technologies is reached, then adding technologies is not allowed', () => {
-    const name = 'ngrx';
-    component.selectedTechnologies = [
-      'java',
-      'javascript',
-      'angular',
-      'angular-ui',
-      'typescript',
-      'scss',
-      'bootstrap',
-      'jasmine',
-      'karma',
-      'github',
-    ];
-    length = component.selectedTechnologies.length;
-    component.addTechnology(name);
-    expect(component.selectedTechnologies.length).toBe(10);
-  });
+    component.updateTechnologies();
 
-  it('when a technology is removed, then it should be removed from the technologies list', () => {
-    const index = 1;
-    component.selectedTechnologies = ['java', 'angular'];
-    component.removeTechnology(index);
-    expect(component.selectedTechnologies.length).toBe(1);
+    expect(technologyUpdatedSpy).toHaveBeenCalled();
+    expect(technologyUpdatedSpy).toHaveBeenCalledWith(selectedTechnologies);
+    expect(component.technologies).toEqual([]);
   });
 
   it('when querying technologies, then a FindTechnology action should be dispatched', () => {
     const query = 'react';
-    const target = {value: query};
-    const event = new InputEvent('input');
-    spyOnProperty(event, 'target').and.returnValue(target);
     spyOn(store, 'dispatch');
-    component.queryTechnologies(event);
+    component.searchTechnologies(query);
 
     expect(store.dispatch).toHaveBeenCalledWith(new actions.FindTechnology(query));
+  });
+
+  it('calls unsubscribe on ngDestroy', () => {
+
+    const technologyInputSpy = spyOn(component.technologiesInputSubscription, 'unsubscribe');
+    const technologiesSpy = spyOn(component.technologiesSubscription, 'unsubscribe');
+
+    component.ngOnDestroy();
+
+    expect(technologyInputSpy).toHaveBeenCalled();
+    expect(technologiesSpy).toHaveBeenCalled();
   });
 });

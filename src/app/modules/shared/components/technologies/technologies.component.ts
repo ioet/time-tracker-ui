@@ -1,71 +1,72 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Technology } from '../../models';
+import { Subject, Subscription } from 'rxjs';
 import * as actions from '../../store/technology.actions';
 import { TechnologyState } from '../../store/technology.reducers';
 import { allTechnologies } from '../../store/technology.selectors';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 @Component({
   selector: 'app-technologies',
   templateUrl: './technologies.component.html',
   styleUrls: ['./technologies.component.scss']
 })
-export class TechnologiesComponent implements OnInit {
-  private readonly MAX_NUM_TECHNOLOGIES = 10;
-  private readonly MIN_QUERY_LENGTH = 2;
-  public query = '';
-  showList = false;
+export class TechnologiesComponent implements OnInit, OnDestroy {
+  readonly MAX_NUM_TECHNOLOGIES = 10;
+  readonly NO_RESULTS_MESSAGE = 'No technologies found';
+  readonly TECHNOLOGIES_PLACEHOLDER = 'Time Entry Technologies';
+  readonly ALLOW_SELECT_MULTIPLE = true;
+  readonly ALLOW_SEARCH = true;
+  readonly MIN_SEARCH_TERM_LENGTH = 2;
+  readonly TYPE_TO_SEARCH_TEXT = 'Please enter 2 or more characters';
+
   isLoading = false;
-  technology: Technology;
+  technologies: string[];
+  technologiesInput$ = new Subject<string>();
+
+  technologiesInputSubscription: Subscription;
+  technologiesSubscription: Subscription;
+
+  @Input()
+  isDisabled: boolean;
 
   @Input()
   selectedTechnologies: string[] = [];
-  @ViewChild('technologiesDropdown') list: ElementRef;
-  @Output()
-  technologyRemoved: EventEmitter<string[]> = new EventEmitter<string[]>();
-  @Output()
-  technologyAdded: EventEmitter<string[]> = new EventEmitter<string[]>();
 
-  constructor(private store: Store<TechnologyState>, private renderer: Renderer2) {
-    this.renderer.listen('window', 'click', (e: Event) => {
-      if (this.showList && !this.list.nativeElement.contains(e.target)) {
-        this.showList = false;
-      }
-    });
-  }
+  @Output()
+  technologyUpdated: EventEmitter<string[]> = new EventEmitter<string[]>();
 
-  queryTechnologies(event: Event) {
-    const inputElement: HTMLInputElement = (event.target) as HTMLInputElement;
-    const query: string = inputElement.value;
-    if (query.length >= this.MIN_QUERY_LENGTH) {
-      this.showList = true;
-      this.store.dispatch(new actions.FindTechnology(query));
-    }
-  }
+  constructor(private store: Store<TechnologyState>) {}
 
   ngOnInit(): void {
     const technologies$ = this.store.pipe(select(allTechnologies));
-    technologies$.subscribe((response) => {
-      this.isLoading = response.isLoading;
-      if ( response.technologyList.items ) {
-        const filteredItems = response.technologyList.items.filter(item => !this.selectedTechnologies.includes(item.name));
-        this.technology = {items: filteredItems};
+
+    this.technologiesInputSubscription = this.technologiesInput$.pipe(
+      filter(searchQuery => searchQuery && searchQuery.length >= this.MIN_SEARCH_TERM_LENGTH),
+      distinctUntilChanged(),
+      debounceTime(400)
+    ).subscribe((searchQuery) => this.searchTechnologies(searchQuery));
+
+    this.technologiesSubscription = technologies$.subscribe(({ isLoading, technologyList }) => {
+      this.isLoading = isLoading;
+      if ( technologyList.items ) {
+        this.technologies = technologyList.items;
       } else {
-        this.technology = {items: []};
+        this.technologies = [];
       }
     });
   }
 
-  addTechnology(name: string) {
-    if (this.selectedTechnologies.length < this.MAX_NUM_TECHNOLOGIES) {
-      this.selectedTechnologies = [...this.selectedTechnologies, name];
-      this.technologyAdded.emit(this.selectedTechnologies);
-      this.showList = false;
-      this.query = '';
-    }
+  searchTechnologies(searchQuery) {
+    this.store.dispatch(new actions.FindTechnology(searchQuery));
   }
 
-  removeTechnology(index: number) {
-    this.selectedTechnologies = this.selectedTechnologies.filter((item) => item !== this.selectedTechnologies[index]);
-    this.technologyRemoved.emit(this.selectedTechnologies);
+  updateTechnologies() {
+    this.technologyUpdated.emit(this.selectedTechnologies);
+    this.technologies = [];
+  }
+
+  ngOnDestroy() {
+    this.technologiesSubscription.unsubscribe();
+    this.technologiesInputSubscription.unsubscribe();
   }
 }

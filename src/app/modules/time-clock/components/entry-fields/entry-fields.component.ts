@@ -181,11 +181,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.showTimeInbuttons = false;
   }
 
-  onTechnologyAdded($event: string[]) {
-    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, technologies: $event }));
-  }
-
-  onTechnologyRemoved($event: string[]) {
+  onTechnologyUpdated($event: string[]) {
     this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, technologies: $event }));
   }
 

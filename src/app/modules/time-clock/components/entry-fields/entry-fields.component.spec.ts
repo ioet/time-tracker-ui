@@ -295,21 +295,11 @@ describe('EntryFieldsComponent', () => {
     expect(store.dispatch).toHaveBeenCalledTimes(1);
   });
 
-  it('when a technology is added, then dispatch UpdateActiveEntry', () => {
+  it('when a technology is added or removed, then dispatch UpdateActiveEntry', () => {
     const addedTechnologies = ['react'];
     spyOn(store, 'dispatch');
 
-    component.onTechnologyAdded(addedTechnologies);
-    expect(store.dispatch).toHaveBeenCalled();
-
-  });
-
-  it('when a technology is removed, then  dispatch UpdateActiveEntry', () => {
-    const addedTechnologies = ['react'];
-
-    spyOn(store, 'dispatch');
-
-    component.onTechnologyAdded(addedTechnologies);
+    component.onTechnologyUpdated(addedTechnologies);
     expect(store.dispatch).toHaveBeenCalled();
 
   });
@@ -335,7 +325,7 @@ describe('EntryFieldsComponent', () => {
   it('dispatches an action when onTechnologyRemoved is called', () => {
     spyOn(store, 'dispatch');
 
-    component.onTechnologyRemoved(['foo']);
+    component.onTechnologyUpdated(['foo']);
 
     expect(store.dispatch).toHaveBeenCalled();
   });

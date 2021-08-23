@@ -31,7 +31,8 @@
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css",
               "./node_modules/ngx-ui-switch/ui-switch.component.css",
-              "node_modules/datatables.net-buttons-dt/css/buttons.dataTables.css"
+              "node_modules/datatables.net-buttons-dt/css/buttons.dataTables.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
