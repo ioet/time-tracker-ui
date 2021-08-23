@@ -43,3 +43,21 @@ Overwritten calendar style
 .cal-today:hover {
   background-color: darken($background-calendar-cell, 7%) !important;
 }
+
+.cal-week-view .cal-day-headers {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: $background-calendar-cell;
+}
+
+.cal-month-view .cal-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: $background-calendar-cell;
+}
+
+.cal-header .cal-cell {
+  border: 0.1px solid lighten($primary-text, 30%);
+}

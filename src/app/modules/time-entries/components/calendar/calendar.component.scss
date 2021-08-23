@@ -70,6 +70,7 @@ $activity-text-size: $max-lines-activity * $line-height-base;
     overflow-y: hidden;
     color: $primary-text;
     margin: 2px 6px 0px 5px;
+    overflow-wrap: anywhere;
     background-color: $background-card-entry;
     border-left: 5px solid calculate-border-color($background-card-entry);
     -webkit-box-shadow: 0px 2px 5px 0px lighten($shadow-card-entry, 50%);
@@ -91,7 +92,7 @@ $activity-text-size: $max-lines-activity * $line-height-base;
     }
 
     p.additional {
-      overflow-wrap: break-word;
+      overflow-wrap: anywhere;
       color: calculate-bold-text-color($primary-text);
     }
   }
@@ -154,13 +155,13 @@ $activity-text-size: $max-lines-activity * $line-height-base;
   }
 }
 
-.btn-navigation{
+.btn-navigation {
   padding-left: 6px;
   padding-right: 6px;
 }
 
-@media only screen and (min-width : 576px) and (max-width : 767px) {
-  .currentDate{
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .currentDate {
     margin-left: 14px;
     p {
       margin: 0;
