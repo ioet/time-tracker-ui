@@ -27,6 +27,7 @@
     "@angular/router": "10.2.2",
     "@azure/app-configuration": "1.1.0",
     "@azure/identity": "1.1.0",
+    "@ng-select/ng-select": "7.2.0",
     "@ngrx/effects": "10.0.1",
     "@ngrx/store": "10.0.1",
     "@ngrx/store-devtools": "10.0.1",

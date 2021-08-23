@@ -157,9 +157,9 @@
       </div>
 
       <app-technologies
-        (technologyAdded)="onTechnologiesUpdated($event)"
-        (technologyRemoved)="onTechnologiesUpdated($event)"
+        (technologyUpdated)="onTechnologiesUpdated($event)"
         [selectedTechnologies]="selectedTechnologies"
+        [isDisabled]="isTechnologiesDisabled"
         #technologies
       >
       </app-technologies>

@@ -51,6 +51,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   activities$: Observable<Activity[]>;
   goingToWorkOnThis = false;
   shouldRestartEntry = false;
+  isTechnologiesDisabled = true;
   projectKeyForLocalStorage = PROJECTS_KEY_FOR_LOCAL_STORAGE;
 
   constructor(
@@ -121,6 +122,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   onClearedComponent(event) {
+    this.isTechnologiesDisabled = true;
     this.entryForm.patchValue({
       project_id: '',
       project_name: '',
@@ -128,6 +130,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   onSelectedProject(item) {
+    this.isTechnologiesDisabled = false;
     this.projectSelected.emit({ projectId: item.id });
     this.entryForm.patchValue({
       project_id: item.id,
@@ -155,6 +158,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.shouldRestartEntry = false;
 
     if (this.entryToEdit) {
+      this.isTechnologiesDisabled = false;
       this.selectedTechnologies = this.entryToEdit.technologies;
       const projectFound = this.listProjects.find((project) => project.id === this.entryToEdit.project_id);
       this.entryForm.setValue({
@@ -185,13 +189,13 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       );
     } else {
       this.cleanForm();
+      this.isTechnologiesDisabled = true;
       this.activities$ = this.selectActiveActivities();
     }
   }
 
   cleanForm(skipProject: boolean = false): void {
     this.selectedTechnologies = [];
-    this.technologies.query = '';
     const projectNameField = this.project_name.value;
     const projectName = get(projectNameField, 'search_field', projectNameField);
     this.entryForm.reset({

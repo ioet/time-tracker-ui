@@ -1,39 +1,24 @@
 <div class="form-group">
   <label>Technology:</label>
-  <input
-    autocomplete="off"
-    (keyup)="queryTechnologies($event)"
-    id="technologies"
-    type="text"
-    class="form-control"
-    [(ngModel)]="query"
-  />
 
-  <div *ngIf="isLoading">
-    <img src="assets/img/spinner.gif" />
-  </div>
+  <ng-select
+    bindLabel="name"
+    bindValue="name"
+    ngDefaultControl
+    [items]="technologies"
+    [loading]="isLoading"
+    [disabled]='isDisabled'
+    [searchable]="ALLOW_SEARCH"
+    [multiple]="ALLOW_SELECT_MULTIPLE"
+    [placeholder]="TECHNOLOGIES_PLACEHOLDER"
+    [notFoundText]="NO_RESULTS_MESSAGE"
+    [maxSelectedItems]='MAX_NUM_TECHNOLOGIES'
+    [minTermLength]="MIN_SEARCH_TERM_LENGTH"
+    [typeToSearchText]="TYPE_TO_SEARCH_TEXT"
+    [typeahead]="technologiesInput$"
+    [(ngModel)]="selectedTechnologies"
+    (change)="updateTechnologies()">
 
-  <div #technologiesDropdown *ngIf="technology && showList" class="form-group technologies-dropdown-container">
-    <div
-      *ngFor="let item of technology.items"
-      (click)="addTechnology(item.name)"
-      class="technologies-dropdown-item">
-      {{ item.name }}
-    </div>
-  </div>
-</div>
-<div class="form-group">
-  <div class="form-group selected-technologies-container" *ngIf="selectedTechnologies?.length">
-    <div *ngFor="let technology of selectedTechnologies; let tagIndex = index" class="selected-technology">
-      <i class="fas fa-times text-white" (click)="removeTechnology(tagIndex)"></i>
-      <span style="padding-left: 0.5rem">{{ technology }}</span>
-    </div>
-  </div>
-  <div class="form-group" *ngIf="selectedTechnologies === null || selectedTechnologies.length === 0">
-    <!-- empty-space -->
-  </div>
+  </ng-select>
 
 </div>
-
-
-

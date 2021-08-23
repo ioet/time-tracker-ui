@@ -85,6 +85,7 @@ import { TechnologyReportTableComponent } from './modules/technology-report/comp
 import { TechnologyReportComponent } from './modules/technology-report/pages/technology-report.component';
 import { CalendarComponent } from './modules/time-entries/components/calendar/calendar.component';
 import { DropdownComponent } from './modules/shared/components/dropdown/dropdown.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -181,6 +182,7 @@ const maskConfig: Partial<IConfig> = {
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    NgSelectModule
   ],
   providers: [
     {
