@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash';
 
 export function updateProjectStorage(serverProjects: Project[]): void {
   const storageProjects: Project[] = getProjectsOnStorage(projectsKey);
+
   const isServerProjectsEmpty = isEmpty(serverProjects);
   const updatedStorageProjects: Project[] = [];
 
@@ -12,7 +13,7 @@ export function updateProjectStorage(serverProjects: Project[]): void {
       const project = serverProjects.find((serverProject) => serverProject.id === storageProject.id);
 
       if (project) {
-        updatedStorageProjects.push(project);
+        updatedStorageProjects.push(storageProject);
       }
     });
 
