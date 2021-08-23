@@ -39,7 +39,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedMonthAsText: string;
   isActiveEntryOverlapping = false;
   readonly NO_DATA_MESSAGE: string = 'No data available in table';
-  timeEntry: DataSource<Entry>;
   constructor(
     private store: Store<EntryState>,
     private toastrService: ToastrService,
