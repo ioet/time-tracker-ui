@@ -18,6 +18,7 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
   readonly ALLOW_SEARCH = true;
   readonly MIN_SEARCH_TERM_LENGTH = 2;
   readonly TYPE_TO_SEARCH_TEXT = 'Please enter 2 or more characters';
+  readonly WAITING_TIME_AFTER_KEY_UP = 400;
 
   isLoading = false;
   technologies: string[];
@@ -43,16 +44,13 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
     this.technologiesInputSubscription = this.technologiesInput$.pipe(
       filter(searchQuery => searchQuery && searchQuery.length >= this.MIN_SEARCH_TERM_LENGTH),
       distinctUntilChanged(),
-      debounceTime(400)
+      debounceTime(this.WAITING_TIME_AFTER_KEY_UP)
     ).subscribe((searchQuery) => this.searchTechnologies(searchQuery));
 
     this.technologiesSubscription = technologies$.subscribe(({ isLoading, technologyList }) => {
+      const technologyItems = technologyList?.items;
       this.isLoading = isLoading;
-      if ( technologyList.items ) {
-        this.technologies = technologyList.items;
-      } else {
-        this.technologies = [];
-      }
+      this.technologies = technologyItems ? technologyItems : [];
     });
   }
 
