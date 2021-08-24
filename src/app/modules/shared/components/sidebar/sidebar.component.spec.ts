@@ -12,7 +12,6 @@ describe('SidebarComponent', () => {
   let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
   let azureAdB2CServiceStubInjected;
-  let featureManagerServiceStubInjected: FeatureManagerService;
   let userInfoService: UserInfoService;
   let router;
   const routes: Routes = [{ path: 'time-clock', component: TimeClockComponent }];
@@ -47,7 +46,6 @@ describe('SidebarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SidebarComponent);
     azureAdB2CServiceStubInjected = TestBed.inject(AzureAdB2CService);
-    featureManagerServiceStubInjected = TestBed.inject(FeatureManagerService);
     userInfoService = TestBed.inject(UserInfoService);
     component = fixture.componentInstance;
     fixture.detectChanges();
