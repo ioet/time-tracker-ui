@@ -23,18 +23,6 @@ describe('FeatureToggleGeneralService', () => {
     expect(featureToggleGeneralService).toBeTruthy();
   });
 
-  const params = [{ bool: false }, { bool: true }];
-  params.map((param) => {
-    it(`isActivated should return a boolean ${param.bool}`, () => {
-      const toggleName = FeatureToggle.SWITCH_GROUP;
-      featureManagerService.isToggleEnabledForUser = () => of(param.bool);
-
-      featureToggleGeneralService.isActivated(toggleName).subscribe((enabled) => {
-        expect(enabled).toBe(param.bool);
-      });
-    });
-  });
-
   it('getActivated return a FeatureToggleModel', () => {
     const anyNotMatchingFilter = new TargetingFeatureFilterModel(
       { Audience: { Groups: ['a-group'], Users: ['user-a'] } },
