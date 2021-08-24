@@ -34,6 +34,7 @@
           [currentDate]="selectedDate.toDate()"
           [calendarView]="calendarView"
           (changeDate)="changeDate($event)"
+          (changeView)="changeView($event)"
           (viewModal)="editEntry($event.id)"
           (deleteTimeEntry)="openModal($event.timeEntry)"
         >

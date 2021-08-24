@@ -200,8 +200,7 @@ describe('CalendarComponent', () => {
   it('emit current date and call navigationEnable when call handleChangeDateEvent', () => {
     const calendarView: CalendarView = CalendarView.Month;
     const fakeValueEmit = {
-      date: currentDate.toDate(),
-      calendarView
+      date: currentDate.toDate()
     };
     spyOn(component, 'navigationEnable');
     spyOn(component.changeDate, 'emit');
@@ -220,6 +219,14 @@ describe('CalendarComponent', () => {
     component.changeCalendarView(CalendarView.Day);
 
     expect(component.calendarView).toEqual(fakeCalendarView);
+  });
+
+  it('emit calendarView Day when call changeCalendarView', () => {
+    const fakeCalendarView: CalendarView = CalendarView.Day;
+    component.calendarView = CalendarView.Month;
+    spyOn(component.changeView, 'emit');
+    component.changeCalendarView(fakeCalendarView);
+    expect(component.changeView.emit).toHaveBeenCalledWith({ calendarView: fakeCalendarView });
   });
 
   it('set srcoll to current time marker in calendarView when is call scrollToCurrentTimeMarker', () => {

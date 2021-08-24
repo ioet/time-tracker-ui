@@ -561,6 +561,7 @@ describe('TimeEntriesComponent', () => {
     const dateMoment: moment.Moment = moment().month(monthIndex).year(year);
     jasmine.clock().mockDate(dateMoment.toDate());
 
+    component.currentMonth = monthIndex;
     component.dateSelected(eventData);
 
     expect(component.selectedDate).toEqual(dateMoment);
@@ -569,10 +570,8 @@ describe('TimeEntriesComponent', () => {
   it('set date in selectedDate when call changeDate and selectedDate.month() is same to incoming date', () => {
     const incomingDate = new Date('2021-06-07');
     const incomingMoment: moment.Moment = moment(incomingDate);
-    const calendarView: CalendarView = CalendarView.Month;
     const eventData = {
-      date: incomingDate,
-      calendarView
+      date: incomingDate
     };
     spyOn(component, 'dateSelected');
     component.selectedDate = moment(incomingMoment).subtract(1, 'day');
@@ -586,10 +585,8 @@ describe('TimeEntriesComponent', () => {
   it('call dateSelected when call changeDate and selectedDate.month() is different to incoming date', () => {
     const incomingDate = new Date('2021-01-07');
     const incomingMoment: moment.Moment = moment(incomingDate);
-    const calendarView: CalendarView = CalendarView.Month;
     const eventData = {
-      date: incomingDate,
-      calendarView
+      date: incomingDate
     };
     const selectedDate = {
       monthIndex: incomingMoment.month(),
@@ -601,6 +598,40 @@ describe('TimeEntriesComponent', () => {
     component.changeDate(eventData);
 
     expect(component.dateSelected).toHaveBeenCalledWith(selectedDate);
+  });
+
+  it('change component selectedDate to be the first day of the month when call dateSelected', () => {
+    const actualMoment: moment.Moment = moment(new Date('2021-01-07'));
+    const selectedMoment: moment.Moment = moment(new Date('2021-05-13'));
+    const firstDayMoment: moment.Moment = selectedMoment.startOf('month');
+    const eventDate = {
+      monthIndex: selectedMoment.month(),
+      year: selectedMoment.year()
+    };
+    component.currentMonth = actualMoment.month();
+    component.selectedDate = selectedMoment;
+    spyOn(component, 'dateSelected');
+    component.dateSelected(eventDate);
+    expect(component.selectedDate).toBe(firstDayMoment);
+  });
+
+  it('change component calendarView from Month to Day when call changeView', () => {
+    const fakeCalendarView: CalendarView = CalendarView.Day;
+    const eventView = {
+      calendarView: fakeCalendarView
+    };
+    component.calendarView = CalendarView.Month;
+    component.changeView(eventView);
+    expect(component.calendarView).toBe(fakeCalendarView);
+  });
+
+  it('change component calendarView to Month if undefined when call changeView', () => {
+    component.calendarView = CalendarView.Week;
+    const eventView = {
+      calendarView: undefined
+    };
+    component.changeView(eventView);
+    expect(component.calendarView).toBe(CalendarView.Month);
   });
 
   it('not view button onDisplayModeChange when isFeatureToggleCalendarActive is false', () => {

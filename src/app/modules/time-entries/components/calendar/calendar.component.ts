@@ -44,6 +44,9 @@ export class CalendarComponent implements OnInit {
   @Output() changeDate: EventEmitter<any> = new EventEmitter<{
     date: Date;
   }>();
+  @Output() changeView: EventEmitter<any> = new EventEmitter<{
+    calendarView: CalendarView;
+  }>();
 
   initialDate: Date;
   previusDate: Date;
@@ -109,7 +112,7 @@ export class CalendarComponent implements OnInit {
     const date = this.currentDate;
     this.isToday = this.isVisibleForCurrentDate();
     this.navigationEnable(this.calendarView);
-    this.changeDate.emit({ date, calendarView: this.calendarView });
+    this.changeDate.emit({ date });
   }
 
   changeCalendarView(calendarView: CalendarView) {
@@ -119,6 +122,7 @@ export class CalendarComponent implements OnInit {
       this.referenceChangeDetector.detectChanges();
       this.scrollToCurrentTimeMarker();
     }
+    this.changeView.emit({ calendarView });
   }
 
   navigationEnable(calendarView: CalendarView) {

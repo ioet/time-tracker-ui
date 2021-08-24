@@ -40,6 +40,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedMonthAsText: string;
   isActiveEntryOverlapping = false;
   calendarView: CalendarView = CalendarView.Month;
+  currentMonth = moment().month();
   readonly NO_DATA_MESSAGE: string = 'No data available in table';
   constructor(
     private store: Store<EntryState>,
@@ -182,9 +183,12 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
     this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
     this.selectedDate = moment().month(event.monthIndex).year(event.year);
+    if (this.currentMonth !== event.monthIndex){
+      this.selectedDate = this.selectedDate.startOf('month');
+    }
   }
 
-  changeDate(event: { date: Date, calendarView: CalendarView }){
+  changeDate(event: { date: Date }){
     const newDate: moment.Moment = moment(event.date);
     if (this.selectedDate.month() !== newDate.month()){
       const monthSelected = newDate.month();
@@ -196,7 +200,10 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.dateSelected(selectedDate);
     }
     this.selectedDate = newDate;
-    this.calendarView = event.calendarView;
+  }
+
+  changeView(event: { calendarView: CalendarView }){
+    this.calendarView = event.calendarView || CalendarView.Month;
   }
 
   openModal(item: any) {
