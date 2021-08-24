@@ -11,10 +11,6 @@ import { FeatureToggleModel } from '../feature-toggle.model';
 export class FeatureToggleGeneralService {
   constructor(private featureManagerService: FeatureManagerService) {}
 
-  isActivated(featureToggle: FeatureToggle): Observable<boolean> {
-    return this.featureManagerService.isToggleEnabledForUser(featureToggle);
-  }
-
   getActivated(): Observable<FeatureToggleModel[]>{
     return this.featureManagerService.getAllFeatureToggleEnableForUser();
   }
