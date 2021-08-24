@@ -21,6 +21,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CookieService } from 'ngx-cookie-service';
 import { DebugElement } from '@angular/core';
 import { FeatureToggle } from './../../../../environments/enum';
+import { CalendarView } from 'angular-calendar';
 import * as moment from 'moment';
 
 describe('TimeEntriesComponent', () => {
@@ -568,8 +569,10 @@ describe('TimeEntriesComponent', () => {
   it('set date in selectedDate when call changeDate and selectedDate.month() is same to incoming date', () => {
     const incomingDate = new Date('2021-06-07');
     const incomingMoment: moment.Moment = moment(incomingDate);
+    const calendarView: CalendarView = CalendarView.Month;
     const eventData = {
       date: incomingDate,
+      calendarView
     };
     spyOn(component, 'dateSelected');
     component.selectedDate = moment(incomingMoment).subtract(1, 'day');
@@ -583,8 +586,10 @@ describe('TimeEntriesComponent', () => {
   it('call dateSelected when call changeDate and selectedDate.month() is different to incoming date', () => {
     const incomingDate = new Date('2021-01-07');
     const incomingMoment: moment.Moment = moment(incomingDate);
+    const calendarView: CalendarView = CalendarView.Month;
     const eventData = {
       date: incomingDate,
+      calendarView
     };
     const selectedDate = {
       monthIndex: incomingMoment.month(),

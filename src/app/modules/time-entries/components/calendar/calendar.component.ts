@@ -109,7 +109,7 @@ export class CalendarComponent implements OnInit {
     const date = this.currentDate;
     this.isToday = this.isVisibleForCurrentDate();
     this.navigationEnable(this.calendarView);
-    this.changeDate.emit({ date });
+    this.changeDate.emit({ date, calendarView: this.calendarView });
   }
 
   changeCalendarView(calendarView: CalendarView) {

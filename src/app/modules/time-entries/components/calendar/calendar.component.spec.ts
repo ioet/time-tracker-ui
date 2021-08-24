@@ -198,10 +198,11 @@ describe('CalendarComponent', () => {
   });
 
   it('emit current date and call navigationEnable when call handleChangeDateEvent', () => {
+    const calendarView: CalendarView = CalendarView.Month;
     const fakeValueEmit = {
       date: currentDate.toDate(),
+      calendarView
     };
-    const calendarView = CalendarView.Month;
     spyOn(component, 'navigationEnable');
     spyOn(component.changeDate, 'emit');
     spyOn(component, 'isVisibleForCurrentDate');

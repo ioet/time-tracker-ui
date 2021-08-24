@@ -32,6 +32,7 @@
           *ngIf="!dataSource.isLoading"
           [timeEntries$]="timeEntriesDataSource$"
           [currentDate]="selectedDate.toDate()"
+          [calendarView]="calendarView"
           (changeDate)="changeDate($event)"
           (viewModal)="editEntry($event.id)"
           (deleteTimeEntry)="openModal($event.timeEntry)"
