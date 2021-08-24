@@ -96,11 +96,16 @@
 <div class="modal fade" id="editRecordsByDate" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content" cdkDrag (cdkDragEnded)="resetDraggablePosition($event)">
-      <div class="modal-header" cdkDragHandle>
+      <div class="modal-header">
         <h5 class="modal-title">{{ entryId ? 'Edit Entry' : 'New Entry' }}</h5>
-        <button type="button" class="btn" (click)="detailsFields.cleanFieldsForm()">
-          <i class="fa fa-undo" aria-hidden="true"></i>
-        </button>
+        <div>
+          <button class="btn shadow-none"  data-bs-toggle="tooltip" title="Clean form values" (click)="detailsFields.cleanFieldsForm()">
+            <em class="fa fa-eraser"> </em>
+          </button>
+          <button class="btn shadow-none"  data-bs-toggle="tooltip" title="Drag modal" cdkDragHandle>
+            <em class="fa fa-grip-vertical"></em>
+          </button>
+        </div>
       </div>
       <div class="modal-body">
         <app-details-fields
