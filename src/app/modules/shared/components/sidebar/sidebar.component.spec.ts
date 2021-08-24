@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router, Routes } from '@angular/router';
 import { TimeClockComponent } from '../../../time-clock/pages/time-clock.component';
 import { of } from 'rxjs';
-import { FeatureManagerService } from '../../feature-toggles/feature-toggle-manager.service';
 import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
 
 describe('SidebarComponent', () => {
