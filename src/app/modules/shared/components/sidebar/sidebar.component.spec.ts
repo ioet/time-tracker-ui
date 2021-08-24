@@ -86,21 +86,4 @@ describe('SidebarComponent', () => {
     });
   });
 
-  it('List Technologies item is added when feature flag "ui-list-technologies" is enabled for user', () => {
-    spyOn(featureManagerServiceStubInjected, 'isToggleEnabledForUser').and.returnValue(of(true));
-    const itemsSidebar = [];
-
-    component.toggleListTechnologies(itemsSidebar);
-
-    expect(itemsSidebar.length).toBe(1);
-  });
-
-  it('List Technologies item is not added when feature flag "ui-list-technologies" is disabled for user', () => {
-    spyOn(featureManagerServiceStubInjected, 'isToggleEnabledForUser').and.returnValue(of(false));
-    const itemsSidebar = [];
-
-    component.toggleListTechnologies(itemsSidebar);
-
-    expect(itemsSidebar.length).toBe(0);
-  });
 });

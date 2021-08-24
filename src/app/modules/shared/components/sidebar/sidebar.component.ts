@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.toggleSideBar();
     this.sidebarItems$ = this.getSidebarItems().subscribe();
-    this.toggleListTechnologies(this.itemsSidebar);
+    // this.toggleListTechnologies(this.itemsSidebar);
     this.highlightMenuOption(this.router.routerState.snapshot.url);
     this.navStart.subscribe((evt) => {
       this.highlightMenuOption(evt.url);
@@ -66,22 +66,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
       })
     );
-  }
-
-  toggleListTechnologies(itemsSidebar: ItemSidebar[]) {
-    this.featureManagerService
-      .isToggleEnabledForUser('ui-list-technologies')
-      .subscribe((enabled) => {
-        if (enabled === true) {
-          const listTechnologiesItem = {
-            route: '/technology-report',
-            icon: 'fas fa-user',
-            text: 'Technology Report',
-            active: false,
-          };
-          itemsSidebar.push(listTechnologiesItem);
-        }
-      });
   }
 
   highlightMenuOption(route) {
