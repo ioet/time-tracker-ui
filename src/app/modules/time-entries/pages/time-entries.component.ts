@@ -40,7 +40,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedMonthAsText: string;
   isActiveEntryOverlapping = false;
   calendarView: CalendarView = CalendarView.Month;
-  currentMonth = moment().month();
+  actualDate: Date;
   readonly NO_DATA_MESSAGE: string = 'No data available in table';
   constructor(
     private store: Store<EntryState>,
@@ -49,6 +49,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     private cookiesService: CookieService) {
     this.displayGridView = false;
     this.selectedDate = moment(new Date());
+    this.actualDate = new Date();
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
   }
   ngOnDestroy(): void {
@@ -183,7 +184,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
     this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
     this.selectedDate = moment().month(event.monthIndex).year(event.year);
-    if (this.currentMonth !== event.monthIndex){
+    if (this.actualDate.getMonth() !== event.monthIndex){
       this.selectedDate = this.selectedDate.startOf('month');
     }
   }

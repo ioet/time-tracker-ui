@@ -561,7 +561,7 @@ describe('TimeEntriesComponent', () => {
     const dateMoment: moment.Moment = moment().month(monthIndex).year(year);
     jasmine.clock().mockDate(dateMoment.toDate());
 
-    component.currentMonth = monthIndex;
+    component.actualDate.setMonth(monthIndex);
     component.dateSelected(eventData);
 
     expect(component.selectedDate).toEqual(dateMoment);
@@ -601,18 +601,15 @@ describe('TimeEntriesComponent', () => {
   });
 
   it('change component selectedDate to be the first day of the month when call dateSelected', () => {
-    const actualMoment: moment.Moment = moment(new Date('2021-01-07'));
-    const selectedMoment: moment.Moment = moment(new Date('2021-05-13'));
-    const firstDayMoment: moment.Moment = selectedMoment.startOf('month');
+    const actualDate: Date = new Date(2021, 5, 15);
+    const selectedDate: Date = new Date(2021, 2, 1);
     const eventDate = {
-      monthIndex: selectedMoment.month(),
-      year: selectedMoment.year()
+      monthIndex: selectedDate.getMonth(),
+      year: selectedDate.getFullYear()
     };
-    component.currentMonth = actualMoment.month();
-    component.selectedDate = selectedMoment;
-    spyOn(component, 'dateSelected');
+    component.actualDate = actualDate;
     component.dateSelected(eventDate);
-    expect(component.selectedDate).toBe(firstDayMoment);
+    expect(component.selectedDate.date()).toBe(selectedDate.getDate());
   });
 
   it('change component calendarView from Month to Day when call changeView', () => {
