@@ -14,6 +14,7 @@ import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 import { getActiveTimeEntry, getTimeEntriesDataSource } from './../../time-clock/store/entry.selectors';
 import { CookieService } from 'ngx-cookie-service';
 import { FeatureToggle } from './../../../../environments/enum';
+import { CalendarView } from 'angular-calendar';
 @Component({
   selector: 'app-time-entries',
   templateUrl: './time-entries.component.html',
@@ -38,6 +39,8 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
   selectedYear: number;
   selectedMonthAsText: string;
   isActiveEntryOverlapping = false;
+  calendarView: CalendarView = CalendarView.Month;
+  actualDate: Date;
   readonly NO_DATA_MESSAGE: string = 'No data available in table';
   constructor(
     private store: Store<EntryState>,
@@ -46,6 +49,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     private cookiesService: CookieService) {
     this.displayGridView = false;
     this.selectedDate = moment(new Date());
+    this.actualDate = new Date();
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
   }
   ngOnDestroy(): void {
@@ -180,6 +184,9 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
     this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
     this.selectedDate = moment().month(event.monthIndex).year(event.year);
+    if (this.actualDate.getMonth() !== event.monthIndex){
+      this.selectedDate = this.selectedDate.startOf('month');
+    }
   }
 
   changeDate(event: { date: Date }){
@@ -194,6 +201,10 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.dateSelected(selectedDate);
     }
     this.selectedDate = newDate;
+  }
+
+  changeView(event: { calendarView: CalendarView }){
+    this.calendarView = event.calendarView || CalendarView.Month;
   }
 
   openModal(item: any) {

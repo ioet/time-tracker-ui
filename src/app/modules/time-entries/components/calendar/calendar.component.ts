@@ -44,6 +44,9 @@ export class CalendarComponent implements OnInit {
   @Output() changeDate: EventEmitter<any> = new EventEmitter<{
     date: Date;
   }>();
+  @Output() changeView: EventEmitter<any> = new EventEmitter<{
+    calendarView: CalendarView;
+  }>();
 
   initialDate: Date;
   previusDate: Date;
@@ -119,6 +122,7 @@ export class CalendarComponent implements OnInit {
       this.referenceChangeDetector.detectChanges();
       this.scrollToCurrentTimeMarker();
     }
+    this.changeView.emit({ calendarView });
   }
 
   navigationEnable(calendarView: CalendarView) {

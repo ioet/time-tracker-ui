@@ -21,6 +21,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CookieService } from 'ngx-cookie-service';
 import { DebugElement } from '@angular/core';
 import { FeatureToggle } from './../../../../environments/enum';
+import { CalendarView } from 'angular-calendar';
 import * as moment from 'moment';
 
 describe('TimeEntriesComponent', () => {
@@ -560,6 +561,7 @@ describe('TimeEntriesComponent', () => {
     const dateMoment: moment.Moment = moment().month(monthIndex).year(year);
     jasmine.clock().mockDate(dateMoment.toDate());
 
+    component.actualDate.setMonth(monthIndex);
     component.dateSelected(eventData);
 
     expect(component.selectedDate).toEqual(dateMoment);
@@ -569,7 +571,7 @@ describe('TimeEntriesComponent', () => {
     const incomingDate = new Date('2021-06-07');
     const incomingMoment: moment.Moment = moment(incomingDate);
     const eventData = {
-      date: incomingDate,
+      date: incomingDate
     };
     spyOn(component, 'dateSelected');
     component.selectedDate = moment(incomingMoment).subtract(1, 'day');
@@ -584,7 +586,7 @@ describe('TimeEntriesComponent', () => {
     const incomingDate = new Date('2021-01-07');
     const incomingMoment: moment.Moment = moment(incomingDate);
     const eventData = {
-      date: incomingDate,
+      date: incomingDate
     };
     const selectedDate = {
       monthIndex: incomingMoment.month(),
@@ -596,6 +598,37 @@ describe('TimeEntriesComponent', () => {
     component.changeDate(eventData);
 
     expect(component.dateSelected).toHaveBeenCalledWith(selectedDate);
+  });
+
+  it('change component selectedDate to be the first day of the month when call dateSelected', () => {
+    const actualDate: Date = new Date(2021, 5, 15);
+    const selectedDate: Date = new Date(2021, 2, 1);
+    const eventDate = {
+      monthIndex: selectedDate.getMonth(),
+      year: selectedDate.getFullYear()
+    };
+    component.actualDate = actualDate;
+    component.dateSelected(eventDate);
+    expect(component.selectedDate.date()).toBe(selectedDate.getDate());
+  });
+
+  it('change component calendarView from Month to Day when call changeView', () => {
+    const fakeCalendarView: CalendarView = CalendarView.Day;
+    const eventView = {
+      calendarView: fakeCalendarView
+    };
+    component.calendarView = CalendarView.Month;
+    component.changeView(eventView);
+    expect(component.calendarView).toBe(fakeCalendarView);
+  });
+
+  it('change component calendarView to Month if undefined when call changeView', () => {
+    component.calendarView = CalendarView.Week;
+    const eventView = {
+      calendarView: undefined
+    };
+    component.changeView(eventView);
+    expect(component.calendarView).toBe(CalendarView.Month);
   });
 
   it('not view button onDisplayModeChange when isFeatureToggleCalendarActive is false', () => {
