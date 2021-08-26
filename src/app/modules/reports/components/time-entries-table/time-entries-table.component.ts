@@ -22,9 +22,14 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     buttons: [
       {
         extend: 'colvis',
-        columns: ':not(.hidden-col)',
+        columns: ':not(.hidden-col),visible'
       },
-      'print',
+      {
+        extend: 'print',
+        exportOptions: {
+          columns: ':visible'
+          }
+      },
       {
         extend: 'excel',
         exportOptions: {
@@ -53,7 +58,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         text: 'CSV',
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`,
       },
-    ],
+    ]
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
