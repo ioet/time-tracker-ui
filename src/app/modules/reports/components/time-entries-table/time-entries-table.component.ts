@@ -34,29 +34,31 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         extend: 'excel',
         exportOptions: {
           format: {
-            body: (data, row, column, node) => {
-              return column === 3 ?
+            body: (data, column) => {
+              return column.name === 'Duration' ?
               moment.duration(data).asHours().toFixed(4).slice(0, -1) :
               data;
             },
           },
+          columns: ':visible'
         },
         text: 'Excel',
-        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`,
+        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
       {
         extend: 'csv',
         exportOptions: {
           format: {
-            body: (data, row, column, node) => {
-              return column === 3 ?
+            body: (data, column) => {
+              return column.name === 'Duration' ?
               moment.duration(data).asHours().toFixed(4).slice(0, -1) :
               data;
             },
           },
+          columns: ':visible'
         },
         text: 'CSV',
-        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`,
+        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
     ]
   };
