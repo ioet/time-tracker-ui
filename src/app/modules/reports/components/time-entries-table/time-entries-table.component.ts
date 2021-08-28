@@ -33,13 +33,6 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       {
         extend: 'excel',
         exportOptions: {
-          format: {
-            body: (data, column) => {
-              return column.name === 'Duration' ?
-              moment.duration(data).asHours().toFixed(4).slice(0, -1) :
-              data;
-            },
-          },
           columns: ':visible'
         },
         text: 'Excel',
@@ -48,13 +41,6 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       {
         extend: 'csv',
         exportOptions: {
-          format: {
-            body: (data, column) => {
-              return column.name === 'Duration' ?
-              moment.duration(data).asHours().toFixed(4).slice(0, -1) :
-              data;
-            },
-          },
           columns: ':visible'
         },
         text: 'CSV',
