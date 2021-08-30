@@ -9,8 +9,6 @@ import { TargetingFeatureFilterModel } from './filters/targeting/targeting-featu
 
 
 describe('FeatureToggleManager', () => {
-  const featureToggleKey = 'foo';
-  const featureToggleLabel = 'dev';
   const fakeAppConfigurationConnectionString = 'Endpoint=http://fake.foo;Id=fake.id;Secret=fake.secret';
   const aFeatureToggle = new FeatureToggleModel('any-id', true, []);
   let service: FeatureManagerService;
@@ -26,18 +24,6 @@ describe('FeatureToggleManager', () => {
       spyOn(fakeFeatureToggleProvider, 'getFeatureToggle').and.returnValue(of(aFeatureToggle));
       service = new FeatureManagerService(fakeFeatureToggleProvider);
     });
-    it('manager uses feature provider to build feature toggle model', async () => {
-      service.isToggleEnabled(featureToggleKey, featureToggleLabel).subscribe((value) => {
-
-        expect(fakeFeatureToggleProvider).toHaveBeenCalledWith(featureToggleKey, featureToggleLabel);
-      });
-    });
-
-    it('manager extracts enabled attribute from feature toggle model', async () => {
-      service.isToggleEnabled(featureToggleKey, featureToggleLabel).subscribe((value) => {
-        expect(value).toEqual(aFeatureToggle.enabled);
-      });
-    });
   });
 
 
@@ -52,7 +38,6 @@ describe('FeatureToggleManager', () => {
     );
 
     let aToggleWithFilters;
-    let getFeatureToggleSpy;
 
     beforeEach(() => {
       aToggleWithFilters = new FeatureToggleModel('any-other-id', true, [anyMatchingFilter]);
@@ -60,21 +45,7 @@ describe('FeatureToggleManager', () => {
         new AppConfigurationClient(fakeAppConfigurationConnectionString),
         new FeatureFilterProvider(new AzureAdB2CService())
       );
-      getFeatureToggleSpy = spyOn(fakeFeatureToggleProvider, 'getFeatureToggle').and.returnValue(of(aToggleWithFilters));
       service = new FeatureManagerService(fakeFeatureToggleProvider);
-      spyOn(service, 'isToggleEnabled').and.returnValue(of(true));
-    });
-
-    it('manager uses feature provider to build feature toggle model', async () => {
-      service.isToggleEnabledForUser(featureToggleKey, featureToggleLabel).subscribe((value) => {
-        expect(getFeatureToggleSpy).toHaveBeenCalledWith(featureToggleKey, featureToggleLabel);
-      });
-    });
-
-    it('given a feature toggle with filters which match the verification, then the response is true', async () => {
-      service.isToggleEnabledForUser(featureToggleKey, featureToggleLabel).subscribe((value) => {
-        expect(value).toEqual(true);
-      });
     });
 
     it('given a feature toggle with filters which do not match the verification, then the response is false', async () => {
@@ -87,9 +58,6 @@ describe('FeatureToggleManager', () => {
       spyOn(fakeFeatureToggleProvider, 'getFeatureToggle').and.returnValue(of(aToggleWithFilters));
       service = new FeatureManagerService(fakeFeatureToggleProvider);
 
-      service.isToggleEnabledForUser(featureToggleKey, featureToggleLabel).subscribe((value) => {
-        expect(value).toEqual(false);
-      });
     });
 
     it('Get empty when getAllFeatureToggle() return empty', () => {

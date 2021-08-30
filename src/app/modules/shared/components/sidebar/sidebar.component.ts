@@ -3,7 +3,6 @@ import { ItemSidebar } from './models/item-sidebar.model';
 import { NavigationStart, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { FeatureManagerService } from '../../feature-toggles/feature-toggle-manager.service';
 import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
 
 @Component({
@@ -19,7 +18,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private userInfoService: UserInfoService,
-    private featureManagerService: FeatureManagerService,
   ) {
     this.navStart = this.router.events.pipe(
       filter((evt) => evt instanceof NavigationStart)

@@ -1,4 +1,3 @@
-import { FeatureToggle } from './../../../../../environments/enum';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { FeatureManagerService } from '../feature-toggle-manager.service';
@@ -21,18 +20,6 @@ describe('FeatureToggleGeneralService', () => {
 
   it('should be created', () => {
     expect(featureToggleGeneralService).toBeTruthy();
-  });
-
-  const params = [{ bool: false }, { bool: true }];
-  params.map((param) => {
-    it(`isActivated should return a boolean ${param.bool}`, () => {
-      const toggleName = FeatureToggle.SWITCH_GROUP;
-      featureManagerService.isToggleEnabledForUser = () => of(param.bool);
-
-      featureToggleGeneralService.isActivated(toggleName).subscribe((enabled) => {
-        expect(enabled).toBe(param.bool);
-      });
-    });
   });
 
   it('getActivated return a FeatureToggleModel', () => {
