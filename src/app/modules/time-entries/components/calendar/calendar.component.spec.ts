@@ -265,7 +265,7 @@ describe('CalendarComponent', () => {
 
   it('set true in nextDateDisabled when call navigationEnable and calendarView == Month and currentDate equal to initialDate', () => {
     component.currentDate = moment().toDate();
-    component.initialDate = moment().add(2, 'day').toDate();
+    component.initialDate = moment().toDate();
 
     component.navigationEnable(CalendarView.Month);
 
