@@ -1,4 +1,3 @@
-import { FeatureToggle } from './../../../../../environments/enum';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { FeatureManagerService } from '../feature-toggle-manager.service';

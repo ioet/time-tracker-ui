@@ -9,8 +9,6 @@ import { TargetingFeatureFilterModel } from './filters/targeting/targeting-featu
 
 
 describe('FeatureToggleManager', () => {
-  const featureToggleKey = 'foo';
-  const featureToggleLabel = 'dev';
   const fakeAppConfigurationConnectionString = 'Endpoint=http://fake.foo;Id=fake.id;Secret=fake.secret';
   const aFeatureToggle = new FeatureToggleModel('any-id', true, []);
   let service: FeatureManagerService;
@@ -40,7 +38,6 @@ describe('FeatureToggleManager', () => {
     );
 
     let aToggleWithFilters;
-    let getFeatureToggleSpy;
 
     beforeEach(() => {
       aToggleWithFilters = new FeatureToggleModel('any-other-id', true, [anyMatchingFilter]);
@@ -48,7 +45,6 @@ describe('FeatureToggleManager', () => {
         new AppConfigurationClient(fakeAppConfigurationConnectionString),
         new FeatureFilterProvider(new AzureAdB2CService())
       );
-      getFeatureToggleSpy = spyOn(fakeFeatureToggleProvider, 'getFeatureToggle').and.returnValue(of(aToggleWithFilters));
       service = new FeatureManagerService(fakeFeatureToggleProvider);
     });
 
