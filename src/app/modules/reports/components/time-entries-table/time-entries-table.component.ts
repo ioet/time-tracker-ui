@@ -2,7 +2,6 @@ import { formatDate } from '@angular/common';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
-import * as moment from 'moment';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
@@ -22,38 +21,31 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     buttons: [
       {
         extend: 'colvis',
-        columns: ':not(.hidden-col)',
+        columns: ':not(.hidden-col),visible'
       },
-      'print',
+      {
+        extend: 'print',
+        exportOptions: {
+          columns: ':visible'
+          }
+      },
       {
         extend: 'excel',
         exportOptions: {
-          format: {
-            body: (data, row, column, node) => {
-              return column === 3 ?
-              moment.duration(data).asHours().toFixed(4).slice(0, -1) :
-              data;
-            },
-          },
+          columns: ':visible'
         },
         text: 'Excel',
-        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`,
+        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
       {
         extend: 'csv',
         exportOptions: {
-          format: {
-            body: (data, row, column, node) => {
-              return column === 3 ?
-              moment.duration(data).asHours().toFixed(4).slice(0, -1) :
-              data;
-            },
-          },
+          columns: ':visible'
         },
         text: 'CSV',
-        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`,
+        filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
-    ],
+    ]
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })

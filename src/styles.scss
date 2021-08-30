@@ -61,3 +61,32 @@ Overwritten calendar style
 .cal-header .cal-cell {
   border: 0.1px solid lighten($primary-text, 30%);
 }
+
+@media (max-width: 640px) {
+  div.dt-buttons {
+    text-align: start !important;
+  }
+  .dataTables_wrapper .dataTables_filter {
+    text-align: start !important;
+  }
+  div.dt-button-collection {
+    position: fixed !important;
+    top: 250px !important;
+    margin-left: 50px !important;
+    overflow-y: scroll !important;
+    max-height: 300px !important;
+    button.active:not(.disabled) {
+    background: $primary !important;
+    box-shadow: none !important;
+  }
+  }
+}
+
+@media (min-width: 576px) {
+  div.dt-button-collection {
+    button.active:not(.disabled) {
+    background: $primary !important;
+    box-shadow: none !important;
+  }
+  }
+}
