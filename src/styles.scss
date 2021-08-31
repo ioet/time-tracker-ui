@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 @import '~bootstrap/scss/bootstrap';
 @import './styles/colors.scss';
@@ -76,17 +77,17 @@ Overwritten calendar style
     overflow-y: scroll !important;
     max-height: 300px !important;
     button.active:not(.disabled) {
-    background: $primary !important;
-    box-shadow: none !important;
-  }
+      background: $primary !important;
+      box-shadow: none !important;
+    }
   }
 }
 
 @media (min-width: 576px) {
   div.dt-button-collection {
     button.active:not(.disabled) {
-    background: $primary !important;
-    box-shadow: none !important;
-  }
+      background: $primary !important;
+      box-shadow: none !important;
+    }
   }
 }
