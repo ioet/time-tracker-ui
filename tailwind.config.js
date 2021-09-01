@@ -39,7 +39,7 @@ module.exports = {
             DEFAULT: "#30BCED",
             dark: "#3D57D9",      
           },
-	        warn: {
+          warn: {
             light: "#E87002",
             DEFAULT: "#FF5E0A",
             dark: "#E53402", 
