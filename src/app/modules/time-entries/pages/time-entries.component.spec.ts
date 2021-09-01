@@ -381,14 +381,18 @@ describe('TimeEntriesComponent', () => {
   it('should preload data of last entry when a project is selected while creating new entry ', waitForAsync(() => {
     component.entry = null;
     component.entryId = null;
+    const defaultSeconds = 0;
+    const currentDate = new Date();
+    currentDate.setSeconds(defaultSeconds);
+    const emptyDate = new Date(new Date().setHours(0, 0, 0, 0));
     const lastEntry = {
       description: 'testing is fun',
       technologies: [],
       uri: 'http://testing.is.fun',
       activity_id: 'sss',
       project_id: 'id',
-      start_date: new Date(new Date().setSeconds(0)),
-      end_date: new Date(new Date().setHours(0, 0, 0, 0))
+      start_date: currentDate,
+      end_date: emptyDate
     };
     state.timeEntriesDataSource.data = [lastEntry];
     mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
