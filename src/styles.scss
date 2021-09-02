@@ -5,6 +5,10 @@
 @import './styles/colors.scss';
 @import '../node_modules/angular-calendar/css/angular-calendar.css';
 
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 html,
 body {
   font-family: 'Roboto', sans-serif;
