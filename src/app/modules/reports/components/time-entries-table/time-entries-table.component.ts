@@ -21,27 +21,18 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     buttons: [
       {
         extend: 'colvis',
-        columns: ':not(.hidden-col),visible'
+        columns: ':not(.hidden-col)'
       },
       {
-        extend: 'print',
-        exportOptions: {
-          columns: ':visible'
-          }
+        extend: 'print'
       },
       {
         extend: 'excel',
-        exportOptions: {
-          columns: ':visible'
-        },
         text: 'Excel',
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
       {
         extend: 'csv',
-        exportOptions: {
-          columns: ':visible'
-        },
         text: 'CSV',
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
