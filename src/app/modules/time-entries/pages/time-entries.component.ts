@@ -142,6 +142,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
         const defaultSeconds = 0;
         const currentDate = new Date();
         currentDate.setSeconds(defaultSeconds);
+        currentDate.setMilliseconds(defaultSeconds);
         const emptyDate = new Date(new Date().setHours(0, 0, 0, 0));
         const entry = {
           description: dataToUse.description ? dataToUse.description : '',

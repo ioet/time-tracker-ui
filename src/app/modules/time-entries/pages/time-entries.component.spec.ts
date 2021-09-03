@@ -384,6 +384,7 @@ describe('TimeEntriesComponent', () => {
     const defaultSeconds = 0;
     const currentDate = new Date();
     currentDate.setSeconds(defaultSeconds);
+    currentDate.setMilliseconds(defaultSeconds);
     const emptyDate = new Date(new Date().setHours(0, 0, 0, 0));
     const lastEntry = {
       description: 'testing is fun',
