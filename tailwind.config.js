@@ -5,7 +5,7 @@ module.exports = {
         './src/**/*.{html,ts}',
       ]
     },
-    darkMode: false,
+    darkMode: 'class',
     theme: {
       extend: {
         screens: {
