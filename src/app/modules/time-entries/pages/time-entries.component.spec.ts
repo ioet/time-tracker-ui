@@ -385,7 +385,6 @@ describe('TimeEntriesComponent', () => {
     const currentDate = new Date();
     currentDate.setSeconds(defaultSeconds);
     currentDate.setMilliseconds(defaultSeconds);
-    const emptyDate = new Date(new Date().setHours(0, 0, 0, 0));
     const lastEntry = {
       description: 'testing is fun',
       technologies: [],
@@ -393,7 +392,7 @@ describe('TimeEntriesComponent', () => {
       activity_id: 'sss',
       project_id: 'id',
       start_date: currentDate,
-      end_date: emptyDate
+      end_date: currentDate
     };
     state.timeEntriesDataSource.data = [lastEntry];
     mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);

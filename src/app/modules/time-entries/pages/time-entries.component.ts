@@ -143,7 +143,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
         const currentDate = new Date();
         currentDate.setSeconds(defaultSeconds);
         currentDate.setMilliseconds(defaultSeconds);
-        const emptyDate = new Date(new Date().setHours(0, 0, 0, 0));
         const entry = {
           description: dataToUse.description ? dataToUse.description : '',
           technologies: dataToUse.technologies ? dataToUse.technologies : [],
@@ -151,7 +150,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
           activity_id: dataToUse.activity_id,
           project_id: dataToUse.project_id,
           start_date: currentDate,
-          end_date: emptyDate
+          end_date: currentDate
         };
         this.entry = entry;
       }
