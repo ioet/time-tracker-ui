@@ -86,6 +86,7 @@ import { TechnologyReportComponent } from './modules/technology-report/pages/tec
 import { CalendarComponent } from './modules/time-entries/components/calendar/calendar.component';
 import { DropdownComponent } from './modules/shared/components/dropdown/dropdown.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DarkModeComponent } from './modules/shared/components/dark-mode/dark-mode.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -140,6 +141,7 @@ const maskConfig: Partial<IConfig> = {
     TechnologyReportTableComponent,
     CalendarComponent,
     DropdownComponent,
+    DarkModeComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),

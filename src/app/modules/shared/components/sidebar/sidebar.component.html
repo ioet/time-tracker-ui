@@ -1,5 +1,5 @@
-<div class="d-flex" id="wrapper">
-  <div class="bg-light border-right" id="sidebar-wrapper">
+<div class="d-flex dark:bg-gray" id="wrapper">
+  <div class="border-right dark:bg-grey-dark" id="sidebar-wrapper">
     <div class="sidebar-heading" style="text-align: center">
       <img src="assets/img/ioet.png" width="90" height="auto" style="padding-top: 2rem; padding-bottom: 2rem;" alt="logo" />
     </div>
@@ -8,7 +8,7 @@
               *ngFor="let item of itemsSidebar"
               [routerLink]="item.route"
               routerLinkActive=""
-              class="list-group-item list-group-item-action bg-light"
+              class="list-group-item list-group-item-action dark:bg-grey-dark dark:text-white"
               [ngClass]="{active: item.active}"
             >
               <i class="{{ item.icon }}"></i> {{ item.text }}
@@ -20,6 +20,9 @@
       <button class="btn btn-primary" id="menu-toggle">
         Toggle Menu
       </button>
+      <div class="dark-mode-toggle">
+        <app-dark-mode></app-dark-mode>
+      </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
