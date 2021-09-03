@@ -139,15 +139,18 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
       const dataToUse = ds.data.find(item => item.project_id === event.projectId);
       if (dataToUse && this.isNewEntry()) {
-        const startDate = new Date(new Date().setHours(0, 0, 0, 0));
+        const defaultSeconds = 0;
+        const currentDate = new Date();
+        currentDate.setSeconds(defaultSeconds);
+        currentDate.setMilliseconds(defaultSeconds);
         const entry = {
           description: dataToUse.description ? dataToUse.description : '',
           technologies: dataToUse.technologies ? dataToUse.technologies : [],
           uri: dataToUse.uri ? dataToUse.uri : '',
           activity_id: dataToUse.activity_id,
           project_id: dataToUse.project_id,
-          start_date: new Date(),
-          end_date: startDate
+          start_date: currentDate,
+          end_date: currentDate
         };
         this.entry = entry;
       }
