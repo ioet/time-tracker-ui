@@ -61,12 +61,12 @@ export class DarkModeComponent implements AfterViewInit {
   switchThemeToggleStyles(theme: string): void {
     switch (theme) {
       case 'dark':
-        this.themeToggle.nativeElement.classList.remove('bg-yellow-300', '-translate-x-1');
-        this.themeToggle.nativeElement.classList.add('bg-gray-300', 'translate-x-1/2');
+        this.themeToggle.nativeElement.classList.remove('bg-warning', '-translate-x-1');
+        this.themeToggle.nativeElement.classList.add('bg-gray-lighter', 'translate-x-1/2');
         break;
       case 'light':
-        this.themeToggle.nativeElement.classList.remove('bg-gray-300', 'translate-x-1/2');
-        this.themeToggle.nativeElement.classList.add('bg-yellow-300', '-translate-x-1');
+        this.themeToggle.nativeElement.classList.remove('bg-gray-lighter', 'translate-x-1/2');
+        this.themeToggle.nativeElement.classList.add('bg-warning', '-translate-x-1');
         break;
     }
   }
