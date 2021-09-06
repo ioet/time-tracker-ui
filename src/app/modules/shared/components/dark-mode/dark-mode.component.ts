@@ -39,6 +39,10 @@ export class DarkModeComponent implements AfterViewInit {
     return this.theme === 'dark' ? true : false;
   }
 
+  setTheme(): string {
+    return this.isDarkTheme() ? 'light' : 'dark';
+  }
+
   addOrRemoveDarkMode(): void {
     if (this.isDarkTheme()) {
       document.documentElement.classList.add('dark');
@@ -48,11 +52,7 @@ export class DarkModeComponent implements AfterViewInit {
   }
 
   changeToDarkOrLightTheme(): void {
-    if (this.isDarkTheme()) {
-      this.theme = 'light';
-    } else {
-      this.theme = 'dark';
-    }
+    this.theme = this.setTheme();
     this.setLocalStorageTheme(this.theme);
     this.switchThemeToggleStyles(this.theme);
     this.addOrRemoveDarkMode();

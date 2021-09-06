@@ -41,6 +41,27 @@ describe('DarkModeComponent', () => {
     expect(component.theme).toBe('light');
   });
 
+  it('should be light theme if only the theme property exists in local storage and not its value', () => {
+    localStorage.setItem('theme', '');
+    component.checkThemeInLocalStorage();
+    expect(component.theme).toBe('light');
+  });
+
+  it('should switch to dark theme if the theme property is light and vice versa', () => {
+    component.theme = component.setTheme();
+    expect(component.theme).toBe('dark');
+    component.theme = component.setTheme();
+    expect(component.theme).toBe('light');
+  });
+
+  it('should add the dark class in the html tag to apply dark mode', () => {
+    component.theme = 'dark';
+    component.addOrRemoveDarkMode();
+    fixture.detectChanges();
+    const htmlContainsDarkClass = document.documentElement.classList.contains('dark');
+    expect(htmlContainsDarkClass).toBe(true);
+  });
+
   it('should be changed to dark mode if the mode toggle is selected', () => {
     component.themeToggle.nativeElement.click();
     fixture.detectChanges();
