@@ -80,7 +80,7 @@
 
       <div class="form-group row" >
         <label class="col-12 col-sm-2">Date in:</label>
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-sm-4" tabindex="0">
           <input
             matInput
             formControlName="start_date"
@@ -93,6 +93,7 @@
             (ngModelChange)="onStartDateChange($event)"
             [max]="getCurrentDate()"
             onkeydown="return false"
+            [tabIndex]="1"
             (click)="openOrCloseDatePicker(datepickerStartDate)"
             (dateInput)="start_date.setValue($event.value.format('YYYY-MM-DD'))"
             [matDatepicker]="datepickerStartDate"
@@ -115,7 +116,7 @@
 
       <div class="form-group row" *ngIf="!goingToWorkOnThis || !canMarkEntryAsWIP">
         <label class="col-12 col-sm-2">Date out:</label>
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-sm-4" tabindex="0">
           <input
             matInput
             formControlName="end_date"
@@ -127,6 +128,7 @@
             required
             [max]="getCurrentDate()"
             onkeydown="return false"
+            [tabIndex]="1"
             (click)="openOrCloseDatePicker(datepickerEndDate)"
             (dateInput)="end_date.setValue($event.value.format('YYYY-MM-DD'))"
             [matDatepicker]="datepickerEndDate"
