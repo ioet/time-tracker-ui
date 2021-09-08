@@ -31,7 +31,7 @@ export class DarkModeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.isFeatureToggleDarkModeActive) {
-      this.switchThemeToggleStyles(this.theme);
+      this.switchThemeToggleStyles();
     }
   }
 
@@ -70,20 +70,17 @@ export class DarkModeComponent implements OnInit, AfterViewInit {
   changeToDarkOrLightTheme(): void {
     this.theme = this.setTheme();
     this.setLocalStorageTheme(this.theme);
-    this.switchThemeToggleStyles(this.theme);
+    this.switchThemeToggleStyles();
     this.addOrRemoveDarkMode();
   }
 
-  switchThemeToggleStyles(theme: string): void {
-    switch (theme) {
-      case 'dark':
-        this.themeToggle.nativeElement.classList.remove('bg-warningTW', '-translate-x-1');
-        this.themeToggle.nativeElement.classList.add('bg-grayTW-lighter', 'translate-x-1/2');
-        break;
-      case 'light':
-        this.themeToggle.nativeElement.classList.remove('bg-grayTW-lighter', 'translate-x-1/2');
-        this.themeToggle.nativeElement.classList.add('bg-warningTW', '-translate-x-1');
-        break;
+  switchThemeToggleStyles(): void {
+    if (this.isDarkTheme()) {
+      this.themeToggle.nativeElement.classList.remove('bg-warningTW', '-translate-x-1');
+      this.themeToggle.nativeElement.classList.add('bg-grayTW-lighter', 'translate-x-1/2');
+    } else {
+      this.themeToggle.nativeElement.classList.remove('bg-grayTW-lighter', 'translate-x-1/2');
+      this.themeToggle.nativeElement.classList.add('bg-warningTW', '-translate-x-1');
     }
   }
 }

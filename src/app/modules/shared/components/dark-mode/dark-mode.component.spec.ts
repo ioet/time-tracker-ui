@@ -1,13 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CookieService } from 'ngx-cookie-service';
-import { FeatureToggle } from 'src/environments/enum';
-
 import { DarkModeComponent } from './dark-mode.component';
 
 describe('DarkModeComponent', () => {
   let component: DarkModeComponent;
   let fixture: ComponentFixture<DarkModeComponent>;
-  let cookieService: CookieService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,7 +13,6 @@ describe('DarkModeComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DarkModeComponent);
-    cookieService = TestBed.inject(CookieService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
