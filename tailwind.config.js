@@ -8,39 +8,39 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      white: '#FFFFFF',
-      black: '#000000',
-      primary: {
+      whiteTW: '#FFFFFF',
+      blackTW: '#000000',
+      primaryTW: {
         light: '#59C9F0',
         DEFAULT: '#30BCED',
         dark: '#2183A5',
       },
-      secondary: {
+      secondaryTW: {
         light: '#FF7E3B',
         DEFAULT: '#FF5E0A',
         dark: '#B24107',
       },
-      info: {
+      infoTW: {
         light: '#44C7D0',
         DEFAULT: '#16BAC5',
         dark: '#0F8289',
       },
-      error: {
+      errorTW: {
         light: '#FF606C',
         DEFAULT: '#FF3948',
         dark: '#B22732',
       },
-      success: {
+      successTW: {
         light: '#57DC94',
         DEFAULT: '#2ED47A',
         dark: '#209455',
       },
-      warning: {
+      warningTW: {
         light: '#FFC76B',
         DEFAULT: '#FFB946',
         dark: '#B28131',
       },
-      gray: {
+      grayTW: {
         lightest: '#F3F4F6',
         lighter: '#D6D6D7',
         light: '#6F6F6F',
