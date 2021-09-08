@@ -1,14 +1,14 @@
-<div class="d-flex bg-gray-lighter dark:bg-gray-darker dark:text-white" id="wrapper">
-  <div class="border-right bg-gray-lightest dark:bg-gray-dark" id="sidebar-wrapper">
+<div class="d-flex bg-grayTW-lightest dark:bg-grayTW-darker dark:text-whiteTW" id="wrapper">
+  <div class="border-right bg-whiteTW dark:bg-grayTW-dark" id="sidebar-wrapper">
     <div class="sidebar-heading" style="text-align: center">
       <img src="assets/img/ioet.png" width="90" height="auto" style="padding-top: 2rem; padding-bottom: 2rem;" alt="logo" />
     </div>
-    <div class="list-group list-group-flush bg-gray-lightest dark:bg-gray-darker">
+    <div class="list-group list-group-flush bg-whiteTW dark:bg-grayTW-darker">
             <a
               *ngFor="let item of itemsSidebar"
               [routerLink]="item.route"
               routerLinkActive=""
-              class="list-group-item list-group-item-action bg-gray-lightest dark:bg-gray-dark dark:text-white"
+              class="list-group-item list-group-item-action bg-whiteTW dark:bg-grayTW-dark dark:text-whiteTW"
               [ngClass]="{active: item.active}"
             >
               <i class="{{ item.icon }}"></i> {{ item.text }}
@@ -16,8 +16,8 @@
     </div>
   </div>
   <div id="page-content-wrapper">
-    <nav class="navbar navbar-expand-lg navbar-light border-bottom bg-gray-lightest dark:bg-gray-dark">
-      <button class="btn btn-primary bg-primary hover:bg-primary-light" id="menu-toggle">
+    <nav class="navbar navbar-expand-lg navbar-light border-bottom bg-whiteTW dark:bg-grayTW-dark">
+      <button class="btn bg-primaryTW hover:bg-primaryTW-dark text-whiteTW hover:text-whiteTW" id="menu-toggle">
         Toggle Menu
       </button>
       <div class="dark-mode-toggle">
@@ -33,7 +33,7 @@
       </div>
     </nav>
     <div class="container-fluid px-0 full-height">
-        <div class="content_app mx-10 my-10 rounded-md bg-gray-lightest dark:bg-gray-dark">
+        <div class="content_app mx-10 my-10 rounded-md bg-whiteTW dark:bg-grayTW-dark">
           <router-outlet></router-outlet>
         </div>
     </div>

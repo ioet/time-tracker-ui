@@ -80,6 +80,6 @@ describe('DarkModeComponent', () => {
     fixture.detectChanges();
     component.ngAfterViewInit();
     fixture.detectChanges();
-    expect(component.themeToggle.nativeElement.classList.contains('bg-warning')).toBe(true);
+    expect(component.themeToggle.nativeElement.classList.contains('bg-warningTW')).toBe(true);
   });
 });

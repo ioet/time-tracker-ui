@@ -1,11 +1,11 @@
 <button
-  class="w-10 h-6 rounded-full bg-gray-lightest flex items-center transition duration-300 focus:outline-none shadow"
+  class="w-10 h-6 rounded-full bg-grayTW-lightest flex items-center transition duration-300 focus:outline-none shadow"
   (click)="changeToDarkOrLightTheme()"
   *ngIf="isFeatureToggleDarkModeActive"
 >
   <div
     #themeToggle
-    class="w-7 h-7 relative rounded-full transition duration-500 transform bg-warning -translate-x-1 p-1"
+    class="w-7 h-7 relative rounded-full transition duration-500 transform bg-warningTW -translate-x-1 p-1"
   >
     <ng-container *ngIf="isDarkTheme(); else elseToggle">
       <img src="assets/icons/moon.svg" alt="moon icon" />
