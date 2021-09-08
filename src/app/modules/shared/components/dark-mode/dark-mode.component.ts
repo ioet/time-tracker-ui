@@ -1,22 +1,38 @@
-import { AfterViewInit, ElementRef, ViewChild, Component } from '@angular/core';
+import { AfterViewInit, ElementRef, ViewChild, Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+import { FeatureToggle } from 'src/environments/enum';
+import { FeatureToggleGeneralService } from '../../feature-toggles/feature-toggle-general/feature-toggle-general.service';
 
 @Component({
   selector: 'app-dark-mode',
   templateUrl: './dark-mode.component.html',
   styleUrls: ['./dark-mode.component.scss'],
 })
-export class DarkModeComponent implements AfterViewInit {
+export class DarkModeComponent implements OnInit, AfterViewInit {
   public theme = 'light';
+  public isFeatureToggleDarkModeActive: boolean;
 
   @ViewChild('themeToggle') themeToggle: ElementRef;
 
-  constructor() {
-    this.checkThemeInLocalStorage();
-    this.addOrRemoveDarkMode();
+  constructor(
+    private cookiesService: CookieService,
+    private featureToggleGeneralService: FeatureToggleGeneralService
+  ) {}
+
+  ngOnInit(): void {
+    this.featureToggleGeneralService.getActivated().subscribe(() => {
+      this.isFeatureToggleDarkModeActive = this.cookiesService.get(FeatureToggle.DARK_MODE) === 'true';
+    });
+    if (this.isFeatureToggleDarkModeActive) {
+      this.checkThemeInLocalStorage();
+      this.addOrRemoveDarkMode();
+    }
   }
 
   ngAfterViewInit(): void {
-    this.switchThemeToggleStyles(this.theme);
+    if (this.isFeatureToggleDarkModeActive) {
+      this.switchThemeToggleStyles(this.theme);
+    }
   }
 
   getLocalStorageTheme(): string {

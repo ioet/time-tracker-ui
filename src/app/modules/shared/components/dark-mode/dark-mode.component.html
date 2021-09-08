@@ -1,6 +1,7 @@
 <button
   class="w-10 h-6 rounded-full bg-gray-lightest flex items-center transition duration-300 focus:outline-none shadow"
   (click)="changeToDarkOrLightTheme()"
+  *ngIf="isFeatureToggleDarkModeActive"
 >
   <div
     #themeToggle
