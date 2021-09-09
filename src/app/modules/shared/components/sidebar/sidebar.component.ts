@@ -26,12 +26,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.toggleSideBar();
-    this.sidebarItems$ = this.getSidebarItems().subscribe();
-    this.highlightMenuOption(this.router.routerState.snapshot.url);
+    const currentRouting = this.router.routerState.snapshot.url;
+    this.sidebarItems$ = this.getSidebarItems().subscribe(() => this.highlightMenuOption(currentRouting));
     this.navStart.subscribe((evt) => {
       this.highlightMenuOption(evt.url);
     });
   }
+
   ngOnDestroy(): void {
     this.sidebarItems$.unsubscribe();
   }
