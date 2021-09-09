@@ -33,7 +33,7 @@ describe('SidebarComponent', () => {
       TestBed.configureTestingModule({
         declarations: [SidebarComponent],
         providers: [
-          { provide: AzureAdB2CService, useValue: azureAdB2CServiceStub },
+          AzureAdB2CService,
           { provide: UserInfoService, useValue: userInfoServiceStub },
         ],
         imports: [RouterTestingModule.withRoutes(routes)],
@@ -81,6 +81,12 @@ describe('SidebarComponent', () => {
     component.itemsSidebar.filter((item) => item.route !== `/${route}`).map((item) => {
       expect(item.active).toBeFalse();
     });
+  });
+
+  it('uses the Azure service on logout', () => {
+    spyOn(azureAdB2CServiceStubInjected, 'logout');
+    component.logout();
+    expect(azureAdB2CServiceStubInjected.logout).toHaveBeenCalled();
   });
 
 });

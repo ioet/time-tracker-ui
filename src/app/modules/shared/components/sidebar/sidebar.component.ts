@@ -4,33 +4,35 @@ import { NavigationStart, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
-
+import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  itemsSidebar: ItemSidebar[] = [];
+  itemsSidebar: ItemSidebar[];
   navStart;
   sidebarItems$: Subscription;
+  userName: string;
+  userEmail: string;
 
-  constructor(
-    private router: Router,
-    private userInfoService: UserInfoService,
-  ) {
+  constructor(private router: Router, private userInfoService: UserInfoService, private azureAdB2CService: AzureAdB2CService) {
     this.navStart = this.router.events.pipe(
       filter((evt) => evt instanceof NavigationStart)
     ) as Observable<NavigationStart>;
   }
 
   ngOnInit(): void {
-    this.toggleSideBar();
     const currentRouting = this.router.routerState.snapshot.url;
     this.sidebarItems$ = this.getSidebarItems().subscribe(() => this.highlightMenuOption(currentRouting));
     this.navStart.subscribe((evt) => {
       this.highlightMenuOption(evt.url);
     });
+    if (this.azureAdB2CService.isLogin()) {
+      this.userName = this.azureAdB2CService.getName();
+      this.userEmail = this.azureAdB2CService.getUserEmail();
+    }
   }
 
   ngOnDestroy(): void {
@@ -38,10 +40,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   toggleSideBar() {
-    $('#menu-toggle').on('click', (e) => {
-      e.preventDefault();
-      $('#wrapper').toggleClass('toggled');
-    });
+    $('#wrapper').toggleClass('toggled');
+    $('#show-sidebar').toggle();
+    $('#hide-sidebar').toggle();
   }
 
   getSidebarItems(): Observable<void> {
@@ -49,25 +50,30 @@ export class SidebarComponent implements OnInit, OnDestroy {
       map((isAdmin) => {
         if (isAdmin) {
           this.itemsSidebar = [
-            { route: '/time-clock', icon: 'fas fa-clock', text: 'Time Clock', active: false },
-            { route: '/time-entries', icon: 'fas fa-list-alt', text: 'Time Entries', active: false },
-            { route: '/reports', icon: 'fas fa-chart-pie', text: 'Reports', active: false },
-            { route: '/activities-management', icon: 'fas fa-file-alt', text: 'Activities', active: false },
-            { route: '/customers-management', icon: 'fas fa-user', text: 'Customers', active: false },
-            { route: '/users', icon: 'fas fa-user', text: 'Users', active: false },
+            { route: '/time-clock', icon: 'assets/icons/clock.svg', text: 'Time Clock', active: false },
+            { route: '/time-entries', icon: 'assets/icons/time-entries.svg', text: 'Time Entries', active: false },
+            { route: '/reports', icon: 'assets/icons/reports.svg', text: 'Reports', active: false },
+            { route: '/activities-management', icon: 'assets/icons/activities.svg', text: 'Activities', active: false },
+            { route: '/customers-management', icon: 'assets/icons/customers.svg', text: 'Customers', active: false },
+            { route: '/users', icon: 'assets/icons/users.svg', text: 'Users', active: false },
           ];
         } else {
           this.itemsSidebar = [
-            { route: '/time-clock', icon: 'fas fa-clock', text: 'Time Clock', active: false },
-            { route: '/time-entries', icon: 'fas fa-list-alt', text: 'Time Entries', active: false },
+            { route: '/time-clock', icon: 'assets/icons/clock.svg', text: 'Time Clock', active: false },
+            { route: '/time-entries', icon: 'assets/icons/time-entries.svg', text: 'Time Entries', active: false },
           ];
         }
       })
     );
   }
 
+
   highlightMenuOption(route) {
     this.itemsSidebar.map((item) => (item.active = false));
     this.itemsSidebar.filter((item) => item.route === route).map((item) => (item.active = true));
+  }
+
+  logout() {
+    this.azureAdB2CService.logout();
   }
 }

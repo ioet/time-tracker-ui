@@ -14,7 +14,18 @@
               <i class="{{ item.icon }}"></i> {{ item.text }}
             </a>
     </div>
+  <div class="table-cell relative">
+    <span class="absolute cursor-pointer inset-y-0 right-0 min-h-screen w-0.5 hover:z-0 hover:bg-blue-400"  (click)="toggleSideBar()"></span>
+      <span class="group cursor-pointer absolute w-5 top-20 -right-3">
+        <img src="assets/icons/left-chevron.svg" id="hide-sidebar" (click)="toggleSideBar()" width="20" height="20" class="bg-black-light rounded-full hover:bg-opacity-50 hover:bg-info-light sm:hidden md:block lg:block"/>
+        <div class="opacity-0 w-12 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full left-1/4 ml-4 -mb-6 px-1 pointer-events-none">Hide</div>
+      </span>
+      <span class="group cursor-pointer absolute top-20 -right-5">
+        <img src="assets/icons/right-chevron.svg" id="show-sidebar" (click)="toggleSideBar()" width="20" height="20" class="bg-black-light rounded-full hover:bg-opacity-50 hover:bg-info-light sm:block md:hidden lg:hidden"/>
+        <div class="opacity-0 w-12 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full left-1/4 ml-4 -mb-6 px-1 pointer-events-none">Show</div>
+      </span>
   </div>
+ </div>
   <div id="page-content-wrapper">
     <nav class="navbar navbar-expand-lg navbar-light border-bottom bg-whiteTW dark:bg-grayTW-dark">
       <button class="btn bg-primaryTW hover:bg-primaryTW-dark text-whiteTW hover:text-whiteTW" id="menu-toggle">
