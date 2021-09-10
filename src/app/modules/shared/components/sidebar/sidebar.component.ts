@@ -32,6 +32,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (this.azureAdB2CService.isLogin()) {
       this.userName = this.azureAdB2CService.getName();
       this.userEmail = this.azureAdB2CService.getUserEmail();
+      this.azureAdB2CService.setTenantId();
     }
   }
 

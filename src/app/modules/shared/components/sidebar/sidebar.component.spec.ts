@@ -15,15 +15,6 @@ describe('SidebarComponent', () => {
   let router;
   const routes: Routes = [{ path: 'time-clock', component: TimeClockComponent }];
 
-  const azureAdB2CServiceStub = {
-    isLogin() {
-      return true;
-    },
-    isAdmin() {
-      return true;
-    },
-  };
-
   const userInfoServiceStub = {
     isAdmin: () => of(true),
   };
@@ -83,10 +74,33 @@ describe('SidebarComponent', () => {
     });
   });
 
-  it('uses the Azure service on logout', () => {
+  it('onInit checks if isLogin is true and gets the name, email and sets the tenantid in the Storage', () => {
+    spyOn(azureAdB2CServiceStubInjected, 'isLogin').and.returnValue(true);
+    spyOn(azureAdB2CServiceStubInjected, 'getName').and.returnValue('Name');
+    spyOn(azureAdB2CServiceStubInjected, 'getUserEmail').and.returnValue('Email');
+    spyOn(azureAdB2CServiceStubInjected, 'setTenantId');
+    component.ngOnInit();
+    expect(azureAdB2CServiceStubInjected.isLogin).toHaveBeenCalled();
+    expect(azureAdB2CServiceStubInjected.getName).toHaveBeenCalled();
+    expect(azureAdB2CServiceStubInjected.getUserEmail).toHaveBeenCalled();
+    expect(azureAdB2CServiceStubInjected.setTenantId).toHaveBeenCalled();
+  });
+
+  it('onInit does not get the name and the email if isLogin is false', () => {
+    spyOn(azureAdB2CServiceStubInjected, 'isLogin').and.returnValue(false);
+    spyOn(azureAdB2CServiceStubInjected, 'getName').and.returnValue('Name');
+    spyOn(azureAdB2CServiceStubInjected, 'getUserEmail').and.returnValue('Email');
+    spyOn(azureAdB2CServiceStubInjected, 'setTenantId');
+    component.ngOnInit();
+    expect(azureAdB2CServiceStubInjected.isLogin).toHaveBeenCalled();
+    expect(azureAdB2CServiceStubInjected.getName).toHaveBeenCalledTimes(0);
+    expect(azureAdB2CServiceStubInjected.getUserEmail).toHaveBeenCalledTimes(0);
+    expect(azureAdB2CServiceStubInjected.setTenantId).not.toHaveBeenCalled();
+  });
+
+  it('should use the Azure service on logout', () => {
     spyOn(azureAdB2CServiceStubInjected, 'logout');
     component.logout();
     expect(azureAdB2CServiceStubInjected.logout).toHaveBeenCalled();
   });
-
 });
