@@ -1,9 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed} from '@angular/core/testing';
 import { DarkModeComponent } from './dark-mode.component';
 
 describe('DarkModeComponent', () => {
   let component: DarkModeComponent;
   let fixture: ComponentFixture<DarkModeComponent>;
+  let html: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -14,6 +15,7 @@ describe('DarkModeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DarkModeComponent);
     component = fixture.componentInstance;
+    html = document.documentElement;
     fixture.detectChanges();
   });
 
@@ -57,24 +59,21 @@ describe('DarkModeComponent', () => {
     component.theme = 'dark';
     component.addOrRemoveDarkMode();
     fixture.detectChanges();
-    const htmlContainsDarkClass = document.documentElement.classList.contains('dark');
-    expect(htmlContainsDarkClass).toBe(true);
+    expect(html.classList.contains('dark')).toBe(true);
   });
 
-  it('should be changed to dark mode if the mode toggle is selected', () => {
-    component.isFeatureToggleDarkModeActive = true;
+  it('should not have dark class in the html tag when  theme is light', () => {
+    component.addOrRemoveDarkMode();
     fixture.detectChanges();
-    component.themeToggle.nativeElement.click();
+    expect(component.theme).toEqual('light');
+    expect(html.classList.contains('dark')).toBe(false);
+  });
+
+  it('should change the value of the theme property, save it in the local storage and add the dark class to the HTML tag to change the theme', () => {
+    component.changeToDarkOrLightTheme();
     fixture.detectChanges();
     expect(component.theme).toEqual('dark');
     expect(localStorage.getItem('theme')).toEqual('dark');
-  });
-
-  it('call switchThemeToggleStyles() when ngAfterViewInit is called and isFeatureToggleDarkModeActive is true', () => {
-    component.isFeatureToggleDarkModeActive = true;
-    fixture.detectChanges();
-    component.ngAfterViewInit();
-    fixture.detectChanges();
-    expect(component.themeToggle.nativeElement.classList.contains('bg-warningTW')).toBe(true);
+    expect(html.classList.contains('dark')).toBe(true);
   });
 });
