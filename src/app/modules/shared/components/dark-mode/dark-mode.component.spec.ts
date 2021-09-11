@@ -1,10 +1,16 @@
-import { ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { FeatureToggleGeneralService } from '../../feature-toggles/feature-toggle-general/feature-toggle-general.service';
+import { FeatureToggleModel } from '../../feature-toggles/feature-toggle.model';
+import { FeatureFilterModel } from '../../feature-toggles/filters/feature-filter.model';
 import { DarkModeComponent } from './dark-mode.component';
 
 describe('DarkModeComponent', () => {
   let component: DarkModeComponent;
   let fixture: ComponentFixture<DarkModeComponent>;
   let html: HTMLElement;
+  let featureToggleGeneralService: FeatureToggleGeneralService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -16,6 +22,7 @@ describe('DarkModeComponent', () => {
     fixture = TestBed.createComponent(DarkModeComponent);
     component = fixture.componentInstance;
     html = document.documentElement;
+    featureToggleGeneralService = TestBed.inject(FeatureToggleGeneralService);
     fixture.detectChanges();
   });
 
@@ -76,4 +83,14 @@ describe('DarkModeComponent', () => {
     expect(localStorage.getItem('theme')).toEqual('dark');
     expect(html.classList.contains('dark')).toBe(true);
   });
+
+  it('should be true the isFeatureToggleDarkModeActive property when the user has the dark-mode feature toggle enabled', fakeAsync(() => {
+    const filters : FeatureFilterModel[] = [];
+    const featureToggle: FeatureToggleModel = {name: 'dark-mode', enabled: true, filters};
+    spyOn(featureToggleGeneralService, 'getActivated').and.returnValue(of([featureToggle]).pipe(delay(1)));
+    component.ngOnInit();
+    tick(1);
+    expect(component.isFeatureToggleDarkModeActive).toBeTruthy();
+  }));
+
 });
