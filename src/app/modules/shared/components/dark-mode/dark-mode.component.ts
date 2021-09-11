@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { FeatureToggle } from 'src/environments/enum';
 import { FeatureToggleGeneralService } from '../../feature-toggles/feature-toggle-general/feature-toggle-general.service';
 
@@ -12,13 +11,13 @@ export class DarkModeComponent implements OnInit {
   public isFeatureToggleDarkModeActive: boolean;
 
   constructor(
-    private cookiesService: CookieService,
     private featureToggleGeneralService: FeatureToggleGeneralService
   ) {}
 
   ngOnInit() {
-    this.featureToggleGeneralService.getActivated().subscribe(() => {
-      this.isFeatureToggleDarkModeActive = this.cookiesService.get(FeatureToggle.DARK_MODE) === 'true';
+    this.featureToggleGeneralService.getActivated().subscribe((featuresToggles) => {
+      const darkModeToggle = featuresToggles.find( (item) => item.name === FeatureToggle.DARK_MODE);
+      this.isFeatureToggleDarkModeActive = darkModeToggle.enabled;
       if (this.isFeatureToggleDarkModeActive) {
         this.checkThemeInLocalStorage();
         this.addOrRemoveDarkMode();
