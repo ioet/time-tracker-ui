@@ -11,11 +11,9 @@ import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service'
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  itemsSidebar: ItemSidebar[];
+  itemsSidebar: ItemSidebar[] = [];
   navStart;
   sidebarItems$: Subscription;
-  userName: string;
-  userEmail: string;
 
   constructor(private router: Router, private userInfoService: UserInfoService, private azureAdB2CService: AzureAdB2CService) {
     this.navStart = this.router.events.pipe(
@@ -29,11 +27,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.navStart.subscribe((evt) => {
       this.highlightMenuOption(evt.url);
     });
-    if (this.azureAdB2CService.isLogin()) {
-      this.userName = this.azureAdB2CService.getName();
-      this.userEmail = this.azureAdB2CService.getUserEmail();
-      this.azureAdB2CService.setTenantId();
-    }
   }
 
   ngOnDestroy(): void {
@@ -67,7 +60,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       })
     );
   }
-
 
   highlightMenuOption(route) {
     this.itemsSidebar.map((item) => (item.active = false));

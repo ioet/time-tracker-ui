@@ -15,6 +15,18 @@ describe('SidebarComponent', () => {
   let router;
   const routes: Routes = [{ path: 'time-clock', component: TimeClockComponent }];
 
+  const azureAdB2CServiceStub = {
+    isLogin() {
+      return true;
+    },
+    isAdmin() {
+      return true;
+    },
+    logout(){
+      return true;
+    }
+  };
+
   const userInfoServiceStub = {
     isAdmin: () => of(true),
   };
@@ -24,7 +36,7 @@ describe('SidebarComponent', () => {
       TestBed.configureTestingModule({
         declarations: [SidebarComponent],
         providers: [
-          AzureAdB2CService,
+          { provide: AzureAdB2CService, useValue: azureAdB2CServiceStub },
           { provide: UserInfoService, useValue: userInfoServiceStub },
         ],
         imports: [RouterTestingModule.withRoutes(routes)],
@@ -41,19 +53,19 @@ describe('SidebarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it('component should be created', () => {
     spyOn(azureAdB2CServiceStubInjected, 'isAdmin').and.returnValue(false);
     expect(component).toBeTruthy();
   });
 
-  it('admin users have six menu items', () => {
+  it('admin users should have six menu items', () => {
     component.getSidebarItems().subscribe(() => {
       const menuItems = component.itemsSidebar;
       expect(menuItems.length).toBe(6);
     });
   });
 
-  it('non admin users have two menu items', () => {
+  it('non admin users should have two menu items', () => {
     spyOn(userInfoServiceStub, 'isAdmin').and.returnValue(of(false));
 
     component.getSidebarItems().subscribe(() => {
@@ -62,7 +74,7 @@ describe('SidebarComponent', () => {
     });
   });
 
-  it('when item is selected is should be set as active and the others as inactive', () => {
+  it('when item is selected should be set as active and the others as inactive', () => {
     const route = 'time-clock';
     router.navigate([route]);
 
@@ -72,30 +84,6 @@ describe('SidebarComponent', () => {
     component.itemsSidebar.filter((item) => item.route !== `/${route}`).map((item) => {
       expect(item.active).toBeFalse();
     });
-  });
-
-  it('onInit checks if isLogin is true and gets the name, email and sets the tenantid in the Storage', () => {
-    spyOn(azureAdB2CServiceStubInjected, 'isLogin').and.returnValue(true);
-    spyOn(azureAdB2CServiceStubInjected, 'getName').and.returnValue('Name');
-    spyOn(azureAdB2CServiceStubInjected, 'getUserEmail').and.returnValue('Email');
-    spyOn(azureAdB2CServiceStubInjected, 'setTenantId');
-    component.ngOnInit();
-    expect(azureAdB2CServiceStubInjected.isLogin).toHaveBeenCalled();
-    expect(azureAdB2CServiceStubInjected.getName).toHaveBeenCalled();
-    expect(azureAdB2CServiceStubInjected.getUserEmail).toHaveBeenCalled();
-    expect(azureAdB2CServiceStubInjected.setTenantId).toHaveBeenCalled();
-  });
-
-  it('onInit does not get the name and the email if isLogin is false', () => {
-    spyOn(azureAdB2CServiceStubInjected, 'isLogin').and.returnValue(false);
-    spyOn(azureAdB2CServiceStubInjected, 'getName').and.returnValue('Name');
-    spyOn(azureAdB2CServiceStubInjected, 'getUserEmail').and.returnValue('Email');
-    spyOn(azureAdB2CServiceStubInjected, 'setTenantId');
-    component.ngOnInit();
-    expect(azureAdB2CServiceStubInjected.isLogin).toHaveBeenCalled();
-    expect(azureAdB2CServiceStubInjected.getName).toHaveBeenCalledTimes(0);
-    expect(azureAdB2CServiceStubInjected.getUserEmail).toHaveBeenCalledTimes(0);
-    expect(azureAdB2CServiceStubInjected.setTenantId).not.toHaveBeenCalled();
   });
 
   it('should use the Azure service on logout', () => {
