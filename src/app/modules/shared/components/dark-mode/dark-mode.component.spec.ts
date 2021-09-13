@@ -49,7 +49,7 @@ describe('DarkModeComponent', () => {
     expect(component.theme).toEqual('light');
   });
 
-  it('should be light theme if only the theme property exists in local storage and not its value', () => {
+  it('should be light mode if property ‘theme’ does not have a value in local storage', () => {
     localStorage.setItem('theme', '');
     component.checkThemeInLocalStorage();
     expect(component.theme).toEqual('light');
@@ -85,7 +85,7 @@ describe('DarkModeComponent', () => {
   });
 
   it('should be true the isFeatureToggleDarkModeActive property when the user has the dark-mode feature toggle enabled', fakeAsync(() => {
-    const filters : FeatureFilterModel[] = [];
+    const filters: FeatureFilterModel[] = [];
     const featureToggle: FeatureToggleModel = {name: 'dark-mode', enabled: true, filters};
     spyOn(featureToggleGeneralService, 'getActivated').and.returnValue(of([featureToggle]).pipe(delay(1)));
     component.ngOnInit();
