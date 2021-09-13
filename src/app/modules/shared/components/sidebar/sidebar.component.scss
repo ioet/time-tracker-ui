@@ -53,6 +53,7 @@ body {
   font-weight: bold;
   text-decoration: underline;
   border-color: $primary;
+  background-color: transparent;
 }
 
 .full-height {
@@ -61,4 +62,10 @@ body {
   height: -webkit-calc(100vh - 12vh);
   height: -o-calc(100vh - 12vh);
   height: calc(100vh - 12vh);
+}
+
+.dark-mode-toggle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }

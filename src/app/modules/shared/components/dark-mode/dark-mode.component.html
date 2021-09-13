@@ -1,0 +1,10 @@
+<button
+  type="button"
+  class="p-2 transition duration-150 ease-in-out bg-whiteTW rounded-md hover:bg-grayTW-lightest dark:bg-grayTW-dark dark:hover:bg-grayTW-darker dark:hover:bg-gray-700 hover:text-gray-700 focus:outline-none focus:bg-grayTW-lightest dark:focus:bg-grayTW-darker"
+  (click)="changeToDarkOrLightTheme()"
+  *ngIf="isFeatureToggleDarkModeActive"
+>
+  <div *ngIf="isDarkTheme(); then sunIcon; else moonIcon"></div>
+  <ng-template #moonIcon><img class="w-5 h-5" src="assets/icons/moon.svg" alt="moon icon" /></ng-template>
+  <ng-template #sunIcon><img class="w-5 h-5" src="assets/icons/sun.svg" alt="sun icon" /></ng-template>
+</button>
