@@ -86,6 +86,13 @@ describe('SidebarComponent', () => {
     });
   });
 
+  it('should toggle the sidebar', () => {
+    component.toggleSideBar();
+    fixture.detectChanges();
+    const sidebarElement = fixture.debugElement.nativeElement.querySelector('#wrapper');
+    expect(sidebarElement.classList.contains('toggled')).toBeTrue();
+  });
+
   it('should use the Azure service on logout', () => {
     spyOn(azureAdB2CServiceStubInjected, 'logout');
     component.logout();
