@@ -7,18 +7,16 @@ import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service'
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
-  name: string;
+  userName: string;
+  userEmail: string;
 
   constructor(private azureAdB2CService: AzureAdB2CService) {}
 
   ngOnInit(): void {
     if (this.azureAdB2CService.isLogin()) {
-      this.name = this.azureAdB2CService.getName();
+      this.userName = this.azureAdB2CService.getName();
+      this.userEmail = this.azureAdB2CService.getUserEmail();
       this.azureAdB2CService.setTenantId();
     }
-  }
-
-  logout() {
-    this.azureAdB2CService.logout();
   }
 }

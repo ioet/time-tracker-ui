@@ -1,43 +1,50 @@
-<div class="d-flex bg-grayTW-lightest dark:bg-grayTW-darker dark:text-whiteTW" id="wrapper">
-  <div class="border-right bg-whiteTW dark:bg-grayTW-dark" id="sidebar-wrapper">
-    <div class="sidebar-heading" style="text-align: center">
-      <img src="assets/img/ioet.png" width="90" height="auto" style="padding-top: 2rem; padding-bottom: 2rem;" alt="logo" />
-    </div>
+<div id="wrapper" class="d-flex bg-grayTW-lightest dark:bg-grayTW-darker dark:text-whiteTW">
+  <div id="sidebar-wrapper" class="table-row border-r border-grayTW-lighter shadow-sm bg-whiteTW dark:bg-grayTW-dark dark:border-grayTW">
+    <div class="table-cell">
+      <div class="relative flex items-center border-b border-grayTW-lighter dark:border-grayTW sidebar-heading">
+        <img src="assets/img/ioet-logo-without-letters.png" alt="ioet-logo" width="50" height="auto" style="padding-top: 0.5rem; padding-left: 1rem;"/>
+        <h1 class="pl-2 pt-2" style="font-family:spinnaker,sans-serif">ioet</h1>
+      </div>
+      <app-user></app-user>
     <div class="list-group list-group-flush bg-whiteTW dark:bg-grayTW-darker">
-            <a
-              *ngFor="let item of itemsSidebar"
-              [routerLink]="item.route"
-              routerLinkActive=""
-              class="list-group-item list-group-item-action bg-whiteTW dark:bg-grayTW-dark dark:text-whiteTW"
-              [ngClass]="{active: item.active}"
-            >
-              <i class="{{ item.icon }}"></i> {{ item.text }}
-            </a>
+      <a
+        *ngFor="let item of itemsSidebar"
+        [routerLink]="item.route"
+        routerLinkActive=""
+        class="font-poppins relative pl-4 py-3 bg-whiteTW dark:bg-grayTW-dark dark:text-whiteTW"
+        [ngClass]="{active: item.active}"
+      >
+      <em class="{{ item.icon }}"></em>
+      <h3 class="font-poppins text-base ml-4 pl-3 -mt-6 text-left" >{{ item.text }}</h3>
+      </a>
+      <div class="bg-whiteTW pt-2 pr-24 absolute bottom-0 -mb-10 dark:bg-grayTW-dark">
+        <a class="flex pl-4 mb-4 text-blackTW hover:text-grayTW dark:text-whiteTW" href="#">
+          <em class="fas fa-sign-out-alt"></em>
+          <span class="font-poppins pl-3 font-medium -mt-1 dark:text-whiteTW" (click)="logout()">Sign out</span>
+        </a>
+        <app-dark-mode class="relative left-40 -top-14"></app-dark-mode>
+      </div>
     </div>
   </div>
+  <div class="table-cell relative">
+    <span class="absolute cursor-pointer inset-y-0 right-0 min-h-screen w-0.5 hover:z-0 hover:bg-primaryTW-light" (click)="toggleSideBar()"></span>
+      <span class="group cursor-pointer absolute w-5 top-28 -right-3">
+        <img src="assets/icons/left-chevron.svg" alt="left-chevron" id="hide-sidebar" (click)="toggleSideBar()" width="20" height="20" class="bg-whiteTW rounded-full hover:bg-opacity-50 hover:bg-primaryTW-light sm:hidden md:block lg:block"/>
+        <div class="opacity-0 w-12 bg-blackTW text-whiteTW text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full left-1/4 ml-4 -mb-6 px-1 pointer-events-none">Hide</div>
+      </span>
+      <span class="group cursor-pointer absolute top-28 -right-5">
+        <img src="assets/icons/right-chevron.svg" alt="right-chevron" id="show-sidebar" (click)="toggleSideBar()" width="20" height="20" class="bg-whiteTW rounded-full hover:bg-opacity-50 hover:bg-primaryTW-light sm:block md:hidden lg:hidden"/>
+        <div class="opacity-0 w-12 bg-blackTW text-whiteTW text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full left-1/4 ml-4 -mb-6 px-1 pointer-events-none">Show</div>
+      </span>
+  </div>
+ </div>
   <div id="page-content-wrapper">
-    <nav class="navbar navbar-expand-lg navbar-light border-bottom bg-whiteTW dark:bg-grayTW-dark">
-      <button class="btn bg-primaryTW hover:bg-primaryTW-dark text-whiteTW hover:text-whiteTW" id="menu-toggle">
-        Toggle Menu
-      </button>
-      <div class="dark-mode-toggle">
-        <app-dark-mode></app-dark-mode>
-      </div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <app-user></app-user>
-        </ul>
-      </div>
-    </nav>
     <div class="container-fluid px-0 full-height">
       <div class="content_app h-100">
         <div class="m-1 p-5 rounded-md bg-whiteTW dark:bg-grayTW-dark"> 
           <router-outlet></router-outlet>
         </div>
       </div>
-  </div>
+    </div>
   </div>
 </div>

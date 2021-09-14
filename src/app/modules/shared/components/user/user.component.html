@@ -1,10 +1,7 @@
-<li class="nav-item active dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-     aria-haspopup="true" aria-expanded="false">
-    <i class="far fa-user-circle"></i>
-    {{name}}
-  </a>
-  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-    <a class="dropdown-item" href="#" (click)="logout()">Sign Out</a>
-  </div>
-</li>
+<div class=" py-8 flex items-center pl-3">
+  <img src="assets/icons/user.svg" alt="user-icon" width="40" height="40"/>
+  <span class="pl-1">
+    <h2 class="font-poppins text-base font-semibold pl-2 dark:text-whiteTW">{{userName}}</h2>
+    <p class="font-poppins mt-1 text-xs font-medium pl-2 text-grayTW dark:text-whiteTW">{{userEmail}}</p>
+  </span>
+</div>

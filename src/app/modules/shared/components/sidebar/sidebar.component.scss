@@ -7,10 +7,10 @@ body {
 #sidebar-wrapper {
   min-height: 100vh;
   margin-left: -15rem;
-  -webkit-transition: margin .25s ease-out;
-  -moz-transition: margin .25s ease-out;
-  -o-transition: margin .25s ease-out;
-  transition: margin .25s ease-out;
+  -webkit-transition: margin 0.25s ease-out;
+  -moz-transition: margin 0.25s ease-out;
+  -o-transition: margin 0.25s ease-out;
+  transition: margin 0.25s ease-out;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -30,7 +30,7 @@ body {
   margin-left: 0;
 }
 
-@media (min-width: 883px) {
+@media (min-width: 769px) {
   #sidebar-wrapper {
     margin-left: 0;
   }
@@ -40,6 +40,21 @@ body {
   }
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
+  }
+  #hide-sidebar {
+    display: block;
+  }
+  #show-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  #hide-sidebar {
+    display: none;
+  }
+  #show-sidebar {
+    display: block;
   }
 }
 
@@ -51,7 +66,6 @@ body {
 .active {
   color: $primary;
   font-weight: bold;
-  text-decoration: underline;
   border-color: $primary;
   background-color: transparent;
 }
@@ -62,10 +76,4 @@ body {
   height: -webkit-calc(100vh - 12vh);
   height: -o-calc(100vh - 12vh);
   height: calc(100vh - 12vh);
-}
-
-.dark-mode-toggle {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
 }

@@ -22,6 +22,9 @@ describe('SidebarComponent', () => {
     isAdmin() {
       return true;
     },
+    logout(){
+      return true;
+    }
   };
 
   const userInfoServiceStub = {
@@ -50,19 +53,19 @@ describe('SidebarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it('component should be created', () => {
     spyOn(azureAdB2CServiceStubInjected, 'isAdmin').and.returnValue(false);
     expect(component).toBeTruthy();
   });
 
-  it('admin users have six menu items', () => {
+  it('admin users should have six menu items', () => {
     component.getSidebarItems().subscribe(() => {
       const menuItems = component.itemsSidebar;
       expect(menuItems.length).toBe(6);
     });
   });
 
-  it('non admin users have two menu items', () => {
+  it('non admin users should have two menu items', () => {
     spyOn(userInfoServiceStub, 'isAdmin').and.returnValue(of(false));
 
     component.getSidebarItems().subscribe(() => {
@@ -71,7 +74,7 @@ describe('SidebarComponent', () => {
     });
   });
 
-  it('when item is selected is should be set as active and the others as inactive', () => {
+  it('when item is selected should be set as active and the others as inactive', () => {
     const route = 'time-clock';
     router.navigate([route]);
 
@@ -83,4 +86,16 @@ describe('SidebarComponent', () => {
     });
   });
 
+  it('should toggle the sidebar', () => {
+    component.toggleSideBar();
+    fixture.detectChanges();
+    const sidebarElement = fixture.debugElement.nativeElement.querySelector('#wrapper');
+    expect(sidebarElement.classList.contains('toggled')).toBeTrue();
+  });
+
+  it('should use the Azure service on logout', () => {
+    spyOn(azureAdB2CServiceStubInjected, 'logout');
+    component.logout();
+    expect(azureAdB2CServiceStubInjected.logout).toHaveBeenCalled();
+  });
 });
