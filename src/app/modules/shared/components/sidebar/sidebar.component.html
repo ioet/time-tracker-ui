@@ -14,12 +14,12 @@
         class="font-poppins relative pl-4 py-3 bg-whiteTW dark:bg-grayTW-dark dark:text-whiteTW"
         [ngClass]="{active: item.active}"
       >
-      <i class="{{ item.icon }}"></i>
+      <em class="{{ item.icon }}"></em>
       <h3 class="font-poppins text-base ml-4 pl-3 -mt-6 text-left" >{{ item.text }}</h3>
       </a>
       <div class="bg-whiteTW pt-2 pr-24 absolute bottom-0 -mb-10 dark:bg-grayTW-dark">
         <a class="flex pl-4 mb-4 text-blackTW hover:text-grayTW dark:text-whiteTW" href="#">
-          <i class="fas fa-sign-out-alt"></i>
+          <em class="fas fa-sign-out-alt"></em>
           <span class="font-poppins pl-3 font-medium -mt-1 dark:text-whiteTW" (click)="logout()">Sign out</span>
         </a>
         <app-dark-mode class="relative left-40 -top-14"></app-dark-mode>
@@ -29,11 +29,11 @@
   <div class="table-cell relative">
     <span class="absolute cursor-pointer inset-y-0 right-0 min-h-screen w-0.5 hover:z-0 hover:bg-primaryTW-light" (click)="toggleSideBar()"></span>
       <span class="group cursor-pointer absolute w-5 top-28 -right-3">
-        <img src="assets/icons/left-chevron.svg" id="hide-sidebar" (click)="toggleSideBar()" width="20" height="20" class="bg-whiteTW rounded-full hover:bg-opacity-50 hover:bg-primaryTW-light sm:hidden md:block lg:block"/>
+        <img src="assets/icons/left-chevron.svg" alt="left-chevron" id="hide-sidebar" (click)="toggleSideBar()" width="20" height="20" class="bg-whiteTW rounded-full hover:bg-opacity-50 hover:bg-primaryTW-light sm:hidden md:block lg:block"/>
         <div class="opacity-0 w-12 bg-blackTW text-whiteTW text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full left-1/4 ml-4 -mb-6 px-1 pointer-events-none">Hide</div>
       </span>
       <span class="group cursor-pointer absolute top-20 -right-5">
-        <img src="assets/icons/right-chevron.svg" id="show-sidebar" (click)="toggleSideBar()" width="20" height="20" class="bg-whiteTW rounded-full hover:bg-opacity-50 hover:bg-primaryTW-light sm:block md:hidden lg:hidden"/>
+        <img src="assets/icons/right-chevron.svg" alt="right-chevron" id="show-sidebar" (click)="toggleSideBar()" width="20" height="20" class="bg-whiteTW rounded-full hover:bg-opacity-50 hover:bg-primaryTW-light sm:block md:hidden lg:hidden"/>
         <div class="opacity-0 w-12 bg-blackTW text-whiteTW text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full left-1/4 ml-4 -mb-6 px-1 pointer-events-none">Show</div>
       </span>
   </div>
