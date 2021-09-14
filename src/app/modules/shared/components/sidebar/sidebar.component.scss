@@ -66,7 +66,6 @@ body {
 .active {
   color: $primary;
   font-weight: bold;
-  text-decoration: underline;
   border-color: $primary;
   background-color: transparent;
 }
@@ -80,7 +79,7 @@ body {
 }
 
 .dark-mode-toggle {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }

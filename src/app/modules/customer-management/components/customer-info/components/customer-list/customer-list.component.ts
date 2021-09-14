@@ -70,12 +70,6 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
       },
     ];
 
-    this.dtOptions = {
-      scrollY: '325px',
-      paging: false,
-      responsive: true,
-    };
-
     const customerIdToEdit$ = this.store.pipe(select(customerIdtoEdit));
     this.customerIdToEditSubscription = customerIdToEdit$.subscribe((customerId: string) => {
       this.currentCustomerIdToEdit = customerId;
