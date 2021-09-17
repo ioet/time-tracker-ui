@@ -31,11 +31,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         extend: 'excel',
         exportOptions: {
           format: {
-            body: (data, row, column, node) => {
-              return column === 3 ?
-              moment.duration(data).asHours().toFixed(4).slice(0, -1) :
-              data;
-            },
+            body: this.bodyExportOptions
           }
         },
         text: 'Excel',
@@ -45,11 +41,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         extend: 'csv',
         exportOptions: {
           format: {
-            body: (data, row, column, node) => {
-              return column === 3 ?
-              moment.duration(data).asHours().toFixed(4).slice(0, -1) :
-              data;
-            },
+            body: this.bodyExportOptions
           }
         },
         text: 'CSV',
@@ -101,5 +93,11 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   isURL(uri: string): boolean {
     const regex = new RegExp('http*', 'g');
     return regex.test(uri);
+  }
+
+  bodyExportOptions(data, row, column, node){
+    console.log(data);
+    const durationColumnIndex = 3;
+    return column === durationColumnIndex ? moment.duration(data).asHours().toFixed(2) : data;
   }
 }
