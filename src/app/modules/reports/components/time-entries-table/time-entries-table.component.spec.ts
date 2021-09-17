@@ -113,7 +113,7 @@ describe('Reports Page', () => {
     });
 
     it('The data should be displayed as a multiple of hour when column is equal to 3', () => {
-      expect(component.bodyExportOptions(durationTime, 0, 3, 0)).toMatch(/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/);
+      expect(component.bodyExportOptions(durationTime, 0, 3, 0)).toMatch(/^\d+\.\d{0,2}$/);
     });
 
     it('The data should not be displayed as a multiple of hour when column is different of 3', () => {
