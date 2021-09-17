@@ -14,7 +14,7 @@ import {
 } from '../../../activities-management/store';
 import * as projectActions from '../../../customer-management/components/projects/components/store/project.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
-import { getProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
+import { getProjects, getRecentProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { Activity, Entry, Project } from '../../models';
@@ -27,8 +27,6 @@ import { DATE_FORMAT, DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { TechnologiesComponent } from '../technologies/technologies.component';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Observable } from 'rxjs';
-import { updateProjectStorage } from '../../utils/project-storage.util';
-import { PROJECTS_KEY_FOR_LOCAL_STORAGE } from '../../../../../environments/environment';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 @Component({
@@ -37,7 +35,6 @@ type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
   styleUrls: ['./details-fields.component.scss'],
 })
 export class DetailsFieldsComponent implements OnChanges, OnInit {
-  keyword = 'search_field';
   @Input() entryToEdit: Entry;
   @Input() canMarkEntryAsWIP: boolean;
   @Output() saveEntry = new EventEmitter<SaveEntryEvent>();
@@ -48,11 +45,12 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   selectedTechnologies: string[] = [];
   isLoading = false;
   listProjects: Project[] = [];
+  listRecentProjects: Project[] = [];
+  listProjectsShowed: Project[] = [];
   activities$: Observable<Activity[]>;
   goingToWorkOnThis = false;
   shouldRestartEntry = false;
   isTechnologiesDisabled = true;
-  projectKeyForLocalStorage = PROJECTS_KEY_FOR_LOCAL_STORAGE;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -85,11 +83,10 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
           projectWithSearchField.search_field = `${project.customer.name} - ${project.name}`;
           this.listProjects.push(projectWithSearchField);
         });
-
-        updateProjectStorage(projects);
       }
     });
 
+    this.getRecentProjects();
     this.store.dispatch(new LoadActivities());
     this.activities$ = this.selectActiveActivities();
 
@@ -121,21 +118,28 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       });
   }
 
-  onClearedComponent(event) {
-    this.isTechnologiesDisabled = true;
-    this.entryForm.patchValue({
-      project_id: '',
-      project_name: '',
-    });
+  onClearedComponent({term}) {
+    const isSearchEmpty = (term === '');
+    if (isSearchEmpty) {
+      this.isTechnologiesDisabled = true;
+      this.entryForm.patchValue({
+        project_id: '',
+        project_name: '',
+      });
+    }
+    this.listProjectsShowed = isSearchEmpty ? this.listRecentProjects : this.listProjects;
   }
 
   onSelectedProject(item) {
-    this.isTechnologiesDisabled = false;
-    this.projectSelected.emit({ projectId: item.id });
-    this.entryForm.patchValue({
-      project_id: item.id,
-      project_name: item.search_field,
-    });
+    if (item) {
+      this.isTechnologiesDisabled = false;
+      this.projectSelected.emit({ projectId: item.id });
+      this.entryForm.patchValue({
+        project_id: item.id,
+        project_name: item.search_field,
+      });
+      this.listProjectsShowed = this.listRecentProjects;
+    }
   }
 
   onStartDateChange($event: string) {
@@ -153,10 +157,28 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     return '00:00';
   }
 
+  getRecentProjects(): void {
+    this.store.dispatch(new projectActions.LoadRecentProjects());
+    const recentProjects$ = this.store.pipe(select(getRecentProjects));
+    recentProjects$.subscribe((projects) => {
+      if (projects) {
+        this.listRecentProjects = [];
+        projects.forEach((project) => {
+          const projectWithSearchField = { ...project };
+          projectWithSearchField.search_field = `${project.customer.name} - ${project.name}`;
+          this.listRecentProjects.push(projectWithSearchField);
+        });
+        this.listProjectsShowed = this.listRecentProjects;
+      }else{
+        this.listRecentProjects = this.listProjects;
+      }
+    });
+  }
+
   ngOnChanges(): void {
     this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running ?? true : false;
     this.shouldRestartEntry = false;
-
+    this.getRecentProjects();
     if (this.entryToEdit) {
       this.isTechnologiesDisabled = false;
       this.selectedTechnologies = this.entryToEdit.technologies;

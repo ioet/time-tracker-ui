@@ -5,6 +5,7 @@ describe('ProjectSelectors', () => {
     const projectState = {
       projects: [],
       customerProjects: [],
+      recentProjects: [],
       isLoading: true,
       message: '',
       projectToEdit: { id: 'id', name: 'abc', description: 'xxx' },
@@ -23,6 +24,16 @@ describe('ProjectSelectors', () => {
     const filteredProjects = project.filter((item) => item.status === 'active');
 
     expect(selectors.getProjects.projector(projectState)).toEqual(filteredProjects);
+  });
+
+  it('should select getRecentProjects', () => {
+    const projects = [
+      { id: '1', name: 'abc', description: 'xxx', status: 'active' },
+      { id: '2', name: 'abc', description: 'xxx', status: 'active' },
+    ];
+    const projectState = { recentProjects: projects };
+
+    expect(selectors.getRecentProjects.projector(projectState)).toBe(projects);
   });
 
   it('should select getProjectsToEdit', () => {

@@ -22,6 +22,10 @@ export class ProjectService {
     return this.http.get<Project[]>(this.url);
   }
 
+  getRecentProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.url}/recent`);
+  }
+
   createProject(projectData): Observable<any> {
     return this.http.post<Project[]>(this.url, projectData);
   }

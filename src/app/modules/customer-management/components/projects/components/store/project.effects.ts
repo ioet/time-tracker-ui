@@ -50,6 +50,22 @@ export class ProjectEffects {
   );
 
   @Effect()
+  loadRecentProjects$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ProjectActionTypes.LOAD_RECENT_PROJECTS),
+    mergeMap(() =>
+      this.projectService.getRecentProjects().pipe(
+        map((projects) => {
+          return new actions.LoadRecentProjectsSuccess(projects);
+        }),
+        catchError((error) => {
+          this.toastrService.error(error.error.message);
+          return of(new actions.LoadRecentProjectsFail(error));
+        })
+      )
+    )
+  );
+
+  @Effect()
   createProject$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ProjectActionTypes.CREATE_PROJECT),
     map((action: actions.CreateProject) => action.payload),

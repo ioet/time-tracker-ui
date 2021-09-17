@@ -5,7 +5,9 @@ import { projectReducer, ProjectState } from './project.reducer';
 describe('projectReducer', () => {
   const initialState: ProjectState = {
     projects: [{ id: 'id', name: 'name', project_type_id: '', status: 'inactive' }],
-    customerProjects: [], isLoading: false, message: '', projectToEdit: undefined
+    customerProjects: [],
+    recentProjects: [],
+    isLoading: false, message: '', projectToEdit: undefined
   };
   const archivedProject: Project = { id: '1', name: 'aaa', description: 'bbb', project_type_id: '123', status: 'inactive' };
   const project: Project = { id: '1', name: 'aaa', description: 'bbb', project_type_id: '123', status: 'active' };
@@ -36,6 +38,29 @@ describe('projectReducer', () => {
     const action = new actions.LoadCustomerProjectsFail('error');
     const state = projectReducer(initialState, action);
     expect(state.customerProjects).toEqual([]);
+  });
+
+  it('on LoadRecentProjects, isLoading is true', () => {
+    const action = new actions.LoadRecentProjects();
+    const state = projectReducer(initialState, action);
+    expect(state.isLoading).toEqual(true);
+  });
+
+  it('on LoadRecentProjectsSuccess, projectsFound are saved in the store', () => {
+    const projectsFound: Project[] = [{ id: '1', name: 'abc', description: 'xxx', status: 'active' }];
+    const newState = initialState;
+    newState.recentProjects = projectsFound;
+    const action = new actions.LoadRecentProjectsSuccess(projectsFound);
+    const state = projectReducer(initialState, action);
+    expect(state).toEqual(newState);
+  });
+
+  it('on LoadRecentProjectsFail, recentProjects equal []', () => {
+    const newState = initialState;
+    newState.recentProjects = [];
+    const action = new actions.LoadRecentProjectsFail('error');
+    const state = projectReducer(initialState, action);
+    expect(state).toEqual(newState);
   });
 
   it('on CreateProject, isLoading is true', () => {
@@ -74,6 +99,7 @@ describe('projectReducer', () => {
     const currentState: ProjectState = {
       projects: [project],
       customerProjects: [project],
+      recentProjects: [project],
       isLoading: false,
       message: '',
       projectToEdit: project,
@@ -124,6 +150,7 @@ describe('projectReducer', () => {
     const currentState: ProjectState = {
       projects: [project],
       customerProjects: [project],
+      recentProjects: [project],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
@@ -158,6 +185,7 @@ describe('projectReducer', () => {
     const currentState: ProjectState = {
       projects: [project],
       customerProjects: [archivedProject],
+      recentProjects: [project],
       isLoading: false,
       message: '',
       projectToEdit: project,

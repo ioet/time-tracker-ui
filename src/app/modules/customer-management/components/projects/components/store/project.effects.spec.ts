@@ -55,6 +55,28 @@ describe('ProjectEffects', () => {
     });
   });
 
+  it('action type is LOAD_RECENT_PROJECTS_SUCCESS when service is executed sucessfully', async () => {
+    actions$ = of({ type: ProjectActionTypes.LOAD_RECENT_PROJECTS });
+    const serviceSpy = spyOn(service, 'getRecentProjects');
+    serviceSpy.and.returnValue(of(projects));
+
+    effects.loadRecentProjects$.subscribe((action) => {
+      expect(action.type).toEqual(ProjectActionTypes.LOAD_RECENT_PROJECTS_SUCCESS);
+    });
+  });
+
+  it('action type is LOAD_RECENT_PROJECTS_FAIL when service fail in execution', async () => {
+    actions$ = of({ type: ProjectActionTypes.LOAD_RECENT_PROJECTS });
+    const serviceSpy = spyOn(service, 'getRecentProjects');
+    serviceSpy.and.returnValue(throwError({ error: { message: 'fail!' } }));
+    spyOn(toastrService, 'error');
+
+    effects.loadRecentProjects$.subscribe((action) => {
+      expect(toastrService.error).toHaveBeenCalled();
+      expect(action.type).toEqual(ProjectActionTypes.LOAD_RECENT_PROJECTS_FAIL);
+    });
+  });
+
   it('action type is UPDATE_PROJECT_SUCCESS when service is executed sucessfully', async () => {
     actions$ = of({ type: ProjectActionTypes.UPDATE_PROJECT, project });
     spyOn(toastrService, 'success');

@@ -4,6 +4,7 @@ import { Project } from '../../../../../shared/models';
 export interface ProjectState {
   projects: Project[];
   customerProjects: Project[];
+  recentProjects: Project[];
   isLoading: boolean;
   message: string;
   projectToEdit: Project;
@@ -12,6 +13,7 @@ export interface ProjectState {
 export const initialState = {
   projects: [],
   customerProjects: [],
+  recentProjects: [],
   isLoading: false,
   message: '',
   projectToEdit: undefined,
@@ -62,6 +64,27 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
         isLoading: false,
         message: 'Something went wrong fetching projects!',
         projectToEdit: undefined,
+      };
+    }
+
+    case ProjectActionTypes.LOAD_RECENT_PROJECTS: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case ProjectActionTypes.LOAD_RECENT_PROJECTS_SUCCESS:
+      return {
+        ...state,
+        recentProjects: action.payload,
+        isLoading: false
+      };
+
+    case ProjectActionTypes.LOAD_RECENT_PROJECTS_FAIL: {
+      return {
+        ...state,
+        recentProjects: [],
+        isLoading: false,
       };
     }
 

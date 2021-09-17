@@ -23,6 +23,7 @@ describe('ProjectListComponent', () => {
   const state: ProjectState = {
     projects: [project],
     customerProjects: [project],
+    recentProjects: [],
     isLoading: false,
     message: '',
     projectToEdit: undefined,

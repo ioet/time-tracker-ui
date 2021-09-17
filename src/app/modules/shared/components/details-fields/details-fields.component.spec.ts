@@ -44,6 +44,7 @@ describe('DetailsFieldsComponent', () => {
     projects: {
       projects: [{ id: 'id', name: 'name', project_type_id: '', customer: { name: 'Juan', description: 'sadsa' } }],
       customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
+      recentProjects: [{ id: 'id', name: 'name', customer: { name: 'Juan'} }],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
@@ -154,7 +155,8 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('onClearedComponent project id and name are set to empty', () => {
-    component.onClearedComponent(null);
+    const search = {term: '', items: []};
+    component.onClearedComponent(search);
 
     expect(component.project_id.value).toBe('');
     expect(component.project_name.value).toBe('');
