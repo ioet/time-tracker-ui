@@ -158,7 +158,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   getRecentProjects(): void {
-    this.store.dispatch(new projectActions.LoadRecentProjects());
+    this.store.dispatch(new projectActions.LoadProjects());
     const recentProjects$ = this.store.pipe(select(getRecentProjects));
     recentProjects$.subscribe((projects) => {
       if (projects) {

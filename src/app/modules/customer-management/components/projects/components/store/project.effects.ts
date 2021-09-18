@@ -51,7 +51,7 @@ export class ProjectEffects {
 
   @Effect()
   loadRecentProjects$: Observable<Action> = this.actions$.pipe(
-    ofType(actions.ProjectActionTypes.LOAD_RECENT_PROJECTS),
+    ofType(actions.ProjectActionTypes.LOAD_PROJECTS),
     mergeMap(() =>
       this.projectService.getRecentProjects().pipe(
         map((projects) => {

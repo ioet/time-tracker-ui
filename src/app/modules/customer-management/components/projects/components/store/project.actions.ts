@@ -8,7 +8,6 @@ export enum ProjectActionTypes {
   LOAD_CUSTOMER_PROJECTS = '[Projects] LOAD_CUSTOMER_PROJECTS',
   LOAD_CUSTOMER_PROJECTS_SUCCESS = '[Projects] LOAD_CUSTOMER_PROJECTS_SUCCESS',
   LOAD_CUSTOMER_PROJECTS_FAIL = '[Projects] LOAD_CUSTOMER_PROJECTS_FAIL',
-  LOAD_RECENT_PROJECTS = '[Projects] LOAD_RECENT_PROJECTS',
   LOAD_RECENT_PROJECTS_SUCCESS = '[Projects] LOAD_RECENT_PROJECTS_SUCCESS',
   LOAD_RECENT_PROJECTS_FAIL = '[Projects] LOAD_RECENT_PROJECTS_FAIL',
   CREATE_PROJECT = '[Projects] CREATE_PROJECT',
@@ -61,11 +60,6 @@ export class LoadCustomerProjectsSuccess implements Action {
 export class LoadCustomerProjectsFail implements Action {
   public readonly type = ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_FAIL;
   constructor(public error: string) {}
-}
-
-export class LoadRecentProjects implements Action {
-  public readonly type = ProjectActionTypes.LOAD_RECENT_PROJECTS;
-  constructor() {}
 }
 
 export class LoadRecentProjectsSuccess implements Action {
@@ -168,7 +162,6 @@ export type ProjectActions =
   | LoadCustomerProjects
   | LoadCustomerProjectsSuccess
   | LoadCustomerProjectsFail
-  | LoadRecentProjects
   | LoadRecentProjectsSuccess
   | LoadRecentProjectsFail
   | CreateProject

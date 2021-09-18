@@ -22,6 +22,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 import { DATE_FORMAT } from 'src/environments/environment';
 import { DATE_FORMAT_YEAR } from 'src/environments/environment';
+import { Project } from '../../models';
 
 describe('DetailsFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -155,11 +156,20 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('onClearedComponent project id and name are set to empty', () => {
-    const search = {term: '', items: []};
+    const search = {term: ''};
     component.onClearedComponent(search);
 
     expect(component.project_id.value).toBe('');
     expect(component.project_name.value).toBe('');
+  });
+
+  it('should change the listProjectsShowed to listProjects if search is not empty on onClearedComponent', () => {
+    const search = {term: 'Ioet Inc.'};
+    const listProjects: Project[] = [{ id: '1', name: 'abc', status: 'active' }];
+    component.listProjects = listProjects;
+    component.onClearedComponent(search);
+
+    expect(component.listProjectsShowed).toBe(component.listProjects);
   });
 
   it('onSelectedProject project id and name are set using event data', () => {

@@ -56,7 +56,7 @@ describe('ProjectEffects', () => {
   });
 
   it('action type is LOAD_RECENT_PROJECTS_SUCCESS when service is executed sucessfully', async () => {
-    actions$ = of({ type: ProjectActionTypes.LOAD_RECENT_PROJECTS });
+    actions$ = of({ type: ProjectActionTypes.LOAD_PROJECTS });
     const serviceSpy = spyOn(service, 'getRecentProjects');
     serviceSpy.and.returnValue(of(projects));
 
@@ -66,7 +66,7 @@ describe('ProjectEffects', () => {
   });
 
   it('action type is LOAD_RECENT_PROJECTS_FAIL when service fail in execution', async () => {
-    actions$ = of({ type: ProjectActionTypes.LOAD_RECENT_PROJECTS });
+    actions$ = of({ type: ProjectActionTypes.LOAD_PROJECTS });
     const serviceSpy = spyOn(service, 'getRecentProjects');
     serviceSpy.and.returnValue(throwError({ error: { message: 'fail!' } }));
     spyOn(toastrService, 'error');

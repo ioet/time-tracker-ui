@@ -68,7 +68,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       this.activities = response;
     });
 
-    this.store.dispatch(new actions.LoadRecentProjects());
+    this.store.dispatch(new actions.LoadProjects());
     const recentProjects$ = this.store.pipe(select(getRecentProjects));
     this.recentProjectsSubscription = recentProjects$.subscribe((projects) => {
       if (projects) {

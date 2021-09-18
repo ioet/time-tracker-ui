@@ -40,12 +40,6 @@ describe('projectReducer', () => {
     expect(state.customerProjects).toEqual([]);
   });
 
-  it('on LoadRecentProjects, isLoading is true', () => {
-    const action = new actions.LoadRecentProjects();
-    const state = projectReducer(initialState, action);
-    expect(state.isLoading).toEqual(true);
-  });
-
   it('on LoadRecentProjectsSuccess, projectsFound are saved in the store', () => {
     const projectsFound: Project[] = [{ id: '1', name: 'abc', description: 'xxx', status: 'active' }];
     const newState = initialState;
