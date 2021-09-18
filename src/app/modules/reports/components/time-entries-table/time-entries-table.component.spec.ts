@@ -12,6 +12,10 @@ describe('Reports Page', () => {
     let fixture: ComponentFixture<TimeEntriesTableComponent>;
     let store: MockStore<EntryState>;
     let getReportDataSourceSelectorMock;
+    let durationTime: number;
+    let row: number;
+    let node: number;
+    let decimalValidator: RegExp;
     const timeEntry: Entry = {
       id: '123',
       start_date: new Date(),
@@ -62,6 +66,13 @@ describe('Reports Page', () => {
       })
     );
 
+    beforeEach(() => {
+      durationTime = new Date().setHours(5, 30);
+      row = 0;
+      node = 0;
+      decimalValidator = /^\d+\.\d{0,2}$/;
+    });
+
     it('component should be created', async () => {
       expect(component).toBeTruthy();
     });
@@ -105,6 +116,17 @@ describe('Reports Page', () => {
 
       expect(component.isURL(param.url)).toEqual(param.expected_value);
       });
+    });
+
+    it('The data should be displayed as a multiple of hour when column is equal to 3', () => {
+      const column = 3;
+
+      expect(component.bodyExportOptions(durationTime, row, column, node)).toMatch(decimalValidator);
+    });
+
+    it('The data should not be displayed as a multiple of hour when column is different of 3', () => {
+      const column = 4;
+      expect(component.bodyExportOptions(durationTime, row, column, node)).toBe(durationTime);
     });
 
     afterEach(() => {

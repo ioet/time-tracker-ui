@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
+import * as moment from 'moment';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
@@ -28,11 +29,21 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       },
       {
         extend: 'excel',
+        exportOptions: {
+          format: {
+            body: this.bodyExportOptions
+          }
+        },
         text: 'Excel',
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
       {
         extend: 'csv',
+        exportOptions: {
+          format: {
+            body: this.bodyExportOptions
+          }
+        },
         text: 'CSV',
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
@@ -82,5 +93,10 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   isURL(uri: string): boolean {
     const regex = new RegExp('http*', 'g');
     return regex.test(uri);
+  }
+
+  bodyExportOptions(data, row, column, node){
+    const durationColumnIndex = 3;
+    return column === durationColumnIndex ? moment.duration(data).asHours().toFixed(2) : data;
   }
 }
