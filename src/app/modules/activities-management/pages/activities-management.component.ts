@@ -18,7 +18,7 @@ export class ActivitiesManagementComponent {
 
   activateActivityForm() {
     this.store.dispatch(new SetActivityToEdit(null));
-    this.showActivityForm === false ? this.showActivityForm = true : this.showActivityForm = false;
+    !this.showActivityForm ? this.showActivityForm = true : this.showActivityForm = false;
   }
 
   closeFormActivity(event) {

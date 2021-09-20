@@ -1,5 +1,5 @@
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Activity } from '../../../shared/models';
 import { ActivityState } from './../../store/activity-management.reducers';

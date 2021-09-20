@@ -69,7 +69,8 @@ export class ActivityListComponent implements OnInit {
 
   updateActivity(activityId: string): void {
     this.store.dispatch(new SetActivityToEdit(activityId));
-    this.changeValueShowActivityForm.emit(this.showActivityForm = true);
+    this.showActivityForm = true;
+    this.changeValueShowActivityForm.emit(this.showActivityForm);
   }
 
   unarchiveActivity(): void {
