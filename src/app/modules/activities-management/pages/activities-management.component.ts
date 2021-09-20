@@ -9,16 +9,13 @@ import { SetActivityToEdit } from '../store';
   styleUrls: ['./activities-management.component.scss'],
 })
 export class ActivitiesManagementComponent {
-  @Output() sendChanges = new EventEmitter<boolean>();
   @Output() closeActivityForm = new EventEmitter<boolean>();
   showActivityForm = false;
-  hasChangeComponent = false;
-  hasChanged: boolean;
   constructor(private store: Store<Activity>) {}
 
   activateActivityForm() {
     this.store.dispatch(new SetActivityToEdit(null));
-    !this.showActivityForm ? this.showActivityForm = true : this.showActivityForm = false;
+    this.showActivityForm = true;
   }
 
   closeFormActivity(event) {
