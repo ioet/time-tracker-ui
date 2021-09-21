@@ -17,6 +17,7 @@ describe('InputProjectComponent', () => {
   const state = {
     projects: [{ id: '', name: '', project_type_id: '' }],
     customerProjects: [{ id: '', name: '', project_type_id: '' }],
+    recentProjects: [],
     isLoading: false,
     message: '',
     projectToEdit: undefined,

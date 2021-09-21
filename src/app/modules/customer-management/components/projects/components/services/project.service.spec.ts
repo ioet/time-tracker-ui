@@ -59,6 +59,16 @@ describe('ProjectService', () => {
     getProjectsRequest.flush(projectsList);
   });
 
+  it('recent projects are read using GET from url/recent', () => {
+    const projectsFoundSize = projectsList.length;
+    service.getRecentProjects().subscribe((projectsInResponse) => {
+      expect(projectsInResponse.length).toBe(projectsFoundSize);
+    });
+    const getProjectsRequest = httpMock.expectOne(`${service.url}/recent`);
+    expect(getProjectsRequest.request.method).toBe('GET');
+    getProjectsRequest.flush(projectsList);
+  });
+
   it('create project using POST from url', () => {
     const project: Project[] = [{ id: '1', name: 'ccc', description: 'xxx', project_type_id: '123' }];
     service.url = 'projects';

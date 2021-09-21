@@ -2,52 +2,43 @@
   <div class="form-group">
     <label>Project:</label>
     <div class="form-control autocomplete">
-      <ng-autocomplete
+      <ng-select
         formControlName="project_id"
-        [data]="listProjects"
-        [searchKeyword]="keyword"
-        [initialValue]=""
-        [historyIdentifier]="projectKeyForLocalStorage"
+        bindLabel="search_field"
+        placeholder="Enter the project name"
         notFoundText="No projects found"
-        placeHolder="Enter the project name"
-        [itemTemplate]="itemTemplate"
-        (closed)="loadActiveTimeEntry()"
-        [notFoundTemplate]="notFoundTemplate"
-      >
-      </ng-autocomplete>
-
-      <ng-template #itemTemplate let-item>
-        <div class="d-flex container">
-          <div class="mr-auto p-2">
-            <span [innerHTML]="item.customer.name"></span> -
-            <strong><span [innerHTML]="item.name"></span></strong>
+        [items]="listProjectsShowed"
+        (search)="onSearch($event)"
+        (change)="onSelect($event)"
+        (close)="loadActiveTimeEntry()">
+        
+        <ng-template ng-option-tmp let-item="item">
+          <div class="flex flex-wrap flex-row justify-between">
+            <div class="p-2 text-xs">
+              <span>{{item.customer.name}}</span> -
+              <strong><span>{{item.name}}</span></strong>
+            </div>
+            <div class="p-1 pr-2">
+              <button
+                *ngIf="showClockIn"
+                class="btn btn-sm btn-primary btn-select"
+              >
+                Clock In
+              </button>
+              <button
+                *ngIf="!showClockIn"
+                class="btn btn-sm btn-primary btn-select"
+                (click)="switch(item.id, item.customer.name, item.name)"
+              >
+                Switch</button
+              >&nbsp;
+              <button *ngIf="!showClockIn" class="btn btn-sm btn-update btn-select" (click)="updateProject(item.id)">
+                Update project
+              </button>
+            </div>
           </div>
-          <div class="p-2 pr-3">
-            <button
-              *ngIf="showClockIn"
-              class="btn btn-sm btn-primary btn-select"
-              (click)="clockIn(item.id, item.customer.name, item.name)"
-            >
-              Clock In
-            </button>
-            <button
-              *ngIf="!showClockIn"
-              class="btn btn-sm btn-primary btn-select"
-              (click)="switch(item.id, item.customer.name, item.name)"
-            >
-              Switch</button
-            >&nbsp;
-            <button *ngIf="!showClockIn" class="btn btn-sm btn-update btn-select" (click)="updateProject(item.id)">
-              Update project
-            </button>
-          </div>
-        </div>
-      </ng-template>
-
-      <ng-template #notFoundTemplate let-notFound>
-        <div [innerHTML]="notFound"></div>
-      </ng-template>
-      <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
+        </ng-template>
+      </ng-select>
     </div>
   </div>
 </form>

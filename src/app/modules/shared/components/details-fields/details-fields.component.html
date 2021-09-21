@@ -12,33 +12,26 @@
   <div class="form-group row">
     <label class="col-12 col-sm-2 col-form-label">Project:</label>
     <div class="col-12 col-sm-10 autocomplete">
-      <ng-autocomplete
-        (selected)="onSelectedProject($event)"
-        (inputCleared)="onClearedComponent($event)"
-        formControlName="project_name"
-        [data]="listProjects"
-        [searchKeyword]="keyword"
-        [historyIdentifier]="projectKeyForLocalStorage"
-        notFoundText="No projects found"
-        placeHolder="Enter the project name"
-        [itemTemplate]="itemTemplate"
-        [notFoundTemplate]="notFoundTemplate"
-        [class.valid]="project_name.invalid"
-      >
-      </ng-autocomplete>
-
-      <ng-template #itemTemplate let-item>
-        <div class="d-flex container">
-          <div class="mr-auto p-2">
-            <span [innerHTML]="item.customer.name"></span> -
-            <strong><span [innerHTML]="item.name"></span></strong>
+      <ng-select
+      bindLabel="search_field"
+      bindValue="project_name"
+      placeholder="Enter the project name"
+      notFoundText="No projects found"
+      [items]="listProjectsShowed"
+      (search)="onClearedComponent($event)"
+      (change)="onSelectedProject($event)"
+      ngDefaultControl="project_name">
+        
+        <ng-template ng-option-tmp let-item="item">
+          <div class="flex flex-wrap flex-row justify-between">
+            <div class="p-2 text-xs">
+              <span>{{item.customer.name}}</span> -
+              <strong><span>{{item.name}}</span></strong>
+            </div>
           </div>
-        </div>
-      </ng-template>
+        </ng-template>
+      </ng-select>
 
-      <ng-template #notFoundTemplate let-notFound>
-        <div [innerHTML]="notFound"></div>
-      </ng-template>
       <!-- <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar> -->
     </div>
   </div>

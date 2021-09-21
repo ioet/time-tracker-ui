@@ -27,6 +27,16 @@ describe('Actions for Projects', () => {
     expect(LoadCustomerProjectsFail.type).toEqual(actions.ProjectActionTypes.LOAD_CUSTOMER_PROJECTS_FAIL);
   });
 
+  it('LoadRecentProjectsSuccess type is ProjectActionTypes.LOAD_RECENT_PROJECTS_SUCCESS', () => {
+    const action = new actions.LoadRecentProjectsSuccess([]);
+    expect(action.type).toEqual(actions.ProjectActionTypes.LOAD_RECENT_PROJECTS_SUCCESS);
+  });
+
+  it('LoadRecentProjectsFail type is ProjectActionTypes.LOAD_RECENT_PROJECTS_FAIL', () => {
+    const action = new actions.LoadRecentProjectsFail('error');
+    expect(action.type).toEqual(actions.ProjectActionTypes.LOAD_RECENT_PROJECTS_FAIL);
+  });
+
   it('CreateProjectSuccess type is ProjectActionTypes.CREATE_PROJECT_SUCCESS', () => {
     const createProjectSuccess = new actions.CreateProjectSuccess({
       id: '1',

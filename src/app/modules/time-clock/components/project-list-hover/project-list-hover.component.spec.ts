@@ -25,6 +25,7 @@ describe('ProjectListHoverComponent', () => {
     projects: {
       projects: [],
       customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
+      recentProjects: [],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
@@ -134,6 +135,34 @@ describe('ProjectListHoverComponent', () => {
     component.setSelectedProject();
 
     expect(component.projectsForm.setValue).toHaveBeenCalledWith({ project_id: 'customer - xyz' });
+  });
+
+  it('should change projects showed to recent projects list when search input is empty on onSearch', () => {
+    const recentProjects = [{ id: '1', customer: { name: 'customer'}, name: 'xyz' }];
+    const search = {term: '', items: []};
+    component.listRecentProjects = recentProjects;
+    component.onSearch(search);
+
+    expect(component.listProjectsShowed).toEqual(recentProjects);
+  });
+
+  it('should change projects showed to projects list when search input is not empty on onSearch', () => {
+    const listProjects = [{id: '1', customer: { name: 'customer'}, name: 'xyz' }];
+    const search = {term: 'xyz', items: []};
+    component.listProjects = listProjects;
+    component.onSearch(search);
+
+    expect(component.listProjectsShowed).toEqual(listProjects);
+  });
+
+  it('should clock in when select a project on onSelect', () => {
+    const [id, customer, name] = ['1', 'customer', 'xyz'];
+    const projectSelected = { id, customer: { name: customer}, name };
+    spyOn(component, 'clockIn');
+    component.showClockIn = true;
+    component.onSelect(projectSelected);
+
+    expect(component.clockIn).toHaveBeenCalledWith(id, customer, name);
   });
 
   // TODO Fix this test since it is throwing this error

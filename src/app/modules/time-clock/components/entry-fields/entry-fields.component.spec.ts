@@ -40,6 +40,7 @@ describe('EntryFieldsComponent', () => {
     projects: {
       projects: [{ id: 'id', name: 'name', project_type_id: '' }],
       customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
+      recentProjects: [],
       isLoading: false,
       message: '',
       projectToEdit: undefined,

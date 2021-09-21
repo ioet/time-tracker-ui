@@ -11,6 +11,7 @@ import * as entryActions from '../../store/entry.actions';
 import {
   getIsLoading,
   getProjects,
+  getRecentProjects,
 } from './../../../customer-management/components/projects/components/store/project.selectors';
 import { EntryActionTypes } from './../../store/entry.actions';
 import { getActiveTimeEntry } from './../../store/entry.selectors';
@@ -18,8 +19,6 @@ import { Activity, } from '../../../shared/models';
 import { LoadActivities } from './../../../activities-management/store/activity-management.actions';
 import { allActivities } from 'src/app/modules/activities-management/store/activity-management.selectors';
 import { head } from 'lodash';
-import { updateProjectStorage } from '../../../shared/utils/project-storage.util';
-import { PROJECTS_KEY_FOR_LOCAL_STORAGE } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-project-list-hover',
@@ -27,8 +26,9 @@ import { PROJECTS_KEY_FOR_LOCAL_STORAGE } from '../../../../../environments/envi
   styleUrls: ['./project-list-hover.component.scss'],
 })
 export class ProjectListHoverComponent implements OnInit, OnDestroy {
-  keyword = 'search_field';
   listProjects: Project[] = [];
+  listRecentProjects: Project[] = [];
+  listProjectsShowed: Project[] = [];
   activities: Activity[] = [];
   activeEntry;
   projectsForm: FormGroup;
@@ -36,9 +36,9 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   updateEntrySubscription: Subscription;
   isLoading$: Observable<boolean>;
   projectsSubscription: Subscription;
+  recentProjectsSubscription: Subscription;
   activeEntrySubscription: Subscription;
   loadActivitiesSubscription: Subscription;
-  projectKeyForLocalStorage = PROJECTS_KEY_FOR_LOCAL_STORAGE;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -60,8 +60,6 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
         projectWithSearchField.search_field = `${project.customer.name} - ${project.name}`;
         this.listProjects.push(projectWithSearchField);
       });
-
-      updateProjectStorage(projects);
       this.loadActiveTimeEntry();
     });
     this.store.dispatch(new LoadActivities());
@@ -69,6 +67,18 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     activities$.subscribe((response) => {
       this.activities = response;
     });
+
+    this.store.dispatch(new actions.LoadProjects());
+    const recentProjects$ = this.store.pipe(select(getRecentProjects));
+    this.recentProjectsSubscription = recentProjects$.subscribe((projects) => {
+      if (projects) {
+        this.listRecentProjects = projects;
+        this.listProjectsShowed = this.listRecentProjects;
+      }else{
+        this.listRecentProjects = this.listProjects;
+      }
+    });
+
     this.updateEntrySubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS))
       .subscribe((action) => {
@@ -126,8 +136,21 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSearch({term}){
+    const isSearchEmpty = (term === '');
+    this.listProjectsShowed = isSearchEmpty ? this.listRecentProjects : this.listProjects;
+  }
+
+  onSelect(project){
+    if (project && this.showClockIn) {
+      this.clockIn(project.id, project.customer.name, project.name);
+      this.listProjectsShowed = this.listRecentProjects;
+    }
+  }
+
   ngOnDestroy(): void {
     this.projectsSubscription.unsubscribe();
+    this.recentProjectsSubscription.unsubscribe();
     this.activeEntrySubscription.unsubscribe();
     this.updateEntrySubscription.unsubscribe();
   }
