@@ -1,7 +1,6 @@
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-
 import { Activity } from '../../../shared/models';
 import { ActivityState } from './../../store/activity-management.reducers';
 import { CreateActivity, UpdateActivity, getActivityById, ResetActivityToEdit } from '../../store';
@@ -12,9 +11,9 @@ import { CreateActivity, UpdateActivity, getActivityById, ResetActivityToEdit } 
   styleUrls: ['./create-activity.component.scss'],
 })
 export class CreateActivityComponent implements OnInit {
+  @Output() closeActivityForm = new EventEmitter<boolean>();
   activityForm: FormGroup;
   activityToEdit: Activity;
-
   constructor(private formBuilder: FormBuilder, private store: Store<ActivityState>) {
     this.activityForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -60,9 +59,12 @@ export class CreateActivityComponent implements OnInit {
       this.store.dispatch(new CreateActivity(activityData));
       this.activityForm.get('description').setValue('');
     }
+    this.closeActivityForm.emit(false);
   }
 
   cancelButton() {
+    this.activityForm.reset();
     this.store.dispatch(new ResetActivityToEdit());
+    this.closeActivityForm.emit(false);
   }
 }
