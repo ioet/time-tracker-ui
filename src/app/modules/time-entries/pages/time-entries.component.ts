@@ -22,7 +22,9 @@ import { CalendarView } from 'angular-calendar';
   styleUrls: ['./time-entries.component.scss'],
 })
 export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
-  dtOptions: any = {};
+  dtOptions: any = {
+    "order": [[ 0, "desc" ]]
+  };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
