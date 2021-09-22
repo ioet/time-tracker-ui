@@ -23,7 +23,8 @@ import { CalendarView } from 'angular-calendar';
 })
 export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   dtOptions: any = {
-    order: [[ 0, 'desc' ]]
+    order: [[ 0, 'desc' ]],
+    destroy: true,
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
@@ -76,28 +77,17 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
       this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
     });
     this.rerenderTableSubscription = this.timeEntriesDataSource$.subscribe((ds) => {
-      this.rerenderDataTable();
+      this.dtTrigger.next();
     });
   }
 
   ngAfterViewInit(): void {
-    this.rerenderDataTable();
+    this.dtTrigger.next();
   }
 
   ngOnDestroy(): void {
     this.rerenderTableSubscription.unsubscribe();
     this.entriesSubscription.unsubscribe();
-  }
-
-  private rerenderDataTable(): void {
-    if (this.dtElement && this.dtElement.dtInstance) {
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-          dtInstance.destroy();
-          this.dtTrigger.next();
-      });
-    } else {
-        this.dtTrigger.next();
-    }
   }
 
   newEntry() {
