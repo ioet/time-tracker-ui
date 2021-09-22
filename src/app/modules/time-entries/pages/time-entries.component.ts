@@ -23,7 +23,7 @@ import { CalendarView } from 'angular-calendar';
 })
 export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   dtOptions: any = {
-    "order": [[ 0, "desc" ]]
+    order: [[ 0, 'desc' ]]
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
