@@ -10,6 +10,7 @@ import {
   activityIdToEdit,
   allActivities,
   ResetActivityToEdit,
+  SetActivityToEdit,
 } from '../../store';
 import { getActivityById } from '../../store/activity-management.selectors';
 import { Activity } from 'src/app/modules/shared/models';
@@ -150,5 +151,13 @@ describe('CreateActivityComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(new ResetActivityToEdit());
+  });
+
+  it('should dispatch an action on activateActivityForm', () => {
+    spyOn(store, 'dispatch');
+
+    component.activateActivityForm();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new SetActivityToEdit(null));
   });
 });

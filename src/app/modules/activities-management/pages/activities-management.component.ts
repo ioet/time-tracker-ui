@@ -1,24 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Activity } from '../../shared/models';
-import { SetActivityToEdit } from '../store';
-
+import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-activities-management',
   templateUrl: './activities-management.component.html',
   styleUrls: ['./activities-management.component.scss'],
 })
 export class ActivitiesManagementComponent {
-  @Output() closeActivityForm = new EventEmitter<boolean>();
-  showActivityForm = false;
-  constructor(private store: Store<Activity>) {}
+  @Input() showActivityForm: boolean;
 
-  activateActivityForm() {
-    this.store.dispatch(new SetActivityToEdit(null));
-    this.showActivityForm = true;
-  }
+  constructor() {}
 
-  closeFormActivity(event) {
-    this.showActivityForm = event;
-  }
 }

@@ -14,8 +14,8 @@ import { ActivityState } from './../../store/activity-management.reducers';
   styleUrls: ['./activity-list.component.scss'],
 })
 export class ActivityListComponent implements OnInit {
-  @Input() showActivityForm: boolean;
   @Output() changeValueShowActivityForm = new EventEmitter<boolean>();
+  showActivityForm: boolean;
 
   constructor(private store: Store<ActivityState>) {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
