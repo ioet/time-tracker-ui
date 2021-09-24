@@ -6,7 +6,4 @@ import { Component, Input } from '@angular/core';
 })
 export class ActivitiesManagementComponent {
   @Input() showActivityForm: boolean;
-
-  constructor() {}
-
 }
