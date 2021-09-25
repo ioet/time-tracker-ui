@@ -1,5 +1,10 @@
 <div>
-  <form [formGroup]="activityForm" (ngSubmit)="onSubmit(activityForm.value)">
+  <div class="row">
+    <div style="padding: 15px;">
+      <button (click)="activateActivityForm()" class="btn btn-primary">Add new activity</button>
+    </div>
+  </div>
+  <form *ngIf="showActivityForm" [formGroup]="activityForm" (ngSubmit)="onSubmit(activityForm.value)">
     <div class="form-group">
       <label>Name:</label>
       <div>

@@ -1,12 +1,7 @@
 <div class="col-12 col-md-9 px-0">
-  <div class="row">
-    <div style="padding: 15px;">
-      <button (click)="activateActivityForm()" class="btn btn-primary">Add new Activity</button>
-    </div>
-  </div>
-  <div *ngIf="showActivityForm">
+  <div>
     <app-create-activity
-    (closeActivityForm)="closeFormActivity($event)"></app-create-activity>
+    [showActivityForm]="showActivityForm" (changeValueShowActivityForm)="showActivityForm = $event"></app-create-activity>
   </div>
   <app-activity-list
   (changeValueShowActivityForm)="showActivityForm = $event"></app-activity-list>
