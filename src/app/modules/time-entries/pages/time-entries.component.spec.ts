@@ -133,7 +133,7 @@ describe('TimeEntriesComponent', () => {
     });
   }));
 
-  it('after the component is initialized it should initialize the table', () => {
+  it('should initialize the table when the component is initialized', () => {
     spyOn(component.dtTrigger, 'next');
     component.ngAfterViewInit();
 
