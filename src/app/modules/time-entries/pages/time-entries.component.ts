@@ -195,8 +195,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   onDisplayModeChange() {
     this.displayGridView = !this.displayGridView;
-    this.dtTrigger = new Subject();
-    this.dtTrigger.next();
   }
   removeEntry() {
     this.store.dispatch(new entryActions.DeleteEntry(this.idToDelete));
