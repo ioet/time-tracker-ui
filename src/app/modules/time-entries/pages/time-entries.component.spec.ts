@@ -133,6 +133,13 @@ describe('TimeEntriesComponent', () => {
     });
   }));
 
+  it('should initialize the table when the component is initialized', () => {
+    spyOn(component.dtTrigger, 'next');
+    component.ngAfterViewInit();
+
+    expect(component.dtTrigger.next).toHaveBeenCalled();
+  });
+
   it('when create time entries, the time entries should be queried', () => {
     const currentMonth = new Date().getMonth() + 1;
     const year = new Date().getFullYear();

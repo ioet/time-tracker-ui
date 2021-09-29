@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
+import { DataTableDirective } from 'angular-datatables';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { delay, filter } from 'rxjs/operators';
 import { ProjectSelectedEvent } from '../../shared/components/details-fields/project-selected-event';
 import { SaveEntryEvent } from '../../shared/components/details-fields/save-entry-event';
@@ -20,7 +21,15 @@ import { CalendarView } from 'angular-calendar';
   templateUrl: './time-entries.component.html',
   styleUrls: ['./time-entries.component.scss'],
 })
-export class TimeEntriesComponent implements OnInit, OnDestroy {
+export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
+  dtOptions: any = {
+    order: [[ 0, 'desc' ]],
+    destroy: true,
+  };
+  dtTrigger: Subject<any> = new Subject();
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
+  rerenderTableSubscription: Subscription;
   entryId: string;
   entry: Entry;
   activeTimeEntry: Entry;
@@ -52,9 +61,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
     this.actualDate = new Date();
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
   }
-  ngOnDestroy(): void {
-    this.entriesSubscription.unsubscribe();
-  }
+
   ngOnInit(): void {
     this.loadActiveEntry();
     this.isFeatureToggleCalendarActive = (this.cookiesService.get(FeatureToggle.TIME_TRACKER_CALENDAR) === 'true');
@@ -69,7 +76,20 @@ export class TimeEntriesComponent implements OnInit, OnDestroy {
       this.loadActiveEntry();
       this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
     });
+    this.rerenderTableSubscription = this.timeEntriesDataSource$.subscribe((ds) => {
+      this.dtTrigger.next();
+    });
   }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
+
+  ngOnDestroy(): void {
+    this.rerenderTableSubscription.unsubscribe();
+    this.entriesSubscription.unsubscribe();
+  }
+
   newEntry() {
     if (this.wasEditingExistingTimeEntry) {
       this.entry = null;
