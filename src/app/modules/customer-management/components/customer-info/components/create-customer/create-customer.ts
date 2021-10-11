@@ -63,6 +63,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     }
     this.areTabsActive = true;
     this.changeValueAreTabsActives.emit(this.areTabsActive);
+    this.closeCustomerComponent.emit(false);
   }
 
   setDataToUpdate(customerData: Customer) {

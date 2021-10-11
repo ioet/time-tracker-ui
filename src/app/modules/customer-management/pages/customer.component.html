@@ -4,14 +4,14 @@
       <button (click)="activateCustomerForm()" class="btn btn-primary">Add new customer</button>
     </div>
   </div>
-  <app-customer-list
-    [showCustomerForm]="showCustomerForm"
-    [hasChange]="hasChangeComponent"
-    (changeValueShowCustomerForm)="showCustomerForm = $event"
-  ></app-customer-list>
   <div class="row" *ngIf="showCustomerForm">
     <div class="col">
       <app-management-customer-projects (sendChanges)="getChangesInputs($event)" (closeCustemerForm)="closeCustomerForm($event)"></app-management-customer-projects>
     </div>
   </div>
+  <app-customer-list
+    [showCustomerForm]="showCustomerForm"
+    [hasChange]="hasChangeComponent"
+    (changeValueShowCustomerForm)="showCustomerForm = $event"
+  ></app-customer-list>
 </div>

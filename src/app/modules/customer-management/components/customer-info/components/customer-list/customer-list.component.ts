@@ -24,13 +24,13 @@ import { UnarchiveCustomer } from '../../../../store/customer-management.actions
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss'],
 })
-export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CustomerListComponent implements OnInit, OnDestroy {
   @Input() showCustomerForm: boolean;
   @Input() hasChange: boolean;
   @Output() changeValueShowCustomerForm = new EventEmitter<boolean>();
   @Input()
   customers: CustomerUI[] = [];
-  dtOptions: any = {};
+  dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -49,6 +49,10 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.dtOptions = {
+      order: [],
+      destroy: true
+    };
     const btnProps = [
       {
         key: 'active',
@@ -82,8 +86,8 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
           const addProps = btnProps.find((prop) => prop.key === this.setActive(customer.status));
           return { ...customer, ...addProps };
         });
-        this.rerenderDataTable();
       });
+    this.dtTrigger.next();
     this.changeCustomerSubscription = this.actionsSubject$
       .pipe(
         filter(
@@ -98,10 +102,6 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showCustomerForm = false;
       });
     this.store.dispatch(new LoadCustomers());
-  }
-
-  ngAfterViewInit(): void {
-    this.rerenderDataTable();
   }
 
   ngOnDestroy() {
@@ -147,17 +147,6 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.store.dispatch(new DeleteCustomer(this.idToDelete));
     this.showModal = false;
-  }
-
-  private rerenderDataTable(): void {
-    if (this.dtElement && this.dtElement.dtInstance) {
-      this.dtElement.dtInstance.then((dtInstances: DataTables.Api) => {
-        dtInstances.destroy();
-        this.dtTrigger.next();
-      });
-    } else {
-      this.dtTrigger.next();
-    }
   }
 
   private checkResetCustomerToEdit(id: string): boolean {

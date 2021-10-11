@@ -83,13 +83,6 @@ describe('Reports Page', () => {
       });
     });
 
-    it('after the component is initialized it should initialize the table', () => {
-      spyOn(component.dtTrigger, 'next');
-      component.ngAfterViewInit();
-
-      expect(component.dtTrigger.next).toHaveBeenCalled();
-    });
-
     it('when the uri starts with http or https it should return true and open the url in a new tab', () => {
       const url = 'http://customuri.com';
       spyOn(component, 'isURL').and.returnValue(true);

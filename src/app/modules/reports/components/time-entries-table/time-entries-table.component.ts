@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
@@ -14,7 +14,7 @@ import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
   templateUrl: './time-entries-table.component.html',
   styleUrls: ['./time-entries-table.component.scss'],
 })
-export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
+export class TimeEntriesTableComponent implements OnInit, OnDestroy {
   dtOptions: any = {
     scrollY: '590px',
     dom: 'Bfrtip',
@@ -63,10 +63,6 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
       this.rerenderDataTable();
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.rerenderDataTable();
   }
 
   ngOnDestroy(): void {

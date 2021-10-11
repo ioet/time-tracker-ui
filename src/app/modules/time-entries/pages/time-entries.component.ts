@@ -22,10 +22,7 @@ import { CalendarView } from 'angular-calendar';
   styleUrls: ['./time-entries.component.scss'],
 })
 export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
-  dtOptions: any = {
-    order: [[ 0, 'desc' ]],
-    destroy: true,
-  };
+  dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -63,6 +60,10 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.dtOptions = {
+      order: [[ 0, 'desc' ]],
+      destroy: true,
+    };
     this.loadActiveEntry();
     this.isFeatureToggleCalendarActive = (this.cookiesService.get(FeatureToggle.TIME_TRACKER_CALENDAR) === 'true');
     this.entriesSubscription = this.actionsSubject$.pipe(

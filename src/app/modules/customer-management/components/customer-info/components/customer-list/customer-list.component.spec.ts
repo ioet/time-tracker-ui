@@ -206,19 +206,6 @@ describe('CustomerTableListComponent', () => {
     expect(component.customers).toEqual(StateWithBtnProperties);
   });
 
-  it('on success load customer, the datatable should be reloaded', async () => {
-    const actionSubject = TestBed.inject(ActionsSubject);
-    const action = {
-      type: CustomerManagementActionTypes.LOAD_CUSTOMERS_SUCCESS,
-      payload: state.data,
-    };
-    spyOn(component.dtElement.dtInstance, 'then');
-
-    actionSubject.next(action);
-
-    expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
-  });
-
   it('openModal should set on true and display "Are you sure you want to disable customer"', () => {
     const message = 'Are you sure you want to disable name?';
     const itemData = {
