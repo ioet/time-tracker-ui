@@ -18,6 +18,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   dtOptions: any = {
     scrollY: '590px',
     dom: 'Bfrtip',
+    pageLength: 30,
     buttons: [
       {
         extend: 'colvis',
