@@ -15,9 +15,13 @@ import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
   styleUrls: ['./time-entries-table.component.scss'],
 })
 export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  selectOptionValues = [15, 30, 50, 100, -1];
+  selectOptionNames = [15, 30, 50, 100, 'All'];
   dtOptions: any = {
     scrollY: '590px',
-    dom: 'Bfrtip',
+    dom: '<"d-flex justify-content-between"B<"d-flex"<"mr-5"l>f>>rtip',
+    pageLength: 30,
+    lengthMenu: [this.selectOptionValues, this.selectOptionNames],
     buttons: [
       {
         extend: 'colvis',
