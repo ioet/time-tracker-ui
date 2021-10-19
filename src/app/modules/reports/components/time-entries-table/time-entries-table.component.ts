@@ -17,8 +17,9 @@ import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
 export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
   dtOptions: any = {
     scrollY: '590px',
-    dom: 'Bfrtip',
+    dom: '<"d-flex justify-content-between"B<"d-flex"<"mr-5"l>f>>rtip',
     pageLength: 30,
+    lengthMenu: [[15, 30, 50, 100, -1], [15, 30, 50, 100, 'All']],
     buttons: [
       {
         extend: 'colvis',
