@@ -17,12 +17,12 @@
       <em class="{{ item.icon }}"></em>
       <h3 class="font-poppins text-base ml-4 pl-3 -mt-6 text-left" >{{ item.text }}</h3>
       </a>
-      <div class="bg-whiteTW pt-2 pr-24 absolute bottom-0 -mb-10 dark:bg-grayTW-dark">
-        <a class="flex pl-4 mb-4 text-blackTW hover:text-grayTW dark:text-whiteTW" href="#">
+      <div class="bg-whiteTW pt-2 absolute bottom-4 dark:bg-grayTW-dark flex justify-center items-center">
+        <a class="flex pl-4 text-blackTW hover:text-grayTW dark:text-whiteTW" href="#">
           <em class="fas fa-sign-out-alt"></em>
-          <span class="font-poppins pl-3 font-medium -mt-1 dark:text-whiteTW" (click)="logout()">Sign out</span>
+          <span class="font-poppins pl-3 font-medium  dark:text-whiteTW" (click)="logout()">Sign out</span>
         </a>
-        <app-dark-mode class="relative left-40 -top-14"></app-dark-mode>
+        <app-dark-mode class="ml-4"></app-dark-mode>
       </div>
     </div>
   </div>
