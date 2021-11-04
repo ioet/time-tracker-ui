@@ -120,14 +120,20 @@ describe('Reports Page', () => {
 
     it('The data should be displayed as a multiple of hour when column is equal to 3', () => {
       const column = 3;
-
       expect(component.bodyExportOptions(durationTime, row, column, node)).toMatch(decimalValidator);
     });
 
     it('The data should not be displayed as a multiple of hour when column is different of 3', () => {
       const column = 4;
-      expect(component.bodyExportOptions(durationTime, row, column, node)).toBe(durationTime);
+      expect(component.bodyExportOptions(durationTime, row, column, node)).toBe(durationTime.toString());
     });
+
+    it('The link Ticket must not contain the ticket URL enclosed with < > when export a file csv, excel or PDF', () => {
+      const entry = '<a _ngcontent-vlm-c151="" class="is-url">https://TT-392-uri</a>';
+      const column = 0;
+      expect(component.bodyExportOptions(entry, row, column, node)).toBe('https://TT-392-uri');
+    });
+
 
     afterEach(() => {
       fixture.destroy();
