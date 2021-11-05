@@ -5,7 +5,7 @@
         <th class="col-4 text-center">Activity ID</th>
         <th class="col-4 text-center">Activity</th>
         <th class="col-2 text-center hidden">Options</th>
-        <th class="col-4 text-center">Operation</th>
+        <th class="col-4 text-center">Status</th>
       </tr>
     </thead>
     <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
@@ -20,7 +20,7 @@
         </td>
         <td class="col-4 text-center">
           <div class="flex justify-center">
-            <em class="fa mr-2" [ngClass]="[activity.btnIcon, activity.iconColor]"></em>
+            <em class="fa mr-2 mt-1" [ngClass]="[activity.btnIcon, activity.iconColor]"></em>
             <p> {{ activity.btnName }}</p>
           </div>
         </td>
