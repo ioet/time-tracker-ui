@@ -17,7 +17,7 @@ export class DarkModeComponent implements OnInit {
   ngOnInit() {
     this.featureToggleGeneralService.getActivated().subscribe((featuresToggles) => {
       const darkModeToggle = featuresToggles.find( (item) => item.name === FeatureToggle.DARK_MODE);
-      this.isFeatureToggleDarkModeActive = darkModeToggle.enabled;
+      this.isFeatureToggleDarkModeActive = darkModeToggle?.enabled;
       if (this.isFeatureToggleDarkModeActive) {
         this.checkThemeInLocalStorage();
         this.addOrRemoveDarkMode();
