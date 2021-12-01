@@ -1,4 +1,5 @@
 import { waitForAsync, TestBed, ComponentFixture } from '@angular/core/testing';
+import { by, By, element } from 'protractor';
 import { ActivitiesManagementComponent } from './activities-management.component';
 
 describe('ActivitiesManagementComponent', () => {
@@ -21,4 +22,8 @@ describe('ActivitiesManagementComponent', () => {
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should check if is in development environment', () => {
+    expect(component.showOptionInDevelopment).toBe(true)
+  })
 });

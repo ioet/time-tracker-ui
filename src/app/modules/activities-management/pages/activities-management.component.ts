@@ -1,9 +1,22 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment'
+
 @Component({
   selector: 'app-activities-management',
   templateUrl: './activities-management.component.html',
   styleUrls: ['./activities-management.component.scss'],
 })
-export class ActivitiesManagementComponent {
+export class ActivitiesManagementComponent implements OnInit {
   @Input() showActivityForm: boolean;
+  showOptionInDevelopment: boolean = true;
+
+  ngOnInit() {
+    this.showOption()
+  }
+
+  showOption(): void {
+    if(environment.production){
+      this.showOptionInDevelopment = false
+    }
+  }
 }

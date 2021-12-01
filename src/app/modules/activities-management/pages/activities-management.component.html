@@ -1,8 +1,14 @@
-<div class="col-12 col-md-9 px-0">
-  <div class="hidden">
+<div class="col-12 px-0">
+  <div *ngIf="showOptionInDevelopment">
     <app-create-activity
-    [showActivityForm]="showActivityForm" (changeValueShowActivityForm)="showActivityForm = $event"></app-create-activity>
+      [showActivityForm]="showActivityForm"
+      (changeValueShowActivityForm)="showActivityForm = $event"
+    >
+    </app-create-activity>
   </div>
   <app-activity-list
-  (changeValueShowActivityForm)="showActivityForm = $event"></app-activity-list>
+    [showOptionInDevelopment]="showOptionInDevelopment"
+    (changeValueShowActivityForm)="showActivityForm = $event"
+  >
+  </app-activity-list>
 </div>

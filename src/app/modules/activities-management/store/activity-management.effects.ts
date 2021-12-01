@@ -96,7 +96,8 @@ export class ActivityEffects {
     ofType(actions.ActivityManagementActionTypes.UNARCHIVE_ACTIVITY),
     map((action: actions.UnarchiveActivity) => ({
       id: action.payload,
-      status: 'active'
+      status: 'active',
+      deleted: false
     })
     ),
     mergeMap((activity: ActivityStatus) =>
