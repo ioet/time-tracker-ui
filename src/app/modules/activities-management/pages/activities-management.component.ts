@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-activities-management',
@@ -8,15 +8,15 @@ import { environment } from 'src/environments/environment'
 })
 export class ActivitiesManagementComponent implements OnInit {
   @Input() showActivityForm: boolean;
-  showOptionInDevelopment: boolean = true;
+  showOptionInDevelopment = true;
 
   ngOnInit() {
-    this.showOption()
+    this.showOption();
   }
 
   showOption(): void {
-    if(environment.production){
-      this.showOptionInDevelopment = false
+    if (environment.production){
+      this.showOptionInDevelopment = false;
     }
   }
 }
