@@ -17,7 +17,7 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
   readonly ALLOW_SELECT_MULTIPLE = true;
   readonly ALLOW_SEARCH = true;
   readonly MIN_SEARCH_TERM_LENGTH = 2;
-  readonly TYPE_TO_SEARCH_TEXT = 'Please enter 2 or more characters';
+  readonly TYPE_TO_SEARCH_TEXT = 'Please enter 2 or more characters to search for technologies ';
   readonly WAITING_TIME_AFTER_KEY_UP = 400;
 
   isLoading = false;

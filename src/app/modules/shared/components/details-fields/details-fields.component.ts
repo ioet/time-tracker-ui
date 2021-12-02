@@ -161,17 +161,17 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.store.dispatch(new projectActions.LoadProjects());
     const recentProjects$ = this.store.pipe(select(getRecentProjects));
     recentProjects$.subscribe((projects) => {
-      if (projects) {
-        this.listRecentProjects = [];
+      this.listRecentProjects = [];
+      if (projects?.length > 0) {
         projects.forEach((project) => {
           const projectWithSearchField = { ...project };
           projectWithSearchField.search_field = `${project.customer.name} - ${project.name}`;
           this.listRecentProjects.push(projectWithSearchField);
         });
-        this.listProjectsShowed = this.listRecentProjects;
       }else{
         this.listRecentProjects = this.listProjects;
       }
+      this.listProjectsShowed = this.listRecentProjects;
     });
   }
 
