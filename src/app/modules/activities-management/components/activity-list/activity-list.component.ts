@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
@@ -16,6 +16,7 @@ import { ActivityState } from './../../store/activity-management.reducers';
 export class ActivityListComponent implements OnInit {
   @Output() changeValueShowActivityForm = new EventEmitter<boolean>();
   showActivityForm: boolean;
+  @Input() showOptionInDevelopment: boolean;
 
   constructor(private store: Store<ActivityState>) {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));

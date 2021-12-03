@@ -1,4 +1,5 @@
 import { waitForAsync, TestBed, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivitiesManagementComponent } from './activities-management.component';
 
 describe('ActivitiesManagementComponent', () => {
@@ -20,5 +21,14 @@ describe('ActivitiesManagementComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should check if is in development environment', () => {
+    expect(component.showOptionInDevelopment).toBe(true);
+  });
+
+  it('should check if add new entry button is render', () => {
+    const addItemDebugElement = fixture.debugElement.query(By.css('div.col-12.px-0')).childNodes.length;
+    expect(addItemDebugElement).toBe(3);
   });
 });
