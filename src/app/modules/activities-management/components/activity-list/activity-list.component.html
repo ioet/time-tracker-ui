@@ -2,27 +2,34 @@
   <table class="table table-sm table-bordered table-striped">
     <thead class="thead-blue">
       <tr class="d-flex">
-        <th class="col-2 text-center">Activity ID</th>
+        <th class="col-4 text-center">Activity ID</th>
         <th class="col-4 text-center">Activity</th>
-        <th class="{{showOptionInDevelopment ? 'col-2' : 'col-6'}} text-center">Status</th>
         <th class="col-2 text-center" *ngIf="showOptionInDevelopment">Options</th>
-        <th scope="col" class="col-2 text-center" *ngIf="showOptionInDevelopment">Status</th>
+        <th class="{{ showOptionInDevelopment ? 'col-2' : 'col-4' }} text-center">Status</th>
       </tr>
     </thead>
     <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
     <tbody *ngIf="(isLoading$ | async) === false">
       <tr class="d-flex" *ngFor="let activity of activities">
-        <td class="col-2 text-break">{{ activity.id }}</td>
+        <td class="col-4 text-break">{{ activity.id }}</td>
         <td class="col-4">{{ activity.name }}</td>
-        <td class="{{showOptionInDevelopment ? 'col-2' : 'col-6'}} text-center">{{ activity.status }}</td>
         <td class="col-2 text-center" *ngIf="showOptionInDevelopment">
           <button type="button" class="btn btn-sm btn-primary" (click)="updateActivity(activity.id)">
             <i class="fa fa-pencil fa-xs"></i>
           </button>
         </td>
-        <td class="col-2 text-center" *ngIf="showOptionInDevelopment">
-          <app-dropdown [info]="activity" (updateInfo)="changeOperation($event)"> </app-dropdown>
-        </td>
+        <div *ngIf="showOptionInDevelopment; then devBlock; else prodBlock"></div>
+        <ng-template #devBlock>
+          <td class="col-2 text-center">
+            <app-dropdown [info]="activity" (updateInfo)="changeOperation($event)"></app-dropdown>
+          </td>
+        </ng-template>
+        <ng-template #prodBlock>
+          <td class="col-4 text-center">
+            <em class="fa mr-2 mt-1" [ngClass]="[activity.btnIcon, activity.iconColor]"></em>
+            <span>{{ activity.btnName }}</span>
+          </td>
+        </ng-template>
       </tr>
     </tbody>
   </table>
