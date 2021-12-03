@@ -383,6 +383,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
         end_date: formatDate(get(this.entryToEdit, 'start_date', ''), DATE_FORMAT, 'en'),
         end_hour: formatDate(new Date(), 'HH:mm', 'en'),
       });
+      this.end_date.setValue(this.start_date.value);
     }
     this.shouldRestartEntry = !this.entryToEdit?.running && this.goingToWorkOnThis;
   }
