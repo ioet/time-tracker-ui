@@ -11,12 +11,6 @@ export class ActivitiesManagementComponent implements OnInit {
   showOptionInDevelopment = true;
 
   ngOnInit() {
-    this.showOption();
-  }
-
-  showOption(): void {
-    if (environment.production){
-      this.showOptionInDevelopment = false;
-    }
+    this.showOptionInDevelopment = !environment.production;
   }
 }
