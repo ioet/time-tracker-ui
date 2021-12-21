@@ -1,5 +1,5 @@
 import { TimeEntriesSummary } from '../models/time.entry.summary';
-import { Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -19,11 +19,12 @@ export class EntryService {
 
   static TIME_ENTRIES_DATE_TIME_FORMAT = 'yyyy-MM-ddTHH:mm:ssZZZZZ';
   baseUrl = `${environment.timeTrackerApiUrl}/time-entries`;
-  @Input() showOptionInDevelopment: boolean;
+  urlInProduction = environment.production;
 
   loadActiveEntry(): Observable<any> {
     let path = '';
-    if (this.showOptionInDevelopment){
+
+    if (this.urlInProduction){
       path = `${this.baseUrl}/running`;
     }else{
       path = `${this.baseUrl}/active/2`;
