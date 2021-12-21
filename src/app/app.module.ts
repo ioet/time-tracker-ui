@@ -87,6 +87,8 @@ import { CalendarComponent } from './modules/time-entries/components/calendar/ca
 import { DropdownComponent } from './modules/shared/components/dropdown/dropdown.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DarkModeComponent } from './modules/shared/components/dark-mode/dark-mode.component';
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider } from 'angularx-social-login';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -184,7 +186,8 @@ const maskConfig: Partial<IConfig> = {
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    NgSelectModule
+    NgSelectModule,
+    SocialLoginModule
   ],
   providers: [
     {
@@ -194,6 +197,20 @@ const maskConfig: Partial<IConfig> = {
     },
     DatePipe,
     CookieService,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '711486856840-f8u9pdmkk44nmkb0c9lbsjvolp2hulur.apps.googleusercontent.com'
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }
   ],
   bootstrap: [AppComponent],
 })

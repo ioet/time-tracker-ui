@@ -7,8 +7,16 @@
     <h3>Please log in</h3>
   </div>
 
-  <div class="login-controls">
+  <div class="login-controls" *ngIf="!isDevelopment">
     <button (click)="login()" class="btn btn-primary">login</button>
+  </div>
+
+  <div class="container" style="max-width: 550px" *ngIf="isDevelopment">
+    <div >
+      <div class="login-controls">
+        <button type="button" (click)="loginWithGoogle()"  class="btn btn-primary">Login with Google</button>
+      </div>
+    </div>
   </div>
 
 </div>

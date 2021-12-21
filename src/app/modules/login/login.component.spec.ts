@@ -5,14 +5,29 @@ import { of } from 'rxjs';
 import { LoginComponent } from './login.component';
 import { Router } from '@angular/router';
 import { FeatureToggleCookiesService } from '../shared/feature-toggles/feature-toggle-cookies/feature-toggle-cookies.service';
+import { LoginService } from './services/login.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SocialAuthService } from 'angularx-social-login';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let azureAdB2CService: AzureAdB2CService;
+  let loginService: LoginService;
   let featureToggleCookiesService: FeatureToggleCookiesService;
 
   const azureAdB2CServiceStub = {
+    isLogin() {
+      return true;
+    },
+    signIn() {
+      return of();
+    },
+    setCookies() {
+    }
+  };
+
+  const loginServiceStub = {
     isLogin() {
       return true;
     },
@@ -29,23 +44,29 @@ describe('LoginComponent', () => {
     }
   };
 
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ RouterTestingModule ],
+      imports: [ RouterTestingModule, HttpClientTestingModule],
       declarations: [ LoginComponent ],
       providers: [
         { providers: AzureAdB2CService, useValue: azureAdB2CServiceStub},
-        { providers: FeatureToggleCookiesService, useValue: featureToggleCookiesServiceStub}
+        { providers: FeatureToggleCookiesService, useValue: featureToggleCookiesServiceStub},
+        { providers: LoginService, useValue: loginServiceStub},
+        { provide: SocialAuthService, useValue: socialAuthServiceStub }
       ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
+    socialAuthServiceStub.authState = of(null);
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    component.isDevelopment = false;
     fixture.detectChanges();
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
+    loginService = TestBed.inject(LoginService);
     featureToggleCookiesService = TestBed.inject(FeatureToggleCookiesService);
   });
 

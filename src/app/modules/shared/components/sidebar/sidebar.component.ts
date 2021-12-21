@@ -5,6 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
+import { LoginService } from '../../../login/services/login.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -14,8 +16,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
   itemsSidebar: ItemSidebar[] = [];
   navStart;
   sidebarItems$: Subscription;
+  isProduction = environment.production;
 
-  constructor(private router: Router, private userInfoService: UserInfoService, private azureAdB2CService: AzureAdB2CService) {
+  constructor(
+    private router: Router,
+    private userInfoService: UserInfoService,
+    private azureAdB2CService: AzureAdB2CService,
+    private loginService: LoginService
+  ) {
     this.navStart = this.router.events.pipe(
       filter((evt) => evt instanceof NavigationStart)
     ) as Observable<NavigationStart>;
@@ -67,6 +75,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.azureAdB2CService.logout();
+    if (this.isProduction) {
+      this.azureAdB2CService.logout();
+    }else{
+      this.loginService.logout();
+    }
   }
 }

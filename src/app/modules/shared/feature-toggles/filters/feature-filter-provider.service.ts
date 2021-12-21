@@ -5,12 +5,14 @@ import { FeatureFilterTypes } from './feature-filter-types';
 import { FeatureFilterModel } from './feature-filter.model';
 import { TargetingFilterParameters } from './targeting/targeting-feature-filter-parameters';
 import { TargetingFeatureFilterModel } from './targeting/targeting-feature-filter.model';
+import { LoginService } from '../../../login/services/login.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FeatureFilterProvider {
-  constructor(private userService: AzureAdB2CService) {}
+  constructor(private userService: AzureAdB2CService, private loginService: LoginService) {}
 
   getFilterFromConfiguration(featureFilterConfiguration: FeatureFilterConfiguration): FeatureFilterModel {
     const featureName = featureFilterConfiguration.name;
@@ -20,8 +22,13 @@ export class FeatureFilterProvider {
         let group: string;
         if (this.userService) {
           try {
-            username = this.userService.getUserEmail();
-            group = this.userService.getUserGroup();
+            if (environment.production) {
+              username = this.userService.getUserEmail();
+              group = this.userService.getUserGroup();
+            }else{
+              username = this.loginService.getUserEmail();
+              group = this.loginService.getUserGroup();
+            }
           } catch (error) {
             username = 'fakeuser@ioet.com';
             group = 'fake-group';

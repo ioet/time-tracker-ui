@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
+import { LoginService } from '../../../login/services/login.service';
 
 @Component({
   selector: 'app-user',
@@ -9,14 +11,23 @@ import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service'
 export class UserComponent implements OnInit {
   userName: string;
   userEmail: string;
+  isProduction = environment.production;
 
-  constructor(private azureAdB2CService: AzureAdB2CService) {}
+  constructor(private azureAdB2CService: AzureAdB2CService, private loginService: LoginService) {}
 
   ngOnInit(): void {
-    if (this.azureAdB2CService.isLogin()) {
-      this.userName = this.azureAdB2CService.getName();
-      this.userEmail = this.azureAdB2CService.getUserEmail();
-      this.azureAdB2CService.setTenantId();
+    if (this.isProduction){
+      if (this.azureAdB2CService.isLogin()) {
+        this.userName = this.azureAdB2CService.getName();
+        this.userEmail = this.azureAdB2CService.getUserEmail();
+        this.azureAdB2CService.setTenantId();
+      }
+    }else{
+      if (this.loginService.isLogin()) {
+        this.userName = this.loginService.getName();
+        this.userEmail = this.loginService.getUserEmail();
+        this.azureAdB2CService.setTenantId();
+      }
     }
   }
 }

@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 import { FeatureToggleGeneralService } from '../feature-toggle-general/feature-toggle-general.service';
@@ -11,9 +13,13 @@ describe('FeatureToggleCookiesService', () => {
   let featureToggleGeneralService: FeatureToggleGeneralService;
   let service: FeatureToggleCookiesService;
 
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CookieService, FeatureToggleGeneralService]
+      imports: [HttpClientTestingModule],
+      providers: [CookieService, FeatureToggleGeneralService,
+        { provide: SocialAuthService, useValue: socialAuthServiceStub }
+      ]
     });
     cookieService = TestBed.inject(CookieService);
     featureToggleGeneralService = TestBed.inject(FeatureToggleGeneralService);

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { LoadUser } from 'src/app/modules/user/store/user.actions';
+import { environment } from 'src/environments/environment';
 import { AzureAdB2CService } from '../login/services/azure.ad.b2c.service';
+import { LoginService } from '../login/services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -9,14 +11,15 @@ import { AzureAdB2CService } from '../login/services/azure.ad.b2c.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-
+  isProduction = environment.production;
   constructor(
     private azureAdB2CService: AzureAdB2CService,
+    private loginService: LoginService,
     private store: Store
   ) { }
 
   ngOnInit(): void {
-    const userId = this.azureAdB2CService.getUserId();
+    const userId =  this.isProduction ? this.azureAdB2CService.getUserId() : this.loginService.getUserId();
     this.store.dispatch(new LoadUser(userId));
   }
 }

@@ -3,11 +3,15 @@ import { of } from 'rxjs';
 import { UserComponent } from './user.component';
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
 import {AppRoutingModule} from '../../../../app-routing.module';
+import { LoginService } from '../../../login/services/login.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SocialAuthService } from 'angularx-social-login';
 
 describe('UserComponent', () => {
   let component: UserComponent;
   let fixture: ComponentFixture<UserComponent>;
   let azureAdB2CService: AzureAdB2CService;
+  let loginService: LoginService;
 
   const azureAdB2CServiceStub = {
     isLogin() {
@@ -17,12 +21,25 @@ describe('UserComponent', () => {
       return of();
     },
   };
+  const loginServiceStub = {
+    isLogin() {
+      return true;
+    },
+    signIn() {
+      return of();
+    },
+  };
 
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UserComponent],
-      imports: [AppRoutingModule],
-      providers: [{ providers: AzureAdB2CService, useValue: azureAdB2CServiceStub }],
+      imports: [AppRoutingModule, HttpClientTestingModule],
+      providers: [
+        { providers: AzureAdB2CService, useValue: azureAdB2CServiceStub },
+        { providers: LoginService, useValue: loginServiceStub },
+        { provide: SocialAuthService, useValue: socialAuthServiceStub }
+      ],
     }).compileComponents();
   }));
 
@@ -31,6 +48,7 @@ describe('UserComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
+    loginService = TestBed.inject(LoginService);
   });
 
   it('component should be created', () => {
@@ -38,6 +56,7 @@ describe('UserComponent', () => {
   });
 
   it('onInit checks if isLogin and gets the name and set tenantIn in the storage', () => {
+    component.isProduction = true;
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
     spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
     spyOn(azureAdB2CService, 'getUserEmail').and.returnValue('Email');
@@ -50,6 +69,7 @@ describe('UserComponent', () => {
   });
 
   it('onInit does not get the name if isLogin false', () => {
+    component.isProduction = true;
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
     spyOn(azureAdB2CService, 'getUserEmail').and.returnValue('Email');

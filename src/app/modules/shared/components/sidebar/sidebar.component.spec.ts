@@ -6,6 +6,7 @@ import { Router, Routes } from '@angular/router';
 import { TimeClockComponent } from '../../../time-clock/pages/time-clock.component';
 import { of } from 'rxjs';
 import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
+import { LoginService } from '../../../login/services/login.service';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -16,6 +17,17 @@ describe('SidebarComponent', () => {
   const routes: Routes = [{ path: 'time-clock', component: TimeClockComponent }];
 
   const azureAdB2CServiceStub = {
+    isLogin() {
+      return true;
+    },
+    isAdmin() {
+      return true;
+    },
+    logout(){
+      return true;
+    }
+  };
+  const loginServiceStub = {
     isLogin() {
       return true;
     },
@@ -38,6 +50,7 @@ describe('SidebarComponent', () => {
         providers: [
           { provide: AzureAdB2CService, useValue: azureAdB2CServiceStub },
           { provide: UserInfoService, useValue: userInfoServiceStub },
+          { provide: LoginService, useValue: loginServiceStub },
         ],
         imports: [RouterTestingModule.withRoutes(routes)],
       }).compileComponents();
@@ -54,6 +67,7 @@ describe('SidebarComponent', () => {
   });
 
   it('component should be created', () => {
+    component.isProduction = true;
     spyOn(azureAdB2CServiceStubInjected, 'isAdmin').and.returnValue(false);
     expect(component).toBeTruthy();
   });
@@ -94,6 +108,7 @@ describe('SidebarComponent', () => {
   });
 
   it('should use the Azure service on logout', () => {
+    component.isProduction = true;
     spyOn(azureAdB2CServiceStubInjected, 'logout');
     component.logout();
     expect(azureAdB2CServiceStubInjected.logout).toHaveBeenCalled();

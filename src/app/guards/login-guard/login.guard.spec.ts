@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 
 import { AzureAdB2CService } from '../../modules/login/services/azure.ad.b2c.service';
 import { LoginGuard } from './login.guard';
+import { LoginService } from '../../modules/login/services/login.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SocialAuthService } from 'angularx-social-login';
 
 
 describe('LoginGuard', () => {
@@ -15,15 +18,25 @@ describe('LoginGuard', () => {
       return true;
     }
   };
+  let loginService: LoginService;
+  const loginServiceStub = {
+    isLogin() {
+      return true;
+    }
+  };
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ RouterTestingModule ],
+      imports: [ RouterTestingModule, HttpClientTestingModule ],
       providers: [
         { providers: AzureAdB2CService, useValue: azureAdB2CServiceStub},
+        { providers: LoginService, useValue: loginServiceStub},
+        { provide: SocialAuthService, useValue: socialAuthServiceStub }
       ]
     });
     loginGuard = TestBed.inject(LoginGuard);
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
+    loginService = TestBed.inject(LoginService);
   });
 
   it('should be created', () => {
@@ -31,13 +44,16 @@ describe('LoginGuard', () => {
   });
 
   it('can activate the route when user is logged-in', () => {
+    loginGuard.isProduction = true;
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
     const canActivate = loginGuard.canActivate();
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();
     expect(canActivate).toEqual(true);
   });
 
+
   it('can not active the route and is redirected to login if user is not logged-in', inject([Router],  (router: Router) => {
+    loginGuard.isProduction = true;
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(router, 'navigate').and.stub();
     const canActivate = loginGuard.canActivate();

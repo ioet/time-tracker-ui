@@ -1,6 +1,7 @@
 import { AppConfigurationClient } from '@azure/app-configuration';
 import { of } from 'rxjs';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
+import { LoginService } from '../../login/services/login.service';
 import { FeatureManagerService } from './feature-toggle-manager.service';
 import { FeatureToggleProvider } from './feature-toggle-provider.service';
 import { FeatureToggleModel } from './feature-toggle.model';
@@ -19,7 +20,7 @@ describe('FeatureToggleManager', () => {
 
       fakeFeatureToggleProvider = new FeatureToggleProvider(
         new AppConfigurationClient(fakeAppConfigurationConnectionString),
-        new FeatureFilterProvider(new AzureAdB2CService())
+        new FeatureFilterProvider(new AzureAdB2CService(), new LoginService())
       );
       spyOn(fakeFeatureToggleProvider, 'getFeatureToggle').and.returnValue(of(aFeatureToggle));
       service = new FeatureManagerService(fakeFeatureToggleProvider);
@@ -43,7 +44,7 @@ describe('FeatureToggleManager', () => {
       aToggleWithFilters = new FeatureToggleModel('any-other-id', true, [anyMatchingFilter]);
       fakeFeatureToggleProvider = new FeatureToggleProvider(
         new AppConfigurationClient(fakeAppConfigurationConnectionString),
-        new FeatureFilterProvider(new AzureAdB2CService())
+        new FeatureFilterProvider(new AzureAdB2CService(), new LoginService())
       );
       service = new FeatureManagerService(fakeFeatureToggleProvider);
     });
@@ -53,7 +54,7 @@ describe('FeatureToggleManager', () => {
       aToggleWithFilters = new FeatureToggleModel('any-other-id', true, [anyNotMatchingFilter]);
       fakeFeatureToggleProvider = new FeatureToggleProvider(
         new AppConfigurationClient(fakeAppConfigurationConnectionString),
-        new FeatureFilterProvider(new AzureAdB2CService())
+        new FeatureFilterProvider(new AzureAdB2CService(), new LoginService())
       );
       spyOn(fakeFeatureToggleProvider, 'getFeatureToggle').and.returnValue(of(aToggleWithFilters));
       service = new FeatureManagerService(fakeFeatureToggleProvider);

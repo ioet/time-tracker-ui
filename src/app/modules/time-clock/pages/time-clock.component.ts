@@ -10,6 +10,8 @@ import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.co
 import { Entry } from './../../shared/models/entry.model';
 import { EntryActionTypes, LoadEntriesSummary, StopTimeEntryRunning } from './../store/entry.actions';
 import { getActiveTimeEntry } from './../store/entry.selectors';
+import { LoginService } from '../../login/services/login.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-time-clock',
   templateUrl: './time-clock.component.html',
@@ -23,16 +25,22 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   activeTimeEntry: Entry;
   clockOutSubscription: Subscription;
   storeSubscription: Subscription;
+  isProduction = environment.production;
 
   constructor(
     private azureAdB2CService: AzureAdB2CService,
     private store: Store<Entry>,
     private toastrService: ToastrService,
-    private actionsSubject$: ActionsSubject
+    private actionsSubject$: ActionsSubject,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {
-    this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
+    if (this.isProduction) {
+      this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
+    }else{
+      this.username = this.loginService.isLogin() ? this.loginService.getName() : '';
+    }
     this.storeSubscription = this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
       this.activeTimeEntry = activeTimeEntry;
       if (this.activeTimeEntry) {

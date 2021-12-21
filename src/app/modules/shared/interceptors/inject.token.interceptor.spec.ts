@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.service';
 import { environment } from '../../../../environments/environment';
 import { InjectTokenInterceptor } from './inject.token.interceptor';
+import { LoginService } from '../../login/services/login.service';
 
 describe('InjectTokenInterceptor test', () => {
 
@@ -14,13 +15,15 @@ describe('InjectTokenInterceptor test', () => {
   }
 
   const azureAdB2CService: AzureAdB2CService = new AzureAdB2CService();
+  const loginService: LoginService = new LoginService();
   azureAdB2CService.getBearerToken = () => {
     return 'XYZ';
   };
   const handler: HttpHandler = new MockHttpHandler();
 
   it('if request.url is not part of time-tracker-api, then next.handle', () => {
-    const interceptor = new InjectTokenInterceptor(azureAdB2CService);
+    const interceptor = new InjectTokenInterceptor(azureAdB2CService, loginService);
+    interceptor.isProduction = true;
     const request = new HttpRequest('GET', '/foo');
     spyOn(handler, 'handle');
 
@@ -30,7 +33,8 @@ describe('InjectTokenInterceptor test', () => {
   });
 
   it('if request.url is part of time-tracker-api, then Authorization header is injected', () => {
-    const interceptor = new InjectTokenInterceptor(azureAdB2CService);
+    const interceptor = new InjectTokenInterceptor(azureAdB2CService, loginService);
+    interceptor.isProduction = true;
     const request = new HttpRequest('GET', environment.timeTrackerApiUrl);
     spyOn(handler, 'handle');
     const requestWithHeaders = request.clone(
