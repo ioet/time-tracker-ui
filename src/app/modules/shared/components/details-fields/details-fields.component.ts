@@ -176,7 +176,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(): void {
-    this.goingToWorkOnThis = this.entryToEdit ? this.entryToEdit.running ?? true : false;
+    this.goingToWorkOnThis = this.entryToEdit?.running ? true : false;
     this.shouldRestartEntry = false;
     this.getRecentProjects();
     if (this.entryToEdit) {
