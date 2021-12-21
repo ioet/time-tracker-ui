@@ -40,9 +40,18 @@ describe('EntryService', () => {
   });
 
   it('loads an activeEntry with /running', () => {
+    service.showOptionInDevelopment = true;
     service.loadActiveEntry().subscribe();
 
     const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/running`);
+    expect(loadEntryRequest.request.method).toBe('GET');
+  });
+
+  it('loads an activeEntry with /active/{userId}', () => {
+    service.showOptionInDevelopment = false;
+    service.loadActiveEntry().subscribe();
+
+    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/active/2`);
     expect(loadEntryRequest.request.method).toBe('GET');
   });
 
