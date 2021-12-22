@@ -19,9 +19,17 @@ export class EntryService {
 
   static TIME_ENTRIES_DATE_TIME_FORMAT = 'yyyy-MM-ddTHH:mm:ssZZZZZ';
   baseUrl = `${environment.timeTrackerApiUrl}/time-entries`;
+  urlInProduction = environment.production;
 
   loadActiveEntry(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/running`);
+    let path = '';
+
+    if (this.urlInProduction){
+      path = `${this.baseUrl}/running`;
+    }else{
+      path = `${this.baseUrl}/active/2`;
+    }
+    return this.http.get(path);
   }
 
   loadEntries(date): Observable<any> {
