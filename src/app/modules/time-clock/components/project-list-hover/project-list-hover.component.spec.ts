@@ -127,6 +127,15 @@ describe('ProjectListHoverComponent', () => {
     expect(component.activeEntrySubscription.unsubscribe).toHaveBeenCalled();
   });
 
+  it('should set all parameters on ngOnInit', () => {
+    spyOn(store, 'dispatch');
+    spyOn(store, 'pipe').and.returnValue(of([{ id: 'p1', customer: { name: 'customer', description: 'nomatter' }, name: 'xyz' }]));
+
+    component.ngOnInit();
+
+    expect(component.listRecentProjects.length).toEqual(1);
+  });
+
   it('sets customer name and project name on setSelectedProject', () => {
     spyOn(component.projectsForm, 'setValue');
     component.activeEntry = { project_id: 'p1' };

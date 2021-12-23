@@ -17,11 +17,21 @@ describe('FeatureFilterProvider', () => {
     fakeLoginService = new LoginService();
     spyOn(fakeUserService, 'getUserEmail').and.returnValue('any-user-email');
     spyOn(fakeUserService, 'getUserGroup').and.returnValue('any-user-group');
+    spyOn(fakeLoginService, 'getUserEmail').and.returnValue('any-user-email');
+    spyOn(fakeLoginService, 'getUserGroup').and.returnValue('any-user-group');
     service = new FeatureFilterProvider(fakeUserService, fakeLoginService);
     featureFilterConfiguration = { name: FeatureFilterTypes.TARGETING, parameters: {} };
   });
 
   it('filter model type is created based on the filter configuration', () => {
+    service.isProduction = true;
+    const filter = service.getFilterFromConfiguration(featureFilterConfiguration);
+
+    expect(filter.constructor.name).toBe(TargetingFeatureFilterModel.name);
+  });
+
+  it('filter model type is created based on the filter configuration Locally', () => {
+    service.isProduction = false;
     const filter = service.getFilterFromConfiguration(featureFilterConfiguration);
 
     expect(filter.constructor.name).toBe(TargetingFeatureFilterModel.name);

@@ -119,10 +119,12 @@ describe('LoginService', () => {
   });
 
   it('should logout with social angularx-social-login', () => {
+    spyOn(cookieService, 'deleteAll').and.returnValue();
+
     service.logout();
-    const cookies = cookieService.getAll();
+
     expect(socialAuthService.signOut).toHaveBeenCalled();
-    expect(localStorage.length).toEqual(0);
-    expect(cookies).toEqual({});
+    expect(localStorage.clear).toHaveBeenCalled();
+    expect(cookieService.deleteAll).toHaveBeenCalled();
   });
 });

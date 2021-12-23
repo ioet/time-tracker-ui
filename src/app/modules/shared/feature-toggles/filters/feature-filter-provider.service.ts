@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class FeatureFilterProvider {
   constructor(private userService: AzureAdB2CService, private loginService: LoginService) {}
+  isProduction = environment.production;
 
   getFilterFromConfiguration(featureFilterConfiguration: FeatureFilterConfiguration): FeatureFilterModel {
     const featureName = featureFilterConfiguration.name;
@@ -22,7 +23,7 @@ export class FeatureFilterProvider {
         let group: string;
         if (this.userService) {
           try {
-            if (environment.production) {
+            if (this.isProduction) {
               username = this.userService.getUserEmail();
               group = this.userService.getUserGroup();
             }else{
