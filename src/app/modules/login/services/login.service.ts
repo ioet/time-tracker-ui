@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { Injectable } from '@angular/core';
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
-import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { UserEnum } from 'src/environments/enum';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class LoginService {
   baseUrl: string;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AzureAdB2CService } from './services/azure.ad.b2c.service';
 import { Router } from '@angular/router';
 import { FeatureToggleCookiesService } from '../shared/feature-toggles/feature-toggle-cookies/feature-toggle-cookies.service';
@@ -11,9 +11,9 @@ import { LoginService } from './services/login.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   socialUser: SocialUser;
-  isDevelopment = true;
+  isProduction = environment.production;
 
   constructor(
     private azureAdB2CService: AzureAdB2CService,
@@ -23,8 +23,7 @@ export class LoginComponent {
     private loginService?: LoginService
   ) {}
 
-  OnInit() {
-    this.isDevelopment = !environment.production;
+  ngOnInit() {
     this.socialAuthService.authState.subscribe((user) => {
       if (user != null) {
         this.featureToggleCookiesService.setCookies();
@@ -49,12 +48,11 @@ export class LoginComponent {
       });
     }
   }
-
-  loginWithGoogle(): void {
-    this.loginService.signIn();
-  }
-
-  logOut(): void {
-    this.loginService.logout();
+  loginWithGoogle() {
+    if (this.loginService.isLogin()) {
+      this.router.navigate(['']);
+    } else {
+      this.loginService.signIn();
+    }
   }
 }

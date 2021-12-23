@@ -47,8 +47,8 @@ describe('UserComponent', () => {
     fixture = TestBed.createComponent(UserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    azureAdB2CService = TestBed.inject(AzureAdB2CService);
     loginService = TestBed.inject(LoginService);
+    azureAdB2CService = TestBed.inject(AzureAdB2CService);
   });
 
   it('component should be created', () => {
@@ -79,5 +79,26 @@ describe('UserComponent', () => {
     expect(azureAdB2CService.getName).toHaveBeenCalledTimes(0);
     expect(azureAdB2CService.getUserEmail).toHaveBeenCalledTimes(0);
     expect(azureAdB2CService.setTenantId).not.toHaveBeenCalled();
+  });
+  it('onInit checks if isLogin and gets the name and set tenantIn in the storage Locally', () => {
+    component.isProduction = false;
+    spyOn(loginService, 'isLogin').and.returnValue(true);
+    spyOn(loginService, 'getName').and.returnValue('Name');
+    spyOn(loginService, 'getUserEmail').and.returnValue('Email');
+    component.ngOnInit();
+    expect(loginService.isLogin).toHaveBeenCalled();
+    expect(loginService.getName).toHaveBeenCalled();
+    expect(loginService.getUserEmail).toHaveBeenCalled();
+  });
+
+  it('onInit does not get the name if isLogin false Locally', () => {
+    component.isProduction = false;
+    spyOn(loginService, 'isLogin').and.returnValue(false);
+    spyOn(loginService, 'getName').and.returnValue('Name');
+    spyOn(loginService, 'getUserEmail').and.returnValue('Email');
+    component.ngOnInit();
+    expect(loginService.isLogin).toHaveBeenCalled();
+    expect(loginService.getName).toHaveBeenCalledTimes(0);
+    expect(loginService.getUserEmail).toHaveBeenCalledTimes(0);
   });
 });

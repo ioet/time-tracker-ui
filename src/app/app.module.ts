@@ -205,7 +205,7 @@ const maskConfig: Partial<IConfig> = {
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '711486856840-f8u9pdmkk44nmkb0c9lbsjvolp2hulur.apps.googleusercontent.com'
+              '565556796659-hscrj9e6m2krc41cfng898793ocfnb8j.apps.googleusercontent.com'
             )
           }
         ]

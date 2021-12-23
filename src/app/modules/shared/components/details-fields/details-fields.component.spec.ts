@@ -227,9 +227,22 @@ describe('DetailsFieldsComponent', () => {
 
   it('should emit ngOnChange without data', () => {
     component.entryToEdit = null;
+    const formValue = {
+      project_id: '',
+      project_name: '',
+      activity_id: '',
+      uri: '',
+      start_date: formatDate(new Date(), DATE_FORMAT, 'en'),
+      end_date: formatDate(new Date(), DATE_FORMAT, 'en'),
+      start_hour: '00:00',
+      end_hour: '00:00',
+      description: '',
+      technology: '',
+    };
     component.ngOnChanges();
+
     expect(component.shouldRestartEntry).toBeFalse();
-    expect(component.entryForm.value).toEqual(initialData);
+    expect(component.entryForm.value).toEqual(formValue);
     component.activities$.subscribe((item) => {
       expect(item.length).not.toBe(null);
       expect(item.length).toBe(3);

@@ -24,7 +24,7 @@ describe('LoginGuard', () => {
       return true;
     }
   };
-  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['']);
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule, HttpClientTestingModule ],
@@ -43,7 +43,7 @@ describe('LoginGuard', () => {
     expect(loginGuard).toBeTruthy();
   });
 
-  it('can activate the route when user is logged-in', () => {
+  it('can activate the route when user is logged-in on Production', () => {
     loginGuard.isProduction = true;
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
     const canActivate = loginGuard.canActivate();
@@ -51,13 +51,30 @@ describe('LoginGuard', () => {
     expect(canActivate).toEqual(true);
   });
 
+  it('can activate the route when user is logged-in Locally', () => {
+    loginGuard.isProduction = false;
+    spyOn(loginService, 'isLogin').and.returnValue(true);
+    const canActivate = loginGuard.canActivate();
+    expect(loginService.isLogin).toHaveBeenCalled();
+    expect(canActivate).toEqual(true);
+  });
 
-  it('can not active the route and is redirected to login if user is not logged-in', inject([Router],  (router: Router) => {
+  it('can not active the route and is redirected to login if user is not logged-in on Production', inject([Router],  (router: Router) => {
     loginGuard.isProduction = true;
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(router, 'navigate').and.stub();
     const canActivate = loginGuard.canActivate();
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();
+    expect(canActivate).toEqual(false);
+    expect(router.navigate).toHaveBeenCalledWith(['login']);
+  }));
+
+  it('can not active the route and is redirected to login if user is not logged-in Locally', inject([Router],  (router: Router) => {
+    loginGuard.isProduction = false;
+    spyOn(loginService, 'isLogin').and.returnValue(false);
+    spyOn(router, 'navigate').and.stub();
+    const canActivate = loginGuard.canActivate();
+    expect(loginService.isLogin).toHaveBeenCalled();
     expect(canActivate).toEqual(false);
     expect(router.navigate).toHaveBeenCalledWith(['login']);
   }));

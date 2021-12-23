@@ -44,7 +44,7 @@ describe('LoginComponent', () => {
     }
   };
 
-  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['signIn', 'authState']);
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule, HttpClientTestingModule],
@@ -60,10 +60,9 @@ describe('LoginComponent', () => {
   }));
 
   beforeEach(() => {
-    socialAuthServiceStub.authState = of(null);
+    socialAuthServiceStub.authState = of('some value');
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    component.isDevelopment = false;
     fixture.detectChanges();
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
     loginService = TestBed.inject(LoginService);
@@ -86,7 +85,7 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should sign up or login with google if is not logged-in into the app', inject([Router],  (router: Router) => {
+  it('should sign up or login with google if is not logged-in into the app on Production', inject([Router],  (router: Router) => {
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(azureAdB2CService, 'setCookies').and.returnValue();
     spyOn(azureAdB2CService, 'signIn').and.returnValue(of(() => {}));
@@ -99,11 +98,35 @@ describe('LoginComponent', () => {
     expect(featureToggleCookiesService.setCookies).toHaveBeenCalled();
   }));
 
-  it('should not sign-up or login with google if is already logged-in into the app', inject([Router],  (router: Router) => {
+  it('should sign up or login with google if is not logged-in into the app Locally', inject([Router],  (router: Router) => {
+    spyOn(loginService, 'isLogin').and.returnValue(false);
+    spyOn(loginService, 'setLocalStorage').and.returnValue();
+    spyOn(loginService, 'getUser').and.returnValue(of(() => {}));
+    spyOn(loginService, 'setCookies').and.returnValue();
+    spyOn(loginService, 'signIn').and.returnValue();
+    spyOn(featureToggleCookiesService, 'setCookies').and.returnValue(featureToggleCookiesService.setCookies());
+
+    component.ngOnInit();
+    component.loginWithGoogle();
+
+    expect(loginService.signIn).toHaveBeenCalled();
+    expect(loginService.setCookies).toHaveBeenCalled();
+    expect(featureToggleCookiesService.setCookies).toHaveBeenCalled();
+  }));
+
+  it('should not sign-up or login with google if is already logged-in into the app on Production', inject([Router],  (router: Router) => {
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
     spyOn(router, 'navigate').and.stub();
     component.login();
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['']);
+  }));
+
+  it('should not sign-up or login with google if is already logged-in into the app Locally', inject([Router],  (router: Router) => {
+    spyOn(loginService, 'isLogin').and.returnValue(true);
+    spyOn(router, 'navigate').and.stub();
+    component.loginWithGoogle();
+    expect(loginService.isLogin).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['']);
   }));
 });
