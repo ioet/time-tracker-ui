@@ -40,18 +40,9 @@ describe('EntryService', () => {
   });
 
   it('loads an activeEntry with /running', () => {
-    service.urlInProduction = true;
     service.loadActiveEntry().subscribe();
 
     const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/running`);
-    expect(loadEntryRequest.request.method).toBe('GET');
-  });
-
-  it('loads an activeEntry with /active/{userId}', () => {
-    service.urlInProduction = false;
-    service.loadActiveEntry().subscribe();
-
-    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/active/2`);
     expect(loadEntryRequest.request.method).toBe('GET');
   });
 
@@ -93,10 +84,19 @@ describe('EntryService', () => {
   });
 
   it('stops an entry using POST', () => {
+    service.urlInProduction = true;
     service.stopEntryRunning('id').subscribe();
 
     const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id/stop`);
     expect(updateEntryRequest.request.method).toBe('POST');
+  });
+
+  it('stops an entry using PUT', () => {
+    service.urlInProduction = false;
+    service.stopEntryRunning('id').subscribe();
+
+    const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/stop`);
+    expect(updateEntryRequest.request.method).toBe('PUT');
   });
 
   it('when getting time entries for report, time range should be sent', () => {
