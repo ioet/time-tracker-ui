@@ -23,11 +23,13 @@
             (change)="switchGroup('time-tracker-admin', user); updateRole(ROLES.admin, user, $event);"
             [checked]="user.groups.includes('time-tracker-admin')"></ui-switch>
           admin
-          <ui-switch
+          <span *ngIf="!isDevelopment">
+            <ui-switch
             size="small"
             (change)="switchGroup('time-tracker-tester', user)"
             [checked]="user.groups.includes('time-tracker-tester')"></ui-switch>
-          test
+            test
+          </span>
         </td>
       </tr>
     </tbody>
