@@ -4,15 +4,22 @@ import { FeatureManagerService } from '../feature-toggle-manager.service';
 import { FeatureToggleGeneralService } from './feature-toggle-general.service';
 import { FeatureToggleModel } from '../feature-toggle.model';
 import { TargetingFeatureFilterModel } from '../filters/targeting/targeting-feature-filter.model';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SocialAuthService } from 'angularx-social-login';
 
 
 describe('FeatureToggleGeneralService', () => {
   let featureToggleGeneralService: FeatureToggleGeneralService;
   let featureManagerService: FeatureManagerService;
 
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: FeatureManagerService }],
+      imports: [HttpClientTestingModule],
+      providers: [
+        { provide: FeatureManagerService },
+        { provide: SocialAuthService, useValue: socialAuthServiceStub }
+      ],
     });
     featureToggleGeneralService = TestBed.inject(FeatureToggleGeneralService);
     featureManagerService = TestBed.inject(FeatureManagerService);

@@ -8,7 +8,7 @@
   </div>
 
   <div class="login-controls">
-    <button (click)="login()" class="btn btn-primary">login</button>
+    <button (click)="isProduction ? login() : loginWithGoogle() " class="btn btn-primary">login</button>
   </div>
 
 </div>
