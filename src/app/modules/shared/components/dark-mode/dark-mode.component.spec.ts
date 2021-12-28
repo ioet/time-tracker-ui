@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import { SocialAuthService } from 'angularx-social-login';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { FeatureToggleGeneralService } from '../../feature-toggles/feature-toggle-general/feature-toggle-general.service';
@@ -15,9 +17,12 @@ describe('DarkModeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DarkModeComponent],
+      imports: [HttpClientTestingModule],
+      providers: [{ provide: SocialAuthService, useValue: socialAuthServiceStub }]
     }).compileComponents();
   });
 
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(() => {
     fixture = TestBed.createComponent(DarkModeComponent);
     component = fixture.componentInstance;

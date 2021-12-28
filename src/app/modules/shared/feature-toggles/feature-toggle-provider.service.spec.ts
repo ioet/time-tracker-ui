@@ -1,6 +1,7 @@
 import { AppConfigurationClient, ConfigurationSetting, GetConfigurationSettingResponse } from '@azure/app-configuration';
 import { of } from 'rxjs';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
+import { LoginService } from '../../login/services/login.service';
 import { FeatureToggleConfiguration } from './feature-toggle-configuration';
 import { FeatureToggleProvider } from './feature-toggle-provider.service';
 import { FeatureToggleModel } from './feature-toggle.model';
@@ -58,7 +59,7 @@ describe('FeatureToggleProvider', () => {
         return fakeFeatureFilterModelGroup;
       }
     };
-    fakeFeatureFilterProvider = new FeatureFilterProvider(fakeAzureAdB2CService as AzureAdB2CService);
+    fakeFeatureFilterProvider = new FeatureFilterProvider(fakeAzureAdB2CService as AzureAdB2CService, new LoginService());
     service = new FeatureToggleProvider(fakeAppConfigurationClient, fakeFeatureFilterProvider);
 
     fakeGetConfigurationSetting = spyOn(fakeAppConfigurationClient, 'getConfigurationSetting').and.callFake(() =>

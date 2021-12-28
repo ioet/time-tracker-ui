@@ -12,6 +12,8 @@ import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import { ActionsSubject } from '@ngrx/store';
 import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
 import { ToastrService } from 'ngx-toastr';
+import { LoginService } from '../../login/services/login.service';
+import { SocialAuthService } from 'angularx-social-login';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -49,6 +51,7 @@ describe('TimeClockComponent', () => {
     },
   };
 
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -57,9 +60,11 @@ describe('TimeClockComponent', () => {
         providers: [
           FormBuilder,
           AzureAdB2CService,
+          LoginService,
           provideMockStore({ initialState: state }),
           { provide: ActionsSubject, useValue: actionSub },
           { provide: ToastrService, useValue: toastrService },
+          { provide: SocialAuthService, useValue: socialAuthServiceStub }
         ],
       }).compileComponents();
       store = TestBed.inject(MockStore);
@@ -109,6 +114,7 @@ describe('TimeClockComponent', () => {
   });
 
   it('onInit checks if isLogin and gets the userName', () => {
+    component.isProduction = true;
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
     spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
     component.ngOnInit();
@@ -117,6 +123,7 @@ describe('TimeClockComponent', () => {
   });
 
   it('onInit does not get the name if isLogin false', () => {
+    component.isProduction = true;
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
     component.ngOnInit();

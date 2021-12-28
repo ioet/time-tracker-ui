@@ -6,16 +6,29 @@ import { Router, Routes } from '@angular/router';
 import { TimeClockComponent } from '../../../time-clock/pages/time-clock.component';
 import { of } from 'rxjs';
 import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
+import { LoginService } from '../../../login/services/login.service';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
   let azureAdB2CServiceStubInjected;
+  let loginServiceStubInjected: LoginService;
   let userInfoService: UserInfoService;
   let router;
   const routes: Routes = [{ path: 'time-clock', component: TimeClockComponent }];
 
   const azureAdB2CServiceStub = {
+    isLogin() {
+      return true;
+    },
+    isAdmin() {
+      return true;
+    },
+    logout(){
+      return true;
+    }
+  };
+  const loginServiceStub = {
     isLogin() {
       return true;
     },
@@ -38,6 +51,7 @@ describe('SidebarComponent', () => {
         providers: [
           { provide: AzureAdB2CService, useValue: azureAdB2CServiceStub },
           { provide: UserInfoService, useValue: userInfoServiceStub },
+          { provide: LoginService, useValue: loginServiceStub },
         ],
         imports: [RouterTestingModule.withRoutes(routes)],
       }).compileComponents();
@@ -48,12 +62,14 @@ describe('SidebarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SidebarComponent);
     azureAdB2CServiceStubInjected = TestBed.inject(AzureAdB2CService);
+    loginServiceStubInjected = TestBed.inject(LoginService);
     userInfoService = TestBed.inject(UserInfoService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('component should be created', () => {
+    component.isProduction = true;
     spyOn(azureAdB2CServiceStubInjected, 'isAdmin').and.returnValue(false);
     expect(component).toBeTruthy();
   });
@@ -94,8 +110,16 @@ describe('SidebarComponent', () => {
   });
 
   it('should use the Azure service on logout', () => {
+    component.isProduction = true;
     spyOn(azureAdB2CServiceStubInjected, 'logout');
     component.logout();
     expect(azureAdB2CServiceStubInjected.logout).toHaveBeenCalled();
+  });
+
+  it('should use the Login service on logout Locally', () => {
+    component.isProduction = false;
+    spyOn(loginServiceStubInjected, 'logout');
+    component.logout();
+    expect(loginServiceStubInjected.logout).toHaveBeenCalled();
   });
 });
