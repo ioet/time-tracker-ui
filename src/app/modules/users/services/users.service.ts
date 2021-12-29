@@ -7,6 +7,7 @@ import { environment } from './../../../../environments/environment';
   providedIn: 'root',
 })
 export class UsersService {
+  isProduction = environment.production;
   constructor(private http: HttpClient) {}
 
   baseUrl = `${environment.timeTrackerApiUrl}/users`;
@@ -16,12 +17,14 @@ export class UsersService {
   }
 
   grantRole(userId: string, roleId: string): Observable<any> {
-    const url = `${this.baseUrl}/${userId}/roles/${roleId}/grant`;
+    const url = this.isProduction ? `${this.baseUrl}/${userId}/roles/${roleId}/grant`
+    : `${this.baseUrl}/${userId}/${roleId}/grant`;
     return this.http.post(url, null);
   }
 
   revokeRole(userId: string, roleId: string): Observable<any> {
-    const url = `${this.baseUrl}/${userId}/roles/${roleId}/revoke`;
+    const url = this.isProduction ? `${this.baseUrl}/${userId}/roles/${roleId}/revoke`
+    : `${this.baseUrl}/${userId}/${roleId}/revoke`;
     return this.http.post(url, null);
   }
 

@@ -20,7 +20,7 @@
         <td class="col-3 text-center">
           <ui-switch
             size="small"
-            (change)="switchGroup('time-tracker-admin', user); updateRole(ROLES.admin, user, $event);"
+            (change)="!isDevelopment?switchGroup('time-tracker-admin', user):null; updateRole(ROLES.admin, user, $event);"
             [checked]="user.groups.includes('time-tracker-admin')"></ui-switch>
           admin
           <span *ngIf="!isDevelopment">
