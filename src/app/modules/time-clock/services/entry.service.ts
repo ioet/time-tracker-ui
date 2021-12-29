@@ -22,14 +22,7 @@ export class EntryService {
   urlInProduction = environment.production;
 
   loadActiveEntry(): Observable<any> {
-    let path = '';
-
-    if (this.urlInProduction){
-      path = `${this.baseUrl}/running`;
-    }else{
-      path = `${this.baseUrl}/active/2`;
-    }
-    return this.http.get(path);
+    return this.http.get(`${this.baseUrl}/running`);
   }
 
   loadEntries(date): Observable<any> {
@@ -52,8 +45,7 @@ export class EntryService {
   }
 
   stopEntryRunning(idEntry: string): Observable<any> {
-    const url = `${this.baseUrl}/${idEntry}/stop`;
-    return this.http.post(url, null);
+    return (this.urlInProduction ? this.http.post(`${this.baseUrl}/${idEntry}/stop`, null) : this.http.put(`${this.baseUrl}/stop`, null) );
   }
 
   restartEntry(idEntry: string): Observable<Entry> {
