@@ -23,6 +23,7 @@ export class EntryEffects {
           const stopDateForEntry = new Date(response.end_date);
           stopDateForEntry.setSeconds(stopDateForEntry.getSeconds() + 1);
           const entry = {
+            activity_id: response.activity_id,
             project_id: action.idProjectSwitching,
             start_date: stopDateForEntry.toISOString(),
             timezone_offset: new Date().getTimezoneOffset(),
