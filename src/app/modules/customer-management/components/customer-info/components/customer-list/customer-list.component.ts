@@ -40,7 +40,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   showModal = false;
   idToDelete: string;
   idToEdit: string;
-  status: string;
+  statusToEdit: string;
   currentCustomerIdToEdit: string;
   message: string;
   isLoading$: Observable<boolean>;
@@ -171,7 +171,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   openModal(item: Customer) {
     this.idToDelete = item.id;
-    this.status = item.status;
+    this.statusToEdit = item.status;
     this.message = `Are you sure you want to disable ${item.name}?`;
     this.showModal = true;
   }
@@ -196,7 +196,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   changeStatus(): void{
-    this.store.dispatch(new UnarchiveCustomer(this.idToDelete, this.changeOppositeStatus(this.status)));
+    this.store.dispatch(new UnarchiveCustomer(this.idToDelete, this.changeOppositeStatus(this.statusToEdit)));
   }
 
 }

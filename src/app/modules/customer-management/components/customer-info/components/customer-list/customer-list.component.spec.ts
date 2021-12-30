@@ -281,7 +281,7 @@ describe('CustomerTableListComponent', () => {
   it('changeStatus should set inactive whan active', () => {
 
     component.changeStatus();
-    expect(component.status === 'inactive');
+    expect(component.statusToEdit === 'inactive');
   });
 
 
