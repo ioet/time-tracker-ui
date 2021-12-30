@@ -79,7 +79,7 @@ describe('CustomerManagmentActions', () => {
   });
 
   it('UnarchiveCustomer type is CustomerManagementActionTypes.UNARCHIVE_CUSTOMER', () => {
-    const unArchiveCustomer = new actions.UnarchiveCustomer('id_test');
+    const unArchiveCustomer = new actions.UnarchiveCustomer('id_test', 'active');
     expect(unArchiveCustomer.type).toEqual(actions.CustomerManagementActionTypes.UNARCHIVE_CUSTOMER);
   });
 

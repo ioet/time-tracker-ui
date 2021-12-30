@@ -20,9 +20,9 @@
         <td class="col-4 text-break">{{ customer.id }}</td>
         <td class="col-4 text-break">{{ customer.name }}</td>
         <td class="col-2 text-center">
-          <button 
-            data-toggle="modal" 
-            (click)="editCustomer(customer.id)" 
+          <button
+            data-toggle="modal"
+            (click)="editCustomer(customer.id)"
             type="button" data-target="#editModal"
             class="btn btn-sm btn-primary">
             <i class="fa fa-pen fa-xs"></i>
@@ -48,7 +48,7 @@
   aria-hidden="true"
   [title]="'Disable Customer'"
   [body]="message"
-  (closeModalEvent)="deleteCustomer()"
+  (closeModalEvent)="changeStatus()"
 >
 </app-dialog>
 

@@ -135,7 +135,7 @@ describe('customerManagementReducer', () => {
   });
 
   it('on UnarchiveCustomer, isLoading is true', () => {
-    const action = new actions.UnarchiveCustomer('1');
+    const action = new actions.UnarchiveCustomer('1', 'inactive');
     const state = customerManagementReducer(initialState, action);
 
     expect(state.isLoading).toEqual(true);
