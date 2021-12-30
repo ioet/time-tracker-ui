@@ -35,6 +35,7 @@ describe('UsersService', () => {
   it('grant role to a User', () => {
     const userId = 'userId';
     const roleId = 'admin';
+    service.isProduction = true;
 
     service.grantRole(userId, roleId).subscribe();
 
@@ -42,13 +43,36 @@ describe('UsersService', () => {
     expect(grantRoleRequest.request.method).toBe('POST');
   });
 
+  it('grant role to a User locally', () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+    service.isProduction = false;
+
+    service.grantRole(userId, roleId).subscribe();
+
+    const grantRoleRequest = httpMock.expectOne(`${service.baseUrl}/${userId}/${roleId}/grant`);
+    expect(grantRoleRequest.request.method).toBe('POST');
+  });
+
   it('revoke role to a User', () => {
     const userId = 'userId';
     const roleId = 'admin';
+    service.isProduction = true;
 
     service.revokeRole(userId, roleId).subscribe();
 
     const grantRoleRequest = httpMock.expectOne(`${service.baseUrl}/${userId}/roles/${roleId}/revoke`);
+    expect(grantRoleRequest.request.method).toBe('POST');
+  });
+
+  it('revoke role to a User locally', () => {
+    const userId = 'userId';
+    const roleId = 'admin';
+    service.isProduction = false;
+
+    service.revokeRole(userId, roleId).subscribe();
+
+    const grantRoleRequest = httpMock.expectOne(`${service.baseUrl}/${userId}/${roleId}/revoke`);
     expect(grantRoleRequest.request.method).toBe('POST');
   });
 
