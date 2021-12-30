@@ -91,8 +91,21 @@ describe('ProjectService', () => {
     updateProjectRequest.flush(project);
   });
 
+  it('update project using PUT from url locally', () => {
+    const project: Project = { id: '1', name: 'new name', description: 'description', project_type_id: '123', status: 'active'};
+    service.url = 'projects';
+    service.isDevelopment = true;
+    service.updateProject(project).subscribe((response) => {
+      expect(response.name).toBe('new name');
+    });
+    const updateProjectRequest = httpMock.expectOne(`${service.url}/${project.id}`);
+    expect(updateProjectRequest.request.method).toBe('PUT');
+    updateProjectRequest.flush(project);
+  });
+
   it('delete project using DELETE from baseUrl', () => {
     const url = `${service.url}/1`;
+    service.isDevelopment = false;
     service.deleteProject(projectsList[0].id).subscribe((projectsInResponse) => {
       expect(projectsInResponse.filter((project) => project.id !== projectsList[0].id).length).toEqual(2);
     });
@@ -100,4 +113,16 @@ describe('ProjectService', () => {
     expect(deleteActivitiesRequest.request.method).toBe('DELETE');
     deleteActivitiesRequest.flush(projectsList);
   });
+
+  it('update status project using PUT from baseUrl locally', () => {
+    const url = `${service.url}/1`;
+    service.isDevelopment = true;
+    service.deleteProject(projectsList[0].id).subscribe((projectsInResponse) => {
+      expect(projectsInResponse.filter((project) => project.id !== projectsList[0].id).length).toEqual(2);
+    });
+    const deleteActivitiesRequest = httpMock.expectOne(url);
+    expect(deleteActivitiesRequest.request.method).toBe('PUT');
+    deleteActivitiesRequest.flush(projectsList);
+  });
+
 });
