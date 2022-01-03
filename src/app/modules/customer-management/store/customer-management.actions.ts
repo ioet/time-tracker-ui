@@ -103,7 +103,7 @@ export class ResetCustomerToEdit implements Action {
 export class UnarchiveCustomer implements Action {
   public readonly type = CustomerManagementActionTypes.UNARCHIVE_CUSTOMER;
 
-  constructor(public payload: string) {}
+  constructor(public payload: string, public status: string) {}
 }
 
 export class UnarchiveCustomerSuccess implements Action {

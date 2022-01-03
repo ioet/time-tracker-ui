@@ -93,8 +93,9 @@ export class CustomerEffects {
   unarchiveCustomer$: Observable<Action> = this.actions$.pipe(
     ofType(actions.CustomerManagementActionTypes.UNARCHIVE_CUSTOMER),
     map((action: actions.UnarchiveCustomer) => ({
+
       id: action.payload,
-      status: 'active',
+      status: action.status,
     })),
     mergeMap((customer: Status) =>
       this.customerService.updateCustomer(customer).pipe(

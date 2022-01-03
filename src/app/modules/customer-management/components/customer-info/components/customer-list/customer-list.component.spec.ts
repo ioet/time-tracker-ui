@@ -277,6 +277,13 @@ describe('CustomerTableListComponent', () => {
     expect(component.showModal).toBeFalse();
   });
 
+
+  it('changeStatus should set inactive when active', () => {
+    component.changeStatus();
+    expect(component.statusToEdit === 'inactive');
+  });
+
+
   afterEach(() => {
     component.dtTrigger.unsubscribe();
     component.changeCustomerSubscription.unsubscribe();
