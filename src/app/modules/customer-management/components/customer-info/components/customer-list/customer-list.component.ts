@@ -182,7 +182,6 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
       this.openModal(item);
     } else {
       this.showModal = false;
-
       this.store.dispatch(new UnarchiveCustomer(item.id, this.changeOppositeStatus(item.key)));
     }
   }
@@ -190,12 +189,11 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   setActive(status: any): string {
     return status === 'inactive' ? 'inactive' : 'active';
   }
-  changeOppositeStatus(status: string): string{
+  changeOppositeStatus(status: string): string {
     return status === 'inactive' ? 'active' : 'inactive';
-
   }
 
-  changeStatus(): void{
+  changeStatus(): void {
     this.store.dispatch(new UnarchiveCustomer(this.idToDelete, this.changeOppositeStatus(this.statusToEdit)));
   }
 
