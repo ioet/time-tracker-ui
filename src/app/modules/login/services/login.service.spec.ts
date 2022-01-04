@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { SocialAuthService } from 'angularx-social-login';
+import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 
@@ -12,10 +12,11 @@ describe('LoginService', () => {
   let cookieService: CookieService;
   let socialAuthService: SocialAuthService;
   let account;
-  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['signOut', 'signIn']);
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['signOut', 'authState', 'signIn', 'refreshAuthToken']);
   const cookieStoreStub = {};
 
   beforeEach(() => {
+    socialAuthServiceStub.authState = of('some value');
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -52,7 +53,14 @@ describe('LoginService', () => {
   });
 
   it('should be created', () => {
+    spyOn(service, 'getSubjectUser').and.returnValue(of(new SocialUser()));
+    spyOn(service, 'getUser').and.returnValue(of(() => {}));
+    spyOn(service, 'setLocalStorage').and.returnValue();
+    spyOn(service, 'setCookies').and.returnValue();
+
     expect(service).toBeTruthy();
+    // expect(socialAuthService.refreshAuthToken).toHaveBeenCalled();
+    // expect(service.setCookies).toHaveBeenCalled();
   });
 
   it('should get name from localStorage', () => {

@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppConfigurationClient } from '@azure/app-configuration';
 import { of } from 'rxjs';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
@@ -14,13 +15,22 @@ describe('FeatureToggleManager', () => {
   const aFeatureToggle = new FeatureToggleModel('any-id', true, []);
   let service: FeatureManagerService;
   let fakeFeatureToggleProvider;
+  const fakeLoginService = {
+    getUserEmail(){
+      return 'some';
+    },
+    getUserGroup(){
+      return 'some';
+    }
+  };
 
   describe('Features without filters', () => {
+
     beforeEach(() => {
 
       fakeFeatureToggleProvider = new FeatureToggleProvider(
         new AppConfigurationClient(fakeAppConfigurationConnectionString),
-        new FeatureFilterProvider(new AzureAdB2CService(), new LoginService())
+        new FeatureFilterProvider(new AzureAdB2CService(), fakeLoginService as LoginService)
       );
       spyOn(fakeFeatureToggleProvider, 'getFeatureToggle').and.returnValue(of(aFeatureToggle));
       service = new FeatureManagerService(fakeFeatureToggleProvider);
@@ -39,22 +49,22 @@ describe('FeatureToggleManager', () => {
     );
 
     let aToggleWithFilters;
-
     beforeEach(() => {
       aToggleWithFilters = new FeatureToggleModel('any-other-id', true, [anyMatchingFilter]);
       fakeFeatureToggleProvider = new FeatureToggleProvider(
         new AppConfigurationClient(fakeAppConfigurationConnectionString),
-        new FeatureFilterProvider(new AzureAdB2CService(), new LoginService())
+        new FeatureFilterProvider(new AzureAdB2CService(), fakeLoginService as LoginService)
       );
       service = new FeatureManagerService(fakeFeatureToggleProvider);
     });
 
     it('given a feature toggle with filters which do not match the verification, then the response is false', async () => {
 
+      // socialAuthServiceStub.authState = of('some value');
       aToggleWithFilters = new FeatureToggleModel('any-other-id', true, [anyNotMatchingFilter]);
       fakeFeatureToggleProvider = new FeatureToggleProvider(
         new AppConfigurationClient(fakeAppConfigurationConnectionString),
-        new FeatureFilterProvider(new AzureAdB2CService(), new LoginService())
+        new FeatureFilterProvider(new AzureAdB2CService(), fakeLoginService as LoginService)
       );
       spyOn(fakeFeatureToggleProvider, 'getFeatureToggle').and.returnValue(of(aToggleWithFilters));
       service = new FeatureManagerService(fakeFeatureToggleProvider);

@@ -64,7 +64,7 @@ describe('TimeClockComponent', () => {
           provideMockStore({ initialState: state }),
           { provide: ActionsSubject, useValue: actionSub },
           { provide: ToastrService, useValue: toastrService },
-          { provide: SocialAuthService, useValue: socialAuthServiceStub }
+          { provide: SocialAuthService, useValue: socialAuthServiceStub },
         ],
       }).compileComponents();
       store = TestBed.inject(MockStore);
@@ -72,6 +72,7 @@ describe('TimeClockComponent', () => {
   );
 
   beforeEach(() => {
+    socialAuthServiceStub.authState = of('some value');
     fixture = TestBed.createComponent(TimeClockComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

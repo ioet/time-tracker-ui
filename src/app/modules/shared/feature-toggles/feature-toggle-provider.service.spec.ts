@@ -59,7 +59,15 @@ describe('FeatureToggleProvider', () => {
         return fakeFeatureFilterModelGroup;
       }
     };
-    fakeFeatureFilterProvider = new FeatureFilterProvider(fakeAzureAdB2CService as AzureAdB2CService, new LoginService());
+    const fakeLoginService = {
+      getUserEmail(){
+        return fakeFeatureFilterModelUserName;
+      },
+      getUserGroup(){
+        return fakeFeatureFilterModelGroup;
+      }
+    };
+    fakeFeatureFilterProvider = new FeatureFilterProvider(fakeAzureAdB2CService as AzureAdB2CService, fakeLoginService as LoginService);
     service = new FeatureToggleProvider(fakeAppConfigurationClient, fakeFeatureFilterProvider);
 
     fakeGetConfigurationSetting = spyOn(fakeAppConfigurationClient, 'getConfigurationSetting').and.callFake(() =>

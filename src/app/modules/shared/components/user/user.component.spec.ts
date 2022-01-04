@@ -37,13 +37,14 @@ describe('UserComponent', () => {
       imports: [AppRoutingModule, HttpClientTestingModule],
       providers: [
         { providers: AzureAdB2CService, useValue: azureAdB2CServiceStub },
+        { provide: SocialAuthService, useValue: socialAuthServiceStub },
         { providers: LoginService, useValue: loginServiceStub },
-        { provide: SocialAuthService, useValue: socialAuthServiceStub }
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    socialAuthServiceStub.authState = of('some value');
     fixture = TestBed.createComponent(UserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

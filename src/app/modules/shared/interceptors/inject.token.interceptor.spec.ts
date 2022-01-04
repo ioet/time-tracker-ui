@@ -13,10 +13,14 @@ describe('InjectTokenInterceptor test', () => {
       return of(new HttpResponse());
     }
   }
-
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
+  socialAuthServiceStub.authState = of('some value');
   const azureAdB2CService: AzureAdB2CService = new AzureAdB2CService();
-  const loginService: LoginService = new LoginService();
+  const loginService: LoginService = new LoginService(null, null, socialAuthServiceStub);
   azureAdB2CService.getBearerToken = () => {
+    return 'XYZ';
+  };
+  loginService.getBearerToken = () => {
     return 'XYZ';
   };
   const handler: HttpHandler = new MockHttpHandler();

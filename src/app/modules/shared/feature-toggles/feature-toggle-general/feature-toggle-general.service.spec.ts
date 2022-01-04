@@ -7,20 +7,20 @@ import { TargetingFeatureFilterModel } from '../filters/targeting/targeting-feat
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SocialAuthService } from 'angularx-social-login';
 
-
+const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
 describe('FeatureToggleGeneralService', () => {
   let featureToggleGeneralService: FeatureToggleGeneralService;
   let featureManagerService: FeatureManagerService;
 
-  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         { provide: FeatureManagerService },
-        { provide: SocialAuthService, useValue: socialAuthServiceStub }
+        { provide: SocialAuthService, useValue: socialAuthServiceStub },
       ],
     });
+    socialAuthServiceStub.authState = of('some value');
     featureToggleGeneralService = TestBed.inject(FeatureToggleGeneralService);
     featureManagerService = TestBed.inject(FeatureManagerService);
   });

@@ -1,13 +1,13 @@
 import { waitForAsync, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AzureAdB2CService } from '../../modules/login/services/azure.ad.b2c.service';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { LoginComponent } from './login.component';
 import { Router } from '@angular/router';
 import { FeatureToggleCookiesService } from '../shared/feature-toggles/feature-toggle-cookies/feature-toggle-cookies.service';
 import { LoginService } from './services/login.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { SocialAuthService } from 'angularx-social-login';
+import { SocialAuthService, SocialUser } from 'angularx-social-login';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -35,6 +35,9 @@ describe('LoginComponent', () => {
       return of();
     },
     setCookies() {
+    },
+    getSubjectUser(){
+      return of();
     }
   };
 
@@ -44,7 +47,7 @@ describe('LoginComponent', () => {
     }
   };
 
-  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['signIn', 'authState']);
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule, HttpClientTestingModule],
@@ -53,7 +56,7 @@ describe('LoginComponent', () => {
         { providers: AzureAdB2CService, useValue: azureAdB2CServiceStub},
         { providers: FeatureToggleCookiesService, useValue: featureToggleCookiesServiceStub},
         { providers: LoginService, useValue: loginServiceStub},
-        { provide: SocialAuthService, useValue: socialAuthServiceStub }
+        { provide: SocialAuthService, useValue: socialAuthServiceStub },
       ]
     })
     .compileComponents();
@@ -100,18 +103,19 @@ describe('LoginComponent', () => {
 
   it('should sign up or login with google if is not logged-in into the app Locally', inject([Router],  (router: Router) => {
     spyOn(loginService, 'isLogin').and.returnValue(false);
-    spyOn(loginService, 'setLocalStorage').and.returnValue();
-    spyOn(loginService, 'getUser').and.returnValue(of(() => {}));
-    spyOn(loginService, 'setCookies').and.returnValue();
     spyOn(loginService, 'signIn').and.returnValue();
-    spyOn(featureToggleCookiesService, 'setCookies').and.returnValue(featureToggleCookiesService.setCookies());
+    spyOn(loginService, 'getUser').and.returnValue(of());
+    spyOn(loginService, 'setLocalStorage').and.returnValue();
+    spyOn(loginService, 'setCookies').and.returnValue();
+    spyOn(loginService, 'getSubjectUser').and.returnValue(of(new SocialUser()));
+
+    spyOn(router, 'navigate').and.stub();
 
     component.ngOnInit();
     component.loginWithGoogle();
 
     expect(loginService.signIn).toHaveBeenCalled();
-    expect(loginService.setCookies).toHaveBeenCalled();
-    expect(featureToggleCookiesService.setCookies).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['']);
   }));
 
   it('should not sign-up or login with google if is already logged-in into the app on Production', inject([Router],  (router: Router) => {
@@ -124,6 +128,7 @@ describe('LoginComponent', () => {
 
   it('should not sign-up or login with google if is already logged-in into the app Locally', inject([Router],  (router: Router) => {
     spyOn(loginService, 'isLogin').and.returnValue(true);
+    spyOn(loginService, 'getSubjectUser');
     spyOn(router, 'navigate').and.stub();
     component.loginWithGoogle();
     expect(loginService.isLogin).toHaveBeenCalled();

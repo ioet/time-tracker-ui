@@ -14,6 +14,7 @@ describe('DarkModeComponent', () => {
   let html: HTMLElement;
   let featureToggleGeneralService: FeatureToggleGeneralService;
 
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DarkModeComponent],
@@ -22,8 +23,8 @@ describe('DarkModeComponent', () => {
     }).compileComponents();
   });
 
-  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(() => {
+    socialAuthServiceStub.authState = of('some value');
     fixture = TestBed.createComponent(DarkModeComponent);
     component = fixture.componentInstance;
     html = document.documentElement;

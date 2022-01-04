@@ -7,6 +7,7 @@ import { LoginGuard } from './login.guard';
 import { LoginService } from '../../modules/login/services/login.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SocialAuthService } from 'angularx-social-login';
+import { of } from 'rxjs';
 
 
 describe('LoginGuard', () => {
@@ -24,7 +25,7 @@ describe('LoginGuard', () => {
       return true;
     }
   };
-  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['']);
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule, HttpClientTestingModule ],
@@ -34,6 +35,7 @@ describe('LoginGuard', () => {
         { provide: SocialAuthService, useValue: socialAuthServiceStub }
       ]
     });
+    socialAuthServiceStub.authState = of('some value');
     loginGuard = TestBed.inject(LoginGuard);
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
     loginService = TestBed.inject(LoginService);

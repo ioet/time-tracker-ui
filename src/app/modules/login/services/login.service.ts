@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
+import { Subject } from 'rxjs';
 import { UserEnum } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
 
@@ -10,13 +11,25 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginService {
   baseUrl: string;
+  userLogin = new Subject<SocialUser>();
 
   constructor(
     private http?: HttpClient,
     private cookieService?: CookieService,
-    private socialAuthService?: SocialAuthService
+    private socialAuthService?: SocialAuthService,
   ) {
     this.baseUrl = `${environment.timeTrackerApiUrl}/users`;
+    this.socialAuthService.authState.subscribe((user) => {
+      if (user != null) {
+        this.setLocalStorage('idToken', user.idToken);
+        this.getUser(user.idToken).subscribe((response) => {
+          this.setCookies();
+          this.setLocalStorage('user2', JSON.stringify(response));
+          this.userLogin.next(user);
+        });
+        setTimeout(this.socialAuthService.refreshAuthToken, 60 * 59 * 1000, GoogleLoginProvider.PROVIDER_ID);
+      }
+    });
   }
 
   signIn() {
@@ -36,6 +49,10 @@ export class LoginService {
   getUserId(): string {
     const user = JSON.parse(this.getLocalStorage('user2'));
     return user[UserEnum.ID];
+  }
+
+  getSubjectUser() {
+    return this.userLogin.asObservable();
   }
 
   getName(): string {

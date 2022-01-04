@@ -1,12 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 import { FeatureToggleGeneralService } from '../feature-toggle-general/feature-toggle-general.service';
 import { FeatureToggleModel } from '../feature-toggle.model';
 import { TargetingFeatureFilterModel } from '../filters/targeting/targeting-feature-filter.model';
 import { FeatureToggleCookiesService } from './feature-toggle-cookies.service';
+import { SocialAuthService } from 'angularx-social-login';
 
 describe('FeatureToggleCookiesService', () => {
   let cookieService: CookieService;
@@ -17,10 +17,12 @@ describe('FeatureToggleCookiesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [CookieService, FeatureToggleGeneralService,
-        { provide: SocialAuthService, useValue: socialAuthServiceStub }
+      providers: [
+        CookieService, FeatureToggleGeneralService,
+        {provide: SocialAuthService, useValue: socialAuthServiceStub },
       ]
     });
+    socialAuthServiceStub.authState = of('some value');
     cookieService = TestBed.inject(CookieService);
     featureToggleGeneralService = TestBed.inject(FeatureToggleGeneralService);
     service = TestBed.inject(FeatureToggleCookiesService);

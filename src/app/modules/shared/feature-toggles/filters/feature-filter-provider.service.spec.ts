@@ -4,17 +4,18 @@ import { FeatureFilterProvider } from './feature-filter-provider.service';
 import { FeatureFilterTypes } from './feature-filter-types';
 import { TargetingFeatureFilterModel } from './targeting/targeting-feature-filter.model';
 import { LoginService } from '../../../login/services/login.service';
-
+import { of } from 'rxjs';
 
 describe('FeatureFilterProvider', () => {
   let fakeUserService: AzureAdB2CService;
   let service: FeatureFilterProvider;
   let featureFilterConfiguration: FeatureFilterConfiguration;
   let fakeLoginService: LoginService;
-
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(() => {
+    socialAuthServiceStub.authState = of('some value');
     fakeUserService = new AzureAdB2CService();
-    fakeLoginService = new LoginService();
+    fakeLoginService = new LoginService(null, null, socialAuthServiceStub);
     spyOn(fakeUserService, 'getUserEmail').and.returnValue('any-user-email');
     spyOn(fakeUserService, 'getUserGroup').and.returnValue('any-user-group');
     spyOn(fakeLoginService, 'getUserEmail').and.returnValue('any-user-email');
