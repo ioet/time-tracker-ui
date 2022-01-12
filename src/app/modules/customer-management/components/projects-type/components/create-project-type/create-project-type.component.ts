@@ -75,7 +75,11 @@ export class CreateProjectTypeComponent implements OnInit, OnDestroy {
       this.store.dispatch(new UpdateProjectType(projectType));
       this.hasChangedEvent.emit(this.hasChange = false);
     } else {
-      this.store.dispatch(new CreateProjectType({ ...projectTypeData, customer_id: this.customerId }));
+      this.store.dispatch(new CreateProjectType({
+        ...projectTypeData,
+        description: !projectTypeData.description ? '' : projectTypeData.description,
+        customer_id: this.customerId
+      }));
       this.projectTypeForm.get('description').setValue('');
     }
   }
