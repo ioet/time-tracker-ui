@@ -68,7 +68,8 @@ export class EntryService {
 
   loadEntriesByTimeRange(range: TimeEntriesTimeRange, userId: string): Observable<any> {
     const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
-    return this.http.get(this.baseUrl,
+    const loadEntriesByTimeRangeURL = this.baseUrl + '-range';
+    return this.http.get(loadEntriesByTimeRangeURL,
       {
         params: {
           start_date: this.datePipe.transform(range.start_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
