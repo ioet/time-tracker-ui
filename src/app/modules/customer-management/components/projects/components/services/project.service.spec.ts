@@ -86,7 +86,7 @@ describe('ProjectService', () => {
     service.updateProject(project).subscribe((response) => {
       expect(response.name).toBe('new name');
     });
-    const updateProjectRequest = httpMock.expectOne(`${service.url}/${project.id}`);
+    const updateProjectRequest = httpMock.expectOne(`${service.url}/id:${project.id}`);
     expect(updateProjectRequest.request.method).toBe('PUT');
     updateProjectRequest.flush(project);
   });
@@ -98,7 +98,7 @@ describe('ProjectService', () => {
     service.updateProject(project).subscribe((response) => {
       expect(response.name).toBe('new name');
     });
-    const updateProjectRequest = httpMock.expectOne(`${service.url}/${project.id}`);
+    const updateProjectRequest = httpMock.expectOne(`${service.url}/id:${project.id}`);
     expect(updateProjectRequest.request.method).toBe('PUT');
     updateProjectRequest.flush(project);
   });
@@ -115,7 +115,7 @@ describe('ProjectService', () => {
   });
 
   it('update status project using PUT from baseUrl locally', () => {
-    const url = `${service.url}/1`;
+    const url = `${service.url}/id:1`;
     service.isDevelopment = true;
     service.deleteProject(projectsList[0].id).subscribe((projectsInResponse) => {
       expect(projectsInResponse.filter((project) => project.id !== projectsList[0].id).length).toEqual(2);

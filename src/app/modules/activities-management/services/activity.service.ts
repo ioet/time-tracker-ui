@@ -27,12 +27,12 @@ export class ActivityService {
   }
 
   deleteActivity(acitivityId: string): Observable<any> {
-    const url = `${this.baseUrl}/${acitivityId}`;
+    const url = `${this.baseUrl}/id:${acitivityId}`;
     return this.http.delete(url);
   }
 
   updateActivity(activityData): Observable<any> {
-    const url = `${this.baseUrl}/${activityData.id}`;
+    const url = `${this.baseUrl}/id:${activityData.id}`;
 
     const body = {
       ...activityData,

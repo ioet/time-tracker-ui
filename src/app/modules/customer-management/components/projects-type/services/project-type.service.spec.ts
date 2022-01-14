@@ -56,7 +56,7 @@ describe('Activity Service', () => {
   });
 
   it('ProjectTypes are delete using DELETE from baseUrl', () => {
-    const url = `${service.baseUrl}/1`;
+    const url = `${service.baseUrl}/id:1`;
     service.deleteProjectType(projectTypes[0].id).subscribe((projectTypesInResponse) => {
       expect(projectTypesInResponse.filter((activity) => activity.id !== projectTypes[0].id)).toEqual([
         projectTypes[1],
@@ -70,12 +70,12 @@ describe('Activity Service', () => {
   it('update activity using PUT from baseUrl', () => {
     const projectType = { id: '1', name: 'aaa', description: 'bbb' };
 
-    service.baseUrl = 'project-type' + '/' + projectType.id;
+    service.baseUrl = 'project-type' + '/id:' + projectType.id;
 
     service.updateProjectType(projectType).subscribe((response) => {
       expect(response.name).toBe('aaa');
     });
-    const updateProjectTypeRequest = httpMock.expectOne(`${service.baseUrl}/${projectType.id}`);
+    const updateProjectTypeRequest = httpMock.expectOne(`${service.baseUrl}/id:${projectType.id}`);
     expect(updateProjectTypeRequest.request.method).toBe('PUT');
     updateProjectTypeRequest.flush(projectType);
   });

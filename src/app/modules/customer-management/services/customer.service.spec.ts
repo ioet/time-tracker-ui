@@ -45,7 +45,7 @@ describe('CustomerService', () => {
       { name: 'aa', description: 'bb', tenant_id: 'cc', id: '1' },
       { name: 'xx', description: 'yy', tenant_id: 'zz', id: '2' },
     ];
-    const url = `${service.baseUrl}/1`;
+    const url = `${service.baseUrl}/id:1`;
     service.deleteCustomer(customer[0].id).subscribe();
     const getCustomerRequest = httpMock.expectOne(url);
 
@@ -55,13 +55,13 @@ describe('CustomerService', () => {
 
   it('update customer using PUT from baseUrl', () => {
     const customer = { id: '1', name: 'aaa', description: 'bbb' };
-    service.baseUrl = 'customers' + '/' + customer.id;
+    service.baseUrl = 'customers' + '/id:' + customer.id;
 
     service.updateCustomer(customer).subscribe((response) => {
       expect(response.name).toBe('aaa');
     });
 
-    const updateCustomerRequest = httpMock.expectOne(`${service.baseUrl}/${customer.id}`);
+    const updateCustomerRequest = httpMock.expectOne(`${service.baseUrl}/id:${customer.id}`);
 
     expect(updateCustomerRequest.request.method).toBe('PUT');
     updateCustomerRequest.flush(customer);

@@ -21,12 +21,12 @@ export class CustomerService {
   }
 
   deleteCustomer(customerId: string): Observable<any> {
-    const url = `${this.baseUrl}/${customerId}`;
+    const url = `${this.baseUrl}/id:${customerId}`;
     return this.http.delete(url);
   }
 
   updateCustomer(customerData): Observable<any> {
-    const url = `${this.baseUrl}/${customerData.id}`;
+    const url = `${this.baseUrl}/id:${customerData.id}`;
     return this.http.put(url, customerData);
   }
 }

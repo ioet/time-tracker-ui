@@ -38,12 +38,12 @@ export class ProjectService {
         projectData.status = 1;
       }
     }
-    return this.http.put(`${this.url}/${id}`, projectData);
+    return this.http.put(`${this.url}/id:${id}`, projectData);
   }
 
   deleteProject(projectId: string): Observable<any> {
     return this.isDevelopment
-      ? this.http.put(`${this.url}/${projectId}`, { status: 0 })
+      ? this.http.put(`${this.url}/id:${projectId}`, { status: 0 })
       : this.http.delete(`${this.url}/${projectId}`);
   }
 }

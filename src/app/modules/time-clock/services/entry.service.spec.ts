@@ -70,7 +70,7 @@ describe('EntryService', () => {
 
     service.updateEntry(updatedEntry).subscribe();
 
-    const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id`);
+    const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id:id`);
     expect(updateEntryRequest.request.method).toBe('PUT');
   });
 
@@ -79,7 +79,7 @@ describe('EntryService', () => {
 
     service.deleteEntry(entry).subscribe();
 
-    const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/${entry}`);
+    const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id:${entry}`);
     expect(updateEntryRequest.request.method).toBe('DELETE');
   });
 

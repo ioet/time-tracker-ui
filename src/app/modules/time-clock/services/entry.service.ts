@@ -36,11 +36,11 @@ export class EntryService {
 
   updateEntry(entryData): Observable<any> {
     const {id} = entryData;
-    return this.http.put(`${this.baseUrl}/${id}`, entryData);
+    return this.http.put(`${this.baseUrl}/id:${id}`, entryData);
   }
 
   deleteEntry(entryId: string): Observable<any> {
-    const url = `${this.baseUrl}/${entryId}`;
+    const url = `${this.baseUrl}/id:${entryId}`;
     return this.http.delete(url);
   }
 

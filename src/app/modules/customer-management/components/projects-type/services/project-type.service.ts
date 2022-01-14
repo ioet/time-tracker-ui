@@ -23,12 +23,12 @@ export class ProjectTypeService {
   }
 
   deleteProjectType(projectTypeId: string): Observable<any> {
-    const url = `${this.baseUrl}/${projectTypeId}`;
+    const url = `${this.baseUrl}/id:${projectTypeId}`;
     return this.http.delete(url);
   }
 
   updateProjectType(projectTypeData): Observable<any> {
-    const url = `${this.baseUrl}/${projectTypeData.id}`;
+    const url = `${this.baseUrl}/id:${projectTypeData.id}`;
     return this.http.put(url, projectTypeData);
   }
 }

@@ -56,7 +56,7 @@ describe('Activity Service', () => {
   });
 
   it('activities are delete using DELETE from baseUrl', () => {
-    const url = `${service.baseUrl}/1`;
+    const url = `${service.baseUrl}/id:1`;
     service.deleteActivity(activities[0].id).subscribe((activitiesInResponse) => {
       expect(activitiesInResponse.filter((activity) => activity.id !== activities[0].id)).toEqual([activities[1]]);
     });
@@ -73,7 +73,7 @@ describe('Activity Service', () => {
     service.updateActivity(activity).subscribe((response) => {
       expect(response.name).toBe('aaa');
     });
-    const updateActivitiesRequest = httpMock.expectOne(`${service.baseUrl}/${activity.id}`);
+    const updateActivitiesRequest = httpMock.expectOne(`${service.baseUrl}/id:${activity.id}`);
     expect(updateActivitiesRequest.request.method).toBe('PUT');
     updateActivitiesRequest.flush(activity);
   });
