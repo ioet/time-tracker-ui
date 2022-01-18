@@ -68,7 +68,7 @@ export class EntryService {
 
   loadEntriesByTimeRange(range: TimeEntriesTimeRange, userId: string): Observable<any> {
     const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
-    const loadEntriesByTimeRangeURL = this.baseUrl + '-range';
+    const loadEntriesByTimeRangeURL = this.baseUrl + '/report';
     return this.http.get(loadEntriesByTimeRangeURL,
       {
         params: {
