@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  time-tracker-ui:
+    container_name: timetracker_ui
+    image: timetracker_ui
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 4200:4200
+    working_dir: /time-tracker-ui
+    volumes:
+      - ./src:/time-tracker-ui/src/
+      # - ./scripts:/time-tracker-ui/scripts/
+      # - ./e2e:/time-tracker-ui/e2e/
+      # - ./.browserslistrc:/time-tracker-ui/.browserslistrc
+      # - ./.dockerignore:/time-tracker-ui/.dockerignore
+      # - ./.editorconfig:/time-tracker-ui/.editorconfig
+      # - ./.eslintrc.js:/time-tracker-ui/.eslintrc.js
+      # - ./.prettierrc:/time-tracker-ui/.prettierrc
+      # - ./angular.json:/time-tracker-ui/angular.json
+      # - ./docker-compose.yml:/time-tracker-ui/docker-compose.yml
+      # - ./Dockerfile:/time-tracker-ui/Dockerfile
+      # - ./karma.conf.js:/time-tracker-ui/karma.conf.js
+      # - ./Makefile:/time-tracker-ui/Makefile
+      # - ./package.json:/time-tracker-ui/package.json
+      # - ./package-lock.json:/time-tracker-ui/package-lock.json
+      # - ./README.md:/time-tracker-ui/README.md
+      # - ./stryker.conf.json:/time-tracker-ui/stryker.conf.json
+      # - ./stryker.log:/time-tracker-ui/stryker.log
+      # - ./tailwind.config.js:/time-tracker-ui/tailwind.config.js
+      # - ./tsconfig.app.json:/time-tracker-ui/tsconfig.app.json
+      # - ./tsconfig.json:/time-tracker-ui/tsconfig.json
+      # - ./tsconfig.spec.json:/time-tracker-ui/tsconfig.spec.json
+      # - ./tslint.json:/time-tracker-ui/tslint.json
+      # - ./webpack.config.js:/time-tracker-ui/webpack.config.js
