@@ -105,7 +105,7 @@ describe('EntryService', () => {
     const pipe: DatePipe = new DatePipe('en');
     const timeRange: TimeEntriesTimeRange = {start_date: yesterday, end_date: today};
     const userId = '123';
-    const reportsUrl = service.baseUrl + '/report';
+    const reportsUrl = service.urlInProduction ? service.baseUrl : service.baseUrl + '/report';
     service.loadEntriesByTimeRange(timeRange, userId).subscribe();
 
     const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === reportsUrl);
@@ -120,7 +120,7 @@ describe('EntryService', () => {
     const today = moment(new Date());
     const timeRange: TimeEntriesTimeRange = { start_date: yesterday, end_date: today };
     const userId = '123';
-    const reportsUrl = service.baseUrl + '/report';
+    const reportsUrl = service.urlInProduction ? service.baseUrl : service.baseUrl + '/report';
     service.loadEntriesByTimeRange(timeRange, userId).subscribe();
 
     const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === reportsUrl);
@@ -132,7 +132,7 @@ describe('EntryService', () => {
     const today = moment(new Date());
     const timeRange: TimeEntriesTimeRange = { start_date: yesterday, end_date: today };
     const userId = '123';
-    const reportsUrl = service.baseUrl + '/report';
+    const reportsUrl = service.urlInProduction ? service.baseUrl : service.baseUrl + '/report';
 
     service.loadEntriesByTimeRange(timeRange, userId).subscribe();
 
