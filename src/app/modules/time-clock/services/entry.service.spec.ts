@@ -105,10 +105,10 @@ describe('EntryService', () => {
     const pipe: DatePipe = new DatePipe('en');
     const timeRange: TimeEntriesTimeRange = {start_date: yesterday, end_date: today};
     const userId = '123';
-
+    const reportsUrl = service.urlInProduction ? service.baseUrl : service.baseUrl + '/report';
     service.loadEntriesByTimeRange(timeRange, userId).subscribe();
 
-    const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === service.baseUrl);
+    const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === reportsUrl);
     expect(loadEntryRequest.request.params.get('start_date')).toBe(pipe.transform(yesterday,
       EntryService.TIME_ENTRIES_DATE_TIME_FORMAT));
     expect(loadEntryRequest.request.params.get('end_date')).toBe(pipe.transform(today, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT));
@@ -120,10 +120,10 @@ describe('EntryService', () => {
     const today = moment(new Date());
     const timeRange: TimeEntriesTimeRange = { start_date: yesterday, end_date: today };
     const userId = '123';
-
+    const reportsUrl = service.urlInProduction ? service.baseUrl : service.baseUrl + '/report';
     service.loadEntriesByTimeRange(timeRange, userId).subscribe();
 
-    const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === service.baseUrl);
+    const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === reportsUrl);
     expect(loadEntryRequest.request.params.get('limit')).toEqual('9999');
   });
 
@@ -132,10 +132,11 @@ describe('EntryService', () => {
     const today = moment(new Date());
     const timeRange: TimeEntriesTimeRange = { start_date: yesterday, end_date: today };
     const userId = '123';
+    const reportsUrl = service.urlInProduction ? service.baseUrl : service.baseUrl + '/report';
 
     service.loadEntriesByTimeRange(timeRange, userId).subscribe();
 
-    const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === service.baseUrl);
+    const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === reportsUrl);
 
     const timezoneOffset = new Date().getTimezoneOffset().toString();
     expect(loadEntryRequest.request.params.get('timezone_offset')).toEqual(timezoneOffset);
