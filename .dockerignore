@@ -3,3 +3,5 @@ node_modules
 Makefile
 .gitignore
 .env
+keys.ts
+.keys.json

@@ -4,7 +4,11 @@ help:
 	@echo "- make build --> Create docker image with dependencies needed"
 	@echo "- make run --> Execute docker container database from postgres, and api from image created previusly"
 	@echo "- make stop --> Stop container"
+	@echo "- make remove --> Restart container"
 	@echo "- make remove --> Delete container"
+	@echo "- make test --> Run all tests on docker container"
+	@echo "- make login --> Login in respository of docker images"
+	@echo "- make publish --> Publish the container image"
 	@echo "------------------------------------"
 
 .PHONY: build
@@ -14,7 +18,7 @@ build:
 
 .PHONY: run
 run:
-	docker-compose up -d
+	docker-compose --env-file ./.env up -d
 	docker logs -f timetracker_ui
 
 .PHONY: stop
@@ -30,3 +34,17 @@ restart:
 .PHONY: remove
 remove:
 	docker-compose down
+
+.PHONY: test
+test:
+	docker-compose --env-file ./.env up -d
+	docker exec -it timetracker_ui bash -c "npm test"
+
+.PHONY: login
+login:
+	az acr login --name timetrackerdevregistry
+
+.PHONY: publish
+publish:
+	docker tag timetracker_ui:latest timetrackerdevregistry.azurecr.io/timetracker_ui:latest
+	docker push timetrackerdevregistry.azurecr.io/timetracker_ui:latest
