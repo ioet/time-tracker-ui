@@ -2,7 +2,7 @@
 help:
 	@echo "---------------HELP-----------------"
 	@echo "- make build --> Create docker image with dependencies needed"
-	@echo "- make run --> Execute docker container database from postgres, and api from image created previusly"
+	@echo "- make run --> Execute timetracker_ui docker container"
 	@echo "- make stop --> Stop container"
 	@echo "- make remove --> Restart container"
 	@echo "- make remove --> Delete container"
