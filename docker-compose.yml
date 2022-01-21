@@ -16,6 +16,9 @@ services:
       STACK_EXCHANGE_ID: ${STACK_EXCHANGE_ID}
       STACK_EXCHANGE_ACCESS_TOKEN: ${STACK_EXCHANGE_ACCESS_TOKEN}
       AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${AZURE_APP_CONFIGURATION_CONNECTION_STRING}
+      AUTHORITY_JSON: ${AUTHORITY_JSON}
+      CLIENT_ID_JSON: ${CLIENT_ID_JSON}
+      SCOPES_JSON: ${SCOPES_JSON}
     working_dir: /time-tracker-ui
     command: bash -c "npm run config && /time-tracker-ui/node_modules/.bin/ng serve --host 0.0.0.0 --disableHostCheck"
     volumes:
