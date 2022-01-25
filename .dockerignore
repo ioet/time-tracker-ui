@@ -1,5 +1,7 @@
 node_modules
 .github
+dist
+coverage
 Makefile
 .gitignore
 .env

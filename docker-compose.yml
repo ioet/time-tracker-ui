@@ -4,6 +4,7 @@ services:
     container_name: timetracker_ui
     image: timetracker_ui
     build:
+      target: development
       context: .
       dockerfile: ./Dockerfile
     ports:
@@ -19,25 +20,12 @@ services:
       AUTHORITY_JSON: ${AUTHORITY_JSON}
       CLIENT_ID_JSON: ${CLIENT_ID_JSON}
       SCOPES_JSON: ${SCOPES_JSON}
-    working_dir: /time-tracker-ui
-    command: bash -c "npm run config && /time-tracker-ui/node_modules/.bin/ng serve --host 0.0.0.0 --disableHostCheck"
     volumes:
-      - ./src:/time-tracker-ui/src/
-      - ./scripts:/time-tracker-ui/scripts/
-      - ./e2e:/time-tracker-ui/e2e/
-      - ./coverage:/time-tracker-ui/coverage
-      - ./.browserslistrc:/time-tracker-ui/.browserslistrc
-      - ./.dockerignore:/time-tracker-ui/.dockerignore
-      - ./.editorconfig:/time-tracker-ui/.editorconfig
-      - ./.eslintrc.js:/time-tracker-ui/.eslintrc.js
-      - ./.prettierrc:/time-tracker-ui/.prettierrc
-      - ./angular.json:/time-tracker-ui/angular.json
-      - ./karma.conf.js:/time-tracker-ui/karma.conf.js
-      - ./package.json:/time-tracker-ui/package.json
-      - ./stryker.conf.json:/time-tracker-ui/stryker.conf.json
-      - ./tailwind.config.js:/time-tracker-ui/tailwind.config.js
-      - ./tsconfig.app.json:/time-tracker-ui/tsconfig.app.json
-      - ./tsconfig.json:/time-tracker-ui/tsconfig.json
-      - ./tsconfig.spec.json:/time-tracker-ui/tsconfig.spec.json
-      - ./tslint.json:/time-tracker-ui/tslint.json
-      - ./webpack.config.js:/time-tracker-ui/webpack.config.js
+      - ./src:/home/timetracker/time-tracker-ui/src/
+      - ./scripts:/home/timetracker/time-tracker-ui/scripts/
+      - ./e2e:/home/timetracker/time-tracker-ui/e2e/
+      - ./coverage:/home/timetracker/time-tracker-ui/coverage
+      - ./angular.json:/home/timetracker/time-tracker-ui/angular.json
+      - ./karma.conf.js:/home/timetracker/time-tracker-ui/karma.conf.js
+      - ./package.json:/home/timetracker/time-tracker-ui/package.json
+      - ./webpack.config.js:/home/timetracker/time-tracker-ui/webpack.config.js

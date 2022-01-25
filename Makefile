@@ -14,7 +14,7 @@ help:
 .PHONY: build
 build:
 	-docker rmi timetracker_ui
-	docker build -t timetracker_ui -f Dockerfile .
+	docker-compose build
 
 .PHONY: run
 run:
