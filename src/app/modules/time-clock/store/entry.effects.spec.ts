@@ -155,6 +155,15 @@ describe('TimeEntryActionEffects', () => {
     });
   });
 
+  it('LoadActiveEntryFail if an entry active is not found', async () => {
+    actions$ = of({ type: EntryActionTypes.LOAD_ACTIVE_ENTRY });
+    const serviceSpy = spyOn(service, 'loadActiveEntry');
+    serviceSpy.and.returnValue(of(null));
+    effects.loadActiveEntry$.subscribe(action => {
+      expect(action.type).toEqual(EntryActionTypes.LOAD_ACTIVE_ENTRY_FAIL);
+    });
+  });
+
   it('display a success message on UPDATE_ENTRY', async () => {
     actions$ = of({ type: EntryActionTypes.UPDATE_ENTRY, entry });
     spyOn(toastrService, 'success');
@@ -389,4 +398,5 @@ describe('TimeEntryActionEffects', () => {
       expect(action.type).toEqual(EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY_FAIL);
     });
   });
+
 });

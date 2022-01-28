@@ -3,6 +3,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ManagementCustomerProjectsComponent } from './management-customer-projects.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CustomerState } from '../../store';
+import { of } from 'rxjs';
 
 describe('ManagmentCustomerProjectsComponent', () => {
   let component: ManagementCustomerProjectsComponent;
@@ -36,6 +37,18 @@ describe('ManagmentCustomerProjectsComponent', () => {
 
   it('component should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('set customerName on ngOnInit', () => {
+    spyOn(store, 'dispatch');
+    spyOn(store, 'pipe').and.returnValue(of({
+      id: 1,
+      name: 'project 4',
+      description: 'project 1 to test methos projectss',
+      status: 'inactive'
+    }));
+    component.ngOnInit();
+    expect(component.customerName).toEqual('project 4');
   });
 
   it('should be enable tabs', () => {

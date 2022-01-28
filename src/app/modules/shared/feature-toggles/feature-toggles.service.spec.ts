@@ -11,29 +11,36 @@ describe('FeatureTogglesService', () => {
     conditions: null,
   };
 
-  it('toggles are read using azure configuration client', async () => {
-    const fakeAppConfigurationConnectionString = 'Endpoint=http://fake.foo;Id=fake.id;Secret=fake.secret';
-    const featureToggleKey = 'foo';
-    const featureToggleLabel = 'dev';
-    const fakeResponse: GetConfigurationSettingResponse = {
-      isReadOnly: true,
-      key: featureToggleKey,
-      _response: {
-        request: null,
-        bodyAsText: 'any-response',
-        headers: null,
-        parsedHeaders: null,
-        status: 200
-      },
-      statusCode: 200,
-      value: JSON.stringify(anyToggle)
-    };
-    const fakeConfigurationClient = new AppConfigurationClient(fakeAppConfigurationConnectionString);
-    const fakeGetConfigurationSetting = spyOn(fakeConfigurationClient, 'getConfigurationSetting').and.callFake(
+  const featureToggleKey = 'foo';
+  const featureToggleLabel = 'dev';
+
+  const fakeResponse: GetConfigurationSettingResponse = {
+    isReadOnly: true,
+    key: featureToggleKey,
+    _response: {
+      request: null,
+      bodyAsText: 'any-response',
+      headers: null,
+      parsedHeaders: null,
+      status: 200
+    },
+    statusCode: 200,
+    value: JSON.stringify(anyToggle)
+  };
+
+  let fakeGetConfigurationSetting;
+  const fakeAppConfigurationConnectionString = 'Endpoint=http://fake.foo;Id=fake.id;Secret=fake.secret';
+  let fakeAppConfigurationClient: any;
+  let service: FeatureTogglesService;
+
+  beforeEach(() => {
+    fakeAppConfigurationClient = new AppConfigurationClient(fakeAppConfigurationConnectionString);
+    service = new FeatureTogglesService(fakeAppConfigurationClient);
+    fakeGetConfigurationSetting = spyOn(fakeAppConfigurationClient, 'getConfigurationSetting').and.callFake(
       () => of(fakeResponse).toPromise());
+  });
 
-    const service = new FeatureTogglesService(fakeConfigurationClient);
-
+  it('toggles are read using azure configuration client', async () => {
     service.getToggle(featureToggleKey, featureToggleLabel).subscribe((value) => {
       expect(fakeGetConfigurationSetting).toHaveBeenCalledWith(
         { key: `.appconfig.featureflag/${featureToggleKey}`, label: featureToggleLabel }
@@ -41,4 +48,5 @@ describe('FeatureTogglesService', () => {
       expect(value).toEqual(anyToggle);
     });
   });
+
 });
