@@ -40,13 +40,13 @@
       </app-calendar>
     </div>
   </div>
- 
+
   <div id="listView" [hidden]="displayGridView">
-    <table 
+    <table
       class="table table-sm table-striped mb-0"
       datatable
       [dtTrigger]="dtTrigger"
-      [dtOptions]="dtOptions" 
+      [dtOptions]="dtOptions"
       *ngIf="(timeEntriesDataSource$ | async) as dataSource">
       <caption></caption>
       <thead class="thead-blue">
@@ -62,9 +62,6 @@
       </thead>
       <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
       <tbody *ngIf="!dataSource.isLoading">
-        <tr *ngIf="!dataSource?.data.length">
-          <td class="text-center" colspan="7">{{NO_DATA_MESSAGE}}</td>
-        </tr>
         <tr class="d-flex" *ngFor="let entry of dataSource.data">
           <td class="col">{{ entry.start_date | date: 'MM/dd/yyyy' }}</td>
           <td class="col">{{ entry.start_date | date: 'HH:mm' }} - {{ entry.end_date | date: 'HH:mm' }}</td>

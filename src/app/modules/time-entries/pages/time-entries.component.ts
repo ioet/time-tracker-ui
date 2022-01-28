@@ -50,7 +50,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   isActiveEntryOverlapping = false;
   calendarView: CalendarView = CalendarView.Month;
   actualDate: Date;
-  readonly NO_DATA_MESSAGE: string = 'No data available in table';
   constructor(
     private store: Store<EntryState>,
     private toastrService: ToastrService,
