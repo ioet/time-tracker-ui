@@ -41,20 +41,6 @@ describe('projectReducer', () => {
     expect(state.isLoading).toEqual(false);
   });
 
- /*  it('on LoadProjectsSuccess, projectsFound are saved in the store', () => {
-    const projectsFound: Project[] = [{ id: '', name: '', description: '', project_type_id: '123' }];
-    const action = new actions.LoadProjectsSuccess(projectsFound);
-    const state = projectReducer(initialState, action);
-    expect(state.customerProjects).toEqual(projectsFound);
-  }); */
-
-  /* it('on LoadProjectsFail, Projects equal []', () => {
-    const action = new actions.LoadProjectsFail('error');
-    const state = projectReducer(initialState, action);
-    expect(state).toEqual([]);
-  }); */
-
-
   it('on LoadCustomerProjects, isLoading is true', () => {
     const action = new actions.LoadCustomerProjects('1');
     const state = projectReducer(initialState, action);

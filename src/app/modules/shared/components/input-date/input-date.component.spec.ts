@@ -38,14 +38,14 @@ describe('InputDateComponent', () => {
   }));
 
   it('call the close method if opened equals true', () => {
-    const datepicker: any = { opened : true, open : () => {}, close : () => {} };
+    const datepicker: any = { opened : true, open : () => ({}), close : () => ({}) };
     spyOn(datepicker, 'close');
     component.openOrCloseDatePicker(datepicker);
     expect(datepicker.close).toHaveBeenCalled();
   });
 
   it('call the open method if opened equals false', () => {
-    const datepicker: any = { opened : false, open : () => {}, close : () => {}};
+    const datepicker: any = { opened : false, open : () => ({}), close : () => ({}) };
     spyOn(datepicker, 'open');
     component.openOrCloseDatePicker(datepicker);
     expect(datepicker.open).toHaveBeenCalled();
