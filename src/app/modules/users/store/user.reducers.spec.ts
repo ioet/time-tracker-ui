@@ -187,7 +187,7 @@ describe('userReducer', () => {
     expect(state.message).toBe('Something went wrong revoking access role to the user');
   });
 
-  it('on Default, ', () => {
+  it('on DefaultAction, state equal to initial state', () => {
     const action = new actions.DefaultUser();
     const state = userReducer(initialState, action);
     expect(state).toEqual(initialState);

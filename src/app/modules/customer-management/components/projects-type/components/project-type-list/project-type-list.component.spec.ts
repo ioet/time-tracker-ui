@@ -5,6 +5,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DeleteProjectType, SetProjectTypeToEdit } from './../../store/project-type.actions';
 import { allProjectTypes, ProjectTypeState } from '../../store';
 import { ProjectTypeListComponent } from './project-type-list.component';
+import { ProjectType } from 'src/app/modules/shared/models';
 
 describe('ProjectTypeTableListComponent', () => {
   let component: ProjectTypeListComponent;
@@ -66,6 +67,18 @@ describe('ProjectTypeTableListComponent', () => {
     component.updateProjectType('id');
 
     expect(store.dispatch).toHaveBeenCalledWith(new SetProjectTypeToEdit('id'));
+  });
+
+  it('open the modal with the correct parameters', () => {
+    const item: ProjectType = {
+      id: `1`,
+      name: `Project 1`,
+      description: `Description project 1`
+    };
+    component.openModal(item);
+    expect(component.idToDelete).toEqual(item.id);
+    expect(component.message).toEqual(`Are you sure you want to delete ${item.name}?`);
+    expect(component.showModal).toBe(true);
   });
 
 });

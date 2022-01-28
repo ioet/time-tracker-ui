@@ -72,7 +72,7 @@ describe('entryReducer', () => {
     expect(state.isLoading).toBe(true);
   });
 
-  it('on Default, ', () => {
+  it('on DefaultAction, state equal to initial state', () => {
     const action = new actions.DefaultEntry();
     const state = entryReducer(initialState, action);
     expect(state).toEqual(initialState);
@@ -136,6 +136,30 @@ describe('entryReducer', () => {
     expect(state.isLoading).toEqual(true);
   });
 
+  it('sort previous entries when a new one is entered', () => {
+    const newState: EntryState = { ...initialState, timeEntriesDataSource:  {
+      data: [
+        {
+          project_id: '123',
+          description: 'description',
+          technologies: ['angular', 'javascript'],
+          uri: 'uri',
+          id: 'id',
+          start_date: new Date(),
+          end_date: new Date(),
+          activity_id: 'activity',
+          project_name: 'time-tracker'
+        }
+      ],
+      isLoading: false,
+    }};
+    const entryCreated: Entry = { ...entry };
+    entryCreated.end_date = null;
+    const action = new actions.CreateEntrySuccess(entryCreated);
+    const state = entryReducer(newState, action);
+    expect(state.active).toBe(entryCreated);
+  });
+
   it('on CreateEntrySuccess, if end_date is null then it is the active entry', () => {
     const entryCreated: Entry = { ...entry };
     entryCreated.end_date = null;
@@ -188,6 +212,28 @@ describe('entryReducer', () => {
     expect(state.timeEntriesDataSource.data).toEqual([]);
   });
 
+  it('filter reportDataSource data when one is to be deleted', () => {
+    const newState: EntryState = { ...initialState, reportDataSource: {
+      data: [
+        {
+          project_id: '123456',
+          description: 'description',
+          technologies: ['angular', 'javascript'],
+          uri: 'uri',
+          id: 'id',
+          start_date: new Date(),
+          end_date: new Date(),
+          activity_id: 'activity',
+          project_name: 'time-tracker'
+        }
+      ],
+      isLoading: false,
+    }};
+    const action = new actions.DeleteEntrySuccess('idxxx');
+    const state = entryReducer(newState, action);
+    expect(state.reportDataSource.data.length).toEqual(1);
+  });
+
   it('on LoadEntriesFail, active tobe null', () => {
     const action = new actions.DeleteEntryFail('error');
     const state = entryReducer(initialState, action);
@@ -221,6 +267,39 @@ describe('entryReducer', () => {
 
     const state = entryReducer(initialState, action);
 
+    expect(state.isLoading).toEqual(false);
+  });
+
+  it('sort the list of entries when one is updated', () => {
+    const newState: EntryState = { ...initialState, timeEntriesDataSource: {
+      data: [
+        {
+          project_id: '123',
+          description: 'description',
+          technologies: ['angular', 'javascript'],
+          uri: 'uri',
+          id: 'id',
+          start_date: new Date(),
+          end_date: new Date(),
+          activity_id: 'activity',
+          project_name: 'time-tracker'
+        },
+        {
+          project_id: '123456',
+          description: 'description',
+          technologies: ['angular', 'javascript'],
+          uri: 'uri',
+          id: 'id',
+          start_date: new Date(),
+          end_date: new Date(),
+          activity_id: 'activity',
+          project_name: 'time-tracker'
+        }
+      ],
+      isLoading: false,
+    }};
+    const action = new actions.UpdateEntrySuccess(entry);
+    const state = entryReducer(newState, action);
     expect(state.isLoading).toEqual(false);
   });
 

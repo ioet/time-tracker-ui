@@ -19,6 +19,7 @@ export enum CustomerManagementActionTypes {
   UNARCHIVE_CUSTOMER = '[CustomerManagement] UNARCHIVE_CUSTOMER',
   UNARCHIVE_CUSTOMER_SUCCESS = '[CustomerManagement] UNARCHIVE_CUSTOMER_SUCCESS',
   UNARCHIVE_CUSTOMER_FAIL = '[CustomerManagement] UNARCHIVE_CUSTOMER_FAIL',
+  DEFAULT_CUSTOMER = '[CustomerManagement] DEFAULT_CUSTOMER',
 }
 
 export class LoadCustomers implements Action {
@@ -118,6 +119,10 @@ export class UnarchiveCustomerFail implements Action {
   constructor(public error: string) {}
 }
 
+export class DefaultCustomer implements Action {
+  public readonly type = CustomerManagementActionTypes.DEFAULT_CUSTOMER;
+}
+
 export type CustomerManagementActions =
   | CreateCustomer
   | CreateCustomerSuccess
@@ -135,4 +140,5 @@ export type CustomerManagementActions =
   | ResetCustomerToEdit
   | UnarchiveCustomer
   | UnarchiveCustomerSuccess
-  | UnarchiveCustomerFail;
+  | UnarchiveCustomerFail
+  | DefaultCustomer;

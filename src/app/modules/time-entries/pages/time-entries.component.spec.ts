@@ -712,4 +712,50 @@ describe('TimeEntriesComponent', () => {
 
     expect(HTMLTimeEntriesView).not.toBeNull();
   });
+
+  it('open the modal with the correct parameters', () => {
+    const item: any = {
+      id: `1`,
+      activity_name: `Activity 1`,
+    };
+    component.openModal(item);
+    expect(component.idToDelete).toEqual(item.id);
+    expect(component.message).toEqual(`Are you sure you want to delete ${item.activity_name}?`);
+    expect(component.showModal).toBe(true);
+  });
+
+  it('if there are no entries, the isTheEntryToEditTheLastOne function should return false', () => {
+    const entries: Entry[] = [];
+    expect(component.isTheEntryToEditTheLastOne(entries)).toBe(false);
+  });
+
+  it('should create new Entry even though the activeEntry overlaps', () => {
+    component.entryId = 'entry_2';
+    const activeEntry = {
+      id: 'entry_1',
+      project_id: 'abc',
+      project_name: 'Time-tracker',
+      start_date: new Date('2020-02-05T15:36:15.887Z'),
+      end_date: new Date('2020-02-05T18:36:15.887Z'),
+      customer_name: 'ioet Inc.',
+      activity_id: 'development',
+      technologies: ['Angular', 'TypeScript'],
+      description: 'No comments',
+      uri: 'EY-25',
+    };
+    const entryToSave = {
+      entry: {
+        project_id: 'project-id',
+        end_date: '2010-05-05T10:04',
+        start_date: null,
+        timezone_offset: 300,
+      },
+      shouldRestartEntry: true
+    };
+    spyOn(component, 'doSave');
+    component.activeTimeEntry = activeEntry;
+    component.saveEntry(entryToSave);
+    expect(component.doSave).toHaveBeenCalledWith(entryToSave);
+  });
+
 });

@@ -121,7 +121,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
       return false;
     }
   }
-  private isTheEntryToEditTheLastOne(entries: Entry[]) {
+  public isTheEntryToEditTheLastOne(entries: Entry[]) {
     if (entries && entries.length > 0) {
       const lastEntry = entries[0];
       return lastEntry.id === this.entryId;

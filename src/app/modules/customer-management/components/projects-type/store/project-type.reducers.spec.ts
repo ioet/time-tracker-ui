@@ -6,7 +6,7 @@ describe('projectTypeReducer', () => {
   const initialState: ProjectTypeState = { data: [], isLoading: false, message: '', projectTypeIdToEdit: '' };
   const projectType: ProjectType = { id: '1', name: 'Training', description: 'It is good for learning' };
 
-  it('on Default, ', () => {
+  it('on DefaultAction, state equal to initial state', () => {
     const action = new actions.DefaultProjectTypes();
     const state = projectTypeReducer(initialState, action);
     expect(state.data).toEqual(initialState.data);

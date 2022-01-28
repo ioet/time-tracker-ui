@@ -23,4 +23,11 @@ describe('technologyReducer', () => {
     const state = technologyReducer(initialState, action);
     expect(state.technologyList).toEqual([]);
   });
+
+  it('on DefaultAction, state equal to initial state', () => {
+    const action = new actions.DefaultTechnology();
+    const state = technologyReducer(initialState, action);
+    expect(state).toEqual(initialState);
+  });
+
 });

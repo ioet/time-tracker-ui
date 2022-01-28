@@ -166,4 +166,10 @@ describe('customerManagementReducer', () => {
     expect(state.message).toEqual('Something went wrong unarchiving customer!');
     expect(state.isLoading).toEqual(false);
   });
+
+  it('on DefaultAction, state equal to initial state', () => {
+    const action = new actions.DefaultCustomer();
+    const state = customerManagementReducer(initialState, action);
+    expect(state.data).toEqual(initialState.data);
+  });
 });

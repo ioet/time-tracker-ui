@@ -1,5 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { DataTableDirective } from 'angular-datatables';
 import { Entry } from 'src/app/modules/shared/models';
 import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/substract-date.pipe';
 import { getReportDataSource } from 'src/app/modules/time-clock/store/entry.selectors';
@@ -134,6 +135,17 @@ describe('Reports Page', () => {
       expect(component.bodyExportOptions(entry, row, column, node)).toBe('https://TT-392-uri');
     });
 
+    it('when the rerenderDataTable method is called and dtElement and dtInstance are defined, the destroy and next methods are called ',
+    () => {
+      component.dtElement = {
+        dtInstance: {
+          then : (dtInstance: DataTables.Api) => { dtInstance.destroy(); }
+        }
+      } as unknown as DataTableDirective;
+      spyOn(component.dtElement.dtInstance, 'then');
+      component.ngAfterViewInit();
+      expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
+    });
 
     afterEach(() => {
       fixture.destroy();
