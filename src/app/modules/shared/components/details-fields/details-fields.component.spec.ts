@@ -742,18 +742,12 @@ describe('DetailsFieldsComponent', () => {
     expect(toastrServiceStub.warning).toHaveBeenCalled();
   });
 
-  it('call the close method if opened equals true', () => {
-    const datepicker: any = { opened : true, open : () => ({}), close : () => ({}) };
-    spyOn(datepicker, 'close');
-    component.openOrCloseDatePicker(datepicker);
-    expect(datepicker.close).toHaveBeenCalled();
-  });
-
-  it('call the open method if opened equals false', () => {
-    const datepicker: any = { opened : false, open : () => ({}), close : () => ({}) };
-    spyOn(datepicker, 'open');
-    component.openOrCloseDatePicker(datepicker);
-    expect(datepicker.open).toHaveBeenCalled();
+  it('if entry is set to project_name search_fiend is assigned in entryForm', () => {
+    const listProjects: Project[] = [{ id: 'id', name: 'abc', status: 'active', search_field: 'name'}];
+    component.listProjects = listProjects;
+    component.entryToEdit = { ...entryToEdit };
+    component.ngOnChanges();
+    expect(component.entryForm.value.project_name).toBe('name');
   });
 
   /*

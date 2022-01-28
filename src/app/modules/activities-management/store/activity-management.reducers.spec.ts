@@ -145,18 +145,14 @@ describe('activityManagementReducer', () => {
 
   it('on SetActivityidToEdit, message equal to \"Set activityIdToEdit property\"', () => {
     const action = new actions.SetActivityToEdit('1');
-
     const state = activityManagementReducer(initialState, action);
-
     expect(state.message).toEqual('Set activityIdToEdit property');
     expect(state.isLoading).toBeFalse();
   });
 
   it('on ResetActivityIdToEdit, message equal to \"Reset activityIdToEdit property\"', () => {
     const action = new actions.ResetActivityToEdit();
-
     const state = activityManagementReducer(initialState, action);
-
     expect(state.message).toEqual('Reset activityIdToEdit property');
     expect(state.isLoading).toBeFalse();
   });

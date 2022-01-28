@@ -51,23 +51,23 @@ describe('InputDateComponent', () => {
     expect(datepicker.open).toHaveBeenCalled();
   });
 
-  it('isDisabled shuold be true if parameter is true', () => {
+  it('isDisabled should be true if parameter is true', () => {
     component.setDisabledState(true);
     expect(component.isDisabled).toBe(true);
   });
 
-  it('isDisabled shuold be false if parameter is false', () => {
+  it('isDisabled should be false if parameter is false', () => {
     component.setDisabledState(false);
     expect(component.isDisabled).toBe(false);
   });
 
-  it(`value shuold be '' in writeValue function when parameter is null`, () => {
+  it(`value should be '' in writeValue function when parameter is null`, () => {
     const value: any = null;
     component.writeValue(value);
     expect(component.value).toEqual('');
   });
 
-  it(`value shuold be '' in writeValue function when parameter is not defined`, () => {
+  it(`value should be '' in writeValue function when parameter is not defined`, () => {
     const value: any = undefined;
     component.writeValue(value);
     expect(component.value).toEqual('');
