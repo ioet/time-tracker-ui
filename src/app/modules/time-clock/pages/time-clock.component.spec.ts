@@ -131,6 +131,12 @@ describe('TimeClockComponent', () => {
     expect(azureAdB2CService.getName).toHaveBeenCalledTimes(0);
   });
 
+  it('if activeTimeEntry is not defined, areFieldsVisible must be false', () => {
+    spyOn(store, 'pipe').and.returnValue(of(null));
+    component.ngOnInit();
+    expect(component.areFieldsVisible).toBe(false);
+  });
+
   it('stopEntry dispatch a StopTimeEntryRunning action', () => {
     spyOn(store, 'dispatch');
 

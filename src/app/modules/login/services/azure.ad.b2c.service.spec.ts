@@ -21,6 +21,7 @@ describe('AzureAdB2CService', () => {
       name: 'abc',
       idToken: {
         iss: ' http://hostname.com/12345/v0/',
+        emails: 'abcd'
       },
       idTokenClaims: {},
       sid: 'abc',
@@ -178,5 +179,11 @@ describe('AzureAdB2CService', () => {
     service.getUserId();
 
     expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
+  });
+
+  it('should get email', () => {
+    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValues(account);
+    const email = service.getUserEmail();
+    expect(email).toEqual('a');
   });
 });

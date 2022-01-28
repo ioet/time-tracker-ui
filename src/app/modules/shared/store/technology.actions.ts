@@ -5,6 +5,7 @@ export enum TechnologyActionTypes {
   FIND_TECHNOLOGIES = '[Technology] FIND_TECHNOLOGIES',
   FIND_TECHNOLOGIES_SUCESS = '[Technology] FIND_TECHNOLOGIES_SUCESS',
   FIND_TECHNOLOGIES_FAIL = '[Technology] FIND_TECHNOLOGIES_FAIL ',
+  DEFAULT_TECHNOLOGIES = '[Technology] DEFAULT_TECHNOLOGY',
 }
 
 export class FindTechnology implements Action {
@@ -25,4 +26,8 @@ export class FindTechnologyFail implements Action {
   constructor(public error: string) {}
 }
 
-export type TechnologyActions = FindTechnology | FindTechnologySuccess | FindTechnologyFail;
+export class DefaultTechnology implements Action {
+  public readonly type = TechnologyActionTypes.DEFAULT_TECHNOLOGIES;
+}
+
+export type TechnologyActions = FindTechnology | FindTechnologySuccess | FindTechnologyFail | DefaultTechnology;

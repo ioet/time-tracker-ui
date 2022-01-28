@@ -20,6 +20,7 @@ export enum ActivityManagementActionTypes {
   UNARCHIVE_ACTIVITY_FAIL = '[ActivityManagement] UNARCHIVE_ACTIVITY_FAIL',
   SET_ACTIVITY_ID_TO_EDIT = '[ActivityManagement] SET_ACTIVITY_ID_TO_EDIT',
   RESET_ACTIVITY_ID_TO_EDIT = '[ActivityManagement] RESET_ACTIVITY_ID_TO_EDIT',
+  DEFAULT_ACTIVITY = '[ActivityManagement] DEFAULT_ACTIVITY',
 }
 
 export class LoadActivities implements Action {
@@ -118,6 +119,10 @@ export class ResetActivityToEdit implements Action {
   public readonly type = ActivityManagementActionTypes.RESET_ACTIVITY_ID_TO_EDIT;
 }
 
+export class DefaultActivities implements Action {
+  public readonly type = ActivityManagementActionTypes.DEFAULT_ACTIVITY;
+}
+
 export type ActivityManagementActions =
   | LoadActivities
   | LoadActivitiesSuccess
@@ -135,4 +140,5 @@ export type ActivityManagementActions =
   | UnarchiveActivitySuccess
   | UnarchiveActivityFail
   | SetActivityToEdit
-  | ResetActivityToEdit;
+  | ResetActivityToEdit
+  | DefaultActivities;

@@ -25,6 +25,7 @@ export enum ProjectActionTypes {
   UNARCHIVE_PROJECT = '[Projects] UNARCHIVE_PROJECT',
   UNARCHIVE_PROJECT_SUCCESS = '[Projects] UNARCHIVE_PROJECT_SUCCESS',
   UNARCHIVE_PROJECT_FAIL = '[Projects] UNARCHIVE_PROJECT_FAIL',
+  DEFAULT_PROJECT = '[Projects] DEFAULT_PROJECTS',
 }
 
 export class CleanCustomerProjects implements Action {
@@ -154,6 +155,10 @@ export class UnarchiveProjectFail implements Action {
   constructor(public error: string) {}
 }
 
+export class DefaultProjects implements Action {
+  public readonly type = ProjectActionTypes.DEFAULT_PROJECT;
+}
+
 export type ProjectActions =
   | CleanCustomerProjects
   | LoadProjects
@@ -177,4 +182,5 @@ export type ProjectActions =
   | DeleteProjectFail
   | UnarchiveProject
   | UnarchiveProjectSuccess
-  | UnarchiveProjectFail;
+  | UnarchiveProjectFail
+  | DefaultProjects;

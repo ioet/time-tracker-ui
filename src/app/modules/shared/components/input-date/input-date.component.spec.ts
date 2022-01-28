@@ -37,6 +37,42 @@ describe('InputDateComponent', () => {
     expect(component.value).toEqual('2020-05-20');
   }));
 
+  it('call the close method if opened equals true', () => {
+    const datepicker: any = { opened : true, open : () => {}, close : () => {} };
+    spyOn(datepicker, 'close');
+    component.openOrCloseDatePicker(datepicker);
+    expect(datepicker.close).toHaveBeenCalled();
+  });
+
+  it('call the open method if opened equals false', () => {
+    const datepicker: any = { opened : false, open : () => {}, close : () => {}};
+    spyOn(datepicker, 'open');
+    component.openOrCloseDatePicker(datepicker);
+    expect(datepicker.open).toHaveBeenCalled();
+  });
+
+  it('isDisabled shuold be true if parameter is true', () => {
+    component.setDisabledState(true);
+    expect(component.isDisabled).toBe(true);
+  });
+
+  it('isDisabled shuold be false if parameter is false', () => {
+    component.setDisabledState(false);
+    expect(component.isDisabled).toBe(false);
+  });
+
+  it(`value shuold be '' in writeValue function when parameter is null`, () => {
+    const value: any = null;
+    component.writeValue(value);
+    expect(component.value).toEqual('');
+  });
+
+  it(`value shuold be '' in writeValue function when parameter is not defined`, () => {
+    const value: any = undefined;
+    component.writeValue(value);
+    expect(component.value).toEqual('');
+  });
+
   const params: boolean[] = [true, false];
   params.forEach(disable => {
     it('when the disabled attribute is provided, it should disable the input ', fakeAsync(() => {

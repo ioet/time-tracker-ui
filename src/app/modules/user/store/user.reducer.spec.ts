@@ -1,5 +1,5 @@
 import { userReducer } from './user.reducer';
-import { LoadUser, LoadUserFail, LoadUserSuccess } from './user.actions';
+import { LoadUser, LoadUserFail, LoadUserSuccess, DefaultUser } from './user.actions';
 import { User } from '../models/user';
 
 describe('userReducer', () => {
@@ -41,4 +41,11 @@ describe('userReducer', () => {
 
     expect(state).toEqual(initialState);
   });
+
+  it('on DefaultAction, state equal to initial state', () => {
+    const action = new DefaultUser();
+    const state = userReducer(initialState, action);
+    expect(state).toEqual(initialState);
+  });
+
 });

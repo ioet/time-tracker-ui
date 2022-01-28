@@ -240,7 +240,6 @@ describe('DetailsFieldsComponent', () => {
       technology: '',
     };
     component.ngOnChanges();
-
     expect(component.shouldRestartEntry).toBeFalse();
     expect(component.entryForm.value).toEqual(formValue);
     component.activities$.subscribe((item) => {
@@ -730,6 +729,35 @@ describe('DetailsFieldsComponent', () => {
       expect(numberinISOFormat).toBe(expectedISOFormatNumbers[numberIndex]);
     });
   });
+
+  it('when the user selects technologies, set them in the variable selectedTechnologies', () => {
+    const techs = ['php', 'angular'];
+    component.onTechnologiesUpdated(techs);
+    expect(component.selectedTechnologies).toEqual(techs);
+  });
+
+  it('when the user does not select a project, display a warning message.', () => {
+    spyOn(toastrServiceStub, 'warning');
+    component.onclickFormAction(true);
+    expect(toastrServiceStub.warning).toHaveBeenCalled();
+  });
+
+  it('call the close method if opened equals true', () => {
+    const datepicker: any = { opened : true, open : () => {}, close : () => {} };
+    spyOn(datepicker, 'close');
+    component.openOrCloseDatePicker(datepicker);
+    expect(datepicker.close).toHaveBeenCalled();
+  });
+
+  it('call the open method if opened equals false', () => {
+    const datepicker: any = { opened : false, open : () => {}, close : () => {} };
+    spyOn(datepicker, 'open');
+    component.openOrCloseDatePicker(datepicker);
+    expect(datepicker.open).toHaveBeenCalled();
+  });
+
+  // TODO: test en la función find del método onChange
+
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:

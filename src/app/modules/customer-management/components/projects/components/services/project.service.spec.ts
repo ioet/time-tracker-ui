@@ -48,6 +48,16 @@ describe('ProjectService', () => {
     }
   ));
 
+  it('all projects are read using GET from url', () => {
+    const projectsFoundSize = projectsList.length;
+    service.getAllProjects().subscribe((projectsInResponse) => {
+      expect(projectsInResponse.length).toBe(projectsFoundSize);
+    });
+    const getProjectsRequest = httpMock.expectOne(service.url);
+    expect(getProjectsRequest.request.method).toBe('GET');
+    getProjectsRequest.flush(projectsList);
+  });
+
   it('projects are read using GET from url', () => {
     const projectsFoundSize = projectsList.length;
     service.url = '/projects';
