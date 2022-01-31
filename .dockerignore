@@ -4,5 +4,5 @@ dist
 coverage
 Makefile
 .gitignore
-src/environments/keys.ts
-src/environments/.keys.json
+*keys.ts
+*.keys.json
