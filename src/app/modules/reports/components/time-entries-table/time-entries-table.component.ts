@@ -50,7 +50,8 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         text: 'CSV',
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
-    ]
+    ],
+    columnDefs: [{ type: 'date', targets: 2 }]
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
