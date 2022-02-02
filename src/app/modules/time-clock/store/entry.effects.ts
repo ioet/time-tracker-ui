@@ -143,7 +143,7 @@ export class EntryEffects {
           if (error.status === 404) {
             return of(new actions.CreateEntry(entry));
           } else {
-            this.toastrService.error('We could not clock in you, try again later.');
+            this.toastrService.error('We could not clock you in, try again later.');
             return of(new actions.CreateEntryFail('Error'));
           }
         })
