@@ -22,4 +22,19 @@
   <div class="form-group">
     <button *ngIf="areFieldsVisible" class="btn btn-primary btn-block" type="button" (click)="clockOut()">Clock Out</button>
   </div>
+
+  <div class="row pt-5">
+    <div class="col-sm-6">
+        <label >Mensajes del servidor</label>
+        <textarea rows="5" class="form-control">{{messageFromServer}}</textarea>
+    </div>
+    <div class="col-sm-5">
+        <form [formGroup]="form" (ngSubmit)="sendMessage()">
+            <label  class="form-label">Texto a enviar</label>
+            <input type="text" formControlName="message" class="form-control">
+            <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+        </form>
+    </div>
+  </div>
+
 </div>

@@ -3,8 +3,7 @@ import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
-import { filter, map } from 'rxjs/operators';
-import { threadId } from 'worker_threads';
+import { filter } from 'rxjs/operators';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
 import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
 import { Entry } from './../../shared/models/entry.model';
@@ -12,6 +11,8 @@ import { EntryActionTypes, LoadEntriesSummary, StopTimeEntryRunning } from './..
 import { getActiveTimeEntry } from './../store/entry.selectors';
 import { LoginService } from '../../login/services/login.service';
 import { environment } from 'src/environments/environment';
+import { SocketService } from '../services/socket.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-time-clock',
   templateUrl: './time-clock.component.html',
@@ -26,19 +27,35 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   clockOutSubscription: Subscription;
   storeSubscription: Subscription;
   isProduction = environment.production;
+  
+  public form: FormGroup;
+  public wsSubscription: Subscription;
+  public messageFromServer: string = '';
 
   constructor(
     private azureAdB2CService: AzureAdB2CService,
     private store: Store<Entry>,
     private toastrService: ToastrService,
     private actionsSubject$: ActionsSubject,
-    private loginService: LoginService
-  ) {}
+    private loginService: LoginService,
+    private formBuilder: FormBuilder,
+    private socketService: SocketService
+  ) {
+    this.form = this.formBuilder.group({
+      message: [''],
+    });
+    // Creamos la suscripción al servicio del Socket
+    this.wsSubscription = this.socketService.createObservableSocket().subscribe(
+      (data) => (this.messageFromServer += data + "\n"),
+      (err) => console.log('err'),
+      () => console.log('The observable stream is complete')
+    );
+  }
 
   ngOnInit(): void {
     if (this.isProduction) {
       this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
-    }else{
+    } else {
       this.username = this.loginService.isLogin() ? this.loginService.getName() : '';
     }
     this.storeSubscription = this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
@@ -53,14 +70,11 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   }
 
   reloadSummariesOnClockOut() {
-    this.clockOutSubscription = this.actionsSubject$.pipe(
-      filter((action) => (
-          action.type === EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS
-        )
-      )
-    ).subscribe( (action) => {
-      this.store.dispatch(new LoadEntriesSummary());
-    });
+    this.clockOutSubscription = this.actionsSubject$
+      .pipe(filter((action) => action.type === EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS))
+      .subscribe((action) => {
+        this.store.dispatch(new LoadEntriesSummary());
+      });
   }
 
   stopEntry() {
@@ -80,8 +94,18 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.clockOutSubscription.unsubscribe();
     this.storeSubscription.unsubscribe();
+    this.closeSocket();
   }
 
+  // Enviar mensaje al servidor del socket
+  sendMessage() {
+    const { message } = this.form.value;
+    this.socketService.sendMessage(message);
+    // Reseteo del formulario
+    this.form.reset();
+  }
+
+  closeSocket() {
+    this.wsSubscription.unsubscribe();
+  }
 }
-
-
