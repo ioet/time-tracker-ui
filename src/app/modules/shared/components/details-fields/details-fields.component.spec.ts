@@ -517,32 +517,6 @@ describe('DetailsFieldsComponent', () => {
     expect(component.projectSelected.emit).toHaveBeenCalledWith(data);
   });
 
-  it('on selected start_date should change end_date', () => {
-    const expectedStartDate = '2020-02-05';
-
-    component.onStartDateChange(expectedStartDate);
-    fixture.detectChanges();
-    const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
-
-    expect(endDateInput.value).toEqual(expectedStartDate);
-  });
-
-  it('on selected end_date should not change start_date', () => {
-    const expectedStartDate = '2020-02-05';
-    const expectedEndDate = '2020-02-06';
-
-    component.ngOnInit();
-    fixture.detectChanges();
-    const startDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#start_date');
-    const endDateInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#end_date');
-    startDateInput.value = expectedStartDate;
-    endDateInput.value = expectedEndDate;
-    endDateInput.dispatchEvent(new Event('#end_date'));
-
-    expect(endDateInput.value).not.toEqual(startDateInput.value);
-    expect(startDateInput.value).toEqual(expectedStartDate);
-  });
-
   it('on get current date should return expected date', () => {
     const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
 
@@ -558,15 +532,6 @@ describe('DetailsFieldsComponent', () => {
 
     expect(startDateInput.id).toEqual('start_date');
     expect(startDateInput.max).toEqual(expectedDate);
-  });
-
-  it('on the input with id #end_date we could get the current Date ', () => {
-    fixture.detectChanges();
-    const expectedDate = moment(new Date()).format(DATE_FORMAT_YEAR);
-    const endDateInput = fixture.debugElement.nativeElement.querySelector('[id=end_date]');
-
-    expect(endDateInput.id).toEqual('end_date');
-    expect(endDateInput.max).toEqual(expectedDate);
   });
 
   const diffParams = [
