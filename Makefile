@@ -36,7 +36,7 @@ restart: ## Restart container timetracker_ui.
 
 .PHONY: remove
 remove: ## Delete container timetracker_ui.
-	docker-compose down
+	docker-compose down --volumes --remove-orphans --rmi local
 
 .PHONY: test
 test: ## Run all tests on docker container timetracker_ui.
@@ -68,4 +68,4 @@ publish_prod: ## Publish the container image timetracker_ui_prod.
 
 .PHONY: login
 login: ## Login in respository of docker images.
-	az acr login --name timetrackerdevregistry
+	az acr login --name $(container_registry)
