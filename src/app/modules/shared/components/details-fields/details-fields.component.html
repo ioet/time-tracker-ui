@@ -72,7 +72,7 @@
       </div>
 
       <div class="form-group row" >
-        <label class="col-12 col-sm-2">Date in:</label>
+        <label class="col-12 col-sm-2">Date:</label>
         <div class="col-12 col-sm-4" tabindex="0">
           <input
             matInput
@@ -108,28 +108,7 @@
       </div>
 
       <div class="form-group row" *ngIf="!goingToWorkOnThis || !canMarkEntryAsWIP">
-        <label class="col-12 col-sm-2">Date out:</label>
-        <div class="col-12 col-sm-4" tabindex="0">
-          <input
-            matInput
-            formControlName="end_date"
-            id="end_date"
-            class="form-control"
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            [disabled]="true"
-            [class.is-invalid]="end_date.invalid && end_date.touched"
-            required
-            [max]="getCurrentDate()"
-            onkeydown="return false"
-            [tabIndex]="1"
-            (click)="openOrCloseDatePicker(datepickerEndDate)"
-            (dateInput)="end_date.setValue($event.value.format('YYYY-MM-DD'))"
-            [matDatepicker]="datepickerEndDate"
-          />
-          <mat-datepicker #datepickerEndDate></mat-datepicker>
-        </div>
-
+        <div class="col-12 col-sm-6"></div>
         <label class="col-12 col-sm-2">Time out:</label>
         <div class="col-12 col-sm-4">
           <ngx-timepicker-field
