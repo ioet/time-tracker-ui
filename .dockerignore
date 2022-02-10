@@ -1,8 +1,0 @@
-node_modules
-.github
-dist
-coverage
-Makefile
-.gitignore
-*keys.ts
-*.keys.json
