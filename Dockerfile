@@ -20,7 +20,7 @@ CMD npm run config && ${HOME}/time-tracker-ui/node_modules/.bin/ng serve --host 
 
 FROM development as build
 COPY .env .
-RUN npm run build
+RUN npm run config && npm run build
 
 
 
