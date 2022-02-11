@@ -2,6 +2,7 @@
   "name": "time-tracker",
   "version": "1.62.1",
   "scripts": {
+    "config": "ts-node ./scripts/setenv.ts",
     "preinstall": "npx npm-force-resolutions",
     "ng": "ng",
     "start": "ng serve",
@@ -44,6 +45,7 @@
     "datatables.net-responsive": "2.2.6",
     "datatables.net-responsive-dt": "2.2.6",
     "date-fns": "2.22.1",
+    "dotenv": "^14.2.0",
     "jquery": "3.5.1",
     "jszip": "3.7.0",
     "minimist": "1.2.5",
