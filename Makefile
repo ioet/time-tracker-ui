@@ -56,8 +56,12 @@ build_prod: ## Create docker image with dependencies needed for production.
 run_prod: ## Execute timetracker_ui_prod docker container.
 	docker run -d -p 4200:4200 --name timetracker_ui_prod timetracker_ui_prod 
 
+.PHONY: stop_prod
+stop_prod: ## Stop container timetracker_ui_prod.
+	docker stop timetracker_ui_prod
+
 .PHONY: remove_prod
-remove_prod: ## Delete container timetracker_ui_pro.
+remove_prod: ## Delete container timetracker_ui_prod.
 	docker stop timetracker_ui_prod
 	docker rm timetracker_ui_prod
 
