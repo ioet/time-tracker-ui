@@ -41,7 +41,7 @@ remove: ## Delete container timetracker_ui.
 .PHONY: test
 test: ## Run all tests on docker container timetracker_ui.
 	docker-compose --env-file ./.env up -d
-	docker exec -it timetracker_ui bash -c "npm run test"
+	docker exec -i timetracker_ui bash -c "npm run ci-test"
 
 .PHONY: publish
 publish: ## Publish the container image timetracker_ui.
