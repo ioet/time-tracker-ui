@@ -39,4 +39,4 @@ RUN touch /var/run/nginx.pid && chown -R ${USERNAME}:${USERNAME} /var/run/nginx.
 
 USER ${USERNAME}
 
-EXPOSE 4200
+EXPOSE 8080

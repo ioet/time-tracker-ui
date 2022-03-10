@@ -64,5 +64,4 @@ module "ui" {
   service_plan_name        = local.service_name
   service_plan_size        = var.service_plan_size
   service_plan_tier        = var.service_plan_tier
-
 }
