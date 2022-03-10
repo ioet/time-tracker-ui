@@ -64,6 +64,7 @@
             formControlName="uri"
             id="uri"
             type="text"
+            placeholder="Enter Jira ticket URL"
             class="form-control"
             aria-label="Small"
             aria-describedby="inputGroup-sizing-sm"
@@ -138,8 +139,14 @@
 
       <div class="form-group text-left">
         <label for="NotesTextarea">Description:</label>
-        <textarea maxlength="1500" formControlName="description" class="form-control" id="NotesTextarea" rows="3">
-        </textarea>
+        <textarea
+          maxlength="1500"
+          formControlName="description"
+          placeholder="Write a brief description of your activity"
+          class="form-control"
+          id="NotesTextarea"
+          rows="3"
+        ></textarea>
       </div>
     </fieldset>
   </div>
