@@ -1,0 +1,75 @@
+name: time-tracker-ui-cd-stage
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    env:
+        TF_WORKSPACE: stage
+        WORKING_DIR: infrastructure/
+        ARM_CLIENT_ID: ${{secrets.TF_ARM_CLIENT_ID}}
+        ARM_CLIENT_SECRET: ${{secrets.TF_ARM_CLIENT_SECRET}}
+        ARM_SUBSCRIPTION_ID: ${{secrets.TF_ARM_SUBSCRIPTION_ID}}
+        ARM_TENANT_ID: ${{secrets.TF_ARM_TENANT_ID}}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Get the release_version
+      run: |
+        echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        echo $RELEASE_VERSION
+    - name: Login to azure
+      uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+# old yaml start here
+    - name: Set up Node.js version
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
+    - name: Inject Secrets
+      env:
+        SCOPES: ${{ secrets.scopes }}
+        CLIENT_ID: ${{ secrets.client_id }}
+        AUTHORITY: ${{ secrets.authority }}
+        STACK_EXCHANGE_ID: ${{ secrets.stack_exchange_id }}
+        STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.stack_exchange_access_token }}
+        AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.azure_app_configuration_connection_string }}
+      run: |
+        chmod +x ./scripts/populate-keys.sh
+        sh ./scripts/populate-keys.sh
+    - name: 'run: npm install and build'
+      run: |
+        npm install
+        npm run build --prod --if-present
+        cp scripts/default-static-site.js ${BUILD_PATH}
+# old yaml stop here
+
+    - name: Build the docker image
+      run: make build
+
+    - name: Publish docker image to stage azure container registry
+      run: |
+        make login publish acr=timetrackerservicestageregistry docker_image_name=$RELEASE_VERSION
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Authenticate with the TF modules repository
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
+
+    - name: Terraform Init
+      working-directory: ${{ env.WORKING_DIR }}
+      run: terraform init
+
+    - name: Terraform Apply
+      working-directory: ${{ env.WORKING_DIR }}
+      run: terraform apply -lock=false -var-file="${{ env.TF_WORKSPACE }}.tfvars" -var "docker_image_name=$RELEASE_VERSION" -auto-approve
