@@ -119,3 +119,14 @@ input[type="date"]::-webkit-clear-button {
 ::ng-deep .cdk-overlay-container {
   z-index: 1100 !important;
 }
+
+.url-ticket-input {
+  border: 1px solid #ced4da !important;
+  border-radius: 0.25rem !important;
+}
+
+::ng-deep .ngx-timepicker {
+	border: 1px solid #ced4da !important;
+	border-radius: 0.25rem;
+	padding: 2px;
+}
