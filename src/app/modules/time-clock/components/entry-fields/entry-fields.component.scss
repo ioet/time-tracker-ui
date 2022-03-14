@@ -9,3 +9,14 @@
 .hidden {
   display: none;
 }
+
+.url-ticket-input {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+::ng-deep .ngx-timepicker {
+	border: 1px solid #ced4da;
+	border-radius: 0.25rem;
+	padding: 2px;
+}
