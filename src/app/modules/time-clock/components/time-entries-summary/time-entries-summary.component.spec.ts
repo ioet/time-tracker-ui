@@ -148,4 +148,11 @@ describe('TimeEntriesSummaryComponent', () => {
     discardPeriodicTasks();
   }));
 
+  it('clockOut should emits event', () => {
+    spyOn(component.clockoutEvent, 'emit');
+    component.clockOut();
+
+    expect(component.clockoutEvent.emit).toHaveBeenCalled();
+  });
+
 });
