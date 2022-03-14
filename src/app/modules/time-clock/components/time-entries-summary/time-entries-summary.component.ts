@@ -5,9 +5,10 @@ import { Entry } from './../../../shared/models/entry.model';
 import { TimeEntriesSummary } from '../../models/time.entry.summary';
 import { LoadEntriesSummary, LoadActiveEntry, EntryActionTypes } from './../../store/entry.actions';
 import { EntryState } from './../../store/entry.reducer';
-import { Store, ActionsSubject } from '@ngrx/store';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Store, ActionsSubject, select } from '@ngrx/store';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
 import * as moment from 'moment';
+import { getActiveTimeEntry } from '../../store/entry.selectors';
 
 @Component({
   selector: 'app-time-entries-summary',
@@ -15,6 +16,10 @@ import * as moment from 'moment';
   styleUrls: ['./time-entries-summary.component.css']
 })
 export class TimeEntriesSummaryComponent implements OnInit, OnDestroy {
+
+  @Input() activeTimeEntry: Entry;
+  @Input() areFieldsVisible = false;
+  @Output() clockoutEvent = new EventEmitter<void>();
 
   timeEntriesSummary: TimeEntriesSummary;
   currentWorkingTime: string;
@@ -103,4 +108,9 @@ export class TimeEntriesSummaryComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  clockOut(): void {
+    this.clockoutEvent.emit();
+  }
+
 }
