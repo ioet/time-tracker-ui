@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
 import { LoginService } from '../../../login/services/login.service';
-import { SocialUser } from 'angularx-social-login';
-import { SocialAuthService } from 'angularx-social-login';
+import { SocialUser, SocialAuthService } from 'angularx-social-login';
 
 @Component({
   selector: 'app-user',
