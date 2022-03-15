@@ -15,4 +15,3 @@ variable "service_plan_tier" {
   type        = string
   description = "Specifies the tier of the service plan. Tier is the pricing plan of the service plan resource."
 }
-
