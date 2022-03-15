@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
 import { LoginService } from '../../../login/services/login.service';
-import { SocialUser, SocialAuthService } from 'angularx-social-login';
 
 @Component({
   selector: 'app-user',
@@ -10,7 +9,6 @@ import { SocialUser, SocialAuthService } from 'angularx-social-login';
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
-  user: SocialUser;
   userPhoto: string;
   userName: string;
   userEmail: string;
@@ -18,8 +16,7 @@ export class UserComponent implements OnInit {
 
   constructor(
     private azureAdB2CService: AzureAdB2CService,
-    private loginService: LoginService,
-    private authService: SocialAuthService,
+    private loginService: LoginService
   ) { }
 
   ngOnInit(): void {
@@ -36,11 +33,6 @@ export class UserComponent implements OnInit {
         this.azureAdB2CService.setTenantId();
       }
     }
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.userPhoto = user.photoUrl;
-      localStorage.setItem('googleUserPhoto', this.userPhoto);
-    });
     this.userPhoto = localStorage.getItem('googleUserPhoto');
   }
 }
