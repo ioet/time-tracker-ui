@@ -37,6 +37,6 @@ RUN chown -R ${USERNAME}:${USERNAME} /var/cache/nginx && \
     chown -R ${USERNAME}:${USERNAME} /etc/nginx/conf.d
 RUN touch /var/run/nginx.pid && chown -R ${USERNAME}:${USERNAME} /var/run/nginx.pid
 
-USER ${USERNAME}
+#USER ${USERNAME}
 
 EXPOSE 80
