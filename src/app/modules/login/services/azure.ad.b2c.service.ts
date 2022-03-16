@@ -3,12 +3,13 @@ import { UserAgentApplication } from 'msal';
 import { from, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { AUTHORITY, CLIENT_ID, SCOPES } from '../../../../environments/environment';
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AzureAdB2CService {
-  constructor(private cookieService?: CookieService) { }
+  constructor(private cookieService?: CookieService, private socialAuthService?: SocialAuthService) { }
 
   msalConfig: any = {
     auth: {
@@ -28,6 +29,9 @@ export class AzureAdB2CService {
   msal = new UserAgentApplication(this.msalConfig);
 
   signIn(): Observable<any> {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user => {
+      localStorage.setItem('googleUserPhoto', user.photoUrl);
+    });
     return from(this.msal.loginPopup(this.tokenRequest));
   }
 

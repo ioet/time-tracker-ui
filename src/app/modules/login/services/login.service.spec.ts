@@ -1,8 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {SocialAuthService, SocialUser} from 'angularx-social-login';
+import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
-import { of } from 'rxjs';
 
 import { LoginService } from './login.service';
 

@@ -2,15 +2,23 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Account, UserAgentApplication } from 'msal';
 import { AzureAdB2CService } from './azure.ad.b2c.service';
 import { CookieService } from 'ngx-cookie-service';
+import { SocialAuthService, SocialUser } from 'angularx-social-login';
 
 describe('AzureAdB2CService', () => {
   let service: AzureAdB2CService;
   let cookieService: CookieService;
   let account: Account;
+  const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['signOut', 'signIn']);
+  socialAuthServiceStub.signIn.and.returnValue(new Promise<SocialUser>( resolve => {
+    return {photoUrl: ''};
+  }));
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
+      providers: [
+        { provide: SocialAuthService, useValue: socialAuthServiceStub },
+      ],
     });
     service = TestBed.inject(AzureAdB2CService);
     cookieService = TestBed.inject(CookieService);
