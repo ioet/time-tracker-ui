@@ -9,25 +9,30 @@ import { LoginService } from '../../../login/services/login.service';
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
+  userPhoto: string;
   userName: string;
   userEmail: string;
   isProduction = environment.production;
 
-  constructor(private azureAdB2CService: AzureAdB2CService, private loginService: LoginService) {}
+  constructor(
+    private azureAdB2CService: AzureAdB2CService,
+    private loginService: LoginService
+  ) { }
 
   ngOnInit(): void {
-    if (this.isProduction){
+    if (this.isProduction) {
       if (this.azureAdB2CService.isLogin()) {
         this.userName = this.azureAdB2CService.getName();
         this.userEmail = this.azureAdB2CService.getUserEmail();
         this.azureAdB2CService.setTenantId();
       }
-    }else{
+    } else {
       if (this.loginService.isLogin()) {
         this.userName = this.loginService.getName();
         this.userEmail = this.loginService.getUserEmail();
         this.azureAdB2CService.setTenantId();
       }
     }
+    this.userPhoto = localStorage.getItem('googleUserPhoto');
   }
 }
