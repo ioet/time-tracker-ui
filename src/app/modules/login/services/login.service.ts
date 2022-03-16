@@ -20,9 +20,7 @@ export class LoginService {
   }
 
   signIn() {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user => {
-      localStorage.setItem('googleUserPhoto', user.photoUrl);
-    });
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
   logout() {
     this.socialAuthService.signOut();
