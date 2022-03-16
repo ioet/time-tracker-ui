@@ -22,7 +22,9 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
-  dtOptions: any = {};
+  dtOptions: any = {
+    columnDefs: [{ orderable: false, targets: [2]}]
+  };
   switchGroupsSubscription: Subscription;
   isDevelopment = true;
 

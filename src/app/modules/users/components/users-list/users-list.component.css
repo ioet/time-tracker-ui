@@ -1,0 +1,28 @@
+table.dataTable thead th {
+  position: relative;
+}
+
+table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting_asc:after,
+table.dataTable thead th.sorting_desc:after {
+  position: absolute;
+  top: 10px;
+  right: 3px;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #ff5e0a;
+  -webkit-text-stroke: 2px white;
+}
+
+table.dataTable thead .sorting_asc::after {
+  content: "▲";
+}
+
+table.dataTable thead .sorting_desc::after {
+  content: "▼";
+}
+
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
+  background-image: none;
+}

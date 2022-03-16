@@ -22,7 +22,7 @@
 <div class="row content-months">
   <div class="spacing col-xl-1 col-lg-1 col-md-2 col-2" *ngFor="let month of months; let i = index">
     <button class="btn btn-light btn-block"
-      [ngClass]="{'btn-primary': isSelectedMonth(i)}"
+      [ngClass]="{'btn-primary selected-month': isSelectedMonth(i)}"
       (click)="selectMonth(i)"
       [disabled]="monthEnable(i)">
       <small>{{ month.slice(0, 3) }}</small>
