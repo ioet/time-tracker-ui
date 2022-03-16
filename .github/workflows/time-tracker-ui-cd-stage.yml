@@ -2,8 +2,8 @@ name: time-tracker-ui-cd-stage
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+    - TT-513-Create-CI/CD-pipeline-in-timer-tracker-ui-to-deploy-changes-for-both-environments
 
 jobs:
   cd:
