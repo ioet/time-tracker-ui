@@ -21,12 +21,12 @@ services:
       AUTHORITY_JSON: ${AUTHORITY_JSON}
       CLIENT_ID_JSON: ${CLIENT_ID_JSON}
       SCOPES_JSON: ${SCOPES_JSON}
-    # volumes:
-    #   # - ./src:/home/timetracker/time-tracker-ui/src/
-    #   # - ./scripts:/home/timetracker/time-tracker-ui/scripts/
-    #   # - ./e2e:/home/timetracker/time-tracker-ui/e2e/
-    #   # - ./coverage:/home/timetracker/time-tracker-ui/coverage
-    #   # - ./angular.json:/home/timetracker/time-tracker-ui/angular.json
-    #   # - ./karma.conf.js:/home/timetracker/time-tracker-ui/karma.conf.js
-    #   # - ./package.json:/home/timetracker/time-tracker-ui/package.json
-    #   # - ./webpack.config.js:/home/timetracker/time-tracker-ui/webpack.config.js
+    volumes:
+      - ./src:/home/timetracker/time-tracker-ui/src/
+      - ./scripts:/home/timetracker/time-tracker-ui/scripts/
+      - ./e2e:/home/timetracker/time-tracker-ui/e2e/
+      - ./coverage:/home/timetracker/time-tracker-ui/coverage
+      - ./angular.json:/home/timetracker/time-tracker-ui/angular.json
+      - ./karma.conf.js:/home/timetracker/time-tracker-ui/karma.conf.js
+      - ./package.json:/home/timetracker/time-tracker-ui/package.json
+      - ./webpack.config.js:/home/timetracker/time-tracker-ui/webpack.config.js
