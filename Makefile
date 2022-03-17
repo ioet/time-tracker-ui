@@ -27,11 +27,11 @@ logs: ## Show logs of timetracker_ui.
 
 .PHONY: stop
 stop: ## Stop container timetracker_ui.
-	docker-compose stop	
+	docker-compose stop
 
 .PHONY: restart
 restart: ## Restart container timetracker_ui.
-	docker-compose stop	
+	docker-compose stop
 	docker-compose up -d
 
 .PHONY: remove
@@ -45,8 +45,8 @@ test: ## Run all tests on docker container timetracker_ui.
 
 .PHONY: publish
 publish: ## Publish the container image timetracker_ui.
-	docker tag timetracker_ui:latest $(registry_url)/timetracker_ui:latest
-	docker push $(registry_url)/timetracker_ui:latest
+	docker tag timetracker_ui:$(image_tag) $(acr)/timetracker_ui:$(image_tag)
+	docker push $(acr)/timetracker_ui:$(image_tag)
 
 .PHONY: build_prod
 build_prod: ## Create docker image with dependencies needed for production.
@@ -54,7 +54,7 @@ build_prod: ## Create docker image with dependencies needed for production.
 
 .PHONY: run_prod
 run_prod: ## Execute timetracker_ui_prod docker container.
-	docker run -d -p 4200:4200 --name timetracker_ui_prod timetracker_ui_prod 
+	docker run -d -p 4200:4200 --name timetracker_ui_prod timetracker_ui_prod
 
 .PHONY: remove_prod
 remove_prod: ## Delete container timetracker_ui_pro.
