@@ -30,16 +30,16 @@ jobs:
       run: make build
     - name: Publish docker image to stage azure container registry
       run: |
-        make login publish acr=timetrackerservicestageregistry image_tag=$RELEASE_VERSION
-    - name: Setup terraform
-      uses: hashicorp/setup-terraform@v1
-    - name: Authenticate with the TF modules repository
-      uses: webfactory/ssh-agent@v0.5.4
-      with:
-        ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
-    - name: Terraform Init
-      working-directory: ${{ env.WORKING_DIR }}
-      run: terraform init
-    - name: Terraform Apply
-      working-directory: ${{ env.WORKING_DIR }}
-      run: terraform apply -lock=false -var-file="${{ env.TF_WORKSPACE }}.tfvars" -var "image_tag=$RELEASE_VERSION" -auto-approve
+        make login publish acr=TT513registry image_tag=$RELEASE_VERSION
+    # - name: Setup terraform
+    #   uses: hashicorp/setup-terraform@v1
+    # - name: Authenticate with the TF modules repository
+    #   uses: webfactory/ssh-agent@v0.5.4
+    #   with:
+    #     ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
+    # - name: Terraform Init
+    #   working-directory: ${{ env.WORKING_DIR }}
+    #   run: terraform init
+    # - name: Terraform Apply
+    #   working-directory: ${{ env.WORKING_DIR }}
+    #   run: terraform apply -lock=false -var-file="${{ env.TF_WORKSPACE }}.tfvars" -var "image_tag=$RELEASE_VERSION" -auto-approve
