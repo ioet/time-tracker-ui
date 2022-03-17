@@ -5,6 +5,10 @@
   color: white;
   border-radius: .25rem;
 }
+.c-title{
+  position: relative;
+  bottom: 9px;
+}
 
 .clock-out{
   text-align: center;
