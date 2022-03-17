@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {SocialAuthService, SocialUser} from 'angularx-social-login';
+import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 
@@ -13,9 +13,6 @@ describe('LoginService', () => {
   let socialAuthService: SocialAuthService;
   let account;
   const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['signOut', 'signIn']);
-  socialAuthServiceStub.signIn.and.returnValue(new Promise<SocialUser>( resolve => {
-    return {photoUrl: ''};
-  }));
   const cookieStoreStub = {};
 
   beforeEach(() => {
