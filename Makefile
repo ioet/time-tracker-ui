@@ -50,8 +50,8 @@ testdev: ## Run all tests on docker container timetracker_ui at the Dev
 
 .PHONY: publish
 publish: ## Publish the container image timetracker_ui.
-	docker tag timetracker_ui $(acr).azurecr.io/timetracker_ui:latest
-	docker push $(acr)/timetracker_ui:latest
+	docker tag timetracker_ui $(acr)/timetracker_ui:latest
+	docker push $(acr).azurecr.io/timetracker_ui:latest
 
 .PHONY: build_prod
 build_prod: ## Create docker image with dependencies needed for production.
