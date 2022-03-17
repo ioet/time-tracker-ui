@@ -63,9 +63,9 @@ remove_prod: ## Delete container timetracker_ui_pro.
 
 .PHONY: publish_prod
 publish_prod: ## Publish the container image timetracker_ui_prod.
-	docker tag timetracker_ui_prod:latest $(registry_url)/timetracker_ui_prod:latest
-	docker push $(registry_url)/timetracker_ui_prod:latest
+	docker tag timetracker_ui_prod:$(image_tag) $(registry_url)/timetracker_ui_prod:$(image_tag)
+	docker push $(registry_url)/timetracker_ui_prod:$(image_tag)
 
 .PHONY: login
 login: ## Login in respository of docker images.
-	az acr login --name $(container_registry)
+	az acr login --name $(acr)
