@@ -32,28 +32,20 @@ data "terraform_remote_state" "service" {
   }
 }
 
-data "azurerm_container_registry" "registry" {
-  name                = data.terraform_remote_state.service.outputs.container_registry_name
-  resource_group_name = data.terraform_remote_state.service.outputs.resource_group_name
-}
-
-data "azurerm_resource_group" "root" {
-  name = data.terraform_remote_state.service.outputs.resource_group_name
-}
-
 locals {
   common_name             = "time-tracker-ui"
   environment             = terraform.workspace
   service_name            = "${local.common_name}-${local.environment}"
   create_app_service_plan = true
   service_plan_kind       = "Linux"
+  docker_image_name = "timetracker_ui"
 }
 
 module "ui" {
   source                   = "git@github.com:ioet/infra-terraform-modules.git//azure-app-service?ref=tags/v0.0.5"
   app_service_name         = local.service_name
   create_app_service_plan  = local.create_app_service_plan
-  docker_image_name        = var.docker_image_name
+  docker_image_name        = "${local.docker_image_name}:${var.docker_image_tag}"
   docker_image_namespace   = data.azurerm_container_registry.registry.login_server
   docker_registry_password = data.azurerm_container_registry.registry.admin_password
   docker_registry_url      = data.azurerm_container_registry.registry.login_server
