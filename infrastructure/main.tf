@@ -38,7 +38,7 @@ locals {
   service_name            = "${local.common_name}-${local.environment}"
   create_app_service_plan = true
   service_plan_kind       = "Linux"
-  docker_image_name = "timetracker_ui"
+  docker_image_name       = "timetracker_ui"
 }
 
 module "ui" {
@@ -46,12 +46,12 @@ module "ui" {
   app_service_name         = local.service_name
   create_app_service_plan  = local.create_app_service_plan
   docker_image_name        = "${local.docker_image_name}:${var.docker_image_tag}"
-  docker_image_namespace   = data.azurerm_container_registry.registry.login_server
-  docker_registry_password = data.azurerm_container_registry.registry.admin_password
-  docker_registry_url      = data.azurerm_container_registry.registry.login_server
-  docker_registry_username = data.azurerm_container_registry.registry.admin_username
-  location                 = data.azurerm_resource_group.root.location
-  resource_group_name      = data.azurerm_resource_group.root.name
+  docker_image_namespace   = data.terraform_remote_state.service.outputs.login_server
+  docker_registry_password = data.terraform_remote_state.service.outputs.admin_password
+  docker_registry_url      = data.terraform_remote_state.service.outputs.login_server
+  docker_registry_username = data.terraform_remote_state.service.outputs.admin_username
+  location                 = data.terraform_remote_state.service.outputs.container_registry_location
+  resource_group_name      = data.terraform_remote_state.service.outputs.resource_group_name
   service_plan_kind        = local.service_plan_kind
   service_plan_name        = local.service_name
   service_plan_size        = var.service_plan_size
