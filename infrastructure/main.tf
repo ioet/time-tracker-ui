@@ -46,10 +46,10 @@ module "ui" {
   app_service_name         = local.service_name
   create_app_service_plan  = local.create_app_service_plan
   docker_image_name        = "${local.image_name}:${var.image_tag}"
-  docker_image_namespace   = data.terraform_remote_state.service.outputs.login_server
-  docker_registry_password = data.terraform_remote_state.service.outputs.admin_password
-  docker_registry_url      = data.terraform_remote_state.service.outputs.login_server
-  docker_registry_username = data.terraform_remote_state.service.outputs.admin_username
+  docker_image_namespace   = data.terraform_remote_state.service.outputs.container_registry_login_server
+  docker_registry_password = data.terraform_remote_state.service.outputs.container_registry_admin_password
+  docker_registry_url      = data.terraform_remote_state.service.outputs.container_registry_login_server
+  docker_registry_username = data.terraform_remote_state.service.outputs.container_registry_admin_username
   location                 = data.terraform_remote_state.service.outputs.container_registry_location
   resource_group_name      = data.terraform_remote_state.service.outputs.resource_group_name
   service_plan_kind        = local.service_plan_kind
