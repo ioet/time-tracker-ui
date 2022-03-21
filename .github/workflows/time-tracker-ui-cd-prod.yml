@@ -1,9 +1,9 @@
 name: time-tracker-ui-cd-prod
 
 on:
-  release:
-    types:
-      - published
+  push:
+    branches:
+    - TT-513-Create-CI/CD-pipeline-in-timer-tracker-ui-to-deploy-changes-for-both-environments
 
 jobs:
   cd:
@@ -30,11 +30,11 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Build the docker image
-      run: make build
+      run: build_prod
 
     - name: Publish docker image to prod azure container registry
       run: |
-        make login publish acr=timetrackerserviceprodregistry image_tag=$RELEASE_VERSION
+        make login publish_prod acr=tt513registry image_tag=$RELEASE_VERSION
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v1
 
