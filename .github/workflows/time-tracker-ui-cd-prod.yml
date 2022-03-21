@@ -30,11 +30,11 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Build the docker image
-      run: build_prod
+      run: build
 
     - name: Publish docker image to prod azure container registry
       run: |
-        make login publish_prod acr=tt513registry image_tag=$RELEASE_VERSION
+        make login publish acr=tt513registry image_tag=$RELEASE_VERSION
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v1
 
