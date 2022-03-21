@@ -1,26 +1,7 @@
 version: '3.9'
 services:
   time-tracker-ui:
-    container_name: timetracker_ui
-    image: timetracker_ui
-    build:
-      target: development
-      context: .
-      dockerfile: ./Dockerfile
-    ports:
-      - 4200:4200
-      - 9876:9876
-    environment:
-      CHROME_BIN: /opt/google/chrome/google-chrome
-      AUTHORITY: ${AUTHORITY}
-      CLIENT_ID: ${CLIENT_ID}
-      SCOPES: ${SCOPES}
-      STACK_EXCHANGE_ID: ${STACK_EXCHANGE_ID}
-      STACK_EXCHANGE_ACCESS_TOKEN: ${STACK_EXCHANGE_ACCESS_TOKEN}
-      AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${AZURE_APP_CONFIGURATION_CONNECTION_STRING}
-      AUTHORITY_JSON: ${AUTHORITY_JSON}
-      CLIENT_ID_JSON: ${CLIENT_ID_JSON}
-      SCOPES_JSON: ${SCOPES_JSON}
+    user: root
     volumes:
       - ./src:/home/timetracker/time-tracker-ui/src/
       - ./scripts:/home/timetracker/time-tracker-ui/scripts/
