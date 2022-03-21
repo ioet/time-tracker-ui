@@ -2,12 +2,8 @@ name: time-tracker-ui-ci
 
 on:
   push:
-    branches:
-    - TT-513-Create-CI/CD-pipeline-in-timer-tracker-ui-to-deploy-changes-for-both-environments
-
+    branches: [ main ]
   pull_request:
-    branches:
-    - master
 
 jobs:
   ci:
