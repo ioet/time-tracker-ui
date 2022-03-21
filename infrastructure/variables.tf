@@ -1,4 +1,4 @@
-variable "docker_image_tag" {
+variable "image_tag" {
   type        = string
   description = "Specifies the docker image tag that is stored in a private container registry like ACR (Azure Container Registry)."
   sensitive   = true

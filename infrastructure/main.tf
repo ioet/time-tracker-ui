@@ -45,7 +45,7 @@ module "ui" {
   source                   = "git@github.com:ioet/infra-terraform-modules.git//azure-app-service?ref=tags/v0.0.5"
   app_service_name         = local.service_name
   create_app_service_plan  = local.create_app_service_plan
-  docker_image_name        = "${local.docker_image_name}:${var.docker_image_tag}"
+  docker_image_name        = "${local.docker_image_name}:${var.image_tag}"
   docker_image_namespace   = data.terraform_remote_state.service.outputs.login_server
   docker_registry_password = data.terraform_remote_state.service.outputs.admin_password
   docker_registry_url      = data.terraform_remote_state.service.outputs.login_server
