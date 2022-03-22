@@ -30,7 +30,7 @@ jobs:
       run: make build
     - name: Publish docker image to stage azure container registry
       run: |
-        make login publish acr=tt513registry image_tag=$RELEASE_VERSION
+        make login publish acr=timetrackerservicestageregistry image_tag=$RELEASE_VERSION
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v1
     - name: Authenticate with the TF modules repository

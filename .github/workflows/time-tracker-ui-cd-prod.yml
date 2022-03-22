@@ -34,7 +34,7 @@ jobs:
 
     - name: Publish docker image to prod azure container registry
       run: |
-        make login publish acr=ADDAZUREPRDOREGISTRY image_tag=$RELEASE_VERSION
+        make login publish acr=timetrackerserviceprodregistry image_tag=$RELEASE_VERSION
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v1
 
