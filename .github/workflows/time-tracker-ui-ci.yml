@@ -2,12 +2,8 @@ name: time-tracker-ui-ci
 
 on:
   push:
-    branches:
-    - TT-513-Create-CI/CD-pipeline-in-timer-tracker-ui-to-deploy-changes-for-both-environments
-
+    branches: [ main ]
   pull_request:
-    branches:
-    - master
 
 jobs:
   ci:
@@ -82,7 +78,7 @@ jobs:
     - name: Terraform Plan Stage
       id: plan-stage
       if: github.event_name == 'pull_request'
-      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -no-color
+      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
       continue-on-error: true
       working-directory: ./${{ env.WORKING_DIR }}
       env:
