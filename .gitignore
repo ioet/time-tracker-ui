@@ -55,3 +55,6 @@ Thumbs.db
 
 #ENV VARIABLES
 .env
+
+# Terraform files
+**/.terraform**
