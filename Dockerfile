@@ -37,6 +37,12 @@ RUN chown -R ${USERNAME}:${USERNAME} /var/cache/nginx && \
     chown -R ${USERNAME}:${USERNAME} /etc/nginx/conf.d
 RUN touch /var/run/nginx.pid && chown -R ${USERNAME}:${USERNAME} /var/run/nginx.pid
 
-USER ${USERNAME}
+# FIXME: Actually if we can deploy to azure in port 80 we need a root user 
+# Maybe we can refactor this dockerfile to use root user directly this is not a good approach y 
+# security terms. It's a good practice to have rootless in containers so for this 
+# we can to refactor this dockerfile and the terraform module to deploy in other ports because 
+# Ports below 1024 needs root permisions.
+ 
+# USER ${USERNAME}
 
-EXPOSE 4200
+EXPOSE 80
