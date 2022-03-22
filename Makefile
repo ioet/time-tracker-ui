@@ -49,9 +49,9 @@ testdev: ## Run all tests on docker container timetracker_ui at the Dev
 	docker exec timetracker_ui bash -c "npm run ci-test"
 
 .PHONY: publish
-publish: ## Publish the container image timetracker_ui.
-	docker tag timetracker_ui $(acr).azurecr.io/timetracker_ui:latest
-	docker push $(acr).azurecr.io/timetracker_ui:latest
+publish: require-acr-arg require-image_tag-arg ## Upload a docker image to an azure container registry acr=<name_of_the_azure_container_registry> image_tag=<tag_for_the_image>
+	docker tag timetracker_api $(acr).azurecr.io/timetracker_api:$(image_tag)
+	docker push $(acr).azurecr.io/timetracker_api:$(image_tag)
 
 .PHONY: build_prod
 build_prod: ## Create docker image with dependencies needed for production.
