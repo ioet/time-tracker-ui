@@ -17,9 +17,10 @@
     <input
       (blur)="onSubmit()"
       type="text"
+      placeholder="Enter Jira ticket URL"
       id="uri"
       formControlName="uri"
-      class="form-control"
+      class="url-ticket-input form-control"
     />
   </div>
 
@@ -55,6 +56,7 @@
       maxlength="1500"
       (blur)="onSubmit()"
       formControlName="description"
+      placeholder="Write a brief description of your activity"
       class="form-control"
       id="NotesTextarea"
       rows="2"></textarea>

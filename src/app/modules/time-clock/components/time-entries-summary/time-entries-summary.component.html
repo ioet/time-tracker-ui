@@ -1,22 +1,38 @@
-<h6 class="text-left"><strong>Summary</strong></h6>
-<hr class="mb-4" />
-<div class ="container px-0">
-  <div class="row pb-4">
-    <div class="col-12 col-sm-3">
+<div *ngIf="areFieldsVisible" class="grid grid-cols-2 gap-4 pb-4">
+  <div class="align-items-center">
+    <p class="card-title text-left inline-block c-title" style="margin: 0; padding: 0;">
+      You clocked in at
+      <strong>{{ activeTimeEntry?.start_date | date:'shortTime' }}</strong>
+    </p>
+    <div class="inline-block ml-12 text-center current-elapsed-time-box " style="width: 22%">
       <h6>Current</h6>
       <h3>{{ currentWorkingTime }}</h3>
     </div>
-    <div class="col-12 col-sm-3">
+  </div>
+  <div class="clock-out pr-28">
+    <button class="btn bt-clock-out" type="button" (click)="clockOut()">
+      Clock Out
+    </button>
+  </div>
+</div>
+
+<h6 class="text-left"><strong>Summary</strong></h6>
+<hr class="mb-4" />
+<div class="container px-0">
+
+  <div class="row pb-4">
+    <div class="col-12 col-sm-4">
       <h6>Day</h6>
       <h3>{{ timeEntriesSummary?.day | timeDetails }}</h3>
     </div>
-    <div class="col-12 col-sm-3">
+    <div class="col-12 col-sm-4">
       <h6>Week</h6>
       <h3>{{ timeEntriesSummary?.week | timeDetails }}</h3>
     </div>
-    <div class="col-12 col-sm-3">
+    <div class="col-12 col-sm-4">
       <h6>Month</h6>
       <h3>{{ timeEntriesSummary?.month | timeDetails }}</h3>
     </div>
   </div>
+
 </div>

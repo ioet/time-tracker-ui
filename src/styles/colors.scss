@@ -78,15 +78,59 @@ General Datatable adjustment styles
 
 .dt-buttons {
   .dt-button {
-    background-image: linear-gradient($info);
+    color: #ffffff;
+    font-family: roboto, arial, sans-serif;
+    background: $primary;
+    border: 1px solid transparent;
+    border-radius: 5px;
   }
   .dt-button:hover:not(.disabled) {
-    background-image: linear-gradient($info);
-    opacity: 0.5;
+    background: $primary;
+    border: 1px solid transparent;
   }
 
   .dt-button.disabled {
     background-image: linear-gradient($info);
     opacity: 0.5;
   }
+}
+
+.dataTables_paginate {
+  .paginate_button {
+    &:hover {
+      color: #ffffff;
+      background: $primary;
+      border: 1px solid transparent;
+    }
+  }
+}
+
+.dataTables_wrapper {
+  padding-top: 10px;
+  padding-right: 10px;
+}
+
+.dataTables_wrapper input {
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  outline: none;
+}
+
+.dataTables_wrapper input:focus {
+  border: 1px solid #80bdff;
+  box-shadow: 0px 0px 2px 3px #bfdeff;
+  -webkit-box-shadow: 0px 0px 2px 3px #bfdeff;
+  -moz-box-shadow: 0px 0px 2px 3px #bfdeff;
+}
+
+.dataTables_wrapper select {
+  border: 1px solid #ced4da;
+  outline: none;
+}
+
+.dataTables_wrapper select:focus {
+  border: 1px solid #80bdff;
+  box-shadow: 0px 0px 2px 3px #bfdeff;
+  -webkit-box-shadow: 0px 0px 2px 3px #bfdeff;
+  -moz-box-shadow: 0px 0px 2px 3px #bfdeff;
 }

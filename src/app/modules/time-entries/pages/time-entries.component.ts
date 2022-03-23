@@ -24,6 +24,7 @@ import { CalendarView } from 'angular-calendar';
 export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   dtOptions: any = {
     order: [[ 0, 'desc' ]],
+    columnDefs: [{orderable: false, targets: [6]}],
     destroy: true,
   };
   dtTrigger: Subject<any> = new Subject();
