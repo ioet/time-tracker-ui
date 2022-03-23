@@ -30,18 +30,6 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
 
-    #     ci-test:
-    # name: Unit tests and CodeCoverage
-    # timeout-minutes: 90
-    # steps:
-    # - name: Set up Node.js version
-    #   uses: actions/setup-node@v1
-    #   with:
-    #     node-version: '12.x'
-
-    # - name: Install dependencies
-    #   run: npm install
-
     - name: build docker
       run: make build
 
