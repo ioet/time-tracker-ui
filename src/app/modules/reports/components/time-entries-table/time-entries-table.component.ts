@@ -105,5 +105,9 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     const durationColumnIndex = 3;
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
+
+  parseDateToUTC(date): string{
+    return moment(date).utc(true).format("HH:MM");
+  }
 }
 
