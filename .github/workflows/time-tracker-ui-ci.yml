@@ -1,0 +1,138 @@
+name: time-tracker-ui-ci
+
+on:
+  push:
+    branches:
+    - master
+
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+        WORKING_DIR: infrastructure/
+        DB_CONNECTION:  ${{ secrets.DB_CONNECTION }}
+        ARM_CLIENT_ID: ${{secrets.TF_ARM_CLIENT_ID}}
+        ARM_CLIENT_SECRET: ${{secrets.TF_ARM_CLIENT_SECRET}}
+        ARM_SUBSCRIPTION_ID: ${{secrets.TF_ARM_SUBSCRIPTION_ID}}
+        ARM_TENANT_ID: ${{secrets.TF_ARM_TENANT_ID}}
+    strategy:
+      max-parallel: 5
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate with the TF modules repository
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
+
+    - name: build docker
+      run: make build
+
+    - name: Inject Secrets
+      env:
+        SCOPES: ${{ secrets.SCOPES }}
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        AUTHORITY: ${{ secrets.AUTHORITY }}
+        STACK_EXCHANGE_ID: ${{ secrets.STACK_EXCHANGE_ID }}
+        STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}
+        AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}
+      run: |
+        chmod +x ./scripts/populate-keys.sh
+        sh ./scripts/populate-keys.sh
+
+    - name: Running tests
+      run: |
+        chmod -R 777 ./$home
+        make test
+    - name: Generate coverage report
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: bash <(curl -s https://codecov.io/bash)
+
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: 'Terraform Init'
+      id: init
+      working-directory: ./${{ env.WORKING_DIR }}
+      run: terraform init
+
+    - name: 'Terraform validate'
+      id: validate
+      working-directory: ./${{ env.WORKING_DIR }}
+      run: terraform validate
+
+    - name: Terraform Plan Stage
+      id: plan-stage
+      if: github.event_name == 'pull_request'
+      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
+      continue-on-error: true
+      working-directory: ./${{ env.WORKING_DIR }}
+      env:
+        TF_WORKSPACE: stage
+
+    - name: Terraform Plan Prod
+      id: plan-prod
+      if: github.event_name == 'pull_request'
+      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -no-color
+      continue-on-error: true
+      working-directory: ./${{ env.WORKING_DIR }}
+      env:
+        TF_WORKSPACE: prod
+
+    - name: Update Pull Request with Stage Plan
+      uses: actions/github-script@0.9.0
+      if: github.event_name == 'pull_request'
+      env:
+        PLAN: "terraform\n${{ steps.plan-stage.outputs.stdout }}"
+        TF_WORKSPACE: stage
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### [${{ env.WORKING_DIR }}][${{ env.TF_WORKSPACE }}] Terraform Plan 📖 \`${{ steps.plan-stage.outcome }}\`
+          <details><summary>Show Plan</summary>
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+          </details>
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+    - name: Update Pull Request with Prod Plan
+      uses: actions/github-script@0.9.0
+      if: github.event_name == 'pull_request'
+      env:
+        PLAN: "terraform\n${{ steps.plan-prod.outputs.stdout }}"
+        TF_WORKSPACE: prod
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### [${{ env.WORKING_DIR }}][${{ env.TF_WORKSPACE }}] Terraform Plan 📖 \`${{ steps.plan-prod.outcome }}\`
+          <details><summary>Show Plan</summary>
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+          </details>
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+    - name: Terraform Plan Stage Status
+      if: steps.plan-stage.outcome == 'failure'
+      run: exit 1
+
+    - name: Terraform Plan Prod Status
+      if: steps.plan-prod.outcome == 'failure'
+      run: exit 1
