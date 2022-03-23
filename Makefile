@@ -71,16 +71,7 @@ remove_prod: ## Delete container timetracker_ui_prod.
 	docker rm timetracker_ui_prod
 
 .PHONY: publish_prod
-<<<<<<< HEAD
-publish_prod: ## Publish the container image timetracker_ui_prod.
-	docker tag timetracker_ui_prod:$(image_tag) $(registry_url)/timetracker_ui_prod:$(image_tag)
-	docker push $(registry_url)/timetracker_ui_prod:$(image_tag)
-
-.PHONY: login
-login: ## Login in respository of docker images.
-	az acr login --name $(acr)
-=======
-publish_prod: require-acr-arg require-image_tag-arg ## Upload a docker image to the prod azure container registry acr=<name_of_the_azure_container_registry> image_tag=<tag_for_the_image>
+publish_prod: ## Upload a docker image to the prod azure container registry acr=<name_of_the_azure_container_registry> image_tag=<tag_for_the_image>
 	docker tag timetracker_ui_prod:latest $(acr).azurecr.io/timetracker_ui:$(image_tag)
 	docker push $(acr).azurecr.io/timetracker_ui:$(image_tag)
 
@@ -104,4 +95,3 @@ require-%-tool:
           echo "ERROR: [$*] not found"; \
           exit 1; \
         fi
->>>>>>> master
