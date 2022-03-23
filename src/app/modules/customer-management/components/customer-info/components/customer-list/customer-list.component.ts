@@ -30,7 +30,9 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() changeValueShowCustomerForm = new EventEmitter<boolean>();
   @Input()
   customers: CustomerUI[] = [];
-  dtOptions: any = {};
+  dtOptions: any = {
+    columnDefs: [{orderable: false, targets: [2]}]
+  };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
