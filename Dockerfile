@@ -2,8 +2,6 @@ FROM node:14 AS development
 
 ENV USERNAME timetracker
 ENV HOME /home/${USERNAME}
-<<<<<<< HEAD
-=======
 ENV CHROME_BIN /opt/google/chrome/google-chrome
 #Essential tools and xvfb
 RUN apt-get update && apt-get install -y \
@@ -31,7 +29,6 @@ ARG CHROME_DRIVER_VERSION=2.37
 RUN mkdir -p /opt/selenium \
         && curl http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip -o /opt/selenium/chromedriver_linux64.zip \
         && cd /opt/selenium; unzip /opt/selenium/chromedriver_linux64.zip; rm -rf chromedriver_linux64.zip; ln -fs /opt/selenium/chromedriver /usr/local/bin/chromedriver;
->>>>>>> 4a8aa30f09fdb5fe3693b270317759ccc372de5a
 
 RUN useradd -ms /bin/bash ${USERNAME}
 
@@ -39,12 +36,8 @@ WORKDIR ${HOME}/time-tracker-ui
 COPY . .
 RUN rm -f .env
 RUN chown ${USERNAME}:${USERNAME} -R ${HOME}/time-tracker-ui
-<<<<<<< HEAD
-=======
 RUN chmod -R 777 ${HOME}/time-tracker-ui
 
-
->>>>>>> 4a8aa30f09fdb5fe3693b270317759ccc372de5a
 
 USER ${USERNAME}
 RUN npm cache clean --force && npm install
@@ -73,6 +66,12 @@ RUN chown -R ${USERNAME}:${USERNAME} /var/cache/nginx && \
     chown -R ${USERNAME}:${USERNAME} /etc/nginx/conf.d
 RUN touch /var/run/nginx.pid && chown -R ${USERNAME}:${USERNAME} /var/run/nginx.pid
 
-#USER ${USERNAME}
+# FIXME: Actually if we can deploy to azure in port 80 we need a root user
+# Maybe we can refactor this dockerfile to use root user directly this is not a good approach y
+# security terms. It's a good practice to have rootless in containers so for this
+# we can to refactor this dockerfile and the terraform module to deploy in other ports because
+# Ports below 1024 needs root permisions.
+
+# USER ${USERNAME}
 
 EXPOSE 80
