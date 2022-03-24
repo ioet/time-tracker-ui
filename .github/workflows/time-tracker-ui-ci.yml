@@ -79,7 +79,7 @@ jobs:
     - name: Terraform Plan Prod
       id: plan-prod
       if: github.event_name == 'pull_request'
-      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -no-color
+      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
       continue-on-error: true
       working-directory: ./${{ env.WORKING_DIR }}
       env:
