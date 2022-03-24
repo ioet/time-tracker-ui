@@ -77,7 +77,7 @@ publish_prod: ## Upload a docker image to the prod azure container registry acr=
 
 .PHONY: login
 login: ## Login in respository of docker images.
-	az acr login --name $(container_registry)
+	az acr login --name $(acr)
 
 .PHONY: release
 release: require-VERSION-arg require-COMMENT-arg ## Creates an pushes a new tag.
