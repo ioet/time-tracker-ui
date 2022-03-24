@@ -24,6 +24,7 @@ jobs:
       run: |
         echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         echo $RELEASE_VERSION
+
     - name: Login to azure
       uses: Azure/login@v1
       with:
@@ -35,6 +36,7 @@ jobs:
     - name: Publish docker image to prod azure container registry
       run: |
         make login publish acr=timetrackerserviceprodregistry image_tag=$RELEASE_VERSION
+
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v1
 
