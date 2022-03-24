@@ -69,7 +69,6 @@ jobs:
 
     - name: Terraform Plan Stage
       id: plan-stage
-      if: github.event_name == 'pull_request'
       run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
       continue-on-error: true
       working-directory: ./${{ env.WORKING_DIR }}
@@ -78,7 +77,6 @@ jobs:
 
     - name: Terraform Plan Prod
       id: plan-prod
-      if: github.event_name == 'pull_request'
       run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
       continue-on-error: true
       working-directory: ./${{ env.WORKING_DIR }}
@@ -107,6 +105,7 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
+
     - name: Update Pull Request with Prod Plan
       uses: actions/github-script@0.9.0
       if: github.event_name == 'pull_request'
