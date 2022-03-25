@@ -39,9 +39,14 @@ remove: ## Delete container timetracker_ui.
 	docker-compose down --volumes --remove-orphans --rmi local
 
 .PHONY: test
-test: ## Run all tests on docker container timetracker_ui.
-	docker-compose --env-file ./.env up -d
-	docker exec -it timetracker_ui bash -c "npm run test"
+test: ## Run all tests on docker container timetracker_ui at the CLI.
+	docker-compose -f docker-compose.yml --env-file ./.env up -d
+	docker exec timetracker_ui bash -c "npm run ci-test"
+
+.PHONY: testdev
+testdev: ## Run all tests on docker container timetracker_ui at the Dev
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml --env-file ./.env up -d
+	docker exec timetracker_ui bash -c "npm run ci-test"
 
 .PHONY: publish
 publish: require-acr-arg require-image_tag-arg ## Upload a docker image to the stage azure container registry acr=<name_of_the_azure_container_registry> image_tag=<tag_for_the_image>
@@ -66,13 +71,13 @@ remove_prod: ## Delete container timetracker_ui_prod.
 	docker rm timetracker_ui_prod
 
 .PHONY: publish_prod
-publish_prod: require-acr-arg require-image_tag-arg ## Upload a docker image to the prod azure container registry acr=<name_of_the_azure_container_registry> image_tag=<tag_for_the_image>
+publish_prod: ## Upload a docker image to the prod azure container registry acr=<name_of_the_azure_container_registry> image_tag=<tag_for_the_image>
 	docker tag timetracker_ui_prod:latest $(acr).azurecr.io/timetracker_ui:$(image_tag)
 	docker push $(acr).azurecr.io/timetracker_ui:$(image_tag)
 
 .PHONY: login
 login: ## Login in respository of docker images.
-	az acr login --name $(container_registry)
+	az acr login --name $(acr)
 
 .PHONY: release
 release: require-VERSION-arg require-COMMENT-arg ## Creates an pushes a new tag.

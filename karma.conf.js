@@ -1,6 +1,7 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
+
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -20,6 +21,12 @@ module.exports = function (config) {
         random: true,
         seed: '90967',
       }, // leave Jasmine Spec Runner output visible in browser
+    },
+    // Karma Typescript compiler options
+    karmaTypescriptConfig: {
+      coverageOptions : {
+        instrumentation: false
+      }
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, './coverage/time-tracker'),
