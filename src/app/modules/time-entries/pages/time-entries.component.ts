@@ -16,6 +16,8 @@ import { getActiveTimeEntry, getTimeEntriesDataSource } from './../../time-clock
 import { CookieService } from 'ngx-cookie-service';
 import { FeatureToggle } from './../../../../environments/enum';
 import { CalendarView } from 'angular-calendar';
+import { ParseDateTimeOffset } from '../../shared/formatters/parse-date-time-offset/parse-date-time-offset';
+
 @Component({
   selector: 'app-time-entries',
   templateUrl: './time-entries.component.html',
@@ -51,6 +53,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   isActiveEntryOverlapping = false;
   calendarView: CalendarView = CalendarView.Month;
   actualDate: Date;
+  dateTimeOffset : ParseDateTimeOffset;
   constructor(
     private store: Store<EntryState>,
     private toastrService: ToastrService,
@@ -60,6 +63,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedDate = moment(new Date());
     this.actualDate = new Date();
     this.timeEntriesDataSource$ = this.store.pipe(delay(0), select(getTimeEntriesDataSource));
+    this.dateTimeOffset = new ParseDateTimeOffset();
   }
 
   ngOnInit(): void {
