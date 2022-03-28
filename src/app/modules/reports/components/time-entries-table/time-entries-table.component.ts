@@ -67,6 +67,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
 
   ngOnInit(): void {
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
+      this.sumDates(ds.data);
       this.rerenderDataTable();
     });
   }
@@ -105,5 +106,30 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     const durationColumnIndex = 3;
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
+
+  sumDates(arrayData: Entry[]){
+    
+    let totalDaysInHours: number = 0;
+    let totalHours: number = 0;
+    let totalMinutes: number = 0;
+    let totalSeconds: number = 0;
+
+    arrayData.forEach(entry =>{
+      let duration = this.getTimeDifference(moment(entry.end_date),moment(entry.start_date));
+      totalDaysInHours += duration.days() >= 1 ? duration.days() * 24 : 0;
+      totalHours += duration.hours();
+      totalMinutes += duration.minutes();
+      totalSeconds += duration.seconds();
+
+      
+      console.log(`Horas: ${totalHours} Minutos: ${totalMinutes} Segundos: ${totalSeconds}`);
+      
+    });
+  }
+
+  getTimeDifference(substractDate: moment.Moment, fromDate: moment.Moment): moment.Duration {
+    return moment.duration(fromDate.diff(substractDate));
+  }
+
 }
 
