@@ -89,6 +89,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DarkModeComponent } from './modules/shared/components/dark-mode/dark-mode.component';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
+import { SearchUserComponent } from './modules/shared/components/search-user/search-user.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -128,6 +129,7 @@ const maskConfig: Partial<IConfig> = {
     EntryFieldsComponent,
     SubstractDatePipe,
     TechnologiesComponent,
+    SearchUserComponent,
     TimeEntriesSummaryComponent,
     TimeDetailsPipe,
     InputLabelComponent,

@@ -1,0 +1,8 @@
+<div class="form-group" >
+  <label>Users: </label>
+
+  <ng-select [(ngModel)]="selectedUser" placeholder="Select user" (change)="updateUser()" class="selectUser">
+    <ng-option  *ngFor="let user of users" value={{user.id}}>👤{{user.name}}📨{{ user.email}}</ng-option >
+  </ng-select>
+
+</div>

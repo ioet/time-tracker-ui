@@ -1,4 +1,5 @@
 <div class="row scroll-table mt-5 ml-0">
+  <app-search-user [users]="users" (selectedUserId)="user($event)"></app-search-user>
   <table
     class="table table-striped mb-0"
     datatable

@@ -1,6 +1,7 @@
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DATE_FORMAT } from 'src/environments/environment';
 import * as entryActions from '../../../time-clock/store/entry.actions';
@@ -13,6 +14,9 @@ import * as moment from 'moment';
   templateUrl: './time-range-form.component.html',
 })
 export class TimeRangeFormComponent implements OnInit {
+
+  @Input() userId: string;
+
   public reportForm: FormGroup;
   private startDate = new FormControl('');
   private endDate = new FormControl('');
@@ -25,6 +29,12 @@ export class TimeRangeFormComponent implements OnInit {
   }
   ngOnInit(): void {
     this.setInitialDataOnScreen();
+  }
+
+  OnChanges(changes: SimpleChanges){
+    if (!changes.userId.firstChange){
+      this.onSubmit();
+    }
   }
 
   setInitialDataOnScreen() {
@@ -43,7 +53,7 @@ export class TimeRangeFormComponent implements OnInit {
       this.store.dispatch(new entryActions.LoadEntriesByTimeRange({
         start_date: moment(this.startDate.value).startOf('day'),
         end_date: moment(this.endDate.value).endOf('day'),
-      }));
+      }, this.userId));
     }
   }
 }

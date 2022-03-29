@@ -1,13 +1,18 @@
 import { formatDate } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, Output, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { select, Store } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
+import { ActionsSubject } from '@ngrx/store';
+import { User } from 'src/app/modules/users/models/users';
+import { LoadUsers, UserActionTypes } from 'src/app/modules/users/store/user.actions';
 
 @Component({
   selector: 'app-time-entries-table',
@@ -15,8 +20,11 @@ import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
   styleUrls: ['./time-entries-table.component.scss'],
 })
 export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Output() selectedUserId = new EventEmitter<string>();
+
   selectOptionValues = [15, 30, 50, 100, -1];
   selectOptionNames = [15, 30, 50, 100, 'All'];
+  users: User[] = [];
   dtOptions: any = {
     scrollY: '590px',
     dom: '<"d-flex justify-content-between"B<"d-flex"<"mr-5"l>f>>rtip',
@@ -61,14 +69,24 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   reportDataSource$: Observable<DataSource<Entry>>;
   rerenderTableSubscription: Subscription;
 
-  constructor(private store: Store<EntryState>) {
+  constructor(private store: Store<EntryState>, private actionsSubject$: ActionsSubject, private storeUser: Store<User> ) {
     this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
+  }
+
+  uploadUsers(): void {
+    this.storeUser.dispatch(new LoadUsers());
+    this.actionsSubject$
+      .pipe(filter((action: any) => action.type === UserActionTypes.LOAD_USERS_SUCCESS))
+      .subscribe((action) => {
+        this.users = action.payload;
+      });
   }
 
   ngOnInit(): void {
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
       this.rerenderDataTable();
     });
+    this.uploadUsers();
   }
 
   ngAfterViewInit(): void {
@@ -83,11 +101,11 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   private rerenderDataTable(): void {
     if (this.dtElement && this.dtElement.dtInstance) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-          dtInstance.destroy();
-          this.dtTrigger.next();
+        dtInstance.destroy();
+        this.dtTrigger.next();
       });
     } else {
-        this.dtTrigger.next();
+      this.dtTrigger.next();
     }
   }
 
@@ -100,10 +118,15 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     return regex.test(uri);
   }
 
-  bodyExportOptions(data, row, column, node){
+  bodyExportOptions(data, row, column, node) {
     const dataFormated = data.toString().replace(/<((.|\n){0,200}?)>/gi, '');
     const durationColumnIndex = 3;
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
+
+  user(userId: string){
+    this.selectedUserId.emit(userId);
+  }
+
 }
 
