@@ -31,7 +31,7 @@ export class TimeRangeFormComponent implements OnInit, OnChanges {
     this.setInitialDataOnScreen();
   }
 
-  ngOnChanges(changes: SimpleChanges): void{
+  ngOnChanges(changes: SimpleChanges){
     if (!changes.userId.firstChange){
       this.onSubmit();
     }
