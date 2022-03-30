@@ -1,6 +1,7 @@
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
-import { Component, Input, OnInit, OnChanges, SimpleChanges  } from '@angular/core';
+import { OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DATE_FORMAT } from 'src/environments/environment';
 import * as entryActions from '../../../time-clock/store/entry.actions';
@@ -12,7 +13,6 @@ import * as moment from 'moment';
   selector: 'app-time-range-form',
   templateUrl: './time-range-form.component.html',
 })
-
 export class TimeRangeFormComponent implements OnInit, OnChanges {
 
   @Input() userId: string;
