@@ -8,6 +8,8 @@ import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
+import { Moment } from 'moment';
+import { TotalHours } from '../../models/total-hours-report';
 
 @Component({
   selector: 'app-time-entries-table',
@@ -107,12 +109,13 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
 
-  sumDates(arrayData: Entry[]){
+  sumDates(arrayData: Entry[]): TotalHours{
     
     let totalDaysInHours: number = 0;
     let totalHours: number = 0;
     let totalMinutes: number = 0;
     let totalSeconds: number = 0;
+    let resultSum: TotalHours;
 
     arrayData.forEach(entry =>{
       let duration = this.getTimeDifference(moment(entry.end_date),moment(entry.start_date));
@@ -121,10 +124,11 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       totalMinutes += duration.minutes();
       totalSeconds += duration.seconds();
 
+      console.log(resultSum);
       
-      console.log(`Horas: ${totalHours} Minutos: ${totalMinutes} Segundos: ${totalSeconds}`);
       
     });
+    return resultSum;
   }
 
   getTimeDifference(substractDate: moment.Moment, fromDate: moment.Moment): moment.Duration {
