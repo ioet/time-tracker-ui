@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UsersService } from 'src/app/modules/users/services/users.service';
+
 @Component({
   selector: 'app-search-user',
   templateUrl: './search-user.component.html',

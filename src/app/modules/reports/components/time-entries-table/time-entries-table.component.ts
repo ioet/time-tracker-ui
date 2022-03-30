@@ -1,7 +1,6 @@
 import { formatDate } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, OnDestroy, Output, OnInit, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { select, Store } from '@ngrx/store';
+import { select, Store, ActionsSubject } from '@ngrx/store';
 import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -10,7 +9,6 @@ import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
-import { ActionsSubject } from '@ngrx/store';
 import { User } from 'src/app/modules/users/models/users';
 import { LoadUsers, UserActionTypes } from 'src/app/modules/users/store/user.actions';
 
