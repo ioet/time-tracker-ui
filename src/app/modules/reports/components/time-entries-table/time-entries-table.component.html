@@ -44,7 +44,13 @@
                     </ng-container>
                 </td>
                 <td class="col lg-col">{{ entry.description }}</td>
-                <td class="col lg-col">{{ entry.technologies }}</td>
+                <td class="col lg-col">
+                    <ng-container *ngIf="entry.technologies.length > 0">
+                        <div *ngFor="let technology of entry.technologies" class="badge bg-secondary text-wrap">
+                            {{ technology }}
+                        </div>
+                    </ng-container>
+                </td>
             </tr>
         </tbody>
     </table>

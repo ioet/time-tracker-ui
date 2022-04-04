@@ -1,13 +1,13 @@
 {
   "name": "time-tracker",
-  "version": "1.69.2",
+  "version": "1.72.1",
   "scripts": {
     "config": "ts-node ./scripts/setenv.ts",
     "preinstall": "npx npm-force-resolutions",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "test": "ng test",
+    "test": "ng test --browsers ChromeHeadless",
     "test-headless": "ng test --browsers ChromeHeadless",
     "ci-test": "ng test --no-watch --no-progress --browsers ChromeHeadless",
     "lint": "ng lint",

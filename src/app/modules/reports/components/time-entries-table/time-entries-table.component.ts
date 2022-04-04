@@ -25,7 +25,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     lengthMenu: [this.selectOptionValues, this.selectOptionNames],
     buttons: [
       {
-        text: "Column Visibility" + " ▼",
+        text: 'Column Visibility' + ' ▼',
         extend: 'colvis',
         columns: ':not(.hidden-col)'
       },
