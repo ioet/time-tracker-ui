@@ -62,6 +62,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   isLoading$: Observable<boolean>;
   reportDataSource$: Observable<DataSource<Entry>>;
   rerenderTableSubscription: Subscription;
+  resultSum: TotalHours;
 
   constructor(private store: Store<EntryState>) {
     this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
@@ -109,28 +110,17 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
 
-  sumDates(arrayData: Entry[]): TotalHours{
-    
-    let totalDaysInHours: number = 0;
-    let totalHours: number = 0;
-    let totalMinutes: number = 0;
-    let totalSeconds: number = 0;
-    let resultSum: TotalHours;
-
+  sumDates(arrayData: Entry[]): TotalHours{  
+    this.resultSum = new TotalHours();
     arrayData.forEach(entry =>{
       let duration = this.getTimeDifference(moment(entry.end_date),moment(entry.start_date));
-      totalDaysInHours += duration.days() >= 1 ? duration.days() * 24 : 0;
-      totalHours += duration.hours();
-      totalMinutes += duration.minutes();
-      totalSeconds += duration.seconds();
-
-      console.log(resultSum);
-      
-      
+      this.resultSum.hours = Math.abs( this.resultSum.hours + duration.days() >= 1 ? duration.days() * 24 : 0);
+      this.resultSum.hours = Math.abs(this.resultSum.hours + duration.hours());
+      this.resultSum.minutes = Math.abs(this.resultSum.minutes + duration.minutes());
+      this.resultSum.seconds = Math.abs(this.resultSum.seconds + duration.seconds());
     });
-    return resultSum;
+    return this.resultSum;
   }
-
   getTimeDifference(substractDate: moment.Moment, fromDate: moment.Moment): moment.Duration {
     return moment.duration(fromDate.diff(substractDate));
   }
