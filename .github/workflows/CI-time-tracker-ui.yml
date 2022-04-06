@@ -52,7 +52,7 @@ jobs:
         sh ./scripts/populate-keys.sh
 
     - name: Running tests
-      run: npm run ci-test --if-present
+      run: npm run test
 
     - name: Generate coverage report
       env:
