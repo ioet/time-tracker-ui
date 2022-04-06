@@ -121,6 +121,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     });
     return this.resultSum;
   }
+  
   getTimeDifference(substractDate: moment.Moment, fromDate: moment.Moment): moment.Duration {
     return moment.duration(fromDate.diff(substractDate));
   }

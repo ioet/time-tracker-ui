@@ -1,7 +1,8 @@
 export class TotalHours {
-    hours?: number;
-    minutes?: number;
-    seconds?: number;
+    
+    hours: number;
+    minutes: number;
+    seconds: number;
 
     constructor() {
         this.hours = 0;
