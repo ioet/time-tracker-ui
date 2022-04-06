@@ -8,7 +8,6 @@ import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
-import { Moment } from 'moment';
 import { TotalHours } from '../../models/total-hours-report';
 
 @Component({
@@ -121,7 +120,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     });
     return this.resultSum;
   }
-  
+
   getTimeDifference(substractDate: moment.Moment, fromDate: moment.Moment): moment.Duration {
     return moment.duration(fromDate.diff(substractDate));
   }
