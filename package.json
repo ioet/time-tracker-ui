@@ -9,7 +9,7 @@
     "build": "ng build --prod",
     "test": "ng test --browsers ChromeHeadless",
     "test-headless": "ng test --browsers ChromeHeadless",
-    "ci-test": "ng test --no-watch --no-progress --browsers ChromeHeadless",
+    "ci-test": "npm run config && ng test --no-watch --no-progress --browsers ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

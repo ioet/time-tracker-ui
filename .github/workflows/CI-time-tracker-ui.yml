@@ -49,10 +49,7 @@ jobs:
         AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}
       run: |
         chmod +x ./scripts/populate-keys.sh
-        chmod +x ./scripts/create-keys.sh
         sh ./scripts/populate-keys.sh
-        sh ./scripts/create-keys.sh
-
 
     - name: Running tests
       run: npm run ci-test --if-present
