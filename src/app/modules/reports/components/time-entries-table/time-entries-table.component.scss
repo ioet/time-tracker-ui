@@ -1,30 +1,64 @@
 @import '../../../../../styles/colors.scss';
-.col{
+
+.col {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: small;
 }
-.x-sm-col{
+
+.col-height {
+  min-height: 80px;
+  max-height: 150px;
+}
+
+.x-sm-col {
   width: 5em;
   max-width: 7em;
 }
 
-.sm-col{
+.sm-col {
   width: 6em;
   max-width: 8em;
 }
 
-.md-col{
+.md-col {
   width: 9em;
 }
 
-.lg-col{
+.lg-col {
   width: 12em;
   overflow: hidden;
   white-space: normal;
+  border: none;
 }
-.hidden-col{
+
+.lg-col-scroll {
+  width: 40em;
+  overflow: hidden;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  margin: 8px 10px 0px 10px;
+  border: none;
+  overflow-y: auto;
+}
+
+.lg-col-scroll::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+.lg-col-scroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.lg-col-scroll::-webkit-scrollbar-thumb {
+  background-color: #7a8486;
+  outline: 1px solid #7a8486;
+  border-radius: 0.5em;
+}
+
+.hidden-col {
   display: none;
 }
 
