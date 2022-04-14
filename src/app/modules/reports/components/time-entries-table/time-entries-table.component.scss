@@ -9,7 +9,7 @@
 
 .col-height {
   min-height: auto;
-  max-height: 7rem;
+  max-height: 8rem;
   // height: auto;
 }
 
@@ -34,7 +34,7 @@
   border: none;
 }
 
-.lg-col-scroll {
+@mixin scroll-style {
   width: 40em;
   overflow: hidden;
   white-space: normal;
@@ -43,25 +43,28 @@
   margin: 8px 10px 0px 10px;
   border: none;
   overflow-y: auto;
+  overflow-wrap: break-word;
+  &::-webkit-scrollbar {
+    width: 0.5em;
+  }
+  
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #7a8486;
+    outline: 1px solid #7a8486;
+    border-radius: 0.5em;
+  }
 }
 
-.tech-style{
-  width: 12em;
+.lg-scroll{
+  @include scroll-style;
 }
 
-.lg-col-scroll::-webkit-scrollbar {
-  width: 0.5em;
-}
 
-.lg-col-scroll::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
 
-.lg-col-scroll::-webkit-scrollbar-thumb {
-  background-color: #7a8486;
-  outline: 1px solid #7a8486;
-  border-radius: 0.5em;
-}
 
 .hidden-col {
   display: none;
