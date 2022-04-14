@@ -2,7 +2,7 @@ const { writeFile } = require('fs');
 require('dotenv').config();
 
 const pathJs = `./src/environments/keys.ts`
-const contentKeys = 
+const contentKeys =
 `export const AUTHORITY = '${process.env.AUTHORITY}';
 export const CLIENT_ID = '${process.env.CLIENT_ID}';
 export const SCOPES = ['${process.env.SCOPES}'];
@@ -19,7 +19,7 @@ writeFile(pathJs, contentKeys, function (err) {
 });
 
 const pathJson = `./src/environments/.keys.json`
-const contentKeysJson = 
+const contentKeysJson =
 `{
     "authority": "${process.env.AUTHORITY_JSON}",
     "client_id": "${process.env.CLIENT_ID_JSON}",
