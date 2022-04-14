@@ -8,8 +8,9 @@
 }
 
 .col-height {
-  min-height: 80px;
-  max-height: 150px;
+  min-height: auto;
+  max-height: 7rem;
+  // height: auto;
 }
 
 .x-sm-col {
@@ -42,6 +43,10 @@
   margin: 8px 10px 0px 10px;
   border: none;
   overflow-y: auto;
+}
+
+.tech-style{
+  width: 12em;
 }
 
 .lg-col-scroll::-webkit-scrollbar {

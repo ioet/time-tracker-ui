@@ -45,7 +45,7 @@
           </ng-container>
         </td>
         <td class="col lg-col-scroll">{{ entry.description }}</td>
-        <td class="col lg-col">
+        <td class="col lg-col-scroll tech-style">
           <ng-container *ngIf="entry.technologies.length > 0">
             <div *ngFor="let technology of entry.technologies" class="badge bg-secondary text-wrap">
               {{ technology }}
