@@ -9,7 +9,6 @@
 .col-height {
   min-height: auto;
   max-height: 8rem;
-  // height: auto;
 }
 
 .x-sm-col {
@@ -62,9 +61,6 @@
 .lg-scroll {
   @include scroll-style;
 }
-
-
-
 
 .hidden-col {
   display: none;
