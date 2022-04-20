@@ -52,7 +52,7 @@ jobs:
         sh ./scripts/populate-var-file.sh
 
     - name: Running tests
-      run: npm run test
+      run: npm run ci-test --if-present
 
     - name: Generate coverage report
       env:
