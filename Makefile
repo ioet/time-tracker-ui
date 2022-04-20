@@ -19,7 +19,7 @@ cleanup: ## Delete image timetracker_ui
 
 .PHONY: run
 run: ## Execute timetracker_ui docker containe.
-	docker-compose --env-file ./.env up -d
+	docker-compose up -d
 
 .PHONY: logs
 logs: ## Show logs of timetracker_ui.
@@ -40,12 +40,12 @@ remove: ## Delete container timetracker_ui.
 
 .PHONY: test
 test: ## Run all tests on docker container timetracker_ui at the CLI.
-	docker-compose -f docker-compose.yml --env-file ./.env up -d
+	docker-compose -f docker-compose.yml up -d
 	docker exec timetracker_ui bash -c "npm run ci-test"
 
 .PHONY: testdev
 testdev: ## Run all tests on docker container timetracker_ui at the Dev
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml --env-file ./.env up -d
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 	docker exec timetracker_ui bash -c "npm run ci-test"
 
 .PHONY: publish

@@ -48,8 +48,8 @@ jobs:
         STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}
         AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}
       run: |
-        chmod +x ./scripts/populate-keys.sh
-        sh ./scripts/populate-keys.sh
+        chmod +x ./scripts/populate-var-file.sh
+        sh ./scripts/populate-var-file.sh
 
     - name: Running tests
       run: npm run ci-test --if-present
