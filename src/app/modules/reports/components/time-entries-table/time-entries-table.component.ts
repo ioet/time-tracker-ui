@@ -8,6 +8,7 @@ import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
+import { TotalHours } from '../../models/total-hours-report';
 
 @Component({
   selector: 'app-time-entries-table',
@@ -60,6 +61,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   isLoading$: Observable<boolean>;
   reportDataSource$: Observable<DataSource<Entry>>;
   rerenderTableSubscription: Subscription;
+  resultSum: TotalHours;
 
   constructor(private store: Store<EntryState>) {
     this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
@@ -67,6 +69,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
 
   ngOnInit(): void {
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
+      this.sumDates(ds.data);
       this.rerenderDataTable();
     });
   }
@@ -105,5 +108,22 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     const durationColumnIndex = 3;
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
+
+  sumDates(arrayData: Entry[]): TotalHours{  
+    this.resultSum = new TotalHours();
+    arrayData.forEach(entry =>{
+      let duration = this.getTimeDifference(moment(entry.end_date),moment(entry.start_date));
+      this.resultSum.hours = Math.abs( this.resultSum.hours + duration.days() >= 1 ? duration.days() * 24 : 0);
+      this.resultSum.hours = Math.abs(this.resultSum.hours + duration.hours());
+      this.resultSum.minutes = Math.abs(this.resultSum.minutes + duration.minutes());
+      this.resultSum.seconds = Math.abs(this.resultSum.seconds + duration.seconds());
+    });
+    return this.resultSum;
+  }
+
+  getTimeDifference(substractDate: moment.Moment, fromDate: moment.Moment): moment.Duration {
+    return moment.duration(fromDate.diff(substractDate));
+  }
+
 }
 
