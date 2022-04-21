@@ -20,7 +20,7 @@
         </thead>
         <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
         <tbody *ngIf="!dataSource.isLoading">
-            <tr class="d-flex" *ngFor="let entry of dataSource.data">
+            <tr class="d-flex col-height" *ngFor="let entry of dataSource.data">
                 <td class="hidden-col">{{ entry.id }}</td>
                 <td class="col md-col">{{ entry.owner_email }}</td>
                 <td class="col sm-col">
@@ -43,8 +43,8 @@
             </a>
                     </ng-container>
                 </td>
-                <td class="col lg-col">{{ entry.description }}</td>
-                <td class="col lg-col">
+                <td class="col lg-scroll">{{ entry.description }}</td>
+                <td class="col lg-scroll">
                     <ng-container *ngIf="entry.technologies.length > 0">
                         <div *ngFor="let technology of entry.technologies" class="badge bg-secondary text-wrap">
                             {{ technology }}
