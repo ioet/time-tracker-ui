@@ -8,6 +8,7 @@ import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
+import { ParseDateTimeOffset } from '../../../shared/formatters/parse-date-time-offset/parse-date-time-offset';
 
 @Component({
   selector: 'app-time-entries-table',
@@ -60,9 +61,11 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   isLoading$: Observable<boolean>;
   reportDataSource$: Observable<DataSource<Entry>>;
   rerenderTableSubscription: Subscription;
+  dateTimeOffset: ParseDateTimeOffset;
 
   constructor(private store: Store<EntryState>) {
     this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
+    this.dateTimeOffset = new ParseDateTimeOffset();
   }
 
   ngOnInit(): void {
