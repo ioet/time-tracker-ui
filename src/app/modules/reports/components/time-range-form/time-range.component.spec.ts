@@ -115,7 +115,7 @@ describe('Reports Page', () => {
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
-    it('When the ngOnChanges method is called, the onSubmit method is called', () =>{
+    it('When the ngOnChanges method is called, the onSubmit method is called', () => {
       const userId = 'abcd';
       spyOn(component, 'onSubmit');
 

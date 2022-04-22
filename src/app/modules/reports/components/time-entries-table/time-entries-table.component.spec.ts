@@ -149,7 +149,7 @@ describe('Reports Page', () => {
 
     it(`When the user method is called, the emit method is called`, () => {
       const userId = 'abc123';
-      spyOn(component.selectedUserId,'emit');
+      spyOn(component.selectedUserId, 'emit');
       component.user(userId);
       expect(component.selectedUserId.emit).toHaveBeenCalled();
 
