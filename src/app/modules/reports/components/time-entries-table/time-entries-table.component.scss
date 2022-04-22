@@ -32,7 +32,7 @@
 }
 
 @mixin scroll-style {
-  width: 40em;
+  width: 18em;
   overflow: hidden;
   white-space: normal;
   display: -webkit-box;
@@ -60,6 +60,7 @@
 .lg-scroll {
   @include scroll-style;
 }
+
 .hidden-col{
   display: none;
 }

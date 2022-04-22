@@ -61,7 +61,9 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.loadActivitiesSubscription =  this.actionsSubject$
       .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
       .subscribe((action) => {
-        this.activities = action.payload.filter((item) => item.status !== 'inactive');
+        this.activities = action.payload.filter((item) => item.status !== 'inactive').sort((a, b) => {
+          return (a.name).localeCompare(b.name);
+        });
         this.store.dispatch(new LoadActiveEntry());
       });
 

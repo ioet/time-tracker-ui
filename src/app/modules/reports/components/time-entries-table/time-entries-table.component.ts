@@ -11,6 +11,7 @@ import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
 import { User } from 'src/app/modules/users/models/users';
 import { LoadUsers, UserActionTypes } from 'src/app/modules/users/store/user.actions';
+import { ParseDateTimeOffset } from '../../../shared/formatters/parse-date-time-offset/parse-date-time-offset';
 
 @Component({
   selector: 'app-time-entries-table',
@@ -66,9 +67,11 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   isLoading$: Observable<boolean>;
   reportDataSource$: Observable<DataSource<Entry>>;
   rerenderTableSubscription: Subscription;
+  dateTimeOffset: ParseDateTimeOffset;
 
   constructor(private store: Store<EntryState>, private actionsSubject$: ActionsSubject, private storeUser: Store<User> ) {
     this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
+    this.dateTimeOffset = new ParseDateTimeOffset();
   }
 
   uploadUsers(): void {

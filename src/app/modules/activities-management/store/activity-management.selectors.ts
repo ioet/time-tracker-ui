@@ -6,7 +6,9 @@ const getActivityState = createFeatureSelector<ActivityState>('activities');
 export const allActivities = createSelector(getActivityState, (state: ActivityState) => state?.data);
 
 export const allActiveActivities = createSelector(getActivityState, (state: ActivityState) => {
-  return state?.data.filter((item) => item.status !== 'inactive');
+  return state?.data.filter((item) => item.status !== 'inactive').sort( (a, b) => {
+    return (a.name).localeCompare(b.name);
+  });
 });
 
 export const activityIdToEdit = createSelector(getActivityState, (state: ActivityState) => state?.activityIdToEdit);
