@@ -108,22 +108,23 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     const durationColumnIndex = 3;
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
-
-  sumDates(arrayData: Entry[]): TotalHours{  
+  
+  sumDates(arrayData: Entry[]): TotalHours{
     this.resultSum = new TotalHours();
+    let arrayDurations= new Array();
     arrayData.forEach(entry =>{
-      let duration = this.getTimeDifference(moment(entry.end_date),moment(entry.start_date));
-      this.resultSum.hours = Math.abs( this.resultSum.hours + duration.days() >= 1 ? duration.days() * 24 : 0);
-      this.resultSum.hours = Math.abs(this.resultSum.hours + duration.hours());
-      this.resultSum.minutes = Math.abs(this.resultSum.minutes + duration.minutes());
-      this.resultSum.seconds = Math.abs(this.resultSum.seconds + duration.seconds());
+      let start = moment(entry.end_date).diff(moment(entry.start_date));
+      arrayDurations.push(moment.utc(start).format("HH:mm:ss"));
     });
+    let totalDurations = arrayDurations.slice(1)
+    .reduce((prev, cur) => {
+      return prev.add(cur);
+    },
+    moment.duration(arrayDurations[0]));
+    this.resultSum.hours=totalDurations.hours();
+    this.resultSum.minutes = totalDurations.minutes();
+    this.resultSum.seconds = totalDurations.seconds();
     return this.resultSum;
   }
-
-  getTimeDifference(substractDate: moment.Moment, fromDate: moment.Moment): moment.Duration {
-    return moment.duration(fromDate.diff(substractDate));
-  }
-
 }
 
