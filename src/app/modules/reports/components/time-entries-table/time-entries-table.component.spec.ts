@@ -6,6 +6,7 @@ import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/s
 import { getReportDataSource } from 'src/app/modules/time-clock/store/entry.selectors';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { TimeEntriesTableComponent } from './time-entries-table.component';
+import { TotalHours } from '../../models/total-hours-report';
 
 describe('Reports Page', () => {
   describe('TimeEntriesTableComponent', () => {
@@ -28,6 +29,31 @@ describe('Reports Page', () => {
       project_id: '123',
       project_name: 'Time-Tracker',
     };
+
+    const timeEntryList: Entry[] = [
+      {
+        id: '123',
+        start_date: new Date('2022-04-24T11:30:00Z'),
+        end_date: new Date('2022-04-24T14:30:00Z'),
+        activity_id: '123',
+        technologies: ['react', 'redux'],
+        description: 'any comment',
+        uri: 'custom uri',
+        project_id: '123',
+        project_name: 'Time-Tracker',
+      },
+      {
+        id: '456',
+        start_date: new Date('2022-04-25T12:40:00Z'),
+        end_date: new Date('2022-04-25T13:00:00Z'),
+        activity_id: '123',
+        technologies: ['react', 'redux'],
+        description: 'any comment',
+        uri: 'custom uri',
+        project_id: '123',
+        project_name: 'Time-Tracker',
+      }
+    ];
 
     const state: EntryState = {
       active: timeEntry,
@@ -123,18 +149,18 @@ describe('Reports Page', () => {
       const column = 3;
       expect(component.bodyExportOptions(durationTime, row, column, node)).toMatch(decimalValidator);
     });
-
+    
     it('The data should not be displayed as a multiple of hour when column is different of 3', () => {
       const column = 4;
       expect(component.bodyExportOptions(durationTime, row, column, node)).toBe(durationTime.toString());
     });
-
+    
     it('The link Ticket must not contain the ticket URL enclosed with < > when export a file csv, excel or PDF', () => {
       const entry = '<a _ngcontent-vlm-c151="" class="is-url">https://TT-392-uri</a>';
       const column = 0;
       expect(component.bodyExportOptions(entry, row, column, node)).toBe('https://TT-392-uri');
     });
-
+    
     it('when the rerenderDataTable method is called and dtElement and dtInstance are defined, the destroy and next methods are called ',
     () => {
       component.dtElement = {
@@ -145,6 +171,11 @@ describe('Reports Page', () => {
       spyOn(component.dtElement.dtInstance, 'then');
       component.ngAfterViewInit();
       expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
+    });
+    
+    it('The sum of the data dates is equal to {"hours": 3, "minutes":20,"seconds":0}', () => {
+      let {hours,minutes,seconds}: TotalHours = component.sumDates(timeEntryList);
+      expect({hours, minutes, seconds}).toEqual({hours:3,minutes:20,seconds:0});
     });
 
     afterEach(() => {
