@@ -135,3 +135,11 @@ jobs:
     - name: Terraform Plan Prod Status
       if: steps.plan-prod.outcome == 'failure'
       run: exit 1
+    
+    - name: Slack notification
+      uses: act10ns/slack@v1
+      with:
+        status: ${{job.status}}
+        steps: ${{toJson(steps)}}
+        channel: '#timetracker-communication'
+      if: always()
