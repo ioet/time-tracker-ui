@@ -7,6 +7,7 @@ import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/s
 import { getReportDataSource } from 'src/app/modules/time-clock/store/entry.selectors';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { TimeEntriesTableComponent } from './time-entries-table.component';
+import { ActionsSubject } from '@ngrx/store';
 
 describe('Reports Page', () => {
   describe('TimeEntriesTableComponent', () => {
@@ -47,25 +48,28 @@ describe('Reports Page', () => {
       },
     };
 
+    const actionSub: ActionsSubject = new ActionsSubject();
+
     beforeEach(
       waitForAsync(() => {
         TestBed.configureTestingModule({
           imports: [NgxPaginationModule, DataTablesModule],
           declarations: [TimeEntriesTableComponent, SubstractDatePipe],
-          providers: [provideMockStore({ initialState: state })],
+          providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
         }).compileComponents();
-        store = TestBed.inject(MockStore);
+
       })
     );
 
     beforeEach(
-      waitForAsync(() => {
+      () => {
         fixture = TestBed.createComponent(TimeEntriesTableComponent);
         component = fixture.componentInstance;
+        store = TestBed.inject(MockStore);
         store.setState(state);
         getReportDataSourceSelectorMock = store.overrideSelector(getReportDataSource, state.reportDataSource);
         fixture.detectChanges();
-      })
+      }
     );
 
     beforeEach(() => {
@@ -140,9 +144,13 @@ describe('Reports Page', () => {
 
     it('when the rerenderDataTable method is called and dtElement and dtInstance are defined, the destroy and next methods are called ',
     () => {
-      spyOn(component.dtElement.dtInstance, 'then');
+      spyOn(component.dtTrigger, 'next');
+
       component.ngAfterViewInit();
-      expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
+
+      component.dtElement.dtInstance.then( (dtInstance) => {
+        expect(component.dtTrigger.next).toHaveBeenCalled();
+      });
     });
 
     it(`When the user method is called, the emit method is called`, () => {
