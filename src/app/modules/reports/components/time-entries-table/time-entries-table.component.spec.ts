@@ -8,6 +8,7 @@ import { getReportDataSource } from 'src/app/modules/time-clock/store/entry.sele
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { TimeEntriesTableComponent } from './time-entries-table.component';
 import { ActionsSubject } from '@ngrx/store';
+import { UserActionTypes } from 'src/app/modules/users/store';
 
 describe('Reports Page', () => {
   describe('TimeEntriesTableComponent', () => {
@@ -159,6 +160,20 @@ describe('Reports Page', () => {
       component.user(userId);
       expect(component.selectedUserId.emit).toHaveBeenCalled();
 
+    });
+
+    it('Should populate the users with the payload from the action executed', () => {
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+      const usersArray = []
+      const action = {
+        type: UserActionTypes.LOAD_USERS_SUCCESS,
+        payload: usersArray
+      };
+
+      actionSubject.next(action);
+
+
+      expect(component.users).toEqual(usersArray);
     });
 
     afterEach(() => {
