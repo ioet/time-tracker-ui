@@ -32,4 +32,10 @@ describe('ReportsComponent', () => {
     expect(reportForm).toBeTruthy();
     expect(reportDataTable).toBeTruthy();
   }));
+
+  it(`Given the id of the user 'abc123' this is assigned to the variable userId`, () => {
+    const userId = 'abc123';
+    component.user(userId);
+    expect(component.userId).toEqual('abc123');
+  });
 });

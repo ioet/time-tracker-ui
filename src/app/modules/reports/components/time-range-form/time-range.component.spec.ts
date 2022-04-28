@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputDateComponent } from '../../../shared/components/input-date/input-date.component';
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import * as moment from 'moment';
+import { SimpleChange } from '@angular/core';
 
 describe('Reports Page', () => {
   describe('TimeRangeFormComponent', () => {
@@ -110,6 +111,15 @@ describe('Reports Page', () => {
       spyOn(component, 'onSubmit');
 
       component.setInitialDataOnScreen();
+
+      expect(component.onSubmit).toHaveBeenCalled();
+    });
+
+    it('When the ngOnChanges method is called, the onSubmit method is called', () => {
+      const userId = 'abcd';
+      spyOn(component, 'onSubmit');
+
+      component.ngOnChanges({userId: new SimpleChange(null, userId, false)});
 
       expect(component.onSubmit).toHaveBeenCalled();
     });

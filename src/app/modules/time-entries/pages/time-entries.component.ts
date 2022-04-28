@@ -53,7 +53,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   isActiveEntryOverlapping = false;
   calendarView: CalendarView = CalendarView.Month;
   actualDate: Date;
-  dateTimeOffset : ParseDateTimeOffset;
+  dateTimeOffset: ParseDateTimeOffset;
   constructor(
     private store: Store<EntryState>,
     private toastrService: ToastrService,

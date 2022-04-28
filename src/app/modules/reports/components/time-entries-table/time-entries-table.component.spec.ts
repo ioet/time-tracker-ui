@@ -1,11 +1,14 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { DataTableDirective } from 'angular-datatables';
+import { DataTablesModule } from 'angular-datatables';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { Entry } from 'src/app/modules/shared/models';
 import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/substract-date.pipe';
 import { getReportDataSource } from 'src/app/modules/time-clock/store/entry.selectors';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { TimeEntriesTableComponent } from './time-entries-table.component';
+import { ActionsSubject } from '@ngrx/store';
+import { UserActionTypes } from 'src/app/modules/users/store';
 
 describe('Reports Page', () => {
   describe('TimeEntriesTableComponent', () => {
@@ -46,25 +49,28 @@ describe('Reports Page', () => {
       },
     };
 
+    const actionSub: ActionsSubject = new ActionsSubject();
+
     beforeEach(
       waitForAsync(() => {
         TestBed.configureTestingModule({
-          imports: [],
+          imports: [NgxPaginationModule, DataTablesModule],
           declarations: [TimeEntriesTableComponent, SubstractDatePipe],
-          providers: [provideMockStore({ initialState: state })],
+          providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
         }).compileComponents();
-        store = TestBed.inject(MockStore);
+
       })
     );
 
     beforeEach(
-      waitForAsync(() => {
+      () => {
         fixture = TestBed.createComponent(TimeEntriesTableComponent);
         component = fixture.componentInstance;
+        store = TestBed.inject(MockStore);
         store.setState(state);
         getReportDataSourceSelectorMock = store.overrideSelector(getReportDataSource, state.reportDataSource);
         fixture.detectChanges();
-      })
+      }
     );
 
     beforeEach(() => {
@@ -85,7 +91,9 @@ describe('Reports Page', () => {
     });
 
     it('after the component is initialized it should initialize the table', () => {
+      component.dtElement = null;
       spyOn(component.dtTrigger, 'next');
+
       component.ngAfterViewInit();
 
       expect(component.dtTrigger.next).toHaveBeenCalled();
@@ -137,14 +145,35 @@ describe('Reports Page', () => {
 
     it('when the rerenderDataTable method is called and dtElement and dtInstance are defined, the destroy and next methods are called ',
     () => {
-      component.dtElement = {
-        dtInstance: {
-          then : (dtInstance: DataTables.Api) => { dtInstance.destroy(); }
-        }
-      } as unknown as DataTableDirective;
-      spyOn(component.dtElement.dtInstance, 'then');
+      spyOn(component.dtTrigger, 'next');
+
       component.ngAfterViewInit();
-      expect(component.dtElement.dtInstance.then).toHaveBeenCalled();
+
+      component.dtElement.dtInstance.then( (dtInstance) => {
+        expect(component.dtTrigger.next).toHaveBeenCalled();
+      });
+    });
+
+    it(`When the user method is called, the emit method is called`, () => {
+      const userId = 'abc123';
+      spyOn(component.selectedUserId, 'emit');
+      component.user(userId);
+      expect(component.selectedUserId.emit).toHaveBeenCalled();
+
+    });
+
+    it('Should populate the users with the payload from the action executed', () => {
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+      const usersArray = []
+      const action = {
+        type: UserActionTypes.LOAD_USERS_SUCCESS,
+        payload: usersArray
+      };
+
+      actionSubject.next(action);
+
+
+      expect(component.users).toEqual(usersArray);
     });
 
     afterEach(() => {

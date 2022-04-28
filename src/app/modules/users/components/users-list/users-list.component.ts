@@ -47,7 +47,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.switchGroupsSubscription = this.filterUserGroup().subscribe((action) => {
-      this.store.dispatch(new LoadUsers());
+    this.store.dispatch(new LoadUsers());
     });
   }
 
