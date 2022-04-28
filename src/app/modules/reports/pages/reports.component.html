@@ -1,3 +1,2 @@
-<app-time-range-form></app-time-range-form>
-<app-time-entries-table></app-time-entries-table>
-
+<app-time-range-form [userId]="userId"></app-time-range-form>
+<app-time-entries-table (selectedUserId)="user($event)"></app-time-entries-table>
