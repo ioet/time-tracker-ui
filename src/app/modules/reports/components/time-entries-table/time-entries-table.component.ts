@@ -141,7 +141,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       return prev.add(cur);
     },
     moment.duration(arrayDurations[0]));
-    let daysInHours = totalDurations.days() >= 1 ? totalDurations.days() * 24 :  0;
+    let daysInHours = totalDurations.days() * 24;
     this.resultSum.hours=totalDurations.hours() + daysInHours;
     this.resultSum.minutes = totalDurations.minutes();
     this.resultSum.seconds = totalDurations.seconds();
