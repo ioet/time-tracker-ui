@@ -9,6 +9,7 @@ import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
+import { TotalHours } from '../../models/total-hours-report';
 import { User } from 'src/app/modules/users/models/users';
 import { LoadUsers, UserActionTypes } from 'src/app/modules/users/store/user.actions';
 import { ParseDateTimeOffset } from '../../../shared/formatters/parse-date-time-offset/parse-date-time-offset';
@@ -67,6 +68,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   isLoading$: Observable<boolean>;
   reportDataSource$: Observable<DataSource<Entry>>;
   rerenderTableSubscription: Subscription;
+  resultSum: TotalHours;
   dateTimeOffset: ParseDateTimeOffset;
 
   constructor(private store: Store<EntryState>, private actionsSubject$: ActionsSubject, private storeUser: Store<User> ) {
@@ -85,6 +87,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
 
   ngOnInit(): void {
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
+      this.sumDates(ds.data);
       this.rerenderDataTable();
     });
     this.uploadUsers();
@@ -123,6 +126,26 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     const dataFormated = data.toString().replace(/<((.|\n){0,200}?)>/gi, '');
     const durationColumnIndex = 3;
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
+  }
+  
+  sumDates(arrayData: Entry[]): TotalHours{
+    this.resultSum = new TotalHours();
+    let arrayDurations= new Array();
+    arrayData.forEach(entry =>{
+      let start = moment(entry.end_date).diff(moment(entry.start_date));
+      arrayDurations.push(moment.utc(start).format("HH:mm:ss"));
+    });
+    
+    let totalDurations = arrayDurations.slice(1)
+    .reduce((prev, cur) => {
+      return prev.add(cur);
+    },
+    moment.duration(arrayDurations[0]));
+    let daysInHours = totalDurations.days() * 24;
+    this.resultSum.hours=totalDurations.hours() + daysInHours;
+    this.resultSum.minutes = totalDurations.minutes();
+    this.resultSum.seconds = totalDurations.seconds();
+    return this.resultSum;
   }
 
   user(userId: string){

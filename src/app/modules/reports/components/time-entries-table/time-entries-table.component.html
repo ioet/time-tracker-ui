@@ -1,5 +1,5 @@
 <div class="row scroll-table mt-5 ml-0">
-  <app-search-user [users]="users" (selectedUserId)="user($event)"></app-search-user>
+    <app-search-user [users]="users" (selectedUserId)="user($event)"></app-search-user>
 
     <table class="table table-striped mb-0" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" *ngIf="(reportDataSource$ | async) as dataSource">
         <thead class="thead-blue">
@@ -57,3 +57,4 @@
         </tbody>
     </table>
 </div>
+<div class="alert alert-dark mt-3">Total: {{this.resultSum.hours}} hours, {{this.resultSum.minutes}} minutes</div>
