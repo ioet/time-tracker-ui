@@ -12,9 +12,13 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Prerequisites
 
+In general, you will need to have installed in your machine the following:
+- Git
+- Visual Studio code(most common) or your favourite editor
+
 ### Node.js
 
-Install Node.js from [https://nodejs.org/en/download/] but we recommend that you install it using Node Version Management [https://github.com/nvm-sh/nvm] (v12.16.1 LTS).
+We strongly recommend that you install it using Node Version Management [https://github.com/nvm-sh/nvm] (v12.16.1 LTS) due to some project will only work with a specific version and by using Node Version Management you can switch between versions.
 
 ### Angular CLI
 
@@ -22,14 +26,35 @@ Angular CLI is a Command Line Interface (CLI) to speed up your development with 
 
 Run `npm install -g @angular/cli` to install Angular CLI
 
+### Docker
+
+You can download it from here: https://www.docker.com/get-started/ you will find the perfect Docker version for you.
+
+### Chocolatey
+
+By installing this, you'll be able to use the commands to run your proyect.
+You can do it by following the steps here https://chocolatey.org/install. Although the page tells you to use Powershell, you should be able to use any command line with admin permissions. Don't forget to select the "Individual button" before following the installation steps.
+
+![image](https://user-images.githubusercontent.com/42116904/166069074-f76d9bd3-01b9-4c50-92e7-c7558d026783.png)
+
+### Make
+
+You will need to install Make for you to be easier setting your environment. 
+In your command line with admin permissions run `choco install make`
+
 ## Install Node Modules
 
-Run `npm install` to install the required node_modules for this project.
+In project path, open your favourite command line and run `npm install` in order to be able to run the project locally.
 
 ## Development server
 
-Run `ng serve` to run the app in dev mode. After executing this command, you can navigate to `http://localhost:4200/` to see the app working.
-The app will automatically reload if you change anything in the source files.
+Yo have 2 ways to run this project in dev mode:
+**First**:
+- In your project path, open your favourite command line and run the follwing commands: `make build` then `make run` and finally `make log`. When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. Remember you must have your Docker running.
+**Second**:
+- Run `ng serve` to run the app in dev mode. After executing this command, you can navigate to `http://localhost:4200/` to see the app working. This method is usefull when you want to run a specific branch using less time but not recommended when doing QA.
+
+In any case, the app will automatically reload if you change anything in the source files.
 
 # Prepare your environment
 
@@ -55,8 +80,8 @@ export const AZURE_APP_CONFIGURATION_CONNECTION_STRING = 'XXX';
 ### Prepare your environment for vscode
 Install the following extensions:
 
-- `EditorConfig for Visual Studio Code`.
-- `TSLint`
+- `Live Share`.
+- `GitLens`
 - `Prettier - Code formatter`.
 - Go to user settings (`settings.json`) and enable formatting on save: `"editor.formatOnSave": true`.
 
