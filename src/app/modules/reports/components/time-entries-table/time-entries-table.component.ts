@@ -127,13 +127,13 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     const durationColumnIndex = 3;
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
-  
+
   sumDates(arrayData: Entry[]): TotalHours{
     this.resultSum = new TotalHours();
-    let arrayDurations= new Array();
-    arrayData.forEach(entry =>{
-      let start = moment(entry.end_date).diff(moment(entry.start_date));
-      arrayDurations.push(moment.utc(start).format("HH:mm:ss"));
+    let arrayDurations = new Array();
+    arrayData.forEach(entry => {
+      const start = moment(entry.end_date).diff(moment(entry.start_date));
+      arrayDurations.push(moment.utc(start).format('HH:mm:ss'));
     });
     
     let totalDurations = arrayDurations.slice(1)
@@ -142,7 +142,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     },
     moment.duration(arrayDurations[0]));
     let daysInHours = totalDurations.days() * 24;
-    this.resultSum.hours=totalDurations.hours() + daysInHours;
+    this.resultSum.hours = totalDurations.hours() + daysInHours;
     this.resultSum.minutes = totalDurations.minutes();
     this.resultSum.seconds = totalDurations.seconds();
     return this.resultSum;
