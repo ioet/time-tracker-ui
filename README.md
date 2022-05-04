@@ -37,7 +37,7 @@ You can do it by following the steps here https://chocolatey.org/install. Althou
 
 ![image](https://user-images.githubusercontent.com/42116904/166069074-f76d9bd3-01b9-4c50-92e7-c7558d026783.png)
 
-### Make
+### Make (Only Windows)
 
 You will need to install Make for you to be easier setting your environment. 
 In your command line with admin permissions run `choco install make`
