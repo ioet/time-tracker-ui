@@ -30,7 +30,7 @@ Run `npm install -g @angular/cli` to install Angular CLI
 
 You can download it from here: https://www.docker.com/get-started/ you will find the perfect Docker version for you.
 
-### Chocolatey
+### Chocolatey (Only Windows)
 
 By installing this, you'll be able to use the commands to run your proyect.
 You can do it by following the steps here https://chocolatey.org/install. Although the page tells you to use Powershell, you should be able to use any command line with admin permissions. Don't forget to select the "Individual button" before following the installation steps.
