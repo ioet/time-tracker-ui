@@ -80,7 +80,7 @@ Install the following extensions:
 Yo have 2 ways to run this project in dev mode:
 
 **First**:
-- In your project path, open your favourite command line and run the follwing commands: `make build` then `make run` and finally `make log`. When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. Remember you must have your Docker running.
+- In your project path, open your favourite command line and run the follwing commands: `make build` then `make run` and finally `make logs`. When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. Remember you must have your Docker running.
 
 **Second**:
 - Run `ng serve` to run the app in dev mode. After executing this command, you can navigate to `http://localhost:4200/` to see the app working. This method is usefull when you want to run a specific branch using less time but not recommended when doing QA.
