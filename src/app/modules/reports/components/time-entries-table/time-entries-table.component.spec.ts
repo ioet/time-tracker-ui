@@ -190,7 +190,7 @@ describe('Reports Page', () => {
 
     it('Should populate the users with the payload from the action executed', () => {
       const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
-      const usersArray = []
+      const usersArray = [];
       const action = {
         type: UserActionTypes.LOAD_USERS_SUCCESS,
         payload: usersArray
@@ -201,10 +201,10 @@ describe('Reports Page', () => {
 
       expect(component.users).toEqual(usersArray);
     });
-    
+
     it('The sum of the data dates is equal to {"hours": 3, "minutes":20,"seconds":0}', () => {
-      let {hours,minutes,seconds}: TotalHours = component.sumDates(timeEntryList);
-      expect({hours, minutes, seconds}).toEqual({hours:3,minutes:20,seconds:0});
+      const {hours, minutes, seconds}: TotalHours = component.sumDates(timeEntryList);
+      expect({hours, minutes, seconds}).toEqual({hours: 3, minutes: 20, seconds: 0});
     });
 
     afterEach(() => {

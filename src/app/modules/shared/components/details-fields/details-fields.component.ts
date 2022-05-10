@@ -361,7 +361,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
     const isStartDateInTheFuture = moment(startDateToSubmit).isAfter(moment());
     const isEndDateInTheFuture = moment(endDateToSubmit).isAfter(moment());
-    const timeEntryIsInTheFuture = isStartDateInTheFuture || isEndDateInTheFuture;
+    const timeEntryIsInTheFuture = isStartDateInTheFuture || (isEndDateInTheFuture && !this.goingToWorkOnThis);
 
     if (timeEntryIsInTheFuture) {
       this.toastrService.error('You cannot start a time-entry in the future');

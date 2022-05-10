@@ -1,5 +1,5 @@
 export class TotalHours {
-    
+
     hours: number;
     minutes: number;
     seconds: number;
@@ -10,3 +10,4 @@ export class TotalHours {
         this.seconds = 0;
     }
 }
+
