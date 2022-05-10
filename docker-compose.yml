@@ -1,8 +1,8 @@
 version: '3.9'
 services:
-  timetracker_ui_dev:
-    container_name: timetracker_ui_dev
-    image: timetracker_ui_dev
+  timetracker_ui:
+    container_name: timetracker_ui
+    image: timetracker_ui
     build:
       context: .
       dockerfile: ./Docker/dev.Dockerfile
@@ -46,11 +46,13 @@ services:
   
   timetracker_ui_test:
     container_name: timetracker_ui_test
-    image: timetracker_ui_test
+    image: timetracker_ui
     build:
       # target: production
       context: .
-      dockerfile: ./Docker/test.Dockerfile
+      dockerfile:
+        ./Docker/dev.Dockerfile
+        ./Docker/test.Dockerfile
     ports:
       - 4200:4200
       - 9876:9876

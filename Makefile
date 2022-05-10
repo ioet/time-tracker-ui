@@ -9,9 +9,9 @@ help: ## Show this help message.
 	@grep --no-filename -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 	 sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: build_dev
-build_dev: ## Create docker image with dependencies needed for development.
-	docker-compose build timetracker_ui_dev
+.PHONY: build
+build: ## Create docker image with dependencies needed for development.
+	docker-compose build timetracker_ui
 
 .PHONY: cleanup
 cleanup: ## Delete image timetracker_ui
@@ -19,7 +19,7 @@ cleanup: ## Delete image timetracker_ui
 
 .PHONY: run
 run: ## Execute timetracker_ui dev docker containe.
-	docker-compose up -d timetracker_ui_dev
+	docker-compose up -d timetracker_ui
 
 .PHONY: logs
 logs: ## Show logs of timetracker_ui.
@@ -40,7 +40,8 @@ remove: ## Delete container timetracker_ui.
 
 .PHONY: test
 test: ## Run all tests on docker container timetracker_ui at the CLI.
-	docker-compose -f docker-compose.yml up -d
+	docker-compose build timetracker_ui
+	docker-compose up -d timetracker_ui
 	docker exec timetracker_ui bash -c "npm run ci-test"
 
 .PHONY: testdev
