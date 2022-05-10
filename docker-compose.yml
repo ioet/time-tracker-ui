@@ -1,12 +1,56 @@
 version: '3.9'
 services:
-  time-tracker-ui:
-    container_name: timetracker_ui
-    image: timetracker_ui
+  timetracker_ui_dev:
+    container_name: timetracker_ui_dev
+    image: timetracker_ui_dev
     build:
-      target: development
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./Docker/dev.Dockerfile
+    ports:
+      - 4200:4200
+      - 9876:9876
+    environment:
+      CHROME_BIN: /opt/google/chrome/google-chrome
+      AUTHORITY: ${AUTHORITY}
+      CLIENT_ID: ${CLIENT_ID}
+      SCOPES: ${SCOPES}
+      STACK_EXCHANGE_ID: ${STACK_EXCHANGE_ID}
+      STACK_EXCHANGE_ACCESS_TOKEN: ${STACK_EXCHANGE_ACCESS_TOKEN}
+      AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${AZURE_APP_CONFIGURATION_CONNECTION_STRING}
+      AUTHORITY_JSON: ${AUTHORITY_JSON}
+      CLIENT_ID_JSON: ${CLIENT_ID_JSON}
+      SCOPES_JSON: ${SCOPES_JSON}
+
+  
+  timetracker_ui_prod:
+    container_name: timetracker_ui_prod
+    image: timetracker_ui_prod
+    build:
+      # target: production
+      context: .
+      dockerfile: ./Docker/prod.Dockerfile
+    ports:
+      - 4200:4200
+      - 9876:9876
+    environment:
+      CHROME_BIN: /opt/google/chrome/google-chrome
+      AUTHORITY: ${AUTHORITY}
+      CLIENT_ID: ${CLIENT_ID}
+      SCOPES: ${SCOPES}
+      STACK_EXCHANGE_ID: ${STACK_EXCHANGE_ID}
+      STACK_EXCHANGE_ACCESS_TOKEN: ${STACK_EXCHANGE_ACCESS_TOKEN}
+      AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${AZURE_APP_CONFIGURATION_CONNECTION_STRING}
+      AUTHORITY_JSON: ${AUTHORITY_JSON}
+      CLIENT_ID_JSON: ${CLIENT_ID_JSON}
+      SCOPES_JSON: ${SCOPES_JSON}
+  
+  timetracker_ui_test:
+    container_name: timetracker_ui_test
+    image: timetracker_ui_test
+    build:
+      # target: production
+      context: .
+      dockerfile: ./Docker/test.Dockerfile
     ports:
       - 4200:4200
       - 9876:9876

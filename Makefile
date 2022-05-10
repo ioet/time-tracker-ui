@@ -9,17 +9,17 @@ help: ## Show this help message.
 	@grep --no-filename -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 	 sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: build
-build: ## Create docker image with dependencies needed for development.
-	docker-compose build
+.PHONY: build_dev
+build_dev: ## Create docker image with dependencies needed for development.
+	docker-compose build timetracker_ui_dev
 
 .PHONY: cleanup
 cleanup: ## Delete image timetracker_ui
 	docker rmi timetracker_ui
 
 .PHONY: run
-run: ## Execute timetracker_ui docker containe.
-	docker-compose up -d
+run: ## Execute timetracker_ui dev docker containe.
+	docker-compose up -d timetracker_ui_dev
 
 .PHONY: logs
 logs: ## Show logs of timetracker_ui.
@@ -55,11 +55,11 @@ publish: require-acr-arg require-image_tag-arg ## Upload a docker image to the s
 
 .PHONY: build_prod
 build_prod: ## Create docker image with dependencies needed for production.
-	docker build --target production -t timetracker_ui_prod -f Dockerfile .
+	docker-compose build timetracker_ui_prod
 
 .PHONY: run_prod
 run_prod: ## Execute timetracker_ui_prod docker container.
-	docker run -d -p 4200:4200 --name timetracker_ui_prod timetracker_ui_prod
+	docker run -d -p 80:80 --env-file ./.env --name timetracker_ui_prod timetracker_ui_prod
 
 .PHONY: stop_prod
 stop_prod: ## Stop container timetracker_ui_prod.
