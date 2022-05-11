@@ -26,7 +26,6 @@ services:
     container_name: timetracker_ui_prod
     image: timetracker_ui_prod
     build:
-      # target: production
       context: .
       dockerfile: ./Docker/prod.Dockerfile
     ports:
@@ -45,17 +44,11 @@ services:
       SCOPES_JSON: ${SCOPES_JSON}
   
   timetracker_ui_test:
-    container_name: timetracker_ui_test
+    container_name: timetracker_ui
     image: timetracker_ui
     build:
-      # target: production
       context: .
-      dockerfile:
-        ./Docker/dev.Dockerfile
-        ./Docker/test.Dockerfile
-    ports:
-      - 4200:4200
-      - 9876:9876
+      dockerfile: ./Docker/test.Dockerfile
     environment:
       CHROME_BIN: /opt/google/chrome/google-chrome
       AUTHORITY: ${AUTHORITY}
@@ -67,4 +60,3 @@ services:
       AUTHORITY_JSON: ${AUTHORITY_JSON}
       CLIENT_ID_JSON: ${CLIENT_ID_JSON}
       SCOPES_JSON: ${SCOPES_JSON}
-

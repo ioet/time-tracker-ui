@@ -40,8 +40,7 @@ remove: ## Delete container timetracker_ui.
 
 .PHONY: test
 test: ## Run all tests on docker container timetracker_ui at the CLI.
-	docker-compose build timetracker_ui
-	docker-compose up -d timetracker_ui
+	docker-compose up -d timetracker_ui_test
 	docker exec timetracker_ui bash -c "npm run ci-test"
 
 .PHONY: testdev

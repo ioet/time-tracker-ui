@@ -42,4 +42,7 @@ USER ${USERNAME}
 RUN npm cache clean --force && npm install
 EXPOSE 4200
 EXPOSE 9876
-CMD npm run config && npm run test
+
+FROM development as build
+COPY .env .
+RUN npm run config && npm run test
