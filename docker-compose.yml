@@ -10,7 +10,6 @@ services:
       - 4200:4200
       - 9876:9876
     environment:
-      CHROME_BIN: /opt/google/chrome/google-chrome
       AUTHORITY: ${AUTHORITY}
       CLIENT_ID: ${CLIENT_ID}
       SCOPES: ${SCOPES}
@@ -20,37 +19,13 @@ services:
       AUTHORITY_JSON: ${AUTHORITY_JSON}
       CLIENT_ID_JSON: ${CLIENT_ID_JSON}
       SCOPES_JSON: ${SCOPES_JSON}
-
-  
-  timetracker_ui_prod:
-    container_name: timetracker_ui_prod
-    image: timetracker_ui_prod
-    build:
-      context: .
-      dockerfile: ./Docker/prod.Dockerfile
-    ports:
-      - 4200:4200
-      - 9876:9876
-    environment:
-      CHROME_BIN: /opt/google/chrome/google-chrome
-      AUTHORITY: ${AUTHORITY}
-      CLIENT_ID: ${CLIENT_ID}
-      SCOPES: ${SCOPES}
-      STACK_EXCHANGE_ID: ${STACK_EXCHANGE_ID}
-      STACK_EXCHANGE_ACCESS_TOKEN: ${STACK_EXCHANGE_ACCESS_TOKEN}
-      AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${AZURE_APP_CONFIGURATION_CONNECTION_STRING}
-      AUTHORITY_JSON: ${AUTHORITY_JSON}
-      CLIENT_ID_JSON: ${CLIENT_ID_JSON}
-      SCOPES_JSON: ${SCOPES_JSON}
-  
   timetracker_ui_test:
-    container_name: timetracker_ui
-    image: timetracker_ui
+    container_name: timetracker_ui_test
+    image: timetracker_ui_test
     build:
       context: .
       dockerfile: ./Docker/test.Dockerfile
     environment:
-      CHROME_BIN: /opt/google/chrome/google-chrome
       AUTHORITY: ${AUTHORITY}
       CLIENT_ID: ${CLIENT_ID}
       SCOPES: ${SCOPES}
