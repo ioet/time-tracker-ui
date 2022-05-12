@@ -1,6 +1,6 @@
 FROM node:14
 
-ARG CHROME_VERSION=101.0.4951.54
+ARG CHROME_VERSION=65.0.3325.181
 ARG CHROME_DRIVER_VERSION=2.37
 ENV USERNAME timetracker
 ENV HOME /home/${USERNAME}
@@ -35,13 +35,13 @@ RUN useradd -ms /bin/bash ${USERNAME}
 
 WORKDIR ${HOME}/time-tracker-ui
 COPY . .
-# RUN rm -f .env
+RUN rm -f .env
 RUN chown ${USERNAME}:${USERNAME} -R ${HOME}/time-tracker-ui
 RUN chmod -R 777 ${HOME}/time-tracker-ui
 
 USER ${USERNAME}
-# COPY .env .
-RUN npm cache clean --force && npm install \
-      && npm run config && npm run test
+COPY .env .
 EXPOSE 4200
 EXPOSE 9876
+RUN npm cache clean --force && npm install
+CMD npm run config && npm run ci-test
