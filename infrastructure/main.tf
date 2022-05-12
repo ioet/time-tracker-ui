@@ -42,7 +42,8 @@ locals {
 }
 
 module "ui" {
-  source                   = "git@github.com:ioet/infra-terraform-modules.git//azure-app-service?ref=tags/v0.0.5"
+  #source = "../../infra-terraform-modules/azure-app-service"
+  source                   = "git@github.com:ioet/infra-terraform-modules.git//azure-app-service?ref=tags/v0.0.13"
   app_service_name         = local.service_name
   create_app_service_plan  = local.create_app_service_plan
   docker_image_name        = "${local.image_name}:${var.image_tag}"
@@ -52,8 +53,9 @@ module "ui" {
   docker_registry_username = data.terraform_remote_state.service.outputs.container_registry_admin_username
   location                 = data.terraform_remote_state.service.outputs.container_registry_location
   resource_group_name      = data.terraform_remote_state.service.outputs.resource_group_name
-  service_plan_kind        = local.service_plan_kind
   service_plan_name        = local.service_name
   service_plan_size        = var.service_plan_size
   service_plan_tier        = var.service_plan_tier
+  hostname                 = "ui"
+  dns_zone_name            = data.terraform_remote_state.service.outputs.subdomain
 }
