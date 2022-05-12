@@ -37,7 +37,6 @@ locals {
   environment             = terraform.workspace
   service_name            = "${local.common_name}-${local.environment}"
   create_app_service_plan = true
-  service_plan_kind       = "Linux"
   image_name              = "timetracker_ui"
 }
 
