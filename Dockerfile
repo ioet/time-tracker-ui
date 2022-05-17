@@ -43,13 +43,13 @@ USER ${USERNAME}
 RUN npm cache clean --force && npm install
 EXPOSE 4200
 EXPOSE 9876
-CMD npm run config && ${HOME}/time-tracker-ui/node_modules/.bin/ng serve --host 0.0.0.0 --disableHostCheck
+CMD ${HOME}/time-tracker-ui/node_modules/.bin/ng serve --host 0.0.0.0 --disableHostCheck
 
 
 
 FROM development as build
 COPY .env .
-RUN npm run config && npm run build
+RUN npm run build
 
 
 
