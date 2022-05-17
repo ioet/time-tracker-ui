@@ -1,3 +1,4 @@
+import * as keys from './keys';
 
 export const environment = {
   production: true,
@@ -5,13 +6,13 @@ export const environment = {
   stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 
-export const AUTHORITY = process.env["AUTHORITY"];
-export const CLIENT_ID = process.env["CLIENT_ID"];
-export const SCOPES = process.env["SCOPES"].split(",");
+export const AUTHORITY = keys.AUTHORITY;
+export const CLIENT_ID = keys.CLIENT_ID;
+export const SCOPES = keys.SCOPES;
 export const ITEMS_PER_PAGE = 5;
-export const STACK_EXCHANGE_ID = process.env["STACK_EXCHANGE_ID"];
-export const STACK_EXCHANGE_ACCESS_TOKEN = process.env["STACK_EXCHANGE_ACCESS_TOKEN"];
-export const AZURE_APP_CONFIGURATION_CONNECTION_STRING = process.env["AZURE_APP_CONFIGURATION_CONNECTION_STRING"];
+export const STACK_EXCHANGE_ID = keys.STACK_EXCHANGE_ID;
+export const STACK_EXCHANGE_ACCESS_TOKEN = keys.STACK_EXCHANGE_ACCESS_TOKEN;
+export const AZURE_APP_CONFIGURATION_CONNECTION_STRING = keys.AZURE_APP_CONFIGURATION_CONNECTION_STRING;
 export const DATE_FORMAT = 'yyyy-MM-dd';
 export const DATE_FORMAT_YEAR = 'YYYY-MM-DD';
 export const GROUPS = {
