@@ -35,11 +35,14 @@ jobs:
         STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.stack_exchange_access_token }}
         AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.azure_app_configuration_connection_string }}
       run: |
-        chmod +x ./scripts/populate-var-file.sh
-        sh ./scripts/populate-var-file.sh
+        chmod +x ./scripts/populate-keys.sh
+        sh ./scripts/populate-keys.sh
 
     - name: 'run: npm install and build'
       run: |
+        set -a
+        source .env
+        set +a
         npm install
         npm run build --prod --if-present
         cp scripts/default-static-site.js ${BUILD_PATH}
