@@ -5,7 +5,7 @@ services:
     image: timetracker_ui
     build:
       context: .
-      dockerfile: ./Docker/dev.Dockerfile
+      dockerfile: ./Docker/Dockerfile.dev
     ports:
       - 4200:4200
       - 9876:9876
@@ -19,12 +19,21 @@ services:
       AUTHORITY_JSON: ${AUTHORITY_JSON}
       CLIENT_ID_JSON: ${CLIENT_ID_JSON}
       SCOPES_JSON: ${SCOPES_JSON}
+    volumes:
+      - ./src:/home/timetracker/time-tracker-ui/src/
+      - ./scripts:/home/timetracker/time-tracker-ui/scripts/
+      - ./e2e:/home/timetracker/time-tracker-ui/e2e/
+      - ./coverage:/home/timetracker/time-tracker-ui/coverage
+      - ./angular.json:/home/timetracker/time-tracker-ui/angular.json
+      - ./karma.conf.js:/home/timetracker/time-tracker-ui/karma.conf.js
+      - ./package.json:/home/timetracker/time-tracker-ui/package.json
+      - ./webpack.config.js:/home/timetracker/time-tracker-ui/webpack.config.js
   timetracker_ui_test:
     container_name: timetracker_ui_test
     image: timetracker_ui_test
     build:
       context: .
-      dockerfile: ./Docker/test.Dockerfile
+      dockerfile: ./Docker/Dockerfile.test
     ports:
       - 4200:4200
       - 9876:9876
