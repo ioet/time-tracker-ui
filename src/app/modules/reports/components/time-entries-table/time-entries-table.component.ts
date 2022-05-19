@@ -93,14 +93,11 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
       this.sumDates(ds.data);
     });
-    
-    this.uploadUsers();
-    
+    this.uploadUsers();  
   }
 
   ngAfterViewInit(): void {
-    this.rerenderDataTable();
-    
+    this.rerenderDataTable(); 
   }
 
   ngOnDestroy(): void {
@@ -115,9 +112,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         this.dtTrigger.next();
       });
     } else {
-      
       this.dtTrigger.next();
-
       return;
     }
   }

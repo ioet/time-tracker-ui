@@ -1,18 +1,16 @@
 <div>
     <div>
         <button type="button" (click)="newEntry()" data-toggle="modal" data-target="#editRecordsByDate" class="btn btn-primary">
-      Add new entry
-    </button>
-        <button type="button" (click)="onDisplayModeChange()" class="btn btn-primary float-right" *ngIf="isFeatureToggleCalendarActive">
-      <em class="fas fa-list" *ngIf="displayGridView"></em>
-      <em class="fas fa-th" *ngIf="!displayGridView"></em>
-    </button>
+        Add new entry
+        </button>
+            <button type="button" (click)="onDisplayModeChange()" class="btn btn-primary float-right" *ngIf="isFeatureToggleCalendarActive">
+            <em class="fas fa-list" *ngIf="displayGridView"></em>
+            <em class="fas fa-th" *ngIf="!displayGridView"></em>
+        </button>
     </div>
     <div style="height: 15px"></div>
     <app-month-picker [selectedDate]="selectedDate" (dateSelected)="dateSelected($event)"></app-month-picker>
     <div style="height: 15px"></div>
-
-
     <div id="gridView" [hidden]="!displayGridView">
         <div *ngIf="timeEntriesDataSource$ | async as dataSource">
             <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
@@ -21,7 +19,6 @@
             </app-calendar>
         </div>
     </div>
-
     <div id="listView" [hidden]="displayGridView">
         <div class="table-responsive">
             <table  class="table table-sm table-striped mb-0 " datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" *ngIf="(timeEntriesDataSource$ | async) as dataSource">
@@ -50,8 +47,8 @@
                             <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editRecordsByDate" (click)="editEntry(entry.id)">
                 <i class="fa fa-edit fa-xs"></i>
                 </button>
-                            <button class="btn btn-sm btn-danger ml-2" data-toggle="modal" data-target="#deleteModal" (click)="openModal(entry)">
-                <i class="fa fa-trash fa-xs"></i>
+                    <button class="btn btn-sm btn-danger ml-2" data-toggle="modal" data-target="#deleteModal" (click)="openModal(entry)">
+                    <i class="fa fa-trash fa-xs"></i>
                 </button>
                         </td>
                     </tr>
@@ -60,7 +57,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="editRecordsByDate" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content" cdkDrag (cdkDragEnded)="resetDraggablePosition($event)">
@@ -68,20 +64,19 @@
                 <h5 class="modal-title">{{ entryId ? 'Edit Entry' : 'New Entry' }}</h5>
                 <div>
                     <button class="btn shadow-none" data-bs-toggle="tooltip" title="Clean form values" (click)="detailsFields.cleanFieldsForm()">
-            <em class="fa fa-eraser"> </em>
-          </button>
+                        <em class="fa fa-eraser"> </em>
+                    </button>
                     <button class="btn shadow-none" data-bs-toggle="tooltip" title="Drag modal" cdkDragHandle>
-            <em class="fa fa-grip-vertical"></em>
-          </button>
+                        <em class="fa fa-grip-vertical"></em>
+                    </button>              
                 </div>
-            </div>
-            <div class="modal-body">
-                <app-details-fields [entryToEdit]="entry" (saveEntry)="saveEntry($event)" (projectSelected)="projectSelected($event)" [canMarkEntryAsWIP]="canMarkEntryAsWIP" #detailsFields>
-                </app-details-fields>
+                    </div>
+                    <div class="modal-body">
+                        <app-details-fields [entryToEdit]="entry" (saveEntry)="saveEntry($event)" (projectSelected)="projectSelected($event)" [canMarkEntryAsWIP]="canMarkEntryAsWIP" #detailsFields>
+                        </app-details-fields>
             </div>
         </div>
     </div>
 </div>
-
 <app-dialog *ngIf="showModal" class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true" [body]="message" [title]="'Delete Entry'" (closeModalEvent)="removeEntry()">
 </app-dialog>
