@@ -47,7 +47,7 @@
                             <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editRecordsByDate" (click)="editEntry(entry.id)">
                 <i class="fa fa-edit fa-xs"></i>
                 </button>
-                    <button class="btn btn-sm btn-danger ml-2" data-toggle="modal" data-target="#deleteModal" (click)="openModal(entry)">
+                <button class="btn btn-sm btn-danger ml-2" data-toggle="modal" data-target="#deleteModal" (click)="openModal(entry)">
                     <i class="fa fa-trash fa-xs"></i>
                 </button>
                         </td>
@@ -70,10 +70,10 @@
                         <em class="fa fa-grip-vertical"></em>
                     </button>              
                 </div>
-                    </div>
-                    <div class="modal-body">
-                        <app-details-fields [entryToEdit]="entry" (saveEntry)="saveEntry($event)" (projectSelected)="projectSelected($event)" [canMarkEntryAsWIP]="canMarkEntryAsWIP" #detailsFields>
-                        </app-details-fields>
+            </div>
+            <div class="modal-body">
+                <app-details-fields [entryToEdit]="entry" (saveEntry)="saveEntry($event)" (projectSelected)="projectSelected($event)" [canMarkEntryAsWIP]="canMarkEntryAsWIP" #detailsFields>
+                </app-details-fields>
             </div>
         </div>
     </div>
