@@ -23,39 +23,41 @@
     </div>
 
     <div id="listView" [hidden]="displayGridView">
-        <table class="table table-sm table-striped mb-0" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" *ngIf="(timeEntriesDataSource$ | async) as dataSource">
-            <caption></caption>
-            <thead class="thead-blue">
-                <tr class="d-flex">
-                    <th class="col">Date</th>
-                    <th class="col">Time in - out</th>
-                    <th class="col">Duration</th>
-                    <th class="col">Customer</th>
-                    <th class="col">Project</th>
-                    <th class="col">Activity</th>
-                    <th class="col"></th>
-                </tr>
-            </thead>
-            <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
-            <tbody *ngIf="!dataSource.isLoading">
-                <tr class="d-flex" *ngFor="let entry of dataSource.data">
-                    <td class="col">{{ entry.start_date | date: 'MM/dd/yyyy' }}</td>
-                    <td class="col">{{ dateTimeOffset.parseDateTimeOffset(entry.start_date,entry.timezone_offset) }} - {{ dateTimeOffset.parseDateTimeOffset(entry.end_date,entry.timezone_offset) }}</td>
-                    <td class="col">{{ entry.end_date | substractDate: entry.start_date }}</td>
-                    <td class="col">{{ entry.customer_name }}</td>
-                    <td class="col">{{ entry.project_name }}</td>
-                    <td class="col">{{ entry.activity_name }}</td>
-                    <td class="col">
-                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editRecordsByDate" (click)="editEntry(entry.id)">
-              <i class="fa fa-edit fa-xs"></i>
-            </button>
-                        <button class="btn btn-sm btn-danger ml-2" data-toggle="modal" data-target="#deleteModal" (click)="openModal(entry)">
-              <i class="fa fa-trash fa-xs"></i>
-            </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table  class="table table-sm table-striped mb-0 " datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" *ngIf="(timeEntriesDataSource$ | async) as dataSource">
+                <caption></caption>
+                <thead class="thead-blue">
+                    <tr class="d-flex">
+                        <th class="col">Date</th>
+                        <th class="col">Time in - out</th>
+                        <th class="col">Duration</th>
+                        <th class="col">Customer</th>
+                        <th class="col">Project</th>
+                        <th class="col">Activity</th>
+                        <th class="col"></th>
+                    </tr>
+                </thead>
+                <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
+                <tbody *ngIf="!dataSource.isLoading">
+                    <tr class="d-flex" *ngFor="let entry of dataSource.data">
+                        <td class="col">{{ entry.start_date | date: 'MM/dd/yyyy' }}</td>
+                        <td class="col">{{ dateTimeOffset.parseDateTimeOffset(entry.start_date,entry.timezone_offset) }} - {{ dateTimeOffset.parseDateTimeOffset(entry.end_date,entry.timezone_offset) }}</td>
+                        <td class="col">{{ entry.end_date | substractDate: entry.start_date }}</td>
+                        <td class="col">{{ entry.customer_name }}</td>
+                        <td class="col">{{ entry.project_name }}</td>
+                        <td class="col">{{ entry.activity_name }}</td>
+                        <td class="col">
+                            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editRecordsByDate" (click)="editEntry(entry.id)">
+                <i class="fa fa-edit fa-xs"></i>
+                </button>
+                            <button class="btn btn-sm btn-danger ml-2" data-toggle="modal" data-target="#deleteModal" (click)="openModal(entry)">
+                <i class="fa fa-trash fa-xs"></i>
+                </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

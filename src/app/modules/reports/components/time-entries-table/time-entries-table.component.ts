@@ -27,17 +27,21 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   users: User[] = [];
   dtOptions: any = {
     scrollY: '590px',
+    sScrollX: '100%',
+    bScrollCollapse: true,
     dom: '<"d-flex justify-content-between"B<"d-flex"<"mr-5"l>f>>rtip',
     pageLength: 30,
     lengthMenu: [this.selectOptionValues, this.selectOptionNames],
     buttons: [
       {
         text: 'Column Visibility' + ' ▼',
-        extend: 'colvis',
-        columns: ':not(.hidden-col)'
+        extend: 'colvis'
       },
       {
-        extend: 'print'
+        extend: 'print',
+        exportOptions: {
+          columns: ':visible'
+        }
       },
       {
         extend: 'excel',
@@ -88,13 +92,16 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   ngOnInit(): void {
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
       this.sumDates(ds.data);
-      this.rerenderDataTable();
+      console.log(this.dtElement)  
     });
+    
     this.uploadUsers();
+    
   }
 
   ngAfterViewInit(): void {
     this.rerenderDataTable();
+    
   }
 
   ngOnDestroy(): void {
@@ -102,14 +109,17 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     this.dtTrigger.unsubscribe();
   }
 
-  private rerenderDataTable(): void {
+  private rerenderDataTable(): any {
     if (this.dtElement && this.dtElement.dtInstance) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.destroy();
         this.dtTrigger.next();
       });
     } else {
+      
       this.dtTrigger.next();
+
+      return;
     }
   }
 
@@ -151,6 +161,4 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   user(userId: string){
     this.selectedUserId.emit(userId);
   }
-
 }
-
