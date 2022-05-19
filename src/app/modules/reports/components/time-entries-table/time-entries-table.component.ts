@@ -92,7 +92,6 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   ngOnInit(): void {
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
       this.sumDates(ds.data);
-      console.log(this.dtElement)  
     });
     
     this.uploadUsers();
