@@ -355,10 +355,57 @@ describe('EntryFieldsComponent', () => {
       type: ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS,
       payload: [],
     };
-
+    
     actionSubject.next(action);
 
     expect(component.activities).toEqual(action.payload);
+  });
+
+  it('activites are ordered using the payload of the action', () => {
+    const listActivities = [
+      {
+        id: '001',
+        name: 'Meeting',
+        description: 'Some description'
+      },
+      {
+        id: '002',
+        name: 'ABC',
+        description: 'Some description'
+      },
+      {
+        id: '003',
+        name: 'XYZ',
+        description: 'Some description'
+      },
+    ];
+  
+    const listActivitiesOrdered = [
+      {
+        id: '002',
+        name: 'ABC',
+        description: 'Some description'
+      },
+      {
+        id: '001',
+        name: 'Meeting',
+        description: 'Some description'
+      },
+      {
+        id: '003',
+        name: 'XYZ',
+        description: 'Some description'
+      },
+    ];
+    const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+    const action = {
+      type: ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS,
+      payload: listActivities,
+    };
+
+    actionSubject.next(action);
+
+    expect(component.activities).toEqual(listActivitiesOrdered);
   });
 
   it('LoadActiveEntry is dispatchen after LOAD_ACTIVITIES_SUCCESS', () => {
