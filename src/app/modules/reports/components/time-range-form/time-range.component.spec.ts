@@ -115,6 +115,15 @@ describe('Reports Page', () => {
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
+    it('triggers onSubmit with the form status valid', () => {
+      spyOn(component, 'onSubmit');
+      let valid = component.reportForm.valid;
+      component.setInitialDataOnScreen();
+
+      expect(valid).toBeTruthy();
+      expect(component.onSubmit).toHaveBeenCalled();
+    });
+
     it('When the ngOnChanges method is called, the onSubmit method is called', () => {
       const userId = 'abcd';
       spyOn(component, 'onSubmit');
