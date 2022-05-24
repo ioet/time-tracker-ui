@@ -4,9 +4,9 @@
         Add new entry
         </button>
             <button type="button" (click)="onDisplayModeChange()" class="btn btn-primary float-right" *ngIf="isFeatureToggleCalendarActive">
-            <em class="fas fa-list" *ngIf="displayGridView"></em>
-            <em class="fas fa-th" *ngIf="!displayGridView"></em>
-        </button>
+                <em class="fas fa-list" *ngIf="displayGridView"></em>
+                <em class="fas fa-th" *ngIf="!displayGridView"></em>
+            </button>
     </div>
     <div style="height: 15px"></div>
     <app-month-picker [selectedDate]="selectedDate" (dateSelected)="dateSelected($event)"></app-month-picker>
