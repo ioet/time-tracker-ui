@@ -364,40 +364,40 @@ describe('EntryFieldsComponent', () => {
   it('activites are ordered using the payload of the action', () => {
     const activities = [
       {
-        id: '001',
+        id: '004',
         name: 'Meeting',
         description: 'Some description'
       },
       {
-        id: '002',
-        name: 'ABC',
+        id: '005',
+        name: 'ABCD',
         description: 'Some description'
       },
       {
-        id: '003',
-        name: 'XYZ',
+        id: '006',
+        name: 'XYZA',
         description: 'Some description'
       },
     ];
   
     const activitiesOrdered = [
       {
-        id: '002',
-        name: 'ABC',
+        id: '005',
+        name: 'ABCD',
         description: 'Some description'
       },
       {
-        id: '001',
+        id: '004',
         name: 'Meeting',
         description: 'Some description'
       },
       {
-        id: '003',
-        name: 'XYZ',
+        id: '006',
+        name: 'XYZA',
         description: 'Some description'
       },
     ];
-    
+
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
     const action = {
       type: ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS,
