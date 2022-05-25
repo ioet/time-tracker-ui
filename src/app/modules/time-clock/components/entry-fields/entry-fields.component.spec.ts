@@ -355,7 +355,7 @@ describe('EntryFieldsComponent', () => {
       type: ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS,
       payload: [],
     };
-    
+
     actionSubject.next(action);
 
     expect(component.activities).toEqual(action.payload);
