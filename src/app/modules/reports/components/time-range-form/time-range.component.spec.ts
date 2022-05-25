@@ -116,8 +116,10 @@ describe('Reports Page', () => {
     });
 
     it('triggers onSubmit with the form status valid', () => {
+      const valid = component.reportForm.valid;
       spyOn(component, 'onSubmit');
-      let valid = component.reportForm.valid;
+
+
       component.setInitialDataOnScreen();
 
       expect(valid).toBeTruthy();
