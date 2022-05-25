@@ -119,7 +119,6 @@ describe('Reports Page', () => {
       const valid = component.reportForm.valid;
       spyOn(component, 'onSubmit');
 
-
       component.setInitialDataOnScreen();
 
       expect(valid).toBeTruthy();
