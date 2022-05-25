@@ -133,6 +133,15 @@ describe('Reports Page', () => {
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
+    it('When the ngOnChanges method is the first change, the onSubmit method is not called', () => {
+      const userId = 'abcd';
+      spyOn(component, 'onSubmit');
+
+      component.ngOnChanges({userId: new SimpleChange(null, userId, true)});
+
+      expect(component.onSubmit).not.toHaveBeenCalled();
+    });
+
     afterEach(() => {
       fixture.destroy();
     });
