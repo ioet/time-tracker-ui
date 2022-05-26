@@ -20,7 +20,7 @@
         </div>
     </div>
     <div id="listView" [hidden]="displayGridView">
-        <div class="table-responsive">
+       
             <table  class="table table-sm table-striped mb-0 " datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" *ngIf="(timeEntriesDataSource$ | async) as dataSource">
                 <caption></caption>
                 <thead class="thead-blue">
@@ -54,7 +54,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        
     </div>
 </div>
 <div class="modal fade" id="editRecordsByDate" tabindex="-1" role="dialog">

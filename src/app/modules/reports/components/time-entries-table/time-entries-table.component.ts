@@ -26,10 +26,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   selectOptionNames = [15, 30, 50, 100, 'All'];
   users: User[] = [];
   dtOptions: any = {
-    scrollY: '590px',
-    sScrollX: '100%',
     bScrollCollapse: true,
-    dom: '<"d-flex justify-content-between"B<"d-flex"<"mr-5"l>f>>rtip',
     pageLength: 30,
     lengthMenu: [this.selectOptionValues, this.selectOptionNames],
     buttons: [
