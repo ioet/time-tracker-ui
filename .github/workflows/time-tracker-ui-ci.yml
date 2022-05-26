@@ -71,8 +71,9 @@ jobs:
 
     - name: Terraform Plan Stage
       id: plan-stage
-      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest 
-      -var 'additional_settings={
+      run: | 
+        terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest 
+        -var 'additional_settings={
         -var 'additional_settings={ \
         CHROME_BIN= "/opt/google/chrome/google-chrome" \
         AUTHORITY= "${{ secrets.AUTHORITY }}" \
@@ -91,7 +92,8 @@ jobs:
 
     - name: Terraform Plan Prod
       id: plan-prod
-      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest \
+      run: | 
+        terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest \
         -var 'additional_settings={ \
         CHROME_BIN= "/opt/google/chrome/google-chrome" \
         AUTHORITY= "${{ secrets.AUTHORITY }}" \
