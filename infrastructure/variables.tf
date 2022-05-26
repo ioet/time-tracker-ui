@@ -19,4 +19,5 @@ variable "service_plan_tier" {
 variable "additional_settings" {
   type        = map(string)
   description = "Aditional settings, you should put a pair values"
+  sensitive   = true
 }

@@ -56,7 +56,7 @@ module "ui" {
   service_plan_name        = local.service_name
   service_plan_size        = var.service_plan_size
   service_plan_tier        = var.service_plan_tier
+  additional_settings      = var.additional_settings
   hostname                 = "ui"
   dns_zone_name            = data.terraform_remote_state.service.outputs.subdomain
-  additional_settings      = var.additional_settings
 }
