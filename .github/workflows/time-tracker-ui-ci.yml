@@ -73,34 +73,34 @@ jobs:
       id: plan-stage
       run: | 
         terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest \
-        -var 'additional_settings={CHROME_BIN="/opt/google/chrome/google-chrome",\
-        AUTHORITY= "${{ secrets.AUTHORITY }}", \
-        CLIENT_ID= "${{ secrets.CLIENT_ID }}", \
-        SCOPES= "${{ secrets.SCOPES }}", \
-        STACK_EXCHANGE_ID= "${{ secrets.STACK_EXCHANGE_ID }}", \
-        STACK_EXCHANGE_ACCESS_TOKEN= "${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}", \
-        AZURE_APP_CONFIGURATION_CONNECTION_STRING= "${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}", \
-        AUTHORITY_JSON= "${{ secrets.AUTHORITY_JSON }}", \
-        CLIENT_ID_JSON= "${{ secrets.CLIENT_ID_JSON }}", \
-        SCOPES_JSON= "${{ secrets.SCOPES_JSON }}" }' -no-color
+        -var 'additional_settings={CHROME_BIN = "/opt/google/chrome/google-chrome",\
+        AUTHORITY = "${{ secrets.AUTHORITY }}", \
+        CLIENT_ID = "${{ secrets.CLIENT_ID }}", \
+        SCOPES = "${{ secrets.SCOPES }}", \
+        STACK_EXCHANGE_ID = "${{ secrets.STACK_EXCHANGE_ID }}", \
+        STACK_EXCHANGE_ACCESS_TOKEN = "${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}", \
+        AZURE_APP_CONFIGURATION_CONNECTION_STRING = "${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}", \
+        AUTHORITY_JSON = "${{ secrets.AUTHORITY_JSON }}", \
+        CLIENT_ID_JSON = "${{ secrets.CLIENT_ID_JSON }}", \
+        SCOPES_JSON = "${{ secrets.SCOPES_JSON }}" }' -no-color
       continue-on-error: true
       working-directory: ./${{ env.WORKING_DIR }}
       env:
         TF_WORKSPACE: stage
 
-    - name: Terraform Plan Prod
-      id: plan-prod
-      run: | 
-        terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest \
-        -var 'additional_settings={CHROME_BIN="/opt/google/chrome/google-chrome",AUTHORITY= "${{ secrets.AUTHORITY }}", \
-        CLIENT_ID= "${{ secrets.CLIENT_ID }}", \
-        SCOPES= "${{ secrets.SCOPES }}", \
-        STACK_EXCHANGE_ID= "${{ secrets.STACK_EXCHANGE_ID }}", \
-        STACK_EXCHANGE_ACCESS_TOKEN= "${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}", \
-        AZURE_APP_CONFIGURATION_CONNECTION_STRING= "${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}", \
-        AUTHORITY_JSON= "${{ secrets.AUTHORITY_JSON }}", \
-        CLIENT_ID_JSON= "${{ secrets.CLIENT_ID_JSON }}", \
-        SCOPES_JSON= "${{ secrets.SCOPES_JSON }}" }' -no-color
+    # - name: Terraform Plan Prod
+    #   id: plan-prod
+    #   run: | 
+    #     terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest \
+    #     -var 'additional_settings={CHROME_BIN="/opt/google/chrome/google-chrome",AUTHORITY= "${{ secrets.AUTHORITY }}", \
+    #     CLIENT_ID= "${{ secrets.CLIENT_ID }}", \
+    #     SCOPES= "${{ secrets.SCOPES }}", \
+    #     STACK_EXCHANGE_ID= "${{ secrets.STACK_EXCHANGE_ID }}", \
+    #     STACK_EXCHANGE_ACCESS_TOKEN= "${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}", \
+    #     AZURE_APP_CONFIGURATION_CONNECTION_STRING= "${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}", \
+    #     AUTHORITY_JSON= "${{ secrets.AUTHORITY_JSON }}", \
+    #     CLIENT_ID_JSON= "${{ secrets.CLIENT_ID_JSON }}", \
+    #     SCOPES_JSON= "${{ secrets.SCOPES_JSON }}" }' -no-color
        
       continue-on-error: true
       working-directory: ./${{ env.WORKING_DIR }}
