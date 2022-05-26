@@ -58,4 +58,5 @@ module "ui" {
   service_plan_tier        = var.service_plan_tier
   hostname                 = "ui"
   dns_zone_name            = data.terraform_remote_state.service.outputs.subdomain
+  additional_settings      = var.additional_settings
 }
