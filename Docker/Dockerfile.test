@@ -44,4 +44,4 @@ COPY .env .
 EXPOSE 4200
 EXPOSE 9876
 RUN npm cache clean --force && npm install
-CMD npm run config && npm run ci-test
+CMD npm run ci-test
