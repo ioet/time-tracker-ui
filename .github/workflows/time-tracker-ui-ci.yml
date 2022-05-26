@@ -102,10 +102,10 @@ jobs:
     #     CLIENT_ID_JSON= "${{ secrets.CLIENT_ID_JSON }}", \
     #     SCOPES_JSON= "${{ secrets.SCOPES_JSON }}" }' -no-color
        
-      continue-on-error: true
-      working-directory: ./${{ env.WORKING_DIR }}
-      env:
-        TF_WORKSPACE: prod
+    #   continue-on-error: true
+    #   working-directory: ./${{ env.WORKING_DIR }}
+    #   env:
+    #     TF_WORKSPACE: prod
 
     - name: Update Pull Request with Stage Plan
       uses: actions/github-script@0.9.0
