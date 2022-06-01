@@ -5,9 +5,9 @@ on:
     branches:
     - "**"
 
-  pull_request:
-    branches:
-    - "**"
+  # pull_request:
+  #   branches:
+  #   - "**"
 
 jobs:
   ci:
@@ -44,10 +44,11 @@ jobs:
         echo "STACK_EXCHANGE_ID = \"${{ secrets.STACK_EXCHANGE_ID }}\","  >> ./secrets.tfvars
         echo "STACK_EXCHANGE_ACCESS_TOKEN = \"${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}\"," >> ./secrets.tfvars
         echo "AZURE_APP_CONFIGURATION_CONNECTION_STRING = \"${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}\"," >> ./secrets.tfvars
-        echo "AUTHORITY_JSON = \"${{ secrets.AUTHORITY_JSON }}\"," >> ./secrets.tfvars
-        echo "CLIENT_ID_JSON = \"${{ secrets.CLIENT_ID_JSON }}\"," >> ./secrets.tfvars
-        echo "SCOPES_JSON = \"${{ secrets.SCOPES_JSON }}\","  >> ./secrets.tfvars
         echo "}" >> ./secrets.tfvars
+# echo "AUTHORITY_JSON = \"${{ secrets.AUTHORITY_JSON }}\"," >> ./secrets.tfvars
+# echo "CLIENT_ID_JSON = \"${{ secrets.CLIENT_ID_JSON }}\"," >> ./secrets.tfvars
+# echo "SCOPES_JSON = \"${{ secrets.SCOPES_JSON }}\","  >> ./secrets.tfvars
+
 
     # - name: Running tests
     #   run: |
