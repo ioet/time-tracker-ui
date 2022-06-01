@@ -2,6 +2,7 @@ import {Component, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { DATE_FORMAT_YEAR } from 'src/environments/environment';
+import { DateAdapter } from '@angular/material/core';
 import * as moment from 'moment';
 
 @Component({
@@ -22,7 +23,8 @@ export class InputDateComponent implements ControlValueAccessor {
   onChange = (_: any) => { };
   onTouch = () => {  };
 
-  constructor() {
+  constructor(date: DateAdapter<Date>) {
+    date.getFirstDayOfWeek = () => 1;
   }
 
   onInput(value: moment.Moment) {

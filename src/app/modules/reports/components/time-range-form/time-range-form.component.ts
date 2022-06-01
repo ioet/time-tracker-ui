@@ -8,6 +8,7 @@ import {Store} from '@ngrx/store';
 import {EntryState} from '../../../time-clock/store/entry.reducer';
 import * as moment from 'moment';
 
+
 @Component({
   selector: 'app-time-range-form',
   templateUrl: './time-range-form.component.html',
@@ -38,7 +39,7 @@ export class TimeRangeFormComponent implements OnInit, OnChanges {
 
   setInitialDataOnScreen() {
     this.reportForm.setValue({
-      startDate: formatDate(moment().startOf('week').format('l'), DATE_FORMAT, 'en'),
+      startDate: formatDate(moment().startOf('isoWeek').format('l'), DATE_FORMAT, 'en'),
       endDate: formatDate(moment().format('l'), DATE_FORMAT, 'en')
     });
     this.onSubmit();
