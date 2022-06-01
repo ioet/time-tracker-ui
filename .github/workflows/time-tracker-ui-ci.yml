@@ -76,7 +76,7 @@ jobs:
     - name: Terraform Plan Stage
       id: plan-stage
       run: | 
-        terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars  -var-file secrets.tfvars -no-color
+        terraform plan -lock=false -var-file=${{ env.TF_WORKSPACE }}.tfvars  -var-file secrets.tfvars -no-color
       continue-on-error: true
       working-directory: ./${{ env.WORKING_DIR }}
       env:
