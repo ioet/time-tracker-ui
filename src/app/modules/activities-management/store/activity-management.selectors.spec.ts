@@ -24,6 +24,49 @@ describe('ActivityManagement Selectors', () => {
     expect(selectors.allActivities.projector(activityState)).toBe(activities);
   });
 
+  it('should return all the ordered data in the state when the selector allAtiveActivities is called', () => {
+    const activities = [
+      {
+        id: '001',
+        name: 'Meeting',
+        description: 'Some description'
+      },
+      {
+        id: '002',
+        name: 'ABC',
+        description: 'Some description'
+      },
+      {
+        id: '003',
+        name: 'XYZ',
+        description: 'Some description'
+      },
+    ];
+  
+    const activitiesOrdered = [
+      {
+        id: '002',
+        name: 'ABC',
+        description: 'Some description'
+      },
+      {
+        id: '001',
+        name: 'Meeting',
+        description: 'Some description'
+      },
+      {
+        id: '003',
+        name: 'XYZ',
+        description: 'Some description'
+      },
+    ];
+
+    const activityState = { data: activities };
+
+    expect(selectors.allActiveActivities.projector(activityState)).toEqual(activitiesOrdered);
+
+  });
+
   it('should return all active data in the state when the selector allActiveActivities is called', () => {
     const activities = [{ id: 'id', name: 'abc', description: 'xxx', status: 'active' },
     { id: '2', name: 'xyz', description: 'yyy', status: 'inactive' },
