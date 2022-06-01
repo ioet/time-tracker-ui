@@ -34,7 +34,8 @@ jobs:
       run: make build
 
     - name: write secrets
-      run: |
+      working-directory: ./${{ env.WORKING_DIR }}
+      run: |        
         echo "additional_settings = {" >> ./secrets.tfvars
         echo "CHROME_BIN = \"/opt/google/chrome/google-chrome\"," >> ./secrets.tfvars
         echo "AUTHORITY = \"${{ secrets.AUTHORITY }}\"," >> ./secrets.tfvars
