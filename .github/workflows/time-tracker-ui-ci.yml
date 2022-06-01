@@ -36,18 +36,18 @@ jobs:
     - name: write secrets
       working-directory: ./${{ env.WORKING_DIR }}
       run: |        
-        echo "additional_settings = {" >> ./secrets.tfvars
-        echo "CHROME_BIN = \"/opt/google/chrome/google-chrome\"," >> ./secrets.tfvars
-        echo "AUTHORITY = \"${{ secrets.AUTHORITY }}\"," >> ./secrets.tfvars
-        echo "CLIENT_ID = \"${{ secrets.CLIENT_ID }}\"," >> ./secrets.tfvars
-        echo "SCOPES = \"${{ secrets.SCOPES }}\"," >> ./secrets.tfvars
-        echo "STACK_EXCHANGE_ID = \"${{ secrets.STACK_EXCHANGE_ID }}\","  >> ./secrets.tfvars
-        echo "STACK_EXCHANGE_ACCESS_TOKEN = \"${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}\"," >> ./secrets.tfvars
-        echo "AZURE_APP_CONFIGURATION_CONNECTION_STRING = \"${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}\"," >> ./secrets.tfvars
-        echo "}" >> ./secrets.tfvars
-# echo "AUTHORITY_JSON = \"${{ secrets.AUTHORITY_JSON }}\"," >> ./secrets.tfvars
-# echo "CLIENT_ID_JSON = \"${{ secrets.CLIENT_ID_JSON }}\"," >> ./secrets.tfvars
-# echo "SCOPES_JSON = \"${{ secrets.SCOPES_JSON }}\","  >> ./secrets.tfvars
+        echo "additional_settings = {" >> ./secrets.auto.tfvars
+        echo "CHROME_BIN = \"/opt/google/chrome/google-chrome\"," >> ./secrets.auto.tfvars
+        echo "AUTHORITY = \"${{ secrets.AUTHORITY }}\"," >> ./secrets.auto.tfvars
+        echo "CLIENT_ID = \"${{ secrets.CLIENT_ID }}\"," >> ./secrets.auto.tfvars
+        echo "SCOPES = \"${{ secrets.SCOPES }}\"," >> ./secrets.auto.tfvars
+        echo "STACK_EXCHANGE_ID = \"${{ secrets.STACK_EXCHANGE_ID }}\","  >> ./secrets.auto.tfvars
+        echo "STACK_EXCHANGE_ACCESS_TOKEN = \"${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}\"," >> ./secrets.auto.tfvars
+        echo "AZURE_APP_CONFIGURATION_CONNECTION_STRING = \"${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}\"," >> ./secrets.auto.tfvars
+        echo "}" >> ./secrets.auto.tfvars
+# echo "AUTHORITY_JSON = \"${{ secrets.AUTHORITY_JSON }}\"," >> ./secrets.auto.tfvars
+# echo "CLIENT_ID_JSON = \"${{ secrets.CLIENT_ID_JSON }}\"," >> ./secrets.auto.tfvars
+# echo "SCOPES_JSON = \"${{ secrets.SCOPES_JSON }}\","  >> ./secrets.auto.tfvars
 
 
     # - name: Running tests
@@ -77,7 +77,7 @@ jobs:
     - name: Terraform Plan Stage
       id: plan-stage
       run: | 
-        terraform plan -lock=false -var-file=${{ env.TF_WORKSPACE }}.tfvars  -var-file secrets.tfvars -no-color
+        terraform plan -lock=false -var-file=${{ env.TF_WORKSPACE }}.tfvars -no-color
       continue-on-error: true
       working-directory: ./${{ env.WORKING_DIR }}
       env:
