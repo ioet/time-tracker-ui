@@ -11,15 +11,15 @@ help: ## Show this help message.
 
 .PHONY: build
 build: ## Create docker image with dependencies needed for development.
-	docker-compose build
+	docker-compose build timetracker_ui
 
 .PHONY: cleanup
 cleanup: ## Delete image timetracker_ui
 	docker rmi timetracker_ui
 
 .PHONY: run
-run: ## Execute timetracker_ui docker containe.
-	docker-compose up -d
+run: ## Execute timetracker_ui dev docker containe.
+	docker-compose up -d timetracker_ui
 
 .PHONY: logs
 logs: ## Show logs of timetracker_ui.
@@ -40,8 +40,9 @@ remove: ## Delete container timetracker_ui.
 
 .PHONY: test
 test: ## Run all tests on docker container timetracker_ui at the CLI.
-	docker-compose -f docker-compose.yml up -d
-	docker exec timetracker_ui bash -c "npm run ci-test"
+	docker-compose build timetracker_ui_test
+	docker-compose up -d timetracker_ui_test
+	docker logs -f timetracker_ui_test
 
 .PHONY: testdev
 testdev: ## Run all tests on docker container timetracker_ui at the Dev
@@ -59,7 +60,7 @@ build_prod: ## Create docker image with dependencies needed for production.
 
 .PHONY: run_prod
 run_prod: ## Execute timetracker_ui_prod docker container.
-	docker run -d -p 4200:4200 --name timetracker_ui_prod timetracker_ui_prod
+	docker run -d -p 80:80 --env-file ./.env --name timetracker_ui_prod timetracker_ui_prod
 
 .PHONY: stop_prod
 stop_prod: ## Stop container timetracker_ui_prod.

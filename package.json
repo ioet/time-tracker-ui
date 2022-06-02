@@ -1,8 +1,7 @@
 {
   "name": "time-tracker",
-  "version": "1.72.5",
+  "version": "1.72.9",
   "scripts": {
-    "config": "ts-node ./scripts/setenv.ts",
     "preinstall": "npx npm-force-resolutions",
     "ng": "ng",
     "start": "ng serve",
