@@ -32,7 +32,7 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
       return {
         ...state,
         projects: action.payload,
-        isLoading: false
+        isLoading: false,
       };
 
     case ProjectActionTypes.LOAD_PROJECTS_FAIL: {
@@ -67,11 +67,17 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
       };
     }
 
+    case ProjectActionTypes.LOAD_RECENT_PROJECTS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
     case ProjectActionTypes.LOAD_RECENT_PROJECTS_SUCCESS:
       return {
         ...state,
         recentProjects: action.payload,
-        isLoading: false
+        isLoading: false,
       };
 
     case ProjectActionTypes.LOAD_RECENT_PROJECTS_FAIL: {
