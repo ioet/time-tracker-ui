@@ -77,7 +77,7 @@ jobs:
     - name: Terraform Plan Stage
       id: plan-stage
       run: | 
-        terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -no-color
+        terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest  -no-color
       continue-on-error: true
       working-directory: ./${{ env.WORKING_DIR }}
       env:
