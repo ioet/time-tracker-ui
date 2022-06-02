@@ -36,7 +36,7 @@ jobs:
     - name: write secrets
       working-directory: ./${{ env.WORKING_DIR }}
       run: |        
-        echo "additional_settings = {" >> ./secrets.auto.tfvars
+        echo "additional_settings = {"  >> ./secrets.auto.tfvars
         echo "CHROME_BIN = \"/opt/google/chrome/google-chrome\"," >> ./secrets.auto.tfvars
         echo "AUTHORITY = \"${{ secrets.AUTHORITY }}\"," >> ./secrets.auto.tfvars
         echo "CLIENT_ID = \"${{ secrets.CLIENT_ID }}\"," >> ./secrets.auto.tfvars
