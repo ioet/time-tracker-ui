@@ -66,7 +66,6 @@ export class LoadCustomerProjectsFail implements Action {
 
 export class LoadRecentProjects implements Action {
   public readonly type = ProjectActionTypes.LOAD_RECENT_PROJECTS;
-  constructor() {}
 }
 
 export class LoadRecentProjectsSuccess implements Action {
