@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  timeTrackerApiUrl: 'http://localhost:7071/api',
+  timeTrackerApiUrl: 'https://0390-2800-4f0-546-4680-b5ef-416e-decc-9774.ngrok.io/api',
   stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 

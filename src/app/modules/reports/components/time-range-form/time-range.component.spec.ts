@@ -8,12 +8,16 @@ import { InputDateComponent } from '../../../shared/components/input-date/input-
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import * as moment from 'moment';
 import { SimpleChange } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
+
 
 describe('Reports Page', () => {
   describe('TimeRangeFormComponent', () => {
     let component: TimeRangeFormComponent;
     let fixture: ComponentFixture<TimeRangeFormComponent>;
     let store: MockStore<EntryState>;
+    let date: DateAdapter<Date>;
+
     const toastrServiceStub = {
       error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
     };
@@ -46,10 +50,12 @@ describe('Reports Page', () => {
         declarations: [TimeRangeFormComponent, InputDateComponent],
         providers: [
           provideMockStore({ initialState: state }),
-          { provide: ToastrService, useValue: toastrServiceStub }
+          { provide: ToastrService, useValue: toastrServiceStub },
+          { provide: DateAdapter, useClass: DateAdapter }
         ],
       }).compileComponents();
       store = TestBed.inject(MockStore);
+      date = TestBed.inject(DateAdapter);
 
     }));
 

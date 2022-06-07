@@ -23,11 +23,7 @@ export class InputDateComponent implements ControlValueAccessor {
   onChange = (_: any) => { };
   onTouch = () => {  };
 
-  constructor(date: DateAdapter<Date>) {
-    date.getFirstDayOfWeek = () => 1;
-  }
-
-  onInput(value: moment.Moment) {
+  onInput(value: moment.Moment, date: DateAdapter<Date>) {
     this.value = value.format(DATE_FORMAT_YEAR);
     this.onTouch();
     this.onChange(this.value);
