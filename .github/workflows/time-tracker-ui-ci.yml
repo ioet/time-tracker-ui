@@ -33,11 +33,21 @@ jobs:
     - name: build docker
       run: make build
 
-    - name: write secrets
-      working-directory: ./${{ env.WORKING_DIR }}
-      run: |
-          echo "${{ secrets.TEST_SECRET_CAN_DELETE }}"" >> ./secrets.auto.tfvars
-          cat ./secrets.auto.tfvars
+    # - name: write secrets
+    #   working-directory: ./${{ env.WORKING_DIR }}
+    #   run: |        
+    #     echo "additional_settings = {"  >> ./secrets.auto.tfvars
+    #     echo "CHROME_BIN = \"/opt/google/chrome/google-chrome\"," >> ./secrets.auto.tfvars
+    #     echo "AUTHORITY = \"${{ secrets.AUTHORITY }}\"," >> ./secrets.auto.tfvars
+    #     echo "CLIENT_ID = \"${{ secrets.CLIENT_ID }}\"," >> ./secrets.auto.tfvars
+    #     echo "SCOPES = \"${{ secrets.SCOPES }}\"," >> ./secrets.auto.tfvars
+    #     echo "STACK_EXCHANGE_ID = \"${{ secrets.STACK_EXCHANGE_ID }}\","  >> ./secrets.auto.tfvars
+    #     echo "STACK_EXCHANGE_ACCESS_TOKEN = \"${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}\"," >> ./secrets.auto.tfvars
+    #     echo "AZURE_APP_CONFIGURATION_CONNECTION_STRING = \"${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}\"," >> ./secrets.auto.tfvars
+    #     echo "}" >> ./secrets.auto.tfvars
+# echo "AUTHORITY_JSON = \"${{ secrets.AUTHORITY_JSON }}\"," >> ./secrets.auto.tfvars
+# echo "CLIENT_ID_JSON = \"${{ secrets.CLIENT_ID_JSON }}\"," >> ./secrets.auto.tfvars
+# echo "SCOPES_JSON = \"${{ secrets.SCOPES_JSON }}\","  >> ./secrets.auto.tfvars
 
 
     # - name: Running tests
