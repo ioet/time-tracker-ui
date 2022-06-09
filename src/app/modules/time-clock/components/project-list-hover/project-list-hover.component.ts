@@ -68,14 +68,10 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       this.activities = response;
     });
 
-    this.store.dispatch(new actions.LoadProjects());
+    this.store.dispatch(new actions.LoadRecentProjects());
     const recentProjects$ = this.store.pipe(select(getRecentProjects));
     this.recentProjectsSubscription = recentProjects$.subscribe((projects) => {
-      if (projects?.length > 0) {
-        this.listRecentProjects = projects;
-      }else{
-        this.listRecentProjects = this.listProjects;
-      }
+      this.listRecentProjects = projects;
       this.listProjectsShowed = this.listRecentProjects;
     });
 
@@ -119,12 +115,16 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     };
     this.store.dispatch(new entryActions.ClockIn(entry));
     this.projectsForm.setValue({ project_id: `${customerName} - ${name}` });
+    setTimeout(() => {
+      this.store.dispatch(new actions.LoadRecentProjects());
+    }, 2000);
   }
 
   updateProject(selectedProject) {
     const entry = { id: this.activeEntry.id, project_id: selectedProject };
     this.store.dispatch(new entryActions.UpdateEntryRunning(entry));
     this.store.dispatch(new entryActions.LoadActiveEntry());
+    this.store.dispatch(new actions.LoadRecentProjects());
   }
 
   switch(selectedProject, customerName, name) {
@@ -132,6 +132,9 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       this.toastrService.error('Before switching, please select an activity');
     } else {
       this.store.dispatch(new entryActions.SwitchTimeEntry(this.activeEntry.id, selectedProject));
+      setTimeout(() => {
+        this.store.dispatch(new actions.LoadRecentProjects());
+      }, 2000);
       this.projectsForm.setValue({ project_id: `${customerName} - ${name}` });
     }
   }

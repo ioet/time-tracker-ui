@@ -22,6 +22,7 @@ export const initialState = {
 export const projectReducer = (state: ProjectState = initialState, action: ProjectActions) => {
   const projects = [...state.customerProjects];
   switch (action.type) {
+    case ProjectActionTypes.LOAD_RECENT_PROJECTS:
     case ProjectActionTypes.LOAD_PROJECTS: {
       return {
         ...state,
@@ -32,7 +33,7 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
       return {
         ...state,
         projects: action.payload,
-        isLoading: false
+        isLoading: false,
       };
 
     case ProjectActionTypes.LOAD_PROJECTS_FAIL: {
@@ -71,7 +72,7 @@ export const projectReducer = (state: ProjectState = initialState, action: Proje
       return {
         ...state,
         recentProjects: action.payload,
-        isLoading: false
+        isLoading: false,
       };
 
     case ProjectActionTypes.LOAD_RECENT_PROJECTS_FAIL: {
