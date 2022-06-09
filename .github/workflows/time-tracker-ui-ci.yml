@@ -36,7 +36,7 @@ jobs:
     - name: append secret to secret.auto.tfvars
       working-directory: ./${{ env.WORKING_DIR }}
       run: |
-        ./append_secret.py CHROME_BIN /opt/google/chrome/google-chrome"
+        ./append_secret.py CHROME_BIN /opt/google/chrome/google-chrome
         ./append_secret.py AUTHORITY ${{ secrets.AUTHORITY }}
         ./append_secret.py CLIENT_ID ${{ secrets.CLIENT_ID }}
         ./append_secret.py SCOPES ${{ secrets.SCOPES }}
