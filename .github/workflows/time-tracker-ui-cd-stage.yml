@@ -46,6 +46,18 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
 
+    - name: append secret to secret.auto.tfvars
+      working-directory: ./${{ env.WORKING_DIR }}
+      run: |
+        ./append_secret.py CHROME_BIN /opt/google/chrome/google-chrome
+        ./append_secret.py AUTHORITY "${{ secrets.AUTHORITY }}"
+        ./append_secret.py CLIENT_ID "${{ secrets.CLIENT_ID }}"
+        ./append_secret.py SCOPES "${{ secrets.SCOPES }}"
+        ./append_secret.py STACK_EXCHANGE_ID "${{ secrets.STACK_EXCHANGE_ID }}"
+        ./append_secret.py STACK_EXCHANGE_ACCESS_TOKEN "${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}"
+        ./append_secret.py AZURE_APP_CONFIGURATION_CONNECTION_STRING "${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}"
+
+
     - name: Terraform Init
       working-directory: ${{ env.WORKING_DIR }}
       run: terraform init
