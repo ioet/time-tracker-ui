@@ -1,0 +1,21 @@
+<form (ngSubmit)="onSubmit()" class="date-range-form">
+    <label class="col-form-label my-1">Select your Date Range:</label>
+    <mat-form-field appearance="fill">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date" />
+        <input matEndDate formControlName="end" placeholder="End date" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker
+        #picker
+        [calendarHeaderComponent]="TimeRangeHeader"
+        ></mat-date-range-picker>
+    </mat-form-field>
+    <div class="col-12 col-md-2 my-1">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+</form>
+
+
+  

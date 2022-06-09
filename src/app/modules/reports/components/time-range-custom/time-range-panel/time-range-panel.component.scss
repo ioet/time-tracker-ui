@@ -1,0 +1,14 @@
+$width: 128px;
+
+:host {
+    position: absolute;
+    width: $width;
+    left: -$width;
+  }
+  
+  :host(.touch-ui) {
+    position: relative;
+    left: 0;
+    display: flex;
+    width: 100%;
+  }
