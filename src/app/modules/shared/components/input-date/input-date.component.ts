@@ -17,6 +17,7 @@ import * as moment from 'moment';
     }
   ]
 })
+
 export class InputDateComponent implements ControlValueAccessor {
   value: string;
   isDisabled: boolean;

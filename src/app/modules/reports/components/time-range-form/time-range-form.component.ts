@@ -9,8 +9,6 @@ import {EntryState} from '../../../time-clock/store/entry.reducer';
 import * as moment from 'moment';
 import { DateAdapter } from '@angular/material/core';
 
-
-
 @Component({
   selector: 'app-time-range-form',
   templateUrl: './time-range-form.component.html',
@@ -29,8 +27,8 @@ export class TimeRangeFormComponent implements OnInit, OnChanges {
       endDate: this.endDate
     });
     date.getFirstDayOfWeek = () => 1;
-  
   }
+
   ngOnInit(): void {
     this.setInitialDataOnScreen();
   }
@@ -48,6 +46,7 @@ export class TimeRangeFormComponent implements OnInit, OnChanges {
     });
     this.onSubmit();
   }
+
   onSubmit() {
     const endDate = moment(this.endDate.value).endOf('day');
     const startDate = moment(this.startDate.value).startOf('day');

@@ -10,7 +10,6 @@ import * as moment from 'moment';
 import { SimpleChange } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 
-
 describe('Reports Page', () => {
   describe('TimeRangeFormComponent', () => {
     let component: TimeRangeFormComponent;
@@ -56,7 +55,6 @@ describe('Reports Page', () => {
       }).compileComponents();
       store = TestBed.inject(MockStore);
       date = TestBed.inject(DateAdapter);
-
     }));
 
     beforeEach(() => {
