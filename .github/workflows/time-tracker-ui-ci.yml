@@ -56,7 +56,6 @@ jobs:
         ./append_secret.py STACK_EXCHANGE_ACCESS_TOKEN "${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}"
         ./append_secret.py AZURE_APP_CONFIGURATION_CONNECTION_STRING "${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}"
 
-
     - name: Running tests
       run: |
         chmod -R 777 ./$home
@@ -90,7 +89,7 @@ jobs:
         TF_WORKSPACE: stage
 
     - name: Terraform Plan Prod
-      id: plan-stage
+      id: plan-prod
       # run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
       run: echo "Disabled until restructuring infrastructure tiers"
       continue-on-error: true
@@ -120,7 +119,6 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
-
 
     - name: Update Pull Request with Prod Plan
       uses: actions/github-script@0.9.0
