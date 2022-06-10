@@ -89,17 +89,14 @@ jobs:
       env:
         TF_WORKSPACE: stage
 
-    ##################### THIS SECTION IS COMMENTED BECAUSE PRODUCTION IS SHUTDOWN IN AZURE ###########
-    ##################### PLEASE UNCOMMENT BELOW ONCE AZURE PRODUCTION IS READY #######################
-
-
-    # - name: Terraform Plan Prod
-    #   id: plan-stage
-    #   run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
-    #   continue-on-error: true
-    #   working-directory: ./${{ env.WORKING_DIR }}
-    #   env:
-    #     TF_WORKSPACE: prod
+    - name: Terraform Plan Prod
+      id: plan-stage
+      # run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
+      run: echo "Disabled until restructuring infrastructure tiers"
+      continue-on-error: true
+      working-directory: ./${{ env.WORKING_DIR }}
+      env:
+        TF_WORKSPACE: prod
 
     - name: Update Pull Request with Stage Plan
       uses: actions/github-script@0.9.0
@@ -125,35 +122,33 @@ jobs:
           })
 
 
-    ##################### THIS SECTION IS COMMENTED BECAUSE PRODUCTION IS SHUTDOWN IN AZURE ###########
-    ##################### PLEASE UNCOMMENT BELOW ONCE AZURE PRODUCTION IS READY #######################
+    - name: Update Pull Request with Prod Plan
+      uses: actions/github-script@0.9.0
+      if: github.event_name == 'pull_request'
+      env:
+        PLAN: "terraform\n${{ steps.plan-prod.outputs.stdout }}"
+        TF_WORKSPACE: prod
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### [${{ env.WORKING_DIR }}][${{ env.TF_WORKSPACE }}] Terraform Plan 📖 \`${{ steps.plan-prod.outcome }}\`
+          <details><summary>Show Plan</summary>
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+          </details>
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
 
-    # - name: Update Pull Request with Prod Plan
-    #   uses: actions/github-script@0.9.0
-    #   if: github.event_name == 'pull_request'
-    #   env:
-    #     PLAN: "terraform\n${{ steps.plan-prod.outputs.stdout }}"
-    #     TF_WORKSPACE: prod
-    #   with:
-    #     github-token: ${{ secrets.GITHUB_TOKEN }}
-    #     script: |
-    #       const output = `#### [${{ env.WORKING_DIR }}][${{ env.TF_WORKSPACE }}] Terraform Plan 📖 \`${{ steps.plan-prod.outcome }}\`
-    #       <details><summary>Show Plan</summary>
-    #       \`\`\`\n
-    #       ${process.env.PLAN}
-    #       \`\`\`
-    #       </details>
-    #       *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-    #       github.issues.createComment({
-    #         issue_number: context.issue.number,
-    #         owner: context.repo.owner,
-    #         repo: context.repo.repo,
-    #         body: output
-    #       })
     - name: Terraform Plan Stage Status
       if: steps.plan-stage.outcome == 'failure'
       run: exit 1
 
-    # - name: Terraform Plan Prod Status
-    #   if: steps.plan-prod.outcome == 'failure'
-    #   run: exit 1
+    - name: Terraform Plan Prod Status
+      if: steps.plan-prod.outcome == 'failure'
+      run: exit 1
