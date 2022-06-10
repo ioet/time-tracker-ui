@@ -23,7 +23,7 @@ export class InputDateComponent implements ControlValueAccessor {
   onChange = (_: any) => { };
   onTouch = () => {  };
 
-  onInput(value: moment.Moment, date: DateAdapter<Date>) {
+  onInput(value: moment.Moment) {
     this.value = value.format(DATE_FORMAT_YEAR);
     this.onTouch();
     this.onChange(this.value);
