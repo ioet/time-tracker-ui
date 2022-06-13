@@ -15,7 +15,6 @@ describe('Reports Page', () => {
     let component: TimeRangeFormComponent;
     let fixture: ComponentFixture<TimeRangeFormComponent>;
     let store: MockStore<EntryState>;
-    let date: DateAdapter<Date>;
 
     const toastrServiceStub = {
       error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
@@ -54,7 +53,6 @@ describe('Reports Page', () => {
         ],
       }).compileComponents();
       store = TestBed.inject(MockStore);
-      date = TestBed.inject(DateAdapter);
     }));
 
     beforeEach(() => {
