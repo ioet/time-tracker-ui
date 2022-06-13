@@ -16,14 +16,12 @@ import * as moment from 'moment';
     }
   ]
 })
+
 export class InputDateComponent implements ControlValueAccessor {
   value: string;
   isDisabled: boolean;
   onChange = (_: any) => { };
   onTouch = () => {  };
-
-  constructor() {
-  }
 
   onInput(value: moment.Moment) {
     this.value = value.format(DATE_FORMAT_YEAR);
