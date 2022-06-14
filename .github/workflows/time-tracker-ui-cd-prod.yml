@@ -31,7 +31,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Build the docker image
-      run: make build
+      run: make build_prod
 
     - name: Publish docker image to prod azure container registry
       run: |
