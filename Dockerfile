@@ -17,7 +17,6 @@ CMD ${HOME}/time-tracker-ui/node_modules/.bin/ng serve --host 0.0.0.0 --disableH
 
 
 FROM development as build
-COPY .env .
 RUN npm run build
 
 FROM nginx:1.21 AS production
@@ -27,7 +26,7 @@ RUN useradd -ms /bin/bash ${USERNAME}
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /home/timetracker/time-tracker-ui/dist/time-tracker /usr/share/nginx/html
-COPY .env /usr/share/nginx/html
+# COPY .env /usr/share/nginx/html
 RUN chown -R ${USERNAME}:${USERNAME} /var/cache/nginx && \
     chown -R ${USERNAME}:${USERNAME} /var/log/nginx && \
     chown -R ${USERNAME}:${USERNAME} /etc/nginx/conf.d
