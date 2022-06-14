@@ -7,6 +7,7 @@ import * as entryActions from '../../../time-clock/store/entry.actions';
 import {Store} from '@ngrx/store';
 import {EntryState} from '../../../time-clock/store/entry.reducer';
 import * as moment from 'moment';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-time-range-form',
@@ -20,12 +21,14 @@ export class TimeRangeFormComponent implements OnInit, OnChanges {
   private startDate = new FormControl('');
   private endDate = new FormControl('');
 
-  constructor(private store: Store<EntryState>, private toastrService: ToastrService) {
+  constructor(private store: Store<EntryState>, private toastrService: ToastrService, private date: DateAdapter<Date>) {
     this.reportForm = new FormGroup({
       startDate: this.startDate,
       endDate: this.endDate
     });
+    date.getFirstDayOfWeek = () => 1;
   }
+
   ngOnInit(): void {
     this.setInitialDataOnScreen();
   }
@@ -38,11 +41,12 @@ export class TimeRangeFormComponent implements OnInit, OnChanges {
 
   setInitialDataOnScreen() {
     this.reportForm.setValue({
-      startDate: formatDate(moment().startOf('week').format('l'), DATE_FORMAT, 'en'),
+      startDate: formatDate(moment().startOf('isoWeek').format('l'), DATE_FORMAT, 'en'),
       endDate: formatDate(moment().format('l'), DATE_FORMAT, 'en')
     });
     this.onSubmit();
   }
+
   onSubmit() {
     const endDate = moment(this.endDate.value).endOf('day');
     const startDate = moment(this.startDate.value).startOf('day');
