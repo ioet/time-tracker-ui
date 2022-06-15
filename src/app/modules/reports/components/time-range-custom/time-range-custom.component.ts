@@ -3,10 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { TimeRangeHeaderComponent } from './time-range-header/time-range-header.component';
 import { DATE_FORMAT } from 'src/environments/environment';
 import { formatDate } from '@angular/common';
-import {Store} from '@ngrx/store';
-import {EntryState} from '../../../time-clock/store/entry.reducer';
+import { Store } from '@ngrx/store';
+import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { ToastrService } from 'ngx-toastr';
-
 import * as entryActions from '../../../time-clock/store/entry.actions';
 import * as moment from 'moment';
 
@@ -60,4 +59,3 @@ export class TimeRangeCustomComponent implements OnInit, OnChanges {
   }
 
 }
-

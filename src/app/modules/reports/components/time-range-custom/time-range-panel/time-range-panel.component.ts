@@ -3,6 +3,7 @@ import { DateAdapter } from '@angular/material/core';
 import { MatDateRangePicker } from '@angular/material/datepicker';
 import { ToastrService } from 'ngx-toastr';
 
+
 const customPresets = [
   'today',
   'last 7 days',
@@ -108,4 +109,3 @@ export class TimeRangePanelComponent<D> {
     return today;
   }
 }
-

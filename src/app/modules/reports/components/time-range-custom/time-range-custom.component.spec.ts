@@ -6,9 +6,8 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { EntryState } from 'src/app/modules/time-clock/store/entry.reducer';
 import * as entryActions from '../../../time-clock/store/entry.actions';
-
-
 import { TimeRangeCustomComponent } from './time-range-custom.component';
+
 
 describe('TimeRangeCustomComponent', () => {
   let component: TimeRangeCustomComponent;

@@ -3,21 +3,21 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCalendar, MatDateRangePicker } from '@angular/material/datepicker';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-
 import { TimeRangeHeaderComponent } from './time-range-header.component';
+
 
 describe('TimeRangeHeaderComponent', () => {
   let component: TimeRangeHeaderComponent<any>;
   let fixture: ComponentFixture<TimeRangeHeaderComponent<any>>;
 
   const value = {
-    stateChanges:{
+    stateChanges: {
       pipe: () => {
-        return of({sucess: 'test'})
+        return of({sucess: 'test'});
       }
     },
     activeDate: new Date()
-  }
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -59,22 +59,22 @@ describe('TimeRangeHeaderComponent', () => {
     buttonsAll.forEach((button: any) => {
       spyOn(component, button.method);
       button.values.forEach((val: any) => {
-        let buttonElement = fixture.debugElement.query(By.css(val.style));
+        const buttonElement = fixture.debugElement.query(By.css(val.style));
         buttonElement.triggerEventHandler('click', null);
         tick();
         expect(component[button.method]).toHaveBeenCalledWith(val.call);
-      })
-    })
+      });
+    });
   }));
 
   it('should call method changeDate with nextClicked', () => {
-    spyOn(component, 'changeDate').withArgs('month', 1)
+    spyOn(component, 'changeDate').withArgs('month', 1);
     component.nextClicked('month');
     expect(component.changeDate).toHaveBeenCalledWith('month', 1);
   });
 
   it('should call method changeDate with previousClicked', () => {
-    spyOn(component, 'changeDate').withArgs('year', -1)
+    spyOn(component, 'changeDate').withArgs('year', -1);
     component.previousClicked('year');
     expect(component.changeDate).toHaveBeenCalledWith('year', -1);
   });
@@ -94,5 +94,5 @@ describe('TimeRangeHeaderComponent', () => {
     component.changeDate('year', -1);
     expect(component.calendar.activeDate.toDateString()).toEqual(makeDateYear.toDateString());
   });
-  
+
 });
