@@ -61,7 +61,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       },
     ],
     columnDefs: [{ type: 'date', targets: 2}],
-    order: [[1,'asc'],[2,'desc'],[5,'desc']]
+    order: [[1,'asc'],[2,'desc'],[4,'desc']]
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
