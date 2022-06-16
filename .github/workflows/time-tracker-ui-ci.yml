@@ -47,14 +47,14 @@ jobs:
         chmod +x ./scripts/populate-keys.sh
         sh ./scripts/populate-keys.sh
 
-    - name: Running tests
-      run: |
-        chmod -R 777 ./$home
-        make test
-    - name: Generate coverage report
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      run: bash <(curl -s https://codecov.io/bash)
+    # - name: Running tests
+    #   run: |
+    #     chmod -R 777 ./$home
+    #     make test
+    # - name: Generate coverage report
+    #   env:
+    #     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    #   run: bash <(curl -s https://codecov.io/bash)
 
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v1
