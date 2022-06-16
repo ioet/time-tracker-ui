@@ -35,8 +35,8 @@ jobs:
     - name: Inject Secrets
       env:
         SCOPES: ${{ secrets.SCOPES }}
-        CLIENT_ID: ${{ secrets.CLIENT_ID}}
-        CLIENT_URL: ${{ secrets.CLIENT_URL }}
+        CLIENT_ID: ${{ secrets.CLIENT_ID_STAGE }}
+        CLIENT_URL: ${{ secrets.CLIENT_URL_STAGE }}
         AUTHORITY: ${{ secrets.AUTHORITY }}
         STACK_EXCHANGE_ID: ${{ secrets.STACK_EXCHANGE_ID }}
         STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}
