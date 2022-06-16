@@ -28,8 +28,10 @@ jobs:
 
     - name: Inject Secrets
       env:
+        API_URL: ${{ secrets.api_url }}
         SCOPES: ${{ secrets.scopes }}
         CLIENT_ID: ${{ secrets.client_id }}
+        CLIENT_URL: ${{ secrets.client_url }} #IMPORTANT THIS PROPERTY HAS TO BE REQUESTED FROM ALEXANDER ARCOS he is the owner and this secrets needs to be created in github-repo
         AUTHORITY: ${{ secrets.authority }}
         STACK_EXCHANGE_ID: ${{ secrets.stack_exchange_id }}
         STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.stack_exchange_access_token }}

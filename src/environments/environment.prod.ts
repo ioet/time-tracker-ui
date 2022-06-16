@@ -1,7 +1,7 @@
 
 export const environment = {
   production: true,
-  timeTrackerApiUrl: 'https://timetracker-api.azurewebsites.net',
+  timeTrackerApiUrl: process.env["API_URL"],
   stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 

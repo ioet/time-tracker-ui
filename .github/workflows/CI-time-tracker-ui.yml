@@ -41,6 +41,8 @@ jobs:
 
     - name: Inject Secrets
       env:
+        API_URL : ${{ secrets.API_URL }}
+        CLIENT_URL : ${{ secrets.CLIENT_URL }}
         SCOPES: ${{ secrets.SCOPES }}
         CLIENT_ID: ${{ secrets.CLIENT_ID }}
         AUTHORITY: ${{ secrets.AUTHORITY }}

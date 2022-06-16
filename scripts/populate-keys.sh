@@ -1,6 +1,7 @@
 #!/bin/bash
 
 > .env
+echo "API_URL='$API_URL'" >> .env
 echo "AUTHORITY='$AUTHORITY'" >> .env
 echo "CLIENT_ID='$CLIENT_ID'" >> .env
 echo "CLIENT_URL='$CLIENT_URL'" >> .env

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  timeTrackerApiUrl: 'http://localhost:7071/api',
+  timeTrackerApiUrl: process.env["API_URL"],
   stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 

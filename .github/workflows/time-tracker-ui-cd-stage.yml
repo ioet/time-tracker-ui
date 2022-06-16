@@ -35,6 +35,7 @@ jobs:
     - name: Inject Secrets
       env:
         SCOPES: ${{ secrets.SCOPES }}
+        API_URL: ${{ secrets.API_URL_STAGE }}
         CLIENT_ID: ${{ secrets.CLIENT_ID_STAGE }}
         CLIENT_URL: ${{ secrets.CLIENT_URL_STAGE }}
         AUTHORITY: ${{ secrets.AUTHORITY }}

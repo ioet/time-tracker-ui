@@ -9,6 +9,7 @@ module.exports = (config) => {
       ...config.plugins,
       new webpack.DefinePlugin({
         'process.env.AUTHORITY': JSON.stringify(process.env["AUTHORITY"]),
+        'process.env.API_URL':JSON.stringify(process.env["API_URL"]),
         'process.env.CLIENT_ID':JSON.stringify(process.env["CLIENT_ID"]),
         'process.env.CLIENT_URL':JSON.stringify(process.env["CLIENT_URL"]),
         'process.env.SCOPES':JSON.stringify(process.env["SCOPES"]),
