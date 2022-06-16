@@ -56,11 +56,11 @@ publish: require-acr-arg require-image_tag-arg ## Upload a docker image to the s
 
 .PHONY: build_prod
 build_prod: ## Create docker image with dependencies needed for production.
-	docker build --target production -t timetracker_ui -f Dockerfile .
+	docker build --target production  -t timetracker_ui -f Dockerfile .
 
 .PHONY: run_prod
 run_prod: ## Execute timetracker_ui_prod docker container.
-	docker run -d -p 80:80 --env-file ./.env --name timetracker_ui_prod timetracker_ui
+	docker run -d -p 80:80  --name timetracker_ui_prod timetracker_ui
 
 .PHONY: stop_prod
 stop_prod: ## Stop container timetracker_ui_prod.
