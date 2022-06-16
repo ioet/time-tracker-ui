@@ -17,6 +17,14 @@ CMD ${HOME}/time-tracker-ui/node_modules/.bin/ng serve --host 0.0.0.0 --disableH
 
 
 FROM development as build
+ENV SCOPES ${{ secrets.SCOPES }}
+ENV API_URL ${{ secrets.API_URL_STAGE }}
+ENV CLIENT_ID ${{ secrets.CLIENT_ID_STAGE }}
+ENV CLIENT_URL ${{ secrets.CLIENT_URL_STAGE }}
+ENV AUTHORITY ${{ secrets.AUTHORITY }}
+ENV STACK_EXCHANGE_ID ${{ secrets.STACK_EXCHANGE_ID }}
+ENV STACK_EXCHANGE_ACCESS_TOKEN ${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}
+ENV AZURE_APP_CONFIGURATION_CONNECTION_STRING ${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}
 RUN chmod +x ./scripts/populate-keys.sh
 RUN sh ./scripts/populate-keys.sh
 RUN npm run build
