@@ -40,7 +40,7 @@ jobs:
           --build-arg CLIENT_URL=${{ secrets.CLIENT_URL_STAGE}} \
           --build-arg SCOPES=${{secrets.SCOPES}} \
           --build-arg AZURE_APP_CONFIGURATION_CONNECTION_STRING=${{secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING}} \
-          -f Dockerfile . 
+          .
 
     - name: Publish docker image to stage azure container registry
       run: |
