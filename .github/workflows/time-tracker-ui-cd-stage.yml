@@ -34,12 +34,12 @@ jobs:
       run: |-
         docker build \
           --target production  -t timetracker_ui \
-          --build-arg API_URL=${{secrets.API_URL_STAGE}} \
-          --build-arg AUTHORITY=${{secrets.AUTHORITY}} \
-          --build-arg CLIENT_ID=${{secrets.CLIENT_ID_STAGE}} \
-          --build-arg CLIENT_URL=${{ secrets.CLIENT_URL_STAGE}} \
-          --build-arg SCOPES=${{secrets.SCOPES}} \
-          --build-arg AZURE_APP_CONFIGURATION_CONNECTION_STRING=${{secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING}} \
+          --build-arg API_URL="${{secrets.API_URL_STAGE}}" \
+          --build-arg AUTHORITY="${{secrets.AUTHORITY}}" \
+          --build-arg CLIENT_ID="${{secrets.CLIENT_ID_STAGE}}" \
+          --build-arg CLIENT_URL="${{ secrets.CLIENT_URL_STAGE}}" \
+          --build-arg SCOPES="${{secrets.SCOPES}}" \
+          --build-arg AZURE_APP_CONFIGURATION_CONNECTION_STRING="${{secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING}}" \
           .
 
     - name: Publish docker image to stage azure container registry
