@@ -37,6 +37,7 @@ jobs:
       env:
         SCOPES: ${{ secrets.SCOPES }}
         CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_URL: ${{ secrets.CLIENT_URL }}
         AUTHORITY: ${{ secrets.AUTHORITY }}
         STACK_EXCHANGE_ID: ${{ secrets.STACK_EXCHANGE_ID }}
         STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}
@@ -44,17 +45,6 @@ jobs:
       run: |
         chmod +x ./scripts/populate-keys.sh
         sh ./scripts/populate-keys.sh
-
-    - name: append secret to secret.auto.tfvars
-      working-directory: ./${{ env.WORKING_DIR }}
-      run: |
-        ./append_secret.py CHROME_BIN /opt/google/chrome/google-chrome
-        ./append_secret.py AUTHORITY "${{ secrets.AUTHORITY }}"
-        ./append_secret.py CLIENT_ID "${{ secrets.CLIENT_ID }}"
-        ./append_secret.py SCOPES "${{ secrets.SCOPES }}"
-        ./append_secret.py STACK_EXCHANGE_ID "${{ secrets.STACK_EXCHANGE_ID }}"
-        ./append_secret.py STACK_EXCHANGE_ACCESS_TOKEN "${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}"
-        ./append_secret.py AZURE_APP_CONFIGURATION_CONNECTION_STRING "${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}"
 
     - name: Running tests
       run: |
@@ -142,7 +132,6 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
-
     - name: Terraform Plan Stage Status
       if: steps.plan-stage.outcome == 'failure'
       run: exit 1

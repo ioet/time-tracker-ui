@@ -10,6 +10,7 @@ export const environment = {
 
 export const AUTHORITY = process.env["AUTHORITY"];
 export const CLIENT_ID = process.env["CLIENT_ID"];
+export const CLIENT_URL = process.env["CLIENT_URL"];
 export const SCOPES = process.env["SCOPES"].split(",");
 export const ITEMS_PER_PAGE = 5;
 export const STACK_EXCHANGE_ID = process.env["STACK_EXCHANGE_ID"];
