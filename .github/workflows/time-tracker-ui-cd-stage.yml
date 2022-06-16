@@ -15,16 +15,7 @@ jobs:
         ARM_CLIENT_SECRET: ${{secrets.TF_ARM_CLIENT_SECRET}}
         ARM_SUBSCRIPTION_ID: ${{secrets.TF_ARM_SUBSCRIPTION_ID}}
         ARM_TENANT_ID: ${{secrets.TF_ARM_TENANT_ID}}
-
-        SCOPES: ${{ secrets.SCOPES }}
-        API_URL: ${{ secrets.API_URL_STAGE }}
-        CLIENT_ID: ${{ secrets.CLIENT_ID_STAGE }}
-        CLIENT_URL: ${{ secrets.CLIENT_URL_STAGE }}
-        AUTHORITY: ${{ secrets.AUTHORITY }}
-        STACK_EXCHANGE_ID: ${{ secrets.STACK_EXCHANGE_ID }}
-        STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}
-        AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}
-        
+       
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -40,8 +31,16 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Build the docker image
-      run: make build_prod
-
+      run: |-
+        docker build \
+          --target production  -t timetracker_ui \
+          --build-arg API_URL=${secrets.API_URL_STAGE} \
+          --build-arg AUTHORITY=${secrets.AUTHORITY} \
+          --build-arg CLIENT_ID=${secrets.CLIENT_ID_STAGE} \
+          --build-arg CLIENT_URL=${secrets.CLIENT_URL_STAGE} \
+          --build-arg SCOPES=${secrets.SCOPES} \
+          --build-arg AZURE_APP_CONFIGURATION_CONNECTION_STRING=${secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING} \
+          -f Dockerfile . 
 
     - name: Publish docker image to stage azure container registry
       run: |
