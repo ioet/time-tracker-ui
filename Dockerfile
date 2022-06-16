@@ -17,6 +17,8 @@ CMD ${HOME}/time-tracker-ui/node_modules/.bin/ng serve --host 0.0.0.0 --disableH
 
 
 FROM development as build
+RUN chmod +x ./scripts/populate-keys.sh
+RUN sh ./scripts/populate-keys.sh
 RUN npm run build
 
 FROM nginx:1.21 AS production
