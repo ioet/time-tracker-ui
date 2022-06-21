@@ -15,6 +15,17 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 In general, you will need to have installed in your machine the following:
 - Git
 - Visual Studio code(most common) or your favourite editor
+- GPG
+- Git-crypt
+
+###Git-crypt
+
+You can install it by ruuning this command on linux `sudo apt-get install git-crypt`, for mac users `sudo port install git-crypt`.
+IMPORTANT: Windows users must install WSL to be able to install git-crypt.
+
+### GPG
+
+GPG is a encryption system used to create, import, export public and private keys; you can download it from here: https://gnupg.org/download/index.html. It can only work with a command shell but for Linux users, you can choose to work with <a href="https://apps.kde.org/kleopatra/" target="_blank">Kleopatra</a> if you feel confortable.
 
 ### Node.js
 
@@ -49,26 +60,17 @@ In project path, open your favourite command line and run `npm install` in order
 # Prepare your environment
 
 ### Set environment variables
-**1**. Create a file keys.ts in the path `src/enviroment` with the content pinned in our slack channel #time-tracker-developer:
+**1**. Using GPG create your key by running this command in your favourite command shell: `gpg --generate-key`.
 
-```
-export const AUTHORITY = 'XXX';
-export const CLIENT_ID = 'XXX';
-export const SCOPES = ['XXX'];
-export const STACK_EXCHANGE_ID = 'XXX';
-export const STACK_EXCHANGE_ACCESS_TOKEN = 'XXX';
-export const AZURE_APP_CONFIGURATION_CONNECTION_STRING = 'XXX';
-```
-**2**. Create a second file `.keys.json` with the content pinned in the slack channel #time-tracker-developer:
-```
-{
-    "authority": 'XXX',
-    "client_id": 'XXX',
-    "scopes": ["XXX"]
-}
-```
+**2**. Export your public key into a file with this command: `gpg --export -a YOUR_REAL_NAME > public.key`.
+
+**3**. Share your generated key file to your jr techlead.
+
+**4**. Once your jr techlead added your key to the list, run this command: `git-crypt unlock` to decrypt your environment variables.
+
+
 ### Prepare your environment for vscode
-Install the following extensions:
+Install the following extensions(optional):
 
 - `Live Share`.
 - `GitLens`
