@@ -18,7 +18,7 @@ In general, you will need to have installed in your machine the following:
 - GPG
 - Git-crypt
 
-###Git-crypt
+### Git-crypt
 
 You can install it by ruuning this command on linux `sudo apt-get install git-crypt`, for mac users `sudo port install git-crypt`.
 IMPORTANT: Windows users must install WSL to be able to install git-crypt.
