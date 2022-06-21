@@ -40,9 +40,6 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-.keys.json
-keys.ts
-src/environments/keys.ts
 debug.log
 *.vscode
 
@@ -52,9 +49,6 @@ Thumbs.db
 
 # stryker temp files
 .stryker-tmp
-
-#ENV VARIABLES
-.env
 
 # Terraform files
 **/.terraform**
