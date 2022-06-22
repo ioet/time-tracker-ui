@@ -1,54 +1,9 @@
 
-<form [formGroup]="projectsForm">
-  <div class="form-group">
-    <label>Project:</label>
-    <div class="form-control autocomplete">
-      <ng-select
-        formControlName="project_id"
-        bindLabel="search_field"
-        placeholder="Enter the project name"
-        notFoundText="No projects found"
-        [items]="listProjectsShowed"
-        (search)="onSearch($event)"
-        (change)="onSelect($event)"
-        (close)="loadActiveTimeEntry()">
-
-        <ng-template ng-option-tmp let-item="item">
-          <div class="flex flex-wrap flex-row justify-between">
-            <div class="p-2 text-xs">
-              <span>{{item.customer.name}}</span> -
-              <strong><span>{{item.name}}</span></strong>
-            </div>
-            <div class="p-1 pr-2">
-              <button
-                *ngIf="showClockIn"
-                class="btn btn-sm btn-primary btn-select"
-              >
-                Clock In
-              </button>
-              <button
-                *ngIf="!showClockIn"
-                class="btn btn-sm btn-primary btn-select"
-                (click)="switch(item.id, item.customer.name, item.name)"
-              >
-                Switch</button
-              >&nbsp;
-              <button *ngIf="!showClockIn" class="btn btn-sm btn-update btn-select" (click)="updateProject(item.id)">
-                Update project
-              </button>
-            </div>
-          </div>
-        </ng-template>
-      </ng-select>
-    </div>
-  </div>
-</form>
-
 <div class="table-responsive">
   <table class="table table-sm table-striped table-bordered mb-0" aria-hidden="true">
     <thead class="thead-blue">
       <tr class="d-flex">
-        <th class="col md-col">Latest projects you worked on</th>
+        <th class="col md-col">Quick selections</th>
       </tr>
     </thead>
     <tbody>
@@ -82,7 +37,50 @@
         </td>
       </tr>
     </tbody>
-
   </table>
   <br>
 </div>
+
+<form [formGroup]="projectsForm">
+  <div class="form-group">
+    <label>Project:</label>
+    <div class="form-control autocomplete">
+      <ng-select
+        formControlName="project_id"
+        bindLabel="search_field"
+        placeholder="Enter the project name"
+        notFoundText="No projects found"
+        [items]="listProjectsShowed"
+        (search)="onSearch($event)"
+        (change)="onSelect($event)"
+        (close)="loadActiveTimeEntry()">
+        <ng-template ng-option-tmp let-item="item">
+          <div class="flex flex-wrap flex-row justify-between">
+            <div class="p-2 text-xs">
+              <span>{{item.customer.name}}</span> -
+              <strong><span>{{item.name}}</span></strong>
+            </div>
+            <div class="p-1 pr-2">
+              <button
+                *ngIf="showClockIn"
+                class="btn btn-sm btn-primary btn-select"
+              >
+                Clock In
+              </button>
+              <button
+                *ngIf="!showClockIn"
+                class="btn btn-sm btn-primary btn-select"
+                (click)="switch(item.id, item.customer.name, item.name)"
+              >
+                Switch</button
+              >&nbsp;
+              <button *ngIf="!showClockIn" class="btn btn-sm btn-update btn-select" (click)="updateProject(item.id)">
+                Update project
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </ng-select>
+    </div>
+  </div>
+</form>

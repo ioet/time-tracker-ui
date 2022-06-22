@@ -13,6 +13,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
@@ -90,6 +95,9 @@ import { DarkModeComponent } from './modules/shared/components/dark-mode/dark-mo
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
 import { SearchUserComponent } from './modules/shared/components/search-user/search-user.component';
+import { TimeRangeCustomComponent } from './modules/reports/components/time-range-custom/time-range-custom.component';
+import { TimeRangeHeaderComponent } from './modules/reports/components/time-range-custom/time-range-header/time-range-header.component';
+import { TimeRangePanelComponent } from './modules/reports/components/time-range-custom/time-range-panel/time-range-panel.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -146,6 +154,9 @@ const maskConfig: Partial<IConfig> = {
     CalendarComponent,
     DropdownComponent,
     DarkModeComponent,
+    TimeRangeCustomComponent,
+    TimeRangeHeaderComponent,
+    TimeRangePanelComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
@@ -165,6 +176,11 @@ const maskConfig: Partial<IConfig> = {
     NgxMaterialTimepickerModule,
     UiSwitchModule,
     DragDropModule,
+    MatIconModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatListModule,
+    MatNativeDateModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),

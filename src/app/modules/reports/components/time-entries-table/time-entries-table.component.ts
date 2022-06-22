@@ -60,7 +60,8 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
     ],
-    columnDefs: [{ type: 'date', targets: 2 }]
+    columnDefs: [{ type: 'date', targets: 2}],
+    order: [[1,'asc'],[2,'desc'],[4,'desc']]
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })

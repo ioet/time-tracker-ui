@@ -1,0 +1,29 @@
+<app-time-range-panel></app-time-range-panel>
+
+<div class="time-range-header">
+  <button
+    mat-icon-button
+    class="time-range-double-arrow"
+    (click)="previousClicked('year')"
+  >
+    <mat-icon>keyboard_arrow_left</mat-icon>
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <button mat-icon-button class="time-range-month" (click)="previousClicked('month')">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+
+  <span class="time-range-header-label">{{ periodLabel }}</span>
+
+  <button mat-icon-button class="time-range-month-next" (click)="nextClicked('month')">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    class="time-range-double-arrow time-range-double-arrow-next"
+    (click)="nextClicked('year')"
+  >
+    <mat-icon>keyboard_arrow_right</mat-icon>
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+</div>
