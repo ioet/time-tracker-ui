@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Output } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatDateRangePicker } from '@angular/material/datepicker';
 import { ToastrService } from 'ngx-toastr';
@@ -108,4 +108,10 @@ export class TimeRangePanelComponent<D> {
     }
     return today;
   }
+
+  resetTimeRange() {
+    this.picker.select(undefined);
+    this.picker.select(undefined);
+  }
+
 }

@@ -15,6 +15,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -176,6 +178,8 @@ const maskConfig: Partial<IConfig> = {
     DragDropModule,
     MatIconModule,
     MatCardModule,
+    MatCheckboxModule,
+    MatListModule,
     MatNativeDateModule,
     StoreModule.forRoot(reducers, {
       metaReducers,

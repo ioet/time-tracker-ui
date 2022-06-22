@@ -12,3 +12,16 @@ $width: 128px;
     display: flex;
     width: 100%;
   }
+
+.list-time-range{
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.custom-items-time-range{
+  padding-top: 0 !important;
+}
+
+.custom-mat-list-option{
+  height: 35px !important;
+}

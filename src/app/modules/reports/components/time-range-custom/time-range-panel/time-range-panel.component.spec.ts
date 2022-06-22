@@ -3,6 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDateRangePicker } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 import { By } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { TimeRangePanelComponent } from './time-range-panel.component';
@@ -22,7 +23,7 @@ describe('TimeRangePanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatNativeDateModule, MatDialogModule, MatCardModule],
+      imports: [MatNativeDateModule, MatDialogModule, MatCardModule, MatListModule],
       declarations: [ TimeRangePanelComponent ],
       providers: [
         { provide: MatDateRangePicker, useValue: {select: valueFunction, close: valueFunction} },
@@ -41,16 +42,10 @@ describe('TimeRangePanelComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should click selectRange button', () => {
-    spyOn(component, 'selectRange');
-    component.selectRange('this year');
-
-    fixture.detectChanges();
-
-    fixture.debugElement.query(By.css('button')).nativeElement.click();
-    expect(component.selectRange).toHaveBeenCalledWith('this year');
+  it('should call resetTimeRange method and clean time range input ', () => {
+    component.resetTimeRange();
+    expect(component.picker.startAt).toEqual(undefined);
   });
-
 
   it('should click selectRange button and call calculateDateRange method', () => {
     spyOn(component, 'calculateDateRange').and.returnValues(['', '']);
