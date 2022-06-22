@@ -46,7 +46,7 @@ import { ProjectEffects } from './modules/customer-management/components/project
 import { TechnologyEffects } from './modules/shared/store/technology.effects';
 import { ProjectTypeEffects } from './modules/customer-management/components/projects-type/store/project-type.effects';
 import { reducers, metaReducers } from './reducers';
-import { environment } from '../environments/environment';
+import { environment, CLIENT_URL } from '../environments/environment';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 // tslint:disable-next-line: max-line-length
 import { CustomerListComponent } from './modules/customer-management/components/customer-info/components/customer-list/customer-list.component';
@@ -207,7 +207,7 @@ const maskConfig: Partial<IConfig> = {
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '565556796659-hscrj9e6m2krc41cfng898793ocfnb8j.apps.googleusercontent.com'
+              CLIENT_URL
             )
           }
         ]
