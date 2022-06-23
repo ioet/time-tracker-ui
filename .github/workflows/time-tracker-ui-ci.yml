@@ -44,6 +44,7 @@ jobs:
       run: |
         chmod +x ./scripts/populate-keys.sh
         sh ./scripts/populate-keys.sh
+        git-crypt unlock
 
     - name: Running tests
       run: |
