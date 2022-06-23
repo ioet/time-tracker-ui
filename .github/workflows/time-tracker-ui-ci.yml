@@ -43,10 +43,7 @@ jobs:
         sh ./scripts/populate-keys.sh
 
     - name: build docker
-      run: |
-         sudo apt-get install git-crypt
-         git-crypt unlock
-         make build
+      run: make build
 
     - name: Running tests
       run: |
