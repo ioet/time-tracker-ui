@@ -27,7 +27,7 @@ describe('ReportsComponent', () => {
     fixture.detectChanges();
 
     const compile = fixture.debugElement.nativeElement;
-    const reportForm = compile.querySelector('app-time-range-custom');
+    const reportForm = compile.querySelector('app-time-range-form');
     const reportDataTable = compile.querySelector('app-time-entries-table');
     expect(reportForm).toBeTruthy();
     expect(reportDataTable).toBeTruthy();
