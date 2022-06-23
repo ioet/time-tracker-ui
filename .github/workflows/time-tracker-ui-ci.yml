@@ -44,8 +44,9 @@ jobs:
 
     - name: build docker
       run: |
-        git-crypt unlock
-        make build
+         sudo apt-get install git-crypt
+         git-crypt unlock
+         make build
 
     - name: Running tests
       run: |
