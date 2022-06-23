@@ -30,9 +30,6 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
 
-    - name: build docker
-      run: make build
-
     - name: Inject Secrets
       env:
         SCOPES: ${{ secrets.SCOPES }}
@@ -44,6 +41,9 @@ jobs:
       run: |
         chmod +x ./scripts/populate-keys.sh
         sh ./scripts/populate-keys.sh
+
+    - name: build docker
+      run: make build
 
     - name: Running tests
       run: |
