@@ -14,7 +14,9 @@ describe('TimeRangeCustomComponent', () => {
   let fixture: ComponentFixture<TimeRangeCustomComponent>;
   let store: MockStore<EntryState>;
   const toastrServiceStub = {
-    error: () => {}
+    error: () => {
+      return 'test error';
+    }
   };
 
   const timeEntry = {
