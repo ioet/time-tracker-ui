@@ -5,6 +5,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { delay, filter } from 'rxjs/operators';
 import { ROLES, environment } from 'src/environments/environment';
+import { EnvironmentType } from 'src/environments/enum';
 import { User } from '../../models/users';
 import { LoadUsers, UserActionTypes, AddUserToGroup, RemoveUserFromGroup } from '../../store/user.actions';
 import { getIsLoading } from '../../store/user.selectors';
@@ -37,7 +38,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.isDevelopment = !environment.production;
+    this.isDevelopment = environment.production === EnvironmentType.TT_DEV;
     this.store.dispatch(new LoadUsers());
     this.loadUsersSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === UserActionTypes.LOAD_USERS_SUCCESS))

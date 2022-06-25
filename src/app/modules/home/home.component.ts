@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { LoadUser } from 'src/app/modules/user/store/user.actions';
 import { environment } from 'src/environments/environment';
+import { EnvironmentType } from 'src/environments/enum';
 import { AzureAdB2CService } from '../login/services/azure.ad.b2c.service';
 import { LoginService } from '../login/services/login.service';
 
@@ -11,7 +12,7 @@ import { LoginService } from '../login/services/login.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  isProduction = environment.production;
+  isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
   constructor(
     private azureAdB2CService: AzureAdB2CService,
     private loginService: LoginService,
