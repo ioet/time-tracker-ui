@@ -1,3 +1,2 @@
 .dev.env filter=git-crypt diff=git-crypt
-src/environments/.keys.json filter=git-crypt diff=git-crypt
-src/environments/keys.ts filter=git-crypt diff=git-crypt
+.env filter=git-crypt diff=git-crypt
