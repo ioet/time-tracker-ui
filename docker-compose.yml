@@ -10,7 +10,6 @@ services:
       - 4200:4200
       - 9876:9876
     environment:
-      API_URL: ${API_URL}
       AUTHORITY: ${AUTHORITY}
       API_URL: ${API_URL}
       CLIENT_ID: ${CLIENT_ID}
@@ -41,7 +40,6 @@ services:
       CHROME_BIN: /opt/google/chrome/google-chrome
       API_URL: ${API_URL}
       AUTHORITY: ${AUTHORITY}
-      API_URL: ${API_URL}
       CLIENT_ID: ${CLIENT_ID}
       CLIENT_URL: ${CLIENT_URL}
       SCOPES: ${SCOPES}

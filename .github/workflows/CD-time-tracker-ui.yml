@@ -46,7 +46,7 @@ jobs:
         source .env
         set +a
         npm install
-        npm run build --prod --if-present
+        npm run build-legacy --if-present
         cp scripts/default-static-site.js ${BUILD_PATH}
 
     - name: 'Deploy to Azure Web App'
