@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { getUserGroups } from '../store/user.selectors';
+import { Observable, of } from 'rxjs';
 import { GROUPS } from '../../../../environments/environment';
+
+import { LoginService } from '../../login/services/login.service';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserInfoService {
-  constructor(private store: Store) {}
-
-  groups(): Observable<string[]> {
-    return this.store.pipe(select(getUserGroups));
-  }
+  constructor(private loginService: LoginService) {}
 
   isMemberOf(groupName: string): Observable<boolean> {
-    return this.groups().pipe(map((groups: string[]) => groups.includes(groupName)));
+    const user = JSON.parse(this.loginService.getLocalStorage('user2'));
+    const {groups = []} = user;
+    return of(groups.includes(groupName));
   }
 
   isAdmin(): Observable<boolean> {

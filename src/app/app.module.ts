@@ -45,7 +45,7 @@ import { ActivityEffects } from './modules/activities-management/store/activity-
 import { ProjectEffects } from './modules/customer-management/components/projects/components/store/project.effects';
 import { TechnologyEffects } from './modules/shared/store/technology.effects';
 import { ProjectTypeEffects } from './modules/customer-management/components/projects-type/store/project-type.effects';
-import { reducers, metaReducers } from './reducers';
+import { reducers } from './reducers';
 import { environment } from '../environments/environment';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 // tslint:disable-next-line: max-line-length
@@ -166,7 +166,6 @@ const maskConfig: Partial<IConfig> = {
     UiSwitchModule,
     DragDropModule,
     StoreModule.forRoot(reducers, {
-      metaReducers,
     }),
     !environment.production
       ? StoreDevtoolsModule.instrument({
