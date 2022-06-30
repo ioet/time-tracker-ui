@@ -1,14 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
-import { getUserGroups } from '../store/user.selectors';
 import { UserInfoService } from './user-info.service';
+import { LoginService } from '../../login/services/login.service';
+
 
 describe('UserInfoService', () => {
   let service: UserInfoService;
-  let store: MockStore;
-  let mockGetUserGroupsSelector: any;
-  const initialState = {
+  const userTest = {
     name: 'Unknown Name',
     email: 'example@mail.com',
     roles: [],
@@ -18,61 +16,60 @@ describe('UserInfoService', () => {
     deleted: '',
   };
 
+  const mockLoginService = {
+    getLocalStorage: () => {
+      return JSON.stringify(userTest);
+    }
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideMockStore({ initialState })],
+      providers: [{ provide : LoginService, useValue: mockLoginService}],
     });
     service = TestBed.inject(UserInfoService);
-    store = TestBed.inject(MockStore);
-    mockGetUserGroupsSelector = store.overrideSelector(getUserGroups, initialState.groups);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call groups selector', () => {
-    const expectedGroups = ['fake-admin', 'fake-tester'];
-
-    service.groups().subscribe((value) => {
-      expect(value).toEqual(expectedGroups);
-    });
-  });
-
   const params = [
-    { groupName: 'fake-admin', expectedValue: true, groups: ['fake-admin', 'fake-tester'] },
-    { groupName: 'fake-owner', expectedValue: false, groups: ['fake-admin', 'fake-tester'] },
+    { groupName: 'fake-admin', expectedValue: true },
+    { groupName: 'fake-owner', expectedValue: false },
   ];
 
   params.map((param) => {
-    it(`given group ${param.groupName} and groups [${param.groups.toString()}], isMemberOf() should return ${
+    it(`given group ${param.groupName} and groups [${userTest.groups.toString()}], isMemberOf() should return ${
       param.expectedValue
     }`, () => {
-      const groups$ = of(param.groups);
-
-      spyOn(service, 'groups').and.returnValue(groups$);
-
       service.isMemberOf(param.groupName).subscribe((value) => {
-        expect(value).toEqual(param.expectedValue);
+        if (param.groupName === 'fake-admin') {
+          expect(value).toEqual(true);
+        } else {
+          expect(value).toEqual(false);
+        }
       });
     });
   });
 
   it('should return true if is Admin', () => {
-    const isMemberOf = spyOn(service, 'isMemberOf').and.returnValue(of(true));
+      service.isMemberOf('fake-admin').subscribe((value) => {
+        expect(value).toEqual(true);
+      });
+  });
 
+  it('should call isAdmin user', () => {
+    spyOn(service, 'isMemberOf').withArgs('time-tracker-admin').and.returnValue(of(true));
     service.isAdmin().subscribe((value) => {
-      expect(value).toBeTrue();
-    });
-    expect(isMemberOf).toHaveBeenCalled();
+        expect(value).toEqual(true);
+      });
   });
 
-  it('should return true if  is Tester', () => {
-    const isMemberOf = spyOn(service, 'isMemberOf').and.returnValue(of(true));
-
+  it('should call isTester user', () => {
+    spyOn(service, 'isMemberOf').withArgs('time-tracker-tester').and.returnValue(of(true));
     service.isTester().subscribe((value) => {
-      expect(value).toBeTrue();
-    });
-    expect(isMemberOf).toHaveBeenCalled();
+        expect(value).toEqual(true);
+      });
   });
+
 });

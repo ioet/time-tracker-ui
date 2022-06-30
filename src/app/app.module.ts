@@ -48,7 +48,7 @@ import { ActivityEffects } from './modules/activities-management/store/activity-
 import { ProjectEffects } from './modules/customer-management/components/projects/components/store/project.effects';
 import { TechnologyEffects } from './modules/shared/store/technology.effects';
 import { ProjectTypeEffects } from './modules/customer-management/components/projects-type/store/project-type.effects';
-import { reducers, metaReducers } from './reducers';
+import { reducers } from './reducers';
 import { CLIENT_URL, environment } from '../environments/environment';
 import { EnvironmentType } from '../environments/enum';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
@@ -179,7 +179,6 @@ const maskConfig: Partial<IConfig> = {
     MatIconModule,
     MatListModule,
     StoreModule.forRoot(reducers, {
-      metaReducers,
     }),
     environment.production === EnvironmentType.TT_DEV
       ? StoreDevtoolsModule.instrument({
