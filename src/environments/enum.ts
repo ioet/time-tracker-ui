@@ -10,3 +10,9 @@ export enum UserEnum {
   ID = 'id',
   NAME = 'name',
 }
+
+export enum EnvironmentType {
+  TT_DEV = 'dev',
+  TT_PROD_LEGACY = 'prod_legacy',
+  TT_PROD = 'prod_v2',
+}

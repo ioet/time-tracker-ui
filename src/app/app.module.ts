@@ -46,7 +46,8 @@ import { ProjectEffects } from './modules/customer-management/components/project
 import { TechnologyEffects } from './modules/shared/store/technology.effects';
 import { ProjectTypeEffects } from './modules/customer-management/components/projects-type/store/project-type.effects';
 import { reducers, metaReducers } from './reducers';
-import { environment } from '../environments/environment';
+import { CLIENT_URL, environment } from '../environments/environment';
+import { EnvironmentType } from '../environments/enum';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 // tslint:disable-next-line: max-line-length
 import { CustomerListComponent } from './modules/customer-management/components/customer-info/components/customer-list/customer-list.component';
@@ -168,7 +169,7 @@ const maskConfig: Partial<IConfig> = {
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),
-    !environment.production
+    environment.production === EnvironmentType.TT_DEV
       ? StoreDevtoolsModule.instrument({
           maxAge: 15, // Retains last 15 states
         })
@@ -206,9 +207,7 @@ const maskConfig: Partial<IConfig> = {
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '565556796659-hscrj9e6m2krc41cfng898793ocfnb8j.apps.googleusercontent.com'
-            )
+            provider: new GoogleLoginProvider(CLIENT_URL)
           }
         ]
       } as SocialAuthServiceConfig,

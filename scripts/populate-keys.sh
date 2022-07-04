@@ -1,8 +1,11 @@
 #!/bin/bash
 
 > .env
+echo "API_URL='$API_URL'" >> .env
 echo "AUTHORITY='$AUTHORITY'" >> .env
+echo "API_URL='$API_URL'" >> .env
 echo "CLIENT_ID='$CLIENT_ID'" >> .env
+echo "CLIENT_URL='$CLIENT_URL'" >> .env
 echo "SCOPES='$SCOPES'" >> .env
 echo "STACK_EXCHANGE_ID='$STACK_EXCHANGE_ID'" >> .env
 echo "STACK_EXCHANGE_ACCESS_TOKEN='$STACK_EXCHANGE_ACCESS_TOKEN'" >> .env

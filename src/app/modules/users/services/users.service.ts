@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/users';
 import { environment } from './../../../../environments/environment';
+import { EnvironmentType } from './../../../../environments/enum';
+
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  isProduction = environment.production;
+  isProduction = environment.production === EnvironmentType.TT_PROD || environment.production === EnvironmentType.TT_PROD_LEGACY;
   constructor(private http: HttpClient) {}
 
   baseUrl = `${environment.timeTrackerApiUrl}/users`;

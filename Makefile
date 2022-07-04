@@ -55,12 +55,20 @@ publish: require-acr-arg require-image_tag-arg ## Upload a docker image to the s
 	docker push $(acr).azurecr.io/timetracker_ui:$(image_tag)
 
 .PHONY: build_prod
-build_prod: ## Create docker image with dependencies needed for production.
-	docker build --target production -t timetracker_ui_prod -f Dockerfile .
+build_prod: ## Create docker image with dependencies needed for production -- to test locally only
+	docker build \
+		--target production  -t timetracker_ui_prod \
+		--build-arg API_URL="${API_URL}" \
+		--build-arg AUTHORITY="${AUTHORITY}" \
+		--build-arg CLIENT_ID="${CLIENT_ID}" \
+		--build-arg CLIENT_URL="${CLIENT_URL}" \
+		--build-arg SCOPES="${SCOPES}" \
+		--build-arg AZURE_APP_CONFIGURATION_CONNECTION_STRING="${AZURE_APP_CONFIGURATION_CONNECTION_STRING}" \
+		.
 
 .PHONY: run_prod
-run_prod: ## Execute timetracker_ui_prod docker container.
-	docker run -d -p 80:80 --env-file ./.env --name timetracker_ui_prod timetracker_ui_prod
+run_prod: ## Execute timetracker_ui_prod docker container -- to test locally only
+	docker run -d -p 80:80 --name timetracker_ui_prod timetracker_ui_prod
 
 .PHONY: stop_prod
 stop_prod: ## Stop container timetracker_ui_prod.
