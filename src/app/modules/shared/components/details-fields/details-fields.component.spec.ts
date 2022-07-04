@@ -715,6 +715,20 @@ describe('DetailsFieldsComponent', () => {
     expect(component.entryForm.value.project_name).toBe('name');
   });
 
+  it('it calls the close method if opened equals true', () => {
+    const datepicker: any = { opened : true, open : () => ({}), close : () => ({}) };
+    spyOn(datepicker, 'close');
+    component.openOrCloseDatePicker(datepicker);
+    expect(datepicker.close).toHaveBeenCalled();
+  });
+
+  it('it calls the open method if opened equals false', () => {
+    const datepicker: any = { opened : false, open : () => ({}), close : () => ({}) };
+    spyOn(datepicker, 'open');
+    component.openOrCloseDatePicker(datepicker);
+    expect(datepicker.open).toHaveBeenCalled();
+  });
+
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:

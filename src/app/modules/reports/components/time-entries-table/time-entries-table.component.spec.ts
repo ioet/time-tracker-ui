@@ -4,7 +4,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Entry } from 'src/app/modules/shared/models';
 import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/substract-date.pipe';
-import { getReportDataSource } from 'src/app/modules/time-clock/store/entry.selectors';
+import { getReportDataSource, getResultSumEntriesSelected } from 'src/app/modules/time-clock/store/entry.selectors';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { TimeEntriesTableComponent } from './time-entries-table.component';
 import { TotalHours } from '../../models/total-hours-report';
@@ -17,6 +17,7 @@ describe('Reports Page', () => {
     let fixture: ComponentFixture<TimeEntriesTableComponent>;
     let store: MockStore<EntryState>;
     let getReportDataSourceSelectorMock;
+    let getResultSumEntriesSelectedMock;
     let durationTime: number;
     let row: number;
     let node: number;
@@ -61,6 +62,7 @@ describe('Reports Page', () => {
     const state: EntryState = {
       active: timeEntry,
       isLoading: false,
+      resultSumEntriesSelected:  new TotalHours(),
       message: '',
       createError: false,
       updateError: false,
@@ -95,6 +97,7 @@ describe('Reports Page', () => {
         store = TestBed.inject(MockStore);
         store.setState(state);
         getReportDataSourceSelectorMock = store.overrideSelector(getReportDataSource, state.reportDataSource);
+        getResultSumEntriesSelectedMock = store.overrideSelector(getResultSumEntriesSelected, state.resultSumEntriesSelected);
         fixture.detectChanges();
       }
     );
@@ -205,6 +208,14 @@ describe('Reports Page', () => {
     it('The sum of the data dates is equal to {"hours": 3, "minutes":20,"seconds":0}', () => {
       let {hours,minutes,seconds}: TotalHours = component.sumDates(timeEntryList);
       expect({hours, minutes, seconds}).toEqual({hours:3,minutes:20,seconds:0});
+    });
+
+    it('the sume of hours of entries selected is equal to {hours:0, minutes:0, seconds:0}', () => {
+      let checked = true;
+      let{hours, minutes, seconds}:TotalHours = component.sumHoursEntriesSelected(timeEntryList[0], checked);
+      checked = false;
+      ({hours, minutes,seconds} = component.sumHoursEntriesSelected(timeEntryList[0], checked));
+      expect({hours, minutes, seconds}).toEqual({hours:0, minutes:0, seconds:0});
     });
 
     afterEach(() => {

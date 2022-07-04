@@ -1,3 +1,4 @@
+import { TotalHours } from '../../reports/models/total-hours-report';
 import { Entry } from '../../shared/models';
 import { TimeDetails, TimeEntriesSummary } from '../models/time.entry.summary';
 import * as selectors from './entry.selectors';
@@ -51,5 +52,12 @@ describe('Entry selectors', () => {
     const entryState = { updateError: error };
 
     expect(selectors.getUpdateError.projector(entryState)).toEqual(error);
+  });
+
+  it('should select resultSumEntriesSelected', () => {
+    const resultSumEntriesSelected:TotalHours = { hours:0, minutes:0, seconds:0 };
+    const entryState = { resultSumEntriesSelected };
+
+    expect(selectors.getResultSumEntriesSelected.projector(entryState)).toEqual(resultSumEntriesSelected);
   });
 });

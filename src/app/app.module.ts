@@ -11,6 +11,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -149,6 +150,7 @@ const maskConfig: Partial<IConfig> = {
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
+    MatCheckboxModule,
     MatInputModule,
     MatDatepickerModule,
     MatMomentDateModule,

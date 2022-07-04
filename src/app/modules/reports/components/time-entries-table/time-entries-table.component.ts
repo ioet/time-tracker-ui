@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
-import { getReportDataSource } from '../../../time-clock/store/entry.selectors';
+import { getReportDataSource, getResultSumEntriesSelected } from '../../../time-clock/store/entry.selectors';
 import { TotalHours } from '../../models/total-hours-report';
 import { User } from 'src/app/modules/users/models/users';
 import { LoadUsers, UserActionTypes } from 'src/app/modules/users/store/user.actions';
@@ -24,7 +24,9 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
 
   selectOptionValues = [15, 30, 50, 100, -1];
   selectOptionNames = [15, 30, 50, 100, 'All'];
+  totalTimeSelected: moment.Duration;
   users: User[] = [];
+
   dtOptions: any = {
     scrollY: '590px',
     dom: '<"d-flex justify-content-between"B<"d-flex"<"mr-5"l>f>>rtip',
@@ -60,7 +62,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
     ],
-    columnDefs: [{ type: 'date', targets: 2}],
+    columnDefs: [{ type: 'date', targets: 2}, {orderable: false, targets: [0]}],
     order: [[1,'asc'],[2,'desc'],[4,'desc']]
   };
   dtTrigger: Subject<any> = new Subject();
@@ -70,11 +72,17 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   reportDataSource$: Observable<DataSource<Entry>>;
   rerenderTableSubscription: Subscription;
   resultSum: TotalHours;
+  resultSumEntriesSelected: TotalHours;
+  resultSumEntriesSelected$:Observable<TotalHours>;
+  totalHoursSubscription: Subscription;
   dateTimeOffset: ParseDateTimeOffset;
 
+
   constructor(private store: Store<EntryState>, private actionsSubject$: ActionsSubject, private storeUser: Store<User> ) {
-    this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
-    this.dateTimeOffset = new ParseDateTimeOffset();
+      this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
+      this.resultSumEntriesSelected$ = this.store.pipe(select(getResultSumEntriesSelected));
+      this.dateTimeOffset = new ParseDateTimeOffset();
+      this.resultSumEntriesSelected = new TotalHours();
   }
 
   uploadUsers(): void {
@@ -88,6 +96,10 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
 
   ngOnInit(): void {
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
+      this.totalHoursSubscription = this.resultSumEntriesSelected$.subscribe((actTotalHours) => {
+            this.resultSumEntriesSelected = actTotalHours ;
+            this.totalTimeSelected = moment.duration(0);
+          });
       this.sumDates(ds.data);
       this.rerenderDataTable();
     });
@@ -128,7 +140,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     const durationColumnIndex = 3;
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
-  
+
   sumDates(arrayData: Entry[]): TotalHours{
     this.resultSum = new TotalHours();
     let arrayDurations= new Array();
@@ -136,7 +148,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       let start = moment(entry.end_date).diff(moment(entry.start_date));
       arrayDurations.push(moment.utc(start).format("HH:mm:ss"));
     });
-    
+
     let totalDurations = arrayDurations.slice(1)
     .reduce((prev, cur) => {
       return prev.add(cur);
@@ -153,5 +165,20 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     this.selectedUserId.emit(userId);
   }
 
+  sumHoursEntriesSelected(entry: Entry, checked: boolean){
+    this.resultSumEntriesSelected = new TotalHours();
+    const duration = moment.duration(moment(entry.end_date).diff(moment(entry.start_date)));
+    if(checked){
+      this.totalTimeSelected = this.totalTimeSelected.add(duration);
+    }
+    else{
+      this.totalTimeSelected = this.totalTimeSelected.subtract(duration);
+    }
+    let daysTotalInHours = this.totalTimeSelected.days() * 24;
+    this.resultSumEntriesSelected.hours = this.totalTimeSelected.hours() + daysTotalInHours;
+    this.resultSumEntriesSelected.minutes = this.totalTimeSelected.minutes();
+    this.resultSumEntriesSelected.seconds = this.totalTimeSelected.seconds();
+    return this.resultSumEntriesSelected;
+  }
 }
 

@@ -2,6 +2,7 @@ import { waitForAsync, ComponentFixture, discardPeriodicTasks, fakeAsync, TestBe
 import { ActionsSubject } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { interval } from 'rxjs';
+import { TotalHours } from 'src/app/modules/reports/models/total-hours-report';
 import { Entry } from 'src/app/modules/shared/models/entry.model';
 import { TimeDetails, TimeEntriesSummary } from './../../models/time.entry.summary';
 import { TimeDetailsPipe } from './../../pipes/time-details.pipe';
@@ -36,6 +37,7 @@ describe('TimeEntriesSummaryComponent', () => {
   const state: EntryState = {
     active: timeEntry,
     isLoading: false,
+    resultSumEntriesSelected: new TotalHours(),
     message: '',
     createError: false,
     updateError: false,
