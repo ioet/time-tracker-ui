@@ -1,4 +1,4 @@
-FROM node:14 AS development
+FROM node:14 AS building
 
 ENV USERNAME timetracker
 ENV HOME /home/${USERNAME}
@@ -12,13 +12,22 @@ USER ${USERNAME}
 RUN npm cache clean --force && npm install
 EXPOSE 4200
 EXPOSE 9876
-CMD ${HOME}/time-tracker-ui/node_modules/.bin/ng serve --host 0.0.0.0 --disableHostCheck
+ARG API_URL
+ARG AUTHORITY
+ARG CLIENT_ID
+ARG CLIENT_URL
+ARG SCOPES
+ARG AZURE_APP_CONFIGURATION_CONNECTION_STRING
 
+RUN API_URL=${API_URL} \
+    AUTHORITY=${AUTHORITY} \
+    CLIENT_ID=${CLIENT_ID} \
+    CLIENT_URL=${CLIENT_URL} \
+    SCOPES=${SCOPES} \
+    AZURE_APP_CONFIGURATION_CONNECTION_STRING=${AZURE_APP_CONFIGURATION_CONNECTION_STRING}
 
-
-FROM development as build
-COPY .env .
 RUN npm run build
+
 
 FROM nginx:1.21 AS production
 
@@ -26,7 +35,7 @@ ENV USERNAME app
 RUN useradd -ms /bin/bash ${USERNAME}
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /home/timetracker/time-tracker-ui/dist/time-tracker /usr/share/nginx/html
+COPY --from=building /home/timetracker/time-tracker-ui/dist/time-tracker /usr/share/nginx/html
 COPY .env /usr/share/nginx/html
 RUN chown -R ${USERNAME}:${USERNAME} /var/cache/nginx && \
     chown -R ${USERNAME}:${USERNAME} /var/log/nginx && \
