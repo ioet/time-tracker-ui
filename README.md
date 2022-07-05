@@ -85,6 +85,8 @@ Yo have 2 ways to run this project in dev mode:
 - In your project path, open your favourite command line and run the follwing commands: `make build` then `make run` and finally `make logs`. When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. Remember you must have your Docker running.
 
 **Second**:
+
+note: If you're on windows, use para bash to set up the environment.
 - Set the environment variables executing the following commands:
 ```bash
 set -a
