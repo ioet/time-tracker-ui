@@ -17,7 +17,6 @@ describe('Reports Page', () => {
     let fixture: ComponentFixture<TimeEntriesTableComponent>;
     let store: MockStore<EntryState>;
     let getReportDataSourceSelectorMock;
-    let getResultSumEntriesSelectedMock;
     let durationTime: number;
     let row: number;
     let node: number;
@@ -96,8 +95,8 @@ describe('Reports Page', () => {
         component = fixture.componentInstance;
         store = TestBed.inject(MockStore);
         store.setState(state);
-        getReportDataSourceSelectorMock = store.overrideSelector(getReportDataSource, state.reportDataSource);
-        getResultSumEntriesSelectedMock = store.overrideSelector(getResultSumEntriesSelected, state.resultSumEntriesSelected);
+        getReportDataSourceSelectorMock = (store.overrideSelector(getReportDataSource, state.reportDataSource),
+        store.overrideSelector(getResultSumEntriesSelected, state.resultSumEntriesSelected));
         fixture.detectChanges();
       }
     );
@@ -212,7 +211,7 @@ describe('Reports Page', () => {
 
     it('the sume of hours of entries selected is equal to {hours:0, minutes:0, seconds:0}', () => {
       let checked = true;
-      let{hours, minutes, seconds}:TotalHours = component.sumHoursEntriesSelected(timeEntryList[0], checked);
+      let {hours, minutes, seconds}:TotalHours = component.sumHoursEntriesSelected(timeEntryList[0], checked);
       checked = false;
       ({hours, minutes,seconds} = component.sumHoursEntriesSelected(timeEntryList[0], checked));
       expect({hours, minutes, seconds}).toEqual({hours:0, minutes:0, seconds:0});
