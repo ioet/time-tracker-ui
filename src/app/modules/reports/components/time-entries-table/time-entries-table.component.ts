@@ -168,13 +168,8 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   sumHoursEntriesSelected(entry: Entry, checked: boolean){
     this.resultSumEntriesSelected = new TotalHours();
     const duration = moment.duration(moment(entry.end_date).diff(moment(entry.start_date)));
-    if(checked){
-      this.totalTimeSelected = this.totalTimeSelected.add(duration);
-    }
-    else{
-      this.totalTimeSelected = this.totalTimeSelected.subtract(duration);
-    }
-    let daysTotalInHours = this.totalTimeSelected.days() * 24;
+    this.totalTimeSelected = checked ? this.totalTimeSelected.add(duration) : this.totalTimeSelected.subtract(duration);
+    const daysTotalInHours = this.totalTimeSelected.days() * 24;
     this.resultSumEntriesSelected.hours = this.totalTimeSelected.hours() + daysTotalInHours;
     this.resultSumEntriesSelected.minutes = this.totalTimeSelected.minutes();
     this.resultSumEntriesSelected.seconds = this.totalTimeSelected.seconds();
