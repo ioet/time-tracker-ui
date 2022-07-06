@@ -7,6 +7,8 @@ import { UserInfoService } from 'src/app/modules/user/services/user-info.service
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
 import { LoginService } from '../../../login/services/login.service';
 import { environment } from 'src/environments/environment';
+import { EnvironmentType } from 'src/environments/enum';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -16,7 +18,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   itemsSidebar: ItemSidebar[] = [];
   navStart;
   sidebarItems$: Subscription;
-  isProduction = environment.production;
+  isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
 
   constructor(
     private router: Router,

@@ -9,11 +9,12 @@ import { Observable } from 'rxjs';
 
 import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.service';
 import { environment } from './../../../../environments/environment';
+import { EnvironmentType } from 'src/environments/enum';
 import { LoginService } from '../../login/services/login.service';
 
 @Injectable()
 export class InjectTokenInterceptor implements HttpInterceptor {
-  isProduction = environment.production;
+  isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
   constructor(private azureAdB2CService: AzureAdB2CService, private loginService: LoginService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

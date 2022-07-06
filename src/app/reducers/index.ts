@@ -1,6 +1,7 @@
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { environment } from '../../environments/environment';
+import { EnvironmentType } from '../../environments/enum';
 import { userReducer } from '../modules/user/store/user.reducer';
 import { entryReducer } from '../modules/time-clock/store/entry.reducer';
 import { technologyReducer } from '../modules/shared/store/technology.reducers';
@@ -35,6 +36,6 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
   return localStorageSync({ keys: [{ user: ['groups'] }], rehydrate: true })(reducer);
 }
 
-export const metaReducers: MetaReducer<State>[] = !environment.production
+export const metaReducers: MetaReducer<State>[] = environment.production === EnvironmentType.TT_DEV
   ? [localStorageSyncReducer]
   : [localStorageSyncReducer];

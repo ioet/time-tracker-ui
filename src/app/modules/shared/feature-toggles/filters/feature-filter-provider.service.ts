@@ -7,13 +7,15 @@ import { TargetingFilterParameters } from './targeting/targeting-feature-filter-
 import { TargetingFeatureFilterModel } from './targeting/targeting-feature-filter.model';
 import { LoginService } from '../../../login/services/login.service';
 import { environment } from 'src/environments/environment';
+import { EnvironmentType } from 'src/environments/enum';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class FeatureFilterProvider {
   constructor(private userService: AzureAdB2CService, private loginService: LoginService) {}
-  isProduction = environment.production;
+  isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
 
   getFilterFromConfiguration(featureFilterConfiguration: FeatureFilterConfiguration): FeatureFilterModel {
     const featureName = featureFilterConfiguration.name;
