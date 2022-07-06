@@ -99,7 +99,7 @@ To run the project in production mode (only for locally testing purposes):
 
 When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. *Remember you must have your Docker running for both cases.*
 
-**Second (Without Docker)**:
+**Second (Without using Docker)**:
 
 Note: If you're on windows, use bash to set up the environment.
 
