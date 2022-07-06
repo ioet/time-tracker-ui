@@ -81,7 +81,7 @@ Install the following extensions(optional):
 
 You have two ways to run this project locally:
 
-**First**:
+**First (Using Docker)**:
 
 In your project path, open your favourite command line and run the follwing commands: 
 
@@ -99,7 +99,7 @@ To run the project in production mode (only for locally testing purposes):
 
 When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. *Remember you must have your Docker running for both cases.*
 
-**Second**:
+**Second (Without Docker)**:
 
 Note: If you're on windows, use bash to set up the environment.
 
