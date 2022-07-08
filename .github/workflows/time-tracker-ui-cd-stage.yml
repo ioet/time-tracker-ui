@@ -2,8 +2,8 @@ name: time-tracker-ui-cd-stage
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+    - "**"
 
 jobs:
   cd:
@@ -42,7 +42,7 @@ jobs:
       run: |-
         docker build \
           --target production  -t timetracker_ui \
-          --build-arg API_URL="${{ env.$API_URL }}" \
+          --build-arg API_URL="${{ env.API_URL }}" \
           --build-arg AUTHORITY="$AUTHORITY" \
           --build-arg CLIENT_ID="$CLIENT_ID" \
           --build-arg CLIENT_URL="$CLIENT_URL" \
