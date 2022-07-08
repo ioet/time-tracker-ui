@@ -94,7 +94,6 @@ To run the project in development mode:
 To run the project in production mode (only for locally testing purposes):
 - `make build_prod` to create a docker image with dependencies needed for production.
 - `make run_prod` to execute the production docker container.
-- `make logs` to show logs of time-tracker-ui in real time.
 - `make stop_prod` to stop the production docker container.
 
 When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. *Remember you must have your Docker running for both cases.*
