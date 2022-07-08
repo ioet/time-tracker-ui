@@ -19,7 +19,7 @@ cleanup: ## Delete image timetracker_ui
 
 .PHONY: run
 run: ## Execute timetracker_ui dev docker containe.
-	docker-compose up -d timetracker_ui
+	docker-compose --env-file=.dev.env  up  -d  timetracker_ui
 
 .PHONY: logs
 logs: ## Show logs of timetracker_ui.
