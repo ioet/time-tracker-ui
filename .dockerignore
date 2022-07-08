@@ -6,3 +6,5 @@ Makefile
 .gitignore
 *keys.ts
 *.keys.json
+.git-crypt
+.git

@@ -36,22 +36,13 @@ jobs:
       
     - name: Load stage secrets to environment
       run: |
-        set -a
-        source .stage.env
-        set +a
+        cat .stage.env >> ${GITHUB_ENV} 
 
     - name: Build the docker image
       run: |-
         docker build \
           --target production  -t timetracker_ui \
-          --build-arg API_URL="$API_URL" \
           --build-arg AUTHORITY="$AUTHORITY" \
-          --build-arg CLIENT_ID="$CLIENT_ID" \
-          --build-arg CLIENT_URL="$CLIENT_URL" \
-          --build-arg SCOPES="$SCOPES" \
-          --build-arg STACK_EXCHANGE_ID="$STACK_EXCHANGE_ID" \
-          --build-arg STACK_EXCHANGE_ACCESS_TOKEN="$STACK_EXCHANGE_ACCESS_TOKEN" \
-          --build-arg AZURE_APP_CONFIGURATION_CONNECTION_STRING="$AZURE_APP_CONFIGURATION_CONNECTION_STRING" \
           .
 
     - name: Publish docker image to stage azure container registry
