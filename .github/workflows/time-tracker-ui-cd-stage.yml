@@ -29,16 +29,29 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: Unlock STAGE secrets
+      uses: sliteteam/github-action-git-crypt-unlock@1.2.0
+      env:
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY_STAGE }}
+      
+    - name: Load stage secrets to environment
+      run: |
+        set -a
+        source .stage.env
+        set +a
+
     - name: Build the docker image
       run: |-
         docker build \
           --target production  -t timetracker_ui \
-          --build-arg API_URL="${{secrets.API_URL_STAGE}}" \
-          --build-arg AUTHORITY="${{secrets.AUTHORITY}}" \
-          --build-arg CLIENT_ID="${{secrets.CLIENT_ID_STAGE}}" \
-          --build-arg CLIENT_URL="${{ secrets.CLIENT_URL_STAGE}}" \
-          --build-arg SCOPES="${{secrets.SCOPES}}" \
-          --build-arg AZURE_APP_CONFIGURATION_CONNECTION_STRING="${{secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING}}" \
+          --build-arg API_URL="$API_URL" \
+          --build-arg AUTHORITY="$AUTHORITY" \
+          --build-arg CLIENT_ID="$CLIENT_ID" \
+          --build-arg CLIENT_URL="$CLIENT_URL" \
+          --build-arg SCOPES="$SCOPES" \
+          --build-arg STACK_EXCHANGE_ID="$STACK_EXCHANGE_ID" \
+          --build-arg STACK_EXCHANGE_ACCESS_TOKEN="$STACK_EXCHANGE_ACCESS_TOKEN" \
+          --build-arg AZURE_APP_CONFIGURATION_CONNECTION_STRING="$AZURE_APP_CONFIGURATION_CONNECTION_STRING" \
           .
 
     - name: Publish docker image to stage azure container registry

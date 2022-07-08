@@ -36,7 +36,6 @@ RUN useradd -ms /bin/bash ${USERNAME}
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=building /home/timetracker/time-tracker-ui/dist/time-tracker /usr/share/nginx/html
-COPY .env /usr/share/nginx/html
 RUN chown -R ${USERNAME}:${USERNAME} /var/cache/nginx && \
     chown -R ${USERNAME}:${USERNAME} /var/log/nginx && \
     chown -R ${USERNAME}:${USERNAME} /etc/nginx/conf.d
