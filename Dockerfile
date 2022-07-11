@@ -14,12 +14,6 @@ USER ${USERNAME}
 RUN npm cache clean --force && npm install
 EXPOSE 4200
 EXPOSE 9876
-ARG API_URL
-ARG AUTHORITY
-ARG CLIENT_ID
-ARG CLIENT_URL
-ARG SCOPES
-ARG AZURE_APP_CONFIGURATION_CONNECTION_STRING
 RUN --mount=type=secret,id=mysecret set -a && source /run/secrets/mysecret && set +a && npm run build
 
 
