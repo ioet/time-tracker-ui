@@ -16,9 +16,8 @@ RUN --mount=type=secret,id=mysecret,dst=/foobar  eval "$(echo $(cat /foobar))" &
 #
 
 FROM nginx:1.21 AS production
-
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=building /app/dist/time-tracker /usr/share/nginx/html
-
 # FIXME: Actually if we can deploy to azure in port 80 we need a root user
 # Maybe we can refactor this dockerfile to use root user directly this is not a good approach y
 # security terms. It's a good practice to have rootless in containers so for this
