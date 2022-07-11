@@ -14,7 +14,8 @@ USER ${USERNAME}
 RUN npm cache clean --force && npm install
 EXPOSE 4200
 EXPOSE 9876
-RUN --mount=type=secret,id=mysecret set -a && source /run/secrets/mysecret && set +a && npm run build
+RUN --mount=type=secret,id=mysecret,dst=/secrets  ls -l 
+RUN --mount=type=secret,id=mysecret,dst=/secrets eval "$(echo $(cat /secrets))" && npm run build 
 
 
 FROM nginx:1.21 AS production
