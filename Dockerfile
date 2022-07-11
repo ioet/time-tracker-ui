@@ -1,12 +1,10 @@
-# syntax=docker/dockerfile:1.2
-
 FROM node:14 AS building
-WORKDIR /usr/local/app
+WORKDIR /app
 # ENV USERNAME timetracker
 # ENV HOME /home/${USERNAME}
 # RUN useradd -ms /bin/bash ${USERNAME}
 # WORKDIR ${HOME}/time-tracker-ui
-COPY . /usr/local/app/
+COPY . /app
 # RUN chown ${USERNAME}:${USERNAME} -R ${HOME}/time-tracker-ui
 # RUN chmod -R 777 ${HOME}/time-tracker-ui
 # USER ${USERNAME}
@@ -19,7 +17,7 @@ RUN --mount=type=secret,id=mysecret,dst=/foobar  eval "$(echo $(cat /foobar))" &
 
 FROM nginx:1.21 AS production
 
-COPY --from=building /usr/local/app/dist/time-tracker /usr/share/nginx/html
+COPY --from=building /app/dist/time-tracker /usr/share/nginx/html
 
 # FIXME: Actually if we can deploy to azure in port 80 we need a root user
 # Maybe we can refactor this dockerfile to use root user directly this is not a good approach y
