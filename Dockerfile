@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.2
+
 FROM node:14 AS building
 WORKDIR /app
 # ENV USERNAME timetracker
@@ -11,7 +13,7 @@ COPY . /app
 RUN npm cache clean --force && npm install
 EXPOSE 4200
 EXPOSE 9876
-RUN --mount=type=secret,id=mysecret,dst=/foobar  eval "$(echo $(cat /foobar))" && npm run build 
+RUN --mount=type=secret,id=mysecret,dst=/foobar  eval '$(echo $(cat /foobar))' && npm run build 
 # >> scrt && 
 #
 
