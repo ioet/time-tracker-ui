@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.2
+
 FROM node:14 AS building
 
 ENV USERNAME timetracker
@@ -18,15 +20,7 @@ ARG CLIENT_ID
 ARG CLIENT_URL
 ARG SCOPES
 ARG AZURE_APP_CONFIGURATION_CONNECTION_STRING
-
-RUN API_URL=${API_URL} \
-    AUTHORITY=${AUTHORITY} \
-    CLIENT_ID=${CLIENT_ID} \
-    CLIENT_URL=${CLIENT_URL} \
-    SCOPES=${SCOPES} \
-    AZURE_APP_CONFIGURATION_CONNECTION_STRING=${AZURE_APP_CONFIGURATION_CONNECTION_STRING}
-
-RUN npm run build
+RUN --mount=type=secret,id=mysecret set -a && source /run/secrets/mysecret && set +a && npm run build
 
 
 FROM nginx:1.21 AS production
