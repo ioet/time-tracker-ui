@@ -23,9 +23,7 @@ describe('TimeEntryActionEffects', () => {
   const entry: Entry = { project_id: 'p-id', start_date: new Date(), id: 'id' };
 
   const dateTest = moment().format('YYYY-MM-DD');
-  const endHourTest = moment().subtract(5, 'hours').format('HH:mm:ss');
   const startHourTest = moment().subtract(3, 'hours').format('HH:mm:ss');
-  const endDateTest = new Date(`${dateTest}T${endHourTest.trim()}`);
   const startDateTest = new Date(`${dateTest}T${startHourTest.trim()}`);
 
   const entryUpdate = {
@@ -379,7 +377,9 @@ describe('TimeEntryActionEffects', () => {
   });
 
   it('should update current entry when UPDATE_CURRENT_OR_LAST_ENTRY is executed', async () => {
-    const lastEntry: Entry = { project_id: 'p-id', start_date: new Date(), id: 'id', end_date: endDateTest};
+    const makeDateYear = new Date();
+    makeDateYear.setMonth(makeDateYear.getMonth() - 1);
+    const lastEntry: Entry = { project_id: 'p-id', start_date: new Date(), id: 'id', end_date: makeDateYear};
     actions$ = of({ type: EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY, payload: entryUpdate });
     spyOn(service, 'loadEntries').and.returnValue(of([lastEntry, lastEntry]));
     spyOn(toastrService, 'success');
