@@ -15,7 +15,7 @@ jobs:
         ARM_CLIENT_SECRET: ${{secrets.TF_ARM_CLIENT_SECRET}}
         ARM_SUBSCRIPTION_ID: ${{secrets.TF_ARM_SUBSCRIPTION_ID}}
         ARM_TENANT_ID: ${{secrets.TF_ARM_TENANT_ID}}
-        DOCKER_BUILDKIT: 1 
+        
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -38,7 +38,6 @@ jobs:
     - name: Build the docker image
       run: |-
         docker build \
-          --secret id=mysecret,src=.stage.env \
           --target production -t timetracker_ui \
           .
 
