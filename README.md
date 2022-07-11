@@ -77,23 +77,42 @@ Install the following extensions(optional):
 - `Prettier - Code formatter`.
 - Go to user settings (`settings.json`) and enable formatting on save: `"editor.formatOnSave": true`.
 
-## Development server
+## How to run this project
 
-Yo have 2 ways to run this project in dev mode:
+You have two ways to run this project locally:
 
-**First**:
-- In your project path, open your favourite command line and run the follwing commands: `make build` then `make run` and finally `make logs`. When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. Remember you must have your Docker running.
+**First (Using Docker)**:
 
-**Second**:
+In your project path, open your favourite command line and run the follwing commands: 
 
-note: If you're on windows, use para bash to set up the environment.
+To run the project in development mode:
+- `make build` to create a docker image with dependencies needed for development.
+- `make run` to execute the development docker container.
+- `make logs` to show logs of time-tracker-ui in real time.
+- `make stop` to stop the development docker container.
+
+To run the project in production mode (only for locally testing purposes):
+- `make build_prod` to create a docker image with dependencies needed for production.
+- `make run_prod` to execute the production docker container.
+- `make stop_prod` to stop the production docker container.
+
+When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. *Remember you must have your Docker running for both cases.*
+
+**Second (Without using Docker)**:
+
+Note: If you're on windows, use bash to set up the environment.
+
 - Set the environment variables executing the following commands:
 ```bash
 set -a
 source .env
 set +a
 ```
-- Run `ng serve` to run the app in dev mode. After executing this command, you can navigate to `http://localhost:4200/` to see the app working. This method is usefull when you want to run a specific branch using less time but not recommended when doing QA.
+
+- Run `ng serve` to run the app in development mode. 
+- Run `ng serve --prod` to run the app in production mode (pointing to the production backend).
+
+After executing this command, you can navigate to `http://localhost:4200/` to see the app working. This method is usefull when you want to run a specific branch using less time but not recommended when doing QA.
 
 In any case, the app will automatically reload if you change anything in the source files.
 
