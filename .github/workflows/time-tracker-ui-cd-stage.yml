@@ -2,8 +2,8 @@ name: time-tracker-ui-cd-stage
 
 on:
   push:
-    branches:
-    - "**"
+    tags:
+      - 'v*.*.*'
 
 jobs:
   cd:
