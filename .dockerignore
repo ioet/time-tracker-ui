@@ -8,3 +8,4 @@ Makefile
 *.keys.json
 .git-crypt
 .git
+Dockerfile
