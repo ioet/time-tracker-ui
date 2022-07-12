@@ -9,8 +9,7 @@ COPY . /app
 # RUN chmod -R 777 ${HOME}/time-tracker-ui
 # USER ${USERNAME}
 RUN npm cache clean --force && npm install
-EXPOSE 4200
-EXPOSE 9876
+EXPOSE 4200 9876
 RUN source .stage.env && npm run build
 # >> scrt && 
 #
