@@ -11,7 +11,7 @@ COPY . /app
 RUN npm cache clean --force && npm install
 EXPOSE 4200
 EXPOSE 9876
-RUN source .stage.env && npm run build 
+RUN source .stage.env && npm run build
 # >> scrt && 
 #
 
