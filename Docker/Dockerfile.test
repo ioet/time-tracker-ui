@@ -35,12 +35,10 @@ RUN useradd -ms /bin/bash ${USERNAME}
 
 WORKDIR ${HOME}/time-tracker-ui
 COPY . .
-RUN rm -f .env
 RUN chown ${USERNAME}:${USERNAME} -R ${HOME}/time-tracker-ui
 RUN chmod -R 777 ${HOME}/time-tracker-ui
 
 USER ${USERNAME}
-COPY .env .
 EXPOSE 4200
 EXPOSE 9876
 RUN npm cache clean --force && npm install
