@@ -20,7 +20,7 @@ export class EntryService {
 
   static TIME_ENTRIES_DATE_TIME_FORMAT = 'yyyy-MM-ddTHH:mm:ssZZZZZ';
   baseUrl = `${environment.timeTrackerApiUrl}/time-entries`;
-  urlInProduction = environment.production === EnvironmentType.TT_PROD || environment.production === EnvironmentType.TT_PROD_LEGACY;
+  urlInProductionLegacy = environment.production === EnvironmentType.TT_PROD_LEGACY;
 
   loadActiveEntry(): Observable<any> {
     return this.http.get(`${this.baseUrl}/running`);
@@ -46,7 +46,7 @@ export class EntryService {
   }
 
   stopEntryRunning(idEntry: string): Observable<any> {
-    return (this.urlInProduction ? this.http.post(`${this.baseUrl}/${idEntry}/stop`, null) : this.http.put(`${this.baseUrl}/stop`, null) );
+    return (this.urlInProductionLegacy ? this.http.post(`${this.baseUrl}/${idEntry}/stop`, null) : this.http.put(`${this.baseUrl}/stop`, null) );
   }
 
   restartEntry(idEntry: string): Observable<Entry> {
@@ -69,7 +69,7 @@ export class EntryService {
 
   loadEntriesByTimeRange(range: TimeEntriesTimeRange, userId: string): Observable<any> {
     const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
-    const loadEntriesByTimeRangeURL = this.urlInProduction ? this.baseUrl : this.baseUrl + '/report';
+    const loadEntriesByTimeRangeURL = this.urlInProductionLegacy ? this.baseUrl : this.baseUrl + '/report';
     return this.http.get(loadEntriesByTimeRangeURL,
       {
         params: {
