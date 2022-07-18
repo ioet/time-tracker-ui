@@ -1,5 +1,5 @@
 export class TotalHours {
-    
+
     hours: number;
     minutes: number;
     seconds: number;

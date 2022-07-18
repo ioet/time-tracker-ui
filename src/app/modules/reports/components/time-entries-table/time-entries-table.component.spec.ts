@@ -142,14 +142,14 @@ describe('Reports Page', () => {
     });
 
     const params = [
-      {url: 'http://example.com', expected_value: true},
-      {url: 'https://example.com', expected_value: true},
-      {url: 'no-url-example', expected_value: false}
+      { url: 'http://example.com', expected_value: true },
+      { url: 'https://example.com', expected_value: true },
+      { url: 'no-url-example', expected_value: false }
     ];
     params.map((param) => {
       it(`Given the url ${param.url}, the method isURL should return ${param.expected_value}`, () => {
 
-      expect(component.isURL(param.url)).toEqual(param.expected_value);
+        expect(component.isURL(param.url)).toEqual(param.expected_value);
       });
     });
 
@@ -170,15 +170,15 @@ describe('Reports Page', () => {
     });
 
     it('when the rerenderDataTable method is called and dtElement and dtInstance are defined, the destroy and next methods are called ',
-    () => {
-      spyOn(component.dtTrigger, 'next');
+      () => {
+        spyOn(component.dtTrigger, 'next');
 
-      component.ngAfterViewInit();
+        component.ngAfterViewInit();
 
-      component.dtElement.dtInstance.then( (dtInstance) => {
-        expect(component.dtTrigger.next).toHaveBeenCalled();
+        component.dtElement.dtInstance.then((dtInstance) => {
+          expect(component.dtTrigger.next).toHaveBeenCalled();
+        });
       });
-    });
 
     it(`When the user method is called, the emit method is called`, () => {
       const userId = 'abc123';
@@ -203,8 +203,8 @@ describe('Reports Page', () => {
     });
 
     it('The sum of the data dates is equal to {"hours": 3, "minutes":20,"seconds":0}', () => {
-      let {hours,minutes,seconds}: TotalHours = component.sumDates(timeEntryList);
-      expect({hours, minutes, seconds}).toEqual({hours:3,minutes:20,seconds:0});
+      const { hours, minutes, seconds }: TotalHours = component.sumDates(timeEntryList);
+      expect({ hours, minutes, seconds }).toEqual({ hours: 3, minutes: 20, seconds: 0 });
     });
 
     afterEach(() => {

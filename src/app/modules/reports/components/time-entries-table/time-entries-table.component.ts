@@ -60,8 +60,8 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
       },
     ],
-    columnDefs: [{ type: 'date', targets: 2}],
-    order: [[1,'asc'],[2,'desc'],[4,'desc']]
+    columnDefs: [{ type: 'date', targets: 2 }],
+    order: [[1, 'asc'], [2, 'desc'], [4, 'desc']]
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
@@ -72,7 +72,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   resultSum: TotalHours;
   dateTimeOffset: ParseDateTimeOffset;
 
-  constructor(private store: Store<EntryState>, private actionsSubject$: ActionsSubject, private storeUser: Store<User> ) {
+  constructor(private store: Store<EntryState>, private actionsSubject$: ActionsSubject, private storeUser: Store<User>) {
     this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
     this.dateTimeOffset = new ParseDateTimeOffset();
   }
@@ -128,28 +128,28 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     const durationColumnIndex = 3;
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
-  
-  sumDates(arrayData: Entry[]): TotalHours{
+
+  sumDates(arrayData: Entry[]): TotalHours {
     this.resultSum = new TotalHours();
-    let arrayDurations= new Array();
-    arrayData.forEach(entry =>{
-      let start = moment(entry.end_date).diff(moment(entry.start_date));
-      arrayDurations.push(moment.utc(start).format("HH:mm:ss"));
+    const arrayDurations = new Array();
+    arrayData.forEach(entry => {
+      const start = moment(entry.end_date).diff(moment(entry.start_date));
+      arrayDurations.push(moment.utc(start).format('HH:mm:ss'));
     });
-    
-    let totalDurations = arrayDurations.slice(1)
-    .reduce((prev, cur) => {
-      return prev.add(cur);
-    },
-    moment.duration(arrayDurations[0]));
-    let daysInHours = totalDurations.days() * 24;
-    this.resultSum.hours=totalDurations.hours() + daysInHours;
+
+    const totalDurations = arrayDurations.slice(1)
+      .reduce((prev, cur) => {
+        return prev.add(cur);
+      },
+        moment.duration(arrayDurations[0]));
+    const daysInHours = totalDurations.days() * 24;
+    this.resultSum.hours = totalDurations.hours() + daysInHours;
     this.resultSum.minutes = totalDurations.minutes();
     this.resultSum.seconds = totalDurations.seconds();
     return this.resultSum;
   }
 
-  user(userId: string){
+  user(userId: string) {
     this.selectedUserId.emit(userId);
   }
 

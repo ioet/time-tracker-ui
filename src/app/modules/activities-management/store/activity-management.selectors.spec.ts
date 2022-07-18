@@ -42,7 +42,7 @@ describe('ActivityManagement Selectors', () => {
         description: 'Some description'
       },
     ];
-  
+
     const activitiesOrdered = [
       {
         id: '002',
