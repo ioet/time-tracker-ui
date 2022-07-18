@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { environment } from './../../../../environments/environment';
+import { EnvironmentType } from './../../../../environments/enum';
 import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
 import { DatePipe } from '@angular/common';
 import { Entry } from '../../shared/models';
@@ -19,7 +20,7 @@ export class EntryService {
 
   static TIME_ENTRIES_DATE_TIME_FORMAT = 'yyyy-MM-ddTHH:mm:ssZZZZZ';
   baseUrl = `${environment.timeTrackerApiUrl}/time-entries`;
-  urlInProduction = environment.production;
+  urlInProduction = environment.production === EnvironmentType.TT_PROD || environment.production === EnvironmentType.TT_PROD_LEGACY;
 
   loadActiveEntry(): Observable<any> {
     return this.http.get(`${this.baseUrl}/running`);

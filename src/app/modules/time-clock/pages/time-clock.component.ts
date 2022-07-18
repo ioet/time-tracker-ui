@@ -12,6 +12,8 @@ import { EntryActionTypes, LoadEntriesSummary, StopTimeEntryRunning } from './..
 import { getActiveTimeEntry } from './../store/entry.selectors';
 import { LoginService } from '../../login/services/login.service';
 import { environment } from 'src/environments/environment';
+import { EnvironmentType } from 'src/environments/enum';
+
 @Component({
   selector: 'app-time-clock',
   templateUrl: './time-clock.component.html',
@@ -25,7 +27,7 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   activeTimeEntry: Entry;
   clockOutSubscription: Subscription;
   storeSubscription: Subscription;
-  isProduction = environment.production;
+  isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
 
   constructor(
     private azureAdB2CService: AzureAdB2CService,
