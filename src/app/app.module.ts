@@ -11,10 +11,10 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -159,6 +159,7 @@ const maskConfig: Partial<IConfig> = {
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
+    MatCheckboxModule,
     MatInputModule,
     MatDatepickerModule,
     MatMomentDateModule,
@@ -176,7 +177,6 @@ const maskConfig: Partial<IConfig> = {
     UiSwitchModule,
     DragDropModule,
     MatIconModule,
-    MatCheckboxModule,
     MatListModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
