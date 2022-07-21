@@ -104,7 +104,7 @@ describe('ProjectService', () => {
   it('update project using PUT from url locally', () => {
     const project: Project = { id: '1', name: 'new name', description: 'description', project_type_id: '123', status: 'active'};
     service.url = 'projects';
-    service.isDevelopment = true;
+    service.isDevelopmentOrProd = true;
     service.updateProject(project).subscribe((response) => {
       expect(response.name).toBe('new name');
     });
@@ -115,7 +115,7 @@ describe('ProjectService', () => {
 
   it('delete project using DELETE from baseUrl', () => {
     const url = `${service.url}/1`;
-    service.isDevelopment = false;
+    service.isDevelopmentOrProd = false;
     service.deleteProject(projectsList[0].id).subscribe((projectsInResponse) => {
       expect(projectsInResponse.filter((project) => project.id !== projectsList[0].id).length).toEqual(2);
     });
@@ -126,7 +126,7 @@ describe('ProjectService', () => {
 
   it('update status project using PUT from baseUrl locally', () => {
     const url = `${service.url}/1`;
-    service.isDevelopment = true;
+    service.isDevelopmentOrProd = true;
     service.deleteProject(projectsList[0].id).subscribe((projectsInResponse) => {
       expect(projectsInResponse.filter((project) => project.id !== projectsList[0].id).length).toEqual(2);
     });
