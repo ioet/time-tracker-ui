@@ -38,7 +38,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.isDevelopment = environment.production === EnvironmentType.TT_DEV;
+    this.isDevelopment = environment.production === EnvironmentType.TT_DEV || environment.production === EnvironmentType.TT_PROD_LEGACY;
     this.store.dispatch(new LoadUsers());
     this.loadUsersSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === UserActionTypes.LOAD_USERS_SUCCESS))
