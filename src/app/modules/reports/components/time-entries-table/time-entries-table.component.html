@@ -1,3 +1,32 @@
+ <div *ngIf="(reportDataSource$ | async) as dataSource" style="text-align: center; width: 100%;">
+    <app-pie-chart 
+        *ngIf="!dataSource.isLoading" 
+        [pieData]="projectsData"
+        [title]="projectsData.title"
+        (projectSelected)="onClickPieChart($event)"
+        (downloadPdf)="downloadPdfService($event)" >
+    </app-pie-chart>
+    <app-stacked-bar-chart
+        *ngIf="ticketsData.labels.length>0"
+        [stackedBardData]="ticketsData"
+        [title]="ticketsData.title"
+        (downloadPdf)="downloadPdfService($event)" >
+    </app-stacked-bar-chart>
+    <app-bar-chart *ngIf="developersData.labels.length>0"
+        [barData]="developersData"
+        [title]="developersData.title"
+        (developerSelected)="onClickBarChart($event)"
+        (downloadPdf)="downloadPdfService($event)">
+    </app-bar-chart>
+    <app-bar-chart-group *ngIf="dataTechAct.labels.length>0"
+        [barData]="dataTechAct"
+        [showLegend]="true"
+        [title]="dataTechAct.title"
+        (downloadPdf)="downloadPdfService($event)">
+    </app-bar-chart-group>
+</div>
+
+
 <div class="row scroll-table mt-5 ml-0">
     <app-search-user [users]="users" (selectedUserId)="user($event)"></app-search-user>
 

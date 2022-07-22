@@ -1,0 +1,11 @@
+<div>
+    <div *ngIf="stackedBardData === null"> Please Select a PROJECT</div>
+    <div *ngIf="stackedBardData !== null">
+        <canvas #barCanvas id="stackedBarCanvas" style="height:60vh; width:20vw"></canvas>
+    </div>
+    <div>
+        <button id="download-button"  type="submit" class="btn btn-primary"(click)="generatePdf()" style="width: max-content;">Download PDF</button>
+    </div>
+</div>
+
+

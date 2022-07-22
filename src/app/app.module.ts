@@ -36,6 +36,7 @@ import { ProjectListHoverComponent } from './modules/time-clock/components/proje
 import { MonthPickerComponent } from './modules/shared/components/month-picker/month-picker.component';
 import { EmptyStateComponent } from './modules/shared/components/empty-state/empty-state.component';
 import { GroupByDatePipe } from './modules/shared/pipes/group-by-date/group-by-date.pipe';
+import { UtilsChartsPipe } from './modules/charts/pipes/utils-chart.pipe';
 import { ActivitiesManagementComponent } from './modules/activities-management/pages/activities-management.component';
 import { ActivityListComponent } from './modules/activities-management/components/activity-list/activity-list.component';
 import { CreateActivityComponent } from './modules/activities-management/components/create-activity/create-activity.component';
@@ -97,6 +98,11 @@ import { SearchUserComponent } from './modules/shared/components/search-user/sea
 import { TimeRangeCustomComponent } from './modules/reports/components/time-range-custom/time-range-custom.component';
 import { TimeRangeHeaderComponent } from './modules/reports/components/time-range-custom/time-range-header/time-range-header.component';
 import { TimeRangeOptionsComponent } from './modules/reports/components/time-range-custom/time-range-options/time-range-options.component';
+import { PieChartComponent } from './modules/charts/pie-chart/pie-chart.component';
+import { BarChartComponent } from './modules/charts/bar-chart/bar-chart.component';
+import { LineChartComponent } from './modules/charts/line-chart/line-chart.component';
+import { StackedBarChartComponent } from './modules/charts/stacked-bar-chart/stacked-bar-chart.component';
+import { BarChartGroupComponent } from './modules/charts/bar-chart-group/bar-chart-group.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -118,6 +124,7 @@ const maskConfig: Partial<IConfig> = {
     MonthPickerComponent,
     EmptyStateComponent,
     GroupByDatePipe,
+    UtilsChartsPipe,
     ActivitiesManagementComponent,
     CreateActivityComponent,
     ActivityListComponent,
@@ -156,6 +163,11 @@ const maskConfig: Partial<IConfig> = {
     TimeRangeCustomComponent,
     TimeRangeHeaderComponent,
     TimeRangeOptionsComponent,
+    PieChartComponent,
+    BarChartComponent,
+    LineChartComponent,
+    StackedBarChartComponent,
+    BarChartGroupComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),

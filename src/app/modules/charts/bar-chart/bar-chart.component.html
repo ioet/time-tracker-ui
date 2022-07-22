@@ -1,0 +1,9 @@
+<div>
+    <div *ngIf="barData === null"> Please Select a PROJECT</div>
+    <div *ngIf="barData !== null">
+        <canvas #barCanvas id="barCanvas" style="height:10vh; width:20vw"></canvas>
+    </div>
+    <div>
+        <button id="download-button"  type="submit" class="btn btn-primary"(click)="generatePdf()" style="width: max-content;">Download PDF</button>
+    </div>
+</div>

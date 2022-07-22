@@ -1,0 +1,11 @@
+<div style="width: 40%; margin: 0 auto;">
+    <div style="display: flex;">
+        <div>
+            <canvas id="pieChart" #pieCanvas style="height:20vh; width:32vw"></canvas>
+        </div>
+        <div>
+            <button id="download-button"  type="submit" class="btn btn-primary"(click)="generatePdf()" style="width: max-content;">Download PDF</button>
+        </div>
+    </div>
+    <div id="no-data-pieChart">There is no data for this date range</div>
+</div>

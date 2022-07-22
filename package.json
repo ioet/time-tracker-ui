@@ -38,6 +38,8 @@
     "angular-datatables": "9.0.2",
     "angularx-social-login": "^3.5.7",
     "bootstrap": "4.4.1",
+    "chart.js": "^3.7.1",
+    "chartjs-plugin-datalabels": "^2.0.0",
     "datatables.net": "1.10.22",
     "datatables.net-buttons": "1.6.2",
     "datatables.net-buttons-dt": "1.6.2",
@@ -58,6 +60,7 @@
     "ngx-pagination": "5.0.0",
     "ngx-toastr": "12.0.1",
     "ngx-ui-switch": "10.0.2",
+    "pdfmake": "^0.2.5",
     "rxjs": "6.6.3",
     "tslib": "1.10.0",
     "zone.js": "0.10.3"

@@ -13,6 +13,8 @@ import { TotalHours } from '../../models/total-hours-report';
 import { User } from 'src/app/modules/users/models/users';
 import { LoadUsers, UserActionTypes } from 'src/app/modules/users/store/user.actions';
 import { ParseDateTimeOffset } from '../../../shared/formatters/parse-date-time-offset/parse-date-time-offset';
+import { ChartServiceService } from 'src/app/modules/charts/service/chart-service.service';
+
 
 @Component({
   selector: 'app-time-entries-table',
@@ -76,9 +78,16 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   resultSumEntriesSelected$:Observable<TotalHours>;
   totalHoursSubscription: Subscription;
   dateTimeOffset: ParseDateTimeOffset;
+  allData = [];
+  projectsData = null;
+  developersData = {labels: [], data: [], title: '', projectName: ''};
+  developersDataaa = {labels: [], data: [], title: '', projectName: ''};
+
+  ticketsData = {labels: [], data: [], title: '', projectName: ''};
+  dataTechAct = {labels: [], data: [], title: '', projectName: ''};
 
 
-  constructor(private store: Store<EntryState>, private actionsSubject$: ActionsSubject, private storeUser: Store<User> ) {
+  constructor(private store: Store<EntryState>, private actionsSubject$: ActionsSubject, private storeUser: Store<User>, private chartServiceService: ChartServiceService ) {
       this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
       this.resultSumEntriesSelected$ = this.store.pipe(select(getResultSumEntriesSelected));
       this.dateTimeOffset = new ParseDateTimeOffset();
@@ -102,6 +111,15 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
           });
       this.sumDates(ds.data);
       this.rerenderDataTable();
+      this.ticketsData = {labels: [], data: [], title: '', projectName: ''};
+      this.developersData = {labels: [], data: [], title: '', projectName: ''};
+      this.dataTechAct = {labels: [], data: [], title: '', projectName: ''};
+      if (!ds.isLoading && ds.data.length === 0){
+        this.projectsData = {labels: [], data: []};
+      }else{
+        this.allData = ds.data;
+        this.projectsData = this.chartServiceService.getTotalHoursWorkedByProject(ds.data);
+      }
     });
     this.uploadUsers();
   }
@@ -175,5 +193,26 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     this.resultSumEntriesSelected.seconds = this.totalTimeSelected.seconds();
     return this.resultSumEntriesSelected;
   }
-}
 
+  onClickPieChart(index: number){
+    const formatData = this.chartServiceService.getHoursWorkedDeveloper(index, this.projectsData, this.allData )
+
+    const formatDataTickets = this.chartServiceService.getHoursWorkedByTicketByDeveloper(index, this.projectsData, this.allData )
+
+    this.ticketsData = formatDataTickets;
+    this.developersData = formatData.developersData;
+    this.developersDataaa = formatData.developersData;
+
+    this.dataTechAct = formatData.dataTechAct;
+  }
+
+  onClickBarChart(value: any){
+    const formatData = this.chartServiceService.getActAndTechByDev(value, this.developersData, this.allData )
+    this.dataTechAct = formatData;
+  }
+
+  downloadPdfService(data:  any) {
+    this.chartServiceService.generatePdf(data.chart, data.title, data.description);
+  }
+
+}
