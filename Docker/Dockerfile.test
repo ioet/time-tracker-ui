@@ -34,7 +34,7 @@ RUN mkdir -p /opt/selenium \
 RUN useradd -ms /bin/bash ${USERNAME}
 
 WORKDIR ${HOME}/time-tracker-ui
-COPY package.json package-lock.json /app
+COPY package.json package-lock.json ./
 RUN npm cache clean --force && npm install
 COPY . .
 RUN chown ${USERNAME}:${USERNAME} -R ${HOME}/time-tracker-ui
