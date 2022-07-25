@@ -34,6 +34,8 @@ RUN mkdir -p /opt/selenium \
 RUN useradd -ms /bin/bash ${USERNAME}
 
 WORKDIR ${HOME}/time-tracker-ui
+COPY package.json package-lock.json /app
+RUN npm cache clean --force && npm install
 COPY . .
 RUN chown ${USERNAME}:${USERNAME} -R ${HOME}/time-tracker-ui
 RUN chmod -R 777 ${HOME}/time-tracker-ui
@@ -41,5 +43,4 @@ RUN chmod -R 777 ${HOME}/time-tracker-ui
 USER ${USERNAME}
 EXPOSE 4200
 EXPOSE 9876
-RUN npm cache clean --force && npm install
 CMD npm run ci-test
