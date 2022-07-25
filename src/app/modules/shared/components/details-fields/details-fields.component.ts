@@ -22,7 +22,7 @@ import { TechnologyState } from '../../store/technology.reducers';
 import { EntryActionTypes } from './../../../time-clock/store/entry.actions';
 import { SaveEntryEvent } from './save-entry-event';
 import { ProjectSelectedEvent } from './project-selected-event';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import { DATE_FORMAT, DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { TechnologiesComponent } from '../technologies/technologies.component';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -179,7 +179,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
     this.goingToWorkOnThis = this.entryToEdit?.running ? true : false;
     this.shouldRestartEntry = false;
     this.getRecentProjects();
-    if (this.entryToEdit) {
+    if (this.entryToEdit && !isEmpty(this.entryToEdit)) {
       this.isTechnologiesDisabled = false;
       this.selectedTechnologies = this.entryToEdit.technologies;
       const projectFound = this.listProjects.find((project) => project.id === this.entryToEdit.project_id);
