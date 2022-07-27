@@ -7,7 +7,7 @@ import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { environment } from 'src/environments/environment';
 import { EnvironmentType } from 'src/environments/enum';
 import { LoginService } from './services/login.service';
-import { map } from 'rxjs/operators';
+import {   tap } from 'rxjs/operators';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -42,30 +42,26 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    return this.azureAdB2CService.isLogin().pipe(
-      map(isLogin => {
-        if (isLogin) {
+    this.azureAdB2CService.isLogin().subscribe(isLogin => {
+      if (isLogin) {
+        this.router.navigate(['']);
+      } else {
+        this.azureAdB2CService.signIn().subscribe(() => {
+          this.featureToggleCookiesService.setCookies();
+          this.azureAdB2CService.setCookies();
           this.router.navigate(['']);
-        } else {
-          this.azureAdB2CService.signIn().subscribe(() => {
-            this.featureToggleCookiesService.setCookies();
-            this.azureAdB2CService.setCookies();
-            this.router.navigate(['']);
-          });
-        }
-      })
-    );
+        });
+      }
+    });
   }
 
   loginWithGoogle() {
-    return this.loginService.isLogin().pipe(
-      map(isLogin => {
-        if (isLogin) {
-          this.router.navigate(['']);
-        } else {
-          this.loginService.signIn();
-        }
-      })
-    );
+    this.loginService.isLogin().subscribe(isLogin => {
+      if (isLogin) {
+        this.router.navigate(['']);
+      } else {
+        this.loginService.signIn();
+      }
+    });
   }
 }
