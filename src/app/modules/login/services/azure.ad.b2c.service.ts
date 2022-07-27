@@ -100,7 +100,7 @@ export class AzureAdB2CService {
 
   isValidToken(token: string) {
     const body = { token };
-    const observable = this.http.post(`${this.baseUrl}/validate-token`, body).pipe(
+    return this.http.post(`${this.baseUrl}/validate-token`, body).pipe(
       map((response) => {
         const responseString = JSON.stringify(response);
         const responseJson = JSON.parse(responseString);
@@ -111,6 +111,5 @@ export class AzureAdB2CService {
         return isValid ? true : false;
       })
     );
-    return observable;
   }
 }
