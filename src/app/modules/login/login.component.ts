@@ -5,8 +5,8 @@ import { FeatureToggleCookiesService } from '../shared/feature-toggles/feature-t
 
 import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { environment } from 'src/environments/environment';
+import { EnvironmentType } from 'src/environments/enum';
 import { LoginService } from './services/login.service';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   socialUser: SocialUser;
-  isProduction = environment.production;
+  isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
 
   constructor(
     private azureAdB2CService: AzureAdB2CService,

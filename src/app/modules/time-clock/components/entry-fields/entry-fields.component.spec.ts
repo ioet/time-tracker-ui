@@ -379,7 +379,7 @@ describe('EntryFieldsComponent', () => {
         description: 'Some description'
       },
     ];
-  
+
     const activitiesOrdered = [
       {
         id: '005',
@@ -488,10 +488,10 @@ describe('EntryFieldsComponent', () => {
   });
 
   it('when a activity is not register in DB should show activatefocus in select activity', () => {
-    const activitiesMock  = [{
+    const activitiesMock = [{
       id: 'xyz',
       name: 'test',
-      description : 'test1'
+      description: 'test1'
     }];
     const data = {
       activity_id: 'xyz',

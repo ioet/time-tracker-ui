@@ -41,9 +41,11 @@ jobs:
 
     - name: Inject Secrets
       env:
+        AUTHORITY: ${{ secrets.AUTHORITY }}
+        API_URL : ${{ secrets.API_URL }}
         SCOPES: ${{ secrets.SCOPES }}
         CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        AUTHORITY: ${{ secrets.AUTHORITY }}
+        CLIENT_URL : ${{ secrets.CLIENT_URL }}
         STACK_EXCHANGE_ID: ${{ secrets.STACK_EXCHANGE_ID }}
         STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.STACK_EXCHANGE_ACCESS_TOKEN }}
         AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.AZURE_APP_CONFIGURATION_CONNECTION_STRING }}

@@ -2,10 +2,12 @@ import { Entry } from '../../shared/models';
 import { DataSource } from '../../shared/models/data-source.model';
 import { TimeDetails, TimeEntriesSummary } from '../models/time.entry.summary';
 import { EntryActions, EntryActionTypes } from './entry.actions';
+import { TotalHours } from '../../reports/models/total-hours-report';
 
 export interface EntryState {
   active: Entry;
   isLoading: boolean;
+  resultSumEntriesSelected: TotalHours;
   message: string;
   createError: boolean;
   updateError: boolean;
@@ -20,6 +22,7 @@ const emptyTimeEntriesSummary: TimeEntriesSummary = { day: emptyTimeDetails, wee
 export const initialState = {
   active: null,
   isLoading: false,
+  resultSumEntriesSelected: new TotalHours(),
   message: '',
   createError: null,
   updateError: null,
@@ -263,6 +266,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       return {
         ...state,
         isLoading: true,
+        resultSumEntriesSelected:{hours:0, minutes:0, seconds:0},
         reportDataSource: {
           data: [],
           isLoading: true

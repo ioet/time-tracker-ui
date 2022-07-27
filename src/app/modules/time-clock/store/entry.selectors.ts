@@ -16,3 +16,5 @@ export const getStatusMessage = createSelector(getEntryState, (state: EntryState
 export const getReportDataSource = createSelector(getEntryState, (state: EntryState) => state?.reportDataSource);
 
 export const getTimeEntriesDataSource = createSelector(getEntryState, (state: EntryState) => state?.timeEntriesDataSource);
+
+export const getResultSumEntriesSelected = createSelector(getEntryState, (state: EntryState) => state?.resultSumEntriesSelected);

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { EnvironmentType } from 'src/environments/enum';
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
 import { LoginService } from '../../../login/services/login.service';
 
@@ -11,7 +12,7 @@ import { LoginService } from '../../../login/services/login.service';
 export class UserComponent implements OnInit {
   userName: string;
   userEmail: string;
-  isProduction = environment.production;
+  isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
 
   constructor(private azureAdB2CService: AzureAdB2CService, private loginService: LoginService) {}
 

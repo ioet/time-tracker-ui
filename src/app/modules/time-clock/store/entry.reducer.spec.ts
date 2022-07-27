@@ -1,3 +1,4 @@
+import { TotalHours } from '../../reports/models/total-hours-report';
 import { TimeDetails, TimeEntriesSummary } from '../models/time.entry.summary';
 import { Entry, NewEntry } from './../../shared/models';
 import * as actions from './entry.actions';
@@ -15,6 +16,7 @@ describe('entryReducer', () => {
     message: '',
     createError: null,
     updateError: null,
+    resultSumEntriesSelected: new TotalHours(),
     timeEntriesSummary: emptyTimeEntriesSummary,
     timeEntriesDataSource: {
       data: [],

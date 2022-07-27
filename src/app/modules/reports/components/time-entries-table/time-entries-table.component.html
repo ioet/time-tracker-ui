@@ -4,6 +4,7 @@
     <table class="table table-striped mb-0" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" *ngIf="(reportDataSource$ | async) as dataSource">
         <thead class="thead-blue">
             <tr class="d-flex">
+              <th class="col md-col">Selected</th>
                 <th class="hidden-col">ID</th>
                 <th class="col md-col">User email</th>
                 <th class="col sm-col">Date</th>
@@ -23,6 +24,8 @@
         <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
         <tbody *ngIf="!dataSource.isLoading">
             <tr class="d-flex col-height" *ngFor="let entry of dataSource.data">
+                <td class="col md-col"><mat-checkbox
+                  (change)="sumHoursEntriesSelected(entry, $event.checked)"></mat-checkbox></td>
                 <td class="hidden-col">{{ entry.id }}</td>
                 <td class="col md-col">{{ entry.owner_email }}</td>
                 <td class="col sm-col">
@@ -57,4 +60,5 @@
         </tbody>
     </table>
 </div>
-<div class="alert alert-dark mt-3">Total: {{this.resultSum.hours}} hours, {{this.resultSum.minutes}} minutes</div>
+<div class="alert alert-dark mt-3">Total: {{this.resultSum.hours}} hours, {{this.resultSum.minutes}} minutes,
+  <br/>   Total hours entries selected: {{resultSumEntriesSelected.hours}} hours, {{resultSumEntriesSelected.minutes}} minutes</div>

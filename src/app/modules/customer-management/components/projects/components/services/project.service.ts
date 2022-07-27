@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../../environments/environment';
+import { EnvironmentType } from '../../../../../../../environments/enum';
 import { Project } from '../../../../../shared/models';
 
 @Injectable({
@@ -10,7 +11,7 @@ import { Project } from '../../../../../shared/models';
 export class ProjectService {
   projects: Project[] = [];
   url = `${environment.timeTrackerApiUrl}/projects`;
-  isDevelopment = !environment.production;
+  isDevelopment = environment.production === EnvironmentType.TT_DEV;
 
   constructor(private http: HttpClient) {}
 

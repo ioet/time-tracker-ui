@@ -11,8 +11,11 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
@@ -46,7 +49,8 @@ import { ProjectEffects } from './modules/customer-management/components/project
 import { TechnologyEffects } from './modules/shared/store/technology.effects';
 import { ProjectTypeEffects } from './modules/customer-management/components/projects-type/store/project-type.effects';
 import { reducers } from './reducers';
-import { environment } from '../environments/environment';
+import { CLIENT_URL, environment } from '../environments/environment';
+import { EnvironmentType } from '../environments/enum';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 // tslint:disable-next-line: max-line-length
 import { CustomerListComponent } from './modules/customer-management/components/customer-info/components/customer-list/customer-list.component';
@@ -90,6 +94,9 @@ import { DarkModeComponent } from './modules/shared/components/dark-mode/dark-mo
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
 import { SearchUserComponent } from './modules/shared/components/search-user/search-user.component';
+import { TimeRangeCustomComponent } from './modules/reports/components/time-range-custom/time-range-custom.component';
+import { TimeRangeHeaderComponent } from './modules/reports/components/time-range-custom/time-range-header/time-range-header.component';
+import { TimeRangeOptionsComponent } from './modules/reports/components/time-range-custom/time-range-options/time-range-options.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -146,9 +153,13 @@ const maskConfig: Partial<IConfig> = {
     CalendarComponent,
     DropdownComponent,
     DarkModeComponent,
+    TimeRangeCustomComponent,
+    TimeRangeHeaderComponent,
+    TimeRangeOptionsComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
+    MatCheckboxModule,
     MatInputModule,
     MatDatepickerModule,
     MatMomentDateModule,
@@ -165,9 +176,11 @@ const maskConfig: Partial<IConfig> = {
     NgxMaterialTimepickerModule,
     UiSwitchModule,
     DragDropModule,
+    MatIconModule,
+    MatListModule,
     StoreModule.forRoot(reducers, {
     }),
-    !environment.production
+    environment.production === EnvironmentType.TT_DEV
       ? StoreDevtoolsModule.instrument({
           maxAge: 15, // Retains last 15 states
         })
@@ -205,9 +218,7 @@ const maskConfig: Partial<IConfig> = {
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '565556796659-hscrj9e6m2krc41cfng898793ocfnb8j.apps.googleusercontent.com'
-            )
+            provider: new GoogleLoginProvider(CLIENT_URL)
           }
         ]
       } as SocialAuthServiceConfig,

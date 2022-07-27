@@ -15,6 +15,7 @@ jobs:
         ARM_CLIENT_SECRET: ${{secrets.TF_ARM_CLIENT_SECRET}}
         ARM_SUBSCRIPTION_ID: ${{secrets.TF_ARM_SUBSCRIPTION_ID}}
         ARM_TENANT_ID: ${{secrets.TF_ARM_TENANT_ID}}
+        
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -29,8 +30,16 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: Unlock STAGE secrets
+      uses: sliteteam/github-action-git-crypt-unlock@1.2.0
+      env:
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY_STAGE }}
+      
     - name: Build the docker image
-      run: make build_prod
+      run: |-
+        docker build \
+          --target production -t timetracker_ui \
+          .
 
     - name: Publish docker image to stage azure container registry
       run: |

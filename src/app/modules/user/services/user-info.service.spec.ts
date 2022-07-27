@@ -6,7 +6,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
-
 describe('UserInfoService', () => {
   let service: UserInfoService;
   const userTest = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiVW5rbm93biBOYW1lIiwiZW1haWwiOiJleGFtcGxlQG1haWwuY29tIiwicm9sZXMiOltdLCJncm91cHMiOlsiZmFrZS1hZG1pbiIsImZha2UtdGVzdGVyIl0sImlkIjoiZHVtbXlfaWRfbG9hZCIsInRlbmFudF9pZCI6ImR1bW15X3RlbmFudF9pZF9sb2FkIiwiZGVsZXRlZCI6IiJ9.kTlan9Ea0uYVAPdVNmcJ11IQ1t8zRCOnEQckqpx2O9w';
@@ -27,6 +26,7 @@ describe('UserInfoService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
+
       providers: [{ provide : LoginService, useValue: mockLoginService}],
     });
     service = TestBed.inject(UserInfoService);

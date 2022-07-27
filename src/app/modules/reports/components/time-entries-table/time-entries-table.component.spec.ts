@@ -4,7 +4,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Entry } from 'src/app/modules/shared/models';
 import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/substract-date.pipe';
-import { getReportDataSource } from 'src/app/modules/time-clock/store/entry.selectors';
+import { getReportDataSource, getResultSumEntriesSelected } from 'src/app/modules/time-clock/store/entry.selectors';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { TimeEntriesTableComponent } from './time-entries-table.component';
 import { TotalHours } from '../../models/total-hours-report';
@@ -61,6 +61,7 @@ describe('Reports Page', () => {
     const state: EntryState = {
       active: timeEntry,
       isLoading: false,
+      resultSumEntriesSelected:  new TotalHours(),
       message: '',
       createError: false,
       updateError: false,
@@ -94,7 +95,8 @@ describe('Reports Page', () => {
         component = fixture.componentInstance;
         store = TestBed.inject(MockStore);
         store.setState(state);
-        getReportDataSourceSelectorMock = store.overrideSelector(getReportDataSource, state.reportDataSource);
+        getReportDataSourceSelectorMock = (store.overrideSelector(getReportDataSource, state.reportDataSource),
+        store.overrideSelector(getResultSumEntriesSelected, state.resultSumEntriesSelected));
         fixture.detectChanges();
       }
     );
@@ -142,14 +144,14 @@ describe('Reports Page', () => {
     });
 
     const params = [
-      {url: 'http://example.com', expected_value: true},
-      {url: 'https://example.com', expected_value: true},
-      {url: 'no-url-example', expected_value: false}
+      { url: 'http://example.com', expected_value: true },
+      { url: 'https://example.com', expected_value: true },
+      { url: 'no-url-example', expected_value: false }
     ];
     params.map((param) => {
       it(`Given the url ${param.url}, the method isURL should return ${param.expected_value}`, () => {
 
-      expect(component.isURL(param.url)).toEqual(param.expected_value);
+        expect(component.isURL(param.url)).toEqual(param.expected_value);
       });
     });
 
@@ -170,15 +172,15 @@ describe('Reports Page', () => {
     });
 
     it('when the rerenderDataTable method is called and dtElement and dtInstance are defined, the destroy and next methods are called ',
-    () => {
-      spyOn(component.dtTrigger, 'next');
+      () => {
+        spyOn(component.dtTrigger, 'next');
 
-      component.ngAfterViewInit();
+        component.ngAfterViewInit();
 
-      component.dtElement.dtInstance.then( (dtInstance) => {
-        expect(component.dtTrigger.next).toHaveBeenCalled();
+        component.dtElement.dtInstance.then((dtInstance) => {
+          expect(component.dtTrigger.next).toHaveBeenCalled();
+        });
       });
-    });
 
     it(`When the user method is called, the emit method is called`, () => {
       const userId = 'abc123';
@@ -205,6 +207,15 @@ describe('Reports Page', () => {
     it('The sum of the data dates is equal to {"hours": 3, "minutes":20,"seconds":0}', () => {
       const { hours, minutes, seconds }: TotalHours = component.sumDates(timeEntryList);
       expect({ hours, minutes, seconds }).toEqual({ hours: 3, minutes: 20, seconds: 0 });
+
+    });
+
+    it('the sume of hours of entries selected is equal to {hours:0, minutes:0, seconds:0}', () => {
+      let checked = true;
+      let {hours, minutes, seconds}:TotalHours = component.sumHoursEntriesSelected(timeEntryList[0], checked);
+      checked = false;
+      ({hours, minutes,seconds} = component.sumHoursEntriesSelected(timeEntryList[0], checked));
+      expect({hours, minutes, seconds}).toEqual({hours:0, minutes:0, seconds:0});
     });
 
     afterEach(() => {

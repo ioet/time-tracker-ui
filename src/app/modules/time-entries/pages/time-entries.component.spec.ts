@@ -23,6 +23,7 @@ import { DebugElement } from '@angular/core';
 import { FeatureToggle } from './../../../../environments/enum';
 import { CalendarView } from 'angular-calendar';
 import * as moment from 'moment';
+import { TotalHours } from '../../reports/models/total-hours-report';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -74,6 +75,7 @@ describe('TimeEntriesComponent', () => {
       createError: false,
       updateError: false,
       isLoading: false,
+      resultSumEntriesSelected: new TotalHours(),
       message: 'any-message',
       active: {
         start_date: new Date('2019-01-01T15:36:15.887Z'),
