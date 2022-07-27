@@ -2,28 +2,31 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserInfoService } from './user-info.service';
 import { LoginService } from '../../login/services/login.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 
 
 describe('UserInfoService', () => {
   let service: UserInfoService;
-  const userTest = {
-    name: 'Unknown Name',
-    email: 'example@mail.com',
-    roles: [],
-    groups: ['fake-admin', 'fake-tester'],
-    id: 'dummy_id_load',
-    tenant_id: 'dummy_tenant_id_load',
-    deleted: '',
+  const userTest = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiVW5rbm93biBOYW1lIiwiZW1haWwiOiJleGFtcGxlQG1haWwuY29tIiwicm9sZXMiOltdLCJncm91cHMiOlsiZmFrZS1hZG1pbiIsImZha2UtdGVzdGVyIl0sImlkIjoiZHVtbXlfaWRfbG9hZCIsInRlbmFudF9pZCI6ImR1bW15X3RlbmFudF9pZF9sb2FkIiwiZGVsZXRlZCI6IiJ9.kTlan9Ea0uYVAPdVNmcJ11IQ1t8zRCOnEQckqpx2O9w';
+  const helper = new JwtHelperService();
+  const getUserInfo = () => {
+    return helper.decodeToken(userTest);
   };
 
   const mockLoginService = {
     getLocalStorage: () => {
-      return JSON.stringify(userTest);
+      return userTest;
+    },
+    isValidToken: () => {
+      return of(true);
     }
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [{ provide : LoginService, useValue: mockLoginService}],
     });
     service = TestBed.inject(UserInfoService);
@@ -39,7 +42,7 @@ describe('UserInfoService', () => {
   ];
 
   params.map((param) => {
-    it(`given group ${param.groupName} and groups [${userTest.groups.toString()}], isMemberOf() should return ${
+    it(`given group ${param.groupName} and groups [${getUserInfo().groups.toString()}], isMemberOf() should return ${
       param.expectedValue
     }`, () => {
       service.isMemberOf(param.groupName).subscribe((value) => {

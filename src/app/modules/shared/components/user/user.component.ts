@@ -17,17 +17,21 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.isProduction){
-      if (this.azureAdB2CService.isLogin()) {
-        this.userName = this.azureAdB2CService.getName();
-        this.userEmail = this.azureAdB2CService.getUserEmail();
-        this.azureAdB2CService.setTenantId();
-      }
-    }else{
-      if (this.loginService.isLogin()) {
-        this.userName = this.loginService.getName();
-        this.userEmail = this.loginService.getUserEmail();
-        this.azureAdB2CService.setTenantId();
-      }
+      this.azureAdB2CService.isLogin().subscribe(isLogin => {
+        if (isLogin) {
+          this.userName = this.azureAdB2CService.getName();
+          this.userEmail = this.azureAdB2CService.getUserEmail();
+          this.azureAdB2CService.setTenantId();
+        }
+      });
+    } else {
+      this.loginService.isLogin().subscribe(isLogin => {
+        if (isLogin) {
+          this.userName = this.loginService.getName();
+          this.userEmail = this.loginService.getUserEmail();
+          this.azureAdB2CService.setTenantId();
+        }
+      });
     }
   }
 }

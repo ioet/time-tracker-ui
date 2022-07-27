@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable, of } from 'rxjs';
 import { GROUPS } from '../../../../environments/environment';
 
@@ -9,12 +10,20 @@ import { LoginService } from '../../login/services/login.service';
   providedIn: 'root',
 })
 export class UserInfoService {
-  constructor(private loginService: LoginService) {}
+  helper: JwtHelperService;
+
+  constructor(private loginService: LoginService) {
+    this.helper = new JwtHelperService();
+  }
 
   isMemberOf(groupName: string): Observable<boolean> {
-    const user = JSON.parse(this.loginService.getLocalStorage('user2'));
+    const token = this.loginService.getLocalStorage('user');
+    const user = this.helper.decodeToken(token);
     const {groups = []} = user;
-    return of(groups.includes(groupName));
+    if (groups.includes(groupName)) {
+      return this.loginService.isValidToken(token);
+    }
+    return of(false);
   }
 
   isAdmin(): Observable<boolean> {
@@ -24,4 +33,6 @@ export class UserInfoService {
   isTester(): Observable<boolean> {
     return this.isMemberOf(GROUPS.TESTER);
   }
+
+
 }

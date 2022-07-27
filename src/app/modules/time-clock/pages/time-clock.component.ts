@@ -37,9 +37,13 @@ export class TimeClockComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.isProduction) {
-      this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
+      this.azureAdB2CService.isLogin().subscribe(isLogin  => {
+        this.username = isLogin ? this.azureAdB2CService.getName() : '';
+      })
     }else{
-      this.username = this.loginService.isLogin() ? this.loginService.getName() : '';
+      this.loginService.isLogin().subscribe(isLogin => {
+        this.username = isLogin ? this.loginService.getName() : '';
+      })
     }
     this.storeSubscription = this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
       this.activeTimeEntry = activeTimeEntry;

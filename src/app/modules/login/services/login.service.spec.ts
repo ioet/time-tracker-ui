@@ -1,5 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
@@ -14,6 +15,10 @@ describe('LoginService', () => {
   let account;
   const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['signOut', 'signIn']);
   const cookieStoreStub = {};
+  const helper = new JwtHelperService();
+  const getAccountInfo = () => {
+    return helper.decodeToken(account);
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -27,12 +32,7 @@ describe('LoginService', () => {
     cookieService = TestBed.inject(CookieService);
     httpMock = TestBed.inject(HttpTestingController);
     socialAuthService = TestBed.inject(SocialAuthService);
-    account = {
-      id: 'abc',
-      name: 'abc',
-      email: 'abc',
-      groups: ['abc'],
-    };
+    account = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImFiYyIsIm5hbWUiOiJhYmMiLCJlbWFpbCI6ImFiYyIsImdyb3VwcyI6WyJhYmMiXX0.UNxyDT8XzXJhI1F3LySBU7TJlpENPUPHj8my7Obw2ZM';
     let store = {};
     const mockLocalStorage = {
       getItem: (key: string): string => {
@@ -48,7 +48,7 @@ describe('LoginService', () => {
     spyOn(localStorage, 'getItem').and.callFake(mockLocalStorage.getItem);
     spyOn(localStorage, 'setItem').and.callFake(mockLocalStorage.setItem);
     spyOn(localStorage, 'clear').and.callFake(mockLocalStorage.clear);
-    localStorage.setItem('user2', JSON.stringify(account));
+    localStorage.setItem('user', account);
   });
 
   it('should be created', () => {
@@ -58,19 +58,19 @@ describe('LoginService', () => {
   it('should get name from localStorage', () => {
     const name = service.getName();
 
-    expect(name).toEqual(account.name);
+    expect(name).toEqual(getAccountInfo().name);
   });
 
   it('should get userId from localStorage', () => {
     const userId = service.getUserId();
 
-    expect(userId).toEqual(account.id);
+    expect(userId).toEqual(getAccountInfo().id);
   });
 
   it('should get UserGroup from localStorage', () => {
     const userGroup = service.getUserGroup();
 
-    expect(userGroup).toEqual(account.groups);
+    expect(userGroup).toEqual(getAccountInfo().groups);
   });
 
   it('should get BearerToken from localStorage', () => {
@@ -99,18 +99,19 @@ describe('LoginService', () => {
 
   it('should return true when user is Login', () => {
     spyOn(cookieService, 'check').and.returnValue(true);
+    spyOn(service, 'isValidToken').and.returnValue(of(true));
 
-    const isLogin = service.isLogin();
-
-    expect(isLogin).toBeTruthy();
+    service.isLogin().subscribe(isLogin => {
+      expect(isLogin).toEqual(true);
+    });
   });
 
   it('should return false when user is not Login', () => {
-    spyOn(cookieService, 'check').and.returnValue(false);
+    spyOn(service, 'isValidToken').and.returnValue(of(false));
 
-    const isLogin = service.isLogin();
-
-    expect(isLogin).toBeFalsy();
+    service.isLogin().subscribe(isLogin => {
+      expect(isLogin).toEqual(false);
+    });
   });
 
   it('should login with social angularx-social-login', () => {

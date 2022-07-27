@@ -1,7 +1,10 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { Account, UserAgentApplication } from 'msal';
 import { AzureAdB2CService } from './azure.ad.b2c.service';
 import { CookieService } from 'ngx-cookie-service';
+import { of } from 'rxjs';
+
 
 describe('AzureAdB2CService', () => {
   let service: AzureAdB2CService;
@@ -10,7 +13,7 @@ describe('AzureAdB2CService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(AzureAdB2CService);
     cookieService = TestBed.inject(CookieService);
@@ -46,12 +49,12 @@ describe('AzureAdB2CService', () => {
   it('on logout should call msal logout and verify if user localStorage is removed', () => {
     spyOn(UserAgentApplication.prototype, 'logout').and.returnValue();
     spyOn(cookieService, 'deleteAll');
-    spyOn(localStorage, 'removeItem').withArgs('user');
+    spyOn(localStorage, 'clear');
 
     service.logout();
 
     expect(cookieService.deleteAll).toHaveBeenCalled();
-    expect(localStorage.removeItem).toHaveBeenCalledWith('user');
+    expect(localStorage.clear).toHaveBeenCalled();
     expect(UserAgentApplication.prototype.logout).toHaveBeenCalled();
   });
 
@@ -84,56 +87,54 @@ describe('AzureAdB2CService', () => {
   });
 
   it('isLogin returns true if UserAgentApplication has a defined Account and token cookie exist', () => {
-    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
     spyOn(cookieService, 'check').and.returnValue(true);
+    spyOn(service, 'isValidToken').and.returnValue(of(true));
 
-    const isLogin = service.isLogin();
-
-    expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
-    expect(cookieService.check).toHaveBeenCalled();
-    expect(isLogin).toEqual(true);
+    service.isLogin().subscribe(isLogin => {
+      expect(isLogin).toEqual(true);
+    });
   });
 
   it('isLogin returns false if UserAgentApplication has a defined Account and token cookie does not exist', () => {
-    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
-    spyOn(cookieService, 'check').and.returnValue(false);
+    spyOn(service, 'isValidToken').and.returnValue(of(false));
 
-    const isLogin = service.isLogin();
 
-    expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
-    expect(cookieService.check).toHaveBeenCalled();
-    expect(isLogin).toEqual(false);
+    service.isLogin().subscribe(isLogin => {
+      expect(isLogin).toEqual(false);
+    });
   });
 
   it('isLogin returns false if UserAgentApplication has a null value for Account', () => {
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(null);
+    spyOn(service, 'isValidToken').and.returnValue(of(false));
 
-    const isLogin = service.isLogin();
-
-    expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
-    expect(isLogin).toEqual(false);
+    service.isLogin().subscribe(isLogin => {
+      expect(isLogin).toEqual(false);
+    });
   });
 
   it('setTenantId should save a tenantId in local storage', () => {
     spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(account);
-    spyOn(cookieService, 'check').and.returnValue(true);
+    spyOn(service, 'isValidToken').and.returnValue(of(true));
     spyOn(localStorage, 'setItem').withArgs('tenant_id', '12345');
 
-    const isLogin = service.isLogin();
+    service.isLogin().subscribe(isLogin => {
+      expect(isLogin).toEqual(true);
+    });
+
     service.setTenantId();
 
     expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
-    expect(cookieService.check).toHaveBeenCalled();
-    expect(isLogin).toEqual(true);
     expect(localStorage.setItem).toHaveBeenCalledWith('tenant_id', '12345');
   });
 
   it('setTenantId should not save tenantId if login is false ', () => {
-    spyOn(UserAgentApplication.prototype, 'getAccount').and.returnValue(null);
+    spyOn(service, 'isValidToken').and.returnValue(of(false));
     spyOn(localStorage, 'setItem');
-    const isLogin = service.isLogin();
-    expect(UserAgentApplication.prototype.getAccount).toHaveBeenCalled();
-    expect(isLogin).toEqual(false);
+
+    service.isLogin().subscribe(isLogin => {
+      expect(isLogin).toEqual(false);
+    });
     expect(localStorage.setItem).not.toHaveBeenCalled();
   });
 

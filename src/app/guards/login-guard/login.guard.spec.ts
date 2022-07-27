@@ -7,6 +7,7 @@ import { LoginGuard } from './login.guard';
 import { LoginService } from '../../modules/login/services/login.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SocialAuthService } from 'angularx-social-login';
+import { of } from 'rxjs';
 
 
 describe('LoginGuard', () => {
@@ -15,13 +16,13 @@ describe('LoginGuard', () => {
   let azureAdB2CService: AzureAdB2CService;
   const azureAdB2CServiceStub = {
     isLogin() {
-      return true;
+      return of(true);
     }
   };
   let loginService: LoginService;
   const loginServiceStub = {
     isLogin() {
-      return true;
+      return of(true);
     }
   };
   const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['']);
@@ -45,37 +46,41 @@ describe('LoginGuard', () => {
 
   it('can activate the route when user is logged-in on Production', () => {
     loginGuard.isProduction = true;
-    spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
-    const canActivate = loginGuard.canActivate();
+    spyOn(azureAdB2CService, 'isLogin').and.returnValue(of(true));
+    loginGuard.canActivate().subscribe(isLogin => {
+      expect(isLogin).toEqual(true);
+    });
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();
-    expect(canActivate).toEqual(true);
   });
 
   it('can activate the route when user is logged-in Locally', () => {
     loginGuard.isProduction = false;
-    spyOn(loginService, 'isLogin').and.returnValue(true);
-    const canActivate = loginGuard.canActivate();
+    spyOn(loginService, 'isLogin').and.returnValue(of(true));
+    loginGuard.canActivate().subscribe(isLogin => {
+      expect(isLogin).toEqual(true);
+    });
     expect(loginService.isLogin).toHaveBeenCalled();
-    expect(canActivate).toEqual(true);
   });
 
   it('can not active the route and is redirected to login if user is not logged-in on Production', inject([Router],  (router: Router) => {
     loginGuard.isProduction = true;
-    spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
+    spyOn(azureAdB2CService, 'isLogin').and.returnValue(of(false));
     spyOn(router, 'navigate').and.stub();
-    const canActivate = loginGuard.canActivate();
+    loginGuard.canActivate().subscribe(isLogin => {
+      expect(isLogin).toEqual(false);
+    });
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();
-    expect(canActivate).toEqual(false);
     expect(router.navigate).toHaveBeenCalledWith(['login']);
   }));
 
   it('can not active the route and is redirected to login if user is not logged-in Locally', inject([Router],  (router: Router) => {
     loginGuard.isProduction = false;
-    spyOn(loginService, 'isLogin').and.returnValue(false);
+    spyOn(loginService, 'isLogin').and.returnValue(of(false));
     spyOn(router, 'navigate').and.stub();
-    const canActivate = loginGuard.canActivate();
+    loginGuard.canActivate().subscribe(isLogin => {
+      expect(isLogin).toEqual(false);
+    });
     expect(loginService.isLogin).toHaveBeenCalled();
-    expect(canActivate).toEqual(false);
     expect(router.navigate).toHaveBeenCalledWith(['login']);
   }));
 

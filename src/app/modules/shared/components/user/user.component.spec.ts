@@ -15,7 +15,7 @@ describe('UserComponent', () => {
 
   const azureAdB2CServiceStub = {
     isLogin() {
-      return true;
+      return of(true);
     },
     signIn() {
       return of();
@@ -23,7 +23,7 @@ describe('UserComponent', () => {
   };
   const loginServiceStub = {
     isLogin() {
-      return true;
+      return of(true);
     },
     signIn() {
       return of();
@@ -57,7 +57,7 @@ describe('UserComponent', () => {
 
   it('onInit checks if isLogin and gets the name and set tenantIn in the storage', () => {
     component.isProduction = true;
-    spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
+    spyOn(azureAdB2CService, 'isLogin').and.returnValue(of(true));
     spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
     spyOn(azureAdB2CService, 'getUserEmail').and.returnValue('Email');
     spyOn(azureAdB2CService, 'setTenantId');
@@ -70,7 +70,7 @@ describe('UserComponent', () => {
 
   it('onInit does not get the name if isLogin false', () => {
     component.isProduction = true;
-    spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
+    spyOn(azureAdB2CService, 'isLogin').and.returnValue(of(false));
     spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
     spyOn(azureAdB2CService, 'getUserEmail').and.returnValue('Email');
     spyOn(azureAdB2CService, 'setTenantId');
@@ -82,7 +82,7 @@ describe('UserComponent', () => {
   });
   it('onInit checks if isLogin and gets the name and set tenantIn in the storage Locally', () => {
     component.isProduction = false;
-    spyOn(loginService, 'isLogin').and.returnValue(true);
+    spyOn(loginService, 'isLogin').and.returnValue(of(true));
     spyOn(loginService, 'getName').and.returnValue('Name');
     spyOn(loginService, 'getUserEmail').and.returnValue('Email');
     component.ngOnInit();
@@ -93,7 +93,7 @@ describe('UserComponent', () => {
 
   it('onInit does not get the name if isLogin false Locally', () => {
     component.isProduction = false;
-    spyOn(loginService, 'isLogin').and.returnValue(false);
+    spyOn(loginService, 'isLogin').and.returnValue(of(false));
     spyOn(loginService, 'getName').and.returnValue('Name');
     spyOn(loginService, 'getUserEmail').and.returnValue('Email');
     component.ngOnInit();

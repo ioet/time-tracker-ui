@@ -6,6 +6,8 @@ import { FeatureToggleCookiesService } from '../shared/feature-toggles/feature-t
 import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { environment } from 'src/environments/environment';
 import { LoginService } from './services/login.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -30,29 +32,40 @@ export class LoginComponent implements OnInit {
         this.loginService.setLocalStorage('idToken', user.idToken);
         this.loginService.getUser(user.idToken).subscribe((response) => {
           this.loginService.setCookies();
-          this.loginService.setLocalStorage('user2', JSON.stringify(response));
+          const tokenObject = JSON.stringify(response);
+          const tokenJson = JSON.parse(tokenObject);
+          this.loginService.setLocalStorage('user', tokenJson.token);
           this.router.navigate(['']);
         });
       }
     });
   }
 
-  login(): void {
-    if (this.azureAdB2CService.isLogin()) {
-      this.router.navigate(['']);
-    } else {
-      this.azureAdB2CService.signIn().subscribe(() => {
-        this.featureToggleCookiesService.setCookies();
-        this.azureAdB2CService.setCookies();
-        this.router.navigate(['']);
-      });
-    }
+  login() {
+    return this.azureAdB2CService.isLogin().pipe(
+      map(isLogin => {
+        if (isLogin) {
+          this.router.navigate(['']);
+        } else {
+          this.azureAdB2CService.signIn().subscribe(() => {
+            this.featureToggleCookiesService.setCookies();
+            this.azureAdB2CService.setCookies();
+            this.router.navigate(['']);
+          });
+        }
+      })
+    );
   }
+
   loginWithGoogle() {
-    if (this.loginService.isLogin()) {
-      this.router.navigate(['']);
-    } else {
-      this.loginService.signIn();
-    }
+    return this.loginService.isLogin().pipe(
+      map(isLogin => {
+        if (isLogin) {
+          this.router.navigate(['']);
+        } else {
+          this.loginService.signIn();
+        }
+      })
+    );
   }
 }
