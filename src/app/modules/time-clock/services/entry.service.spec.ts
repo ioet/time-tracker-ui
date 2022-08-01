@@ -10,6 +10,7 @@ import * as moment from 'moment';
 describe('EntryService', () => {
   let service: EntryService;
   let httpMock: HttpTestingController;
+  var reportsUrl = service.urlInProductionLegacy ? service.baseUrl : service.baseUrl + '/report';
 
   beforeEach(() => {
     TestBed.configureTestingModule({imports: [HttpClientTestingModule], providers: [DatePipe]});
@@ -84,7 +85,7 @@ describe('EntryService', () => {
   });
 
   it('stops an entry using POST', () => {
-    service.urlInProduction = true;
+    service.urlInProductionLegacy = true;
     service.stopEntryRunning('id').subscribe();
 
     const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id/stop`);
@@ -92,7 +93,7 @@ describe('EntryService', () => {
   });
 
   it('stops an entry using PUT', () => {
-    service.urlInProduction = false;
+    service.urlInProductionLegacy = false;
     service.stopEntryRunning('id').subscribe();
 
     const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/stop`);
@@ -105,7 +106,6 @@ describe('EntryService', () => {
     const pipe: DatePipe = new DatePipe('en');
     const timeRange: TimeEntriesTimeRange = {start_date: yesterday, end_date: today};
     const userId = '123';
-    const reportsUrl = service.urlInProduction ? service.baseUrl : service.baseUrl + '/report';
     service.loadEntriesByTimeRange(timeRange, userId).subscribe();
 
     const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === reportsUrl);
@@ -120,9 +120,7 @@ describe('EntryService', () => {
     const today = moment(new Date());
     const timeRange: TimeEntriesTimeRange = { start_date: yesterday, end_date: today };
     const userId = '123';
-    const reportsUrl = service.urlInProduction ? service.baseUrl : service.baseUrl + '/report';
     service.loadEntriesByTimeRange(timeRange, userId).subscribe();
-
     const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === reportsUrl);
     expect(loadEntryRequest.request.params.get('limit')).toEqual('9999');
   });
@@ -132,12 +130,8 @@ describe('EntryService', () => {
     const today = moment(new Date());
     const timeRange: TimeEntriesTimeRange = { start_date: yesterday, end_date: today };
     const userId = '123';
-    const reportsUrl = service.urlInProduction ? service.baseUrl : service.baseUrl + '/report';
-
     service.loadEntriesByTimeRange(timeRange, userId).subscribe();
-
     const loadEntryRequest = httpMock.expectOne(req => req.method === 'GET' && req.url === reportsUrl);
-
     const timezoneOffset = new Date().getTimezoneOffset().toString();
     expect(loadEntryRequest.request.params.get('timezone_offset')).toEqual(timezoneOffset);
   });

@@ -11,7 +11,7 @@ import { Project } from '../../../../../shared/models';
 export class ProjectService {
   projects: Project[] = [];
   url = `${environment.timeTrackerApiUrl}/projects`;
-  isDevelopment = environment.production === EnvironmentType.TT_DEV;
+  isDevelopmentOrProd = environment.production === EnvironmentType.TT_DEV || environment.production === EnvironmentType.TT_PROD;
 
   constructor(private http: HttpClient) {}
 
@@ -34,7 +34,7 @@ export class ProjectService {
 
   updateProject(projectData): Observable<any> {
     const { id } = projectData;
-    if (this.isDevelopment) {
+    if (this.isDevelopmentOrProd) {
       if (projectData.status === 'active') {
         projectData.status = 1;
       }
@@ -43,7 +43,7 @@ export class ProjectService {
   }
 
   deleteProject(projectId: string): Observable<any> {
-    return this.isDevelopment
+    return this.isDevelopmentOrProd
       ? this.http.put(`${this.url}/${projectId}`, { status: 0 })
       : this.http.delete(`${this.url}/${projectId}`);
   }
