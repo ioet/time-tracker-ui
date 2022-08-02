@@ -19,6 +19,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   navStart;
   sidebarItems$: Subscription;
   isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
+  urlLogo = this.isProduction ? 'assets/img/time-tracker-logo.png' : 'assets/img/time-tracker-logo-v2.png';
 
   constructor(
     private router: Router,
