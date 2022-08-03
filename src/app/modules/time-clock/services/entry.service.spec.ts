@@ -10,13 +10,14 @@ import * as moment from 'moment';
 describe('EntryService', () => {
   let service: EntryService;
   let httpMock: HttpTestingController;
-  var reportsUrl = service.urlInProductionLegacy ? service.baseUrl : service.baseUrl + '/report';
+  let reportsUrl: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({imports: [HttpClientTestingModule], providers: [DatePipe]});
     service = TestBed.inject(EntryService);
     httpMock = TestBed.inject(HttpTestingController);
     service.baseUrl = 'time-entries';
+    reportsUrl = service.urlInProductionLegacy ? service.baseUrl : service.baseUrl + '/report';
   });
 
   it('services are ready to be used', inject(
