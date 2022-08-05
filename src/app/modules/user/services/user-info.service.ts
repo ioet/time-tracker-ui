@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable, of } from 'rxjs';
-import { GROUPS } from '../../../../environments/environment';
+import { EnvironmentType } from 'src/environments/enum';
+import { environment, GROUPS } from '../../../../environments/environment';
 
 import { LoginService } from '../../login/services/login.service';
 
@@ -11,6 +12,7 @@ import { LoginService } from '../../login/services/login.service';
 })
 export class UserInfoService {
   helper: JwtHelperService;
+  isLegacyProduction: boolean = environment.production === EnvironmentType.TT_PROD_LEGACY;
 
   constructor(private loginService: LoginService) {
     this.helper = new JwtHelperService();
@@ -18,10 +20,16 @@ export class UserInfoService {
 
   isMemberOf(groupName: string): Observable<boolean> {
     const token = this.loginService.getLocalStorage('user');
-    const user = this.helper.decodeToken(token);
-    const {groups = []} = user;
-    if (groups.includes(groupName)) {
-      return this.loginService.isValidToken(token);
+    if (this.isLegacyProduction) {
+      const user = JSON.parse(token);
+      const {groups = []} = user;
+      return of(groups.includes(groupName));
+    } else {
+      const user = this.helper.decodeToken(token);
+      const {groups = []} = user;
+      if (groups.includes(groupName)) {
+        return this.loginService.isValidToken(token);
+      }
     }
     return of(false);
   }

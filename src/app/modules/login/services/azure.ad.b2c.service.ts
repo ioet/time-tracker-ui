@@ -3,22 +3,12 @@ import { UserAgentApplication } from 'msal';
 import { from, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { AUTHORITY, CLIENT_ID, SCOPES } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment.prod';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AzureAdB2CService {
-  baseUrl: string;
-
-  constructor(
-    private cookieService?: CookieService,
-    private http?: HttpClient
-  ) {
-    this.baseUrl = `${environment.timeTrackerApiUrl}/users`;
-  }
+  constructor(private cookieService?: CookieService) { }
 
   msalConfig: any = {
     auth: {
@@ -44,7 +34,7 @@ export class AzureAdB2CService {
   logout() {
     this.cookieService.deleteAll();
     this.msal.logout();
-    localStorage.clear();
+    localStorage.removeItem('user');
   }
 
   getName(): string {
@@ -57,8 +47,7 @@ export class AzureAdB2CService {
   }
 
   isLogin() {
-    const token = localStorage.getItem('user');
-    return this.isValidToken(token);
+    return this.msal.getAccount() && this.cookieService.check('msal.idtoken') ? true : false;
   }
 
   setCookies() {
@@ -96,20 +85,5 @@ export class AzureAdB2CService {
 
   getUserId(): string {
     return this.msal.getAccount().accountIdentifier;
-  }
-
-  isValidToken(token: string) {
-    const body = { token };
-    return this.http.post(`${this.baseUrl}/validate-token`, body).pipe(
-      map((response) => {
-        const responseString = JSON.stringify(response);
-        const responseJson = JSON.parse(responseString);
-        if (responseJson.new_token) {
-          localStorage.setItem('user', responseJson.new_token);
-        }
-        const isValid = responseString !== '{}' && this.msal.getAccount() && this.cookieService.check('msal.idtoken');
-        return isValid ? true : false;
-      })
-    );
   }
 }

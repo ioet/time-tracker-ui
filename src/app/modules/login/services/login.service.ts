@@ -2,10 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
-import { UserEnum } from 'src/environments/enum';
+import { EnvironmentType, UserEnum } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ import { map } from 'rxjs/operators';
 export class LoginService {
   baseUrl: string;
   helper: JwtHelperService;
+  isLegacyProd: boolean = environment.production === EnvironmentType.TT_PROD_LEGACY;
+  localStorageKey = this.isLegacyProd ? 'user2' : 'user';
 
   constructor(
     private http?: HttpClient,
@@ -34,31 +37,56 @@ export class LoginService {
   }
 
   isLogin() {
-    const token = this.getLocalStorage('user');
-    return this.isValidToken(token);
+    const token = this.getLocalStorage(this.localStorageKey);
+    if (this.isLegacyProd) {
+      const user = JSON.parse(token);
+      return user && this.cookieService.check('idtoken') ? of(true) : of(false);
+    } else {
+      return this.isValidToken(token);
+    }
   }
 
   getUserId(): string {
-    const token = this.getLocalStorage('user');
-    const user = this.helper.decodeToken(token);
+    const token = this.getLocalStorage(this.localStorageKey);
+    let user;
+    if (this.isLegacyProd) {
+      user = JSON.parse(token);
+    } else {
+      user = this.helper.decodeToken(token);
+    }
     return user[UserEnum.ID];
   }
 
   getName(): string {
-    const token = this.getLocalStorage('user');
-    const user = this.helper.decodeToken(token);
+    const token = this.getLocalStorage(this.localStorageKey);
+    let user;
+    if (this.isLegacyProd) {
+      user = JSON.parse(token);
+    } else {
+      user = this.helper.decodeToken(token);
+    }
     return user[UserEnum.NAME];
   }
 
   getUserEmail(): string {
-    const token = this.getLocalStorage('user');
-    const user = this.helper.decodeToken(token);
+    const token = this.getLocalStorage(this.localStorageKey);
+    let user;
+    if (this.isLegacyProd) {
+      user = JSON.parse(token);
+    } else {
+      user = this.helper.decodeToken(token);
+    }
     return user[UserEnum.EMAIL];
   }
 
   getUserGroup(): string {
-    const token = this.getLocalStorage('user');
-    const user = this.helper.decodeToken(token);
+    const token = this.getLocalStorage(this.localStorageKey);
+    let user;
+    if (this.isLegacyProd) {
+      user = JSON.parse(token);
+    } else {
+      user = this.helper.decodeToken(token);
+    }
     return user[UserEnum.GROUPS];
   }
 

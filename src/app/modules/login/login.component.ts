@@ -41,18 +41,16 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  login() {
-    this.azureAdB2CService.isLogin().subscribe(isLogin => {
-      if (isLogin) {
+  login(): void {
+    if (this.azureAdB2CService.isLogin()) {
+      this.router.navigate(['']);
+    } else {
+      this.azureAdB2CService.signIn().subscribe(() => {
+        this.featureToggleCookiesService.setCookies();
+        this.azureAdB2CService.setCookies();
         this.router.navigate(['']);
-      } else {
-        this.azureAdB2CService.signIn().subscribe(() => {
-          this.featureToggleCookiesService.setCookies();
-          this.azureAdB2CService.setCookies();
-          this.router.navigate(['']);
-        });
-      }
-    });
+      });
+    }
   }
 
   loginWithGoogle() {
