@@ -115,7 +115,7 @@ describe('TimeClockComponent', () => {
 
   it('onInit checks if isLogin and gets the userName', () => {
     component.isProduction = true;
-    spyOn(azureAdB2CService, 'isLogin').and.returnValue(of(true));
+    spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
     spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
     component.ngOnInit();
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();
@@ -124,7 +124,7 @@ describe('TimeClockComponent', () => {
 
   it('onInit does not get the name if isLogin false', () => {
     component.isProduction = true;
-    spyOn(azureAdB2CService, 'isLogin').and.returnValue(of(false));
+    spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(azureAdB2CService, 'getName').and.returnValue('Name');
     component.ngOnInit();
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();

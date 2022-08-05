@@ -86,7 +86,7 @@ describe('LoginComponent', () => {
   });
 
   it('should sign up or login with google if is not logged-in into the app on Production', inject([Router],  (router: Router) => {
-    spyOn(azureAdB2CService, 'isLogin').and.returnValue(of(false));
+    spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(azureAdB2CService, 'setCookies').and.returnValue();
     spyOn(azureAdB2CService, 'signIn').and.returnValue(of(() => {}));
     spyOn(featureToggleCookiesService, 'setCookies').and.returnValue(featureToggleCookiesService.setCookies());
@@ -115,7 +115,7 @@ describe('LoginComponent', () => {
   }));
 
   it('should not sign-up or login with google if is already logged-in into the app on Production', inject([Router],  (router: Router) => {
-    spyOn(azureAdB2CService, 'isLogin').and.returnValue(of(true));
+    spyOn(azureAdB2CService, 'isLogin').and.returnValue(true);
     spyOn(router, 'navigate').and.stub();
     component.login();
     expect(azureAdB2CService.isLogin).toHaveBeenCalled();
