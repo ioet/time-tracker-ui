@@ -9,7 +9,7 @@ import { EnvironmentType } from './../../../../environments/enum';
   providedIn: 'root',
 })
 export class UsersService {
-  isProduction = environment.production === EnvironmentType.TT_PROD || environment.production === EnvironmentType.TT_PROD_LEGACY;
+  isProductionLegacy = environment.production === EnvironmentType.TT_PROD_LEGACY;
   constructor(private http: HttpClient) {}
 
   baseUrl = `${environment.timeTrackerApiUrl}/users`;
@@ -19,13 +19,13 @@ export class UsersService {
   }
 
   grantRole(userId: string, roleId: string): Observable<any> {
-    const url = this.isProduction ? `${this.baseUrl}/${userId}/roles/${roleId}/grant`
+    const url = this.isProductionLegacy ? `${this.baseUrl}/${userId}/roles/${roleId}/grant`
     : `${this.baseUrl}/${userId}/${roleId}/grant`;
     return this.http.post(url, null);
   }
 
   revokeRole(userId: string, roleId: string): Observable<any> {
-    const url = this.isProduction ? `${this.baseUrl}/${userId}/roles/${roleId}/revoke`
+    const url = this.isProductionLegacy ? `${this.baseUrl}/${userId}/roles/${roleId}/revoke`
     : `${this.baseUrl}/${userId}/${roleId}/revoke`;
     return this.http.post(url, null);
   }

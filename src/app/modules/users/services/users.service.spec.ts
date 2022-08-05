@@ -35,7 +35,7 @@ describe('UsersService', () => {
   it('grant role to a User', () => {
     const userId = 'userId';
     const roleId = 'admin';
-    service.isProduction = true;
+    service.isProductionLegacy = true;
 
     service.grantRole(userId, roleId).subscribe();
 
@@ -46,7 +46,7 @@ describe('UsersService', () => {
   it('grant role to a User locally', () => {
     const userId = 'userId';
     const roleId = 'admin';
-    service.isProduction = false;
+    service.isProductionLegacy = false;
 
     service.grantRole(userId, roleId).subscribe();
 
@@ -57,7 +57,7 @@ describe('UsersService', () => {
   it('revoke role to a User', () => {
     const userId = 'userId';
     const roleId = 'admin';
-    service.isProduction = true;
+    service.isProductionLegacy = true;
 
     service.revokeRole(userId, roleId).subscribe();
 
@@ -68,7 +68,7 @@ describe('UsersService', () => {
   it('revoke role to a User locally', () => {
     const userId = 'userId';
     const roleId = 'admin';
-    service.isProduction = false;
+    service.isProductionLegacy = false;
 
     service.revokeRole(userId, roleId).subscribe();
 

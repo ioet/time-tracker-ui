@@ -113,7 +113,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   editEntry(entryId: string) {
     this.entryId = entryId;
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
-      this.entry = ds.data.find((entry) => entry.id === entryId);
+      this.entry = {... ds.data.find((entry) => entry.id === entryId)};
       this.canMarkEntryAsWIP = this.isEntryRunningEqualsToEntryToEdit(this.getEntryRunning(ds.data), this.entry)
         || this.isTheEntryToEditTheLastOne(ds.data);
     });
