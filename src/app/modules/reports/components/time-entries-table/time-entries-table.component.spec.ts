@@ -155,13 +155,13 @@ describe('Reports Page', () => {
       });
     });
 
-    it('The data should be displayed as a multiple of hour when column is equal to 3', () => {
-      const column = 3;
+    it('The data should be displayed as a multiple of hour when column is equal to 4', () => {
+      const column = 4;
       expect(component.bodyExportOptions(durationTime, row, column, node)).toMatch(decimalValidator);
     });
 
-    it('The data should not be displayed as a multiple of hour when column is different of 3', () => {
-      const column = 4;
+    it('The data should not be displayed as a multiple of hour when column is different of 4', () => {
+      const column = 5;
       expect(component.bodyExportOptions(durationTime, row, column, node)).toBe(durationTime.toString());
     });
 
@@ -215,6 +215,54 @@ describe('Reports Page', () => {
       checked = false;
       ({hours, minutes,seconds} = component.sumHoursEntriesSelected(timeEntryList[0], checked));
       expect({hours, minutes, seconds}).toEqual({hours:0, minutes:0, seconds:0});
+    });
+
+    it('should export data with the correct format', () => {
+      const data = [
+        '<mat-checkbox _ngcontent-tst-c180="" class="mat-checkbox mat-accent" id="mat-checkbox-27"><label class="mat-checkbox-layout" for="mat-checkbox-27-input"><span class="mat-checkbox-inner-container mat-checkbox-inner-container-no-side-margin"><input type="checkbox" class="mat-checkbox-input cdk-visually-hidden" id="mat-checkbox-27-input" tabindex="0" aria-checked="false"><span matripple="" class="mat-ripple mat-checkbox-ripple mat-focus-indicator" ng-reflect-trigger="[object HTMLLabelElement]" ng-reflect-disabled="false" ng-reflect-radius="20" ng-reflect-centered="true" ng-reflect-animation="[object Object]"><span class="mat-ripple-element mat-checkbox-persistent-ripple"></span></span><span class="mat-checkbox-frame"></span><span class="mat-checkbox-background"><svg version="1.1" focusable="false" viewBox="0 0 24 24" xml:space="preserve" class="mat-checkbox-checkmark"><path fill="none" stroke="white" d="M4.1,12.7 9,17.6 20.3,6.3" class="mat-checkbox-checkmark-path"></path></svg><span class="mat-checkbox-mixedmark"></span></span></span><span class="mat-checkbox-label"><span style="display: none;">&nbsp;</span></span></label></mat-checkbox>',
+        '19',
+        'user@ioet.com',
+        '07/01/2022',
+        '09:00',
+        '09:00',
+        '18:00',
+        'Project_Name',
+        '3',
+        'Customer_Name',
+        '3',
+        'Activity_Name',
+        `<a _ngcontent-tst-c180="" class="is-url ng-star-inserted"> https://ioetec.atlassian.net/browse/CB-115 </a><!--ng-container--><!--bindings={
+          "ng-reflect-ng-if": "true"
+        }-->`,
+        '',
+        `<div _ngcontent-tst-c180="" class="badge bg-secondary text-wrap ng-star-inserted"> git </div><!--bindings={
+          "ng-reflect-ng-for-of": "git"
+        }--><!--ng-container--><!--bindings={
+          "ng-reflect-ng-if": "true"
+        }-->`
+      ];
+      const dataFormat = [
+        '<span matripple="" class="mat-ripple mat-checkbox-ripple mat-focus-indicator" ng-reflect-trigger="[object HTMLLabelElement]" ng-reflect-disabled="false" ng-reflect-radius="20" ng-reflect-centered="true" ng-reflect-animation="[object Object]">&nbsp;',
+        '19',
+        'user@ioet.com',
+        '07/01/2022',
+        '9.00',
+        '09:00',
+        '18:00',
+        'Project_Name',
+        '3',
+        'Customer_Name',
+        '3',
+        'Activity_Name',
+        ' https://ioetec.atlassian.net/browse/CB-115 ',
+        '',
+        ' git '
+      ];
+
+      data.forEach((value: any, index) => {
+        const formatValue = component.bodyExportOptions(value, row, index, node);
+        expect(formatValue).toEqual(dataFormat[index]);
+      });
     });
 
     afterEach(() => {

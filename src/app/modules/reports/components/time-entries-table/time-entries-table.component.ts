@@ -137,7 +137,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
 
   bodyExportOptions(data, row, column, node) {
     const dataFormated = data.toString().replace(/<((.|\n){0,200}?)>/gi, '');
-    const durationColumnIndex = 3;
+    const durationColumnIndex = 4;
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
 
