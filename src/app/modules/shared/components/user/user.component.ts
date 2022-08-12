@@ -23,12 +23,14 @@ export class UserComponent implements OnInit {
         this.userEmail = this.azureAdB2CService.getUserEmail();
         this.azureAdB2CService.setTenantId();
       }
-    }else{
-      if (this.loginService.isLogin()) {
-        this.userName = this.loginService.getName();
-        this.userEmail = this.loginService.getUserEmail();
-        this.azureAdB2CService.setTenantId();
-      }
+    } else {
+      this.loginService.isLogin().subscribe(isLogin => {
+        if (isLogin) {
+          this.userName = this.loginService.getName();
+          this.userEmail = this.loginService.getUserEmail();
+          this.azureAdB2CService.setTenantId();
+        }
+      });
     }
   }
 }
