@@ -141,7 +141,6 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
   }
 
-
   sumDates(arrayData: Entry[]): TotalHours {
     this.resultSum = new TotalHours();
     const arrayDurations = new Array();

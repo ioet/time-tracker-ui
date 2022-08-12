@@ -1,37 +1,22 @@
 import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, of } from 'rxjs';
-import { EnvironmentType } from 'src/environments/enum';
-import { environment, GROUPS } from '../../../../environments/environment';
-
-import { LoginService } from '../../login/services/login.service';
-
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { getUserGroups } from '../store/user.selectors';
+import { GROUPS } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserInfoService {
-  helper: JwtHelperService;
-  isLegacyProduction: boolean = environment.production === EnvironmentType.TT_PROD_LEGACY;
+  constructor(private store: Store) {}
 
-  constructor(private loginService: LoginService) {
-    this.helper = new JwtHelperService();
+  groups(): Observable<string[]> {
+    return this.store.pipe(select(getUserGroups));
   }
 
   isMemberOf(groupName: string): Observable<boolean> {
-    const token = this.loginService.getLocalStorage('user');
-    if (this.isLegacyProduction) {
-      const user = JSON.parse(token);
-      const {groups = []} = user;
-      return of(groups.includes(groupName));
-    } else {
-      const user = this.helper.decodeToken(token);
-      const {groups = []} = user;
-      if (groups.includes(groupName)) {
-        return this.loginService.isValidToken(token);
-      }
-    }
-    return of(false);
+    return this.groups().pipe(map((groups: string[]) => groups.includes(groupName)));
   }
 
   isAdmin(): Observable<boolean> {
@@ -41,6 +26,4 @@ export class UserInfoService {
   isTester(): Observable<boolean> {
     return this.isMemberOf(GROUPS.TESTER);
   }
-
-
 }
