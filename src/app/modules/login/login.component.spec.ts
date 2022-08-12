@@ -18,7 +18,7 @@ describe('LoginComponent', () => {
 
   const azureAdB2CServiceStub = {
     isLogin() {
-      return of(true);
+      return true;
     },
     signIn() {
       return of();
@@ -29,7 +29,7 @@ describe('LoginComponent', () => {
 
   const loginServiceStub = {
     isLogin() {
-      return of(true);
+      return true;
     },
     signIn() {
       return of();
@@ -99,7 +99,7 @@ describe('LoginComponent', () => {
   }));
 
   it('should sign up or login with google if is not logged-in into the app Locally', inject([Router],  (router: Router) => {
-    spyOn(loginService, 'isLogin').and.returnValue(of(false));
+    spyOn(loginService, 'isLogin').and.returnValue(false);
     spyOn(loginService, 'setLocalStorage').and.returnValue();
     spyOn(loginService, 'getUser').and.returnValue(of(() => {}));
     spyOn(loginService, 'setCookies').and.returnValue();
@@ -123,7 +123,7 @@ describe('LoginComponent', () => {
   }));
 
   it('should not sign-up or login with google if is already logged-in into the app Locally', inject([Router],  (router: Router) => {
-    spyOn(loginService, 'isLogin').and.returnValue(of(true));
+    spyOn(loginService, 'isLogin').and.returnValue(true);
     spyOn(router, 'navigate').and.stub();
     component.loginWithGoogle();
     expect(loginService.isLogin).toHaveBeenCalled();

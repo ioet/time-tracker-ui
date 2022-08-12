@@ -41,9 +41,7 @@ export class TimeClockComponent implements OnInit, OnDestroy {
     if (this.isProduction) {
       this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
     }else{
-      this.loginService.isLogin().subscribe(isLogin => {
-        this.username = isLogin ? this.loginService.getName() : '';
-      })
+      this.username = this.loginService.isLogin() ? this.loginService.getName() : '';
     }
     this.storeSubscription = this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
       this.activeTimeEntry = activeTimeEntry;

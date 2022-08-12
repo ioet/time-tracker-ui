@@ -207,7 +207,6 @@ describe('Reports Page', () => {
     it('The sum of the data dates is equal to {"hours": 3, "minutes":20,"seconds":0}', () => {
       const { hours, minutes, seconds }: TotalHours = component.sumDates(timeEntryList);
       expect({ hours, minutes, seconds }).toEqual({ hours: 3, minutes: 20, seconds: 0 });
-
     });
 
     it('the sume of hours of entries selected is equal to {hours:0, minutes:0, seconds:0}', () => {

@@ -15,7 +15,7 @@ describe('UserComponent', () => {
 
   const azureAdB2CServiceStub = {
     isLogin() {
-      return of(true);
+      return true;
     },
     signIn() {
       return of();
@@ -23,7 +23,7 @@ describe('UserComponent', () => {
   };
   const loginServiceStub = {
     isLogin() {
-      return of(true);
+      return true;
     },
     signIn() {
       return of();
@@ -82,7 +82,7 @@ describe('UserComponent', () => {
   });
   it('onInit checks if isLogin and gets the name and set tenantIn in the storage Locally', () => {
     component.isProduction = false;
-    spyOn(loginService, 'isLogin').and.returnValue(of(true));
+    spyOn(loginService, 'isLogin').and.returnValue(true);
     spyOn(loginService, 'getName').and.returnValue('Name');
     spyOn(loginService, 'getUserEmail').and.returnValue('Email');
     component.ngOnInit();
@@ -93,7 +93,7 @@ describe('UserComponent', () => {
 
   it('onInit does not get the name if isLogin false Locally', () => {
     component.isProduction = false;
-    spyOn(loginService, 'isLogin').and.returnValue(of(false));
+    spyOn(loginService, 'isLogin').and.returnValue(false);
     spyOn(loginService, 'getName').and.returnValue('Name');
     spyOn(loginService, 'getUserEmail').and.returnValue('Email');
     component.ngOnInit();
