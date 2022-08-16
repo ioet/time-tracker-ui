@@ -101,7 +101,7 @@ describe('LoginComponent', () => {
   it('should sign up or login with google if is not logged-in into the app Locally', inject([Router],  (router: Router) => {
     spyOn(loginService, 'isLogin').and.returnValue(of(false));
     spyOn(loginService, 'setLocalStorage').and.returnValue();
-    spyOn(loginService, 'getUser').and.returnValue(of(() => {}));
+    spyOn(loginService, 'getUser').and.returnValue(of({token: ''}));
     spyOn(loginService, 'setCookies').and.returnValue();
     spyOn(loginService, 'signIn').and.returnValue();
     spyOn(featureToggleCookiesService, 'setCookies').and.returnValue(featureToggleCookiesService.setCookies());
