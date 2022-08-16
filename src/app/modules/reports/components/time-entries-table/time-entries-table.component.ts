@@ -26,6 +26,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   selectOptionNames = [15, 30, 50, 100, 'All'];
   totalTimeSelected: moment.Duration;
   users: User[] = [];
+  removeFirstColumn = 'th:not(:first)';
 
   dtOptions: any = {
     scrollY: '590px',
@@ -39,14 +40,18 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         columns: ':not(.hidden-col)'
       },
       {
-        extend: 'print'
+        extend: 'print',
+        exportOptions: {
+          columns: this.removeFirstColumn,
+        },
       },
       {
         extend: 'excel',
         exportOptions: {
           format: {
             body: this.bodyExportOptions
-          }
+          },
+          columns: this.removeFirstColumn,
         },
         text: 'Excel',
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
@@ -56,7 +61,8 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         exportOptions: {
           format: {
             body: this.bodyExportOptions
-          }
+          },
+          columns: this.removeFirstColumn,
         },
         text: 'CSV',
         filename: `time-entries-${formatDate(new Date(), 'MM_dd_yyyy-HH_mm', 'en')}`
