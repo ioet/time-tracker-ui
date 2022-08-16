@@ -1,10 +1,11 @@
-import { Component, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+import { Component, HostBinding, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatDateRangePicker } from '@angular/material/datepicker';
 import { ToastrService } from 'ngx-toastr';
 
 
 const customPresets = [
+  'custom',
   'today',
   'last 7 days',
   'this week',
@@ -22,9 +23,10 @@ type CustomPreset = typeof customPresets[number];
   styleUrls: ['./time-range-options.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimeRangeOptionsComponent<Date> {
+export class TimeRangeOptionsComponent<Date> implements OnInit{
 
   customPresets = customPresets;
+  rangeDateSelected = '';
   @HostBinding('class.touch-ui')
   readonly isTouchUi = this.picker.touchUi;
   constructor(
@@ -35,8 +37,22 @@ export class TimeRangeOptionsComponent<Date> {
     this.dateAdapter.getFirstDayOfWeek = () => 1;
   }
 
+  ngOnInit() {
+    this.rangeDateSelected = this.getLocalStorageRange();
+  }
+
+  getLocalStorageRange(): string {
+    return localStorage.getItem('rangeDatePicker');
+  }
+
+  setLocalStorageRange(range: string): void {
+    localStorage.setItem('rangeDatePicker', range);
+  }
+
   selectRange(rangeName: CustomPreset): void {
     const [start, end] = this.calculateDateRange(rangeName);
+    this.setLocalStorageRange(rangeName);
+
     this.picker.select(start);
     this.picker.select(end);
     this.picker.close();
@@ -47,6 +63,9 @@ export class TimeRangeOptionsComponent<Date> {
     const year = this.dateAdapter.getYear(today);
 
     switch (rangeName) {
+      case 'custom':
+        const mondayWeek = this.getMondayCurrent();
+        return [mondayWeek, today];
       case 'today':
         return [today, today];
       case 'last 7 days': {
@@ -108,9 +127,14 @@ export class TimeRangeOptionsComponent<Date> {
     return today;
   }
 
-  resetTimeRange() {
-    this.picker.select(undefined);
-    this.picker.select(undefined);
+  getMondayCurrent(): Date {
+    const yearCurrent = this.dateAdapter.getYear(this.dateAdapter.today());
+    const monthCurrent = this.dateAdapter.getMonth(this.dateAdapter.today());
+    const today = new Date();
+    const first = today.getDate() - today.getDay() + 1;
+    const monday = new Date(today.setDate(first));
+    const mondayDayCurrent = monday.getDate();
+    return this.dateAdapter.createDate(yearCurrent, monthCurrent, mondayDayCurrent);
   }
 
 }

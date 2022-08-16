@@ -40,11 +40,6 @@ describe('TimeRangeOptionsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call resetTimeRange method and clean time range input ', () => {
-    component.resetTimeRange();
-    expect(component.picker.startAt).toEqual(undefined);
-  });
-
   it('should click selectRange button and call calculateDateRange method', () => {
     spyOn(component, 'calculateDateRange').and.returnValues(['', '']);
     component.selectRange('today');
@@ -65,16 +60,18 @@ describe('TimeRangeOptionsComponent', () => {
     expect(new Date(end).toDateString()).toEqual(new Date().toDateString());
   });
 
-  it('should call calculateMonth and calculateWeek method when is called calculateDateRange method', () => {
+  it('should call getMondayCurrent, calculateMonth and calculateWeek method when is called calculateDateRange method', () => {
 
     const dataAll = [
-      {method: 'calculateWeek', options: ['this week', 'last week']},
-      {method: 'calculateMonth', options: ['this month', 'last month']}];
+      {method: 'getMondayCurrent', ranges: ['custom']},
+      {method: 'calculateWeek', ranges: ['this week', 'last week']},
+      {method: 'calculateMonth', ranges: ['this month', 'last month']}
+    ];
 
     dataAll.forEach((val: any) => {
       spyOn(component, val.method);
-      val.options.forEach((option: any) => {
-        component.calculateDateRange(option);
+      val.ranges.forEach((range: any) => {
+        component.calculateDateRange(range);
         expect(component[val.method]).toHaveBeenCalled();
       });
     });
@@ -128,6 +125,14 @@ describe('TimeRangeOptionsComponent', () => {
     spyOn(component.dateAdapter, 'today').and.returnValue(null);
     component.getToday();
     expect(toastrServiceStub.error).toHaveBeenCalled();
+  });
+
+  it('should call to method  an error when the date created is null from date adapter', () => {
+    spyOn(component.dateAdapter, 'getYear').and.returnValues(2022);
+    spyOn(component.dateAdapter, 'getMonth').and.returnValues(7);
+    component.getMondayCurrent();
+    expect(component.dateAdapter.getYear).toHaveBeenCalled();
+    expect(component.dateAdapter.getMonth).toHaveBeenCalled();
   });
 
 });
