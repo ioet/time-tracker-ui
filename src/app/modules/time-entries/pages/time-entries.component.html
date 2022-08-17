@@ -33,7 +33,7 @@
                     <th class="col">Customer</th>
                     <th class="col">Project</th>
                     <th class="col">Activity</th>
-                    <th class="col"></th>
+                    <th class="col">Actions</th>
                 </tr>
             </thead>
             <app-loading-bar *ngIf="dataSource.isLoading"></app-loading-bar>
@@ -45,13 +45,13 @@
                     <td class="col">{{ entry.customer_name }}</td>
                     <td class="col">{{ entry.project_name }}</td>
                     <td class="col">{{ entry.activity_name }}</td>
-                    <td class="col">
+                    <td class="col actions-buttons">
                         <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editRecordsByDate" (click)="editEntry(entry.id)">
-              <i class="fa fa-edit fa-xs"></i>
-            </button>
+                            <i class="fa fa-edit fa-xs"></i>
+                        </button>
                         <button class="btn btn-sm btn-danger ml-2" data-toggle="modal" data-target="#deleteModal" (click)="openModal(entry)">
-              <i class="fa fa-trash fa-xs"></i>
-            </button>
+                            <i class="fa fa-trash fa-xs"></i>
+                        </button>
                     </td>
                 </tr>
             </tbody>
