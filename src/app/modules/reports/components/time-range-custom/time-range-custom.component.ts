@@ -49,6 +49,7 @@ export class TimeRangeCustomComponent implements OnInit, OnChanges {
       start: formatDate(moment().startOf('isoWeek').format('l'), DATE_FORMAT, 'en'),
       end: formatDate(moment().format('l'), DATE_FORMAT, 'en')
     });
+    localStorage.setItem('rangeDatePicker', 'custom');
     this.onSubmit();
   }
 
@@ -65,4 +66,11 @@ export class TimeRangeCustomComponent implements OnInit, OnChanges {
     }
   }
 
+  dateRangeChange() {
+    setTimeout(() => {
+      if (this.range.get('start').value === null || this.range.get('end').value === null) {
+        localStorage.removeItem('rangeDatePicker');
+      }
+    }, 200);
+  }
 }

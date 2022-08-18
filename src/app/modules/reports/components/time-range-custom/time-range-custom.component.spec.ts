@@ -136,4 +136,15 @@ describe('TimeRangeCustomComponent', () => {
 
     expect(component.onSubmit).not.toHaveBeenCalled();
   });
+
+  it('should call range form and delete variable local storage ', () => {
+    spyOn(localStorage, 'removeItem').withArgs('rangeDatePicker');
+    component.range.setValue({start: null, end: null});
+    jasmine.clock().install();
+    component.dateRangeChange();
+    jasmine.clock().tick(200);
+    expect(localStorage.removeItem).toHaveBeenCalledWith('rangeDatePicker');
+    jasmine.clock().uninstall();
+  });
+
 });
