@@ -33,10 +33,10 @@ data "terraform_remote_state" "service" {
 }
 
 locals {
-  common_name             = "time-tracker-ui"
+  common_name             = "time-tracker-service"
   environment             = terraform.workspace
   service_name            = "${local.common_name}-${local.environment}"
-  create_app_service_plan = true
+  create_app_service_plan = false
   service_plan_kind       = "Linux"
   image_name              = "timetracker_ui"
 }
