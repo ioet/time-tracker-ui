@@ -44,7 +44,7 @@ locals {
 module "ui" {
   #source = "../../infra-terraform-modules/azure-app-service"
   source                   = "git@github.com:ioet/infra-terraform-modules.git//azure-app-service?ref=tags/v0.0.13"
-  app_service_name         = local.service_name
+  app_service_name         = "${local.service_name}-ui"
   create_app_service_plan  = local.create_app_service_plan
   docker_image_name        = "${local.image_name}:${var.image_tag}"
   docker_image_namespace   = data.terraform_remote_state.service.outputs.container_registry_login_server
