@@ -66,8 +66,7 @@ jobs:
 
     - name: Terraform Plan Prod
       id: plan-prod
-      # run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
-      run: echo "Disabled for now up to restructure infra tiers"
+      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
       continue-on-error: true
       working-directory: ./${{ env.WORKING_DIR }}
       env:
