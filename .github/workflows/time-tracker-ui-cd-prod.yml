@@ -38,7 +38,7 @@ jobs:
     - name: Build the docker image
       run: |-
         docker build \
-          --target production -t timetracker_ui \
+          --target production_prod -t timetracker_ui \
           .
 
     - name: Publish docker image to prod azure container registry
