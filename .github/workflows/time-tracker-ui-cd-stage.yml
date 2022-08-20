@@ -61,4 +61,4 @@ jobs:
 
     - name: Terraform Apply
       working-directory: ${{ env.WORKING_DIR }}
-      run: terraform apply -lock=false -var-file="${{ env.TF_WORKSPACE }}.tfvars" -var "image_tag=$RELEASE_VERSION" -auto-approve
+      run: terraform apply -var-file="${{ env.TF_WORKSPACE }}.tfvars" -var "image_tag=$RELEASE_VERSION" -auto-approve
