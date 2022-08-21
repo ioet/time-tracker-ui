@@ -29,17 +29,17 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
 
-    - name: build docker
-      run: make build
+    # - name: build docker
+    #   run: make build
 
-    - name: Running tests
-      run: |
-        chmod -R 777 ./$home
-        make test
-    - name: Generate coverage report
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      run: bash <(curl -s https://codecov.io/bash)
+    # - name: Running tests
+    #   run: |
+    #     chmod -R 777 ./$home
+    #     make test
+    # - name: Generate coverage report
+    #   env:
+    #     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    #   run: bash <(curl -s https://codecov.io/bash)
 
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v1
