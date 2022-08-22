@@ -75,4 +75,13 @@ describe('UserInfoService', () => {
       });
   });
 
+  it('should return true if is Admin and isLegacyProduction', () => {
+    const groupsTT = {groups: ['fake-admin', 'fake-admin-tt']};
+    spyOn(mockLoginService, 'getLocalStorage').and.returnValue(JSON.stringify(groupsTT));
+    service.isLegacyProduction = true;
+    service.isMemberOf('fake-admin').subscribe((value) => {
+      expect(value).toEqual(true);
+    });
+  });
+
 });

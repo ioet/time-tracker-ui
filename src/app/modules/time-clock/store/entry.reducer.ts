@@ -266,7 +266,7 @@ export const entryReducer = (state: EntryState = initialState, action: EntryActi
       return {
         ...state,
         isLoading: true,
-        resultSumEntriesSelected:{hours:0, minutes:0, seconds:0},
+        resultSumEntriesSelected: {hours: 0, minutes: 0, seconds: 0},
         reportDataSource: {
           data: [],
           isLoading: true

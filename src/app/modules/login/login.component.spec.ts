@@ -8,12 +8,15 @@ import { FeatureToggleCookiesService } from '../shared/feature-toggles/feature-t
 import { LoginService } from './services/login.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SocialAuthService } from 'angularx-social-login';
+import { UserService } from '../user/services/user.service';
+
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let azureAdB2CService: AzureAdB2CService;
   let loginService: LoginService;
+  let userService: UserService;
   let featureToggleCookiesService: FeatureToggleCookiesService;
 
   const azureAdB2CServiceStub = {
@@ -36,6 +39,16 @@ describe('LoginComponent', () => {
     },
     setCookies() {
     }
+  };
+
+  const userTest = {
+    name: 'user',
+    email: 'test@test.com',
+    roles: ['admin'],
+    groups: ['admin'],
+    id: 'user_id',
+    tenant_id: 'tenant_test',
+    deleted: 'no',
   };
 
   const featureToggleCookiesServiceStub = {
@@ -66,6 +79,7 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
     azureAdB2CService = TestBed.inject(AzureAdB2CService);
     loginService = TestBed.inject(LoginService);
+    userService = TestBed.inject(UserService);
     featureToggleCookiesService = TestBed.inject(FeatureToggleCookiesService);
   });
 
@@ -90,6 +104,7 @@ describe('LoginComponent', () => {
     spyOn(azureAdB2CService, 'setCookies').and.returnValue();
     spyOn(azureAdB2CService, 'signIn').and.returnValue(of(() => {}));
     spyOn(azureAdB2CService, 'getUserId').and.returnValue('userId_123');
+    spyOn(userService, 'loadUser').withArgs('userId_123').and.returnValue(of(userTest));
     spyOn(featureToggleCookiesService, 'setCookies').and.returnValue(featureToggleCookiesService.setCookies());
 
     component.login();
@@ -98,6 +113,7 @@ describe('LoginComponent', () => {
     expect(azureAdB2CService.setCookies).toHaveBeenCalled();
     expect(azureAdB2CService.getUserId).toHaveBeenCalled();
     expect(featureToggleCookiesService.setCookies).toHaveBeenCalled();
+    expect(userService.loadUser).toHaveBeenCalledWith('userId_123');
   }));
 
   it('should not sign-up or login with google if is already logged-in into the app on Production', inject([Router],  (router: Router) => {
