@@ -69,7 +69,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       },
     ],
     columnDefs: [{ type: 'date', targets: 2}, {orderable: false, targets: [0]}],
-    order: [[1,'asc'],[2,'desc'],[4,'desc']]
+    order: [[1, 'asc'], [2, 'desc'], [4, 'desc']]
   };
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
@@ -79,7 +79,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   rerenderTableSubscription: Subscription;
   resultSum: TotalHours;
   resultSumEntriesSelected: TotalHours;
-  resultSumEntriesSelected$:Observable<TotalHours>;
+  resultSumEntriesSelected$: Observable<TotalHours>;
   totalHoursSubscription: Subscription;
   dateTimeOffset: ParseDateTimeOffset;
 
@@ -96,7 +96,9 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     this.actionsSubject$
       .pipe(filter((action: any) => action.type === UserActionTypes.LOAD_USERS_SUCCESS))
       .subscribe((action) => {
-        this.users = action.payload;
+        const sortUsers = [...action.payload];
+        sortUsers.sort((a, b) => a.name.localeCompare(b.name));
+        this.users = sortUsers;
       });
   }
 
