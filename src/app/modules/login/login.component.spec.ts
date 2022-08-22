@@ -89,12 +89,14 @@ describe('LoginComponent', () => {
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(azureAdB2CService, 'setCookies').and.returnValue();
     spyOn(azureAdB2CService, 'signIn').and.returnValue(of(() => {}));
+    spyOn(azureAdB2CService, 'getUserId').and.returnValue('userId_123');
     spyOn(featureToggleCookiesService, 'setCookies').and.returnValue(featureToggleCookiesService.setCookies());
 
     component.login();
 
     expect(azureAdB2CService.signIn).toHaveBeenCalled();
     expect(azureAdB2CService.setCookies).toHaveBeenCalled();
+    expect(azureAdB2CService.getUserId).toHaveBeenCalled();
     expect(featureToggleCookiesService.setCookies).toHaveBeenCalled();
   }));
 

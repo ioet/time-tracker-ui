@@ -208,7 +208,8 @@ describe('DetailsFieldsComponent', () => {
 
   it('on cleanFieldsForm the project_id and project_name should be kept', () => {
     const entryFormValueExpected = {
-      ...formValues,
+      project_id: '',
+      project_name: '',
       activity_id: '',
       uri: '',
       start_date: formatDate(new Date(), DATE_FORMAT, 'en'),

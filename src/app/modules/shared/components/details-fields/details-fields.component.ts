@@ -235,7 +235,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   cleanFieldsForm(): void {
-    this.cleanForm(true);
+    this.cleanForm(false);
   }
 
   selectActiveActivities() {
