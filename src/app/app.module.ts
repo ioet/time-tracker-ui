@@ -95,6 +95,12 @@ import { SearchUserComponent } from './modules/shared/components/search-user/sea
 import { TimeRangeCustomComponent } from './modules/reports/components/time-range-custom/time-range-custom.component';
 import { TimeRangeHeaderComponent } from './modules/reports/components/time-range-custom/time-range-header/time-range-header.component';
 import { TimeRangeOptionsComponent } from './modules/reports/components/time-range-custom/time-range-options/time-range-options.component';
+import { InternetConnectionStatusComponent } from './modules/internet-connection-status/internet-connection-status.component';
+import { FastDirective} from './modules/internet-connection-status/internet-connection-directives/fast.directive';
+import { SlowDirective} from './modules/internet-connection-status/internet-connection-directives/slow.directive';
+import { OfflineDirective} from './modules/internet-connection-status/internet-connection-directives/offline.directive';
+import { ConnectionDirective } from './modules/internet-connection-status/internet-connection-directives/connection.directive';
+
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -154,6 +160,11 @@ const maskConfig: Partial<IConfig> = {
     TimeRangeCustomComponent,
     TimeRangeHeaderComponent,
     TimeRangeOptionsComponent,
+    InternetConnectionStatusComponent,
+    SlowDirective,
+    FastDirective,
+    OfflineDirective,
+    ConnectionDirective
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
