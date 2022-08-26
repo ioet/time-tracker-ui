@@ -7,8 +7,19 @@
     <h3>Please log in</h3>
   </div>
 
-  <div class="login-controls">
-    <button (click)="isProduction ? login() : loginWithGoogle() " class="btn btn-primary">login</button>
+  <div class="login-controls" *ngIf="isProduction">
+    <button (click)="login() " class="btn btn-primary">login</button>
   </div>
-
+  <div *ngIf="!isProduction">
+    <div
+      id="g_id_onload"
+      [attr.data-client_id]="cliendId"
+      data-callback="handleCredentialResponse">
+    </div>
+    <div
+      class="g_id_signin"
+      data-theme="filled_blue"
+      data-type="standard">
+    </div>
+  </div>
 </div>

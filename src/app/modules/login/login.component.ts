@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { AzureAdB2CService } from './services/azure.ad.b2c.service';
 import { Router } from '@angular/router';
 import { FeatureToggleCookiesService } from '../shared/feature-toggles/feature-toggle-cookies/feature-toggle-cookies.service';
 
-import { SocialAuthService, SocialUser } from 'angularx-social-login';
-import { environment } from 'src/environments/environment';
+import { environment, CLIENT_URL } from 'src/environments/environment';
 import { EnvironmentType } from 'src/environments/enum';
 import { LoginService } from './services/login.service';
 import { UserService } from '../user/services/user.service';
+
+declare global {
+  interface Window {
+    handleCredentialResponse: (response: any) => void;
+  }
+}
 
 @Component({
   selector: 'app-login',
@@ -15,32 +20,66 @@ import { UserService } from '../user/services/user.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  socialUser: SocialUser;
   isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
+  cliendId = CLIENT_URL;
+  auth2: any;
+
 
   constructor(
     private azureAdB2CService: AzureAdB2CService,
     private router: Router,
     private featureToggleCookiesService: FeatureToggleCookiesService,
-    private socialAuthService: SocialAuthService,
     private loginService?: LoginService,
-    private userService?: UserService
+    private userService?: UserService,
+    private ngZone?: NgZone
   ) {}
 
+
+  googleAuthSDK() {
+
+    (<any>window)['googleSDKLoaded'] = () => {
+      (<any>window)['gapi'].load('auth2', () => {
+        this.auth2 = (<any>window)['gapi'].auth2.init({
+          client_id: this.cliendId,
+          plugin_name:'login',
+          cookiepolicy: 'single_host_origin',
+          scope: 'profile email'
+        });
+      });
+    }
+    (function (d, s, id) {
+      var js, gjs = d.getElementsByTagName(s)[1];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "https://accounts.google.com/gsi/client";
+      gjs.parentNode.insertBefore(js, gjs);
+    }(document, 'script', 'async defer'));
+  }
+
   ngOnInit() {
-    this.socialAuthService.authState.subscribe((user) => {
-      if (user != null) {
-        this.featureToggleCookiesService.setCookies();
-        this.loginService.setLocalStorage('idToken', user.idToken);
-        this.loginService.getUser(user.idToken).subscribe((response) => {
+
+    this.googleAuthSDK();
+    if(this.isProduction && this.azureAdB2CService.isLogin()){
+        this.router.navigate(['']);
+    } else {
+      this.loginService.isLogin().subscribe(isLogin => {
+        if (isLogin) {
+          this.router.navigate(['']);
+        }
+      });
+    }
+    window.handleCredentialResponse = (response) => {
+      const {credential = ''} = response;
+      this.featureToggleCookiesService.setCookies();
+      this.loginService.setLocalStorage('idToken', credential);
+      this.loginService.getUser(credential).subscribe((response) => {
           this.loginService.setCookies();
           const tokenObject = JSON.stringify(response);
           const tokenJson = JSON.parse(tokenObject);
           this.loginService.setLocalStorage('user', tokenJson.token);
-          this.router.navigate(['']);
-        });
-      }
-    });
+          this.ngZone.run(() => this.router.navigate(['']));
+      });
+    }
   }
 
   login(): void {
@@ -62,13 +101,4 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  loginWithGoogle() {
-    this.loginService.isLogin().subscribe(isLogin => {
-      if (isLogin) {
-        this.router.navigate(['']);
-      } else {
-        this.loginService.signIn();
-      }
-    });
-  }
 }

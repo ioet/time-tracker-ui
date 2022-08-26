@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { EnvironmentType, UserEnum } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
@@ -20,18 +19,12 @@ export class LoginService {
   constructor(
     private http?: HttpClient,
     private cookieService?: CookieService,
-    private socialAuthService?: SocialAuthService
   ) {
     this.baseUrl = `${environment.timeTrackerApiUrl}/users`;
     this.helper = new JwtHelperService();
   }
 
-  signIn() {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
-
   logout() {
-    this.socialAuthService.signOut();
     this.cookieService.deleteAll();
     localStorage.clear();
   }

@@ -49,7 +49,7 @@ import { ProjectEffects } from './modules/customer-management/components/project
 import { TechnologyEffects } from './modules/shared/store/technology.effects';
 import { ProjectTypeEffects } from './modules/customer-management/components/projects-type/store/project-type.effects';
 import { reducers } from './reducers';
-import { CLIENT_URL, environment } from '../environments/environment';
+import { environment } from '../environments/environment';
 import { EnvironmentType } from '../environments/enum';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 // tslint:disable-next-line: max-line-length
@@ -91,8 +91,6 @@ import { CalendarComponent } from './modules/time-entries/components/calendar/ca
 import { DropdownComponent } from './modules/shared/components/dropdown/dropdown.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DarkModeComponent } from './modules/shared/components/dark-mode/dark-mode.component';
-import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
-import { GoogleLoginProvider } from 'angularx-social-login';
 import { SearchUserComponent } from './modules/shared/components/search-user/search-user.component';
 import { TimeRangeCustomComponent } from './modules/reports/components/time-range-custom/time-range-custom.component';
 import { TimeRangeHeaderComponent } from './modules/reports/components/time-range-custom/time-range-header/time-range-header.component';
@@ -201,7 +199,6 @@ const maskConfig: Partial<IConfig> = {
       useFactory: adapterFactory,
     }),
     NgSelectModule,
-    SocialLoginModule
   ],
   providers: [
     {
@@ -211,18 +208,7 @@ const maskConfig: Partial<IConfig> = {
     },
     DatePipe,
     CookieService,
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(CLIENT_URL)
-          }
-        ]
-      } as SocialAuthServiceConfig,
-    }
+    {provide: Window, useValue: window}
   ],
   bootstrap: [AppComponent],
 })
