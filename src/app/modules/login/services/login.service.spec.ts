@@ -114,17 +114,11 @@ describe('LoginService', () => {
     });
   });
 
-  // it('should login with social angularx-social-login', () => {
-  //   service.signIn();
-  //   expect(socialAuthService.signIn).toHaveBeenCalled();
-  // });
-
   it('should logout with social angularx-social-login', () => {
     spyOn(cookieService, 'deleteAll').and.returnValue();
 
     service.logout();
 
-    // expect(socialAuthService.signOut).toHaveBeenCalled();
     expect(localStorage.clear).toHaveBeenCalled();
     expect(cookieService.deleteAll).toHaveBeenCalled();
   });
