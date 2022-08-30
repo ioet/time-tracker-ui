@@ -17,10 +17,8 @@ describe('Reports Page', () => {
     let fixture: ComponentFixture<TimeEntriesTableComponent>;
     let store: MockStore<EntryState>;
     let getReportDataSourceSelectorMock;
-    let durationTime: number;
     let row: number;
     let node: number;
-    let decimalValidator: RegExp;
     const timeEntry: Entry = {
       id: '123',
       start_date: new Date(),
@@ -102,10 +100,8 @@ describe('Reports Page', () => {
     );
 
     beforeEach(() => {
-      durationTime = new Date().setHours(5, 30);
       row = 0;
       node = 0;
-      decimalValidator = /^\d+\.\d{0,2}$/;
     });
 
     it('component should be created', async () => {
@@ -153,16 +149,6 @@ describe('Reports Page', () => {
 
         expect(component.isURL(param.url)).toEqual(param.expected_value);
       });
-    });
-
-    it('The data should be displayed as a multiple of hour when column is equal to 4', () => {
-      const column = 4;
-      expect(component.bodyExportOptions(durationTime, row, column, node)).toMatch(decimalValidator);
-    });
-
-    it('The data should not be displayed as a multiple of hour when column is different of 4', () => {
-      const column = 5;
-      expect(component.bodyExportOptions(durationTime, row, column, node)).toBe(durationTime.toString());
     });
 
     it('The link Ticket must not contain the ticket URL enclosed with < > when export a file csv, excel or PDF', () => {
@@ -247,7 +233,7 @@ describe('Reports Page', () => {
         '19',
         'user@ioet.com',
         '07/01/2022',
-        '9.00',
+        '09:00',
         '09:00',
         '18:00',
         'Project_Name',
