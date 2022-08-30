@@ -89,14 +89,14 @@ export class LoginComponent implements OnInit {
       this.azureAdB2CService.signIn().subscribe(() => {
         this.featureToggleCookiesService.setCookies();
         this.azureAdB2CService.setCookies();
-        const userId = this.azureAdB2CService.getUserId()
+        const userId = this.azureAdB2CService.getUserId();
         this.userService.loadUser(userId).subscribe((user) => {
-          const user_groups = {
+          const userGroups = {
             groups: user.groups
-          }
-          this.loginService.setLocalStorage('user', JSON.stringify(user_groups));
+          };
+          this.loginService.setLocalStorage('user', JSON.stringify(userGroups));
           this.router.navigate(['']);
-        })
+        });
       });
     }
   }
