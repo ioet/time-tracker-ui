@@ -20,6 +20,7 @@
         <td class="col-3 text-center">
           <ui-switch
             size="small"
+            [disabled]="checkRoleCurrentUser(user.email)"
             (change)="!isDevelopmentOrProd?switchGroup('time-tracker-admin', user):null; updateRole(ROLES.admin, user, $event);"
             [checked]="user.groups.includes('time-tracker-admin')"></ui-switch>
           admin
