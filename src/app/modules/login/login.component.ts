@@ -36,30 +36,35 @@ export class LoginComponent implements OnInit {
 
 
   googleAuthSDK() {
+    const sdkLoaded = 'googleSDKLoaded';
+    const gapi = 'gapi';
 
-    (<any>window)['googleSDKLoaded'] = () => {
-      (<any>window)['gapi'].load('auth2', () => {
-        this.auth2 = (<any>window)['gapi'].auth2.init({
+    (window as any)[sdkLoaded] = () => {
+      (window as any)[gapi].load('auth2', () => {
+        this.auth2 = ( window as any)[gapi].auth2.init({
           client_id: this.cliendId,
-          plugin_name:'login',
+          plugin_name: 'login',
           cookiepolicy: 'single_host_origin',
           scope: 'profile email'
         });
       });
-    }
-    (function (d, s, id) {
-      var js, gjs = d.getElementsByTagName(s)[1];
+    };
+
+    (async (d, s, id) => {
+      const keyGoogle = 'src';
+      const gjs = d.getElementsByTagName(s)[1];
+      let js = gjs;
       if (d.getElementById(id)) { return; }
       js = d.createElement(s); js.id = id;
-      js.src = "https://accounts.google.com/gsi/client";
+      js[keyGoogle] = 'https://accounts.google.com/gsi/client';
       gjs.parentNode.insertBefore(js, gjs);
-    }(document, 'script', 'async defer'));
+    })(document, 'script', 'async defer');
   }
 
   ngOnInit() {
 
     this.googleAuthSDK();
-    if(this.isProduction && this.azureAdB2CService.isLogin()){
+    if (this.isProduction && this.azureAdB2CService.isLogin()) {
         this.router.navigate(['']);
     } else {
       this.loginService.isLogin().subscribe(isLogin => {
@@ -72,14 +77,14 @@ export class LoginComponent implements OnInit {
       const {credential = ''} = response;
       this.featureToggleCookiesService.setCookies();
       this.loginService.setLocalStorage('idToken', credential);
-      this.loginService.getUser(credential).subscribe((response) => {
+      this.loginService.getUser(credential).subscribe((resp) => {
           this.loginService.setCookies();
-          const tokenObject = JSON.stringify(response);
+          const tokenObject = JSON.stringify(resp);
           const tokenJson = JSON.parse(tokenObject);
           this.loginService.setLocalStorage('user', tokenJson.token);
           this.ngZone.run(() => this.router.navigate(['']));
       });
-    }
+    };
   }
 
   login(): void {

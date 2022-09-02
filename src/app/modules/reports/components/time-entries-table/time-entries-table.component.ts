@@ -105,7 +105,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   ngOnInit(): void {
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
       this.totalHoursSubscription = this.resultSumEntriesSelected$.subscribe((actTotalHours) => {
-            this.resultSumEntriesSelected = actTotalHours ;
+            this.resultSumEntriesSelected = actTotalHours;
             this.totalTimeSelected = moment.duration(0);
           });
       this.sumDates(ds.data);
