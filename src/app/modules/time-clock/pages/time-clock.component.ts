@@ -43,7 +43,7 @@ export class TimeClockComponent implements OnInit, OnDestroy {
     }else{
       this.loginService.isLogin().subscribe(isLogin => {
         this.username = isLogin ? this.loginService.getName() : '';
-      })
+      });
     }
     this.storeSubscription = this.store.pipe(select(getActiveTimeEntry)).subscribe((activeTimeEntry) => {
       this.activeTimeEntry = activeTimeEntry;

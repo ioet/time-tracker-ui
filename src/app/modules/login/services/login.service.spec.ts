@@ -1,4 +1,5 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SocialAuthService } from 'angularx-social-login';
@@ -9,11 +10,11 @@ import { LoginService } from './login.service';
 
 describe('LoginService', () => {
   let service: LoginService;
-  let httpMock: HttpTestingController;
   let cookieService: CookieService;
   let socialAuthService: SocialAuthService;
   let account;
   const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['signOut', 'signIn']);
+  const httpClientSpy = jasmine.createSpyObj('HttpClient', ['post', 'get']);
   const cookieStoreStub = {};
   const helper = new JwtHelperService();
   const getAccountInfo = () => {
@@ -26,11 +27,11 @@ describe('LoginService', () => {
       providers: [
         { providers: CookieService, useValue: cookieStoreStub },
         { provide: SocialAuthService, useValue: socialAuthServiceStub },
+        { provide: HttpClient, useValue: httpClientSpy }
       ],
     });
     service = TestBed.inject(LoginService);
     cookieService = TestBed.inject(CookieService);
-    httpMock = TestBed.inject(HttpTestingController);
     socialAuthService = TestBed.inject(SocialAuthService);
     account = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImFiYyIsIm5hbWUiOiJhYmMiLCJlbWFpbCI6ImFiYyIsImdyb3VwcyI6WyJhYmMiXX0.UNxyDT8XzXJhI1F3LySBU7TJlpENPUPHj8my7Obw2ZM';
     let store = {};
@@ -49,6 +50,7 @@ describe('LoginService', () => {
     spyOn(localStorage, 'setItem').and.callFake(mockLocalStorage.setItem);
     spyOn(localStorage, 'clear').and.callFake(mockLocalStorage.clear);
     localStorage.setItem('user', account);
+    localStorage.setItem('user2', '"test_token_123"');
   });
 
   it('should be created', () => {
@@ -90,12 +92,16 @@ describe('LoginService', () => {
   });
 
   it('load a user by sending a token using POST', () => {
+    const token  = 'test_123';
     service.baseUrl = '/users';
-    service.getUser('token').subscribe();
-
-    const loadUserRequest = httpMock.expectOne(`${service.baseUrl}/login`);
-    expect(loadUserRequest.request.method).toBe('POST');
-  });
+    const mockSuccessDataPost = {
+      SUCCESS: true,
+      data: {}
+    };
+    httpClientSpy.post.and.returnValue(of(mockSuccessDataPost));
+    service.getUser(token).subscribe();
+    expect(httpClientSpy.post).toHaveBeenCalled();
+    });
 
   it('should return true when user is Login', () => {
     spyOn(cookieService, 'check').and.returnValue(true);
@@ -121,5 +127,41 @@ describe('LoginService', () => {
 
     expect(localStorage.clear).toHaveBeenCalled();
     expect(cookieService.deleteAll).toHaveBeenCalled();
+  });
+
+  it('should call cookieService when app is isLegacyProd', () => {
+    service.isLegacyProd = true;
+    service.localStorageKey = 'user2';
+    spyOn(cookieService, 'check').and.returnValue(true);
+    spyOn(service, 'isValidToken').and.returnValue(of(true));
+    service.isLogin().subscribe(isLogin => {
+      expect(cookieService.check).toHaveBeenCalled();
+    });
+  });
+
+  it('should call JSON parse when app is isLegacyProd', () => {
+    spyOn(JSON, 'parse').and.returnValue('test_user_123');
+    service.isLegacyProd = true;
+    service.localStorageKey = 'user2';
+    service.getUserId();
+    service.getName();
+    service.getUserEmail();
+    service.getUserGroup();
+    expect(JSON.parse).toHaveBeenCalled();
+  });
+
+  it('should call setLocalStorage when there is a new_token ', () => {
+    spyOn(cookieService, 'check').and.returnValue(true);
+    spyOn(service, 'setLocalStorage');
+    const token  = 'test123';
+    service.baseUrl = '/users';
+    const mockSuccessDataPost = {
+      SUCCESS: true,
+      new_token: 'test_token'
+    };
+    httpClientSpy.post.and.returnValue(of(mockSuccessDataPost));
+    service.isValidToken(token).subscribe();
+    expect(service.setLocalStorage).toHaveBeenCalled();
+    expect(cookieService.check).toHaveBeenCalled();
   });
 });

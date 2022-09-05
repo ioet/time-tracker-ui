@@ -46,7 +46,8 @@ export class EntryService {
   }
 
   stopEntryRunning(idEntry: string): Observable<any> {
-    return (this.urlInProductionLegacy ? this.http.post(`${this.baseUrl}/${idEntry}/stop`, null) : this.http.put(`${this.baseUrl}/stop`, null) );
+    return (this.urlInProductionLegacy ?
+      this.http.post(`${this.baseUrl}/${idEntry}/stop`, null) : this.http.put(`${this.baseUrl}/stop`, null) );
   }
 
   restartEntry(idEntry: string): Observable<Entry> {
