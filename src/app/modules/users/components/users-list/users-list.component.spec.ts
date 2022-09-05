@@ -7,6 +7,9 @@ import { ActionsSubject } from '@ngrx/store';
 import { DataTablesModule } from 'angular-datatables';
 import { GrantUserRole, RevokeUserRole } from '../../store/user.actions';
 import { ROLES } from '../../../../../environments/environment';
+import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
+import { LoginService } from '../../../login/services/login.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 describe('UsersListComponent', () => {
   let component: UsersListComponent;

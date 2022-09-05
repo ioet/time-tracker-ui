@@ -99,7 +99,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       )
     );
   }
-  
+   
   checkRoleCurrentUser(userEmail: string){
     const token = this.loginService.getLocalStorage('user');
     const user = this.helper.decodeToken(token);
