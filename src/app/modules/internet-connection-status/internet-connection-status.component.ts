@@ -56,7 +56,11 @@ export class InternetConnectionStatusComponent implements OnInit {
     };
   });
 
-  ngOnInit() {
+  ngOnInit(){
+    // $scope, $http
+    // $scope.isLoading = function () {
+    //   return $http.pendingRequests.length !== 0;
+    // };
     const connection = navigator.connection;
     console.log('navigator component', connection);
     if (!connection || !connection.effectiveType) {
@@ -70,7 +74,6 @@ export class InternetConnectionStatusComponent implements OnInit {
         this.connectionType = effectiveType;
 
         if (/\fast-5g|3g|4g/.test(effectiveType)){
-          this.toastrService.success('You have a good connection');
           this.isFast = true;
         }else if (/\slow-2g|2g/.test(effectiveType)) {
             this.toastrService.warning('Caution your connection is slow');
