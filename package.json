@@ -111,12 +111,12 @@
   "husky": {
     "hooks": {
       "commit-msg": "commit-message-validator",
-      "pre-commit": "ng lint && ng test --watch=false --browsers=ChromeHeadless"
+      "pre-commit": "ng lint"
     }
   },
   "config": {
     "commit-message-validator": {
-      "pattern": "^(fix: TT-|feat: TT-|perf: TT-|build: TT-|ci: TT-|docs: TT-|refactor: TT-|style: TT-|test: TT-|code-smell: TT-)[0-9].*",
+      "pattern": "^(fix: TTA-|feat: TTA-|perf: TTA-|build: TTA-|ci: TTA-|docs: TTA-|refactor: TTA-|style: TTA-|test: TTA-|code-smell: TTA-)[0-9].*",
       "errorMessage": "Your commit message needs to start with fix: , feat:, or perf: followed by any commit message, e.g. fix: TT-43 any commit message."
     }
   },
