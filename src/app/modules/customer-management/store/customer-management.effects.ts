@@ -9,13 +9,15 @@ import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from '../services/customer.service';
 import * as actions from './customer-management.actions';
 import { Status } from '../../shared/models/customer.model';
+import { StatusNetworkService } from '../../shared/services/status-network.service';
 
 @Injectable()
 export class CustomerEffects {
   constructor(
     private actions$: Actions,
     private customerService: CustomerService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private statusNetworkService: StatusNetworkService
   ) { }
 
   @Effect()
@@ -27,7 +29,7 @@ export class CustomerEffects {
           return new actions.LoadCustomersSuccess(customers);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.LoadCustomersFail(error));
         }
         )
@@ -46,7 +48,7 @@ export class CustomerEffects {
           return new actions.CreateCustomerSuccess(customerData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.CreateCustomerFail(error));
         })
       )
@@ -64,7 +66,7 @@ export class CustomerEffects {
           return new actions.DeleteCustomerSuccesss(customerId);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.DeleteCustomerFail(error));
         })
       )
@@ -82,7 +84,7 @@ export class CustomerEffects {
           return new actions.UpdateCustomerSuccess(customerData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.UpdateCustomerFail(error));
         })
       )
@@ -104,7 +106,7 @@ export class CustomerEffects {
           return new actions.UpdateCustomerSuccess(customerData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.UpdateCustomerFail(error));
         })
       )

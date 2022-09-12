@@ -57,10 +57,6 @@ export class InternetConnectionStatusComponent implements OnInit {
   });
 
   ngOnInit(){
-    // $scope, $http
-    // $scope.isLoading = function () {
-    //   return $http.pendingRequests.length !== 0;
-    // };
     const connection = navigator.connection;
     console.log('navigator component', connection);
     if (!connection || !connection.effectiveType) {
@@ -79,10 +75,9 @@ export class InternetConnectionStatusComponent implements OnInit {
             this.toastrService.warning('Caution your connection is slow');
             this.isFast = false;
         } else {
-          this.toastrService.error('You are offline');
+          this.toastrService.error('Your request was not completed, you are offline');
           this.isFast = false;
         }
       });
   }
-
 }

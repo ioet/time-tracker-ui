@@ -9,13 +9,15 @@ import { ToastrService } from 'ngx-toastr';
 import * as actions from './activity-management.actions';
 import { Activity, ActivityStatus } from './../../shared/models/activity.model';
 import { ActivityService } from './../services/activity.service';
+import { StatusNetworkService } from '../../shared/services/status-network.service';
 
 @Injectable()
 export class ActivityEffects {
   constructor(
     private actions$: Actions,
     private activityService: ActivityService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private statusNetworkService: StatusNetworkService
   ) { }
 
   @Effect()
@@ -27,7 +29,7 @@ export class ActivityEffects {
           return new actions.LoadActivitiesSuccess(activities);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.LoadActivitiesFail(error));
         })
       )
@@ -45,7 +47,7 @@ export class ActivityEffects {
           return new actions.CreateActivitySuccess(activityData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.CreateActivityFail(error));
         })
       )
@@ -66,7 +68,7 @@ export class ActivityEffects {
           return new actions.ArchiveActivitySuccess(activity);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.ArchiveActivityFail(error));
         })
       )
@@ -84,7 +86,7 @@ export class ActivityEffects {
           return new actions.UpdateActivitySuccess(activityData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.UpdateActivityFail(error));
         })
       )
@@ -106,7 +108,7 @@ export class ActivityEffects {
           return new actions.UnarchiveActivitySuccess(activityData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.UnarchiveActivityFail(error));
         })
       )

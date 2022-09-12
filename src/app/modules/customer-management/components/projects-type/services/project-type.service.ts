@@ -15,10 +15,7 @@ export class ProjectTypeService {
 
   getProjectTypes(customerId: any): Observable<ProjectType[]> {
     const params = new HttpParams().set('customer_id', customerId.customerId);
-    return this.http.get<ProjectType[]>(this.baseUrl, { params }).pipe(map((data: { status: any; }) => {
-      console.log("Here will be return response code Ex :200", data.status)
-      return data.status
-        }));
+    return this.http.get<ProjectType[]>(this.baseUrl, { params });
   }
 
   createProjectType(projectTypeData): Observable<any> {

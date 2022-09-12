@@ -7,10 +7,16 @@ import { map, catchError, mergeMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { UsersService } from '../services/users.service';
 import * as actions from './user.actions';
+import { StatusNetworkService } from '../../shared/services/status-network.service';
 
 @Injectable()
 export class UserEffects {
-  constructor(private actions$: Actions, private userService: UsersService, private toastrService: ToastrService) {}
+  constructor(
+    private actions$: Actions,
+    private userService: UsersService,
+    private toastrService: ToastrService,
+    private statusNetworkService: StatusNetworkService
+  ) {}
 
   @Effect()
   loadUsers$: Observable<Action> = this.actions$.pipe(
@@ -21,7 +27,8 @@ export class UserEffects {
           return new actions.LoadUsersSuccess(users);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
+          //this.toastrService.error(error.error.message);
           return of(new actions.LoadUsersFail(error));
         })
       )
@@ -39,7 +46,8 @@ export class UserEffects {
           return new actions.AddUserToGroupSuccess(response);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
+          //this.toastrService.error(error.error.message);
           return of(new actions.AddUserToGroupFail(error));
         })
       )
@@ -57,7 +65,8 @@ export class UserEffects {
           return new actions.RemoveUserFromGroupSuccess(response);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
+          //this.toastrService.error(error.error.message);
           return of(new actions.RemoveUserFromGroupFail(error));
         })
       )
@@ -75,7 +84,8 @@ export class UserEffects {
           return new actions.GrantUserRoleSuccess(response);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
+          //this.toastrService.error(error.error.message);
           return of(new actions.GrantUserRoleFail(error));
         })
       )
@@ -93,7 +103,8 @@ export class UserEffects {
           return new actions.RevokeUserRoleSuccess(response);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
+          //this.toastrService.error(error.error.message);
           return of(new actions.RevokeUserRoleFail(error));
         })
       )

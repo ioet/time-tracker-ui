@@ -8,11 +8,16 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { EntryService } from '../services/entry.service';
 import * as actions from './entry.actions';
 import * as moment from 'moment';
+import { StatusNetworkService } from '../../shared/services/status-network.service';
 
 @Injectable()
 export class EntryEffects {
-  constructor(private actions$: Actions, private entryService: EntryService, private toastrService: ToastrService) {
-  }
+  constructor(
+    private actions$: Actions,
+    private entryService: EntryService,
+    private toastrService: ToastrService,
+    private statusNetworkService: StatusNetworkService
+    ) { }
 
   @Effect()
   switchEntryRunning$: Observable<Action> = this.actions$.pipe(
@@ -32,7 +37,7 @@ export class EntryEffects {
           return new actions.ClockIn(entry);
         }),
         catchError((error) => {
-          this.toastrService.warning('We could not perform this operation, try again later');
+          this.statusNetworkService.checkTypeError({error, message: 'We could not perform this operation, try again later', isError: false});
           return of(new actions.StopTimeEntryRunningFail(error));
         })
       )
@@ -48,7 +53,7 @@ export class EntryEffects {
           return new actions.LoadEntriesSummarySuccess(response);
         }),
         catchError((error) => {
-          this.toastrService.warning('Your summary information could not be loaded');
+          this.statusNetworkService.checkTypeError({error, message: 'Your summary information could not be loaded', isError: false});
           return of(new actions.LoadEntriesSummaryFail());
         })
       )
@@ -93,7 +98,7 @@ export class EntryEffects {
       this.entryService.loadEntries({ month: date.month, year: date.year }).pipe(
         map((entries) => new actions.LoadEntriesSuccess(entries)),
         catchError((error) => {
-          this.toastrService.warning(`The data could not be loaded`);
+          this.statusNetworkService.checkTypeError({error, message: 'The data could not be loaded', isError: false});
           return of(new actions.LoadEntriesFail(error));
         })
       )
@@ -115,7 +120,7 @@ export class EntryEffects {
           return new actions.CreateEntrySuccess(entryData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.CreateEntryFail(error.error.message));
         })
       )
@@ -143,7 +148,7 @@ export class EntryEffects {
           if (error.status === 404) {
             return of(new actions.CreateEntry(entry));
           } else {
-            this.toastrService.error('We could not clock you in, try again later.');
+            this.statusNetworkService.checkTypeError({error, message: 'We could not clock you in, try again later.', isError: true});
             return of(new actions.CreateEntryFail('Error'));
           }
         })
@@ -162,7 +167,7 @@ export class EntryEffects {
           return new actions.DeleteEntrySuccess(entryId);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.DeleteEntryFail(error));
         })
       )
@@ -180,7 +185,7 @@ export class EntryEffects {
           return new actions.UpdateEntrySuccess(entryResponse);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.UpdateEntryFail(error));
         })
       )
@@ -198,7 +203,7 @@ export class EntryEffects {
           return new actions.UpdateEntrySuccess(entryResponse);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.UpdateEntryFail(error));
         })
       )
@@ -216,7 +221,7 @@ export class EntryEffects {
           return new actions.StopTimeEntryRunningSuccess(response);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.StopTimeEntryRunningFail(error.error.message));
         })
       )
@@ -243,7 +248,7 @@ export class EntryEffects {
           }
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.UpdateCurrentOrLastEntryFail('error'));
         })
       )
@@ -276,7 +281,7 @@ export class EntryEffects {
           return new actions.RestartEntrySuccess(entryResponse);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message, 'This entry could not be restarted');
+          this.statusNetworkService.checkTypeError({error, message: 'This entry could not be restarted', isError: true});
           return of(new actions.RestartEntryFail(error));
         })
       )

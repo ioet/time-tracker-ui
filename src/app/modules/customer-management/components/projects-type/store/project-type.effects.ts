@@ -9,13 +9,15 @@ import * as actions from './project-type.actions';
 import { ProjectType } from '../../../../shared/models';
 import { ProjectTypeService } from '../services/project-type.service';
 import { ToastrService } from 'ngx-toastr';
+import { StatusNetworkService } from '../../../../shared/services/status-network.service';
 
 @Injectable()
 export class ProjectTypeEffects {
   constructor(
     private actions$: Actions,
     private projectTypeService: ProjectTypeService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private statusNetworkService: StatusNetworkService
   ) { }
 
   @Effect()
@@ -27,7 +29,7 @@ export class ProjectTypeEffects {
           return new actions.LoadProjectTypesSuccess(projectTypes);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.LoadProjectTypesFail(error));
         })
       )
@@ -45,7 +47,7 @@ export class ProjectTypeEffects {
           return new actions.CreateProjectTypeSuccess(projectTypeData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.CreateProjectTypeFail(error));
         })
       )
@@ -63,7 +65,7 @@ export class ProjectTypeEffects {
           return new actions.DeleteProjectTypeSuccess(protectTypeId);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.DeleteProjectTypeFail(error));
         })
       )
@@ -81,7 +83,7 @@ export class ProjectTypeEffects {
           return new actions.UpdateProjectTypeSuccess(projectTypeData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.statusNetworkService.checkTypeError({error, isError: true});
           return of(new actions.UpdateProjectTypeFail(error));
         })
       )
