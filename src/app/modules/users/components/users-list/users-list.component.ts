@@ -37,7 +37,8 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     return ROLES;
   }
 
-  constructor(private store: Store<User>, private actionsSubject$: ActionsSubject, private userInfoService: UserInfoService, private loginService: LoginService) {
+  constructor(private store: Store<User>, private actionsSubject$: ActionsSubject,
+              private userInfoService: UserInfoService, private loginService: LoginService) {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
     this.helper = new JwtHelperService();
   }
@@ -99,7 +100,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       )
     );
   }
-   
+
   checkRoleCurrentUser(userEmail: string){
     const token = this.loginService.getLocalStorage('user');
     const user = this.helper.decodeToken(token);

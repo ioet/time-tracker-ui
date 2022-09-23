@@ -48,7 +48,7 @@ describe('UsersListComponent', () => {
         declarations: [UsersListComponent],
         providers: [provideMockStore({ initialState: state }),
           { provide: ActionsSubject, useValue: actionSub },
-          { providers: LoginService, useValue: {}},],
+          { providers: LoginService, useValue: {} }, ],
       }).compileComponents();
     })
   );
@@ -249,7 +249,7 @@ describe('UsersListComponent', () => {
     const account = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFiYyIsIm5hbWUiOiJhYmMiLCJlbWFpbCI6ImVtYWlsIiwiZ3JvdXBzIjpbImFkbWluIl19.gy1GljkoiuOjP8DzkoLRYE9SldBn5ljRc4kp8rwq7UI';
     spyOn(loginService, 'getLocalStorage').and.returnValue(account);
     spyOn(userInfoService, 'isAdmin').and.returnValue(of(true));
-    const response = component.checkRoleCurrentUser('email')
+    const response = component.checkRoleCurrentUser('email');
     expect(response).toBeTrue();
     expect(userInfoService.isAdmin).toHaveBeenCalled();
     expect(loginService.getLocalStorage).toHaveBeenCalled();
