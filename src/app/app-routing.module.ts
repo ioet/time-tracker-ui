@@ -14,18 +14,18 @@ import { UsersComponent } from './modules/users/pages/users.component';
 import { EnvironmentType } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
 
-let isLegacyProd: boolean = environment.production === EnvironmentType.TT_PROD_LEGACY;
+const isLegacyProd: boolean = environment.production === EnvironmentType.TT_PROD_LEGACY;
 let routes: Routes;
 
 if (isLegacyProd) {
   routes = [
-        {
+    {
       path: '',
       children: [
         { path: '**', redirectTo: 'redirect-message' },
       ],
     },
-  ]
+  ];
 
 } else {
   routes = [
