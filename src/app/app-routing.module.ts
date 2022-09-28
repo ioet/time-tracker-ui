@@ -11,10 +11,11 @@ import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 import { UsersComponent } from './modules/users/pages/users.component';
+import { V2RedirectComponent } from './modules/v2-redirect/v2-redirect.component';
 import { EnvironmentType } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
 
-const isLegacyProd: boolean = environment.production === EnvironmentType.TT_PROD_LEGACY;
+const isLegacyProd: boolean = environment.production === EnvironmentType.TT_DEV;
 let routes: Routes;
 
 if (isLegacyProd) {
@@ -22,7 +23,7 @@ if (isLegacyProd) {
     {
       path: '',
       children: [
-        { path: '**', redirectTo: 'redirect-message' },
+        { path: '**', component: V2RedirectComponent },
       ],
     },
   ];
