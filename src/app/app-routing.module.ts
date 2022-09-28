@@ -11,25 +11,41 @@ import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 import { CustomerComponent } from './modules/customer-management/pages/customer.component';
 import { UsersComponent } from './modules/users/pages/users.component';
+import { EnvironmentType } from 'src/environments/enum';
+import { environment } from 'src/environments/environment';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-    canActivate: [LoginGuard],
-    children: [
-      { path: 'reports', canActivate: [AdminGuard], component: ReportsComponent },
-      { path: 'time-clock', component: TimeClockComponent },
-      { path: 'time-entries', component: TimeEntriesComponent },
-      { path: 'activities-management', component: ActivitiesManagementComponent },
-      { path: 'customers-management', canActivate: [AdminGuard], component: CustomerComponent },
-      { path: 'users', canActivate: [AdminGuard], component: UsersComponent },
-      { path: '', pathMatch: 'full', redirectTo: 'time-clock' },
-    ],
-  },
-  { path: 'login', component: LoginComponent },
-];
+let isLegacyProd: boolean = environment.production === EnvironmentType.TT_PROD_LEGACY;
+let routes: Routes;
 
+if (isLegacyProd) {
+  routes = [
+        {
+      path: '',
+      children: [
+        { path: '**', redirectTo: 'redirect-message' },
+      ],
+    },
+  ]
+
+} else {
+  routes = [
+    {
+      path: '',
+      component: HomeComponent,
+      canActivate: [LoginGuard],
+      children: [
+        { path: 'reports', canActivate: [AdminGuard], component: ReportsComponent },
+        { path: 'time-clock', component: TimeClockComponent },
+        { path: 'time-entries', component: TimeEntriesComponent },
+        { path: 'activities-management', component: ActivitiesManagementComponent },
+        { path: 'customers-management', canActivate: [AdminGuard], component: CustomerComponent },
+        { path: 'users', canActivate: [AdminGuard], component: UsersComponent },
+        { path: '', pathMatch: 'full', redirectTo: 'time-clock' },
+      ],
+    },
+    { path: 'login', component: LoginComponent }
+  ];
+}
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
