@@ -1,0 +1,59 @@
+
+
+h1 {
+    font-weight: 800;
+    font-size:3em;
+
+}
+
+h3 {
+    font-weight: 500;
+    font-size: 2em;
+}
+
+#main-image {
+    max-width: 100% 
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 798px 1fr;
+    position: relative;
+    width: 1300px;
+}
+@media screen and (max-width: 1199px) {
+    .grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        position: relative;
+    }
+}
+
+
+#logo {
+    padding-top: 20px;
+    padding-left: 20px;
+    position:absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+
+.decoration{
+    z-index: 0;
+    position: absolute;
+    bottom:0;
+    right:0;
+}
+
+.text{
+    padding-top: 100px;
+    padding-right: 100px;
+    text-align: right;
+}
+
+.redirection {
+    padding-top: 20px;
+    text-align: center;
+}
+
