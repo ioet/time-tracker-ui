@@ -1,18 +1,30 @@
+.btn-primary {
+    background-color: #F85221;
+    border-radius: 30px;
+    border: none;
+}
 
+h2 {
+    font-weight: 600;
+    color: #5B4F62;
+}
 
 h1 {
     font-weight: 800;
-    font-size:3em;
+    font-size:4em;
+    color: #5B4F62;
 
 }
 
 h3 {
     font-weight: 500;
     font-size: 2em;
+    color: #831C86;
 }
 
 #main-image {
-    max-width: 100% 
+    padding-top: 4rem;
+    max-width: 100%;
 }
 
 .grid {
@@ -21,19 +33,13 @@ h3 {
     position: relative;
     width: 1300px;
 }
-@media screen and (max-width: 1199px) {
-    .grid {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        position: relative;
-    }
-}
 
 
 #logo {
     padding-top: 20px;
-    padding-left: 20px;
+    padding-left: 25px;
     position:absolute;
+    max-width: 18rem;
     left: 0;
     top: 0;
     z-index: 10;
@@ -47,8 +53,8 @@ h3 {
 }
 
 .text{
-    padding-top: 100px;
-    padding-right: 100px;
+    padding-top: 10rem;
+    padding-right: 150px;
     text-align: right;
 }
 
@@ -57,3 +63,37 @@ h3 {
     text-align: center;
 }
 
+
+@media screen and (max-width: 1199px) {
+    h1 {
+        color:#831C86;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        position: relative;
+    }
+
+    .text{
+        padding-top: 2rem;
+        padding-right: 0px;
+        text-align: center;
+
+    }
+
+    .redirection {
+        padding-top: 0px;
+        padding-right: 0px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    #quote {
+        display: none;
+    }
+
+    .decoration {
+        display: none;
+    }
+}
