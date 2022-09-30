@@ -27,15 +27,14 @@ h3 {
 }
 
 #main-image {
-    padding-top: 4rem;
+    padding-top: 20%;
     max-width: 100%;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: 798px 1fr;
-    position: relative;
-    width: 1300px;
+    grid-template-columns: [x0] 2fr [x1] 1fr [x2];
+    justify-items: center;
 }
 
 
@@ -57,20 +56,24 @@ h3 {
 }
 
 .text{
-    padding-top: 10rem;
-    padding-right: 150px;
-    text-align: right;
+    padding-top: 50%;
+    padding-right: 30%;
 }
 
+
 .redirection {
-    padding-top: 20px;
+    padding-top:1rem;
     text-align: center;
 }
 
+body {
+    text-align: center;
+    }
 
-@media screen and (max-width: 1199px) {
-    body{
-        text-align: center;
+@media screen and (max-width: 1307px) {
+
+    #main-image {
+        padding-top: 6%;
     }
     h1 {
         color:#831C86;
@@ -101,9 +104,6 @@ h3 {
         display: none;
     }
 
-    .decoration {
-        display: none;
-    }
 }
 
 
