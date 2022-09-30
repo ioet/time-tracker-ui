@@ -51,4 +51,6 @@ if (isNotLegacy) {
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { 
+  routes = routes;
+}
