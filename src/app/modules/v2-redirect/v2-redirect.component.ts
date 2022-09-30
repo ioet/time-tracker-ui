@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./v2-redirect.component.css']
 })
 export class V2RedirectComponent {
-  
+
 }

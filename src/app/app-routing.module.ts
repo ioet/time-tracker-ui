@@ -15,20 +15,10 @@ import { V2RedirectComponent } from './modules/v2-redirect/v2-redirect.component
 import { EnvironmentType } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
 
-const isLegacyProd: boolean = environment.production === EnvironmentType.TT_DEV;
+const isNotLegacy: boolean = environment.production !== EnvironmentType.TT_DEV;
 let routes: Routes;
 
-if (isLegacyProd) {
-  routes = [
-    {
-      path: '',
-      children: [
-        { path: '**', component: V2RedirectComponent },
-      ],
-    },
-  ];
-
-} else {
+if (isNotLegacy) {
   routes = [
     {
       path: '',
@@ -45,6 +35,16 @@ if (isLegacyProd) {
       ],
     },
     { path: 'login', component: LoginComponent }
+  ];
+
+} else {
+  routes = [
+    {
+      path: '',
+      children: [
+        { path: '**', component: V2RedirectComponent },
+      ],
+    },
   ];
 }
 @NgModule({
