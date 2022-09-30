@@ -52,5 +52,5 @@ if (isNotLegacy) {
   exports: [RouterModule],
 })
 export class AppRoutingModule { 
-  routes = routes;
+
 }
