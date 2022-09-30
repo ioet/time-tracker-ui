@@ -4,6 +4,10 @@
     border: none;
 }
 
+.btn-primary:hover {
+    background-color: #bf3816;
+}
+
 h2 {
     font-weight: 600;
     color: #5B4F62;
@@ -65,6 +69,9 @@ h3 {
 
 
 @media screen and (max-width: 1199px) {
+    body{
+        text-align: center;
+    }
     h1 {
         color:#831C86;
     }
@@ -73,6 +80,7 @@ h3 {
         display: grid;
         grid-template-columns: 1fr;
         position: relative;
+        width:auto;
     }
 
     .text{
@@ -95,5 +103,61 @@ h3 {
 
     .decoration {
         display: none;
+    }
+}
+
+
+@media screen and (max-width: 430px) {
+    .btn-primary {
+        font-size:small;
+
+    }
+    body{
+        text-align: center;
+    }
+    h1 {
+        font-size: 2rem;
+        color:#831C86;
+    }
+    h2 {
+        font-size: 1rem;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        position: relative;
+        width:auto;
+    }
+
+    .text{
+        padding-top: 2rem;
+        padding-right: 0px;
+        text-align: center;
+
+    }
+
+    .redirection {
+        padding-top: 0px;
+        padding-right: 0px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    #quote {
+        display: none;
+    }
+
+    .decoration {
+        display: none;
+    }
+    #logo {
+        padding-right: auto;
+        padding-left: auto;
+        padding-top: 20px;
+        position:absolute;
+        max-width: 80%;
+        left: 0;
+        top: 0;
+        z-index: 10;
     }
 }
