@@ -178,7 +178,9 @@
   },
   "defaultProject": "time-tracker",
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "defaultCollection": 
+      "@ngrx/schematics"
   },
   "schematics": {
     "@schematics/angular:component": {
