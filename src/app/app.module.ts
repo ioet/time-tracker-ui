@@ -95,6 +95,7 @@ import { SearchUserComponent } from './modules/shared/components/search-user/sea
 import { TimeRangeCustomComponent } from './modules/reports/components/time-range-custom/time-range-custom.component';
 import { TimeRangeHeaderComponent } from './modules/reports/components/time-range-custom/time-range-header/time-range-header.component';
 import { TimeRangeOptionsComponent } from './modules/reports/components/time-range-custom/time-range-options/time-range-options.component';
+import { PageLoaderComponent } from './page-loader/page-loader.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -154,6 +155,7 @@ const maskConfig: Partial<IConfig> = {
     TimeRangeCustomComponent,
     TimeRangeHeaderComponent,
     TimeRangeOptionsComponent,
+    PageLoaderComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
