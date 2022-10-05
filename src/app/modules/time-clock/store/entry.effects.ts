@@ -45,7 +45,7 @@ export class EntryEffects {
     mergeMap(() =>
       this.entryService.summary().pipe(
         map((response) => {
-          if(!response){
+          if (!response){
             this.toastrService.warning('Your summary information could not be loaded');
           }
           return new actions.LoadEntriesSummarySuccess(response);
