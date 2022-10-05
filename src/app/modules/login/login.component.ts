@@ -106,4 +106,8 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  loginAuth(): void {
+    
+  }
+
 }
