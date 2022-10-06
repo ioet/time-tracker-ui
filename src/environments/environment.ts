@@ -6,7 +6,7 @@ import { EnvironmentType } from './enum';
 /* tslint:disable:no-string-literal */
 export const environment = {
   production: EnvironmentType.TT_DEV,
-  timeTrackerApiUrl: 'http://timetracker-dev.ioet.com:7071/api',
+  timeTrackerApiUrl: process.env["API_URL"],
   stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 
