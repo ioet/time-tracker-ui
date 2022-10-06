@@ -1,12 +1,18 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { TestBed } from '@angular/core/testing';
 
 import { SpinnerInterceptor } from './spinner.interceptor';
 
-describe('SpinnerInterceptorService', () => {
+describe('SpinnerInterceptorService test', () => {
   let service: SpinnerInterceptor;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        SpinnerInterceptor,
+        Overlay
+      ]
+    });
     service = TestBed.inject(SpinnerInterceptor);
   });
 
