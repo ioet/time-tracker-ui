@@ -1,0 +1,5 @@
+@use "../../../../../styles/colors.scss" as colors;
+
+:host ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {   
+    stroke: colors.$warning;
+}
