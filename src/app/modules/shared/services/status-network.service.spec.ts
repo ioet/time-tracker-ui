@@ -26,14 +26,21 @@ describe('StatusNetworkService', () => {
   });
 
   it('checkTypeError is error', () => {
-    const errorType: ErrorType = {error: catchError, message: 'javascript', isError: true};
+    const errorType: ErrorType = {error: catchError, message: 'The server is disconnected', isError: true};
     spyOn(toastrServiceStub, 'error');
     service.checkTypeError(errorType);
     expect(toastrServiceStub.error).toHaveBeenCalled();
   });
 
-  it('checkTypeError is warning', () => {
-    const errorType: ErrorType = {error: catchError, message: 'javascript', isError: false};
+  it('checkTypeError is warning with message', () => {
+    const errorType: ErrorType = {error: catchError, message: 'The server is disconnected', isError: false};
+    spyOn(toastrServiceStub, 'warning');
+    service.checkTypeError(errorType);
+    expect(toastrServiceStub.warning).toHaveBeenCalled();
+  });
+
+  it('checkTypeError is warning without message', () => {
+    const errorType: ErrorType = {error: catchError, isError: false};
     spyOn(toastrServiceStub, 'warning');
     service.checkTypeError(errorType);
     expect(toastrServiceStub.warning).toHaveBeenCalled();
