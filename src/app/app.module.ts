@@ -1,12 +1,13 @@
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
+import { OverlayRef, ToastrModule } from 'ngx-toastr';
 import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Component } from '@angular/core';
+import { NgModule, Component, Injectable } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
+import { ComponentPortal } from '@angular/cdk/portal';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -14,6 +15,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -21,6 +24,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { Observable, Subscription } from 'rxjs';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -95,7 +100,12 @@ import { SearchUserComponent } from './modules/shared/components/search-user/sea
 import { TimeRangeCustomComponent } from './modules/reports/components/time-range-custom/time-range-custom.component';
 import { TimeRangeHeaderComponent } from './modules/reports/components/time-range-custom/time-range-header/time-range-header.component';
 import { TimeRangeOptionsComponent } from './modules/reports/components/time-range-custom/time-range-options/time-range-options.component';
+<<<<<<< HEAD
 import { PageLoaderComponent } from './page-loader/page-loader.component';
+=======
+import { SpinnerOverlayComponent } from './modules/shared/components/spinner-overlay/spinner-overlay.component';
+import { SpinnerInterceptor } from './modules/shared/interceptors/spinner.interceptor';
+>>>>>>> d58b5ef (feat: TTA-193 add service and interceptor for spinner loading)
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -155,7 +165,11 @@ const maskConfig: Partial<IConfig> = {
     TimeRangeCustomComponent,
     TimeRangeHeaderComponent,
     TimeRangeOptionsComponent,
+<<<<<<< HEAD
     PageLoaderComponent,
+=======
+    SpinnerOverlayComponent,
+>>>>>>> d58b5ef (feat: TTA-193 add service and interceptor for spinner loading)
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
@@ -174,6 +188,7 @@ const maskConfig: Partial<IConfig> = {
     DataTablesModule,
     AutocompleteLibModule,
     NgxMaterialTimepickerModule,
+    MatProgressSpinnerModule,
     UiSwitchModule,
     DragDropModule,
     MatIconModule,
@@ -206,6 +221,11 @@ const maskConfig: Partial<IConfig> = {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InjectTokenInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
       multi: true,
     },
     DatePipe,
