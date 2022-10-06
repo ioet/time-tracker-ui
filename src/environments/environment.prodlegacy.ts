@@ -2,8 +2,7 @@ import { EnvironmentType } from './enum';
 
 export const environment = {
   production: EnvironmentType.TT_PROD_LEGACY,
-  //timeTrackerApiUrl:  process.env["API_URL"],
-  timeTrackerApiUrl:'https://a9e7-190-231-230-97.sa.ngrok.io',
+  timeTrackerApiUrl:  process.env["API_URL"],
   stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 
