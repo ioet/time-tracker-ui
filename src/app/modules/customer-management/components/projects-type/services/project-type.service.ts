@@ -28,6 +28,6 @@ export class ProjectTypeService {
 
   updateProjectType(projectTypeData): Observable<any> {
     const url = `${this.baseUrl}/${projectTypeData.id}`;
-    return this.http.put(url, projectTypeData) 
+    return this.http.put(url, projectTypeData);
   }
 }
