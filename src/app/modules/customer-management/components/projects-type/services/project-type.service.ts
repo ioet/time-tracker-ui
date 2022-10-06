@@ -15,20 +15,20 @@ export class ProjectTypeService {
 
   getProjectTypes(customerId: any): Observable<ProjectType[]> {
     const params = new HttpParams().set('customer_id', customerId.customerId);
-    return this.http.get<ProjectType[]>(this.baseUrl, { params });
+    return this.http.get<ProjectType[]>(this.baseUrl, { params, withCredentials: true });
   }
 
   createProjectType(projectTypeData): Observable<any> {
-    return this.http.post(this.baseUrl, projectTypeData);
+    return this.http.post(this.baseUrl, projectTypeData, { withCredentials: true });
   }
 
   deleteProjectType(projectTypeId: string): Observable<any> {
     const url = `${this.baseUrl}/${projectTypeId}`;
-    return this.http.delete(url);
+    return this.http.delete(url, { withCredentials: true });
   }
 
   updateProjectType(projectTypeData): Observable<any> {
     const url = `${this.baseUrl}/${projectTypeData.id}`;
-    return this.http.put(url, projectTypeData);
+    return this.http.put(url, projectTypeData, { withCredentials: true });
   }
 }

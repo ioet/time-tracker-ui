@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { EnvironmentType, UserEnum } from 'src/environments/enum';
@@ -92,7 +92,7 @@ export class LoginService {
       token: tokenString,
     };
 
-    return this.http.post(`${this.baseUrl}/login`, body);
+    return this.http.post(`${this.baseUrl}/login`, body, { withCredentials: true });
   }
 
   setCookies() {
@@ -109,7 +109,7 @@ export class LoginService {
 
   isValidToken(token: string) {
     const body = { token };
-    return this.http.post(`${this.baseUrl}/validate-token`, body).pipe(
+    return this.http.post(`${this.baseUrl}/validate-token`, body, { withCredentials: true }).pipe(
       map((response) => {
         const responseString = JSON.stringify(response);
         const responseJson = JSON.parse(responseString);

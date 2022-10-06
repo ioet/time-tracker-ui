@@ -14,7 +14,7 @@ export class ActivityService {
   constructor(private http: HttpClient) {}
 
   getActivities(): Observable<Activity[]> {
-    return this.http.get<Activity[]>(this.baseUrl);
+    return this.http.get<Activity[]>(this.baseUrl, { withCredentials: true });
   }
 
   createActivity(activityData): Observable<any> {
@@ -23,12 +23,12 @@ export class ActivityService {
       tenant_id: '4225ab1e-1033-4a5f-8650-0dd4950f38c8',
     };
 
-    return this.http.post(this.baseUrl, body);
+    return this.http.post(this.baseUrl, body, { withCredentials: true });
   }
 
   deleteActivity(acitivityId: string): Observable<any> {
     const url = `${this.baseUrl}/${acitivityId}`;
-    return this.http.delete(url);
+    return this.http.delete(url, { withCredentials: true });
   }
 
   updateActivity(activityData): Observable<any> {
@@ -38,6 +38,6 @@ export class ActivityService {
       ...activityData,
     };
 
-    return this.http.put(url, body);
+    return this.http.put(url, body, { withCredentials: true });
   }
 }

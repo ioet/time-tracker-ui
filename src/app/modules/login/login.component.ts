@@ -85,6 +85,14 @@ export class LoginComponent implements OnInit {
           this.ngZone.run(() => this.router.navigate(['']));
       });
     };
+    this.loginService.getUser('test').subscribe((resp) => {
+      this.loginService.setCookies();
+      const tokenObject = JSON.stringify(resp);
+      console.log(tokenObject)
+      const tokenJson = JSON.parse(tokenObject);
+      this.loginService.setLocalStorage('user', tokenJson.token);
+      this.ngZone.run(() => this.router.navigate(['']));
+  });
   }
 
   login(): void {
@@ -107,7 +115,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginAuth(): void {
-    
+
   }
 
 }
