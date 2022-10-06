@@ -1,4 +1,4 @@
-# Time-Tracker-UI  v1.50.6
+# Time-Tracker-UI v1.50.6
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 9.0.4.
 
@@ -13,6 +13,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 ## Prerequisites
 
 In general, you will need to have installed in your machine the following:
+
 - Git
 - Visual Studio code(most common) or your favourite editor
 - GPG
@@ -50,7 +51,7 @@ You can do it by following the steps here https://chocolatey.org/install. Althou
 
 ### Make (Only Windows)
 
-You will need to install Make for you to be easier setting your environment. 
+You will need to install Make for you to be easier setting your environment.
 In your command line with admin permissions run `choco install make`
 
 ## Install Node Modules
@@ -60,6 +61,7 @@ In project path, open your favourite command line and run `npm install` in order
 # Prepare your environment
 
 ### Set environment variables
+
 **1**. Using GPG create your key by running this command in your favourite command shell: `gpg --generate-key`.
 
 **2**. Export your public key into a file with this command: `gpg --export -a YOUR_REAL_NAME > public.key`.
@@ -68,8 +70,8 @@ In project path, open your favourite command line and run `npm install` in order
 
 **4**. Once your jr techlead added your key to the list, run this command: `git-crypt unlock` to decrypt your environment variables.
 
-
 ### Prepare your environment for vscode
+
 Install the following extensions(optional):
 
 - `Live Share`.
@@ -83,33 +85,36 @@ You have two ways to run this project locally:
 
 **First (Using Docker)**:
 
-In your project path, open your favourite command line and run the follwing commands: 
+In your project path, open your favourite command line and run the follwing commands:
 
 To run the project in development mode:
+
 - `make build` to create a docker image with dependencies needed for development.
 - `make run` to execute the development docker container.
 - `make logs` to show logs of time-tracker-ui in real time.
 - `make stop` to stop the development docker container.
 
 To run the project in production mode (only for locally testing purposes):
+
 - `make build_prod` to create a docker image with dependencies needed for production.
 - `make run_prod` to execute the production docker container.
 - `make stop_prod` to stop the production docker container.
 
-When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. *Remember you must have your Docker running for both cases.*
+When the project is successfully compiled you can go to `http://localhost:4200/` in your browser. _Remember you must have your Docker running for both cases._
 
 **Second (Without using Docker)**:
 
 Note: If you're on windows, use bash to set up the environment.
 
 - Set the environment variables executing the following commands:
+
 ```bash
 set -a
 source .env
 set +a
 ```
 
-- Run `ng serve` to run the app in development mode. 
+- Run `ng serve` to run the app in development mode.
 - Run `ng serve --prod` to run the app in production mode (pointing to the production backend).
 
 After executing this command, you can navigate to `http://localhost:4200/` to see the app working. This method is usefull when you want to run a specific branch using less time but not recommended when doing QA.
@@ -117,41 +122,46 @@ After executing this command, you can navigate to `http://localhost:4200/` to se
 In any case, the app will automatically reload if you change anything in the source files.
 
 ### Commit messages format
-  Commit messages' format follows the [Conventional Commits guidelines](https://www.conventionalcommits.org/en/v1.0.0/#summary) specification,
-  and specifically we are relying on the [Angular commit specifications](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines) to bump the [semantic version](https://semver.org/) and generate app change log.
 
-  Below there are some common examples you can use for your commit messages:
+Commit messages' format follows the [Conventional Commits guidelines](https://www.conventionalcommits.org/en/v1.0.0/#summary) specification,
+and specifically we are relying on the [Angular commit specifications](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines) to bump the [semantic version](https://semver.org/) and generate app change log.
 
-  - **feat**: A new feature.
-  - **fix**: A bug fix.
-  - **perf**: A code change that improves performance.
-  - **build**: Changes that affect the build system or external dependencies (example scopes: npm, ts configuration).
-  - **ci**: Changes to our CI or CD configuration files and scripts (example scopes: Azure devops, github actions).
-  - **docs**: Documentation only changes.
-  - **refactor**: A code change that neither fixes a bug nor adds a feature.
-  - **style**: Changes that do not affect the meaning of the code (typos, white-space, formatting, missing semi-colons, etc).
-               It is important to mention that this key is not related to css styles.
-  - **test**: Adding missing tests or correcting existing tests.
+Below there are some common examples you can use for your commit messages:
 
-  ### Example
+- **feat**: A new feature.
+- **fix**: A bug fix.
+- **perf**: A code change that improves performance.
+- **build**: Changes that affect the build system or external dependencies (example scopes: npm, ts configuration).
+- **ci**: Changes to our CI or CD configuration files and scripts (example scopes: Azure devops, github actions).
+- **docs**: Documentation only changes.
+- **refactor**: A code change that neither fixes a bug nor adds a feature.
+- **style**: Changes that do not affect the meaning of the code (typos, white-space, formatting, missing semi-colons, etc).
+  It is important to mention that this key is not related to css styles.
+- **test**: Adding missing tests or correcting existing tests.
+
+### Example
+
     fix: TT-48 implement semantic versioning
 
     Prefix to use in the space fix:
     `(fix: |feat: |perf: |build: |ci: |docs: |refactor: |style: |test: )`
 
 | Commit message                                                                                                                                                                                   | Release type               |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------|
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- |
 | `fix(pencil): stop graphite breaking when too much pressure applied`                                                                                                                             | Patch Release              |
 | `feat(pencil): add 'graphiteWidth' option`                                                                                                                                                       | ~~Minor~~ Feature Release  |
 | `perf(pencil): remove graphiteWidth option`<br><br>`BREAKING CHANGE: The graphiteWidth option has been removed.`<br>`The default graphite width of 10mm is always used for performance reasons.` | ~~Major~~ Breaking Release |
 
 ### Branch names format
+
 For example if your task in Jira is **TT-48 implement semantic versioning** your branch name is:
+
 ```
    TT-48-implement-semantic-versioning
 ```
 
 ## Code scaffolding
+
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
@@ -165,12 +175,15 @@ Run `npm run test` or `ng test` to execute the unit tests via [Karma](https://ka
 Run `npm run test-headless` or `ng test --browsers ChromeHeadless` to execute the unit tests via "Headless Browser".
 
 ## Running mutation tests
+
 Mutation tests have been enabled using stryker. You can run those tests locally, it takes ~4 hours to have the results. If you want to run them locally please install stryker locally:
+
 ```
 npm install -g stryker-cli
 ```
 
 Now, run stryker:
+
 ```
 stryker run
 ```
@@ -199,4 +212,5 @@ Shared file with all the Feature Toggles we create, so we can have a history of 
 [Feature Toggles dictionary](https://github.com/ioet/time-tracker-ui/wiki/Feature-Toggles-dictionary)
 
 ## More information about the project
+
 [Starting in Time Tracker](https://github.com/ioet/time-tracker-ui/wiki/Time-tracker)
