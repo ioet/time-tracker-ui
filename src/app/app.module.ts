@@ -100,7 +100,7 @@ import { FastDirective} from './modules/internet-connection-status/internet-conn
 import { SlowDirective} from './modules/internet-connection-status/internet-connection-directives/slow.directive';
 import { OfflineDirective} from './modules/internet-connection-status/internet-connection-directives/offline.directive';
 import { ConnectionDirective } from './modules/internet-connection-status/internet-connection-directives/connection.directive';
-
+import { ToastrService } from 'ngx-toastr';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -219,6 +219,7 @@ const maskConfig: Partial<IConfig> = {
     },
     DatePipe,
     CookieService,
+    ToastrService,
     {provide: Window, useValue: window}
   ],
   bootstrap: [AppComponent],

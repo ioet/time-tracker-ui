@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import * as assert from 'assert';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-
+import { IndividualConfig, ToastrService } from 'ngx-toastr';
 import { StatusNetworkService } from './status-network.service';
 
 export interface ErrorType {
@@ -11,14 +11,31 @@ export interface ErrorType {
 }
 describe('StatusNetworkService', () => {
   let service: StatusNetworkService;
-  const errorType: ErrorType = {error: catchError, message: 'javascript', isError: false};
+  const toastrServiceStub = {
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
+    warning: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+  };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [ToastrService, {
+        provide: ToastrService, useValue: toastrServiceStub
+      }]
+    });
     service = TestBed.inject(StatusNetworkService);
   });
 
+  fit('checkTypeError is error', () => {
+    const errorType: ErrorType = {error: catchError, message: 'javascript', isError: true};
+    spyOn(toastrServiceStub, 'error');
+    service.checkTypeError(errorType)
+    expect(toastrServiceStub.error).toHaveBeenCalled();
+  });
+
   fit('checkTypeError is warning', () => {
-    assert(service.checkTypeError(errorType) == 'is warning');
+    const errorType: ErrorType = {error: catchError, message: 'javascript', isError: false};
+    spyOn(toastrServiceStub, 'warning');
+    service.checkTypeError(errorType)
+    expect(toastrServiceStub.warning).toHaveBeenCalled();
   });
 });

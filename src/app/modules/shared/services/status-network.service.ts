@@ -22,15 +22,12 @@ export class StatusNetworkService {
       if ((effectiveTypenetwork.effectiveType != '2g')){
         if(!isError){
           this.toastrService.warning(message);
-          return 'is warning';
         }
         if(isError){
-          const errorMessa =  error.error && error.error.message? error.error.message: 'There is an error with the server, your request have not be completed';
+          const errorMessa = error.error && error.error.message? error.error.message: 'There is an error with the server, your request have not be completed';
           this.toastrService.error(errorMessa);
-          return 'is error';
         }
       }
       this.toastrService.warning('Your request was not completed, your connection is slow');
-      return 'is warning';
   }
 }
