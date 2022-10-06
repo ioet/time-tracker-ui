@@ -28,7 +28,6 @@ export class UserEffects {
         }),
         catchError((error) => {
           this.statusNetworkService.checkTypeError({error, isError: true});
-          //this.toastrService.error(error.error.message);
           return of(new actions.LoadUsersFail(error));
         })
       )
@@ -47,7 +46,6 @@ export class UserEffects {
         }),
         catchError((error) => {
           this.statusNetworkService.checkTypeError({error, isError: true});
-          //this.toastrService.error(error.error.message);
           return of(new actions.AddUserToGroupFail(error));
         })
       )
@@ -66,7 +64,6 @@ export class UserEffects {
         }),
         catchError((error) => {
           this.statusNetworkService.checkTypeError({error, isError: true});
-          //this.toastrService.error(error.error.message);
           return of(new actions.RemoveUserFromGroupFail(error));
         })
       )
@@ -85,7 +82,6 @@ export class UserEffects {
         }),
         catchError((error) => {
           this.statusNetworkService.checkTypeError({error, isError: true});
-          //this.toastrService.error(error.error.message);
           return of(new actions.GrantUserRoleFail(error));
         })
       )
@@ -104,7 +100,6 @@ export class UserEffects {
         }),
         catchError((error) => {
           this.statusNetworkService.checkTypeError({error, isError: true});
-          //this.toastrService.error(error.error.message);
           return of(new actions.RevokeUserRoleFail(error));
         })
       )

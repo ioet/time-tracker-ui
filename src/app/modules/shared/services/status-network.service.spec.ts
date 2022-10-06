@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import * as assert from 'assert';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { IndividualConfig, ToastrService } from 'ngx-toastr';
 import { StatusNetworkService } from './status-network.service';
 

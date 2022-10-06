@@ -1,9 +1,9 @@
-import { Component, OnInit, ContentChild, Attribute, OnDestroy} from '@angular/core';
+import { Component, OnInit, ContentChild, Attribute} from '@angular/core';
 import { FastDirective} from '../../modules/internet-connection-status/internet-connection-directives/fast.directive';
 import { SlowDirective} from '../../modules/internet-connection-status/internet-connection-directives/slow.directive';
 import { OfflineDirective} from '../../modules/internet-connection-status/internet-connection-directives/offline.directive';
-import { Observable, of, Subscription } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 type Connection = {
@@ -23,8 +23,7 @@ declare global {
 
 @Component({
   selector: 'app-internet-connection-status',
-  templateUrl: './internet-connection-status.component.html',
-  styleUrls: ['./internet-connection-status.component.scss']
+  templateUrl: './internet-connection-status.component.html'
 })
 export class InternetConnectionStatusComponent implements OnInit {
   isFast = true;
