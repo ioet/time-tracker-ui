@@ -55,7 +55,7 @@ describe('Entry selectors', () => {
   });
 
   it('should select resultSumEntriesSelected', () => {
-    const resultSumEntriesSelected:TotalHours = { hours:0, minutes:0, seconds:0 };
+    const resultSumEntriesSelected: TotalHours = { hours: 0, minutes: 0, seconds: 0 };
     const entryState = { resultSumEntriesSelected };
 
     expect(selectors.getResultSumEntriesSelected.projector(entryState)).toEqual(resultSumEntriesSelected);

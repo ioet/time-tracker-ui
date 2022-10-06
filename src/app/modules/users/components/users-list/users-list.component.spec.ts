@@ -1,4 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UsersListComponent } from './users-list.component';
@@ -7,12 +8,22 @@ import { ActionsSubject } from '@ngrx/store';
 import { DataTablesModule } from 'angular-datatables';
 import { GrantUserRole, RevokeUserRole } from '../../store/user.actions';
 import { ROLES } from '../../../../../environments/environment';
+import { LoginService } from '../../../login/services/login.service';
+import { of } from 'rxjs';
+import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
+
 
 describe('UsersListComponent', () => {
   let component: UsersListComponent;
   let fixture: ComponentFixture<UsersListComponent>;
   let store: MockStore<UserState>;
+  let httpMock: HttpTestingController;
   const actionSub: ActionsSubject = new ActionsSubject();
+  let loginService: LoginService;
+  let userInfoService: UserInfoService;
+  const userInfoServiceStub = {
+    isAdmin: () => of(false),
+  };
 
   const state: UserState = {
     data: [
@@ -33,9 +44,11 @@ describe('UsersListComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [NgxPaginationModule, DataTablesModule],
+        imports: [NgxPaginationModule, DataTablesModule, HttpClientTestingModule],
         declarations: [UsersListComponent],
-        providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
+        providers: [provideMockStore({ initialState: state }),
+          { provide: ActionsSubject, useValue: actionSub },
+          { providers: LoginService, useValue: {} }, ],
       }).compileComponents();
     })
   );
@@ -44,6 +57,9 @@ describe('UsersListComponent', () => {
     fixture = TestBed.createComponent(UsersListComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
+    httpMock = TestBed.inject(HttpTestingController);
+    loginService = TestBed.inject(LoginService);
+    userInfoService = TestBed.inject(UserInfoService);
     store.setState(state);
     fixture.detectChanges();
   });
@@ -227,6 +243,16 @@ describe('UsersListComponent', () => {
 
   it('When we call ROLES variable should return available roles', () => {
     expect(component.ROLES).toEqual(ROLES);
+  });
+
+  it('Should call to localstorage and helper decode for get information about user when checkRoleCurrentUser method is called', () => {
+    const account = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFiYyIsIm5hbWUiOiJhYmMiLCJlbWFpbCI6ImVtYWlsIiwiZ3JvdXBzIjpbImFkbWluIl19.gy1GljkoiuOjP8DzkoLRYE9SldBn5ljRc4kp8rwq7UI';
+    spyOn(loginService, 'getLocalStorage').and.returnValue(account);
+    spyOn(userInfoService, 'isAdmin').and.returnValue(of(true));
+    const response = component.checkRoleCurrentUser('email');
+    expect(response).toBeTrue();
+    expect(userInfoService.isAdmin).toHaveBeenCalled();
+    expect(loginService.getLocalStorage).toHaveBeenCalled();
   });
 
   afterEach(() => {

@@ -9,6 +9,9 @@ import { EnvironmentType } from 'src/environments/enum';
 import { User } from '../../models/users';
 import { LoadUsers, UserActionTypes, AddUserToGroup, RemoveUserFromGroup } from '../../store/user.actions';
 import { getIsLoading } from '../../store/user.selectors';
+import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
+import { LoginService } from '../../../login/services/login.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-users-list',
@@ -28,13 +31,16 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   switchGroupsSubscription: Subscription;
   isDevelopmentOrProd = true;
+  helper: JwtHelperService;
 
   public get ROLES() {
     return ROLES;
   }
 
-  constructor(private store: Store<User>, private actionsSubject$: ActionsSubject) {
+  constructor(private store: Store<User>, private actionsSubject$: ActionsSubject,
+              private userInfoService: UserInfoService, private loginService: LoginService) {
     this.isLoading$ = store.pipe(delay(0), select(getIsLoading));
+    this.helper = new JwtHelperService();
   }
 
   ngOnInit(): void {
@@ -94,4 +100,11 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       )
     );
   }
+
+  checkRoleCurrentUser(userEmail: string){
+    const token = this.loginService.getLocalStorage('user');
+    const user = this.helper.decodeToken(token);
+    return this.userInfoService.isAdmin() && (userEmail === user.email);
+  }
+
 }

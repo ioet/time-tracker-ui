@@ -105,7 +105,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   ngOnInit(): void {
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
       this.totalHoursSubscription = this.resultSumEntriesSelected$.subscribe((actTotalHours) => {
-            this.resultSumEntriesSelected = actTotalHours ;
+            this.resultSumEntriesSelected = actTotalHours;
             this.totalTimeSelected = moment.duration(0);
           });
       this.sumDates(ds.data);
@@ -144,9 +144,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   bodyExportOptions(data, row, column, node) {
-    const dataFormated = data.toString().replace(/<((.|\n){0,200}?)>/gi, '');
-    const durationColumnIndex = 4;
-    return column === durationColumnIndex ? moment.duration(dataFormated).asHours().toFixed(2) : dataFormated;
+    return data.toString().replace(/<((.|\n){0,200}?)>/gi, '') || '';
   }
 
 

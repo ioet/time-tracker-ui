@@ -3,22 +3,23 @@
 // The list of file replacements can be found in 'angular.json'.
 import { EnvironmentType } from './enum';
 
+/* tslint:disable:no-string-literal */
 export const environment = {
   production: EnvironmentType.TT_DEV,
   timeTrackerApiUrl: process.env['API_URL'],
   stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 
-
-
 export const AUTHORITY = process.env['AUTHORITY'];
 export const CLIENT_ID = process.env['CLIENT_ID'];
 export const CLIENT_URL = process.env['CLIENT_URL'];
 export const SCOPES = process.env['SCOPES'].split(',');
-export const ITEMS_PER_PAGE = 5;
 export const STACK_EXCHANGE_ID = process.env['STACK_EXCHANGE_ID'];
 export const STACK_EXCHANGE_ACCESS_TOKEN = process.env['STACK_EXCHANGE_ACCESS_TOKEN'];
 export const AZURE_APP_CONFIGURATION_CONNECTION_STRING = process.env['AZURE_APP_CONFIGURATION_CONNECTION_STRING'];
+/* tslint:enable:no-string-literal */
+export const ITEMS_PER_PAGE = 5;
+
 export const DATE_FORMAT = 'yyyy-MM-dd';
 export const DATE_FORMAT_YEAR = 'YYYY-MM-DD';
 export const GROUPS = {
