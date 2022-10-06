@@ -25,17 +25,17 @@ describe('StatusNetworkService', () => {
     service = TestBed.inject(StatusNetworkService);
   });
 
-  fit('checkTypeError is error', () => {
+  it('checkTypeError is error', () => {
     const errorType: ErrorType = {error: catchError, message: 'javascript', isError: true};
     spyOn(toastrServiceStub, 'error');
-    service.checkTypeError(errorType)
+    service.checkTypeError(errorType);
     expect(toastrServiceStub.error).toHaveBeenCalled();
   });
 
-  fit('checkTypeError is warning', () => {
+  it('checkTypeError is warning', () => {
     const errorType: ErrorType = {error: catchError, message: 'javascript', isError: false};
     spyOn(toastrServiceStub, 'warning');
-    service.checkTypeError(errorType)
+    service.checkTypeError(errorType);
     expect(toastrServiceStub.warning).toHaveBeenCalled();
   });
 });

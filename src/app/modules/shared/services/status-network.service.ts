@@ -17,17 +17,17 @@ export class StatusNetworkService {
   ) { }
 
   checkTypeError(dataError: ErrorType){
-      const { isError = false, message = 'The server is disconnected', error} = dataError; 
-      const effectiveTypenetwork = navigator.connection;
-      if ((effectiveTypenetwork.effectiveType != '2g')){
-        if(!isError){
-          this.toastrService.warning(message);
-        }
-        if(isError){
-          const errorMessa = error.error && error.error.message? error.error.message: 'There is an error with the server, your request have not be completed';
-          this.toastrService.error(errorMessa);
-        }
+    const { isError = false, message = 'The server is disconnected', error} = dataError;
+    const effectiveTypenetwork = navigator.connection;
+    if ((effectiveTypenetwork.effectiveType !== '2g')){
+      if (!isError){
+        this.toastrService.warning(message);
       }
-      this.toastrService.warning('Your request was not completed, your connection is slow');
+      if (isError){
+        const errorMessa = error.error && error.error.message ? error.error.message : 'There is an error with the server, your request have not be completed';
+        this.toastrService.error(errorMessa);
+      }
+    }
+    this.toastrService.warning('Your request was not completed, your connection is slow');
   }
 }
