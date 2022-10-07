@@ -36,7 +36,9 @@ describe('SpinnerInterceptorService test', () => {
 
   it('if request is made then spinnerInterceptor is called', () => {
     const request = new HttpRequest('GET', '/foo');
-    spyOn(spinnerInterceptor, 'intercept');
+
+
+    spyOn(spinnerInterceptor, 'intercept').and.callThrough();
 
     spinnerInterceptor.intercept(request, httpHandler);
 
