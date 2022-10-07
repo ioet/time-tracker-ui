@@ -26,11 +26,11 @@ describe('SpinnerOverlayService test', () => {
       providers: [
         Overlay,
         SpinnerInterceptor,
-      {
-      provide: HTTP_INTERCEPTORS,
-      useClass: SpinnerInterceptor,
-      multi: true,
-    },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: SpinnerInterceptor,
+          multi: true,
+        },
       ],
     });
     spinnerService = TestBed.inject(SpinnerOverlayService);
@@ -46,20 +46,14 @@ describe('SpinnerOverlayService test', () => {
   it('if request is made then spinnerService is show', () => {
     const request = new HttpRequest('GET', '/foo');
     spyOn(spinnerService, 'show');
+    spyOn(spinnerService, 'hide');
 
     spinnerInterceptor.intercept(request, mockHttpHandler);
 
     expect(spinnerService.show).toHaveBeenCalled();
     expect(overlayRef).toBeUndefined();
     expect(ComponentPortal).toBeTruthy();
+    expect(spinnerService.hide).toBeTruthy();
   });
 
-  it('if request is made then spinnerService is hide', () => {
-    const request = new HttpRequest('GET', '/foo');
-    spyOn(spinnerService, 'hide');
-
-    spinnerInterceptor.intercept(request, mockHttpHandler);
-
-   expect(spinnerService.hide).toBeTruthy();
-  });
 });
