@@ -8,7 +8,7 @@ describe('FastDirective', () => {
         });
     });
     it('should create an instance', () => {
-    const directive = new SlowDirective(undefined);
-    expect(directive).toBeTruthy();
+        const directive = new SlowDirective(undefined);
+        expect(directive).toBeTruthy();
     });
 });
