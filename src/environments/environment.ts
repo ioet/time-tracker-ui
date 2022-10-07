@@ -13,6 +13,7 @@ export const environment = {
 export const AUTHORITY = process.env['AUTHORITY'];
 export const CLIENT_ID = process.env['CLIENT_ID'];
 export const CLIENT_URL = process.env['CLIENT_URL'];
+export let AUTH_URL = process.env['AUTH_URL'];
 export const SCOPES = process.env['SCOPES'].split(',');
 export const STACK_EXCHANGE_ID = process.env['STACK_EXCHANGE_ID'];
 export const STACK_EXCHANGE_ACCESS_TOKEN = process.env['STACK_EXCHANGE_ACCESS_TOKEN'];

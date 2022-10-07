@@ -3,7 +3,7 @@ import { AzureAdB2CService } from './services/azure.ad.b2c.service';
 import { Router } from '@angular/router';
 import { FeatureToggleCookiesService } from '../shared/feature-toggles/feature-toggle-cookies/feature-toggle-cookies.service';
 
-import { environment, CLIENT_URL } from 'src/environments/environment';
+import { environment, CLIENT_URL, AUTH_URL } from 'src/environments/environment';
 import { EnvironmentType } from 'src/environments/enum';
 import { LoginService } from './services/login.service';
 import { UserService } from '../user/services/user.service';
@@ -22,6 +22,7 @@ declare global {
 export class LoginComponent implements OnInit {
   isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
   cliendId = CLIENT_URL;
+  authUrl = AUTH_URL;
   auth2: any;
 
 
@@ -115,7 +116,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginAuth(): void {
-
+    return this.authUrl;
   }
 
 }
