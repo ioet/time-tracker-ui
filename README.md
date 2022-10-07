@@ -141,7 +141,7 @@ In any case, the app will automatically reload if you change anything in the sou
   - **test**: Adding missing tests or correcting existing tests.
 
   ### Example
-    fix: TT-48 implement semantic versioning
+    fix: TTA-48 implement semantic versioning
 
     Prefix to use in the space fix:
     `(fix: |feat: |perf: |build: |ci: |docs: |refactor: |style: |test: )`
