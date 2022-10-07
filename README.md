@@ -146,9 +146,9 @@ In any case, the app will automatically reload if you change anything in the sou
 | `perf(pencil): remove graphiteWidth option`<br><br>`BREAKING CHANGE: The graphiteWidth option has been removed.`<br>`The default graphite width of 10mm is always used for performance reasons.` | ~~Major~~ Breaking Release |
 
 ### Branch names format
-For example if your task in Jira is **TT-48 implement semantic versioning** your branch name is:
+For example if your task in Jira is **TTA-48 implement semantic versioning** your branch name is:
 ```
-   TT-48-implement-semantic-versioning
+   TTA-48-implement-semantic-versioning
 ```
 
 ## Code scaffolding
