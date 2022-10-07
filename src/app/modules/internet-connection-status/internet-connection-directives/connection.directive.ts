@@ -18,11 +18,11 @@ export class ConnectionDirective implements OnInit {
         let networkSatus;
         if (/\fast-5g|3g|4g/.test(effectiveType)) {
             networkSatus = this.fastSrc;
-            return
+            return;
         }
         if (/\slow-2g|2g/.test(effectiveType))  {
             networkSatus = this.slowSrc;
-            return
+            return;
         }
         networkSatus = this.offlineSrc;
 
