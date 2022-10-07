@@ -10,6 +10,7 @@ import { SpinnerOverlayComponent } from './../components/spinner-overlay/spinner
 })
 export class SpinnerOverlayService {
   private overlayRef: OverlayRef = undefined;
+  static spinner$: any;
 
   constructor(private readonly overlay: Overlay) {}
 
@@ -22,7 +23,7 @@ export class SpinnerOverlayService {
     );
   }).pipe(share());
 
-  private show(): void {
+  public show(): void {
     Promise.resolve(null).then(() => {
       this.overlayRef = this.overlay.create({
         positionStrategy: this.overlay
@@ -36,7 +37,7 @@ export class SpinnerOverlayService {
     });
   }
 
-  private hide(): void {
+  public hide(): void {
     this.overlayRef.detach();
     this.overlayRef = undefined;
   }
