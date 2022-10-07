@@ -115,7 +115,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  loginAuth(): void {
+  loginAuth(): string {
     return this.authUrl;
   }
 
