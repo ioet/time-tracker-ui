@@ -29,7 +29,7 @@ export class CustomerEffects {
           return new actions.LoadCustomersSuccess(customers);
         }),
         catchError((error) => {
-          this.statusNetworkService.checkTypeError({error, isError: true});
+          this.statusNetworkService.showTypeToastrServiceAlert({error, isError: true});
           return of(new actions.LoadCustomersFail(error));
         }
         )
@@ -48,7 +48,7 @@ export class CustomerEffects {
           return new actions.CreateCustomerSuccess(customerData);
         }),
         catchError((error) => {
-          this.statusNetworkService.checkTypeError({error, isError: true});
+          this.statusNetworkService.showTypeToastrServiceAlert({error, isError: true});
           return of(new actions.CreateCustomerFail(error));
         })
       )
@@ -66,7 +66,7 @@ export class CustomerEffects {
           return new actions.DeleteCustomerSuccesss(customerId);
         }),
         catchError((error) => {
-          this.statusNetworkService.checkTypeError({error, isError: true});
+          this.statusNetworkService.showTypeToastrServiceAlert({error, isError: true});
           return of(new actions.DeleteCustomerFail(error));
         })
       )
@@ -84,7 +84,7 @@ export class CustomerEffects {
           return new actions.UpdateCustomerSuccess(customerData);
         }),
         catchError((error) => {
-          this.statusNetworkService.checkTypeError({error, isError: true});
+          this.statusNetworkService.showTypeToastrServiceAlert({error, isError: true});
           return of(new actions.UpdateCustomerFail(error));
         })
       )
@@ -106,7 +106,7 @@ export class CustomerEffects {
           return new actions.UpdateCustomerSuccess(customerData);
         }),
         catchError((error) => {
-          this.statusNetworkService.checkTypeError({error, isError: true});
+          this.statusNetworkService.showTypeToastrServiceAlert({error, isError: true});
           return of(new actions.UpdateCustomerFail(error));
         })
       )

@@ -29,7 +29,7 @@ export class ActivityEffects {
           return new actions.LoadActivitiesSuccess(activities);
         }),
         catchError((error) => {
-          this.statusNetworkService.checkTypeError({error, isError: true});
+          this.statusNetworkService.showTypeToastrServiceAlert({error, isError: true});
           return of(new actions.LoadActivitiesFail(error));
         })
       )
@@ -47,7 +47,7 @@ export class ActivityEffects {
           return new actions.CreateActivitySuccess(activityData);
         }),
         catchError((error) => {
-          this.statusNetworkService.checkTypeError({error, isError: true});
+          this.statusNetworkService.showTypeToastrServiceAlert({error, isError: true});
           return of(new actions.CreateActivityFail(error));
         })
       )
@@ -68,7 +68,7 @@ export class ActivityEffects {
           return new actions.ArchiveActivitySuccess(activity);
         }),
         catchError((error) => {
-          this.statusNetworkService.checkTypeError({error, isError: true});
+          this.statusNetworkService.showTypeToastrServiceAlert({error, isError: true});
           return of(new actions.ArchiveActivityFail(error));
         })
       )
@@ -86,7 +86,7 @@ export class ActivityEffects {
           return new actions.UpdateActivitySuccess(activityData);
         }),
         catchError((error) => {
-          this.statusNetworkService.checkTypeError({error, isError: true});
+          this.statusNetworkService.showTypeToastrServiceAlert({error, isError: true});
           return of(new actions.UpdateActivityFail(error));
         })
       )
@@ -108,7 +108,7 @@ export class ActivityEffects {
           return new actions.UnarchiveActivitySuccess(activityData);
         }),
         catchError((error) => {
-          this.statusNetworkService.checkTypeError({error, isError: true});
+          this.statusNetworkService.showTypeToastrServiceAlert({error, isError: true});
           return of(new actions.UnarchiveActivityFail(error));
         })
       )

@@ -67,20 +67,18 @@ export class InternetConnectionStatusComponent implements OnInit {
       .subscribe((effectiveType: string) => {
 
         this.connectionType = effectiveType;
-
-        if (!(/\fast-5g|3g|4g/.test(effectiveType)) || !(/\slow-2g|2g/.test(effectiveType))){
+        
+        if (/\fast-5g|3g|4g/.test(effectiveType)) { 
           this.toastrService.error('Your request was not completed, you are offline');
-          this.isFast = false;
-        }
-
-        if (/\fast-5g|3g|4g/.test(effectiveType)){
           this.isFast = true;
+          return
         }
-
         if (/\slow-2g|2g/.test(effectiveType)) {
             this.toastrService.warning('Caution your connection is slow');
             this.isFast = false;
+            return 
         }
+        this.isFast = false;
       });
   }
 }

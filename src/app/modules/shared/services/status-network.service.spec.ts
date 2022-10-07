@@ -24,24 +24,24 @@ describe('StatusNetworkService', () => {
     service = TestBed.inject(StatusNetworkService);
   });
 
-  it('checkTypeError is error', () => {
+  it('showTypeToastrServiceAlert is error', () => {
     const errorType: ErrorType = {error: catchError, message: 'The server is disconnected', isError: true};
     spyOn(toastrServiceStub, 'error');
-    service.checkTypeError(errorType);
+    service.showTypeToastrServiceAlert(errorType);
     expect(toastrServiceStub.error).toHaveBeenCalled();
   });
 
-  it('checkTypeError is warning with message', () => {
+  it('showTypeToastrServiceAlert is warning with message', () => {
     const errorType: ErrorType = {error: catchError, message: 'The server is disconnected', isError: false};
     spyOn(toastrServiceStub, 'warning');
-    service.checkTypeError(errorType);
+    service.showTypeToastrServiceAlert(errorType);
     expect(toastrServiceStub.warning).toHaveBeenCalled();
   });
 
-  it('checkTypeError is warning without message', () => {
+  it('showTypeToastrServiceAlert is warning without message', () => {
     const errorType: ErrorType = {error: catchError, isError: false};
     spyOn(toastrServiceStub, 'warning');
-    service.checkTypeError(errorType);
+    service.showTypeToastrServiceAlert(errorType);
     expect(toastrServiceStub.warning).toHaveBeenCalled();
   });
 });
