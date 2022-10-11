@@ -15,17 +15,15 @@ export class ConnectionDirective implements OnInit {
 
     ngOnInit() {
         const { effectiveType } = navigator.connection;
-        let networkSatus;
+        let networkStatus;
         if (/\fast-5g|3g|4g/.test(effectiveType)) {
-            networkSatus = this.fastSrc;
-            return;
+            networkStatus = this.fastSrc;
+        } else if (/\slow-2g|2g/.test(effectiveType))  {
+            networkStatus = this.slowSrc;
+        } else {
+            networkStatus = this.offlineSrc;
         }
-        if (/\slow-2g|2g/.test(effectiveType))  {
-            networkSatus = this.slowSrc;
-            return;
-        }
-        networkSatus = this.offlineSrc;
 
-        this.host.nativeElement.setAttribute('src', networkSatus);
+        this.host.nativeElement.setAttribute('src', networkStatus);
     }
 }

@@ -32,21 +32,21 @@ describe('InternetConnectionStatusComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should show a stable connection warning', () => {
+  it('component.isFast should be true when the connection is 4g', () => {
     component.connection$ = of('4g');
     fixture.detectChanges();
     component.ngOnInit();
     expect(component.isFast).toBe(true);
   });
 
-  it('should show a slow connection warning', () => {
+  it('component.isFast should be false when the connection is 2g', () => {
     component.connection$ = of('2g');
     fixture.detectChanges();
     component.ngOnInit();
     expect(component.isFast).toBe(false);
   });
 
-  it('should show offline warning', () => {
+  it('component.isFast should be false when the connection is Offline', () => {
     component.connection$ = of('Offline');
     fixture.detectChanges();
     component.ngOnInit();

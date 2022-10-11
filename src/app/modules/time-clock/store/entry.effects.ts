@@ -37,7 +37,8 @@ export class EntryEffects {
           return new actions.ClockIn(entry);
         }),
         catchError((error) => {
-          this.statusNetworkService.showTypeToastrServiceAlert({error, message: 'We could not perform this operation, try again later', isError: false});
+          this.statusNetworkService.showTypeToastrServiceAlert(
+            {error, message: 'We could not perform this operation, try again later', isError: false});
           return of(new actions.StopTimeEntryRunningFail(error));
         })
       )
@@ -56,7 +57,8 @@ export class EntryEffects {
           return new actions.LoadEntriesSummarySuccess(response);
         }),
         catchError((error) => {
-          this.statusNetworkService.showTypeToastrServiceAlert({error, message: 'Your summary information could not be loaded', isError: false});
+          this.statusNetworkService.showTypeToastrServiceAlert(
+            {error, message: 'Your summary information could not be loaded', isError: false});
           return of(new actions.LoadEntriesSummaryFail());
         })
       )
@@ -151,7 +153,8 @@ export class EntryEffects {
           if (error.status === 404) {
             return of(new actions.CreateEntry(entry));
           } else {
-            this.statusNetworkService.showTypeToastrServiceAlert({error, message: 'We could not clock you in, try again later.', isError: true});
+            this.statusNetworkService.showTypeToastrServiceAlert(
+              {error, message: 'We could not clock you in, try again later.', isError: true});
             return of(new actions.CreateEntryFail('Error'));
           }
         })
