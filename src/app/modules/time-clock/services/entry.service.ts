@@ -28,7 +28,10 @@ export class EntryService {
 
   loadEntries(date): Observable<any> {
     const timezoneOffset = new Date().getTimezoneOffset();
-    return this.http.get(`${this.baseUrl}?month=${date.month}&year=${date.year}&timezone_offset=${timezoneOffset}`, { withCredentials: true });
+    return this.http.get(
+      `${this.baseUrl}?month=${date.month}&year=${date.year}&timezone_offset=${timezoneOffset}`,
+      { withCredentials: true }
+    );
   }
 
   createEntry(entryData): Observable<any> {
@@ -47,7 +50,8 @@ export class EntryService {
 
   stopEntryRunning(idEntry: string): Observable<any> {
     return (this.urlInProductionLegacy ?
-      this.http.post(`${this.baseUrl}/${idEntry}/stop`, null, { withCredentials: true }) : this.http.put(`${this.baseUrl}/stop`, null, { withCredentials: true }) );
+      this.http.post(`${this.baseUrl}/${idEntry}/stop`, null, { withCredentials: true }) :
+      this.http.put(`${this.baseUrl}/stop`, null, { withCredentials: true }) );
   }
 
   restartEntry(idEntry: string): Observable<Entry> {

@@ -1,11 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, NgZone } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { EnvironmentType, UserEnum } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class LoginService {
   helper: JwtHelperService;
   isLegacyProd: boolean = environment.production === EnvironmentType.TT_PROD_LEGACY;
   localStorageKey = this.isLegacyProd ? 'user2' : 'user';
+  router: Router;
+  ngZone: NgZone;
 
   constructor(
     private http?: HttpClient,
@@ -25,8 +28,8 @@ export class LoginService {
   }
 
   logout() {
-    this.cookieService.deleteAll();
     localStorage.clear();
+    this.http.post(`${this.baseUrl}/logout`, null, { withCredentials: true }).subscribe();
   }
 
   isLogin() {
@@ -120,5 +123,4 @@ export class LoginService {
       })
     );
   }
-
 }
