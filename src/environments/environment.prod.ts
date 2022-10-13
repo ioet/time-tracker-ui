@@ -4,6 +4,8 @@ export const environment = {
   production: EnvironmentType.TT_PROD,
   timeTrackerApiUrl:  process.env["API_URL"],
   stackexchangeApiUrl: 'https://api.stackexchange.com',
+  authUrl: 'https://api.auth.ioet.com',
+  authAppName: 'timeTracker',
 };
 
 export const AUTHORITY = process.env["AUTHORITY"];

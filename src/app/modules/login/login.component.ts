@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
   cliendId = CLIENT_URL;
   authUrl = environment.authUrl;
+  authAppName = environment.authAppName;
   auth2: any;
 
 
@@ -67,7 +68,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginAuth(): string {
-    return `${this.authUrl}/authn/login/timeTracker`;
+    return `${this.authUrl}/authn/login/${this.authAppName}`;
   }
 
 }

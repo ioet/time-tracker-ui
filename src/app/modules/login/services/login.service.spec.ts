@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
@@ -12,6 +14,7 @@ describe('LoginService', () => {
   let service: LoginService;
   let cookieService: CookieService;
   let socialAuthService: SocialAuthService;
+  let router: Router;
   let account;
   const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['signOut', 'signIn']);
   const httpClientSpy = jasmine.createSpyObj('HttpClient', ['post', 'get']);
@@ -23,16 +26,17 @@ describe('LoginService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [
         { providers: CookieService, useValue: cookieStoreStub },
         { provide: SocialAuthService, useValue: socialAuthServiceStub },
-        { provide: HttpClient, useValue: httpClientSpy }
+        { provide: HttpClient, useValue: httpClientSpy },
       ],
     });
     service = TestBed.inject(LoginService);
     cookieService = TestBed.inject(CookieService);
     socialAuthService = TestBed.inject(SocialAuthService);
+    router = TestBed.inject(Router);
     account = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImFiYyIsIm5hbWUiOiJhYmMiLCJlbWFpbCI6ImFiYyIsImdyb3VwcyI6WyJhYmMiXX0.UNxyDT8XzXJhI1F3LySBU7TJlpENPUPHj8my7Obw2ZM';
     let store = {};
     const mockLocalStorage = {
@@ -121,7 +125,9 @@ describe('LoginService', () => {
   });
 
   it('should logout with social angularx-social-login', () => {
+    service.router = router;
     spyOn(cookieService, 'deleteAll').and.returnValue();
+    spyOn(service, 'invalidateSessionCookie').and.returnValue(of(true));
 
     service.logout();
 
