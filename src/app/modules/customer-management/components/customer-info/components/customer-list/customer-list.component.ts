@@ -99,8 +99,10 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((action) => {
         this.store.dispatch(new LoadCustomers());
         this.showCustomerForm = false;
+        this.scrollIntoViewEditCustomerForm();
       });
     this.store.dispatch(new LoadCustomers());
+    
   }
 
   ngAfterViewInit(): void {
@@ -117,14 +119,15 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   editCustomer(customerId: string) {
     this.idToEdit = customerId;
     if (this.hasChange) {
-      this.message = 'Do you have changes in a client, do you want to discard them?';
-      this.showModal = true;
+      this.message = 'You have changes in a client, do you want to discard them?';
+      this.showModal = true;  
     } else {
       this.showCustomerForm = true;
       this.showModal = false;
       this.changeValueShowCustomerForm.emit(this.showCustomerForm);
       this.resetProjectFieldsToEdit();
       this.store.dispatch(new SetCustomerToEdit(customerId));
+      this.scrollIntoViewEditCustomerForm();
     }
   }
 
@@ -135,6 +138,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resetProjectFieldsToEdit();
     this.checkResetCustomerToEdit(this.idToEdit);
     this.store.dispatch(new SetCustomerToEdit(this.idToEdit));
+    this.scrollIntoViewEditCustomerForm();
   }
 
   private resetProjectFieldsToEdit() {
@@ -168,6 +172,9 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     if (isResetCustomerToEdit) {
       this.store.dispatch(new ResetCustomerToEdit());
     }
+  
+    this.scrollIntoViewEditCustomerForm();
+  
     return isResetCustomerToEdit;
   }
 
@@ -199,4 +206,8 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.dispatch(new UnarchiveCustomer(this.idToDelete, this.changeOppositeStatus(this.statusToEdit)));
   }
 
+  scrollIntoViewEditCustomerForm(): void {
+    const element = document.getElementById("bottom");
+    element.scrollIntoView();
+  }
 }
