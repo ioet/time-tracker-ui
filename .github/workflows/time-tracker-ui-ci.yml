@@ -39,7 +39,6 @@ jobs:
 
     - name: Running tests
       run: |
-        chmod -R 777 ./$home
         make test
     - name: Generate coverage report
       env:
