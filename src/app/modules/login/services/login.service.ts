@@ -34,7 +34,6 @@ export class LoginService {
     this.cookieService.deleteAll();
     this.invalidateSessionCookie().toPromise().then(() => {
       this.router.navigate(['login']);
-      console.log()
     });
   }
 

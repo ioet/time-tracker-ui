@@ -3,6 +3,8 @@ services:
   timetracker_ui:
     container_name: timetracker_ui
     image: timetracker_ui
+    env_file:
+      - .dev.env
     build:
       context: .
       dockerfile: ./Docker/Dockerfile.dev
