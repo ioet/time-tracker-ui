@@ -7,16 +7,19 @@ import { FeatureToggleGeneralService } from '../feature-toggle-general/feature-t
 import { FeatureToggleModel } from '../feature-toggle.model';
 import { TargetingFeatureFilterModel } from '../filters/targeting/targeting-feature-filter.model';
 import { FeatureToggleCookiesService } from './feature-toggle-cookies.service';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('FeatureToggleCookiesService', () => {
   let cookieService: CookieService;
   let featureToggleGeneralService: FeatureToggleGeneralService;
   let service: FeatureToggleCookiesService;
+  let router: Router;
 
   const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [CookieService, FeatureToggleGeneralService,
         { provide: SocialAuthService, useValue: socialAuthServiceStub }
       ]
@@ -24,6 +27,7 @@ describe('FeatureToggleCookiesService', () => {
     cookieService = TestBed.inject(CookieService);
     featureToggleGeneralService = TestBed.inject(FeatureToggleGeneralService);
     service = TestBed.inject(FeatureToggleCookiesService);
+    router = TestBed.inject(Router);
   });
 
   it('should be created', () => {

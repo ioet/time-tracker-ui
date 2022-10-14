@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { LoginService } from './login.service';
@@ -125,7 +125,6 @@ describe('LoginService', () => {
   });
 
   it('should logout with social angularx-social-login', () => {
-    service.router = router;
     spyOn(cookieService, 'deleteAll').and.returnValue();
     spyOn(service, 'invalidateSessionCookie').and.returnValue(of(true));
 

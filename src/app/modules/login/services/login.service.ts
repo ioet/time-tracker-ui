@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { EnvironmentType, UserEnum } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
@@ -16,21 +16,25 @@ export class LoginService {
   helper: JwtHelperService;
   isLegacyProd: boolean = environment.production === EnvironmentType.TT_PROD_LEGACY;
   localStorageKey = this.isLegacyProd ? 'user2' : 'user';
-  router: Router;
+  ngZone?: NgZone;
+
 
   constructor(
     private http?: HttpClient,
     private cookieService?: CookieService,
+    private router?: Router,
   ) {
     this.baseUrl = `${environment.timeTrackerApiUrl}/users`;
     this.helper = new JwtHelperService();
+    this.router = router;
   }
 
   logout() {
     localStorage.clear();
     this.cookieService.deleteAll();
-    this.invalidateSessionCookie().subscribe(() => {
+    this.invalidateSessionCookie().toPromise().then(() => {
       this.router.navigate(['login']);
+      console.log()
     });
   }
 
