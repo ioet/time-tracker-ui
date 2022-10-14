@@ -11,7 +11,7 @@ help: ## Show this help message.
 
 .PHONY: build
 build: ## Create docker image with dependencies needed for development.
-	docker-compose --env-file=.dev.env build timetracker_ui
+	docker-compose build timetracker_ui
 
 .PHONY: cleanup
 cleanup: ## Delete image timetracker_ui
