@@ -32,7 +32,7 @@ jobs:
     - name: Unlock DEV secrets
       uses: sliteteam/github-action-git-crypt-unlock@1.2.0
       env:
-        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY_STAGE }}
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY_DEFAULT }}
 
     - name: build docker
       run: make build
