@@ -2,8 +2,9 @@ import { Overlay } from '@angular/cdk/overlay';
 import { TestBed } from '@angular/core/testing';
 import { SpinnerInterceptor } from './spinner.interceptor';
 import { HttpHandler, HttpRequest, HttpResponse, HttpEvent } from '@angular/common/http';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SpinnerOverlayService } from '../services/spinner-overlay.service';
+import { ComponentPortal } from 'ngx-toastr';
 
 
 describe('SpinnerInterceptorService test', () => {
@@ -20,32 +21,40 @@ describe('SpinnerInterceptorService test', () => {
     }
   }
 
-  let overlay: Overlay;
-  let httpHandler: HttpHandler;
+  let spinnerService: SpinnerOverlayService;
   let spinnerInterceptor: SpinnerInterceptor;
-  let spinnerOverlayService: SpinnerOverlayService;
+  let mockHttpHandler: HttpHandler;
+  let overlayRef: any;
 
   beforeEach(() => {
-    overlay = jasmine.createSpyObj('Overlay', ['create']);
-    httpHandler = new MockHttpHandler();
-    spinnerInterceptor = new SpinnerInterceptor(new SpinnerOverlayService(overlay));
-    spinnerOverlayService = new SpinnerOverlayService(overlay);
+    spinnerService = TestBed.inject(SpinnerOverlayService);
+    spinnerInterceptor = TestBed.inject(SpinnerInterceptor);
+    mockHttpHandler = new MockHttpHandler();
+    overlayRef = spinnerService.overlayRef;
   });
 
   it('should be created', () => {
     expect(spinnerInterceptor).toBeTruthy();
   });
 
-  it('if request is made then spinnerInterceptor is called', () => {
-    const request = new HttpRequest('GET', '/foo');
-    const spinnerSubscription: Subscription = spinnerOverlayService.spinner$.subscribe();
-    spyOn(spinnerSubscription, 'unsubscribe')
-    spyOn(spinnerInterceptor, 'intercept').and.callThrough();
+  it('if request is made then spinnerService is show', () => {
+    const request = new HttpRequest('GET', '/recent');
+    spyOn(spinnerService, 'show');
 
-    spinnerInterceptor.intercept(request, httpHandler);
+    spinnerInterceptor.intercept(request, mockHttpHandler);
 
-    expect(spinnerInterceptor.intercept).toHaveBeenCalledWith(request, httpHandler);
-    expect(spinnerSubscription.unsubscribe).toBeTruthy();
+    expect(spinnerService.show).toHaveBeenCalled();
+    expect(ComponentPortal).toBeTruthy();
+  });
+
+
+  it('if hide calls detach method of overlayRef and then sets it to undefined', () => {
+    spyOn(spinnerService, 'hide');
+
+    spinnerService.hide();
+
+    expect(spinnerService.hide).toHaveBeenCalled();
+    expect(overlayRef).toBeUndefined();
   });
 
 });

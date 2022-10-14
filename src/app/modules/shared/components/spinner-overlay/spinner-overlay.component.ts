@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-spinner-overlay',
-  templateUrl: './spinner-overlay.component.html',
+  template: '<mat-spinner diameter="80"></mat-spinner>',
   styleUrls: ['./spinner-overlay.component.scss'],
 })
 

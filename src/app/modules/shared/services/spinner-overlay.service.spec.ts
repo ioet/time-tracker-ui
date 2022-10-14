@@ -44,16 +44,23 @@ describe('SpinnerOverlayService test', () => {
   });
 
   it('if request is made then spinnerService is show', () => {
-    const request = new HttpRequest('GET', '/foo');
+    const request = new HttpRequest('GET', '/recent');
     spyOn(spinnerService, 'show');
-    spyOn(spinnerService, 'hide');
 
     spinnerInterceptor.intercept(request, mockHttpHandler);
 
     expect(spinnerService.show).toHaveBeenCalled();
-    expect(overlayRef).toBeUndefined();
     expect(ComponentPortal).toBeTruthy();
-    expect(spinnerService.hide).toBeTruthy();
+  });
+
+
+  it('if hide calls detach method of overlayRef and then sets it to undefined', () => {
+    spyOn(spinnerService, 'hide');
+
+    spinnerService.hide();
+
+    expect(spinnerService.hide).toHaveBeenCalled();
+    expect(overlayRef).toBeUndefined();
   });
 
 });
