@@ -17,9 +17,14 @@ export class SpinnerInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const spinnerSubscription: Subscription = this.spinnerOverlayService.spinner$.subscribe();
+    if(req.url.endsWith('recent')){
+      const spinnerSubscription: Subscription = this.spinnerOverlayService.spinner$.subscribe();
     return next
       .handle(req)
       .pipe(finalize(() => spinnerSubscription.unsubscribe()));
+    }else{
+      return next.handle(req);
+    }
+    
   }
 }
