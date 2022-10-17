@@ -1,7 +1,7 @@
 <div class="container-fluid px-0 full-height">
   <div class="row">
     <div style="padding: 15px;">
-      <button (click)="activateCustomerForm()" class="btn btn-primary">Add new customer</button>
+      <button (click)="activateCustomerForm(); scrollToCustomerForm()" class="btn btn-primary">Add new customer</button>
     </div>
   </div>
   <app-customer-list
@@ -9,9 +9,14 @@
     [hasChange]="hasChangeComponent"
     (changeValueShowCustomerForm)="showCustomerForm = $event"
   ></app-customer-list>
-  <div class="row" *ngIf="showCustomerForm">
-    <div class="col">
-      <app-management-customer-projects (sendChanges)="getChangesInputs($event)" (closeCustemerForm)="closeCustomerForm($event)"></app-management-customer-projects>
+  <div id="bottom">
+    <div class="row" *ngIf="showCustomerForm">
+      <div class="col" id="customerFormDiv">
+        <app-management-customer-projects
+          (sendChanges)="getChangesInputs($event)"
+          (closeCustemerForm)="closeCustomerForm($event)"
+        ></app-management-customer-projects>
+      </div>
     </div>
   </div>
 </div>

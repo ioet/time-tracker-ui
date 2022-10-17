@@ -54,4 +54,16 @@ describe('CustomerComponent', () => {
 
     expect(component.hasChangeComponent).toBe(true);
   });
+
+  
+
+  function isVisible( elm ) {
+    /* Check if an element is visible on the screen */
+    const vpH = $(window).height(); // Viewport Height
+    const st = $(window).scrollTop(); // Scroll Top
+    const y = $(elm).offset().top;
+    const elementHeight = $(elm).height();
+
+    return ((y < (vpH + st)) && (y > (st - elementHeight)));
+  }
 });
