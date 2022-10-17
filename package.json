@@ -19,7 +19,7 @@
     "@angular/cdk": "11.2.3",
     "@angular/common": "10.2.2",
     "@angular/compiler": "10.2.2",
-    "@angular/core": "10.2.2",
+    "@angular/core": "11.0.5",
     "@angular/forms": "10.2.2",
     "@angular/material": "11.2.3",
     "@angular/material-moment-adapter": "11.2.9",
