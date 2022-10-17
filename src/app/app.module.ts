@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
@@ -14,6 +14,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -95,6 +97,8 @@ import { SearchUserComponent } from './modules/shared/components/search-user/sea
 import { TimeRangeCustomComponent } from './modules/reports/components/time-range-custom/time-range-custom.component';
 import { TimeRangeHeaderComponent } from './modules/reports/components/time-range-custom/time-range-header/time-range-header.component';
 import { TimeRangeOptionsComponent } from './modules/reports/components/time-range-custom/time-range-options/time-range-options.component';
+import { SpinnerOverlayComponent } from './modules/shared/components/spinner-overlay/spinner-overlay.component';
+import { SpinnerInterceptor } from './modules/shared/interceptors/spinner.interceptor';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -154,6 +158,7 @@ const maskConfig: Partial<IConfig> = {
     TimeRangeCustomComponent,
     TimeRangeHeaderComponent,
     TimeRangeOptionsComponent,
+    SpinnerOverlayComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
@@ -172,6 +177,7 @@ const maskConfig: Partial<IConfig> = {
     DataTablesModule,
     AutocompleteLibModule,
     NgxMaterialTimepickerModule,
+    MatProgressSpinnerModule,
     UiSwitchModule,
     DragDropModule,
     MatIconModule,
@@ -204,6 +210,11 @@ const maskConfig: Partial<IConfig> = {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InjectTokenInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
       multi: true,
     },
     DatePipe,
