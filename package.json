@@ -49,7 +49,7 @@
     "dotenv": "^14.2.0",
     "jquery": "3.5.1",
     "jszip": "3.7.0",
-    "minimist": "1.2.5",
+    "minimist": "1.2.6",
     "moment": "2.25.3",
     "msal": "1.2.1",
     "ngrx-store-localstorage": "11.0.0",
