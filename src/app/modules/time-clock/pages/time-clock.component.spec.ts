@@ -14,14 +14,12 @@ import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.co
 import { ToastrService } from 'ngx-toastr';
 import { LoginService } from '../../login/services/login.service';
 import { SocialAuthService } from 'angularx-social-login';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
   let store: MockStore<ProjectState>;
-  let router: Router;
   let azureAdB2CService: AzureAdB2CService;
   const actionSub: ActionsSubject = new ActionsSubject();
 
@@ -71,7 +69,6 @@ describe('TimeClockComponent', () => {
         ],
       }).compileComponents();
       store = TestBed.inject(MockStore);
-      router = TestBed.inject(Router);
     })
   );
 

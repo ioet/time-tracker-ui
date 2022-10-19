@@ -9,7 +9,6 @@ import { DataTablesModule } from 'angular-datatables';
 import { GrantUserRole, RevokeUserRole } from '../../store/user.actions';
 import { ROLES } from '../../../../../environments/environment';
 import { LoginService } from '../../../login/services/login.service';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
@@ -19,7 +18,6 @@ describe('UsersListComponent', () => {
   let component: UsersListComponent;
   let fixture: ComponentFixture<UsersListComponent>;
   let store: MockStore<UserState>;
-  let router: Router;
   let httpMock: HttpTestingController;
   const actionSub: ActionsSubject = new ActionsSubject();
   let loginService: LoginService;
@@ -63,7 +61,6 @@ describe('UsersListComponent', () => {
     httpMock = TestBed.inject(HttpTestingController);
     loginService = TestBed.inject(LoginService);
     userInfoService = TestBed.inject(UserInfoService);
-    router = TestBed.inject(Router);
     store.setState(state);
     fixture.detectChanges();
   });

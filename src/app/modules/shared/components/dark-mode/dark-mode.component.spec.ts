@@ -7,7 +7,6 @@ import { FeatureToggleGeneralService } from '../../feature-toggles/feature-toggl
 import { FeatureToggleModel } from '../../feature-toggles/feature-toggle.model';
 import { FeatureFilterModel } from '../../feature-toggles/filters/feature-filter.model';
 import { DarkModeComponent } from './dark-mode.component';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DarkModeComponent', () => {
@@ -15,7 +14,6 @@ describe('DarkModeComponent', () => {
   let fixture: ComponentFixture<DarkModeComponent>;
   let html: HTMLElement;
   let featureToggleGeneralService: FeatureToggleGeneralService;
-  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,7 +29,6 @@ describe('DarkModeComponent', () => {
     component = fixture.componentInstance;
     html = document.documentElement;
     featureToggleGeneralService = TestBed.inject(FeatureToggleGeneralService);
-    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ItemSidebar } from './models/item-sidebar.model';
 import { NavigationStart, Router } from '@angular/router';
-import { Observable, Subscription, timer } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { UserInfoService } from 'src/app/modules/user/services/user-info.service';
 import { AzureAdB2CService } from '../../../login/services/azure.ad.b2c.service';
