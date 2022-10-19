@@ -131,6 +131,11 @@ describe('LoginService', () => {
     expect(cookieService.deleteAll).toHaveBeenCalled();
   });
 
+  it('should return an http observable when call invalidateSessionCooke', () => {
+    const result = service.invalidateSessionCookie()
+    expect(result).toBeDefined();
+  })
+
   it('should call cookieService when app is isLegacyProd', () => {
     service.isLegacyProd = true;
     service.localStorageKey = 'user2';
