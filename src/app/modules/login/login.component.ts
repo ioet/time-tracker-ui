@@ -67,8 +67,8 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  loginAuth(): string {
-    return `${this.authUrl}/authn/login/${this.authAppName}`;
+  loginAuth() {
+    window.location.href = `${this.authUrl}/authn/login/${this.authAppName}`;
   }
 
 }

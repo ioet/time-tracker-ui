@@ -42,7 +42,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sidebarItems$.unsubscribe();
-    this.logout();
   }
 
   toggleSideBar() {
