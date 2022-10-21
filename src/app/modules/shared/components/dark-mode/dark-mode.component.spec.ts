@@ -7,6 +7,7 @@ import { FeatureToggleGeneralService } from '../../feature-toggles/feature-toggl
 import { FeatureToggleModel } from '../../feature-toggles/feature-toggle.model';
 import { FeatureFilterModel } from '../../feature-toggles/filters/feature-filter.model';
 import { DarkModeComponent } from './dark-mode.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DarkModeComponent', () => {
   let component: DarkModeComponent;
@@ -17,7 +18,7 @@ describe('DarkModeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DarkModeComponent],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [{ provide: SocialAuthService, useValue: socialAuthServiceStub }]
     }).compileComponents();
   });
