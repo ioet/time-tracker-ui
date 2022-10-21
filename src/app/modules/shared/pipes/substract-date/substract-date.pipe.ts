@@ -35,7 +35,8 @@ export class SubstractDatePipe implements PipeTransform {
     const hours = this.formatTime(duration.hours() + daysInHours);
     const minutes = this.formatTime(duration.minutes());
     const seconds = lessThanMinute ? `:${this.formatTime(duration.seconds())}` : '';
-    return `${hours}:${minutes}${seconds}`;
+    const duration_hours = duration.asHours() 
+    return duration_hours.toString();
   }
 
   formatTime(time: number): string {

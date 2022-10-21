@@ -183,4 +183,3 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
     return this.resultSumEntriesSelected;
   }
 }
-
