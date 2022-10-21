@@ -14,7 +14,7 @@ export class SubstractDatePipeDisplayAsFloat implements PipeTransform {
     const startDate = moment(substractDate);
     const endDate = moment(fromDate);
     const duration = this.getTimeDifference(startDate, endDate);
-    return duration.asHours().toFixed(1).toString()
+    return duration.asHours().toFixed(1).toString();
   }
 
   getTimeDifference(substractDate: moment.Moment, fromDate: moment.Moment): moment.Duration {

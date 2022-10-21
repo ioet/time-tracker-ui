@@ -9,8 +9,8 @@ import { SpinnerOverlayComponent } from './../components/spinner-overlay/spinner
   providedIn: 'root',
 })
 export class SpinnerOverlayService {
-  public overlayRef: OverlayRef = undefined;
   static spinner$: any;
+  public overlayRef: OverlayRef = undefined;
 
   constructor(private readonly overlay: Overlay) {}
 
