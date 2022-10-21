@@ -1,5 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
+
+let FIXED_POINT_DIGITS 1;
 @Pipe({
   name: 'substractDateDisplayAsFloat'
 })
@@ -14,7 +16,7 @@ export class SubstractDatePipeDisplayAsFloat implements PipeTransform {
     const startDate = moment(substractDate);
     const endDate = moment(fromDate);
     const duration = this.getTimeDifference(startDate, endDate);
-    return duration.asHours().toFixed(1).toString();
+    return duration.asHours().toFixed(FIXED_POINT_DIGITS).toString();
   }
 
   getTimeDifference(substractDate: moment.Moment, fromDate: moment.Moment): moment.Duration {
