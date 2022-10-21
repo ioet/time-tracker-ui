@@ -16,6 +16,6 @@ export class UserService {
 
   loadUser(userId: any): Observable<User> {
     const url = `${this.baseUrl}/${userId}`;
-    return this.http.get<User>(url);
+    return this.http.get<User>(url, { withCredentials: true });
   }
 }

@@ -14,6 +14,7 @@ import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.co
 import { ToastrService } from 'ngx-toastr';
 import { LoginService } from '../../login/services/login.service';
 import { SocialAuthService } from 'angularx-social-login';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -55,7 +56,7 @@ describe('TimeClockComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
+        imports: [HttpClientTestingModule, RouterTestingModule],
         declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe, EntryFieldsComponent],
         providers: [
           FormBuilder,
