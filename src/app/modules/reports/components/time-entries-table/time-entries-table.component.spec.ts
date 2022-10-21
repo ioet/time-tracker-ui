@@ -4,6 +4,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Entry } from 'src/app/modules/shared/models';
 import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/substract-date.pipe';
+import { SubstractDatePipeDisplayAsFloat } from 'src/app/modules/shared/pipes/substract-date-return-float/substract-date-return-float.pipe';
 import { getReportDataSource, getResultSumEntriesSelected } from 'src/app/modules/time-clock/store/entry.selectors';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { TimeEntriesTableComponent } from './time-entries-table.component';
@@ -80,7 +81,7 @@ describe('Reports Page', () => {
       waitForAsync(() => {
         TestBed.configureTestingModule({
           imports: [NgxPaginationModule, DataTablesModule],
-          declarations: [TimeEntriesTableComponent, SubstractDatePipe],
+          declarations: [TimeEntriesTableComponent, SubstractDatePipe, SubstractDatePipeDisplayAsFloat],
           providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
         }).compileComponents();
 
