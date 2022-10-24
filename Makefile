@@ -19,7 +19,7 @@ cleanup: ## Delete image timetracker_ui
 
 .PHONY: run
 run: ## Execute timetracker_ui dev docker containe.
-	docker-compose --env-file=.dev.env up -d timetracker_ui
+	docker-compose --env-file=.dev.env  up  -d  timetracker_ui
 
 .PHONY: logs
 logs: ## Show logs of timetracker_ui.
@@ -41,7 +41,7 @@ remove: ## Delete container timetracker_ui.
 .PHONY: test
 test: ## Run all tests on docker container timetracker_ui at the CLI.
 	docker-compose build timetracker_ui_test
-	docker-compose --env-file=.dev.env up -d timetracker_ui_test
+	docker-compose up -d timetracker_ui_test
 	docker logs -f timetracker_ui_test
 
 .PHONY: testdev

@@ -6,7 +6,6 @@ import { FeatureToggleModel } from '../feature-toggle.model';
 import { TargetingFeatureFilterModel } from '../filters/targeting/targeting-feature-filter.model';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SocialAuthService } from 'angularx-social-login';
-import { RouterTestingModule } from '@angular/router/testing';
 
 
 describe('FeatureToggleGeneralService', () => {
@@ -16,7 +15,7 @@ describe('FeatureToggleGeneralService', () => {
   const socialAuthServiceStub = jasmine.createSpyObj('SocialAuthService', ['authState']);
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      imports: [HttpClientTestingModule],
       providers: [
         { provide: FeatureManagerService },
         { provide: SocialAuthService, useValue: socialAuthServiceStub }

@@ -17,10 +17,10 @@
       <h3 class="font-poppins text-base ml-4 pl-3 -mt-6 text-left" >{{ item.text }}</h3>
       </a>
       <div class="bg-whiteTW pt-2 absolute bottom-4 dark:bg-grayTW-dark flex justify-center items-center">
-        <button class="logout flex pl-4 text-blackTW hover:text-grayTW dark:text-whiteTW" (click)="logout()">
+        <a class="flex pl-4 text-blackTW hover:text-grayTW dark:text-whiteTW" href="#">
           <em class="fas fa-sign-out-alt"></em>
-          <span class="font-poppins pl-3 font-medium  dark:text-whiteTW">Sign out</span>
-        </button>
+          <span class="font-poppins pl-3 font-medium  dark:text-whiteTW" (click)="logout()">Sign out</span>
+        </a>
         <app-dark-mode class="ml-4"></app-dark-mode>
       </div>
     </div>
@@ -40,7 +40,7 @@
   <div id="page-content-wrapper">
     <div class="container-fluid px-0 full-height">
       <div class="content_app h-100">
-        <div class="m-1 p-5 rounded-md bg-whiteTW dark:bg-grayTW-dark">
+        <div class="m-1 p-5 rounded-md bg-whiteTW dark:bg-grayTW-dark"> 
           <router-outlet></router-outlet>
         </div>
       </div>
