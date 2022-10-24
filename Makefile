@@ -14,11 +14,11 @@ build: ## Create docker image with dependencies needed for development.
 	docker-compose build timetracker_ui
 
 .PHONY: cleanup
-cleanup: ## Delete image timetracker_ui
+cleanup: ## Delete image timetracker_ui.
 	docker rmi timetracker_ui
 
 .PHONY: run
-run: ## Execute timetracker_ui dev docker containe.
+run: ## Execute timetracker_ui dev docker container.
 	docker-compose --env-file=.dev.env up -d timetracker_ui
 
 .PHONY: logs
