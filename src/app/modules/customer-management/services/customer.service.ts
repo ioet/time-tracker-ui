@@ -13,20 +13,20 @@ export class CustomerService {
   constructor(private http: HttpClient) {}
 
   createCustomer(customerData): Observable<any> {
-    return this.http.post(this.baseUrl, customerData, { withCredentials: true });
+    return this.http.post(this.baseUrl, customerData);
   }
 
   getCustomers(): Observable<any> {
-    return this.http.get(this.baseUrl, { withCredentials: true });
+    return this.http.get(this.baseUrl);
   }
 
   deleteCustomer(customerId: string): Observable<any> {
     const url = `${this.baseUrl}/${customerId}`;
-    return this.http.delete(url, { withCredentials: true });
+    return this.http.delete(url);
   }
 
   updateCustomer(customerData): Observable<any> {
     const url = `${this.baseUrl}/${customerData.id}`;
-    return this.http.put(url, customerData, { withCredentials: true });
+    return this.http.put(url, customerData);
   }
 }

@@ -23,53 +23,49 @@ export class EntryService {
   urlInProductionLegacy = environment.production === EnvironmentType.TT_PROD_LEGACY;
 
   loadActiveEntry(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/running`, { withCredentials: true });
+    return this.http.get(`${this.baseUrl}/running`);
   }
 
   loadEntries(date): Observable<any> {
     const timezoneOffset = new Date().getTimezoneOffset();
-    return this.http.get(
-      `${this.baseUrl}?month=${date.month}&year=${date.year}&timezone_offset=${timezoneOffset}`,
-      { withCredentials: true }
-    );
+    return this.http.get(`${this.baseUrl}?month=${date.month}&year=${date.year}&timezone_offset=${timezoneOffset}`);
   }
 
   createEntry(entryData): Observable<any> {
-    return this.http.post(this.baseUrl, entryData, { withCredentials: true });
+    return this.http.post(this.baseUrl, entryData);
   }
 
   updateEntry(entryData): Observable<any> {
     const {id} = entryData;
-    return this.http.put(`${this.baseUrl}/${id}`, entryData, { withCredentials: true });
+    return this.http.put(`${this.baseUrl}/${id}`, entryData);
   }
 
   deleteEntry(entryId: string): Observable<any> {
     const url = `${this.baseUrl}/${entryId}`;
-    return this.http.delete(url, { withCredentials: true });
+    return this.http.delete(url);
   }
 
   stopEntryRunning(idEntry: string): Observable<any> {
     return (this.urlInProductionLegacy ?
-      this.http.post(`${this.baseUrl}/${idEntry}/stop`, null, { withCredentials: true }) :
-      this.http.put(`${this.baseUrl}/stop`, null, { withCredentials: true }) );
+      this.http.post(`${this.baseUrl}/${idEntry}/stop`, null) : this.http.put(`${this.baseUrl}/stop`, null) );
   }
 
   restartEntry(idEntry: string): Observable<Entry> {
     const url = `${this.baseUrl}/${idEntry}/restart`;
-    return this.http.post<Entry>(url, null, { withCredentials: true });
+    return this.http.post<Entry>(url, null);
   }
 
   summary(): Observable<TimeEntriesSummary> {
     const timeOffset = new Date().getTimezoneOffset();
     const summaryUrl = `${this.baseUrl}/summary?time_offset=${timeOffset}`;
-    return this.http.get<TimeEntriesSummary>(summaryUrl, { withCredentials: true });
+    return this.http.get<TimeEntriesSummary>(summaryUrl);
   }
 
   findEntriesByProjectId(projectId: string): Observable<Entry[]> {
     const startDate = this.getDateLastMonth();
     const endDate = this.getCurrentDate();
     const findEntriesByProjectURL = `${this.baseUrl}?limit=2&project_id=${projectId}&start_date=${startDate}&end_date=${endDate}`;
-    return this.http.get<Entry[]>(findEntriesByProjectURL, { withCredentials: true });
+    return this.http.get<Entry[]>(findEntriesByProjectURL);
   }
 
   loadEntriesByTimeRange(range: TimeEntriesTimeRange, userId: string): Observable<any> {
@@ -83,8 +79,7 @@ export class EntryService {
           user_id: userId,
           limit: `${MAX_NUMBER_OF_ENTRIES_FOR_REPORTS}`,
           timezone_offset : new Date().getTimezoneOffset().toString(),
-        },
-        withCredentials: true
+        }
       }
     );
   }

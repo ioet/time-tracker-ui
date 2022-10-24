@@ -11,6 +11,15 @@
     <button (click)="login() " class="btn btn-primary">login</button>
   </div>
   <div *ngIf="!isProduction">
-    <button class="btn btn-primary" (click)="loginAuth()">Login</button>
+    <div
+      id="g_id_onload"
+      [attr.data-client_id]="cliendId"
+      data-callback="handleCredentialResponse">
+    </div>
+    <div
+      class="g_id_signin"
+      data-theme="filled_blue"
+      data-type="standard">
+    </div>
   </div>
 </div>
