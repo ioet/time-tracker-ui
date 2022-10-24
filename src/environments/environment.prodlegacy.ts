@@ -3,8 +3,6 @@ import { EnvironmentType } from './enum';
 export const environment = {
   production: EnvironmentType.TT_PROD_LEGACY,
   timeTrackerApiUrl: process.env["API_URL"],
-  authUrl: process.env['AUTH_URL'],
-  authAppName: process.env['AUTH_APP_NAME'],
   stackexchangeApiUrl: 'https://api.stackexchange.com',
 };
 
