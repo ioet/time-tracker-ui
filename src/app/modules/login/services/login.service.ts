@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { EnvironmentType, UserEnum } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,29 +15,18 @@ export class LoginService {
   helper: JwtHelperService;
   isLegacyProd: boolean = environment.production === EnvironmentType.TT_PROD_LEGACY;
   localStorageKey = this.isLegacyProd ? 'user2' : 'user';
-  ngZone?: NgZone;
-
 
   constructor(
     private http?: HttpClient,
     private cookieService?: CookieService,
-    private router?: Router,
   ) {
     this.baseUrl = `${environment.timeTrackerApiUrl}/users`;
     this.helper = new JwtHelperService();
-    this.router = router;
   }
 
   logout() {
-    localStorage.clear();
     this.cookieService.deleteAll();
-    this.invalidateSessionCookie().toPromise().then(() => {
-      this.router.navigate(['login']);
-    });
-  }
-
-  invalidateSessionCookie() {
-    return this.http.post(`${this.baseUrl}/logout`, null, { withCredentials: true });
+    localStorage.clear();
   }
 
   isLogin() {
@@ -104,7 +92,7 @@ export class LoginService {
       token: tokenString,
     };
 
-    return this.http.post(`${this.baseUrl}/login`, body, { withCredentials: true });
+    return this.http.post(`${this.baseUrl}/login`, body);
   }
 
   setCookies() {
@@ -121,7 +109,7 @@ export class LoginService {
 
   isValidToken(token: string) {
     const body = { token };
-    return this.http.post(`${this.baseUrl}/validate-token`, body, { withCredentials: true }).pipe(
+    return this.http.post(`${this.baseUrl}/validate-token`, body).pipe(
       map((response) => {
         const responseString = JSON.stringify(response);
         const responseJson = JSON.parse(responseString);
@@ -132,4 +120,5 @@ export class LoginService {
       })
     );
   }
+
 }

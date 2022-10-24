@@ -3,8 +3,6 @@ services:
   timetracker_ui:
     container_name: timetracker_ui
     image: timetracker_ui
-    env_file:
-      - .dev.env
     build:
       context: .
       dockerfile: ./Docker/Dockerfile.dev
@@ -16,8 +14,6 @@ services:
       API_URL: ${API_URL}
       CLIENT_ID: ${CLIENT_ID}
       CLIENT_URL: ${CLIENT_URL}
-      AUTH_URL: ${AUTH_URL}
-      AUTH_APP_NAME: ${AUTH_APP_NAME}
       SCOPES: ${SCOPES}
       STACK_EXCHANGE_ID: ${STACK_EXCHANGE_ID}
       STACK_EXCHANGE_ACCESS_TOKEN: ${STACK_EXCHANGE_ACCESS_TOKEN}

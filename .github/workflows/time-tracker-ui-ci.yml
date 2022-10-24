@@ -29,16 +29,12 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
 
-    - name: Unlock DEV secrets
-      uses: sliteteam/github-action-git-crypt-unlock@1.2.0
-      env:
-        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY_DEFAULT }}
-
     - name: build docker
       run: make build
 
     - name: Running tests
       run: |
+        chmod -R 777 ./$home
         make test
     - name: Generate coverage report
       env:
