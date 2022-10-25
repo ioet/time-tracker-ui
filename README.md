@@ -59,6 +59,13 @@ In project path, open your favourite command line and run `npm install` in order
 
 # Prepare your environment
 
+### **Local DNS Configuration**
+
+To test the application in a local environment please modify you `/etc/hosts` on Linux/Mac. In Windows `C:\Windows\System32\Drivers\etc\hosts` and add this line:
+```text
+127.0.0.1 timetracker-dev.ioet.com
+```
+
 ### Set environment variables
 **1**. Using GPG create your key by running this command in your favourite command shell: `gpg --generate-key`.
 
@@ -134,7 +141,7 @@ In any case, the app will automatically reload if you change anything in the sou
   - **test**: Adding missing tests or correcting existing tests.
 
   ### Example
-    fix: TT-48 implement semantic versioning
+    fix: TTA-48 implement semantic versioning
 
     Prefix to use in the space fix:
     `(fix: |feat: |perf: |build: |ci: |docs: |refactor: |style: |test: )`
@@ -146,9 +153,9 @@ In any case, the app will automatically reload if you change anything in the sou
 | `perf(pencil): remove graphiteWidth option`<br><br>`BREAKING CHANGE: The graphiteWidth option has been removed.`<br>`The default graphite width of 10mm is always used for performance reasons.` | ~~Major~~ Breaking Release |
 
 ### Branch names format
-For example if your task in Jira is **TT-48 implement semantic versioning** your branch name is:
+For example if your task in Jira is **TTA-48 implement semantic versioning** your branch name is:
 ```
-   TT-48-implement-semantic-versioning
+   TTA-48-implement-semantic-versioning
 ```
 
 ## Code scaffolding

@@ -1,6 +1,6 @@
 {
   "name": "time-tracker",
-  "version": "1.75.19",
+  "version": "1.75.24",
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
     "ng": "ng",
@@ -117,7 +117,7 @@
   "config": {
     "commit-message-validator": {
       "pattern": "^(fix: TTA-|feat: TTA-|perf: TTA-|build: TTA-|ci: TTA-|docs: TTA-|refactor: TTA-|style: TTA-|test: TTA-|code-smell: TTA-)[0-9].*",
-      "errorMessage": "Your commit message needs to start with fix: , feat:, or perf: followed by any commit message, e.g. fix: TT-43 any commit message."
+      "errorMessage": "\nYour commit message must comply with the following pattern:\n ^(fix: TTA-|feat: TTA-|perf: TTA-|build: TTA-|ci: TTA-|docs: TTA-|refactor: TTA-|style: TTA-|test: TTA-|code-smell: TTA-)[0-9].*\n followed by any commit message.\n\n Example:\n fix: TTA-43 any commit message\n"
     }
   },
   "resolutions": {

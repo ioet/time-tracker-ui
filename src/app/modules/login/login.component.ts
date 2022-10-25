@@ -22,6 +22,8 @@ declare global {
 export class LoginComponent implements OnInit {
   isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
   cliendId = CLIENT_URL;
+  authUrl = environment.authUrl;
+  authAppName = environment.authAppName;
   auth2: any;
 
 
@@ -34,57 +36,16 @@ export class LoginComponent implements OnInit {
     private ngZone?: NgZone
   ) {}
 
-
-  googleAuthSDK() {
-    const sdkLoaded = 'googleSDKLoaded';
-    const gapi = 'gapi';
-
-    (window as any)[sdkLoaded] = () => {
-      (window as any)[gapi].load('auth2', () => {
-        this.auth2 = ( window as any)[gapi].auth2.init({
-          client_id: this.cliendId,
-          plugin_name: 'login',
-          cookiepolicy: 'single_host_origin',
-          scope: 'profile email'
-        });
-      });
-    };
-
-    (async (d, s, id) => {
-      const keyGoogle = 'src';
-      const gjs = d.getElementsByTagName(s)[1];
-      let js = gjs;
-      if (d.getElementById(id)) { return; }
-      js = d.createElement(s); js.id = id;
-      js[keyGoogle] = 'https://accounts.google.com/gsi/client';
-      gjs.parentNode.insertBefore(js, gjs);
-    })(document, 'script', 'async defer');
-  }
-
   ngOnInit() {
-
-    this.googleAuthSDK();
-    if (this.isProduction && this.azureAdB2CService.isLogin()) {
-        this.router.navigate(['']);
-    } else {
-      this.loginService.isLogin().subscribe(isLogin => {
-        if (isLogin) {
-          this.router.navigate(['']);
-        }
+    if (!this.isProduction) {
+      this.loginService.getUser(null).subscribe((resp) => {
+        this.loginService.setCookies();
+        const tokenObject = JSON.stringify(resp);
+        const tokenJson = JSON.parse(tokenObject);
+        this.loginService.setLocalStorage('user', tokenJson.token);
+        this.ngZone.run(() => this.router.navigate(['']));
       });
     }
-    window.handleCredentialResponse = (response) => {
-      const {credential = ''} = response;
-      this.featureToggleCookiesService.setCookies();
-      this.loginService.setLocalStorage('idToken', credential);
-      this.loginService.getUser(credential).subscribe((resp) => {
-          this.loginService.setCookies();
-          const tokenObject = JSON.stringify(resp);
-          const tokenJson = JSON.parse(tokenObject);
-          this.loginService.setLocalStorage('user', tokenJson.token);
-          this.ngZone.run(() => this.router.navigate(['']));
-      });
-    };
   }
 
   login(): void {
@@ -104,6 +65,10 @@ export class LoginComponent implements OnInit {
         });
       });
     }
+  }
+
+  loginAuth() {
+    window.location.href = `${this.authUrl}authn/login/${this.authAppName}`;
   }
 
 }
