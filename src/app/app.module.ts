@@ -97,6 +97,7 @@ import { SearchUserComponent } from './modules/shared/components/search-user/sea
 import { TimeRangeCustomComponent } from './modules/reports/components/time-range-custom/time-range-custom.component';
 import { TimeRangeHeaderComponent } from './modules/reports/components/time-range-custom/time-range-header/time-range-header.component';
 import { TimeRangeOptionsComponent } from './modules/reports/components/time-range-custom/time-range-options/time-range-options.component';
+import { V2RedirectComponent } from './modules/v2-redirect/v2-redirect.component';
 import { SpinnerOverlayComponent } from './modules/shared/components/spinner-overlay/spinner-overlay.component';
 import { SpinnerInterceptor } from './modules/shared/interceptors/spinner.interceptor';
 
@@ -158,6 +159,7 @@ const maskConfig: Partial<IConfig> = {
     TimeRangeCustomComponent,
     TimeRangeHeaderComponent,
     TimeRangeOptionsComponent,
+    V2RedirectComponent,
     SpinnerOverlayComponent,
   ],
   imports: [
