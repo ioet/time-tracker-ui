@@ -15,7 +15,7 @@ import { V2RedirectComponent } from './modules/v2-redirect/v2-redirect.component
 import { EnvironmentType } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
 
-const isNotLegacy: boolean = environment.production !== EnvironmentType.TT_DEV;
+const isNotLegacy: boolean = environment.production !== EnvironmentType.TT_PROD_LEGACY;
 let routes: Routes;
 
 if (isNotLegacy) {
