@@ -85,7 +85,7 @@ publish_prod: ## Upload a docker image to the prod azure container registry acr=
 	docker push $(acr).azurecr.io/timetracker_ui:$(image_tag)
 
 .PHONY: login
-login: ## Login in respository of docker images.
+login: ## Login in respository of docker images
 	az acr login --name $(acr)
 
 .PHONY: release
