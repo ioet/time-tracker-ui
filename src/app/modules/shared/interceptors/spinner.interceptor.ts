@@ -17,7 +17,7 @@ export class SpinnerInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if(req.url.endsWith('recent')){
+    if(req.url.endsWith('recent') || req.url.endsWith('login')){
       const spinnerSubscription: Subscription = this.spinnerOverlayService.spinner$.subscribe();
     return next
       .handle(req)
