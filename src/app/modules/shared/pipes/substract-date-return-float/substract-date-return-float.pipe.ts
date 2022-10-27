@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
 
-const FIXED_POINT_DIGITS = 1;
+const FIXED_POINT_DIGITS = 2;
 @Pipe({
   name: 'substractDateDisplayAsFloat'
 })
