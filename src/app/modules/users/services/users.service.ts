@@ -15,30 +15,30 @@ export class UsersService {
   baseUrl = `${environment.timeTrackerApiUrl}/users`;
 
   loadUsers(): Observable<any> {
-    return this.http.get(this.baseUrl, { withCredentials: true });
+    return this.http.get(this.baseUrl);
   }
 
   grantRole(userId: string, roleId: string): Observable<any> {
     const url = this.isProductionLegacy ? `${this.baseUrl}/${userId}/roles/${roleId}/grant`
     : `${this.baseUrl}/${userId}/${roleId}/grant`;
-    return this.http.post(url, null, { withCredentials: true });
+    return this.http.post(url, null);
   }
 
   revokeRole(userId: string, roleId: string): Observable<any> {
     const url = this.isProductionLegacy ? `${this.baseUrl}/${userId}/roles/${roleId}/revoke`
     : `${this.baseUrl}/${userId}/${roleId}/revoke`;
-    return this.http.post(url, null, { withCredentials: true });
+    return this.http.post(url, null);
   }
 
   addUserToGroup(userId: string, group: string): Observable<User> {
     return this.http.post<User>(`${this.baseUrl}/${userId}/groups/add`, {
       group_name: group,
-    }, { withCredentials: true });
+    });
   }
 
   removeUserFromGroup(userId: string, group: string): Observable<User> {
     return this.http.post<User>(`${this.baseUrl}/${userId}/groups/remove`, {
       group_name: group,
-    }, { withCredentials: true });
+    });
   }
 }
