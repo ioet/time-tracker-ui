@@ -4,7 +4,6 @@ import { TestBed } from '@angular/core/testing';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { LoginService } from './login.service';
@@ -24,11 +23,11 @@ describe('LoginService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      imports: [HttpClientTestingModule],
       providers: [
         { providers: CookieService, useValue: cookieStoreStub },
         { provide: SocialAuthService, useValue: socialAuthServiceStub },
-        { provide: HttpClient, useValue: httpClientSpy },
+        { provide: HttpClient, useValue: httpClientSpy }
       ],
     });
     service = TestBed.inject(LoginService);
@@ -123,17 +122,11 @@ describe('LoginService', () => {
 
   it('should logout with social angularx-social-login', () => {
     spyOn(cookieService, 'deleteAll').and.returnValue();
-    spyOn(service, 'invalidateSessionCookie').and.returnValue(of(true));
 
     service.logout();
 
     expect(localStorage.clear).toHaveBeenCalled();
     expect(cookieService.deleteAll).toHaveBeenCalled();
-  });
-
-  it('should return an http observable when call invalidateSessionCooke', () => {
-    const result = service.invalidateSessionCookie();
-    expect(result).toBeDefined();
   });
 
   it('should call cookieService when app is isLegacyProd', () => {

@@ -1,0 +1,164 @@
+.btn-primary {
+    background-color: #F85221;
+    border-radius: 30px;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #bf3816;
+}
+
+h2 {
+    font-weight: 600;
+    color: #5B4F62;
+}
+
+h1 {
+    font-weight: 800;
+    font-size:4em;
+    color: #5B4F62;
+
+}
+
+h3 {
+    font-weight: 500;
+    font-size: 2em;
+    color: #831C86;
+}
+
+#main-image {
+    padding-top: 20%;
+    max-width: 100%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: [x0] 2fr [x1] 1fr [x2];
+    justify-items: center;
+}
+
+
+#logo {
+    padding-top: 20px;
+    padding-left: 25px;
+    position:absolute;
+    max-width: 18rem;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+
+.decoration{
+    z-index: 0;
+    position: absolute;
+    bottom:0;
+    right:0;
+}
+
+.text{
+    padding-top: 50%;
+    padding-right: 30%;
+}
+
+
+.redirection {
+    padding-top:1rem;
+    text-align: center;
+}
+
+body {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    }
+
+@media screen and (max-width: 1307px) {
+
+    #main-image {
+        padding-top: 6%;
+    }
+    h1 {
+        color:#831C86;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        position: relative;
+        width:auto;
+    }
+
+    .text{
+        padding-top: 2rem;
+        padding-right: 0px;
+        text-align: center;
+
+    }
+
+    .redirection {
+        padding-top: 0px;
+        padding-right: 0px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    #quote {
+        display: none;
+    }
+
+}
+
+
+@media screen and (max-width: 430px) {
+    .btn-primary {
+        font-size:small;
+
+    }
+    body{
+        text-align: center;
+    }
+    h1 {
+        font-size: 2rem;
+        color:#831C86;
+    }
+    h2 {
+        font-size: 1rem;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        position: relative;
+        width:auto;
+    }
+
+    .text{
+        padding-top: 2rem;
+        padding-right: 0px;
+        text-align: center;
+
+    }
+
+    .redirection {
+        padding-top: 0px;
+        padding-right: 0px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    #quote {
+        display: none;
+    }
+
+    .decoration {
+        display: none;
+    }
+    #logo {
+        padding-right: auto;
+        padding-left: auto;
+        padding-top: 20px;
+        position:absolute;
+        max-width: 80%;
+        left: 0;
+        top: 0;
+        z-index: 10;
+    }
+}
