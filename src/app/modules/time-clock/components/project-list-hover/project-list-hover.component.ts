@@ -8,17 +8,19 @@ import { Project } from 'src/app/modules/shared/models';
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import * as entryActions from '../../store/entry.actions';
+
 import {
   getIsLoading,
   getProjects,
   getRecentProjects,
 } from './../../../customer-management/components/projects/components/store/project.selectors';
 import { EntryActionTypes } from './../../store/entry.actions';
-import { getActiveTimeEntry } from './../../store/entry.selectors';
+import { getActiveTimeEntry, getTimeEntriesDataSource } from './../../store/entry.selectors';
 import { Activity, } from '../../../shared/models';
 import { LoadActivities } from './../../../activities-management/store/activity-management.actions';
 import { allActivities } from 'src/app/modules/activities-management/store/activity-management.selectors';
 import { head } from 'lodash';
+import { Entry } from '../../../shared/models';
 
 @Component({
   selector: 'app-project-list-hover',
@@ -39,6 +41,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   recentProjectsSubscription: Subscription;
   activeEntrySubscription: Subscription;
   loadActivitiesSubscription: Subscription;
+  canMarkEntryAsWIP = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -113,11 +116,22 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       technologies: [],
       activity_id: head(this.activities).id,
     };
+    this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
+      this.canMarkEntryAsWIP = !this.isThereAnEntryRunning(ds.data);
+    });
     this.store.dispatch(new entryActions.ClockIn(entry));
     this.projectsForm.setValue({ project_id: `${customerName} - ${name}` });
     setTimeout(() => {
       this.store.dispatch(new actions.LoadRecentProjects());
     }, 2000);
+  }
+
+  getEntryRunning(entries: Entry[]) {
+    const runningEntry: Entry = entries.find(entry => entry.running === true);
+    return runningEntry;
+  }
+  isThereAnEntryRunning(entries: Entry[]) {
+    return !!this.getEntryRunning(entries);
   }
 
   updateProject(selectedProject) {
