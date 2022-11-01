@@ -119,11 +119,13 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
       this.canMarkEntryAsWIP = !this.isThereAnEntryRunning(ds.data);
     });
-    this.store.dispatch(new entryActions.ClockIn(entry));
-    this.projectsForm.setValue({ project_id: `${customerName} - ${name}` });
-    setTimeout(() => {
-      this.store.dispatch(new actions.LoadRecentProjects());
-    }, 2000);
+    if ( this.canMarkEntryAsWIP){
+      this.store.dispatch(new entryActions.ClockIn(entry));
+      this.projectsForm.setValue({ project_id: `${customerName} - ${name}` });
+      setTimeout(() => {
+        this.store.dispatch(new actions.LoadRecentProjects());
+      }, 2000);
+    }
   }
 
   getEntryRunning(entries: Entry[]) {
