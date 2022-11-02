@@ -83,6 +83,38 @@ describe('ProjectListHoverComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(ClockIn));
   });
 
+  it('when the user make a clockin and there is an existing time entry running the user have an alert', () => {
+    component.activeEntry = null;
+    const activitiesMock  = [{
+      id: 'xyz',
+      name: 'test',
+      description : 'test1'
+    }];
+    component.activities = activitiesMock;
+    spyOn(store, 'dispatch');
+
+    component.clockIn(1, 'customer', 'project');
+
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(ClockIn));
+    expect(component.canMarkEntryAsWIP).toBe(true);
+  });
+
+  it('when the user make a clockin and there is not an existing time entry running the user can make a clokin', () => {
+    component.activeEntry = null;
+    const activitiesMock  = [{
+      id: 'xyz',
+      name: 'test',
+      description : 'test1'
+    }];
+    component.activities = activitiesMock;
+    spyOn(store, 'dispatch');
+
+    component.clockIn(1, 'customer', 'project');
+
+    expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(ClockIn));
+    expect(component.canMarkEntryAsWIP).toBe(false);
+  });
+
   it('dispatch a UpdateEntryRunning action on updateProject', () => {
     component.activeEntry = { id: '123' };
     spyOn(store, 'dispatch');
