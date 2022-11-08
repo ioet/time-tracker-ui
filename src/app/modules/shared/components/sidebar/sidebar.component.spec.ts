@@ -14,7 +14,7 @@ describe('SidebarComponent', () => {
   let azureAdB2CServiceStubInjected;
   let loginServiceStubInjected: LoginService;
   let userInfoService: UserInfoService;
-  let router;
+  let router: Router;
   const routes: Routes = [{ path: 'time-clock', component: TimeClockComponent }];
 
   const azureAdB2CServiceStub = {

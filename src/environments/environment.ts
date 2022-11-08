@@ -8,11 +8,14 @@ export const environment = {
   production: EnvironmentType.TT_DEV,
   timeTrackerApiUrl: process.env['API_URL'],
   stackexchangeApiUrl: 'https://api.stackexchange.com',
+  uthUrl: process.env['AUTH_URL'],
+  authAppName: process.env['AUTH_APP_NAME'],
 };
 
 export const AUTHORITY = process.env['AUTHORITY'];
 export const CLIENT_ID = process.env['CLIENT_ID'];
 export const CLIENT_URL = process.env['CLIENT_URL'];
+export const AUTH_URL = process.env['AUTH_URL'];
 export const SCOPES = process.env['SCOPES'].split(',');
 export const STACK_EXCHANGE_ID = process.env['STACK_EXCHANGE_ID'];
 export const STACK_EXCHANGE_ACCESS_TOKEN = process.env['STACK_EXCHANGE_ACCESS_TOKEN'];

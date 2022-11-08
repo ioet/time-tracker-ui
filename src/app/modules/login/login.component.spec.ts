@@ -99,6 +99,16 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should set local storage when the component is initialized and is not legacy production', inject([Router], (router: Router) => {
+    component.isProduction = false;
+    spyOn(loginService, 'getUser').and.returnValue(of(userTest));
+    spyOn(loginService, 'setLocalStorage');
+
+    component.ngOnInit();
+
+    expect(loginService.setLocalStorage).toHaveBeenCalled();
+  }));
+
   it('should sign up or login with google if is not logged-in into the app on Production', inject([Router],  (router: Router) => {
     spyOn(azureAdB2CService, 'isLogin').and.returnValue(false);
     spyOn(azureAdB2CService, 'setCookies').and.returnValue();

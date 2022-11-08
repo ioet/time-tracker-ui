@@ -33,6 +33,8 @@ jobs:
         SCOPES: ${{ secrets.scopes }}
         CLIENT_ID: ${{ secrets.client_id }}
         CLIENT_URL: ${{ secrets.client_url }}
+        AUTH_URL: ${{ secrets.AUTH_URL }}
+        AUTH_APP_NAME: ${{ secrets.AUTH_APP_NAME }}
         STACK_EXCHANGE_ID: ${{ secrets.stack_exchange_id }}
         STACK_EXCHANGE_ACCESS_TOKEN: ${{ secrets.stack_exchange_access_token }}
         AZURE_APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.azure_app_configuration_connection_string }}
