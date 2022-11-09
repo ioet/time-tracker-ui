@@ -123,7 +123,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       this.canMarkEntryAsWIP = this.isThereAnEntryRunning(ds.data);
     });
 
-    if (this.canMarkEntryAsWIP === true ){
+    if (this.canMarkEntryAsWIP){
       this.toastrService.error('There is an existing time entry running please check your time entries');
       return;
     }
@@ -134,16 +134,16 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
-  getEntryRunning(entries: Entry[]) {
+  private getEntryRunning(entries: Entry[]) {
     const runningEntry: Entry = entries.find(entry => entry.running === true);
     return runningEntry;
   }
 
-  isThereAnEntryRunning(entries: Entry[]) {
+  private isThereAnEntryRunning(entries: Entry[]) {
     return !!this.getEntryRunning(entries);
   }
 
-  updateProject(selectedProject) {
+  private updateProject(selectedProject) {
     const entry = { id: this.activeEntry.id, project_id: selectedProject };
     this.store.dispatch(new entryActions.UpdateEntryRunning(entry));
     this.store.dispatch(new entryActions.LoadActiveEntry());
