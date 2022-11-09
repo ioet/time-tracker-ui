@@ -94,6 +94,7 @@ describe('ProjectListHoverComponent', () => {
     spyOn(store, 'dispatch');
 
     component.clockIn(1, 'customer', 'project');
+    component.clockIn(2, 'customer', 'project');
 
     expect(store.dispatch).toHaveBeenCalledWith(jasmine.any(ClockIn));
     expect(component.canMarkEntryAsWIP).toBe(true);

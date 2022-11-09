@@ -42,7 +42,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   recentProjectsSubscription: Subscription;
   activeEntrySubscription: Subscription;
   loadActivitiesSubscription: Subscription;
-  canMarkEntryAsWIP : boolean;
+  canMarkEntryAsWIP: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -140,7 +140,6 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   }
 
   isThereAnEntryRunning(entries: Entry[]) {
-    console.log(!!this.getEntryRunning(entries))
     return !!this.getEntryRunning(entries);
   }
 
