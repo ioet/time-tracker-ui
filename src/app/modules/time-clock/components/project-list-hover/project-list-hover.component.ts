@@ -21,6 +21,7 @@ import { LoadActivities } from './../../../activities-management/store/activity-
 import { allActivities } from 'src/app/modules/activities-management/store/activity-management.selectors';
 import { head } from 'lodash';
 import { Entry } from '../../../shared/models';
+import { EntryState } from '../../store/entry.reducer';
 
 @Component({
   selector: 'app-project-list-hover',
@@ -41,10 +42,11 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   recentProjectsSubscription: Subscription;
   activeEntrySubscription: Subscription;
   loadActivitiesSubscription: Subscription;
-  canMarkEntryAsWIP = true;
+  canMarkEntryAsWIP : boolean;
 
   constructor(
     private formBuilder: FormBuilder,
+    private storeEntry: Store<EntryState>,
     private store: Store<ProjectState>,
     private actionsSubject$: ActionsSubject,
     private toastrService: ToastrService
@@ -116,11 +118,13 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       technologies: [],
       activity_id: head(this.activities).id,
     };
-    this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
-      this.canMarkEntryAsWIP = !this.isThereAnEntryRunning(ds.data);
+    this.canMarkEntryAsWIP = true;
+    this.storeEntry.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
+      this.canMarkEntryAsWIP = this.isThereAnEntryRunning(ds.data);
     });
-    if (this.canMarkEntryAsWIP !== false ){
-      this.toastrService.error('There is an existing time entry running please check your time entries')
+
+    if (this.canMarkEntryAsWIP === true ){
+      this.toastrService.error('There is an existing time entry running please check your time entries');
       return;
     }
     this.store.dispatch(new entryActions.ClockIn(entry));
@@ -134,7 +138,9 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     const runningEntry: Entry = entries.find(entry => entry.running === true);
     return runningEntry;
   }
+
   isThereAnEntryRunning(entries: Entry[]) {
+    console.log(!!this.getEntryRunning(entries))
     return !!this.getEntryRunning(entries);
   }
 

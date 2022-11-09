@@ -206,25 +206,4 @@ describe('ProjectListHoverComponent', () => {
     expect(component.clockIn).toHaveBeenCalledWith(id, customer, name);
   });
 
-  // TODO Fix this test since it is throwing this error
-  // Expected spy dispatch to have been called with:
-  // [CreateEntry({ payload: Object({ project_id: '1', start_date: '2020-07-27T22:30:26.743Z', timezone_offset: 300 }),
-  // type: '[Entry] CREATE_ENTRY' })]
-  // but actual calls were:
-  // [CreateEntry({ payload: Object({ project_id: '1', start_date: '2020-07-27T22:30:26.742Z', timezone_offset: 300 }),
-  // type: '[Entry] CREATE_ENTRY' })].
-
-  //   Call 0:
-  // Expected $[0].payload.start_date = '2020-07-27T22:30:26.742Z' to equal '2020-07-27T22:30:26.743Z'.
-  // it('creates time-entry with timezone_offset property', () => {
-  //   spyOn(store, 'dispatch');
-  //   component.clockIn('1', 'customer', 'project');
-  //   expect(store.dispatch).toHaveBeenCalledWith(
-  //     new CreateEntry({
-  //       project_id: '1',
-  //       start_date: new Date().toISOString(),
-  //       timezone_offset: new Date().getTimezoneOffset()
-  //     })
-  //   );
-  // });
 });
