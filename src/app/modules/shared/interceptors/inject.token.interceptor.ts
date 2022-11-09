@@ -4,18 +4,22 @@ import {
   HttpInterceptor,
   HttpHandler,
   HttpRequest,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { AzureAdB2CService } from 'src/app/modules/login/services/azure.ad.b2c.service';
 import { environment } from './../../../../environments/environment';
 import { EnvironmentType } from 'src/environments/enum';
 import { LoginService } from '../../login/services/login.service';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class InjectTokenInterceptor implements HttpInterceptor {
   isProduction = environment.production === EnvironmentType.TT_PROD_LEGACY;
-  constructor(private azureAdB2CService: AzureAdB2CService, private loginService: LoginService) { }
+  constructor(private azureAdB2CService: AzureAdB2CService, private loginService: LoginService, private router: Router) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request.url.startsWith(environment.timeTrackerApiUrl)) {
@@ -25,7 +29,17 @@ export class InjectTokenInterceptor implements HttpInterceptor {
           headers: request.headers.set('Authorization',
             'Bearer ' + token)
         });
-      return next.handle(requestWithHeaders);
+      return next.handle(requestWithHeaders)
+        .pipe(
+          tap(() => { }, (err: any) => {
+            if (err instanceof HttpErrorResponse) {
+              if (err.status === 401) {
+                this.loginService.logout();
+                window.open("/login", "_self")
+              }
+            }
+          })
+        );
     } else {
       return next.handle(request);
     }

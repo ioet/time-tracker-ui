@@ -64,15 +64,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 
     this.googleAuthSDK();
-    if (this.isProduction && this.azureAdB2CService.isLogin()) {
-        this.router.navigate(['']);
-    } else {
       this.loginService.isLogin().subscribe(isLogin => {
         if (isLogin) {
           this.router.navigate(['']);
         }
       });
-    }
+    
     window.handleCredentialResponse = (response) => {
       const {credential = ''} = response;
       this.featureToggleCookiesService.setCookies();

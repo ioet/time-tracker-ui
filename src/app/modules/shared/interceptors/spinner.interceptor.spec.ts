@@ -16,11 +16,11 @@ describe('SpinnerInterceptorService test', () => {
     ],
   });
 
-    class MockHttpHandler implements HttpHandler {
-      handle(req: HttpRequest<any>): Observable<HttpEvent<any>> {
-        return of(new HttpResponse());
-      }
+  class MockHttpHandler implements HttpHandler {
+    handle(req: HttpRequest<any>): Observable<HttpEvent<any>> {
+      return of(new HttpResponse());
     }
+  }
 
   let overlay: Overlay;
   let httpHandler: HttpHandler;
