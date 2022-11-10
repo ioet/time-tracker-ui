@@ -13,16 +13,13 @@ export class AdminGuard implements CanActivate {
     private userInfoService: UserInfoService,
   ) { }
 
-  canActivate(): Observable<boolean> {
-    return this.isAdminBasedInGroup().pipe(
-      map((isAdmin: boolean) => {
-        if (!isAdmin) { this.router.navigate(['login']); }
-        return isAdmin;
-      })
-    );
+  canActivate(){
+    const isAdmin = this.isAdminBasedInGroup();
+    if (!isAdmin) { this.router.navigate(['login']); }
+    return isAdmin;
   }
 
-  isAdminBasedInGroup(): Observable<boolean> {
+  isAdminBasedInGroup() {
     return this.userInfoService.isAdmin();
   }
 }

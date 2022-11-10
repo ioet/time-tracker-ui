@@ -27,11 +27,8 @@ export class UserInfoService {
     } else {
       const user = this.helper.decodeToken(token);
       const {groups = []} = user;
-      if (groups.includes(groupName)) {
-        return this.loginService.isValidToken(token);
-      }
+      return groups.includes(groupName);
     }
-    return of(false);
   }
 
   isAdmin(): Observable<boolean> {

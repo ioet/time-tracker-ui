@@ -14,7 +14,7 @@ import { EnvironmentType } from 'src/environments/enum';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent implements OnInit {
   itemsSidebar: ItemSidebar[] = [];
   navStart;
   sidebarItems$: Subscription;
@@ -34,15 +34,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const currentRouting = this.router.routerState.snapshot.url;
-    this.sidebarItems$ = this.getSidebarItems().subscribe(() => this.highlightMenuOption(currentRouting));
+    this.getSidebarItems();
+    this.highlightMenuOption(currentRouting);
     this.navStart.subscribe((evt) => {
       this.highlightMenuOption(evt.url);
     });
   }
 
-  ngOnDestroy(): void {
-    this.sidebarItems$.unsubscribe();
-  }
 
   toggleSideBar() {
     $('#wrapper').toggleClass('toggled');
@@ -50,11 +48,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     $('#hide-sidebar').toggle();
   }
 
-  getSidebarItems(): Observable<void> {
-    return this.userInfoService.isAdmin().pipe(
-      map((isAdmin) => {
-        if (isAdmin) {
-          this.itemsSidebar = [
+  getSidebarItems(){
+    if (this.userInfoService.isAdmin()){
+      this.itemsSidebar = [
             { route: '/time-clock', icon: 'far fa-clock', text: 'Time Clock', active: false },
             { route: '/time-entries', icon: 'far fa-file-alt', text: 'Time Entries', active: false },
             { route: '/reports', icon: 'fas fa-chart-bar', text: 'Reports', active: false },
@@ -62,14 +58,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
             { route: '/customers-management', icon: 'fas fa-users', text: 'Customers', active: false },
             { route: '/users', icon: 'fas fa-user-friends', text: 'Users', active: false },
           ];
-        } else {
-          this.itemsSidebar = [
-            { route: '/time-clock', icon: 'far fa-clock', text: 'Time Clock', active: false },
-            { route: '/time-entries', icon: 'far fa-file-alt', text: 'Time Entries', active: false },
-          ];
-        }
-      })
-    );
+    }else {
+      this.itemsSidebar = [
+        { route: '/time-clock', icon: 'far fa-clock', text: 'Time Clock', active: false },
+        { route: '/time-entries', icon: 'far fa-file-alt', text: 'Time Entries', active: false },
+        { route: '/reports', icon: 'fas fa-chart-bar', text: 'Reports', active: false },
+        { route: '/activities-management', icon: 'fas fa-list-ol', text: 'Activities', active: false },
+        { route: '/customers-management', icon: 'fas fa-users', text: 'Customers', active: false },
+        { route: '/users', icon: 'fas fa-user-friends', text: 'Users', active: false },
+      ];
+    }
+
   }
 
   highlightMenuOption(route) {

@@ -24,13 +24,11 @@ export class UserComponent implements OnInit {
         this.azureAdB2CService.setTenantId();
       }
     } else {
-      this.loginService.isLogin().subscribe(isLogin => {
-        if (isLogin) {
+        if (this.loginService.isLogin()) {
           this.userName = this.loginService.getName();
           this.userEmail = this.loginService.getUserEmail();
           this.azureAdB2CService.setTenantId();
         }
-      });
     }
   }
 }

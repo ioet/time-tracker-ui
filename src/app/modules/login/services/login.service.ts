@@ -47,7 +47,8 @@ export class LoginService {
       const user = JSON.parse(token);
       return user && this.cookieService.check('idtoken') ? of(true) : of(false);
     } else {
-      return this.isValidToken(token);
+      return of(true);
+      //return this.isValidToken(token);
     }
   }
 
