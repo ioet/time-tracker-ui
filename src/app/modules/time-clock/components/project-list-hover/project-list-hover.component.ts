@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
+import Utils from '../../../time-clock/utils/utils';
 import { delay, filter, map } from 'rxjs/operators';
 import { Project } from 'src/app/modules/shared/models';
 import * as actions from '../../../customer-management/components/projects/components/store/project.actions';
@@ -118,9 +119,9 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       technologies: [],
       activity_id: head(this.activities).id,
     };
-    this.canMarkEntryAsWIP = true;
+    this.canMarkEntryAsWIP = false;
     this.storeEntry.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
-      this.canMarkEntryAsWIP = this.isThereAnEntryRunning(ds.data);
+      this.canMarkEntryAsWIP = Utils.isThereAnEntryRunning(ds.data);
     });
 
     if (this.canMarkEntryAsWIP){
@@ -134,16 +135,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
-  private getEntryRunning(entries: Entry[]) {
-    const runningEntry: Entry = entries.find(entry => entry.running === true);
-    return runningEntry;
-  }
-
-  private isThereAnEntryRunning(entries: Entry[]) {
-    return !!this.getEntryRunning(entries);
-  }
-
-  private updateProject(selectedProject) {
+  updateProject(selectedProject) {
     const entry = { id: this.activeEntry.id, project_id: selectedProject };
     this.store.dispatch(new entryActions.UpdateEntryRunning(entry));
     this.store.dispatch(new entryActions.LoadActiveEntry());
