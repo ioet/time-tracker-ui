@@ -47,7 +47,7 @@ export class LoginService {
       const user = JSON.parse(token);
       return user && this.cookieService.check('idtoken') ? of(true) : of(false);
     } else {
-      return of(true);
+      return token ? of(true) : of(false);
       //return this.isValidToken(token);
     }
   }
@@ -109,7 +109,7 @@ export class LoginService {
   }
 
   setCookies() {
-    this.cookieService.set('idtoken', this.getLocalStorage('idToken'), 30);
+    this.cookieService.set('idtoken', this.cookieService.get('session'), 30);
   }
 
   getLocalStorage(key: string) {
