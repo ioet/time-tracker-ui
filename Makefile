@@ -14,12 +14,12 @@ build: ## Create docker image with dependencies needed for development.
 	docker-compose build timetracker_ui
 
 .PHONY: cleanup
-cleanup: ## Delete image timetracker_ui
+cleanup: ## Delete image timetracker_ui.
 	docker rmi timetracker_ui
 
 .PHONY: run
-run: ## Execute timetracker_ui dev docker containe.
-	docker-compose --env-file=.dev.env  up  -d  timetracker_ui
+run: ## Execute timetracker_ui dev docker container.
+	docker-compose --env-file=.dev.env up -d timetracker_ui
 
 .PHONY: logs
 logs: ## Show logs of timetracker_ui.
@@ -85,7 +85,7 @@ publish_prod: ## Upload a docker image to the prod azure container registry acr=
 	docker push $(acr).azurecr.io/timetracker_ui:$(image_tag)
 
 .PHONY: login
-login: ## Login in respository of docker images.
+login: ## Login in respository of docker images
 	az acr login --name $(acr)
 
 .PHONY: release

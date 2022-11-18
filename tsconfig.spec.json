@@ -14,5 +14,8 @@
   "include": [
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "src/app/app-routing.module.ts"
   ]
 }
