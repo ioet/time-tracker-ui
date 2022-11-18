@@ -130,7 +130,7 @@ describe('LoginService', () => {
     expect(localStorage.clear).toHaveBeenCalled();
     expect(cookieService.deleteAll).toHaveBeenCalled();
   });
-  
+
   it('should return an http observable when call invalidateSessionCooke', () => {
     const result = service.invalidateSessionCookie();
     expect(result).toBeDefined();

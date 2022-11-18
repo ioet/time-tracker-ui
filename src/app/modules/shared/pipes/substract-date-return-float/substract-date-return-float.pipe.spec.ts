@@ -6,7 +6,7 @@ describe('SubstractDatePipeDisplayAsFloat', () => {
     expect(pipe).toBeTruthy();
   });
 
-  /*TODO: tests will be more robust if they take into account FIXED_POINT_DIGITS*/ 
+  /*TODO: tests will be more robust if they take into account FIXED_POINT_DIGITS*/
   it('returns the date diff as float hours (xx.xx)', () => {
     [
       { endDate: '2021-04-11T10:20:00Z', startDate: '2021-04-11T08:00:00Z', expectedDiff: '2.33' },

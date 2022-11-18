@@ -38,12 +38,16 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (!this.isProduction) {
-      this.loginService.getUser(null).subscribe((resp) => {
-        this.loginService.setCookies();
-        const tokenObject = JSON.stringify(resp);
-        const tokenJson = JSON.parse(tokenObject);
-        this.loginService.setLocalStorage('user', tokenJson.token);
-        this.ngZone.run(() => this.router.navigate(['']));
+      this.loginService.isLogin().subscribe((isLogged) => {
+        if (isLogged){
+          this.loginService.getUser(null).subscribe((resp) => {
+          this.loginService.setCookies();
+          const tokenObject = JSON.stringify(resp);
+          const tokenJson = JSON.parse(tokenObject);
+          this.loginService.setLocalStorage('user', tokenJson.token);
+          this.ngZone.run(() => this.router.navigate(['']));
+        });
+        }
       });
     }
   }
