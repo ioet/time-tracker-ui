@@ -30,7 +30,7 @@ export class CustomerComponent {
   }
 
   scrollToCustomerForm(): void {
-    const element = document.getElementById("bottom");
+    const element = document.getElementById('bottom');
     element.scrollIntoView();
   }
 }

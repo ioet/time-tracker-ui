@@ -54,5 +54,4 @@ describe('CustomerComponent', () => {
 
     expect(component.hasChangeComponent).toBe(true);
   });
-
 });
