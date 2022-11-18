@@ -29,21 +29,8 @@ export class CustomerComponent {
     this.hasChangeComponent = event;
   }
 
-
   scrollToCustomerForm(): void {
     const element = document.getElementById("bottom");
     element.scrollIntoView();
-    this.isVisible(element);
-  }
-
-
-  isVisible( elm ) {
-    /* Check if an element is visible on the screen */
-    const vpH = $(window).height(); // Viewport Height
-    const st = $(window).scrollTop(); // Scroll Top
-    const y = $(elm).offset().top;
-    const elementHeight = $(elm).height();
-
-    return ((y < (vpH + st)) && (y > (st - elementHeight)));
   }
 }

@@ -202,24 +202,13 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   scrollToCustomerForm(): void {
     /* Makes the editCustomer form visible */
-    const element = document.getElementById("bottom");
+    const element = document.getElementById('bottom');
     element.scrollIntoView();
   }
 
 
-  isVisible( elm ) {
-    /* Check if an element is visible on the screen */
-    const vpH = $(window).height(); // Viewport Height
-    const st = $(window).scrollTop(); // Scroll Top
-    const y = $(elm).offset().top;
-    const elementHeight = $(elm).height();
-    console.log(vpH, st, y, elementHeight);
-
-    return ((y < (vpH + st)) && (y > (st - elementHeight)));
-  }
-
   waitForForm() {
-    const selector = "customerFormDiv";
+    const selector = 'customerFormDiv';
     return new Promise(resolve => {
       if (document.querySelector(selector)) {
         return resolve(document.querySelector(selector));

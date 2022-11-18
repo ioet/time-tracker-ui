@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const { addTailwindPlugin } = require("@ngneat/tailwind");
 const tailwindConfig = require("./tailwind.config.js");
-require('dotenv').config({ path: './.dev.env' });
+require('dotenv').config();
 
 module.exports = (config) => {
   const config_ = {

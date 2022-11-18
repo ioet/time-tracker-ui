@@ -110,7 +110,7 @@ describe('CustomerTableListComponent', () => {
     spyOn(store, 'dispatch');
 
     component.editCustomer('1');
-    const bottomElement = document.getElementById("bottom");
+    const bottomElement = document.getElementById('bottom');
     expect(bottomElement).toBeTrue();
 
   });
