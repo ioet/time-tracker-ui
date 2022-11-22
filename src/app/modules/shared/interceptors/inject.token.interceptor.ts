@@ -35,7 +35,7 @@ export class InjectTokenInterceptor implements HttpInterceptor {
             if (err instanceof HttpErrorResponse) {
               if (err.status === 401) {
                 this.loginService.logout();
-                window.open("/login", "_self")
+                window.open('/login', '_self');
               }
             }
           })

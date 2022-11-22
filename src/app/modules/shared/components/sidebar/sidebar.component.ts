@@ -49,7 +49,7 @@ export class SidebarComponent implements OnInit {
   }
 
   getSidebarItems(){
-    if (this.userInfoService.isAdmin()){
+    if (this.userInfoService.isAdmin()) {
       this.itemsSidebar = [
             { route: '/time-clock', icon: 'far fa-clock', text: 'Time Clock', active: false },
             { route: '/time-entries', icon: 'far fa-file-alt', text: 'Time Entries', active: false },
@@ -58,7 +58,7 @@ export class SidebarComponent implements OnInit {
             { route: '/customers-management', icon: 'fas fa-users', text: 'Customers', active: false },
             { route: '/users', icon: 'fas fa-user-friends', text: 'Users', active: false },
           ];
-    }else {
+    } else {
       this.itemsSidebar = [
         { route: '/time-clock', icon: 'far fa-clock', text: 'Time Clock', active: false },
         { route: '/time-entries', icon: 'far fa-file-alt', text: 'Time Entries', active: false },

@@ -48,7 +48,6 @@ export class LoginService {
       return user && this.cookieService.check('idtoken') ? of(true) : of(false);
     } else {
       return token ? of(true) : of(false);
-      //return this.isValidToken(token);
     }
   }
 
