@@ -46,7 +46,7 @@ export class EntryEffects {
       this.entryService.summary().pipe(
         map((response) => {
           if (!response){
-            this.toastrService.warning("Hey! you don't have any time entries this month yet.");
+            this.toastrService.warning("We start a new month! You don't have any time entries yet.");
           }
           return new actions.LoadEntriesSummarySuccess(response);
         }),
