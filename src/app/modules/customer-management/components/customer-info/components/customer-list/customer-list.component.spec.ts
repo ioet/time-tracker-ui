@@ -92,7 +92,7 @@ describe('CustomerTableListComponent', () => {
     expect(component.showModal).toBeTrue();
   });
 
-  it('onClick edit, if there are no unsaved changes dispatch SetCustomerToEdit, enable customer form and hidden modal', () => {
+  it('onClick edit, if there are no unsaved changes dispatch SetCustomerToEdit, enable customer form and hide modal', () => {
     component.hasChange = false;
 
     spyOn(store, 'dispatch');
@@ -102,17 +102,6 @@ describe('CustomerTableListComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new SetCustomerToEdit('1'));
     expect(component.showCustomerForm).toBeTruthy();
     expect(component.showModal).toBeFalse();
-  });
-
-  it('onClick edit, if there are no unsaved changes customer edit form should be visible', () => {
-    component.hasChange = false;
-
-    spyOn(store, 'dispatch');
-
-    component.editCustomer('1');
-    const bottomElement = document.getElementById('bottom');
-    expect(bottomElement).toBeTrue();
-
   });
 
   it('onClick edit, dispatch clean Forms in project and project type', () => {
