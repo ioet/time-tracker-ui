@@ -115,7 +115,7 @@ describe('CustomerTableListComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new ResetProjectTypeToEdit());
   });
 
-  it('when you click close modal, you should close the modal, discard the current changes and load a new client for edit', () => {
+  it('when you click close modal, modal should close, discard the current changes and load a new client to edit', () => {
     spyOn(component.changeValueShowCustomerForm, 'emit');
     spyOn(store, 'dispatch');
 

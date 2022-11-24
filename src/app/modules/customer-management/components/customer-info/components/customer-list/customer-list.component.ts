@@ -131,7 +131,6 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
       this.changeValueShowCustomerForm.emit(this.showCustomerForm);
       this.resetProjectFieldsToEdit();
       this.store.dispatch(new SetCustomerToEdit(customerId));
-      scrollToCustomerForm();
     }
   }
 
@@ -204,6 +203,10 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   changeStatus(): void {
     this.store.dispatch(new UnarchiveCustomer(this.idToDelete, this.changeOppositeStatus(this.statusToEdit)));
+  }
+
+  goToCustomerForm(){
+    scrollToCustomerForm();    
   }
 
 }

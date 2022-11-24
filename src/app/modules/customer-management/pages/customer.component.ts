@@ -21,7 +21,6 @@ export class CustomerComponent {
   activateCustomerForm() {
     this.store.dispatch(new SetCustomerToEdit(null));
     this.showCustomerForm = true;
-    scrollToCustomerForm();
   }
 
   closeCustomerForm(event) {
@@ -30,6 +29,10 @@ export class CustomerComponent {
 
   getChangesInputs(event) {
     this.hasChangeComponent = event;
+  }
+
+  goToCustomerForm(){
+    scrollToCustomerForm();
   }
 
 }

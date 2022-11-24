@@ -22,7 +22,7 @@
         <td class="col-2 text-center">
           <button
             data-toggle="modal"
-            (click)="editCustomer(customer.id)"
+            (click)="editCustomer(customer.id); goToCustomerForm()"
             type="button"
             data-target="#editModal"
             class="btn btn-sm btn-primary"
