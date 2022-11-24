@@ -2,6 +2,8 @@ import { Store } from '@ngrx/store';
 import { Customer } from 'src/app/modules/shared/models';
 import { SetCustomerToEdit } from 'src/app/modules/customer-management/store';
 import { Component } from '@angular/core';
+import { scrollToCustomerForm } from '../components/customer-info/components/customer-list/customer-list.component';
+
 
 @Component({
   selector: 'app-customer',
@@ -19,6 +21,7 @@ export class CustomerComponent {
   activateCustomerForm() {
     this.store.dispatch(new SetCustomerToEdit(null));
     this.showCustomerForm = true;
+    scrollToCustomerForm();
   }
 
   closeCustomerForm(event) {
@@ -29,8 +32,4 @@ export class CustomerComponent {
     this.hasChangeComponent = event;
   }
 
-  scrollToCustomerForm(): void {
-    const element = document.getElementById('bottom');
-    element.scrollIntoView();
-  }
 }

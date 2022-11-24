@@ -19,6 +19,12 @@ import { ResetProjectToEdit, SetProjectToEdit } from '../../../projects/componen
 import { ResetProjectTypeToEdit, SetProjectTypeToEdit } from '../../../projects-type/store';
 import { UnarchiveCustomer } from '../../../../store/customer-management.actions';
 
+
+export function scrollToCustomerForm(): void {
+  const element = document.getElementById('customerForm');
+  element.scrollIntoView();
+}
+
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
@@ -125,7 +131,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
       this.changeValueShowCustomerForm.emit(this.showCustomerForm);
       this.resetProjectFieldsToEdit();
       this.store.dispatch(new SetCustomerToEdit(customerId));
-
+      scrollToCustomerForm();
     }
   }
 
@@ -198,12 +204,6 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   changeStatus(): void {
     this.store.dispatch(new UnarchiveCustomer(this.idToDelete, this.changeOppositeStatus(this.statusToEdit)));
-  }
-
-  scrollToCustomerForm(): void {
-    /* Makes the editCustomer form visible */
-    const element = document.getElementById('bottom');
-    element.scrollIntoView();
   }
 
 }
