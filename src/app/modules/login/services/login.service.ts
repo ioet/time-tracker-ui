@@ -41,14 +41,35 @@ export class LoginService {
     return this.http.post(`${this.baseUrl}/logout`, null, { withCredentials: true });
   }
 
+  // isLogin() {
+  //   const token = this.getLocalStorage(this.localStorageKey);
+  //   if (this.isLegacyProd) {
+  //     const user = JSON.parse(token);
+  //     return user && this.cookieService.check('idtoken') ? of(true) : of(false);
+  //   } else {
+  //     return token ? of(true) : of(false);
+  //   }
+  // }
+
   isLogin() {
     const token = this.getLocalStorage(this.localStorageKey);
-    if (this.isLegacyProd) {
-      const user = JSON.parse(token);
-      return user && this.cookieService.check('idtoken') ? of(true) : of(false);
-    } else {
-      return token ? of(true) : of(false);
-    }
+    return of(Boolean(token))
+  }
+
+  checkCookieSession(): Observable {
+    const token = this.cookieService.get('session');
+    return of(Boolean(token))
+  }
+
+  establishLocalAuth(): Observable {
+    return this.getUser(null).pipe(
+      map(response => {
+        this.setCookies();
+        const strResponse = JSON.stringify(response);
+        const user = JSON.parse(strResponse);
+        this.setLocalStorage('user', user.token);
+      })
+    )
   }
 
   getUserId(): string {

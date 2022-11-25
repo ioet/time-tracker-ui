@@ -38,17 +38,27 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (!this.isProduction) {
-      this.loginService.isLogin().subscribe((isLogged) => {
-        if (isLogged){
-          this.loginService.getUser(null).subscribe((resp) => {
-          this.loginService.setCookies();
-          const tokenObject = JSON.stringify(resp);
-          const tokenJson = JSON.parse(tokenObject);
-          this.loginService.setLocalStorage('user', tokenJson.token);
-          this.ngZone.run(() => this.router.navigate(['']));
-        });
-        }
+      // aqui podemos cambiar la verificacion para que valide si la cookie
+      // fue seteada y añada el key-value en localStorage
+      this.loginService.checkCookieSession().pipe(
+        switchMap(cookieExists => {
+          iif(() => cookieExists, this.loginService.establishLocalAuth(), never())
+        })
+      ).subscribe(() => {
+        this.ngZone.run(() => this.router.navigate(['']));
       });
+
+      // this.loginService.isLogin().subscribe((isLogged) => {
+      //   if (isLogged){
+      //     this.loginService.getUser(null).subscribe((resp) => {
+      //     this.loginService.setCookies();
+      //     const tokenObject = JSON.stringify(resp);
+      //     const tokenJson = JSON.parse(tokenObject);
+      //     this.loginService.setLocalStorage('user', tokenJson.token);
+      //     this.ngZone.run(() => this.router.navigate(['']));
+      //   });
+      //   }
+      // });
     }
   }
 
