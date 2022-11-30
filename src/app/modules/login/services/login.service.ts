@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, Inject } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { EnvironmentType, UserEnum } from 'src/environments/enum';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
+import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -23,10 +24,26 @@ export class LoginService {
     private http?: HttpClient,
     private cookieService?: CookieService,
     private router?: Router,
+    @Inject('decrypt') private decrypt?: any,
+    @Inject(REQUEST) private request?: Request
   ) {
     this.baseUrl = `${environment.timeTrackerApiUrl}/users`;
     this.helper = new JwtHelperService();
     this.router = router;
+  }
+
+  private getCookie(name: string): string {
+    const cookies = {};
+    if (this.request.headers['cookie']) {
+      const decoded = decodeURIComponent(
+        this.request.headers['cookie']
+      );
+      decoded.split(';').forEach((cookie) => {
+        const parts = cookie.split('=');
+        cookies[parts[0].trim()] = (parts[1] || '').trim();
+      });
+    }
+    return cookies[name];
   }
 
   logout() {
@@ -41,14 +58,39 @@ export class LoginService {
     return this.http.post(`${this.baseUrl}/logout`, null, { withCredentials: true });
   }
 
+  // isLogin() {
+  //   const token = this.getLocalStorage(this.localStorageKey);
+  //   if (this.isLegacyProd) {
+  //     const user = JSON.parse(token);
+  //     return user && this.cookieService.check('idtoken') ? of(true) : of(false);
+  //   } else {
+  //     return token ? of(true) : of(false);
+  //   }
+  // }
   isLogin() {
     const token = this.getLocalStorage(this.localStorageKey);
-    if (this.isLegacyProd) {
-      const user = JSON.parse(token);
-      return user && this.cookieService.check('idtoken') ? of(true) : of(false);
-    } else {
-      return token ? of(true) : of(false);
-    }
+    return of(Boolean(token))
+  }
+
+  checkCookieSession(): Observable<any> {
+    const token = this.cookieService.get('session');
+    console.log("check", this.cookieService.check('session'))
+    console.log(token);
+    const loggedInCookie = this.getCookie('session');
+    console.log(loggedInCookie);
+    console.log('decrypt', this.decrypt);
+    return of(Boolean(token))
+  }
+
+  establishLocalAuth(): Observable<any> {
+    return this.getUser(null).pipe(
+      map(response => {
+        this.setCookies();
+        const strResponse = JSON.stringify(response);
+        const user = JSON.parse(strResponse);
+        this.setLocalStorage('user', user.token);
+      })
+    )
   }
 
   getUserId(): string {

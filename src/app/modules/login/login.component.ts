@@ -7,6 +7,8 @@ import { environment, CLIENT_URL } from 'src/environments/environment';
 import { EnvironmentType } from 'src/environments/enum';
 import { LoginService } from './services/login.service';
 import { UserService } from '../user/services/user.service';
+import { switchMap } from 'rxjs/operators';
+import { iif, never } from 'rxjs';
 
 declare global {
   interface Window {
@@ -33,22 +35,21 @@ export class LoginComponent implements OnInit {
     private featureToggleCookiesService: FeatureToggleCookiesService,
     private loginService?: LoginService,
     private userService?: UserService,
-    private ngZone?: NgZone
+    private ngZone?: NgZone,
   ) {}
 
   ngOnInit() {
     if (!this.isProduction) {
-      this.loginService.isLogin().subscribe((isLogged) => {
-        if (isLogged){
-          this.loginService.getUser(null).subscribe((resp) => {
-          this.loginService.setCookies();
-          const tokenObject = JSON.stringify(resp);
-          const tokenJson = JSON.parse(tokenObject);
-          this.loginService.setLocalStorage('user', tokenJson.token);
-          this.ngZone.run(() => this.router.navigate(['']));
-        });
-        }
-      });
+            // aqui podemos cambiar la verificacion para que valide si la cookie
+      // fue seteada y añada el key-value en localStorage
+      this.loginService.checkCookieSession().pipe(
+        switchMap(cookieExists => {
+          return iif(() => cookieExists, this.loginService.establishLocalAuth(), never());
+        })
+      ).subscribe(() => {
+        this.ngZone.run(() => this.router.navigate(['']));
+      }
+      );
     }
   }
 
