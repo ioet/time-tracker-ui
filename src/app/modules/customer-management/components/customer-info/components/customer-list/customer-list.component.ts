@@ -31,8 +31,12 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
   customers: CustomerUI[] = [];
   dtOptions: any = {
-    columnDefs: [{orderable: false, targets: [2]}]
+    dom: '<"d-flex justify-content-between"B<"d-flex"<"mr-5"l>f>>rtip',
+    columnDefs: [
+      {orderable: false, targets: [2]}
+    ]
   };
+
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
