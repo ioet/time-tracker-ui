@@ -108,7 +108,7 @@ export class ProjectEffects {
     mergeMap((projectId) =>
       this.projectService.deleteProject(projectId).pipe(
         map(() => {
-          this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
+          this.toastrService.success(INFO_SAVED_SUCCESSFULLY);
           return new actions.DeleteProjectSuccess(projectId);
         }),
         catchError((error) => {
