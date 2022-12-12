@@ -1,4 +1,4 @@
-import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY } from '../../../../../shared/messages';
+import { INFO_SAVED_SUCCESSFULLY, PROJECT_DEACTIVATED_SUCCESSFULLY } from '../../../../../shared/messages';
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -108,7 +108,7 @@ export class ProjectEffects {
     mergeMap((projectId) =>
       this.projectService.deleteProject(projectId).pipe(
         map(() => {
-          this.toastrService.success(INFO_DELETE_SUCCESSFULLY);
+          this.toastrService.success(PROJECT_DEACTIVATED_SUCCESSFULLY);
           return new actions.DeleteProjectSuccess(projectId);
         }),
         catchError((error) => {
