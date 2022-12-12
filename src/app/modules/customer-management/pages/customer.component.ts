@@ -2,6 +2,8 @@ import { Store } from '@ngrx/store';
 import { Customer } from 'src/app/modules/shared/models';
 import { SetCustomerToEdit } from 'src/app/modules/customer-management/store';
 import { Component } from '@angular/core';
+import { scrollToCustomerForm } from '../components/customer-info/components/customer-list/customer-list.component';
+
 
 @Component({
   selector: 'app-customer',
@@ -28,4 +30,9 @@ export class CustomerComponent {
   getChangesInputs(event) {
     this.hasChangeComponent = event;
   }
+
+  goToCustomerForm(){
+    scrollToCustomerForm();
+  }
+
 }

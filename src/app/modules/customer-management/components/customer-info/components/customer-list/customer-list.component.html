@@ -14,25 +14,24 @@
         <th class="col-2 text-center">Visibility</th>
       </tr>
     </thead>
-    <app-loading-bar *ngIf="(isLoading$ | async)"></app-loading-bar>
-    <tbody *ngIf="((isLoading$ | async) === false)">
+    <app-loading-bar *ngIf="isLoading$ | async"></app-loading-bar>
+    <tbody *ngIf="(isLoading$ | async) === false">
       <tr class="d-flex" *ngFor="let customer of customers">
         <td class="col-4 text-break">{{ customer.id }}</td>
         <td class="col-4 text-break">{{ customer.name }}</td>
         <td class="col-2 text-center">
           <button
             data-toggle="modal"
-            (click)="editCustomer(customer.id)"
-            type="button" data-target="#editModal"
-            class="btn btn-sm btn-primary">
+            (click)="editCustomer(customer.id); goToCustomerForm()"
+            type="button"
+            data-target="#editModal"
+            class="btn btn-sm btn-primary"
+          >
             <i class="fa fa-pen fa-xs"></i>
           </button>
         </td>
         <td class="col-2 text-center">
-          <app-dropdown
-              [info] = "customer"
-              (updateInfo) = "switchStatus($event)"
-            > </app-dropdown>
+          <app-dropdown [info]="customer" (updateInfo)="switchStatus($event)"> </app-dropdown>
         </td>
       </tr>
     </tbody>
@@ -62,5 +61,5 @@
   [title]="'Edit Customer'"
   [body]="message"
   (closeModalEvent)="closeModal()"
-  >
+>
 </app-dialog>

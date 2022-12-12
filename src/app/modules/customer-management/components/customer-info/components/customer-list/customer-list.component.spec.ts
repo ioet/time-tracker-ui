@@ -84,7 +84,7 @@ describe('CustomerTableListComponent', () => {
 
   it('Onclick Edit, if there are changes, the modal must be presented ', () => {
     component.hasChange = true;
-    const expectMessage = 'Do you have changes in a client, do you want to discard them?';
+    const expectMessage = 'You have changes in a client, do you want to discard them?';
 
     component.editCustomer('1');
 
@@ -92,7 +92,7 @@ describe('CustomerTableListComponent', () => {
     expect(component.showModal).toBeTrue();
   });
 
-  it('onClick edit, if there are not have changes dispatch SetCustomerToEdit, enable customer form and hidden modal', () => {
+  it('onClick edit, if there are no unsaved changes dispatch SetCustomerToEdit, enable customer form and hide modal', () => {
     component.hasChange = false;
 
     spyOn(store, 'dispatch');
@@ -115,7 +115,7 @@ describe('CustomerTableListComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new ResetProjectTypeToEdit());
   });
 
-  it('when you click close modal, you should close the modal, discard the current changes and load a new client for edit', () => {
+  it('when you click close modal, modal should close, discard the current changes and load a new client to edit', () => {
     spyOn(component.changeValueShowCustomerForm, 'emit');
     spyOn(store, 'dispatch');
 
