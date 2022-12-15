@@ -31,14 +31,15 @@ RUN mkdir -p /opt/selenium \
         && curl http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip -o /opt/selenium/chromedriver_linux64.zip \
         && cd /opt/selenium; unzip /opt/selenium/chromedriver_linux64.zip; rm -rf chromedriver_linux64.zip; ln -fs /opt/selenium/chromedriver /usr/local/bin/chromedriver;
 
-RUN useradd -ms /bin/bash ${USERNAME}
+
+RUN useradd --create-home -ms /bin/bash ${USERNAME}
 
 WORKDIR ${HOME}/time-tracker-ui
-COPY package.json package-lock.json ./
-RUN npm cache clean --force && npm install
-COPY . .
+COPY package*.json ./
 RUN chown ${USERNAME}:${USERNAME} -R ${HOME}/time-tracker-ui
-RUN chmod -R 777 ${HOME}/time-tracker-ui
+RUN npm cache clean --force && npm install
+COPY  --chown=${USERNAME}:${USERNAME} . .
+
 
 USER ${USERNAME}
 EXPOSE 4200
