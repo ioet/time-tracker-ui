@@ -123,7 +123,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   editCustomer(customerId: string) {
     this.idToEdit = customerId;
     if (this.hasChange) {
-      this.message = 'You have changes in a client, do you want to discard them?';
+      this.message = 'You have unsaved changes, do you want to discard them?';
       this.showModal = true;
     } else {
       this.showCustomerForm = true;
