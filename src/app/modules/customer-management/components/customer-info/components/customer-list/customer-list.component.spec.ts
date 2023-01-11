@@ -84,7 +84,7 @@ describe('CustomerTableListComponent', () => {
 
   it('Onclick Edit, if there are changes, the modal must be presented ', () => {
     component.hasChange = true;
-    const expectMessage = 'You have changes in a client, do you want to discard them?';
+    const expectMessage = 'You have unsaved changes, do you want to discard them?';
 
     component.editCustomer('1');
 
