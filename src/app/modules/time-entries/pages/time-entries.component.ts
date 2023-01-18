@@ -14,7 +14,6 @@ import { EntryState } from '../../time-clock/store/entry.reducer';
 import { EntryActionTypes } from './../../time-clock/store/entry.actions';
 import { getActiveTimeEntry, getTimeEntriesDataSource } from './../../time-clock/store/entry.selectors';
 import { CookieService } from 'ngx-cookie-service';
-import { FeatureToggle } from './../../../../environments/enum';
 import { CalendarView } from 'angular-calendar';
 import { ParseDateTimeOffset } from '../../shared/formatters/parse-date-time-offset/parse-date-time-offset';
 
@@ -43,7 +42,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   wasEditingExistingTimeEntry = false;
   canMarkEntryAsWIP = true;
   timeEntriesDataSource$: Observable<DataSource<Entry>>;
-  isFeatureToggleCalendarActive: boolean;
   displayGridView: boolean;
   selectedDate: moment.Moment;
   selectedYearAsText: string;
@@ -68,7 +66,6 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.loadActiveEntry();
-    this.isFeatureToggleCalendarActive = (this.cookiesService.get(FeatureToggle.TIME_TRACKER_CALENDAR) === 'true');
     this.entriesSubscription = this.actionsSubject$.pipe(
       filter((action: any) => (
         action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||

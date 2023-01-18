@@ -3,7 +3,7 @@
         <button type="button" (click)="newEntry()" data-toggle="modal" data-target="#editRecordsByDate" class="btn btn-primary">
       Add new entry
     </button>
-        <button type="button" (click)="onDisplayModeChange()" class="btn btn-primary float-right" *ngIf="isFeatureToggleCalendarActive">
+        <button type="button" (click)="onDisplayModeChange()" class="btn btn-primary float-right">
       <em class="fas fa-list" *ngIf="displayGridView"></em>
       <em class="fas fa-th" *ngIf="!displayGridView"></em>
     </button>
