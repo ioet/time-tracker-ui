@@ -510,31 +510,6 @@ describe('TimeEntriesComponent', () => {
     expect(cookieService.get).toHaveBeenCalledWith(sentParameter);
   });
 
-  it('set false in isFeatureToggleCalendarActive when cookie does not exist', () => {
-    spyOn(cookieService, 'get');
-
-    component.ngOnInit();
-
-    expect(component.isFeatureToggleCalendarActive).toBeFalse();
-  });
-
-  it('set true in isFeatureToggleCalendarActive when cookiesService.get() return true', () => {
-    const cookieResponseValue = 'true';
-    spyOn(cookieService, 'get').and.returnValue(cookieResponseValue);
-
-    component.ngOnInit();
-
-    expect(component.isFeatureToggleCalendarActive).toBeTrue();
-  });
-
-  it('set false in isFeatureToggleCalendarActive when cookiesService.get() return false', () => {
-    const cookieResponseValue = 'false';
-    spyOn(cookieService, 'get').and.returnValue(cookieResponseValue);
-
-    component.ngOnInit();
-
-    expect(component.isFeatureToggleCalendarActive).toBeFalse();
-  });
 
   it('set true in displayGridView when its initial value is false and call onDisplayModeChange', () => {
     const expectedValue = true;
@@ -642,51 +617,6 @@ describe('TimeEntriesComponent', () => {
     };
     component.changeView(eventView);
     expect(component.calendarView).toBe(CalendarView.Month);
-  });
-
-  it('not view button onDisplayModeChange when isFeatureToggleCalendarActive is false', () => {
-    component.isFeatureToggleCalendarActive = false;
-
-    fixture.detectChanges();
-
-    const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
-    const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
-    const HTMLTimeEntriesButton = HTMLTimeEntriesElement.querySelector('.btn.btn-primary.float-right');
-    expect(HTMLTimeEntriesButton).toBeNull();
-  });
-
-  it('view list button when displayGridView is true and isFeatureToggleCalendarActive is true', () => {
-    const expectedIconInsideButton = '.fa-list';
-    const unexpectedIconInsideButton = '.fa-th';
-    component.isFeatureToggleCalendarActive = true;
-    component.displayGridView = true;
-
-    fixture.detectChanges();
-
-    const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
-    const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
-    const HTMLTimeEntriesButton = HTMLTimeEntriesElement.querySelector('.btn.btn-primary.float-right');
-    const HTMLExpectedChildButton = HTMLTimeEntriesButton.querySelector(expectedIconInsideButton);
-    const HTMLUnexpectedChildButton = HTMLTimeEntriesButton.querySelector(unexpectedIconInsideButton);
-    expect(HTMLExpectedChildButton).not.toBeNull();
-    expect(HTMLUnexpectedChildButton).toBeNull();
-  });
-
-  it('view calendar button when displayGridView is false and isFeatureToggleCalendarActive is true', () => {
-    const expectedIconInsideButton = '.fa-th';
-    const unexpectedIconInsideButton = '.fa-list';
-    component.isFeatureToggleCalendarActive = true;
-    component.displayGridView = false;
-
-    fixture.detectChanges();
-
-    const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
-    const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
-    const HTMLTimeEntriesButton = HTMLTimeEntriesElement.querySelector('.btn.btn-primary.float-right');
-    const HTMLExpectedChildButton = HTMLTimeEntriesButton.querySelector(expectedIconInsideButton);
-    const HTMLUnexpectedChildButton = HTMLTimeEntriesButton.querySelector(unexpectedIconInsideButton);
-    expect(HTMLExpectedChildButton).not.toBeNull();
-    expect(HTMLUnexpectedChildButton).toBeNull();
   });
 
   it('view calendarView when displayGridView is true', () => {
