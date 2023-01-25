@@ -19,17 +19,9 @@ export class UserInfoService {
   }
 
   isMemberOf(groupName: string): Observable<boolean> {
-    const token = this.loginService.getLocalStorage('user');
-    if (this.isLegacyProduction) {
-      const user = JSON.parse(token);
-      const {groups = []} = user;
-      return of(groups.includes(groupName));
-    } else {
-      const user = this.helper.decodeToken(token);
-      const {groups = []} = user;
-      if (groups.includes(groupName)) {
-        return this.loginService.isValidToken(token);
-      }
+    const userCookie = this.loginService.fetchAndCheckUserPermissions();
+    if (userCookie === 'timetracker-admin') {
+      return of(true);
     }
     return of(false);
   }
