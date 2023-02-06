@@ -1,4 +1,4 @@
-name: CI process for time-tracker app
+name: (DEPRECATED) CI process for time-tracker app
 
 on: workflow_dispatch  # deactivate workflow and run it manually only
 

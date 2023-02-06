@@ -1,4 +1,4 @@
-name: Running mutation tests
+name: (DEPRECATED) Running mutation tests
 
 on: workflow_dispatch  # deactivate workflow and run it manually only
 
