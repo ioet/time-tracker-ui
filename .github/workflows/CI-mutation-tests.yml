@@ -1,8 +1,6 @@
 name: Running mutation tests
 
-on:
-  schedule:
-    - cron: '0 9 * * 1'
+on: workflow_dispatch  # deactivate workflow and run it manually only
 
 jobs:
   configuring-stryker:
