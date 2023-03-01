@@ -5,15 +5,22 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 2.90"
     }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.9.0"
+    }
   }
 
-  backend "azurerm" {
-    resource_group_name  = "ioet-infra-tf-state"
-    storage_account_name = "timetrackertfstate"
-    container_name       = "time-tracker-tf-state"
-    key                  = "time-tracker-ui.tfstate"
+  backend "s3" {
+    bucket  = "time-tracker-service"
+    key     = "ioet-time-tracker-ui/terraform.tfstate"
+    region  = "us-east-1"
+    encrypt = true
   }
+}
 
+provider "aws" {
+  region = "us-east-1"
 }
 
 provider "azurerm" {
@@ -22,13 +29,11 @@ provider "azurerm" {
 }
 
 data "terraform_remote_state" "service" {
-  backend   = "azurerm"
-  workspace = terraform.workspace
+  backend = "s3"
   config = {
-    resource_group_name  = "ioet-infra-tf-state"
-    storage_account_name = "timetrackertfstate"
-    container_name       = "time-tracker-tf-state"
-    key                  = "this.tfstate"
+    bucket = "time-tracker-service"
+    key    = "env://${local.environment}/time-tracker-service/terraform.tfstate"
+    region = "us-east-1"
   }
 }
 
