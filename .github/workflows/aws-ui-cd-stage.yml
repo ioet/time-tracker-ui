@@ -1,0 +1,57 @@
+name: time-tracker-ui-cd-stage
+
+on:
+  push:
+    branches:
+      - 'fix-workflow'
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    env:
+      TF_WORKSPACE: stage
+      AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Get the release_version
+      run: |
+        echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        echo $RELEASE_VERSION
+
+  
+    - name: Unlock STAGE secrets
+      uses: sliteteam/github-action-git-crypt-unlock@1.2.0
+      env:
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY_STAGE }}
+      
+    - name: Build the docker image
+      run: |-
+        docker build \
+          --target production -t timetracker_ui -f Dockerfile_stage \
+          .
+
+    - name: Publish docker image to stage azure container registry
+      run: |
+        make login publish image_tag=$RELEASE_VERSION
+
+    # - name: Setup terraform
+    #   uses: hashicorp/setup-terraform@v1
+    #   with:
+    #     terraform_version: 1.1.9
+
+    # - name: Authenticate with the TF modules repository
+    #   uses: webfactory/ssh-agent@v0.5.4
+    #   with:
+    #     ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
+
+    # - name: Terraform Init
+    #   working-directory: ${{ env.WORKING_DIR }}
+    #   run: terraform init
+
+    # - name: Terraform Apply
+    #   working-directory: ${{ env.WORKING_DIR }}
+    #   run: terraform apply -var-file="${{ env.TF_WORKSPACE }}.tfvars" -var "image_tag=$RELEASE_VERSION" -auto-approve
