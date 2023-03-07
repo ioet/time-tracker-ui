@@ -86,7 +86,7 @@ publish_prod: ## Upload a docker image to the prod azure container registry acr=
 
 .PHONY: login
 login: ## Login in respository of docker images
-	az acr login --name $(acr)
+	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 568748651446.dkr.ecr.us-east-1.amazonaws.com
 
 .PHONY: release
 release: require-VERSION-arg require-COMMENT-arg ## Creates an pushes a new tag.
