@@ -3,7 +3,7 @@ name: time-tracker-ui-cd-stage
 on:
   push:
     branches:
-      - 'fix-workflow'
+      - 'fix-workflowfds'
 
 jobs:
   cd:
@@ -34,7 +34,7 @@ jobs:
           --target production -t timetracker_ui -f Dockerfile_stage \
           .
 
-    - name: Publish docker image to stage azure container registry
+    - name: Publish docker image to stage AWS container registry
       run: |
         make login publish image_tag=$RELEASE_VERSION
 
