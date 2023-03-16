@@ -28,15 +28,15 @@ jobs:
       env:
         GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY_STAGE }}
       
-    # - name: Build the docker image
-    #   run: |-
-    #     docker build \
-    #       --target production -t timetracker_ui -f Dockerfile_stage \
-    #       .
+    - name: Build the docker image
+      run: |-
+        docker build \
+          --target production -t timetracker_ui -f Dockerfile_stage \
+          .
 
-    # - name: Publish docker image to stage azure container registry
-    #   run: |
-    #     make login publish image_tag=$RELEASE_VERSION
+    - name: Publish docker image to stage azure container registry
+      run: |
+        make login publish image_tag=$RELEASE_VERSION
 
     - name: SCP files via ssh key
       uses: appleboy/scp-action@master
