@@ -38,20 +38,20 @@ jobs:
       run: |
         make login publish image_tag=$RELEASE_VERSION
 
-    # - name: Setup terraform
-    #   uses: hashicorp/setup-terraform@v1
-    #   with:
-    #     terraform_version: 1.1.9
+    - name: SCP files via ssh key
+      uses: appleboy/scp-action@master
+      env:
+        USERNAME: ${{ secrets.AWS_EC2_USER }}
+        HOST: ${{ secrets.STAGE_BACKEND_URL }}
+        KEY: ${{ secrets.STAGE_AWS_PRIVATE_KEY }}
+      with:
+        source: './infrastructure/aws_ec2.sh'
+        target: '.'
 
-    # - name: Authenticate with the TF modules repository
-    #   uses: webfactory/ssh-agent@v0.5.4
-    #   with:
-    #     ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
-
-    # - name: Terraform Init
-    #   working-directory: ${{ env.WORKING_DIR }}
-    #   run: terraform init
-
-    # - name: Terraform Apply
-    #   working-directory: ${{ env.WORKING_DIR }}
-    #   run: terraform apply -var-file="${{ env.TF_WORKSPACE }}.tfvars" -var "image_tag=$RELEASE_VERSION" -auto-approve
+    - name: Deploy
+      run: |
+        TEMP=$(mktemp)
+        echo "${{ secrets.STAGE_AWS_PRIVATE_KEY }}" > $TEMP
+        chmod 400 $TEMP
+        ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.STAGE_BACKEND_URL }} "chmod +x ./infrastructure/aws_ec2.sh"
+        ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.STAGE_BACKEND_URL }} "./infrastructure/aws_ec2.sh $RELEASE_VERSION" stage
