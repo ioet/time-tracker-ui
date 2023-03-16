@@ -81,7 +81,7 @@ remove_prod: ## Delete container timetracker_ui_prod.
 
 .PHONY: publish_prod
 publish_prod: require-image_tag-arg ## Upload a docker image to the prod AWS container registry image_tag=<tag_for_the_image>
-	docker tag timetracker_ui_prod:latest 568748651446.dkr.ecr.us-east-1.amazonaws.com/time-tracker/prod-ui:$(image_tag)
+	docker tag timetracker_ui:latest 568748651446.dkr.ecr.us-east-1.amazonaws.com/time-tracker/prod-ui:$(image_tag)
 	docker push 568748651446.dkr.ecr.us-east-1.amazonaws.com/time-tracker/prod-ui:$(image_tag)
 
 .PHONY: login
