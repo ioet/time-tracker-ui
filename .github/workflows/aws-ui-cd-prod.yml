@@ -3,7 +3,7 @@ name: time-tracker-ui-cd-prod
 on:
   push:
     branches:
-      - 'fix-workflow'
+      - 'notfix-workflow'
 
 jobs:
   cd:
