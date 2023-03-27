@@ -28,7 +28,7 @@ export class EntryService {
 
   loadEntries(date): Observable<any> {
     const timezoneOffset = new Date().getTimezoneOffset();
-    return this.http.get(`${this.baseUrl}?month=${date.month}&year=${date.year}&timezone_offset=${timezoneOffset}`);
+    return this.http.get(`${this.baseUrl}/?month=${date.month}&year=${date.year}&timezone_offset=${timezoneOffset}`);
   }
 
   createEntry(entryData): Observable<any> {
