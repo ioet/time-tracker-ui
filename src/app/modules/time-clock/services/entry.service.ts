@@ -64,7 +64,7 @@ export class EntryService {
   findEntriesByProjectId(projectId: string): Observable<Entry[]> {
     const startDate = this.getDateLastMonth();
     const endDate = this.getCurrentDate();
-    const findEntriesByProjectURL = `${this.baseUrl}?limit=2&project_id=${projectId}&start_date=${startDate}&end_date=${endDate}`;
+    const findEntriesByProjectURL = `${this.baseUrl}/?limit=2&project_id=${projectId}&start_date=${startDate}&end_date=${endDate}`;
     return this.http.get<Entry[]>(findEntriesByProjectURL);
   }
 
