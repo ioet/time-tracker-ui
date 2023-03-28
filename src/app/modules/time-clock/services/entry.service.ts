@@ -32,7 +32,7 @@ export class EntryService {
   }
 
   createEntry(entryData): Observable<any> {
-    return this.http.post(this.baseUrl, entryData);
+    return this.http.post(`${this.baseUrl}/`, entryData);
   }
 
   updateEntry(entryData): Observable<any> {
