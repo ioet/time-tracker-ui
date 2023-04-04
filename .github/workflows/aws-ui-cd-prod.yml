@@ -2,8 +2,8 @@ name: time-tracker-ui-cd-prod
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - 'fast-api*'
 
 jobs:
   cd:
