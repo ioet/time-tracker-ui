@@ -1,9 +1,9 @@
 name: time-tracker-ui-cd-stage
 
 on:
-  push:
-    branches:
-      - 'asdffix-workflow'
+  release:
+    types:
+      - published
 
 jobs:
   cd:
