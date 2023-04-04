@@ -3,7 +3,7 @@ name: time-tracker-ui-cd-stage
 on:
   push:
     branches:
-      - 'fix-workflow'
+      - 'asdffix-workflow'
 
 jobs:
   cd:
