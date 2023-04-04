@@ -21,31 +21,30 @@ jobs:
         echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         echo $RELEASE_VERSION
 
-  
     - name: Unlock PROD secrets
       uses: sliteteam/github-action-git-crypt-unlock@1.2.0
       env:
         GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY_PROD }}
       
-    - name: Build the docker image
-      run: |-
-        docker build \
-          --target production -t timetracker_ui -f Dockerfile_prod \
-          .
+    # - name: Build the docker image
+    #   run: |-
+    #     docker build \
+    #       --target production -t timetracker_ui -f Dockerfile_prod \
+    #       .
 
-    - name: Publish docker image to prod aws container registry
-      run: |
-        make login publish_prod image_tag=$RELEASE_VERSION
+    # - name: Publish docker image to prod aws container registry
+    #   run: |
+    #     make login publish_prod image_tag=$RELEASE_VERSION
 
-    # - name: SCP files via ssh key
-    #   uses: appleboy/scp-action@master
-    #   env:
-    #     USERNAME: ${{ secrets.AWS_EC2_USER }}
-    #     HOST: ${{ secrets.PROD_UI_URL }}
-    #     KEY: ${{ secrets.PROD_AWS_PRIVATE_KEY }}
-    #   with:
-    #     source: './infrastructure/aws_ec2.sh'
-    #     target: '.'
+    - name: SCP files via ssh key
+      uses: appleboy/scp-action@master
+      env:
+        USERNAME: ${{ secrets.AWS_EC2_USER }}
+        HOST: ${{ secrets.PROD_UI_URL }}
+        KEY: ${{ secrets.PROD_AWS_PRIVATE_KEY }}
+      with:
+        source: './infrastructure/aws_ec2.sh'
+        target: '.'
 
     - name: SCP files via ssh key - .prod.aws.env
       uses: appleboy/scp-action@master
@@ -57,10 +56,10 @@ jobs:
         source: '.prod.aws.env'
         target: '.'
 
-    # - name: Deploy
-    #   run: |
-    #     TEMP=$(mktemp)
-    #     echo "${{ secrets.PROD_AWS_PRIVATE_KEY }}" > $TEMP
-    #     chmod 400 $TEMP
-    #     ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.PROD_UI_URL }} "chmod +x ./infrastructure/aws_ec2.sh"
-    #     ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.PROD_UI_URL }} "./infrastructure/aws_ec2.sh $RELEASE_VERSION" prod
+    - name: Deploy
+      run: |
+        TEMP=$(mktemp)
+        echo "${{ secrets.PROD_AWS_PRIVATE_KEY }}" > $TEMP
+        chmod 400 $TEMP
+        ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.PROD_UI_URL }} "chmod +x ./infrastructure/aws_ec2.sh"
+        ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.PROD_UI_URL }} "./infrastructure/aws_ec2.sh $RELEASE_VERSION" prod
