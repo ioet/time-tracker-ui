@@ -28,11 +28,11 @@ export class EntryService {
 
   loadEntries(date): Observable<any> {
     const timezoneOffset = new Date().getTimezoneOffset();
-    return this.http.get(`${this.baseUrl}?month=${date.month}&year=${date.year}&timezone_offset=${timezoneOffset}`);
+    return this.http.get(`${this.baseUrl}/?month=${date.month}&year=${date.year}&timezone_offset=${timezoneOffset}`);
   }
 
   createEntry(entryData): Observable<any> {
-    return this.http.post(this.baseUrl, entryData);
+    return this.http.post(`${this.baseUrl}/`, entryData);
   }
 
   updateEntry(entryData): Observable<any> {
@@ -64,7 +64,7 @@ export class EntryService {
   findEntriesByProjectId(projectId: string): Observable<Entry[]> {
     const startDate = this.getDateLastMonth();
     const endDate = this.getCurrentDate();
-    const findEntriesByProjectURL = `${this.baseUrl}?limit=2&project_id=${projectId}&start_date=${startDate}&end_date=${endDate}`;
+    const findEntriesByProjectURL = `${this.baseUrl}/?limit=2&project_id=${projectId}&start_date=${startDate}&end_date=${endDate}`;
     return this.http.get<Entry[]>(findEntriesByProjectURL);
   }
 

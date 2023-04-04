@@ -1,9 +1,7 @@
 name: time-tracker-ui-cd-stage
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  workflow_dispatch  # deactivate workflow and run it manually only
 
 jobs:
   cd:
