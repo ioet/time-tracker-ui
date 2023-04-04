@@ -3,7 +3,7 @@ WORKDIR /app
 COPY . /app
 RUN npm cache clean --force && npm install
 EXPOSE 4200 9876
-RUN source .prod.aws.env && npm run build
+RUN source .prod.env && npm run build
 
 
 FROM nginx:1.21 AS production
