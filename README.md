@@ -181,7 +181,7 @@ Stryker is also executed on GitHub actions with the following cron expresion:
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-## Deploy the app on Azure
+## Deploy the app on Azure (deprecated)
 
 The app deployment is automatically executed after each pull request is merged in master. That's wht it is necessary that each pull request meets at least 80% of test coverage.
 
