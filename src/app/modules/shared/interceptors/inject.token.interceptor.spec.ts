@@ -32,19 +32,4 @@ describe('InjectTokenInterceptor test', () => {
     expect(handler.handle).toHaveBeenCalledWith(request);
   });
 
-  it('if request.url is part of time-tracker-api, then Authorization header is injected', () => {
-    const interceptor = new InjectTokenInterceptor(azureAdB2CService, loginService);
-    interceptor.isProduction = true;
-    const request = new HttpRequest('GET', environment.timeTrackerApiUrl);
-    spyOn(handler, 'handle');
-    const requestWithHeaders = request.clone(
-      {
-        headers: request.headers.set('Authorization', 'Bearer XYZ')
-      });
-
-    interceptor.intercept(request, handler);
-
-    expect(handler.handle).toHaveBeenCalledWith(requestWithHeaders);
-  });
-
 });

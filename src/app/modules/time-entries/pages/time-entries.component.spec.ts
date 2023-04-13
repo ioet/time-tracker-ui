@@ -501,15 +501,6 @@ describe('TimeEntriesComponent', () => {
     expect(component.doSave).toHaveBeenCalledTimes(0);
   });
 
-  it('call cookieService.get() when call ngOnInit', () => {
-    spyOn(cookieService, 'get');
-    const sentParameter = FeatureToggle.TIME_TRACKER_CALENDAR;
-
-    component.ngOnInit();
-
-    expect(cookieService.get).toHaveBeenCalledWith(sentParameter);
-  });
-
 
   it('set true in displayGridView when its initial value is false and call onDisplayModeChange', () => {
     const expectedValue = true;

@@ -17,7 +17,7 @@ describe('EntryService', () => {
     service = TestBed.inject(EntryService);
     httpMock = TestBed.inject(HttpTestingController);
     service.baseUrl = 'time-entries';
-    reportsUrl = service.urlInProductionLegacy ? service.baseUrl : service.baseUrl + '/report';
+    reportsUrl = service.urlInProductionLegacy ? service.baseUrl : service.baseUrl + '/report/';
   });
 
   it('services are ready to be used', inject(
@@ -36,7 +36,7 @@ describe('EntryService', () => {
       expect(response.length).toBe(1);
     });
 
-    const createEntryRequest = httpMock.expectOne(service.baseUrl);
+    const createEntryRequest = httpMock.expectOne(`${service.baseUrl}/`);
     expect(createEntryRequest.request.method).toBe('POST');
     createEntryRequest.flush(entry);
   });
@@ -44,14 +44,14 @@ describe('EntryService', () => {
   it('loads an activeEntry with /running', () => {
     service.loadActiveEntry().subscribe();
 
-    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/running`);
+    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/running/`);
     expect(loadEntryRequest.request.method).toBe('GET');
   });
 
   it('loads summary with get /summary?time_offset=<time-offset>', () => {
     service.summary().subscribe();
     const timeOffset = new Date().getTimezoneOffset();
-    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/summary?time_offset=${timeOffset}`);
+    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/summary/?time_offset=${timeOffset}`);
     expect(loadEntryRequest.request.method).toBe('GET');
   });
 
@@ -62,7 +62,7 @@ describe('EntryService', () => {
     const timezoneOffset = new Date().getTimezoneOffset();
     service.loadEntries({ year, month }).subscribe();
 
-    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}?month=${month}&year=${year}&timezone_offset=${timezoneOffset}`);
+    const loadEntryRequest = httpMock.expectOne(`${service.baseUrl}/?month=${month}&year=${year}&timezone_offset=${timezoneOffset}`);
     expect(loadEntryRequest.request.method).toBe('GET');
 
   });
@@ -89,7 +89,7 @@ describe('EntryService', () => {
     service.urlInProductionLegacy = true;
     service.stopEntryRunning('id').subscribe();
 
-    const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id/stop`);
+    const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/id/stop/`);
     expect(updateEntryRequest.request.method).toBe('POST');
   });
 
@@ -97,7 +97,7 @@ describe('EntryService', () => {
     service.urlInProductionLegacy = false;
     service.stopEntryRunning('id').subscribe();
 
-    const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/stop`);
+    const updateEntryRequest = httpMock.expectOne(`${service.baseUrl}/stop/`);
     expect(updateEntryRequest.request.method).toBe('PUT');
   });
 
@@ -153,7 +153,7 @@ describe('EntryService', () => {
 
     service.findEntriesByProjectId(projectId).subscribe();
 
-    const restartEntryRequest = httpMock.expectOne( `${service.baseUrl}?limit=2&project_id=${projectId}&start_date=${startDate}&end_date=${endDate}`);
+    const restartEntryRequest = httpMock.expectOne( `${service.baseUrl}/?limit=2&project_id=${projectId}&start_date=${startDate}&end_date=${endDate}`);
     expect(restartEntryRequest.request.method).toBe('GET');
   });
 
