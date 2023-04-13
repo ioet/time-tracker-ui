@@ -25,7 +25,7 @@ export class ProjectService {
   }
 
   getRecentProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(`${this.url}/recent`);
+    return this.http.get<Project[]>(`${this.url}/recent/`);
   }
 
   createProject(projectData): Observable<any> {

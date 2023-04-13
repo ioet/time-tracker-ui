@@ -26,7 +26,7 @@ export class InjectTokenInterceptor implements HttpInterceptor {
       const token = this.isProduction ? this.azureAdB2CService.getBearerToken() : this.loginService.getBearerToken();
       const requestWithHeaders = request.clone(
         {
-          headers: request.headers.set('Authorization',
+          headers: request.headers.set('token',
             'Bearer ' + token)
         });
       return next.handle(requestWithHeaders)

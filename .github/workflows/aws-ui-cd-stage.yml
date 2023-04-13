@@ -1,0 +1,67 @@
+name: time-tracker-ui-cd-stage
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    env:
+      TF_WORKSPACE: stage
+      AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Get the release_version
+      run: |
+        echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        echo $RELEASE_VERSION
+
+  
+    - name: Unlock STAGE secrets
+      uses: sliteteam/github-action-git-crypt-unlock@1.2.0
+      env:
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY_STAGE }}
+      
+    - name: Build the docker image
+      run: |-
+        docker build \
+          --target production -t timetracker_ui -f Dockerfile_stage \
+          .
+
+    - name: Publish docker image to stage AWS container registry
+      run: |
+        make login publish image_tag=$RELEASE_VERSION
+
+    - name: SCP files via ssh key - script 
+      uses: appleboy/scp-action@master
+      env:
+        USERNAME: ${{ secrets.AWS_EC2_USER }}
+        HOST: ${{ secrets.STAGE_UI_URL }}
+        KEY: ${{ secrets.STAGE_AWS_PRIVATE_KEY }}
+      with:
+        source: './infrastructure/aws_ec2.sh'
+        target: '.'
+
+    - name: SCP files via ssh key - .stage.aws.env
+      uses: appleboy/scp-action@master
+      env:
+        USERNAME: ${{ secrets.AWS_EC2_USER }}
+        HOST: ${{ secrets.STAGE_UI_URL }}
+        KEY: ${{ secrets.STAGE_AWS_PRIVATE_KEY }}
+      with:
+        source: '.stage.aws.env'
+        target: '.'
+
+    - name: Deploy
+      run: |
+        TEMP=$(mktemp)
+        echo "${{ secrets.STAGE_AWS_PRIVATE_KEY }}" > $TEMP
+        chmod 400 $TEMP
+        ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.STAGE_UI_URL }} "chmod +x ./infrastructure/aws_ec2.sh"
+        ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.STAGE_UI_URL }} "./infrastructure/aws_ec2.sh $RELEASE_VERSION" stage
