@@ -74,7 +74,7 @@ describe('ProjectService', () => {
     service.getRecentProjects().subscribe((projectsInResponse) => {
       expect(projectsInResponse.length).toBe(projectsFoundSize);
     });
-    const getProjectsRequest = httpMock.expectOne(`${service.url}/recent`);
+    const getProjectsRequest = httpMock.expectOne(`${service.url}/recent/`);
     expect(getProjectsRequest.request.method).toBe('GET');
     getProjectsRequest.flush(projectsList);
   });

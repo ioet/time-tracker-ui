@@ -8,7 +8,7 @@ import { ProjectActionTypes } from './project.actions';
 import { ProjectEffects } from './project.effects';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY } from '../../../../../shared/messages';
+import { INFO_SAVED_SUCCESSFULLY, PROJECT_DEACTIVATED_SUCCESSFULLY } from '../../../../../shared/messages';
 
 describe('ProjectEffects', () => {
   let actions$: Observable<Action>;
@@ -128,7 +128,7 @@ describe('ProjectEffects', () => {
     spyOn(service, 'deleteProject').and.returnValue(of({}));
 
     effects.deleteProject$.subscribe((action) => {
-      expect(toastrService.success).toHaveBeenCalledWith(INFO_DELETE_SUCCESSFULLY);
+      expect(toastrService.success).toHaveBeenCalledWith(PROJECT_DEACTIVATED_SUCCESSFULLY);
       expect(action.type).toEqual(ProjectActionTypes.DELETE_PROJECT_SUCCESS);
     });
   });
