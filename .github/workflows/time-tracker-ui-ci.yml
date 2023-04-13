@@ -38,7 +38,6 @@ jobs:
     - name: Running tests
       run: |
         chmod -R 777 ./$home
-        sudo apt-get install libsecret-1-dev
         make test
     - name: Generate coverage report
       env:
