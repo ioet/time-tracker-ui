@@ -1,9 +1,9 @@
 name: time-tracker-ui-cd-prod
 
 on:
-  push:
-    branches:
-      - 'fast-api*'
+  release:
+    types:
+      - published
 
 jobs:
   cd:

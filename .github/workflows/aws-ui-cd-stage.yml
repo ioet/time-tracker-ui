@@ -1,9 +1,9 @@
 name: time-tracker-ui-cd-stage
 
 on:
-  release:
-    types:
-      - published
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   cd:
