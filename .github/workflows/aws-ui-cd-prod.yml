@@ -1,9 +1,9 @@
 name: time-tracker-ui-cd-prod
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  release:
+    types:
+      - published
 
 jobs:
   cd:
@@ -41,7 +41,7 @@ jobs:
         TEMP=$(mktemp)
         echo "${{ secrets.PROD_AWS_PRIVATE_KEY }}" > $TEMP
         chmod 400 $TEMP
-        scp -o 'StrictHostKeyChecking no' -i $TEMP ./.stage.aws.env ${{ secrets.AWS_EC2_USER }}@${{ secrets.STAGE_UI_URL }}:./infrastructure/aws_ec2.sh        
-        scp -o 'StrictHostKeyChecking no' -i $TEMP ./infrastructure/aws_ec2.sh ${{ secrets.AWS_EC2_USER }}@${{ secrets.STAGE_UI_URL }}:./infrastructure/aws_ec2.sh
+        scp -o 'StrictHostKeyChecking no' -i $TEMP ./.prod.aws.env ${{ secrets.AWS_EC2_USER }}@${{ secrets.PROD_UI_URL }}:.
+        scp -o 'StrictHostKeyChecking no' -i $TEMP ./infrastructure/aws_ec2.sh ${{ secrets.AWS_EC2_USER }}@${{ secrets.PROD_UI_URL }}:./infrastructure/aws_ec2.sh
         ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.PROD_UI_URL }} "chmod +x ./infrastructure/aws_ec2.sh"
         ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.PROD_UI_URL }} "./infrastructure/aws_ec2.sh $RELEASE_VERSION" prod
