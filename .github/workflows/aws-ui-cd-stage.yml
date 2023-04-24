@@ -38,30 +38,12 @@ jobs:
       run: |
         make login publish image_tag=$RELEASE_VERSION
 
-    - name: SCP files via ssh key - script 
-      uses: appleboy/scp-action@master
-      env:
-        USERNAME: ${{ secrets.AWS_EC2_USER }}
-        HOST: ${{ secrets.STAGE_UI_URL }}
-        KEY: ${{ secrets.STAGE_AWS_PRIVATE_KEY }}
-      with:
-        source: './infrastructure/aws_ec2.sh'
-        target: '.'
-
-    - name: SCP files via ssh key - .stage.aws.env
-      uses: appleboy/scp-action@master
-      env:
-        USERNAME: ${{ secrets.AWS_EC2_USER }}
-        HOST: ${{ secrets.STAGE_UI_URL }}
-        KEY: ${{ secrets.STAGE_AWS_PRIVATE_KEY }}
-      with:
-        source: '.stage.aws.env'
-        target: '.'
-
     - name: Deploy
       run: |
         TEMP=$(mktemp)
         echo "${{ secrets.STAGE_AWS_PRIVATE_KEY }}" > $TEMP
         chmod 400 $TEMP
+        scp -o 'StrictHostKeyChecking no' -i $TEMP ./.stage.aws.env ${{ secrets.AWS_EC2_USER }}@${{ secrets.STAGE_UI_URL }}:.
+        scp -o 'StrictHostKeyChecking no' -i $TEMP ./infrastructure/aws_ec2.sh ${{ secrets.AWS_EC2_USER }}@${{ secrets.STAGE_UI_URL }}:./infrastructure/aws_ec2.sh
         ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.STAGE_UI_URL }} "chmod +x ./infrastructure/aws_ec2.sh"
         ssh -o 'StrictHostKeyChecking no' -i $TEMP ${{ secrets.AWS_EC2_USER }}@${{ secrets.STAGE_UI_URL }} "./infrastructure/aws_ec2.sh $RELEASE_VERSION" stage
