@@ -206,7 +206,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   goToCustomerForm(){
-    scrollToCustomerForm();    
+    scrollToCustomerForm();
   }
 
 }
