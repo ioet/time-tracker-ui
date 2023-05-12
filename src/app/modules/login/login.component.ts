@@ -64,12 +64,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 
     this.googleAuthSDK();
-      this.loginService.isLogin().subscribe(isLogin => {
-        if (isLogin) {
-          this.router.navigate(['']);
-        }
-      });
-    
+    this.loginService.isLogin().subscribe(isLogin => {
+      if (isLogin) {
+        this.router.navigate(['']);
+      }
+    });
+
     window.handleCredentialResponse = (response) => {
       const {credential = ''} = response;
       this.featureToggleCookiesService.setCookies();

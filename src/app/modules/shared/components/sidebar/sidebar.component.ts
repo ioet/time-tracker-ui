@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       map((isAdmin) => {
         if (isAdmin) {
           this.itemsSidebar = [
-            { route: '/time-clock', icon: 'far fa-clock', text: 'Time Clock', active: false },
+            { route: '/time-clock', icon: 'far fa-clock', text: 'Home', active: false },
             { route: '/time-entries', icon: 'far fa-file-alt', text: 'Time Entries', active: false },
             { route: '/reports', icon: 'fas fa-chart-bar', text: 'Reports', active: false },
             { route: '/activities-management', icon: 'fas fa-list-ol', text: 'Activities', active: false },
@@ -64,7 +64,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           ];
         } else {
           this.itemsSidebar = [
-            { route: '/time-clock', icon: 'far fa-clock', text: 'Time Clock', active: false },
+            { route: '/time-clock', icon: 'far fa-clock', text: 'Home', active: false },
             { route: '/time-entries', icon: 'far fa-file-alt', text: 'Time Entries', active: false },
           ];
         }

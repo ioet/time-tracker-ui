@@ -116,8 +116,8 @@
   },
   "config": {
     "commit-message-validator": {
-      "pattern": "^(fix: TTA-|feat: TTA-|perf: TTA-|build: TTA-|ci: TTA-|docs: TTA-|refactor: TTA-|style: TTA-|test: TTA-|code-smell: TTA-)[0-9].*",
-      "errorMessage": "\nYour commit message must comply with the following pattern:\n ^(fix: TTA-|feat: TTA-|perf: TTA-|build: TTA-|ci: TTA-|docs: TTA-|refactor: TTA-|style: TTA-|test: TTA-|code-smell: TTA-)[0-9].*\n followed by any commit message.\n\n Example:\n fix: TTA-43 any commit message\n"
+      "pattern": "^(fix: TTL-|feat: TTL-|perf: TTL-|build: TTL-|ci: TTL-|docs: TTL-|refactor: TTL-|style: TTL-|test: TTL-|code-smell: TTL-)[0-9].*",
+      "errorMessage": "\nYour commit message must comply with the following pattern:\n ^(fix: TTL-|feat: TTL-|perf: TTL-|build: TTL-|ci: TTL-|docs: TTL-|refactor: TTL-|style: TTL-|test: TTL-|code-smell: TTL-)[0-9].*\n followed by any commit message.\n\n Example:\n fix: TTL-43 any commit message\n"
     }
   },
   "resolutions": {
