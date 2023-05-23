@@ -46,7 +46,7 @@
         <td class="col x-sm-col text-center">{{ dateTimeOffset.parseDateTimeOffset(entry.start_date, entry.timezone_offset) }}</td>
         <td class="col x-sm-col text-center">{{ dateTimeOffset.parseDateTimeOffset(entry.end_date, entry.timezone_offset) }}</td>
         <td class="col sm-col text-center">
-          UTC{{(entry.timezone_offset < 0)? "+": ""}}{{- entry.timezone_offset/60}}
+          UTC{{ (entry.timezone_offset < 0) ? "+" : "" }}{{ - entry.timezone_offset / 60 }}
         </td>
         <td class="col md-col">{{ entry.project_name }}</td>
         <td class="hidden-col">{{ entry.project_id }}</td>
