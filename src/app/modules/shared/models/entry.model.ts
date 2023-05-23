@@ -15,6 +15,7 @@ export interface Entry {
 
   customer_id?: string;
   customer_name?: string;
+  timezone_offset?: number;
 }
 
 export interface NewEntry {

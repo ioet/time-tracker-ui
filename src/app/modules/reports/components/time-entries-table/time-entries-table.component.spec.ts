@@ -30,6 +30,7 @@ describe('Reports Page', () => {
       uri: 'custom uri',
       project_id: '123',
       project_name: 'Time-Tracker',
+      timezone_offset: 300,
     };
 
     const timeEntryList: Entry[] = [
@@ -252,6 +253,25 @@ describe('Reports Page', () => {
         expect(formatValue).toEqual(dataFormat[index]);
       });
     });
+
+    it('Should render column header called Time Zone', () => {
+      const table = document.querySelector('table#time-entries-table');
+      const tableHeaderElements = Array.from(table.getElementsByTagName('th'));
+      const tableHeaderTitles = tableHeaderElements.map(element => (element.textContent));
+      expect(tableHeaderTitles).toContain('Time zone');
+    });
+
+    it('Should render a cell content with UTC text', () => {
+      const TIME_ZONE_CELL_NUMBER = 7;
+      const TABLE_ROW_NUMBER = 1;
+      const table = document.querySelector('table#time-entries-table');
+      const arrayTableRows = Array.from(table.getElementsByTagName('tr'));
+      const tablerow = arrayTableRows[TABLE_ROW_NUMBER];
+      const cells = Array.from(tablerow.getElementsByTagName('td'));
+      const cell = cells[TIME_ZONE_CELL_NUMBER].textContent;
+      expect(cell).toContain('UTC-5');
+    });
+
 
     afterEach(() => {
       fixture.destroy();
