@@ -17,6 +17,7 @@
         <th class="col sm-col" title="Duration (hours)">Duration</th>
         <th class="col x-sm-col" title="Time in">Time in</th>
         <th class="col x-sm-col" title="Time out">Time out</th>
+        <th class="col sm-col" title="Time zone">Time zone</th>
         <th class="col md-col">Project</th>
         <th class="hidden-col">Project ID</th>
         <th class="col md-col">Customer</th>
@@ -38,11 +39,14 @@
         <td class="col sm-col">
           {{ entry.start_date | date: 'MM/dd/yyyy' }}
         </td>
-        <td class="col sm-col">
+        <td class="col sm-col text-center">
           {{ entry.end_date | substractDateDisplayAsFloat: entry.start_date }}
         </td>
-        <td class="col x-sm-col">{{ dateTimeOffset.parseDateTimeOffset(entry.start_date, entry.timezone_offset) }}</td>
-        <td class="col x-sm-col">{{ dateTimeOffset.parseDateTimeOffset(entry.end_date, entry.timezone_offset) }}</td>
+        <td class="col x-sm-col text-center">{{ dateTimeOffset.parseDateTimeOffset(entry.start_date, entry.timezone_offset) }}</td>
+        <td class="col x-sm-col text-center">{{ dateTimeOffset.parseDateTimeOffset(entry.end_date, entry.timezone_offset) }}</td>
+        <td class="col sm-col text-center">
+          UTC{{(entry.timezone_offset < 0)? "+": ""}}{{- entry.timezone_offset/60}}
+        </td>
         <td class="col md-col">{{ entry.project_name }}</td>
         <td class="hidden-col">{{ entry.project_id }}</td>
         <td class="col md-col">{{ entry.customer_name }}</td>
