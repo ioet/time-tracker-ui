@@ -12,7 +12,7 @@ export class TechnologyService {
   constructor(private http: HttpClient) {}
 
   getTechnologies(value: string): Observable<Technology> {
-    const url = `${this.baseUrl}&inname=${value}&site=stackoverflow&key=${STACK_EXCHANGE_ID}&access_token=${STACK_EXCHANGE_ACCESS_TOKEN}`;
+    const url = `${this.baseUrl}&inname=${encodeURIComponent(value)}&site=stackoverflow&key=${STACK_EXCHANGE_ID}&access_token=${STACK_EXCHANGE_ACCESS_TOKEN}`;
     return this.http.get<Technology>(url);
   }
 }
