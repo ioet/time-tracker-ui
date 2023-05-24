@@ -4,7 +4,7 @@ import { Technology } from '../../shared/models';
 import { TechnologyService } from './technology.service';
 import { STACK_EXCHANGE_ID, STACK_EXCHANGE_ACCESS_TOKEN } from '../../../../environments/environment';
 
-fdescribe('TechnologyService', () => {
+describe('TechnologyService', () => {
   let service: TechnologyService;
   let httpMock: HttpTestingController;
 
