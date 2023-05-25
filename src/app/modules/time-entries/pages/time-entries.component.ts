@@ -24,8 +24,8 @@ import { ParseDateTimeOffset } from '../../shared/formatters/parse-date-time-off
 })
 export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   dtOptions: any = {
-    order: [[ 0, 'desc' ]],
-    columnDefs: [{orderable: false, targets: [6]}],
+    order: [[0, 'desc']],
+    columnDefs: [{ orderable: false, targets: [6] }],
     destroy: true,
   };
   dtTrigger: Subject<any> = new Subject();
@@ -56,7 +56,8 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
     private store: Store<EntryState>,
     private toastrService: ToastrService,
     private actionsSubject$: ActionsSubject,
-    private cookiesService: CookieService) {
+    private cookiesService: CookieService
+  ) {
     this.displayGridView = false;
     this.selectedDate = moment(new Date());
     this.actualDate = new Date();
@@ -66,17 +67,19 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.loadActiveEntry();
-    this.entriesSubscription = this.actionsSubject$.pipe(
-      filter((action: any) => (
-        action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
-        action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS ||
-        action.type === EntryActionTypes.DELETE_ENTRY_SUCCESS
+    this.entriesSubscription = this.actionsSubject$
+      .pipe(
+        filter(
+          (action: any) =>
+            action.type === EntryActionTypes.CREATE_ENTRY_SUCCESS ||
+            action.type === EntryActionTypes.UPDATE_ENTRY_SUCCESS ||
+            action.type === EntryActionTypes.DELETE_ENTRY_SUCCESS
+        )
       )
-      )
-    ).subscribe((action) => {
-      this.loadActiveEntry();
-      this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
-    });
+      .subscribe((action) => {
+        this.loadActiveEntry();
+        this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
+      });
     this.rerenderTableSubscription = this.timeEntriesDataSource$.subscribe((ds) => {
       this.dtTrigger.next();
     });
@@ -96,12 +99,12 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
       this.entry = null;
     }
     this.entryId = null;
-    this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
+    this.store.pipe(select(getTimeEntriesDataSource)).subscribe((ds) => {
       this.canMarkEntryAsWIP = !this.isThereAnEntryRunning(ds.data);
     });
   }
   private getEntryRunning(entries: Entry[]) {
-    const runningEntry: Entry = entries.find(entry => entry.running === true);
+    const runningEntry: Entry = entries.find((entry) => entry.running === true);
     return runningEntry;
   }
   private isThereAnEntryRunning(entries: Entry[]) {
@@ -109,10 +112,11 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   editEntry(entryId: string) {
     this.entryId = entryId;
-    this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
-      this.entry = {... ds.data.find((entry) => entry.id === entryId)};
-      this.canMarkEntryAsWIP = this.isEntryRunningEqualsToEntryToEdit(this.getEntryRunning(ds.data), this.entry)
-        || this.isTheEntryToEditTheLastOne(ds.data);
+    this.store.pipe(select(getTimeEntriesDataSource)).subscribe((ds) => {
+      this.entry = { ...ds.data.find((entry) => entry.id === entryId) };
+      this.canMarkEntryAsWIP =
+        this.isEntryRunningEqualsToEntryToEdit(this.getEntryRunning(ds.data), this.entry) ||
+        this.isTheEntryToEditTheLastOne(ds.data);
     });
     this.wasEditingExistingTimeEntry = true;
   }
@@ -144,21 +148,39 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
       const isEndDateGreaterThanActiveEntry = endDateAsLocalDate > activeEntryAsLocalDate;
       const isTimeEntryOverlapping = isStartDateGreaterThanActiveEntry || isEndDateGreaterThanActiveEntry;
       this.checkIfActiveEntryOverlapping(isEditingEntryEqualToActiveEntry, startDateAsLocalDate);
-      if (!isEditingEntryEqualToActiveEntry && isTimeEntryOverlapping || this.isActiveEntryOverlapping ) {
+      if ((!isEditingEntryEqualToActiveEntry && isTimeEntryOverlapping) || this.isActiveEntryOverlapping) {
         const message = this.isActiveEntryOverlapping ? 'try another "Time in"' : 'try with earlier times';
         this.toastrService.error(`You are on the clock and this entry overlaps it, ${message}.`);
         this.isActiveEntryOverlapping = false;
       } else {
-        this.doSave(event);
+        if (this.entry.project_name.includes('(Applications)')) {
+          if (event.entry.uri === '' && event.entry.description === '') {
+            const message = 'The description field or ticket field should not be empty';
+            this.toastrService.error(`Some fields are empty, ${message}.`);
+          } else {
+            this.doSave(event);
+          }
+        } else {
+          this.doSave(event);
+        }
       }
     } else {
-      this.doSave(event);
+      if (this.entry.project_name.includes('(Applications)')) {
+        if (event.entry.uri === '' && event.entry.description === '') {
+          const message = 'The description field or ticket field should not be empty';
+          this.toastrService.error(`Some fields are empty, ${message}.`);
+        } else {
+          this.doSave(event);
+        }
+      } else {
+        this.doSave(event);
+      }
     }
   }
   projectSelected(event: ProjectSelectedEvent): void {
     this.wasEditingExistingTimeEntry = false;
-    this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
-      const dataToUse = ds.data.find(item => item.project_id === event.projectId);
+    this.store.pipe(select(getTimeEntriesDataSource)).subscribe((ds) => {
+      const dataToUse = ds.data.find((item) => item.project_id === event.projectId);
       if (dataToUse && this.isNewEntry()) {
         const defaultSeconds = 0;
         const currentDate = new Date();
@@ -169,9 +191,10 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
           technologies: dataToUse.technologies ? dataToUse.technologies : [],
           uri: dataToUse.uri ? dataToUse.uri : '',
           activity_id: dataToUse.activity_id,
+          project_name: dataToUse.project_name,
           project_id: dataToUse.project_id,
           start_date: currentDate,
-          end_date: currentDate
+          end_date: currentDate,
         };
         this.entry = entry;
       }
@@ -208,26 +231,26 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedMonthAsText = moment().month(event.monthIndex).format('MMMM');
     this.store.dispatch(new entryActions.LoadEntries(this.selectedMonth, this.selectedYear));
     this.selectedDate = moment().month(event.monthIndex).year(event.year);
-    if (this.actualDate.getMonth() !== event.monthIndex){
+    if (this.actualDate.getMonth() !== event.monthIndex) {
       this.selectedDate = this.selectedDate.startOf('month');
     }
   }
 
-  changeDate(event: { date: Date }){
+  changeDate(event: { date: Date }) {
     const newDate: moment.Moment = moment(event.date);
-    if (this.selectedDate.month() !== newDate.month()){
+    if (this.selectedDate.month() !== newDate.month()) {
       const monthSelected = newDate.month();
       const yearSelected = newDate.year();
       const selectedDate = {
         monthIndex: monthSelected,
-        year: yearSelected
+        year: yearSelected,
       };
       this.dateSelected(selectedDate);
     }
     this.selectedDate = newDate;
   }
 
-  changeView(event: { calendarView: CalendarView }){
+  changeView(event: { calendarView: CalendarView }) {
     this.calendarView = event.calendarView || CalendarView.Month;
   }
 
@@ -243,10 +266,10 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   checkIfActiveEntryOverlapping(isEditingEntryEqualToActiveEntry: boolean, startDateAsLocalDate: Date) {
     if (isEditingEntryEqualToActiveEntry) {
-      this.store.pipe(select(getTimeEntriesDataSource)).subscribe(ds => {
+      this.store.pipe(select(getTimeEntriesDataSource)).subscribe((ds) => {
         const overlappingEntry = ds.data.find((item) => {
           const itemEndDate = new Date(item.end_date);
-          return startDateAsLocalDate  < itemEndDate;
+          return startDateAsLocalDate < itemEndDate;
         });
         this.isActiveEntryOverlapping = overlappingEntry ? true : false;
       });
