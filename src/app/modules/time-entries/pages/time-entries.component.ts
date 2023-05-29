@@ -153,26 +153,12 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.toastrService.error(`You are on the clock and this entry overlaps it, ${message}.`);
         this.isActiveEntryOverlapping = false;
       } else {
-        if (this.entry.project_name.includes('(Applications)')) {
-          if (event.entry.uri === '' && event.entry.description === '') {
-            const message = 'The description field or ticket field should not be empty';
-            this.toastrService.error(`Some fields are empty, ${message}.`);
-          } else {
-            this.doSave(event);
-          }
-        } else {
+        if (this.requiredFieldsForInternalAppExist(event)) {
           this.doSave(event);
         }
       }
     } else {
-      if (this.entry.project_name.includes('(Applications)')) {
-        if (event.entry.uri === '' && event.entry.description === '') {
-          const message = 'The description field or ticket field should not be empty';
-          this.toastrService.error(`Some fields are empty, ${message}.`);
-        } else {
-          this.doSave(event);
-        }
-      } else {
+      if (this.requiredFieldsForInternalAppExist(event)) {
         this.doSave(event);
       }
     }
@@ -274,5 +260,17 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isActiveEntryOverlapping = overlappingEntry ? true : false;
       });
     }
+  }
+
+  // Check required fields for internal apps (Ticket number or Description field should exist).
+  requiredFieldsForInternalAppExist(event) {
+    const emptyFields = event.entry.uri === '' && event.entry.description === '';
+    const isInternalApp = this.entry.project_name.includes('(Applications)');
+    if (isInternalApp && emptyFields) {
+      const message = 'The description field or ticket field should not be empty';
+      this.toastrService.error(`Some fields are empty, ${message}.`);
+      return false;
+    }
+    return true;
   }
 }
