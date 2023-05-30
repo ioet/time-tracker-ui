@@ -133,12 +133,12 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   }
 
   entryFormIsValidate() {
-    let projectName = '';
+    let customerName = '';
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe((ds) => {
       const dataToUse = ds.data.find((item) => item.project_id === this.activeEntry.project_id);
-      projectName = dataToUse.project_name;
+      customerName = dataToUse.customer_name;
     });
-    return this.requiredFieldsForInternalAppExist(projectName) && this.entryForm.valid;
+    return this.requiredFieldsForInternalAppExist(customerName) && this.entryForm.valid;
   }
 
   onSubmit() {
@@ -199,9 +199,9 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.actionSetDateSubscription.unsubscribe();
   }
 
-  requiredFieldsForInternalAppExist(projectName) {
+  requiredFieldsForInternalAppExist(customerName) {
     const emptyFields = this.entryForm.value.uri === '' && this.entryForm.value.description === '';
-    const isInternalApp = projectName.includes('(Applications)');
+    const isInternalApp = customerName.includes('ioet');
     if (isInternalApp && emptyFields) {
       const message = 'The description field or ticket field should not be empty';
       this.toastrService.error(`Some fields are empty, ${message}.`);

@@ -177,7 +177,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
           technologies: dataToUse.technologies ? dataToUse.technologies : [],
           uri: dataToUse.uri ? dataToUse.uri : '',
           activity_id: dataToUse.activity_id,
-          project_name: dataToUse.project_name,
+          customer_name: dataToUse.customer_name,
           project_id: dataToUse.project_id,
           start_date: currentDate,
           end_date: currentDate,
@@ -265,7 +265,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
   // Check required fields for internal apps (Ticket number or Description field should exist).
   requiredFieldsForInternalAppExist(event) {
     const emptyFields = event.entry.uri === '' && event.entry.description === '';
-    const isInternalApp = this.entry.project_name.includes('(Applications)');
+    const isInternalApp = this.entry.customer_name.includes('ioet');
     if (isInternalApp && emptyFields) {
       const message = 'The description field or ticket field should not be empty';
       this.toastrService.error(`Some fields are empty, ${message}.`);
