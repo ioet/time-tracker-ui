@@ -716,6 +716,94 @@ describe('DetailsFieldsComponent', () => {
     expect(component.entryForm.value.project_name).toBe('name');
   });
 
+  it('should display a warning message when trying to save time entry of internal app without required fields', () => {
+    component.entryForm.setValue({
+      project_id: 'p1',
+      project_name: 'ioet inc.',
+      activity_id: 'a1',
+      uri: '',
+      start_date: '2020-02-05',
+      end_date: '2020-02-05',
+      start_hour: '00:00',
+      end_hour: '00:01',
+      description: '',
+      technology: '',
+    });
+    spyOn(toastrServiceStub, 'warning');
+
+    component.onSubmit();
+    expect(toastrServiceStub.warning).toHaveBeenCalled();
+
+  });
+
+
+  it('should not display a warning message when trying to save time entry of internal app with uri and save', () => {
+    component.entryForm.setValue({
+      project_id: 'p1',
+      project_name: 'ioet inc.',
+      activity_id: 'a1',
+      uri: 'TTL-666',
+      start_date: '2020-02-05',
+      end_date: '2020-02-05',
+      start_hour: '00:00',
+      end_hour: '00:01',
+      description: '',
+      technology: '',
+    });
+    spyOn(toastrServiceStub, 'warning');
+    spyOn(component.saveEntry, 'emit');
+
+    component.onSubmit();
+    expect(toastrServiceStub.warning).not.toHaveBeenCalled();
+
+    expect(component.saveEntry.emit).toHaveBeenCalled();
+  });
+
+
+  it('should not display a warning message when trying to save time entry of external customer without required fields and save', () => {
+    component.entryForm.setValue({
+      project_id: 'p1',
+      project_name: 'customer inc. - proj',
+      activity_id: 'a1',
+      uri: '',
+      start_date: '2020-02-05',
+      end_date: '2020-02-05',
+      start_hour: '00:00',
+      end_hour: '00:01',
+      description: '',
+      technology: '',
+    });
+    spyOn(toastrServiceStub, 'warning');
+    spyOn(component.saveEntry, 'emit');
+
+    component.onSubmit();
+    expect(toastrServiceStub.warning).not.toHaveBeenCalled();
+
+    expect(component.saveEntry.emit).toHaveBeenCalled();
+  });
+
+  it('should not display a warning message when trying to save time entry of internal app with description and save', () => {
+    component.entryForm.setValue({
+      project_id: 'p1',
+      project_name: 'ioet inc. - proj',
+      activity_id: 'a1',
+      uri: '',
+      start_date: '2020-02-05',
+      end_date: '2020-02-05',
+      start_hour: '00:00',
+      end_hour: '00:01',
+      description: 'asdf',
+      technology: '',
+    });
+    spyOn(toastrServiceStub, 'warning');
+    spyOn(component.saveEntry, 'emit');
+
+    component.onSubmit();
+    expect(toastrServiceStub.warning).not.toHaveBeenCalled();
+
+    expect(component.saveEntry.emit).toHaveBeenCalled();
+  });
+
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
    and now these couple of tests are failing. A solution to this error might be generate a Test Wrapper Component. More details here:
