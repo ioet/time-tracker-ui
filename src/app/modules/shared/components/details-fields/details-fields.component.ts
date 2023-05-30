@@ -331,6 +331,14 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   onSubmit() {
+    
+    if(this.entryForm.value.project_name.includes('ioet')){
+      if (!this.entryForm.value.uri && !this.entryForm.value.description){
+        this.toastrService.warning('Make sure to add a description and/or ticket number when working on an internal app');
+        return;
+      }
+    }
+    
     if (this.entryForm.invalid) {
       this.toastrService.warning('Make sure to select a project and activity');
       return;
