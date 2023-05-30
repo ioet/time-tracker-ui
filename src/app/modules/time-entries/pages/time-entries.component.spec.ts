@@ -24,6 +24,8 @@ import { FeatureToggle } from './../../../../environments/enum';
 import { CalendarView } from 'angular-calendar';
 import * as moment from 'moment';
 import { TotalHours } from '../../reports/models/total-hours-report';
+import { event } from 'jquery';
+import { ProjectSelectedEvent } from '../../shared/components/details-fields/project-selected-event';
 
 describe('TimeEntriesComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -36,66 +38,66 @@ describe('TimeEntriesComponent', () => {
   let state: EntryState;
   let entry: Entry;
 
+
   const toastrService = {
-    error: () => {
-    },
+    error: () => {},
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        EmptyStateComponent,
-        DetailsFieldsComponent,
-        GroupByDatePipe,
-        MonthPickerComponent,
-        TimeEntriesComponent,
-        TimeEntriesSummaryComponent,
-        SubstractDatePipe
-      ],
-      providers: [provideMockStore({ initialState: state }),
-      { provide: ToastrService, useValue: toastrService },
-      ],
-      imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule, NgxMaterialTimepickerModule],
-    }).compileComponents();
-    store = TestBed.inject(MockStore);
-    entry = {
-      id: 'entry_1',
-      project_id: 'abc',
-      project_name: 'Time-tracker',
-      start_date: new Date('2020-02-05T15:36:15.887Z'),
-      end_date: new Date('2020-02-05T18:36:15.887Z'),
-      customer_name: 'ioet Inc.',
-      activity_id: 'development',
-      technologies: ['Angular', 'TypeScript'],
-      description: 'No comments',
-      uri: 'EY-25',
-    };
-    state = {
-      timeEntriesSummary: null,
-      createError: false,
-      updateError: false,
-      isLoading: false,
-      resultSumEntriesSelected: new TotalHours(),
-      message: 'any-message',
-      active: {
-        start_date: new Date('2019-01-01T15:36:15.887Z'),
-        id: 'active-entry',
-        technologies: ['rxjs', 'angular'],
-        project_name: 'time-tracker'
-      },
-      timeEntriesDataSource: {
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          EmptyStateComponent,
+          DetailsFieldsComponent,
+          GroupByDatePipe,
+          MonthPickerComponent,
+          TimeEntriesComponent,
+          TimeEntriesSummaryComponent,
+          SubstractDatePipe,
+        ],
+        providers: [provideMockStore({ initialState: state }), { provide: ToastrService, useValue: toastrService }],
+        imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule, NgxMaterialTimepickerModule],
+      }).compileComponents();
+      store = TestBed.inject(MockStore);
+      entry = {
+        id: 'entry_1',
+        project_id: 'abc',
+        project_name: 'Time-tracker',
+        start_date: new Date('2020-02-05T15:36:15.887Z'),
+        end_date: new Date('2020-02-05T18:36:15.887Z'),
+        customer_name: 'ioet Inc.',
+        activity_id: 'development',
+        technologies: ['Angular', 'TypeScript'],
+        description: 'No comments',
+        uri: 'EY-25',
+      };
+      state = {
+        timeEntriesSummary: null,
+        createError: false,
+        updateError: false,
         isLoading: false,
-        data: [entry]
-      },
-      reportDataSource: {
-        isLoading: false,
-        data: [entry]
-      }
-    };
-    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
-    injectedToastrService = TestBed.inject(ToastrService);
-    cookieService = TestBed.inject(CookieService);
-  }));
+        resultSumEntriesSelected: new TotalHours(),
+        message: 'any-message',
+        active: {
+          start_date: new Date('2019-01-01T15:36:15.887Z'),
+          id: 'active-entry',
+          technologies: ['rxjs', 'angular'],
+          project_name: 'time-tracker',
+        },
+        timeEntriesDataSource: {
+          isLoading: false,
+          data: [entry],
+        },
+        reportDataSource: {
+          isLoading: false,
+          data: [entry],
+        },
+      };
+      mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
+      injectedToastrService = TestBed.inject(ToastrService);
+      cookieService = TestBed.inject(CookieService);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TimeEntriesComponent);
@@ -119,21 +121,27 @@ describe('TimeEntriesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('on loading the component the time entries should be loaded', waitForAsync(() => {
-    component.timeEntriesDataSource$.subscribe(ds => {
-      expect(ds.data.length).toEqual(1);
-    });
-  }));
+  it(
+    'on loading the component the time entries should be loaded',
+    waitForAsync(() => {
+      component.timeEntriesDataSource$.subscribe((ds) => {
+        expect(ds.data.length).toEqual(1);
+      });
+    })
+  );
 
-  it('Time entries data should be populated on ngOnInit()', waitForAsync(() => {
-    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
+  it(
+    'Time entries data should be populated on ngOnInit()',
+    waitForAsync(() => {
+      mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
-    component.ngOnInit();
+      component.ngOnInit();
 
-    component.timeEntriesDataSource$.subscribe(ds => {
-      expect(ds.data.length).toEqual(1);
-    });
-  }));
+      component.timeEntriesDataSource$.subscribe((ds) => {
+        expect(ds.data.length).toEqual(1);
+      });
+    })
+  );
 
   it('should initialize the table when the component is initialized', () => {
     spyOn(component.dtTrigger, 'next');
@@ -149,14 +157,17 @@ describe('TimeEntriesComponent', () => {
       entry: {
         project_id: 'project-id',
         end_date: '2010-05-05T10:04',
+        project_name: 'Time-tracker',
         start_date: null,
         timezone_offset: 300,
-      }, shouldRestartEntry: false
+      },
+      shouldRestartEntry: false,
     };
+    const project = { projectId: 'abc' };
     component.activeTimeEntry = null;
     spyOn(store, 'dispatch');
-    component.ngOnInit();
-
+    component.newEntry();
+    component.projectSelected(project);
     component.saveEntry(entryToSave);
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CreateEntry(entryToSave.entry));
   });
@@ -242,8 +253,10 @@ describe('TimeEntriesComponent', () => {
   it('given a list of entries having an entry running when editing the last entry it can be marked as WIP ', () => {
     const anEntryId = '1';
     const anotherEntryId = '2';
-    state.timeEntriesDataSource.data = [{ ...entry, running: true, id: anEntryId },
-    { ...entry, running: false, id: anotherEntryId }];
+    state.timeEntriesDataSource.data = [
+      { ...entry, running: true, id: anEntryId },
+      { ...entry, running: false, id: anotherEntryId },
+    ];
     mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
 
     component.editEntry(anEntryId);
@@ -261,7 +274,8 @@ describe('TimeEntriesComponent', () => {
         description: 'description',
         technologies: [],
         uri: 'abc',
-      }, shouldRestartEntry: false
+      },
+      shouldRestartEntry: false,
     };
     component.entryId = 'new-entry';
     spyOn(injectedToastrService, 'error');
@@ -281,7 +295,8 @@ describe('TimeEntriesComponent', () => {
         description: 'description',
         technologies: [],
         uri: 'abc',
-      }, shouldRestartEntry: false
+      },
+      shouldRestartEntry: false,
     };
     component.entryId = 'new-entry';
     spyOn(injectedToastrService, 'error');
@@ -292,7 +307,13 @@ describe('TimeEntriesComponent', () => {
   });
 
   it('should dispatch an action when entry is going to be saved', () => {
-    component.entry = { start_date: new Date(), id: '1234', technologies: [], project_name: 'time-tracker' };
+    component.entry = {
+      start_date: new Date(),
+      id: '1234',
+      technologies: [],
+      project_name: 'time-tracker',
+      customer_name: 'customer name',
+    };
     const newEntry = {
       entry: {
         project_id: 'p-id',
@@ -301,8 +322,9 @@ describe('TimeEntriesComponent', () => {
         description: 'description',
         technologies: [],
         uri: 'abc',
+        customer_name: 'customer name',
       },
-      shouldRestartEntry: false
+      shouldRestartEntry: false,
     };
     component.entryId = 'active-entry';
     spyOn(store, 'dispatch');
@@ -321,11 +343,14 @@ describe('TimeEntriesComponent', () => {
         technologies: [],
         uri: 'abc',
         timezone_offset: 300,
-      }, shouldRestartEntry: false
+      },
+      shouldRestartEntry: false,
     };
     component.entryId = undefined;
     spyOn(store, 'dispatch');
-
+    const project = { projectId: 'abc' };
+    component.newEntry();
+    component.projectSelected(project);
     component.saveEntry(newEntry);
 
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.CreateEntry(newEntry.entry));
@@ -347,23 +372,29 @@ describe('TimeEntriesComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntries(month + 1, year));
   });
 
-  it('doSave when activeTimeEntry === null', waitForAsync(() => {
-    const entryToSave = {
-      entry: {
-        project_id: 'project-id',
-        start_date: '2010-05-05T10:04',
-        description: 'description',
-        technologies: [],
-        uri: 'abc',
-      }, shouldRestartEntry: false
-    };
-    spyOn(component, 'doSave');
-    component.activeTimeEntry = null;
+  it(
+    'doSave when activeTimeEntry === null',
+    waitForAsync(() => {
+      const entryToSave = {
+        entry: {
+          project_id: 'project-id',
+          start_date: '2010-05-05T10:04',
+          description: 'description',
+          technologies: [],
+          uri: 'abc',
+        },
+        shouldRestartEntry: false,
+      };
+      spyOn(component, 'doSave');
+      const project = { projectId: 'abc' };
+      component.activeTimeEntry = null;
+      component.newEntry();
+      component.projectSelected(project);
+      component.saveEntry(entryToSave);
 
-    component.saveEntry(entryToSave);
-
-    expect(component.doSave).toHaveBeenCalledWith(entryToSave);
-  }));
+      expect(component.doSave).toHaveBeenCalledWith(entryToSave);
+    })
+  );
 
   it('when event contains should restart as true, then a restart Entry action should be triggered', () => {
     component.entry = { start_date: new Date(), id: '1234', technologies: [], project_name: 'time-tracker' };
@@ -376,8 +407,8 @@ describe('TimeEntriesComponent', () => {
         description: 'description',
         technologies: [],
         uri: 'abc',
-
-      }, shouldRestartEntry: true
+      },
+      shouldRestartEntry: true,
     };
     component.entryId = '123';
     spyOn(store, 'dispatch');
@@ -387,64 +418,64 @@ describe('TimeEntriesComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new entryActions.RestartEntry(entryToSave.entry));
   });
 
-  it('should preload data of last entry when a project is selected while creating new entry ', waitForAsync(() => {
-    component.entry = null;
-    component.entryId = null;
-    const defaultSeconds = 0;
-    const currentDate = new Date();
-    currentDate.setSeconds(defaultSeconds);
-    currentDate.setMilliseconds(defaultSeconds);
-    const lastEntry = {
-      description: 'testing is fun',
-      technologies: [],
-      uri: 'http://testing.is.fun',
-      activity_id: 'sss',
-      project_id: 'id',
-      start_date: currentDate,
-      end_date: currentDate
-    };
-    state.timeEntriesDataSource.data = [lastEntry];
-    mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
+  it(
+    'should preload data of last entry when a project is selected while creating new entry ',
+    waitForAsync(() => {
+      component.entry = null;
+      component.entryId = null;
+      const defaultSeconds = 0;
+      const currentDate = new Date();
+      currentDate.setSeconds(defaultSeconds);
+      currentDate.setMilliseconds(defaultSeconds);
+      const lastEntry = {
+        description: 'testing is fun',
+        technologies: [],
+        uri: 'http://testing.is.fun',
+        activity_id: 'sss',
+        project_id: 'id',
+        start_date: currentDate,
+        end_date: currentDate,
+        customer_name: 'customer name',
+      };
+      state.timeEntriesDataSource.data = [lastEntry];
+      mockEntriesSelector = store.overrideSelector(getTimeEntriesDataSource, state.timeEntriesDataSource);
+      component.projectSelected({ projectId: 'id' });
+      expect(component.entry).toEqual(lastEntry);
+    })
+  );
 
-    component.projectSelected({ projectId: 'id' });
-    expect(component.entry).toEqual(lastEntry);
-  }));
+  it(
+    'when the data source is loaded, the table should to show the appropriated column titles',
+    waitForAsync(() => {
+      component.timeEntriesDataSource$.subscribe(() => {
+        fixture.detectChanges();
 
-  it('when the data source is loaded, the table should to show the appropriated column titles', waitForAsync(() => {
-    component.timeEntriesDataSource$.subscribe(() => {
+        const expectedColumnTitles = ['Date', 'Time in - out', 'Duration', 'Customer', 'Project', 'Activity', ''];
 
-      fixture.detectChanges();
+        const columnTitles: string[] = [];
 
-      const expectedColumnTitles = [
-        'Date',
-        'Time in - out',
-        'Duration',
-        'Customer',
-        'Project',
-        'Activity',
-        '',
-      ];
+        const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
+        const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
+        const HTMLTimeEntriesTable = HTMLTimeEntriesElement.querySelector('.table') as HTMLTableElement;
+        const HTMLTableHead = HTMLTimeEntriesTable.rows[0];
 
-      const columnTitles: string[] = [];
-
-      const HTMLTimeEntriesDebugElement: DebugElement = fixture.debugElement;
-      const HTMLTimeEntriesElement: HTMLElement = HTMLTimeEntriesDebugElement.nativeElement;
-      const HTMLTimeEntriesTable = HTMLTimeEntriesElement.querySelector('.table') as HTMLTableElement;
-      const HTMLTableHead = HTMLTimeEntriesTable.rows[0];
-
-      Array.from(HTMLTableHead.cells).forEach(columnTitle => {
-        columnTitles.push(columnTitle.innerText);
+        Array.from(HTMLTableHead.cells).forEach((columnTitle) => {
+          columnTitles.push(columnTitle.innerText);
+        });
+        expect(expectedColumnTitles).toEqual(columnTitles);
       });
-      expect(expectedColumnTitles).toEqual(columnTitles);
-    });
-  }));
+    })
+  );
 
-  it('when the data source is loaded, the entry should to have customer_name field', waitForAsync(() => {
-    component.timeEntriesDataSource$.subscribe(dataSource => {
-      const entryData = dataSource.data[0];
-      expect(entryData.customer_name).toContain('ioet Inc.');
-    });
-  }));
+  it(
+    'when the data source is loaded, the entry should to have customer_name field',
+    waitForAsync(() => {
+      component.timeEntriesDataSource$.subscribe((dataSource) => {
+        const entryData = dataSource.data[0];
+        expect(entryData.customer_name).toContain('ioet Inc.');
+      });
+    })
+  );
 
   it('Should the entry be null if the flag is true', () => {
     component.wasEditingExistingTimeEntry = true;
@@ -466,9 +497,9 @@ describe('TimeEntriesComponent', () => {
     const dragEndEventStub = {
       source: {
         _dragRef: {
-          reset: () => { }
-        }
-      }
+          reset: () => {},
+        },
+      },
     };
     spyOn(dragEndEventStub.source._dragRef, 'reset');
     component.resetDraggablePosition(dragEndEventStub);
@@ -478,8 +509,20 @@ describe('TimeEntriesComponent', () => {
   it('component.doSave shouldn´t be called when saving the runningEntry with start_date overlapped', () => {
     const startDate = new Date(2021, 6, 1, 10, 0);
     const endDate = new Date(2021, 6, 1, 10, 55);
-    const newRunningEntry = { start_date: endDate, id: '1234', technologies: [], project_name: 'time-tracker', running: true };
-    const newEntry = { start_date: startDate, end_date: endDate, id: '4321', technologies: [], project_name: 'time-tracker'};
+    const newRunningEntry = {
+      start_date: endDate,
+      id: '1234',
+      technologies: [],
+      project_name: 'time-tracker',
+      running: true,
+    };
+    const newEntry = {
+      start_date: startDate,
+      end_date: endDate,
+      id: '4321',
+      technologies: [],
+      project_name: 'time-tracker',
+    };
 
     state.timeEntriesDataSource.data = [newRunningEntry, newEntry];
     component.activeTimeEntry = newRunningEntry;
@@ -493,14 +536,14 @@ describe('TimeEntriesComponent', () => {
         id: '1234',
         technologies: ['py'],
         project_name: 'time-tracker',
-        running: true
-      }, shouldRestartEntry: false
+        running: true,
+      },
+      shouldRestartEntry: false,
     };
     component.saveEntry(RunningEntryModified);
 
     expect(component.doSave).toHaveBeenCalledTimes(0);
   });
-
 
   it('set true in displayGridView when its initial value is false and call onDisplayModeChange', () => {
     const expectedValue = true;
@@ -535,7 +578,7 @@ describe('TimeEntriesComponent', () => {
     const year = 2021;
     const eventData = {
       monthIndex,
-      year
+      year,
     };
     const dateMoment: moment.Moment = moment().month(monthIndex).year(year);
     jasmine.clock().mockDate(dateMoment.toDate());
@@ -550,7 +593,7 @@ describe('TimeEntriesComponent', () => {
     const incomingDate = new Date('2021-06-07');
     const incomingMoment: moment.Moment = moment(incomingDate);
     const eventData = {
-      date: incomingDate
+      date: incomingDate,
     };
     spyOn(component, 'dateSelected');
     component.selectedDate = moment(incomingMoment).subtract(1, 'day');
@@ -565,11 +608,11 @@ describe('TimeEntriesComponent', () => {
     const incomingDate = new Date('2021-01-07');
     const incomingMoment: moment.Moment = moment(incomingDate);
     const eventData = {
-      date: incomingDate
+      date: incomingDate,
     };
     const selectedDate = {
       monthIndex: incomingMoment.month(),
-      year: incomingMoment.year()
+      year: incomingMoment.year(),
     };
     spyOn(component, 'dateSelected');
     component.selectedDate = moment(new Date('2021-07-07'));
@@ -584,7 +627,7 @@ describe('TimeEntriesComponent', () => {
     const selectedDate: Date = new Date(2021, 2, 1);
     const eventDate = {
       monthIndex: selectedDate.getMonth(),
-      year: selectedDate.getFullYear()
+      year: selectedDate.getFullYear(),
     };
     component.actualDate = actualDate;
     component.dateSelected(eventDate);
@@ -594,7 +637,7 @@ describe('TimeEntriesComponent', () => {
   it('change component calendarView from Month to Day when call changeView', () => {
     const fakeCalendarView: CalendarView = CalendarView.Day;
     const eventView = {
-      calendarView: fakeCalendarView
+      calendarView: fakeCalendarView,
     };
     component.calendarView = CalendarView.Month;
     component.changeView(eventView);
@@ -604,7 +647,7 @@ describe('TimeEntriesComponent', () => {
   it('change component calendarView to Month if undefined when call changeView', () => {
     component.calendarView = CalendarView.Week;
     const eventView = {
-      calendarView: undefined
+      calendarView: undefined,
     };
     component.changeView(eventView);
     expect(component.calendarView).toBe(CalendarView.Month);
@@ -673,12 +716,77 @@ describe('TimeEntriesComponent', () => {
         start_date: null,
         timezone_offset: 300,
       },
-      shouldRestartEntry: true
+      shouldRestartEntry: true,
     };
     spyOn(component, 'doSave');
+    const project = { projectId: 'abc' };
+    component.newEntry();
+    component.projectSelected(project);
     component.activeTimeEntry = activeEntry;
     component.saveEntry(entryToSave);
     expect(component.doSave).toHaveBeenCalledWith(entryToSave);
   });
 
+  it('should raise an error if description and ticket fields are empty for internal apps', () => {
+    const newEntry = {
+      entry: {
+        project_id: 'projectId',
+        start_date: '2010-05-05T10:04',
+        description: '',
+        technologies: [],
+        uri: '',
+        timezone_offset: 300,
+        project_name: '(Applications)',
+      },
+      shouldRestartEntry: false,
+    };
+    const project = { projectId: 'abc' };
+    component.newEntry();
+    component.projectSelected(project);
+    spyOn(injectedToastrService, 'error');
+    component.saveEntry(newEntry);
+    expect(injectedToastrService.error).toHaveBeenCalled();
+  });
+
+  it('should save an entry if description field is not empty for internal apps', () => {
+    const newEntry = {
+      entry: {
+        project_id: 'projectId',
+        start_date: '2010-05-05T10:04',
+        description: 'Description',
+        technologies: [],
+        uri: '',
+        timezone_offset: 300,
+        project_name: '(Applications)',
+      },
+      shouldRestartEntry: false,
+    };
+    const project = { projectId: 'abc' };
+    component.newEntry();
+    component.projectSelected(project);
+    spyOn(component, 'doSave');
+    component.saveEntry(newEntry);
+    expect(component.doSave).toHaveBeenCalledWith(newEntry);
+  });
+
+  it('should save an entry ticket field is not empty for internal apps', () => {
+    const newEntry = {
+      entry: {
+        project_id: 'projectId',
+        start_date: '2010-05-05T10:04',
+        description: '',
+        technologies: [],
+        uri: 'TTL-886',
+        timezone_offset: 300,
+        project_name: '(Applications)',
+      },
+      shouldRestartEntry: false,
+    };
+    const project = { projectId: 'abc' };
+    component.newEntry();
+    component.projectSelected(project);
+    spyOn(component, 'doSave');
+    component.saveEntry(newEntry);
+    expect(component.doSave).toHaveBeenCalledWith(newEntry);
+  });
 });
