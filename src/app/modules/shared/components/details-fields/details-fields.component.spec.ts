@@ -45,7 +45,7 @@ describe('DetailsFieldsComponent', () => {
     projects: {
       projects: [{ id: 'id', name: 'name', project_type_id: '', customer: { name: 'Juan', description: 'sadsa' } }],
       customerProjects: [{ id: 'id', name: 'name', description: 'description', project_type_id: '123' }],
-      recentProjects: [{ id: 'id', name: 'name', customer: { name: 'Juan'} }],
+      recentProjects: [{ id: 'id', name: 'name', customer: { name: 'Juan' } }],
       isLoading: false,
       message: '',
       projectToEdit: undefined,
@@ -104,6 +104,19 @@ describe('DetailsFieldsComponent', () => {
 
   const mockCurrentDate = '2020-12-01T12:00:00';
 
+  const entryWithoutRequiredFields = {
+    project_id: 'p1',
+    project_name: 'ioet inc.',
+    activity_id: 'a1',
+    uri: '',
+    start_date: '2020-02-05',
+    end_date: '2020-02-05',
+    start_hour: '00:00',
+    end_hour: '00:01',
+    description: '',
+    technology: '',
+  };
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -156,7 +169,7 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('onClearedComponent project id and name are set to empty', () => {
-    const search = {term: ''};
+    const search = { term: '' };
     component.onClearedComponent(search);
 
     expect(component.project_id.value).toBe('');
@@ -164,7 +177,7 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should change the listProjectsShowed to listProjects if search is not empty on onClearedComponent', () => {
-    const search = {term: 'Ioet Inc.'};
+    const search = { term: 'Ioet Inc.' };
     const listProjects: Project[] = [{ id: '1', name: 'abc', status: 'active' }];
     component.listProjects = listProjects;
     component.onClearedComponent(search);
@@ -709,7 +722,7 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('if entry is set to project_name search_fiend is assigned in entryForm', () => {
-    const listProjects: Project[] = [{ id: 'id', name: 'abc', status: 'active', search_field: 'name'}];
+    const listProjects: Project[] = [{ id: 'id', name: 'abc', status: 'active', search_field: 'name' }];
     component.listProjects = listProjects;
     component.entryToEdit = { ...entryToEdit };
     component.ngOnChanges();
@@ -717,39 +730,15 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should display a warning message when trying to save time entry of internal app without required fields', () => {
-    component.entryForm.setValue({
-      project_id: 'p1',
-      project_name: 'ioet inc.',
-      activity_id: 'a1',
-      uri: '',
-      start_date: '2020-02-05',
-      end_date: '2020-02-05',
-      start_hour: '00:00',
-      end_hour: '00:01',
-      description: '',
-      technology: '',
-    });
+    component.entryForm.setValue(entryWithoutRequiredFields);
     spyOn(toastrServiceStub, 'warning');
 
     component.onSubmit();
     expect(toastrServiceStub.warning).toHaveBeenCalled();
-
   });
 
-
   it('should not display a warning message when trying to save time entry of internal app with uri and save', () => {
-    component.entryForm.setValue({
-      project_id: 'p1',
-      project_name: 'ioet inc.',
-      activity_id: 'a1',
-      uri: 'TTL-666',
-      start_date: '2020-02-05',
-      end_date: '2020-02-05',
-      start_hour: '00:00',
-      end_hour: '00:01',
-      description: '',
-      technology: '',
-    });
+    component.entryForm.setValue({ ...entryWithoutRequiredFields, uri: 'TTL-886' });
     spyOn(toastrServiceStub, 'warning');
     spyOn(component.saveEntry, 'emit');
 
@@ -759,20 +748,8 @@ describe('DetailsFieldsComponent', () => {
     expect(component.saveEntry.emit).toHaveBeenCalled();
   });
 
-
   it('should not display a warning message when trying to save time entry of external customer without required fields and save', () => {
-    component.entryForm.setValue({
-      project_id: 'p1',
-      project_name: 'customer inc. - proj',
-      activity_id: 'a1',
-      uri: '',
-      start_date: '2020-02-05',
-      end_date: '2020-02-05',
-      start_hour: '00:00',
-      end_hour: '00:01',
-      description: '',
-      technology: '',
-    });
+    component.entryForm.setValue({ ...entryWithoutRequiredFields, project_name: 'Warby Parker' });
     spyOn(toastrServiceStub, 'warning');
     spyOn(component.saveEntry, 'emit');
 
@@ -783,18 +760,8 @@ describe('DetailsFieldsComponent', () => {
   });
 
   it('should not display a warning message when trying to save time entry of internal app with description and save', () => {
-    component.entryForm.setValue({
-      project_id: 'p1',
-      project_name: 'ioet inc. - proj',
-      activity_id: 'a1',
-      uri: '',
-      start_date: '2020-02-05',
-      end_date: '2020-02-05',
-      start_hour: '00:00',
-      end_hour: '00:01',
-      description: 'asdf',
-      technology: '',
-    });
+    component.entryForm.setValue({ ...entryWithoutRequiredFields, description: 'Description' });
+
     spyOn(toastrServiceStub, 'warning');
     spyOn(component.saveEntry, 'emit');
 
