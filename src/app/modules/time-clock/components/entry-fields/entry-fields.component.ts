@@ -16,11 +16,8 @@ import { formatDate } from '@angular/common';
 import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
 import { Subscription } from 'rxjs';
-
-
-const INTERNAL_APP_STRING = 'ioet';
-const PROJECT_NAME_TO_SKIP = ['English Lessons', 'Safari Books'];
-const EMPTY_FIELDS_ERROR_MESSAGE = 'Make sure to add a description and/or ticket number when working on an internal app.';
+import { EMPTY_FIELDS_ERROR_MESSAGE } from 'src/app/modules/shared/messages';
+import { INTERNAL_APP_STRING, PROJECT_NAME_TO_SKIP } from 'src/app/modules/shared/internal-app-constants';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 
@@ -144,7 +141,6 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
       const dataToUse = ds.data.find((item) => item.project_id === this.activeEntry.project_id);
       customerName = dataToUse.customer_name;
       projectName = dataToUse.project_name;
-
     });
     return this.requiredFieldsForInternalAppExist(customerName, projectName) && this.entryForm.valid;
   }
@@ -209,10 +205,14 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
 
   requiredFieldsForInternalAppExist(customerName, projectName) {
     const emptyValue = '';
-    const areEmptyValues = [this.entryForm.value.uri, this.entryForm.value.description].every(item => item === emptyValue);
+    const areEmptyValues = [this.entryForm.value.uri, this.entryForm.value.description].every(
+      (item) => item === emptyValue
+    );
 
-    const isInternalApp = customerName.includes('ioet');
-    const canSkipDescriptionAndURI = PROJECT_NAME_TO_SKIP.some(projectNameItem => projectName.includes(projectNameItem));
+    const isInternalApp = customerName.includes(INTERNAL_APP_STRING);
+    const canSkipDescriptionAndURI = PROJECT_NAME_TO_SKIP.some((projectNameItem) =>
+      projectName.includes(projectNameItem)
+    );
 
     if (isInternalApp && areEmptyValues && !canSkipDescriptionAndURI) {
       this.toastrService.error(EMPTY_FIELDS_ERROR_MESSAGE);
