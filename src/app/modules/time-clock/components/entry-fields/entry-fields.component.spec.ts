@@ -522,15 +522,23 @@ describe('EntryFieldsComponent', () => {
 
   it('should show an error message if description and ticket fields are empty for internal apps', () => {
     spyOn(toastrServiceStub, 'error');
-    const result = component.requiredFieldsForInternalAppExist('ioet');
+    const result = component.requiredFieldsForInternalAppExist('ioet', 'project name');
     expect(toastrServiceStub.error).toHaveBeenCalled();
     expect(result).toBe(false);
   });
 
   it('should return true if customer name does not contain ioet ', () => {
     spyOn(toastrServiceStub, 'error');
-    const result = component.requiredFieldsForInternalAppExist('Project Name');
+    const result = component.requiredFieldsForInternalAppExist('customer', 'Project Name');
+    expect(toastrServiceStub.error).not.toHaveBeenCalled();
+    expect(result).toBe(true);
+  });
+
+  it('should return true if customer name contain ioet and project name contain Safari Books', () => {
+    spyOn(toastrServiceStub, 'error');
+    const result = component.requiredFieldsForInternalAppExist('customer', 'Safari Books');
     expect(toastrServiceStub.error).not.toHaveBeenCalled();
     expect(result).toBe(true);
   });
 });
+

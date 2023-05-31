@@ -721,7 +721,7 @@ describe('DetailsFieldsComponent', () => {
     expect(toastrServiceStub.warning).toHaveBeenCalled();
   });
 
-  it('if entry is set to project_name search_fiend is assigned in entryForm', () => {
+  it('if entry is set to project_name search_field is assigned in entryForm', () => {
     const listProjects: Project[] = [{ id: 'id', name: 'abc', status: 'active', search_field: 'name' }];
     component.listProjects = listProjects;
     component.entryToEdit = { ...entryToEdit };
@@ -770,6 +770,20 @@ describe('DetailsFieldsComponent', () => {
 
     expect(component.saveEntry.emit).toHaveBeenCalled();
   });
+
+  /* We allow saving time entries with empty fields in uri and description for safari books and english lessons */
+  it('should not display a warning message when trying to save time entry of English Lessons without description and save', () => {
+    component.entryForm.setValue({ ...entryWithoutRequiredFields, project_name: 'ioet inc. - English Lessons' });
+
+    spyOn(toastrServiceStub, 'warning');
+    spyOn(component.saveEntry, 'emit');
+
+    component.onSubmit();
+    expect(toastrServiceStub.warning).not.toHaveBeenCalled();
+
+    expect(component.saveEntry.emit).toHaveBeenCalled();
+  });
+
 
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,

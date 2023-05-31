@@ -28,6 +28,10 @@ import { TechnologiesComponent } from '../technologies/technologies.component';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Observable } from 'rxjs';
 
+const INTERNAL_APP_STRING = 'ioet';
+const PROJECT_NAME_TO_SKIP = ['English Lessons', 'Safari Books'];
+const EMPTY_FIELDS_ERROR_MESSAGE = 'Make sure to add a description and/or ticket number when working on an internal app.';
+
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 @Component({
   selector: 'app-details-fields',
@@ -332,11 +336,13 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
 
   onSubmit() {
 
-    if (this.entryForm.value.project_name.includes('ioet')) {
-      if (this.entryForm.value.uri === '' && this.entryForm.value.description === '') {
-        this.toastrService.warning('Make sure to add a description and/or ticket number when working on an internal app');
-        return;
-      }
+    const emptyValue = '';
+    const { project_name, uri, description } = this.entryForm.value;
+    const areEmptyValues = [uri, description].every(item => item === emptyValue);
+    const canSkipDescriptionAndURI = PROJECT_NAME_TO_SKIP.some(projectNameItem => project_name.includes(projectNameItem));
+    if (project_name.includes(INTERNAL_APP_STRING) && areEmptyValues && !canSkipDescriptionAndURI) {
+      this.toastrService.warning(EMPTY_FIELDS_ERROR_MESSAGE);
+      return;
     }
 
     if (this.entryForm.invalid) {

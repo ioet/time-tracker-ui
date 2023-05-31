@@ -17,6 +17,11 @@ import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
 import { Subscription } from 'rxjs';
 
+
+const INTERNAL_APP_STRING = 'ioet';
+const PROJECT_NAME_TO_SKIP = ['English Lessons', 'Safari Books'];
+const EMPTY_FIELDS_ERROR_MESSAGE = 'Make sure to add a description and/or ticket number when working on an internal app.';
+
 type Merged = TechnologyState & ProjectState & ActivityState;
 
 @Component({
@@ -134,11 +139,14 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
 
   entryFormIsValidate() {
     let customerName = '';
+    let projectName = '';
     this.store.pipe(select(getTimeEntriesDataSource)).subscribe((ds) => {
       const dataToUse = ds.data.find((item) => item.project_id === this.activeEntry.project_id);
       customerName = dataToUse.customer_name;
+      projectName = dataToUse.project_name;
+
     });
-    return this.requiredFieldsForInternalAppExist(customerName) && this.entryForm.valid;
+    return this.requiredFieldsForInternalAppExist(customerName, projectName) && this.entryForm.valid;
   }
 
   onSubmit() {
@@ -199,12 +207,15 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.actionSetDateSubscription.unsubscribe();
   }
 
-  requiredFieldsForInternalAppExist(customerName) {
-    const emptyFields = this.entryForm.value.uri === '' && this.entryForm.value.description === '';
+  requiredFieldsForInternalAppExist(customerName, projectName) {
+    const emptyValue = '';
+    const areEmptyValues = [this.entryForm.value.uri, this.entryForm.value.description].every(item => item === emptyValue);
+
     const isInternalApp = customerName.includes('ioet');
-    if (isInternalApp && emptyFields) {
-      const message = 'The description field or ticket field should not be empty';
-      this.toastrService.error(`Some fields are empty, ${message}.`);
+    const canSkipDescriptionAndURI = PROJECT_NAME_TO_SKIP.some(projectNameItem => projectName.includes(projectNameItem));
+
+    if (isInternalApp && areEmptyValues && !canSkipDescriptionAndURI) {
+      this.toastrService.error(EMPTY_FIELDS_ERROR_MESSAGE);
       return false;
     }
     return true;
