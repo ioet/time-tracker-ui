@@ -744,14 +744,13 @@ describe('DetailsFieldsComponent', () => {
 
     component.onSubmit();
     expect(toastrServiceStub.warning).not.toHaveBeenCalled();
-
     expect(component.saveEntry.emit).toHaveBeenCalled();
   });
 
   it('should not display a warning message when trying to save time entry of external customer without required fields and save', () => {
     component.entryForm.setValue({ ...entryWithoutRequiredFields, project_name: 'Warby Parker' });
-    spyOn(toastrServiceStub, 'warning');
     spyOn(component.saveEntry, 'emit');
+    spyOn(toastrServiceStub, 'warning');
 
     component.onSubmit();
     expect(toastrServiceStub.warning).not.toHaveBeenCalled();
@@ -761,20 +760,17 @@ describe('DetailsFieldsComponent', () => {
 
   it('should not display a warning message when trying to save time entry of internal app with description and save', () => {
     component.entryForm.setValue({ ...entryWithoutRequiredFields, description: 'Description' });
-
-    spyOn(toastrServiceStub, 'warning');
     spyOn(component.saveEntry, 'emit');
+    spyOn(toastrServiceStub, 'warning');
 
     component.onSubmit();
     expect(toastrServiceStub.warning).not.toHaveBeenCalled();
-
     expect(component.saveEntry.emit).toHaveBeenCalled();
   });
 
   /* We allow saving time entries with empty fields in uri and description for safari books and english lessons */
   it('should not display a warning message when trying to save time entry of English Lessons without description and save', () => {
     component.entryForm.setValue({ ...entryWithoutRequiredFields, project_name: 'ioet inc. - English Lessons' });
-
     spyOn(toastrServiceStub, 'warning');
     spyOn(component.saveEntry, 'emit');
 
@@ -783,7 +779,6 @@ describe('DetailsFieldsComponent', () => {
 
     expect(component.saveEntry.emit).toHaveBeenCalled();
   });
-
 
   /*
    TODO As part of https://github.com/ioet/time-tracker-ui/issues/424 a new parameter was added to the details-field-component,
