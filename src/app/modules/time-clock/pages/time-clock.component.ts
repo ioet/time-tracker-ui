@@ -40,8 +40,8 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.isProduction) {
       this.username = this.azureAdB2CService.isLogin() ? this.azureAdB2CService.getName() : '';
-    }else{
-      this.loginService.isLogin().subscribe(isLogin => {
+    } else {
+      this.loginService.isLogin().subscribe((isLogin) => {
         this.username = isLogin ? this.loginService.getName() : '';
       });
     }
@@ -57,14 +57,11 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   }
 
   reloadSummariesOnClockOut() {
-    this.clockOutSubscription = this.actionsSubject$.pipe(
-      filter((action) => (
-          action.type === EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS
-        )
-      )
-    ).subscribe( (action) => {
-      this.store.dispatch(new LoadEntriesSummary());
-    });
+    this.clockOutSubscription = this.actionsSubject$
+      .pipe(filter((action) => action.type === EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS))
+      .subscribe((action) => {
+        this.store.dispatch(new LoadEntriesSummary());
+      });
   }
 
   stopEntry() {
@@ -75,8 +72,6 @@ export class TimeClockComponent implements OnInit, OnDestroy {
   clockOut() {
     if (this.entryFieldsComponent.entryFormIsValidate()) {
       this.stopEntry();
-    } else {
-      this.entryFieldsComponent.entryForm.get('activity_id').markAsTouched();
     }
   }
 
@@ -84,7 +79,4 @@ export class TimeClockComponent implements OnInit, OnDestroy {
     this.clockOutSubscription.unsubscribe();
     this.storeSubscription.unsubscribe();
   }
-
 }
-
-

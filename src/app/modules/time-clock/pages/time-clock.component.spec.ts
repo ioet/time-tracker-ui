@@ -14,6 +14,7 @@ import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.co
 import { ToastrService } from 'ngx-toastr';
 import { LoginService } from '../../login/services/login.service';
 import { SocialAuthService } from 'angularx-social-login';
+import { dispatch } from 'rxjs/internal/observable/pairs';
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -152,12 +153,11 @@ describe('TimeClockComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new StopTimeEntryRunning('id'));
   });
 
-  it('clockOut set error Activity is required', () => {
+  it('clockOut doesnt execute stopEntry() if entryFormIsValidate() returns false', () => {
     spyOn(store, 'dispatch');
-    spyOn(injectedToastrService, 'error');
     spyOn(component.entryFieldsComponent, 'entryFormIsValidate').and.returnValue(false);
     component.clockOut();
 
-    expect(injectedToastrService.error).toHaveBeenCalled();
+    expect(store.dispatch).not.toHaveBeenCalled();
   });
 });
