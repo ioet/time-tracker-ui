@@ -142,6 +142,9 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
       customerName = dataToUse.customer_name;
       projectName = dataToUse.project_name;
     });
+    if (!this.entryForm.valid) {
+      this.toastrService.error('Activity is required');
+    }
     return this.requiredFieldsForInternalAppExist(customerName, projectName) && this.entryForm.valid;
   }
 
