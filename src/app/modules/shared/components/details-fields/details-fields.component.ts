@@ -27,6 +27,8 @@ import { DATE_FORMAT, DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { TechnologiesComponent } from '../technologies/technologies.component';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Observable } from 'rxjs';
+import { EMPTY_FIELDS_ERROR_MESSAGE } from '../../messages';
+import { INTERNAL_APP_STRING, PROJECT_NAME_TO_SKIP } from 'src/app/modules/shared/internal-app-constants';
 
 type Merged = TechnologyState & ProjectState & ActivityState & EntryState;
 @Component({
@@ -118,8 +120,8 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
       });
   }
 
-  onClearedComponent({term}) {
-    const isSearchEmpty = (term === '');
+  onClearedComponent({ term }) {
+    const isSearchEmpty = term === '';
     if (isSearchEmpty) {
       this.isTechnologiesDisabled = true;
       this.entryForm.patchValue({
@@ -168,7 +170,7 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
           projectWithSearchField.search_field = `${project.customer.name} - ${project.name}`;
           this.listRecentProjects.push(projectWithSearchField);
         });
-      }else{
+      } else {
         this.listRecentProjects = this.listProjects;
       }
       this.listProjectsShowed = this.listRecentProjects;
@@ -331,6 +333,15 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   onSubmit() {
+    const emptyValue = '';
+    const { project_name, uri, description } = this.entryForm.value;
+    const areEmptyValues = [uri, description].every(item => item === emptyValue);
+    const canSkipDescriptionAndURI = PROJECT_NAME_TO_SKIP.some(projectNameItem => project_name.includes(projectNameItem));
+    if (project_name.includes(INTERNAL_APP_STRING) && areEmptyValues && !canSkipDescriptionAndURI) {
+      this.toastrService.warning(EMPTY_FIELDS_ERROR_MESSAGE);
+      return;
+    }
+
     if (this.entryForm.invalid) {
       this.toastrService.warning('Make sure to select a project and activity');
       return;

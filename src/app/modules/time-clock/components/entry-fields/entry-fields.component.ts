@@ -1,6 +1,6 @@
 import { ActivityManagementActionTypes } from './../../../activities-management/store/activity-management.actions';
 import { EntryActionTypes, LoadActiveEntry } from './../../store/entry.actions';
-import { filter} from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store, ActionsSubject, select } from '@ngrx/store';
@@ -15,7 +15,9 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { getTimeEntriesDataSource } from '../../store/entry.selectors';
 import { DATE_FORMAT } from 'src/environments/environment';
-import { Subscription,  } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { EMPTY_FIELDS_ERROR_MESSAGE } from 'src/app/modules/shared/messages';
+import { INTERNAL_APP_STRING, PROJECT_NAME_TO_SKIP } from 'src/app/modules/shared/internal-app-constants';
 
 type Merged = TechnologyState & ProjectState & ActivityState;
 
@@ -25,7 +27,6 @@ type Merged = TechnologyState & ProjectState & ActivityState;
   styleUrls: ['./entry-fields.component.scss'],
 })
 export class EntryFieldsComponent implements OnInit, OnDestroy {
-
   @ViewChild('autofocus') autofocus!: ElementRef<HTMLSelectElement>;
 
   entryForm: FormGroup;
@@ -44,7 +45,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private store: Store<Merged>,
     private actionsSubject$: ActionsSubject,
-    private toastrService: ToastrService,
+    private toastrService: ToastrService
   ) {
     this.entryForm = this.formBuilder.group({
       description: '',
@@ -58,12 +59,14 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new LoadActivities());
     this.store.dispatch(new entryActions.LoadEntries(new Date().getMonth() + 1, new Date().getFullYear()));
-    this.loadActivitiesSubscription =  this.actionsSubject$
+    this.loadActivitiesSubscription = this.actionsSubject$
       .pipe(filter((action: any) => action.type === ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS))
       .subscribe((action) => {
-        this.activities = action.payload.filter((item) => item.status !== 'inactive').sort((a, b) => {
-          return (a.name).localeCompare(b.name);
-        });
+        this.activities = action.payload
+          .filter((item) => item.status !== 'inactive')
+          .sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          });
         this.store.dispatch(new LoadActiveEntry());
       });
 
@@ -96,7 +99,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
           uri: this.activeEntry.uri,
           activity_id: this.activeEntry.activity_id,
           start_date: this.activeEntry.start_date,
-          start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en')
+          start_hour: formatDate(this.activeEntry.start_date, 'HH:mm', 'en'),
         };
         this.activateFocus();
       });
@@ -108,8 +111,8 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     return this.entryForm.get('start_hour');
   }
 
-  activateFocus(){
-    if ((this.activities.length > 0) && (this.entryForm.value.activity_id === head(this.activities).id)){
+  activateFocus() {
+    if (this.activities.length > 0 && this.entryForm.value.activity_id === head(this.activities).id) {
       this.autofocus.nativeElement.focus();
     }
   }
@@ -132,11 +135,21 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   }
 
   entryFormIsValidate() {
-    return this.entryForm.valid;
+    let customerName = '';
+    let projectName = '';
+    this.store.pipe(select(getTimeEntriesDataSource)).subscribe((ds) => {
+      const dataToUse = ds.data.find((item) => item.project_id === this.activeEntry.project_id);
+      customerName = dataToUse.customer_name;
+      projectName = dataToUse.project_name;
+    });
+    if (!this.entryForm.valid) {
+      this.toastrService.error('Activity is required');
+    }
+    return this.requiredFieldsForInternalAppExist(customerName, projectName) && this.entryForm.valid;
   }
 
   onSubmit() {
-    if (this.entryFormIsValidate()){
+    if (this.entryFormIsValidate()) {
       this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
     }
   }
@@ -191,5 +204,23 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.loadActivitiesSubscription.unsubscribe();
     this.loadActiveEntrySubscription.unsubscribe();
     this.actionSetDateSubscription.unsubscribe();
+  }
+
+  requiredFieldsForInternalAppExist(customerName, projectName) {
+    const emptyValue = '';
+    const areEmptyValues = [this.entryForm.value.uri, this.entryForm.value.description].every(
+      (item) => item === emptyValue
+    );
+
+    const isInternalApp = customerName.includes(INTERNAL_APP_STRING);
+    const canSkipDescriptionAndURI = PROJECT_NAME_TO_SKIP.some((projectNameItem) =>
+      projectName.includes(projectNameItem)
+    );
+
+    if (isInternalApp && areEmptyValues && !canSkipDescriptionAndURI) {
+      this.toastrService.error(EMPTY_FIELDS_ERROR_MESSAGE);
+      return false;
+    }
+    return true;
   }
 }

@@ -77,7 +77,6 @@ export class TimeClockComponent implements OnInit, OnDestroy {
       this.stopEntry();
     } else {
       this.entryFieldsComponent.entryForm.get('activity_id').markAsTouched();
-      this.toastrService.error('Activity is required');
     }
   }
 
