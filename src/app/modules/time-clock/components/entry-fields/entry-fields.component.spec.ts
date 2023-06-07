@@ -26,8 +26,8 @@ describe('EntryFieldsComponent', () => {
   let entryForm;
   const actionSub: ActionsSubject = new ActionsSubject();
   const toastrServiceStub = {
-    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { },
-    warning: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => {},
+    warning: (message?: string, title?: string, override?: Partial<IndividualConfig>) => {},
   };
   const mockDate = '2020-12-01T12:00:00';
   const lastDate = moment(mockDate).format(DATE_FORMAT_YEAR);
@@ -77,6 +77,8 @@ describe('EntryFieldsComponent', () => {
             uri: 'abc',
             start_date: moment().toISOString(),
             end_date: moment().toISOString(),
+            project_name: 'project_name',
+            customer_name: 'customer_name',
           },
           {
             activity_id: 'xyz',
@@ -87,9 +89,11 @@ describe('EntryFieldsComponent', () => {
             uri: 'abc',
             start_date: lastStartHourEntryEntered,
             end_date: lastEndHourEntryEntered,
-          }
-        ]
-      }
+            project_name: 'project_name',
+            customer_name: 'customer name',
+          },
+        ],
+      },
     },
   };
 
@@ -100,28 +104,31 @@ describe('EntryFieldsComponent', () => {
     description: 'description for active entry',
     uri: 'abc',
     start_date: moment(mockDate).format(DATE_FORMAT_YEAR),
-    start_hour: moment(mockDate).format('HH:mm')
+    start_hour: moment(mockDate).format('HH:mm'),
+    customer_name: 'ioet',
   };
 
   const mockEntryOverlap = {
-    update_last_entry_if_overlap: true
+    update_last_entry_if_overlap: true,
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [EntryFieldsComponent],
-      providers: [
-        provideMockStore({ initialState: state }),
-        { provide: ActionsSubject, useValue: actionSub },
-        { provide: ToastrService, useValue: toastrServiceStub }
-      ],
-      imports: [FormsModule, ReactiveFormsModule, NgxMaterialTimepickerModule],
-    }).compileComponents();
-    store = TestBed.inject(MockStore);
-    entryForm = TestBed.inject(FormBuilder);
-    mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
-    mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [EntryFieldsComponent],
+        providers: [
+          provideMockStore({ initialState: state }),
+          { provide: ActionsSubject, useValue: actionSub },
+          { provide: ToastrService, useValue: toastrServiceStub },
+        ],
+        imports: [FormsModule, ReactiveFormsModule, NgxMaterialTimepickerModule],
+      }).compileComponents();
+      store = TestBed.inject(MockStore);
+      entryForm = TestBed.inject(FormBuilder);
+      mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
+      mockProjectsSelector = store.overrideSelector(getCustomerProjects, state.projects);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EntryFieldsComponent);
@@ -144,15 +151,13 @@ describe('EntryFieldsComponent', () => {
     spyOn(component.entryForm, 'patchValue');
     component.setDataToUpdate(entry);
     expect(component.entryForm.patchValue).toHaveBeenCalledTimes(1);
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith(
-      {
-        description: entryDataForm.description,
-        uri: entryDataForm.uri,
-        activity_id: entryDataForm.activity_id,
-        start_hour: formatDate(entry.start_date, 'HH:mm', 'en'),
-        start_date: moment(mockDate).format(DATE_FORMAT_YEAR),
-      }
-    );
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith({
+      description: entryDataForm.description,
+      uri: entryDataForm.uri,
+      activity_id: entryDataForm.activity_id,
+      start_hour: formatDate(entry.start_date, 'HH:mm', 'en'),
+      start_date: moment(mockDate).format(DATE_FORMAT_YEAR),
+    });
     expect(component.selectedTechnologies).toEqual([]);
   });
 
@@ -164,7 +169,7 @@ describe('EntryFieldsComponent', () => {
     const mockEntry = {
       ...entry,
       start_date: startMoment.format(DATE_FORMAT_YEAR),
-      start_hour: startMoment.format('HH:mm')
+      start_hour: startMoment.format('HH:mm'),
     };
 
     component.newData = mockEntry;
@@ -210,11 +215,9 @@ describe('EntryFieldsComponent', () => {
     component.cancelTimeInUpdate();
 
     expect(component.showTimeInbuttons).toEqual(false);
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith(
-      {
-        start_hour: component.newData.start_hour
-      }
-    );
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith({
+      start_hour: component.newData.start_hour,
+    });
   });
 
   it('should reset to current start_date when start_date has an error', () => {
@@ -228,11 +231,9 @@ describe('EntryFieldsComponent', () => {
     spyOn(component.entryForm, 'patchValue');
     component.onUpdateStartHour();
 
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith(
-      {
-        start_hour: component.newData.start_hour
-      }
-    );
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith({
+      start_hour: component.newData.start_hour,
+    });
     expect(component.showTimeInbuttons).toEqual(false);
   });
 
@@ -244,7 +245,7 @@ describe('EntryFieldsComponent', () => {
     const mockEntry = {
       ...entry,
       start_date: startMoment.format(DATE_FORMAT_YEAR),
-      start_hour: startMoment.format('HH:mm')
+      start_hour: startMoment.format('HH:mm'),
     };
     component.newData = mockEntry;
     component.activeEntry = mockEntry;
@@ -256,11 +257,9 @@ describe('EntryFieldsComponent', () => {
     spyOn(component.entryForm, 'patchValue');
     component.onUpdateStartHour();
 
-    expect(component.entryForm.patchValue).toHaveBeenCalledWith(
-      {
-        start_hour: component.newData.start_hour
-      }
-    );
+    expect(component.entryForm.patchValue).toHaveBeenCalledWith({
+      start_hour: component.newData.start_hour,
+    });
     expect(component.showTimeInbuttons).toEqual(false);
   });
 
@@ -279,17 +278,20 @@ describe('EntryFieldsComponent', () => {
     expect(component.showTimeInbuttons).toEqual(false);
   });
 
-  it('When start_time is updated, component.last_entry is equal to time entry in the position 1', waitForAsync(() => {
-    component.newData = mockEntryOverlap;
-    component.activeEntry = entry;
-    component.setDataToUpdate(entry);
-    const updatedTime = moment(mockDate).format('HH:mm');
+  it(
+    'When start_time is updated, component.last_entry is equal to time entry in the position 1',
+    waitForAsync(() => {
+      component.newData = mockEntryOverlap;
+      component.activeEntry = entry;
+      component.setDataToUpdate(entry);
+      const updatedTime = moment(mockDate).format('HH:mm');
 
-    component.entryForm.patchValue({ start_hour: updatedTime });
-    component.onUpdateStartHour();
+      component.entryForm.patchValue({ start_hour: updatedTime });
+      component.onUpdateStartHour();
 
-    expect(component.lastEntry).toBe(state.entries.timeEntriesDataSource.data[1]);
-  }));
+      expect(component.lastEntry).toBe(state.entries.timeEntriesDataSource.data[1]);
+    })
+  );
 
   it('When start_time is updated for a time entry. UpdateCurrentOrLastEntry action is dispatched', () => {
     component.newData = mockEntryOverlap;
@@ -310,10 +312,10 @@ describe('EntryFieldsComponent', () => {
 
     component.onTechnologyUpdated(addedTechnologies);
     expect(store.dispatch).toHaveBeenCalled();
-
   });
 
   it('uses the form to check if is valid or not', () => {
+    component.activeEntry = entry;
     entryForm.valid = false;
 
     const result = component.entryFormIsValidate();
@@ -339,7 +341,6 @@ describe('EntryFieldsComponent', () => {
     expect(store.dispatch).toHaveBeenCalled();
   });
 
-
   it('sets the technologies on the class when entry has technologies', () => {
     const entryData = { ...entry, technologies: ['foo'] };
 
@@ -347,7 +348,6 @@ describe('EntryFieldsComponent', () => {
 
     expect(component.selectedTechnologies).toEqual(entryData.technologies);
   });
-
 
   it('activites are populated using the payload of the action', () => {
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
@@ -366,17 +366,17 @@ describe('EntryFieldsComponent', () => {
       {
         id: '004',
         name: 'Meeting',
-        description: 'Some description'
+        description: 'Some description',
       },
       {
         id: '005',
         name: 'ABCD',
-        description: 'Some description'
+        description: 'Some description',
       },
       {
         id: '006',
         name: 'XYZA',
-        description: 'Some description'
+        description: 'Some description',
       },
     ];
 
@@ -384,17 +384,17 @@ describe('EntryFieldsComponent', () => {
       {
         id: '005',
         name: 'ABCD',
-        description: 'Some description'
+        description: 'Some description',
       },
       {
         id: '004',
         name: 'Meeting',
-        description: 'Some description'
+        description: 'Some description',
       },
       {
         id: '006',
         name: 'XYZA',
-        description: 'Some description'
+        description: 'Some description',
       },
     ];
 
@@ -488,17 +488,19 @@ describe('EntryFieldsComponent', () => {
   });
 
   it('when a activity is not register in DB should show activatefocus in select activity', () => {
-    const activitiesMock = [{
-      id: 'xyz',
-      name: 'test',
-      description: 'test1'
-    }];
+    const activitiesMock = [
+      {
+        id: 'xyz',
+        name: 'test',
+        description: 'test1',
+      },
+    ];
     const data = {
       activity_id: 'xyz',
       description: '',
       start_date: moment().format(DATE_FORMAT_YEAR),
       start_hour: moment().format('HH:mm'),
-      uri: ''
+      uri: '',
     };
     component.activities = activitiesMock;
     component.entryForm.patchValue({
@@ -517,6 +519,26 @@ describe('EntryFieldsComponent', () => {
       expect(autofocus).toHaveBeenCalled();
     });
   });
-});
 
+  it('should show an error message if description and ticket fields are empty for internal apps', () => {
+    spyOn(toastrServiceStub, 'error');
+    const result = component.requiredFieldsForInternalAppExist('ioet', 'project name');
+    expect(toastrServiceStub.error).toHaveBeenCalled();
+    expect(result).toBe(false);
+  });
+
+  it('should return true if customer name does not contain ioet ', () => {
+    spyOn(toastrServiceStub, 'error');
+    const result = component.requiredFieldsForInternalAppExist('customer', 'Project Name');
+    expect(toastrServiceStub.error).not.toHaveBeenCalled();
+    expect(result).toBe(true);
+  });
+
+  it('should return true if customer name contain ioet and project name contain Safari Books', () => {
+    spyOn(toastrServiceStub, 'error');
+    const result = component.requiredFieldsForInternalAppExist('customer', 'Safari Books');
+    expect(toastrServiceStub.error).not.toHaveBeenCalled();
+    expect(result).toBe(true);
+  });
+});
 
