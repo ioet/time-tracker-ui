@@ -9,14 +9,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class SearchUserComponent {
 
   readonly ALLOW_SELECT_MULTIPLE = true;
-  selectedUser: string;
+  selectedUser: string[];
 
   @Input() users: string[] = [];
 
-  @Output() selectedUserId = new EventEmitter<string>();
+  @Output() selectedUserId = new EventEmitter<string[] | string>();
 
   updateUser() {
-    this.selectedUserId.emit(this.selectedUser || '*');
+    this.selectedUserId.emit(this.selectedUser.length === 0 ? '*' : this.selectedUser);
   }
 }
 

@@ -68,7 +68,7 @@ export class EntryService {
     return this.http.get<Entry[]>(findEntriesByProjectURL);
   }
 
-  loadEntriesByTimeRange(range: TimeEntriesTimeRange, userId: string): Observable<any> {
+  loadEntriesByTimeRange(range: TimeEntriesTimeRange, userId: string[] | string ): Observable<any> {
     const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
     const loadEntriesByTimeRangeURL = this.urlInProductionLegacy ? this.baseUrl : this.baseUrl + '/report/';
     return this.http.get(loadEntriesByTimeRangeURL,
