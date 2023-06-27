@@ -40,7 +40,7 @@
             <tbody *ngIf="!dataSource.isLoading">
                 <tr class="d-flex" *ngFor="let entry of dataSource.data">
                     <td class="col">{{ entry.start_date | date: 'MM/dd/yyyy' }}</td>
-                    <td class="col">{{ dateTimeOffset.parseDateTimeOffset(entry.start_date,entry.timezone_offset) }} - {{ dateTimeOffset.parseDateTimeOffset(entry.end_date,entry.timezone_offset) }}</td>
+                    <td class="col">{{ dateTimeOffset.parseDateTimeOffset(entry.start_date, actualDate.getTimezoneOffset()) }} - {{ dateTimeOffset.parseDateTimeOffset(entry.end_date, actualDate.getTimezoneOffset()) }}</td>
                     <td class="col">{{ entry.end_date | substractDate: entry.start_date }}</td>
                     <td class="col">{{ entry.customer_name }}</td>
                     <td class="col">{{ entry.project_name }}</td>
