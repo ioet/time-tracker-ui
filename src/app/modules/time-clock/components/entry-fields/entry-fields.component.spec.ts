@@ -19,7 +19,7 @@ import { TechnologiesComponent } from '../../../shared/components/technologies/t
 import { NgSelectModule } from '@ng-select/ng-select';
 import { EMPTY_FIELDS_ERROR_MESSAGE } from 'src/app/modules/shared/messages';
 
-fdescribe('EntryFieldsComponent', () => {
+describe('EntryFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState;
   let component: EntryFieldsComponent;
   let fixture: ComponentFixture<EntryFieldsComponent>;
