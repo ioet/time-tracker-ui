@@ -176,7 +176,9 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
     this.newData.update_last_entry_if_overlap = true;
-    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
+    if (this.entryFormIsValidate()) {
+      this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
+    }
     this.showTimeInbuttons = false;
   }
 
@@ -197,7 +199,9 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   }
 
   onTechnologyUpdated($event: string[]) {
-    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, technologies: $event }));
+    if (this.entryFormIsValidate()) {
+      this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, technologies: $event }));
+    }
   }
 
   ngOnDestroy(): void {
