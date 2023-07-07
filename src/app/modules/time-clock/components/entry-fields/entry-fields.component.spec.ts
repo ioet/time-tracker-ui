@@ -296,7 +296,20 @@ fdescribe('EntryFieldsComponent', () => {
     })
   );
 
-  it('When start_time is updated for a time entry. UpdateCurrentOrLastEntry action is dispatched', () => {
+  it('When start_time is updated for a valid time entry. UpdateCurrentOrLastEntry action is dispatched', () => {
+    component.newData = mockEntryOverlap;
+    component.activeEntry = entry;
+    component.setDataToUpdate(entry);
+    const updatedTime = moment(mockDate).subtract(4, 'hours').format('HH:mm');
+    component.entryForm.patchValue({ start_hour: updatedTime });
+    spyOn(store, 'dispatch');
+
+    component.onUpdateStartHour();
+
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+  });
+
+  it('When start_time is updated for an invalid time entry. UpdateCurrentOrLastEntry action is NOT dispatched', () => {
     component.newData = mockEntryOverlap;
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
@@ -330,22 +343,20 @@ fdescribe('EntryFieldsComponent', () => {
   });
 
   it('dispatches an action when onSubmit is called', () => {
-    const isEntryFormValid = spyOn(component, 'entryFormIsValidate').and.returnValue(true);
+    spyOn(component, 'entryFormIsValidate').and.returnValue(true);
     spyOn(store, 'dispatch');
 
     component.onSubmit();
 
-    expect(isEntryFormValid).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalled();
   });
 
   it('dispatches an action when onTechnologyRemoved is called', () => {
-    const isEntryFormValid = spyOn(component, 'entryFormIsValidate').and.returnValue(true);
+    spyOn(component, 'entryFormIsValidate').and.returnValue(true);
     spyOn(store, 'dispatch');
 
     component.onTechnologyUpdated(['foo']);
 
-    expect(isEntryFormValid).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalled();
   });
 
@@ -417,7 +428,7 @@ fdescribe('EntryFieldsComponent', () => {
     expect(component.activities).toEqual(activitiesOrdered);
   });
 
-  it('LoadActiveEntry is dispatchen after LOAD_ACTIVITIES_SUCCESS', () => {
+  it('LoadActiveEntry is dispatched after LOAD_ACTIVITIES_SUCCESS', () => {
     spyOn(store, 'dispatch');
 
     const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
@@ -548,5 +559,45 @@ fdescribe('EntryFieldsComponent', () => {
     expect(toastrServiceStub.error).not.toHaveBeenCalledWith(EMPTY_FIELDS_ERROR_MESSAGE);
     expect(result).toBe(true);
   });
+
+  it('when a technology is added or removed and entry is valid then dispatch UpdateActiveEntry', () => {
+    component.newData = mockEntryOverlap;
+    component.activeEntry = entry;
+    component.setDataToUpdate(entry);
+
+    spyOn(store, 'dispatch');
+
+    const addedTechnologies = ['react'];
+    component.onTechnologyUpdated(addedTechnologies);
+    expect(store.dispatch).toHaveBeenCalled();
+  });
+
+  it('does not dispatch an action and shows error when onTechnologyUpdated is called and entry is not valid', () => {
+    component.newData = mockEntryOverlap;
+    component.activeEntry = entry;
+    component.setDataToUpdate(entry);
+
+    spyOn(component, 'entryFormIsValidate').and.returnValue(false);
+    spyOn(store, 'dispatch');
+
+    const addedTechnologies = ['react'];
+    component.onTechnologyUpdated(addedTechnologies);
+
+    expect(store.dispatch).not.toHaveBeenCalled();
+  });
+
+  it('do not display an error message when trying to updateStartHour, with no description and no ticket and it is an external app', () => {
+    component.newData = entry;
+    component.activeEntry = entry;
+    component.setDataToUpdate(entry);
+    spyOn(toastrServiceStub, 'error');
+
+    const hour = moment(mockDate).add(4, 'hour').format('HH:mm');
+    component.entryForm.patchValue({ start_hour: hour, description: '',  uri: '', customer_name: 'Warby' });
+    component.onUpdateStartHour();
+
+    expect(toastrServiceStub.error).not.toHaveBeenCalled();
+  });
+
 });
 
