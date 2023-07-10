@@ -281,7 +281,7 @@ describe('EntryFieldsComponent', () => {
     expect(component.showTimeInbuttons).toEqual(false);
   });
 
-  fit('when a start hour is updated, but the entry is invalid, then do not dispatch UpdateActiveEntry', () => {
+  it('when a start hour is updated, but the entry is invalid, then do not dispatch UpdateActiveEntry', () => {
     component.newData = mockEntryOverlap;
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
@@ -289,7 +289,7 @@ describe('EntryFieldsComponent', () => {
 
     component.entryForm.patchValue({ start_hour: updatedTime });
     spyOn(store, 'dispatch');
-    spyOn(component, 'entryFormIsValidate').and.returnValue(entryForm.invalid);
+    spyOn(component, 'entryFormIsValidate').and.returnValue(false);
 
     component.onUpdateStartHour();
 
@@ -335,13 +335,40 @@ describe('EntryFieldsComponent', () => {
     expect(store.dispatch).toHaveBeenCalled();
   });
 
-  it('uses the form to check if is valid or not', () => {
-    component.activeEntry = entry;
-    entryForm.valid = false;
+  it('entryFormIsValidate returns false when data in the form is not valid', () => {
+    component.newData = mockEntryOverlap;
+
+    const invalidEntry = {...entry, 'activity_id': ''}
+    component.activeEntry = invalidEntry;
+    component.setDataToUpdate(invalidEntry);
+
+    spyOn(component, 'requiredFieldsForInternalAppExist').and.returnValue(true);
 
     const result = component.entryFormIsValidate();
 
-    expect(result).toBe(entryForm.valid);
+    expect(result).toBe(false);
+  });
+
+  it('entryFormIsValidate returns false if not all required fields are present despite data in the form being valid', () => {
+    component.newData = mockEntryOverlap;
+    component.activeEntry = entry;
+    component.setDataToUpdate(entry);
+    spyOn(component, 'requiredFieldsForInternalAppExist').and.returnValue(false);
+
+    const result = component.entryFormIsValidate();
+
+    expect(result).toBe(false);
+  });
+
+  it('entryFormIsValidate returns true when required fields are present and data in the form is valid', () => {
+    component.newData = mockEntryOverlap;
+    component.activeEntry = entry;
+    component.setDataToUpdate(entry);
+    spyOn(component, 'requiredFieldsForInternalAppExist').and.returnValue(true);
+
+    const result = component.entryFormIsValidate();
+
+    expect(result).toBe(true);
   });
 
   it('dispatches an action when onSubmit is called', () => {
