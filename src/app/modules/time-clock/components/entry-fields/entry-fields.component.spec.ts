@@ -535,38 +535,39 @@ describe('EntryFieldsComponent', () => {
     expect(component.actionSetDateSubscription.unsubscribe).toHaveBeenCalled();
   });
 
-  // it('when a activity is not register in DB should show activatefocus in select activity', () => {
-  //   const activitiesMock = [
-  //     {
-  //       id: 'xyz',
-  //       name: 'test',
-  //       description: 'test1',
-  //     },
-  //   ];
-  //   const data = {
-  //     activity_id: 'xyz',
-  //     description: '',
-  //     start_date: moment().format(DATE_FORMAT_YEAR),
-  //     start_hour: moment().format('HH:mm'),
-  //     uri: '',
-  //   };
-  //   component.activities = activitiesMock;
-  //   component.entryForm.patchValue({
-  //     description: data.description,
-  //     uri: data.uri,
-  //     activity_id: data.activity_id,
-  //     start_date: data.start_date,
-  //     start_hour: data.start_hour,
-  //   });
-  //   component.ngOnInit();
-  //   component.activateFocus();
-  //   fixture.detectChanges();
-  //   fixture.whenStable().then(() => {
-  //     fixture.detectChanges();
-  //     const autofocus = fixture.nativeElement.querySelector('select');
-  //     expect(autofocus).toHaveBeenCalled();
-  //   });
-  // });
+  // we need to fix this test. Until then, we skip it
+  xit('when a activity is not register in DB should show activatefocus in select activity', () => {
+    const activitiesMock = [
+      {
+        id: 'xyz',
+        name: 'test',
+        description: 'test1',
+      },
+    ];
+    const data = {
+      activity_id: 'xyz',
+      description: '',
+      start_date: moment().format(DATE_FORMAT_YEAR),
+      start_hour: moment().format('HH:mm'),
+      uri: '',
+    };
+    component.activities = activitiesMock;
+    component.entryForm.patchValue({
+      description: data.description,
+      uri: data.uri,
+      activity_id: data.activity_id,
+      start_date: data.start_date,
+      start_hour: data.start_hour,
+    });
+    component.ngOnInit();
+    component.activateFocus();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const autofocus = fixture.nativeElement.querySelector('select');
+      expect(autofocus).toHaveBeenCalled();
+    });
+  });
 
   it('should show an error message if description and ticket fields are empty for internal apps', () => {
     spyOn(toastrServiceStub, 'error');
