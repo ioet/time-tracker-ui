@@ -134,10 +134,10 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** 
-  * Makes activity mandatory when clocking in.
-  * Also makes uri or description mandatory if it is an internal app.
-  */
+  /**
+   * Makes activity mandatory when clocking in.
+   * Also makes uri or description mandatory if it is an internal app.
+   */
   entryFormIsValidate() {
     let customerName = '';
     let projectName = '';
@@ -214,10 +214,10 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.actionSetDateSubscription.unsubscribe();
   }
 
-  /** 
-  * Manages the conditions for requiring uri or description fields
-  * when clocking in an internal app.
-  */
+  /**
+   * Manages the conditions for requiring uri or description fields
+   * when clocking in an internal app.
+   */
   requiredFieldsForInternalAppExist(customerName: string, projectName: string) {
     const emptyValue = '';
     const areEmptyValues = [this.entryForm.value.uri, this.entryForm.value.description].every(

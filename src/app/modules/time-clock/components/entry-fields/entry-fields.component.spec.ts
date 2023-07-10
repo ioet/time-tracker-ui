@@ -338,7 +338,7 @@ describe('EntryFieldsComponent', () => {
   it('entryFormIsValidate returns false when data in the form is not valid', () => {
     component.newData = mockEntryOverlap;
 
-    const invalidEntry = {...entry, 'activity_id': ''}
+    const invalidEntry = {...entry, activity_id: ''};
     component.activeEntry = invalidEntry;
     component.setDataToUpdate(invalidEntry);
 
