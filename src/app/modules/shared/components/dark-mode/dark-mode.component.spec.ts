@@ -8,7 +8,9 @@ import { FeatureToggleModel } from '../../feature-toggles/feature-toggle.model';
 import { FeatureFilterModel } from '../../feature-toggles/filters/feature-filter.model';
 import { DarkModeComponent } from './dark-mode.component';
 
-describe('DarkModeComponent', () => {
+
+// since the backend is not in Azure, this module is not used
+xdescribe('DarkModeComponent', () => {
   let component: DarkModeComponent;
   let fixture: ComponentFixture<DarkModeComponent>;
   let html: HTMLElement;

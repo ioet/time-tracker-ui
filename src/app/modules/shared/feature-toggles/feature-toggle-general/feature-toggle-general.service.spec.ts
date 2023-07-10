@@ -8,7 +8,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SocialAuthService } from 'angularx-social-login';
 
 
-describe('FeatureToggleGeneralService', () => {
+// since the backend is not in Azure, this module is not used
+xdescribe('FeatureToggleGeneralService', () => {
   let featureToggleGeneralService: FeatureToggleGeneralService;
   let featureManagerService: FeatureManagerService;
 
