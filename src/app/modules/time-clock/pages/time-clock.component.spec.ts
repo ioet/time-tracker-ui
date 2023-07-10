@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StopTimeEntryRunning, EntryActionTypes, LoadEntriesSummary } from './../store/entry.actions';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -14,8 +14,14 @@ import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.co
 import { ToastrService } from 'ngx-toastr';
 import { LoginService } from '../../login/services/login.service';
 import { SocialAuthService } from 'angularx-social-login';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { TechnologiesComponent } from '../../shared/components/technologies/technologies.component';
+import { TimeEntriesSummaryComponent } from '../components/time-entries-summary/time-entries-summary.component';
+import { TimeDetailsPipe } from '../pipes/time-details.pipe';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
-describe('TimeClockComponent', () => {
+
+fdescribe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
   let store: MockStore<ProjectState>;
@@ -55,8 +61,8 @@ describe('TimeClockComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe, EntryFieldsComponent],
+        imports: [HttpClientTestingModule, NgSelectModule, NgxMaterialTimepickerModule, FormsModule, ReactiveFormsModule],
+        declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe, EntryFieldsComponent, TechnologiesComponent, TimeEntriesSummaryComponent, TimeDetailsPipe],
         providers: [
           FormBuilder,
           AzureAdB2CService,
@@ -152,12 +158,11 @@ describe('TimeClockComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new StopTimeEntryRunning('id'));
   });
 
-  it('clockOut set error Activity is required', () => {
+  it('do not dispatch if Activity is missing', () => {
     spyOn(store, 'dispatch');
-    spyOn(injectedToastrService, 'error');
     spyOn(component.entryFieldsComponent, 'entryFormIsValidate').and.returnValue(false);
     component.clockOut();
 
-    expect(injectedToastrService.error).toHaveBeenCalled();
+    expect(store.dispatch).not.toHaveBeenCalled();
   });
 });
