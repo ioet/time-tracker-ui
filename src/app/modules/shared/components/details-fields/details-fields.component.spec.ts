@@ -23,6 +23,11 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { DATE_FORMAT } from 'src/environments/environment';
 import { DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { Project } from '../../models';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { MatNativeDateModule } from '@angular/material/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 describe('DetailsFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;
@@ -125,8 +130,21 @@ describe('DetailsFieldsComponent', () => {
           provideMockStore({ initialState: state }),
           { provide: ActionsSubject, useValue: actionSub },
           { provide: ToastrService, useValue: toastrServiceStub },
+          MatDatepickerModule
         ],
-        imports: [FormsModule, ReactiveFormsModule, AutocompleteLibModule, NgxMaterialTimepickerModule],
+        imports: [
+          FormsModule,
+          ReactiveFormsModule,
+          AutocompleteLibModule,
+          NgxMaterialTimepickerModule,
+          NgSelectModule,
+          MatDatepickerModule,
+          MatNativeDateModule,
+          CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+          }),
+        ],
       }).compileComponents();
       store = TestBed.inject(MockStore);
       mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);
