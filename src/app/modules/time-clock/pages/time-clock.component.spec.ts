@@ -21,7 +21,7 @@ import { TimeDetailsPipe } from '../pipes/time-details.pipe';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 
-fdescribe('TimeClockComponent', () => {
+describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
   let fixture: ComponentFixture<TimeClockComponent>;
   let store: MockStore<ProjectState>;
@@ -62,7 +62,15 @@ fdescribe('TimeClockComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [HttpClientTestingModule, NgSelectModule, NgxMaterialTimepickerModule, FormsModule, ReactiveFormsModule],
-        declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe, EntryFieldsComponent, TechnologiesComponent, TimeEntriesSummaryComponent, TimeDetailsPipe],
+        declarations: [
+          TimeClockComponent,
+          ProjectListHoverComponent,
+          FilterProjectPipe,
+          EntryFieldsComponent,
+          TechnologiesComponent,
+          TimeEntriesSummaryComponent,
+          TimeDetailsPipe
+        ],
         providers: [
           FormBuilder,
           AzureAdB2CService,
