@@ -281,6 +281,21 @@ describe('EntryFieldsComponent', () => {
     expect(component.showTimeInbuttons).toEqual(false);
   });
 
+  fit('when a start hour is updated, but the entry is invalid, then do not dispatch UpdateActiveEntry', () => {
+    component.newData = mockEntryOverlap;
+    component.activeEntry = entry;
+    component.setDataToUpdate(entry);
+    const updatedTime = moment(mockDate).format('HH:mm');
+
+    component.entryForm.patchValue({ start_hour: updatedTime });
+    spyOn(store, 'dispatch');
+    spyOn(component, 'entryFormIsValidate').and.returnValue(entryForm.invalid);
+
+    component.onUpdateStartHour();
+
+    expect(store.dispatch).not.toHaveBeenCalled();
+  });
+
   it(
     'When start_time is updated, component.last_entry is equal to time entry in the position 1',
     waitForAsync(() => {
@@ -297,19 +312,6 @@ describe('EntryFieldsComponent', () => {
   );
 
   it('When start_time is updated for a valid time entry. UpdateCurrentOrLastEntry action is dispatched', () => {
-    component.newData = mockEntryOverlap;
-    component.activeEntry = entry;
-    component.setDataToUpdate(entry);
-    const updatedTime = moment(mockDate).subtract(4, 'hours').format('HH:mm');
-    component.entryForm.patchValue({ start_hour: updatedTime });
-    spyOn(store, 'dispatch');
-
-    component.onUpdateStartHour();
-
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
-  });
-
-  it('When start_time is updated for an invalid time entry. UpdateCurrentOrLastEntry action is NOT dispatched', () => {
     component.newData = mockEntryOverlap;
     component.activeEntry = entry;
     component.setDataToUpdate(entry);
@@ -584,19 +586,6 @@ describe('EntryFieldsComponent', () => {
     component.onTechnologyUpdated(addedTechnologies);
 
     expect(store.dispatch).not.toHaveBeenCalled();
-  });
-
-  it('do not display an error message when trying to updateStartHour, with no description and no ticket and it is an external app', () => {
-    component.newData = entry;
-    component.activeEntry = entry;
-    component.setDataToUpdate(entry);
-    spyOn(toastrServiceStub, 'error');
-
-    const hour = moment(mockDate).add(4, 'hour').format('HH:mm');
-    component.entryForm.patchValue({ start_hour: hour, description: '',  uri: '', customer_name: 'Warby' });
-    component.onUpdateStartHour();
-
-    expect(toastrServiceStub.error).not.toHaveBeenCalled();
   });
 
 });

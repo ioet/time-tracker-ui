@@ -210,7 +210,7 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.actionSetDateSubscription.unsubscribe();
   }
 
-  requiredFieldsForInternalAppExist(customerName, projectName) {
+  requiredFieldsForInternalAppExist(customerName: string, projectName: string) {
     const emptyValue = '';
     const areEmptyValues = [this.entryForm.value.uri, this.entryForm.value.description].every(
       (item) => item === emptyValue
