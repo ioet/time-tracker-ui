@@ -8,7 +8,9 @@ import { FeatureToggleModel } from '../feature-toggle.model';
 import { TargetingFeatureFilterModel } from '../filters/targeting/targeting-feature-filter.model';
 import { FeatureToggleCookiesService } from './feature-toggle-cookies.service';
 
-describe('FeatureToggleCookiesService', () => {
+
+// since the backend is not in Azure, this module is not used
+xdescribe('FeatureToggleCookiesService', () => {
   let cookieService: CookieService;
   let featureToggleGeneralService: FeatureToggleGeneralService;
   let service: FeatureToggleCookiesService;

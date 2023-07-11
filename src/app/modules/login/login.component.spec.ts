@@ -11,7 +11,8 @@ import { SocialAuthService } from 'angularx-social-login';
 import { UserService } from '../user/services/user.service';
 
 
-describe('LoginComponent', () => {
+// since the backend is not in Azure, this module is not used
+xdescribe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let azureAdB2CService: AzureAdB2CService;

@@ -6,7 +6,9 @@ import { environment } from '../../../../environments/environment';
 import { InjectTokenInterceptor } from './inject.token.interceptor';
 import { LoginService } from '../../login/services/login.service';
 
-describe('InjectTokenInterceptor test', () => {
+
+// since the backend is not in Azure, this module is not used
+xdescribe('InjectTokenInterceptor test', () => {
 
   class MockHttpHandler extends HttpHandler {
     handle(req: HttpRequest<any>): Observable<HttpEvent<any>> {

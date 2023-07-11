@@ -9,7 +9,8 @@ import { FeatureFilterProvider } from './filters/feature-filter-provider.service
 import { TargetingFeatureFilterModel } from './filters/targeting/targeting-feature-filter.model';
 
 
-describe('FeatureToggleManager', () => {
+// since the backend is not in Azure, this module is not used
+xdescribe('FeatureToggleManager', () => {
   const fakeAppConfigurationConnectionString = 'Endpoint=http://fake.foo;Id=fake.id;Secret=fake.secret';
   const aFeatureToggle = new FeatureToggleModel('any-id', true, []);
   let service: FeatureManagerService;

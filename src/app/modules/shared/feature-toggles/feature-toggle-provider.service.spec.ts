@@ -9,7 +9,8 @@ import { FeatureFilterProvider } from './filters/feature-filter-provider.service
 import { TargetingFeatureFilterModel } from './filters/targeting/targeting-feature-filter.model';
 
 
-describe('FeatureToggleProvider', () => {
+// since the backend is not in Azure, this module is not used
+xdescribe('FeatureToggleProvider', () => {
   const anyToggleResponse: FeatureToggleConfiguration = {
     id: '1',
     enabled: true,
