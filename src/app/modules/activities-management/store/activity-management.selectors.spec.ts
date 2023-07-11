@@ -1,7 +1,16 @@
+import { TestBed } from '@angular/core/testing';
 import * as selectors from './activity-management.selectors';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-describe('ActivityManagement Selectors', () => {
+fdescribe('ActivityManagement Selectors', () => {
 
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ MatProgressSpinnerModule ],
+      declarations: [  ],
+    }).compileComponents();
+  });
+  
   it('reads activityIdtoEdit from state', () => {
     const activityId = 'id';
     const activityIdFound = selectors.activityIdToEdit.projector({ activityIdToEdit: activityId });
