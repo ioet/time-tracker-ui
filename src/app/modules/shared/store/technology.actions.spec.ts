@@ -1,7 +1,16 @@
 import * as actions from './technology.actions';
 import { Technology } from '../models';
+import { TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 describe('Actions for Technology', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ FormsModule ],
+      declarations: [  ],
+    }).compileComponents();
+  });
+
   it('FindTechnologySuccess type is TechnologyActionTypes.FIND_TECHNOLOGIES_SUCESS', () => {
     const technologyList: Technology = { items: [{ name: 'java' }, { name: 'javascript' }] };
     const findTechnologySuccess = new actions.FindTechnologySuccess(technologyList);

@@ -1,6 +1,13 @@
 import { waitForAsync, TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivitiesManagementComponent } from './activities-management.component';
+import { ActivityListComponent } from '../components/activity-list/activity-list.component';
+import { CreateActivityComponent } from '../components/create-activity/create-activity.component';
+import { StoreModule } from '@ngrx/store';
+import { ReactiveFormsModule } from '@angular/forms';
+import { provideMockStore } from '@ngrx/store/testing';
+
+const state = {};
 
 describe('ActivitiesManagementComponent', () => {
   let component: ActivitiesManagementComponent;
@@ -8,8 +15,13 @@ describe('ActivitiesManagementComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [ActivitiesManagementComponent]
+      imports: [ StoreModule.forRoot({}), ReactiveFormsModule ],
+      providers: [ provideMockStore({ initialState: state }) ],
+      declarations: [
+        ActivitiesManagementComponent,
+        CreateActivityComponent,
+        ActivityListComponent,
+      ]
     }).compileComponents();
   }));
 
@@ -27,7 +39,7 @@ describe('ActivitiesManagementComponent', () => {
     expect(component.showOptionInDevelopment).toBe(true);
   });
 
-  it('should check if add new entry button is render', () => {
+  it('should check if add new entry button is rendered', () => {
     const addItemDebugElement = fixture.debugElement.query(By.css('div.col-12.px-0')).childNodes.length;
     expect(addItemDebugElement).toBe(3);
   });

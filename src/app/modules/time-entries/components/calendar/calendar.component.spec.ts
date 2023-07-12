@@ -1,11 +1,14 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { CalendarEvent, CalendarModule, CalendarView, DateAdapter } from 'angular-calendar';
 import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 
 import { CalendarComponent } from './calendar.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 type MockCardEntryHeight = {
   startDate: string;
@@ -31,7 +34,15 @@ describe('CalendarComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [CalendarComponent],
+        imports: [
+          MatNativeDateModule,
+          CommonModule,
+          CalendarModule.forRoot({
+          provide: DateAdapter,
+          useFactory: adapterFactory,
+        })
+      ],
+        declarations: [ CalendarComponent ],
       }).compileComponents();
       mockCardEntriesHeight = [
         { startDate: '2021-04-11T08:00:00Z', endDate: '2021-04-11T10:20:00Z', expected: 28 },
