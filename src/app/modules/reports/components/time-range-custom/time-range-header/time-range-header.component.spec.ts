@@ -1,9 +1,14 @@
 import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { MatCalendar, MatDateRangePicker } from '@angular/material/datepicker';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+
 import { TimeRangeHeaderComponent } from './time-range-header.component';
+import { TimeRangeOptionsComponent } from '../time-range-options/time-range-options.component';
+import { IndividualConfig, ToastrService } from 'ngx-toastr';
+import { MatListModule } from '@angular/material/list';
 
 
 describe('TimeRangeHeaderComponent', () => {
@@ -18,11 +23,19 @@ describe('TimeRangeHeaderComponent', () => {
     activeDate: new Date()
   };
 
+  const toastrServiceStub = {
+    error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatNativeDateModule],
-      declarations: [ TimeRangeHeaderComponent ],
-      providers: [{ provide: MatCalendar, useValue: value }, { provide: MatDateRangePicker, useValue: {} }] ,
+      imports: [MatNativeDateModule, MatIconModule, MatListModule],
+      declarations: [ TimeRangeHeaderComponent, TimeRangeOptionsComponent ],
+      providers: [
+        { provide: MatCalendar, useValue: value },
+        { provide: MatDateRangePicker, useValue: {} },
+        { provide: ToastrService, useValue: toastrServiceStub },
+      ],
     })
     .compileComponents();
   });
