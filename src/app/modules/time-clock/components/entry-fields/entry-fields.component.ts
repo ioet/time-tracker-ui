@@ -134,6 +134,10 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Makes activity mandatory when clocking in.
+   * Also makes uri or description mandatory if it is an internal app.
+   */
   entryFormIsValidate() {
     let customerName = '';
     let projectName = '';
@@ -176,7 +180,9 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     }
     this.entryForm.patchValue({ start_date: newHourEntered });
     this.newData.update_last_entry_if_overlap = true;
-    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
+    if (this.entryFormIsValidate()) {
+      this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, ...this.entryForm.value }));
+    }
     this.showTimeInbuttons = false;
   }
 
@@ -197,7 +203,9 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
   }
 
   onTechnologyUpdated($event: string[]) {
-    this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, technologies: $event }));
+    if (this.entryFormIsValidate()) {
+      this.store.dispatch(new entryActions.UpdateEntryRunning({ ...this.newData, technologies: $event }));
+    }
   }
 
   ngOnDestroy(): void {
@@ -206,7 +214,11 @@ export class EntryFieldsComponent implements OnInit, OnDestroy {
     this.actionSetDateSubscription.unsubscribe();
   }
 
-  requiredFieldsForInternalAppExist(customerName, projectName) {
+  /**
+   * Manages the conditions for requiring uri or description fields
+   * when clocking in an internal app.
+   */
+  requiredFieldsForInternalAppExist(customerName: string, projectName: string) {
     const emptyValue = '';
     const areEmptyValues = [this.entryForm.value.uri, this.entryForm.value.description].every(
       (item) => item === emptyValue
