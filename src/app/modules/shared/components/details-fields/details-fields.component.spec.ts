@@ -6,6 +6,13 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import * as moment from 'moment';
 import { IndividualConfig, ToastrService } from 'ngx-toastr';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { MatNativeDateModule } from '@angular/material/core';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 import { getCreateError, getUpdateError } from 'src/app/modules/time-clock/store/entry.selectors';
 import { ProjectState } from '../../../customer-management/components/projects/components/store/project.reducer';
 import { getCustomerProjects } from '../../../customer-management/components/projects/components/store/project.selectors';
@@ -18,16 +25,10 @@ import { TechnologiesComponent } from './../technologies/technologies.component'
 import { DetailsFieldsComponent } from './details-fields.component';
 import { ProjectSelectedEvent } from './project-selected-event';
 import { SaveEntryEvent } from './save-entry-event';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-
 import { DATE_FORMAT } from 'src/environments/environment';
 import { DATE_FORMAT_YEAR } from 'src/environments/environment';
 import { Project } from '../../models';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { MatNativeDateModule } from '@angular/material/core';
-import { NgSelectModule } from '@ng-select/ng-select';
+
 
 describe('DetailsFieldsComponent', () => {
   type Merged = TechnologyState & ProjectState & EntryState;

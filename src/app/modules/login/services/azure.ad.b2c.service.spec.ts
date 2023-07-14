@@ -1,7 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { CookieService } from 'ngx-cookie-service';
 import { Account, UserAgentApplication } from 'msal';
 import { AzureAdB2CService } from './azure.ad.b2c.service';
-import { CookieService } from 'ngx-cookie-service';
+
 import { ActivitiesManagementComponent } from '../../activities-management/pages/activities-management.component';
 import { ActivityListComponent, CreateActivityComponent } from '../../activities-management/components';
 

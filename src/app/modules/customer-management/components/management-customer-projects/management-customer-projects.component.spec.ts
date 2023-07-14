@@ -1,16 +1,17 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ManagementCustomerProjectsComponent } from './management-customer-projects.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { CustomerState } from '../../store';
 import { of } from 'rxjs';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { CustomerState } from '../../store';
 import { CreateCustomerComponent } from '../customer-info/components/create-customer/create-customer';
 import { CreateProjectComponent } from '../projects/components/create-project/create-project.component';
 import { CreateProjectTypeComponent } from '../projects-type/components/create-project-type/create-project-type.component';
-import { MatNativeDateModule } from '@angular/material/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ProjectListComponent } from '../projects/components/project-list/project-list.component';
 import { ProjectTypeListComponent } from '../projects-type/components/project-type-list/project-type-list.component';
+import { ManagementCustomerProjectsComponent } from './management-customer-projects.component';
+
 
 describe('ManagmentCustomerProjectsComponent', () => {
   let component: ManagementCustomerProjectsComponent;

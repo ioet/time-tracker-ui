@@ -1,7 +1,9 @@
-import * as actions from './technology.actions';
-import { Technology } from '../models';
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+
+import * as actions from './technology.actions';
+import { Technology } from '../models';
+
 
 describe('Actions for Technology', () => {
   beforeEach(() => {

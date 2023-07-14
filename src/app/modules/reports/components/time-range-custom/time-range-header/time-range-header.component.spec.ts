@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
-import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatCalendar, MatDateRangePicker } from '@angular/material/datepicker';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { IndividualConfig, ToastrService } from 'ngx-toastr';
+import { MatListModule } from '@angular/material/list';
 
 import { TimeRangeHeaderComponent } from './time-range-header.component';
 import { TimeRangeOptionsComponent } from '../time-range-options/time-range-options.component';
-import { IndividualConfig, ToastrService } from 'ngx-toastr';
-import { MatListModule } from '@angular/material/list';
 
 
 describe('TimeRangeHeaderComponent', () => {
@@ -95,7 +95,6 @@ describe('TimeRangeHeaderComponent', () => {
     component.previousClicked('month');
     expect(component.calendar.activeDate.toDateString()).toEqual(makeDateYear.toDateString());
   });
-
 
   it('should change the year with nextClicked method', () => {
     component.calendar.activeDate = new Date();

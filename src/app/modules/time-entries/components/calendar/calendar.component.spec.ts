@@ -4,11 +4,12 @@ import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
 import { Entry } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
-
-import { CalendarComponent } from './calendar.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
+import { CalendarComponent } from './calendar.component';
+
 
 type MockCardEntryHeight = {
   startDate: string;

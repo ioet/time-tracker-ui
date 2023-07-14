@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import * as selectors from './activity-management.selectors';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import * as selectors from './activity-management.selectors';
 import { SpinnerOverlayComponent } from '../../shared/components/spinner-overlay/spinner-overlay.component';
+
 
 describe('ActivityManagement Selectors', () => {
 
