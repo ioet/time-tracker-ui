@@ -1,7 +1,10 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { CookieService } from 'ngx-cookie-service';
 import { Account, UserAgentApplication } from 'msal';
 import { AzureAdB2CService } from './azure.ad.b2c.service';
-import { CookieService } from 'ngx-cookie-service';
+
+import { ActivitiesManagementComponent } from '../../activities-management/pages/activities-management.component';
+import { ActivityListComponent, CreateActivityComponent } from '../../activities-management/components';
 
 describe('AzureAdB2CService', () => {
   let service: AzureAdB2CService;
@@ -11,6 +14,11 @@ describe('AzureAdB2CService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
+      declarations: [
+        ActivitiesManagementComponent,
+        CreateActivityComponent,
+        ActivityListComponent,
+      ]
     });
     service = TestBed.inject(AzureAdB2CService);
     cookieService = TestBed.inject(CookieService);

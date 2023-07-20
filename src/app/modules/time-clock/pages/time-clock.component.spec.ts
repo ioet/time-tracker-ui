@@ -1,19 +1,26 @@
 import { of } from 'rxjs';
-import { FormBuilder } from '@angular/forms';
-import { StopTimeEntryRunning, EntryActionTypes, LoadEntriesSummary } from './../store/entry.actions';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ToastrService } from 'ngx-toastr';
+import { ActionsSubject } from '@ngrx/store';
+import { SocialAuthService } from 'angularx-social-login';
+
+import { StopTimeEntryRunning, EntryActionTypes, LoadEntriesSummary } from './../store/entry.actions';
 import { TimeClockComponent } from './time-clock.component';
 import { ProjectState } from '../../customer-management/components/projects/components/store/project.reducer';
 import { ProjectListHoverComponent } from '../components';
 import { FilterProjectPipe } from '../../shared/pipes';
 import { AzureAdB2CService } from '../../login/services/azure.ad.b2c.service';
-import { ActionsSubject } from '@ngrx/store';
 import { EntryFieldsComponent } from '../components/entry-fields/entry-fields.component';
-import { ToastrService } from 'ngx-toastr';
 import { LoginService } from '../../login/services/login.service';
-import { SocialAuthService } from 'angularx-social-login';
+import { TechnologiesComponent } from '../../shared/components/technologies/technologies.component';
+import { TimeEntriesSummaryComponent } from '../components/time-entries-summary/time-entries-summary.component';
+import { TimeDetailsPipe } from '../pipes/time-details.pipe';
+
 
 describe('TimeClockComponent', () => {
   let component: TimeClockComponent;
@@ -55,8 +62,16 @@ describe('TimeClockComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [TimeClockComponent, ProjectListHoverComponent, FilterProjectPipe, EntryFieldsComponent],
+        imports: [HttpClientTestingModule, NgSelectModule, NgxMaterialTimepickerModule, FormsModule, ReactiveFormsModule],
+        declarations: [
+          TimeClockComponent,
+          ProjectListHoverComponent,
+          FilterProjectPipe,
+          EntryFieldsComponent,
+          TechnologiesComponent,
+          TimeEntriesSummaryComponent,
+          TimeDetailsPipe
+        ],
         providers: [
           FormBuilder,
           AzureAdB2CService,
@@ -152,12 +167,11 @@ describe('TimeClockComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new StopTimeEntryRunning('id'));
   });
 
-  it('clockOut set error Activity is required', () => {
+  it('do not dispatch if Activity is missing', () => {
     spyOn(store, 'dispatch');
-    spyOn(injectedToastrService, 'error');
     spyOn(component.entryFieldsComponent, 'entryFormIsValidate').and.returnValue(false);
     component.clockOut();
 
-    expect(injectedToastrService.error).toHaveBeenCalled();
+    expect(store.dispatch).not.toHaveBeenCalled();
   });
 });

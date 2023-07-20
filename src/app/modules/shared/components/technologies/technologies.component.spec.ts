@@ -1,11 +1,15 @@
 import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
 
 import {TechnologyState} from '../../store/technology.reducers';
 import {allTechnologies} from '../../store/technology.selectors';
 import {TechnologiesComponent} from './technologies.component';
 import * as actions from '../../store/technology.actions';
+
 
 describe('Technologies component', () => {
   let component: TechnologiesComponent;
@@ -24,7 +28,7 @@ describe('Technologies component', () => {
     TestBed.configureTestingModule({
       declarations: [TechnologiesComponent],
       providers: [provideMockStore({initialState: state})],
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [FormsModule, ReactiveFormsModule, NgSelectModule, MatDatepickerModule, MatIconModule],
     }).compileComponents();
     store = TestBed.inject(MockStore);
     mockTechnologySelector = store.overrideSelector(allTechnologies, state.technologies);

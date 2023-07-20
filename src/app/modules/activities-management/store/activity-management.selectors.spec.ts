@@ -1,6 +1,18 @@
+import { TestBed } from '@angular/core/testing';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import * as selectors from './activity-management.selectors';
+import { SpinnerOverlayComponent } from '../../shared/components/spinner-overlay/spinner-overlay.component';
+
 
 describe('ActivityManagement Selectors', () => {
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ MatProgressSpinnerModule ],
+      declarations: [ SpinnerOverlayComponent ],
+    }).compileComponents();
+  });
 
   it('reads activityIdtoEdit from state', () => {
     const activityId = 'id';
