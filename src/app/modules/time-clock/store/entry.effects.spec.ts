@@ -401,7 +401,7 @@ describe('TimeEntryActionEffects', () => {
     });
   });
 
-  fit('should show a warning when maximum number of entries is received', async () => {
+  it('should show a warning when maximum number of entries is received', async () => {
     const timeRange: TimeEntriesTimeRange = { start_date: moment(new Date()), end_date: moment(new Date()) };
     const userId = '*';
     const entries = [];
