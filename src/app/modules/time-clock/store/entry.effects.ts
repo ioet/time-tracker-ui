@@ -5,7 +5,7 @@ import { Action } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { EntryService } from '../services/entry.service';
+import { EntryService, MAX_NUMBER_OF_ENTRIES_FOR_REPORTS } from '../services/entry.service';
 import * as actions from './entry.actions';
 import * as moment from 'moment';
 
@@ -241,7 +241,7 @@ export class EntryEffects {
           if (isStartTimeInLastEntry) {
             return new actions.UpdateEntry({ id: lastEntry.id, end_date: entry.start_date });
           } else {
-            this.toastrService.success('You change the time-in successfully');
+            this.toastrService.success('You changed the time-in successfully');
             return new actions.UpdateEntryRunning(entry);
           }
         }),
@@ -260,6 +260,13 @@ export class EntryEffects {
     mergeMap((action) =>
       this.entryService.loadEntriesByTimeRange(action.timeRange, action.userId).pipe(
         map((response) => {
+          if (response.length >= MAX_NUMBER_OF_ENTRIES_FOR_REPORTS){
+            this.toastrService.warning(
+              'Still loading. Limit of ' + MAX_NUMBER_OF_ENTRIES_FOR_REPORTS +
+              ' entries reached, try filtering the request by users or date.' +
+              ' Some information may be missing.'
+            );
+          }
           return new actions.LoadEntriesByTimeRangeSuccess(response);
         }),
         catchError((error) => {
