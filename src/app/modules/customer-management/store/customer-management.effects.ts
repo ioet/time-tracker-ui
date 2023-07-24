@@ -1,4 +1,4 @@
-import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY } from '../../shared/messages';
+import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY, DUPLICATED_ERROR } from '../../shared/messages';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -46,7 +46,7 @@ export class CustomerEffects {
           return new actions.CreateCustomerSuccess(customerData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.toastrService.error(error.error);
           return of(new actions.CreateCustomerFail(error));
         })
       )

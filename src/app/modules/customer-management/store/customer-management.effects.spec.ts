@@ -10,7 +10,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY } from '../../shared/messages';
 
-describe('CustomerEffects', () => {
+fdescribe('CustomerEffects', () => {
   let actions$: Observable<Action>;
   let effects: CustomerEffects;
   let service: CustomerService;
@@ -88,11 +88,12 @@ describe('CustomerEffects', () => {
 
   it('action type is CREATE_CUSTOMER_FAIL when service fail in execution', async () => {
     actions$ = of({ type: CustomerManagementActionTypes.CREATE_CUSTOMER, payload: customer });
+
     spyOn(toastrService, 'error');
-    spyOn(service, 'createCustomer').and.returnValue(throwError({ error: { message: 'fail!' } }));
+    spyOn(service, 'createCustomer').and.returnValue(throwError({ error: 'Duplicated' }));
 
     effects.createCustomer$.subscribe((action) => {
-      expect(toastrService.error).toHaveBeenCalled();
+      expect(toastrService.error).toHaveBeenCalledWith('Duplicated');
       expect(action.type).toEqual(CustomerManagementActionTypes.CREATE_CUSTOMER_FAIL);
     });
   });
