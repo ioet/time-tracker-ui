@@ -10,7 +10,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { INFO_SAVED_SUCCESSFULLY, INFO_DELETE_SUCCESSFULLY } from '../../shared/messages';
 
-fdescribe('CustomerEffects', () => {
+describe('CustomerEffects', () => {
   let actions$: Observable<Action>;
   let effects: CustomerEffects;
   let service: CustomerService;
