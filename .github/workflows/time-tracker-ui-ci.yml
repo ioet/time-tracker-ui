@@ -13,11 +13,6 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     env:
-        WORKING_DIR: infrastructure/
-        ARM_CLIENT_ID: ${{secrets.TF_ARM_CLIENT_ID}}
-        ARM_CLIENT_SECRET: ${{secrets.TF_ARM_CLIENT_SECRET}}
-        ARM_SUBSCRIPTION_ID: ${{secrets.TF_ARM_SUBSCRIPTION_ID}}
-        ARM_TENANT_ID: ${{secrets.TF_ARM_TENANT_ID}}
         AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
 
@@ -26,11 +21,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-
-    - name: Authenticate with the TF modules repository
-      uses: webfactory/ssh-agent@v0.5.4
-      with:
-        ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
 
     - name: build docker
       run: make build
@@ -43,87 +33,3 @@ jobs:
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: bash <(curl -s https://codecov.io/bash)
-
-    - name: Setup terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.1.9
-
-    - name: 'Terraform Init'
-      id: init
-      working-directory: ./${{ env.WORKING_DIR }}
-      run: terraform init
-
-    - name: 'Terraform validate'
-      id: validate
-      working-directory: ./${{ env.WORKING_DIR }}
-      run: terraform validate
-
-    - name: Terraform Plan Stage
-      id: plan-stage
-      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
-      continue-on-error: true
-      working-directory: ./${{ env.WORKING_DIR }}
-      env:
-        TF_WORKSPACE: stage
-
-    - name: Terraform Plan Prod
-      id: plan-prod
-      run: terraform plan -var-file=${{ env.TF_WORKSPACE }}.tfvars -var image_tag=latest -no-color
-      continue-on-error: true
-      working-directory: ./${{ env.WORKING_DIR }}
-      env:
-        TF_WORKSPACE: prod
-
-    - name: Update Pull Request with Stage Plan
-      uses: actions/github-script@0.9.0
-      if: github.event_name == 'pull_request'
-      env:
-        PLAN: "terraform\n${{ steps.plan-stage.outputs.stdout }}"
-        TF_WORKSPACE: stage
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const output = `#### [${{ env.WORKING_DIR }}][${{ env.TF_WORKSPACE }}] Terraform Plan 📖 \`${{ steps.plan-stage.outcome }}\`
-          <details><summary>Show Plan</summary>
-          \`\`\`\n
-          ${process.env.PLAN}
-          \`\`\`
-          </details>
-          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-          github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
-
-    - name: Update Pull Request with Prod Plan
-      uses: actions/github-script@0.9.0
-      if: github.event_name == 'pull_request'
-      env:
-        PLAN: "terraform\n${{ steps.plan-prod.outputs.stdout }}"
-        TF_WORKSPACE: prod
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const output = `#### [${{ env.WORKING_DIR }}][${{ env.TF_WORKSPACE }}] Terraform Plan 📖 \`${{ steps.plan-prod.outcome }}\`
-          <details><summary>Show Plan</summary>
-          \`\`\`\n
-          ${process.env.PLAN}
-          \`\`\`
-          </details>
-          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-          github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
-    - name: Terraform Plan Stage Status
-      if: steps.plan-stage.outcome == 'failure'
-      run: exit 1
-
-    - name: Terraform Plan Prod Status
-      if: steps.plan-prod.outcome == 'failure'
-      run: exit 1
