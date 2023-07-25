@@ -88,11 +88,12 @@ describe('CustomerEffects', () => {
 
   it('action type is CREATE_CUSTOMER_FAIL when service fail in execution', async () => {
     actions$ = of({ type: CustomerManagementActionTypes.CREATE_CUSTOMER, payload: customer });
+
     spyOn(toastrService, 'error');
-    spyOn(service, 'createCustomer').and.returnValue(throwError({ error: { message: 'fail!' } }));
+    spyOn(service, 'createCustomer').and.returnValue(throwError({ error: 'Duplicated' }));
 
     effects.createCustomer$.subscribe((action) => {
-      expect(toastrService.error).toHaveBeenCalled();
+      expect(toastrService.error).toHaveBeenCalledWith('Duplicated');
       expect(action.type).toEqual(CustomerManagementActionTypes.CREATE_CUSTOMER_FAIL);
     });
   });

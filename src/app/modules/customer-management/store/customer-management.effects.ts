@@ -46,7 +46,7 @@ export class CustomerEffects {
           return new actions.CreateCustomerSuccess(customerData);
         }),
         catchError((error) => {
-          this.toastrService.error(error.error.message);
+          this.toastrService.error(error.error);
           return of(new actions.CreateCustomerFail(error));
         })
       )
