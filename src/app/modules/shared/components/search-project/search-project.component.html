@@ -1,0 +1,8 @@
+<div class="form-group" >
+  <label>Projects: </label>
+
+  <ng-select [(ngModel)]="selectedProject" [multiple]="false"  placeholder="Select project" (change)="updateProject()" class="selectProject">
+    <ng-option  *ngFor="let project of projects" value={{project.id}}> <strong>{{project.customer.name}}</strong> - {{project.name}}</ng-option >
+  </ng-select>
+
+</div>

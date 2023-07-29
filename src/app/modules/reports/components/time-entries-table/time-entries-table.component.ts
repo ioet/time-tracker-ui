@@ -5,7 +5,7 @@ import { DataTableDirective } from 'angular-datatables';
 import * as moment from 'moment';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Entry } from 'src/app/modules/shared/models';
+import { Entry, Project } from 'src/app/modules/shared/models';
 import { DataSource } from 'src/app/modules/shared/models/data-source.model';
 import { EntryState } from '../../../time-clock/store/entry.reducer';
 import { getReportDataSource, getResultSumEntriesSelected } from '../../../time-clock/store/entry.selectors';
@@ -13,6 +13,7 @@ import { TotalHours } from '../../models/total-hours-report';
 import { User } from 'src/app/modules/users/models/users';
 import { LoadUsers, UserActionTypes } from 'src/app/modules/users/store/user.actions';
 import { ParseDateTimeOffset } from '../../../shared/formatters/parse-date-time-offset/parse-date-time-offset';
+import { LoadProjects, ProjectActionTypes } from 'src/app/modules/customer-management/components/projects/components/store/project.actions';
 
 @Component({
   selector: 'app-time-entries-table',
@@ -21,11 +22,13 @@ import { ParseDateTimeOffset } from '../../../shared/formatters/parse-date-time-
 })
 export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() selectedUserId = new EventEmitter<string>();
+  @Output() selectedProjectId = new EventEmitter<string>();
 
   selectOptionValues = [15, 30, 50, 100, -1];
   selectOptionNames = [15, 30, 50, 100, 'All'];
   totalTimeSelected: moment.Duration;
   users: User[] = [];
+  projects: Project[] = [];
   removeFirstColumn = 'th:not(:first)';
 
   dtOptions: any = {
@@ -82,9 +85,13 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
   resultSumEntriesSelected$: Observable<TotalHours>;
   totalHoursSubscription: Subscription;
   dateTimeOffset: ParseDateTimeOffset;
+  listProjects: Project[] = [];
 
-
-  constructor(private store: Store<EntryState>, private actionsSubject$: ActionsSubject, private storeUser: Store<User> ) {
+  constructor(private store: Store<EntryState>,
+              private actionsSubject$: ActionsSubject,
+              private storeUser: Store<User>,
+              private storeProject: Store<Project>
+    ) {
       this.reportDataSource$ = this.store.pipe(select(getReportDataSource));
       this.resultSumEntriesSelected$ = this.store.pipe(select(getResultSumEntriesSelected));
       this.dateTimeOffset = new ParseDateTimeOffset();
@@ -102,6 +109,23 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       });
   }
 
+  uploadProjects(): void {
+    this.storeProject.dispatch(new LoadProjects());
+    this.actionsSubject$
+      .pipe(filter((action: any) => action.type === ProjectActionTypes.LOAD_PROJECTS_SUCCESS))
+      .subscribe((action) => {
+        const sortProjects = [...action.payload];
+        sortProjects.sort((a, b) => a.name.localeCompare(b.name));
+        this.projects = sortProjects;
+        this.projects = this.projects.filter(project => project.status === 'active');
+        this.projects.forEach((project) => {
+          const projectWithSearchField = { ...project };
+          projectWithSearchField.search_field = `${project.customer.name} - ${project.name}`;
+          this.listProjects.push(projectWithSearchField);
+        });
+      });
+  }
+
   ngOnInit(): void {
     this.rerenderTableSubscription = this.reportDataSource$.subscribe((ds) => {
       this.totalHoursSubscription = this.resultSumEntriesSelected$.subscribe((actTotalHours) => {
@@ -112,6 +136,7 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
       this.rerenderDataTable();
     });
     this.uploadUsers();
+    this.uploadProjects();
   }
 
   ngAfterViewInit(): void {
@@ -170,6 +195,10 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
 
   user(userId: string) {
     this.selectedUserId.emit(userId);
+  }
+
+  project(projectId: string) {
+    this.selectedProjectId.emit(projectId);
   }
 
   sumHoursEntriesSelected(entry: Entry, checked: boolean){
