@@ -102,6 +102,7 @@ import { V2RedirectComponent } from './modules/v2-redirect/v2-redirect.component
 import { SpinnerOverlayComponent } from './modules/shared/components/spinner-overlay/spinner-overlay.component';
 import { SpinnerInterceptor } from './modules/shared/interceptors/spinner.interceptor';
 import { SearchProjectComponent } from './modules/shared/components/search-project/search-project.component';
+import { SearchActivityComponent } from './modules/shared/components/search-activity/search-activity.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -144,6 +145,7 @@ const maskConfig: Partial<IConfig> = {
     TechnologiesComponent,
     SearchUserComponent,
     SearchProjectComponent,
+    SearchActivityComponent,
     TimeEntriesSummaryComponent,
     TimeDetailsPipe,
     InputLabelComponent,

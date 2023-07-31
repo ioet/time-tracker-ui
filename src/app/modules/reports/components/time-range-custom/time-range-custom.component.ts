@@ -25,6 +25,8 @@ import { TimeRangeHeaderComponent } from './time-range-header/time-range-header.
 })
 export class TimeRangeCustomComponent implements OnInit, OnChanges {
   @Input() userId: string;
+  @Input() projectId: string;
+  @Input() activityId: string;
   customHeader = TimeRangeHeaderComponent;
   range = new FormGroup({
     start: new FormControl(null),
@@ -40,6 +42,12 @@ export class TimeRangeCustomComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges){
     if (!changes.userId.firstChange){
+      this.onSubmit();
+    }
+    if (!changes.projectId.firstChange){
+      this.onSubmit();
+    }
+    if (!changes.activityId.firstChange){
       this.onSubmit();
     }
   }
@@ -62,7 +70,7 @@ export class TimeRangeCustomComponent implements OnInit, OnChanges {
       this.store.dispatch(new entryActions.LoadEntriesByTimeRange({
         start_date: moment(this.range.getRawValue().start).startOf('day'),
         end_date: moment(this.range.getRawValue().end).endOf('day'),
-      }, this.userId));
+      }, this.userId, this.projectId, this.activityId));
     }
   }
 

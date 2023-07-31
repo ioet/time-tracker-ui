@@ -70,8 +70,7 @@ export class LoadEntriesSummary implements Action {
 export class LoadEntriesSummarySuccess implements Action {
   readonly type = EntryActionTypes.LOAD_ENTRIES_SUMMARY_SUCCESS;
 
-  constructor(readonly payload: TimeEntriesSummary) {
-  }
+  constructor(readonly payload: TimeEntriesSummary) {}
 }
 
 export class LoadEntriesSummaryFail implements Action {
@@ -85,43 +84,37 @@ export class LoadActiveEntry implements Action {
 export class LoadActiveEntrySuccess implements Action {
   readonly type = EntryActionTypes.LOAD_ACTIVE_ENTRY_SUCCESS;
 
-  constructor(readonly payload) {
-  }
+  constructor(readonly payload) {}
 }
 
 export class LoadActiveEntryFail implements Action {
   public readonly type = EntryActionTypes.LOAD_ACTIVE_ENTRY_FAIL;
 
-  constructor(public error: string) {
-  }
+  constructor(public error: string) {}
 }
 
 export class LoadEntries implements Action {
   public readonly type = EntryActionTypes.LOAD_ENTRIES;
 
-  constructor(public month: number, public year: number) {
-  }
+  constructor(public month: number, public year: number) {}
 }
 
 export class LoadEntriesSuccess implements Action {
   readonly type = EntryActionTypes.LOAD_ENTRIES_SUCCESS;
 
-  constructor(readonly payload: Entry[]) {
-  }
+  constructor(readonly payload: Entry[]) {}
 }
 
 export class LoadEntriesFail implements Action {
   public readonly type = EntryActionTypes.LOAD_ENTRIES_FAIL;
 
-  constructor(public error: string) {
-  }
+  constructor(public error: string) {}
 }
 
 export class CreateEntry implements Action {
   public readonly type = EntryActionTypes.CREATE_ENTRY;
 
-  constructor(public payload: NewEntry) {
-  }
+  constructor(public payload: NewEntry) {}
 }
 
 export class CreateEntrySuccess implements Action {
@@ -132,104 +125,89 @@ export class CreateEntrySuccess implements Action {
 export class CreateEntryFail implements Action {
   public readonly type = EntryActionTypes.CREATE_ENTRY_FAIL;
 
-  constructor(public error: string) {
-  }
+  constructor(public error: string) {}
 }
 
 export class DeleteEntry implements Action {
   public readonly type = EntryActionTypes.DELETE_ENTRY;
 
-  constructor(public entryId: string) {
-  }
+  constructor(public entryId: string) {}
 }
 
 export class DeleteEntrySuccess implements Action {
   public readonly type = EntryActionTypes.DELETE_ENTRY_SUCCESS;
 
-  constructor(public entryId: string) {
-  }
+  constructor(public entryId: string) {}
 }
 
 export class DeleteEntryFail implements Action {
   public readonly type = EntryActionTypes.DELETE_ENTRY_FAIL;
 
-  constructor(public error: string) {
-  }
+  constructor(public error: string) {}
 }
 
 export class UpdateEntryRunning implements Action {
   public readonly type = EntryActionTypes.UPDATE_ENTRY_RUNNING;
 
-  constructor(public payload) {
-  }
+  constructor(public payload) {}
 }
 
 export class UpdateEntry implements Action {
   public readonly type = EntryActionTypes.UPDATE_ENTRY;
 
-  constructor(public payload) {
-  }
+  constructor(public payload) {}
 }
 
 export class UpdateEntrySuccess implements Action {
   public readonly type = EntryActionTypes.UPDATE_ENTRY_SUCCESS;
 
-  constructor(public payload: Entry) {
-  }
+  constructor(public payload: Entry) {}
 }
 
 export class UpdateEntryFail implements Action {
   public readonly type = EntryActionTypes.UPDATE_ENTRY_FAIL;
 
-  constructor(public error: string) {
-  }
+  constructor(public error: string) {}
 }
 
 export class UpdateCurrentOrLastEntry implements Action {
   public readonly type = EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY;
 
-  constructor(public payload) {
-  }
+  constructor(public payload) {}
 }
 export class UpdateCurrentOrLastEntryFail implements Action {
   public readonly type = EntryActionTypes.UPDATE_CURRENT_OR_LAST_ENTRY_FAIL;
 
-  constructor(public error: string) {
-  }
+  constructor(public error: string) {}
 }
 export class StopTimeEntryRunning implements Action {
   public readonly type = EntryActionTypes.STOP_TIME_ENTRY_RUNNING;
 
-  constructor(readonly payload: string) {
-  }
+  constructor(readonly payload: string) {}
 }
 
 export class StopTimeEntryRunningSuccess implements Action {
   public readonly type = EntryActionTypes.STOP_TIME_ENTRY_RUNNING_SUCCESS;
 
-  constructor(readonly payload) {
-  }
+  constructor(readonly payload) {}
 }
 
 export class StopTimeEntryRunningFail implements Action {
   public readonly type = EntryActionTypes.STOP_TIME_ENTRY_RUNNING_FAILED;
 
-  constructor(public error: string) {
-  }
+  constructor(public error: string) {}
 }
 
 export class CleanEntryCreateError implements Action {
   public readonly type = EntryActionTypes.CLEAN_ENTRY_CREATE_ERROR;
 
-  constructor(public error: boolean) {
-  }
+  constructor(public error: boolean) {}
 }
 
 export class CleanEntryUpdateError implements Action {
   public readonly type = EntryActionTypes.CLEAN_ENTRY_UPDATE_ERROR;
 
-  constructor(public error: boolean) {
-  }
+  constructor(public error: boolean) {}
 }
 
 export class DefaultEntry implements Action {
@@ -239,15 +217,18 @@ export class DefaultEntry implements Action {
 export class LoadEntriesByTimeRange implements Action {
   public readonly type = EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE;
 
-  constructor(readonly timeRange: TimeEntriesTimeRange, readonly userId: string = '*') {
-  }
+  constructor(
+    readonly timeRange: TimeEntriesTimeRange,
+    readonly userId: string = '*',
+    readonly projectId: string = '*',
+    readonly activityId: string = '*'
+  ) {}
 }
 
 export class LoadEntriesByTimeRangeSuccess implements Action {
   readonly type = EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE_SUCCESS;
 
-  constructor(readonly payload: Entry[]) {
-  }
+  constructor(readonly payload: Entry[]) {}
 }
 
 export class LoadEntriesByTimeRangeFail implements Action {
@@ -257,22 +238,19 @@ export class LoadEntriesByTimeRangeFail implements Action {
 export class RestartEntry implements Action {
   readonly type = EntryActionTypes.RESTART_ENTRY;
 
-  constructor(readonly entry: Entry) {
-  }
+  constructor(readonly entry: Entry) {}
 }
 
 export class RestartEntrySuccess implements Action {
   readonly type = EntryActionTypes.RESTART_ENTRY_SUCCESS;
 
-  constructor(readonly payload: Entry) {
-  }
+  constructor(readonly payload: Entry) {}
 }
 
 export class RestartEntryFail implements Action {
   public readonly type = EntryActionTypes.RESTART_ENTRY_FAIL;
 
-  constructor(public error: string) {
-  }
+  constructor(public error: string) {}
 }
 
 export type EntryActions =

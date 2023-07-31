@@ -5,18 +5,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   templateUrl: './search-project.component.html',
   styleUrls: ['./search-project.component.scss'],
 })
-
 export class SearchProjectComponent {
-
   readonly ALLOW_SELECT_MULTIPLE = false;
-  selectedProject: string[];
+  selectedProject: string;
 
   @Input() projects: string[] = [];
 
-  @Output() selectedProjectId = new EventEmitter<string[] | string>();
+  @Output() selectedProjectId = new EventEmitter<string>();
 
   updateProject() {
-    this.selectedProjectId.emit(this.selectedProject.length === 0 ? '*' : this.selectedProject);
+    this.selectedProjectId.emit(this.selectedProject || '*');
   }
 }
-

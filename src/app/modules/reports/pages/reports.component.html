@@ -1,2 +1,2 @@
-<app-time-range-custom [userId]="userId"></app-time-range-custom>
-<app-time-entries-table (selectedUserId)="user($event)"></app-time-entries-table>
+<app-time-range-custom [userId]="userId" [projectId]="projectId" [activityId]="activityId"></app-time-range-custom>
+<app-time-entries-table (selectedUserId)="user($event)" (selectedProjectId)="project($event)" (selectedActivityId)="activity($event)"></app-time-entries-table>

@@ -16,6 +16,8 @@ import { DateAdapter } from '@angular/material/core';
 export class TimeRangeFormComponent implements OnInit, OnChanges {
 
   @Input() userId: string;
+  @Input() projectId: string;
+  @Input() activityId: string;
 
   public reportForm: FormGroup;
   private startDate = new FormControl('');
@@ -37,6 +39,12 @@ export class TimeRangeFormComponent implements OnInit, OnChanges {
     if (!changes.userId.firstChange){
       this.onSubmit();
     }
+    if (!changes.projectId.firstChange){
+      this.onSubmit();
+    }
+    if (!changes.activityId.firstChange){
+      this.onSubmit();
+    }
   }
 
   setInitialDataOnScreen() {
@@ -56,7 +64,7 @@ export class TimeRangeFormComponent implements OnInit, OnChanges {
       this.store.dispatch(new entryActions.LoadEntriesByTimeRange({
         start_date: moment(this.startDate.value).startOf('day'),
         end_date: moment(this.endDate.value).endOf('day'),
-      }, this.userId));
+      }, this.userId, this.projectId, this.activityId));
     }
   }
 }

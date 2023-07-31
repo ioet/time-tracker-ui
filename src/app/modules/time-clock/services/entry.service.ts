@@ -10,13 +10,21 @@ import { DatePipe } from '@angular/common';
 import { Entry } from '../../shared/models';
 import * as moment from 'moment';
 
+interface QueryParams {
+  start_date: string;
+  end_date: string;
+  user_id: string | string[];
+  limit: string;
+  timezone_offset: string;
+  project_id?: string;
+  activity_id?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class EntryService {
-
-  constructor(private http: HttpClient, private datePipe: DatePipe) {
-  }
+  constructor(private http: HttpClient, private datePipe: DatePipe) {}
 
   static TIME_ENTRIES_DATE_TIME_FORMAT = 'yyyy-MM-ddTHH:mm:ssZZZZZ';
   baseUrl = `${environment.timeTrackerApiUrl}/time-entries`;
@@ -36,7 +44,7 @@ export class EntryService {
   }
 
   updateEntry(entryData): Observable<any> {
-    const {id} = entryData;
+    const { id } = entryData;
     return this.http.put(`${this.baseUrl}/${id}`, entryData);
   }
 
@@ -46,8 +54,9 @@ export class EntryService {
   }
 
   stopEntryRunning(idEntry: string): Observable<any> {
-    return (this.urlInProductionLegacy ?
-      this.http.post(`${this.baseUrl}/${idEntry}/stop/`, null) : this.http.put(`${this.baseUrl}/stop/`, null) );
+    return this.urlInProductionLegacy
+      ? this.http.post(`${this.baseUrl}/${idEntry}/stop/`, null)
+      : this.http.put(`${this.baseUrl}/stop/`, null);
   }
 
   restartEntry(idEntry: string): Observable<Entry> {
@@ -68,24 +77,31 @@ export class EntryService {
     return this.http.get<Entry[]>(findEntriesByProjectURL);
   }
 
-  loadEntriesByTimeRange(range: TimeEntriesTimeRange, userId: string[] | string ): Observable<any> {
+  loadEntriesByTimeRange(
+    range: TimeEntriesTimeRange,
+    userId: string[] | string,
+    projectId: string,
+    activityId: string
+  ): Observable<any> {
     const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
     const loadEntriesByTimeRangeURL = this.urlInProductionLegacy ? this.baseUrl : this.baseUrl + '/report/';
-    return this.http.get(loadEntriesByTimeRangeURL,
-      {
-        params: {
-          start_date: this.datePipe.transform(range.start_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
-          end_date: this.datePipe.transform(range.end_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
-          user_id: userId,
-          limit: `${MAX_NUMBER_OF_ENTRIES_FOR_REPORTS}`,
-          timezone_offset : new Date().getTimezoneOffset().toString(),
-        }
-      }
-    );
+    const queryParams: QueryParams = {
+      start_date: this.datePipe.transform(range.start_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
+      end_date: this.datePipe.transform(range.end_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
+      user_id: userId,
+      limit: `${MAX_NUMBER_OF_ENTRIES_FOR_REPORTS}`,
+      timezone_offset: new Date().getTimezoneOffset().toString(),
+    };
+    if (projectId !== '*') {queryParams.project_id = projectId; }
+    if (activityId !== '*') {queryParams.activity_id = activityId; }
+
+    return this.http.get(loadEntriesByTimeRangeURL, {
+      params: { ...queryParams },
+    });
   }
 
   getDateLastMonth() {
-    return (moment().subtract(1, 'months')).format();
+    return moment().subtract(1, 'months').format();
   }
 
   getCurrentDate() {
