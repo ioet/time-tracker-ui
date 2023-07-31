@@ -80,8 +80,8 @@ export class EntryService {
   loadEntriesByTimeRange(
     range: TimeEntriesTimeRange,
     userId: string[] | string,
-    projectId: string,
-    activityId: string
+    projectId?: string,
+    activityId?: string
   ): Observable<any> {
     const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
     const loadEntriesByTimeRangeURL = this.urlInProductionLegacy ? this.baseUrl : this.baseUrl + '/report/';
