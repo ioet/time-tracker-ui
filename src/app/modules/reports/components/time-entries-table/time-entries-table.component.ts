@@ -136,12 +136,8 @@ export class TimeEntriesTableComponent implements OnInit, OnDestroy, AfterViewIn
         this.projects.sort((a, b) => {
           const x = a.customer.name.toLowerCase();
           const y = b.customer.name.toLowerCase();
-          if (x > y) {
-            return 1;
-          }
-          if (x < y) {
-            return -1;
-          }
+          if (x > y) {return 1; }
+          if (x < y) {return -1; }
           return 0;
         });
         this.projects.forEach((project) => {
