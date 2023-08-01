@@ -147,9 +147,9 @@ describe('Reports Page', () => {
     });
 
     it('When the ngOnChanges method is the first change, the onSubmit method is not called', () => {
-      const userIdNotCalled = 'test-user-2';
-      const projectIdNotCalled = 'test-project';
-      const activityIdNotCalled = 'test-activity';
+      const userIdNotCalled = 'test_user_id';
+      const projectIdNotCalled = 'test-project_id';
+      const activityIdNotCalled = 'test-activity_id';
       spyOn(component, 'onSubmit');
 
       component.ngOnChanges({

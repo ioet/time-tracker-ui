@@ -295,11 +295,11 @@ describe('Reports Page', () => {
       const customerObj: Customer = { name: 'name' };
       const projectsArray: Project[] = [
         {
-          id: 'test_id',
+          id: 'projectId',
           customer_id: 'customer_id',
           customer: customerObj,
           name: 'name',
-          description: 'description',
+          description: 'proejectDescription',
           project_type_id: 'project_type_id',
           status: 'active',
         },
@@ -313,12 +313,12 @@ describe('Reports Page', () => {
     });
 
     it('Should populate the activities with the payload from the action executed', () => {
-      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+      const Subject = TestBed.inject(ActionsSubject) as ActionsSubject;
       const activitiesArray: Activity[] = [
         {
-          id: 'test_id',
-          name: 'name',
-          description: 'description',
+          id: 'activityId',
+          name: 'activityName',
+          description: 'activityDescription',
           status: 'string'
         },
       ];
@@ -326,7 +326,7 @@ describe('Reports Page', () => {
         type: ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS,
         payload: activitiesArray,
       };
-      actionSubject.next(action);
+      Subject.next(action);
       expect(component.activities).toEqual(activitiesArray);
     });
 
