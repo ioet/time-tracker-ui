@@ -1,5 +1,4 @@
 <div class="form-group" >
-  <label>Activity: </label>
 
   <ng-select [(ngModel)]="selectedActivity" [multiple]="false"  placeholder="Select activity" (change)="updateActivity()" class="selectActivity">
     <ng-option  *ngFor="let activity of activities" value={{activity.id}}>{{activity.name}}</ng-option >
