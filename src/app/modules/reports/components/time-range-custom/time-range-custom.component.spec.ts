@@ -40,9 +40,7 @@ describe('TimeRangeCustomComponent', () => {
     entriesForReport: [timeEntry],
   };
 
-  const userId = 'test-userId';
-  const projectId = 'test-projectId';
-  const activityId = 'test-activityId';
+  const [userId, projectId, activityId] = ['test-userId', 'test-projectId', 'test-activityId'];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

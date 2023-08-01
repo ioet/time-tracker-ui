@@ -42,9 +42,7 @@ describe('Reports Page', () => {
       entriesForReport: [timeEntry],
     };
 
-    const userId = 'test-userId';
-    const projectId = 'test-projectId';
-    const activityId = 'test-activityId';
+    const [userId, projectId, activityId] = ['test-userId', 'test-projectId', 'test-activityId'];
 
     beforeEach(
       waitForAsync(() => {
@@ -135,9 +133,6 @@ describe('Reports Page', () => {
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
-    const userIdCalled = 'test-user-2';
-    const projectIdCalled = 'test-project';
-    const activityIdCalled = 'test-activity';
     it('When the ngOnChanges method is called, the onSubmit method is called', () => {
       spyOn(component, 'onSubmit');
 
