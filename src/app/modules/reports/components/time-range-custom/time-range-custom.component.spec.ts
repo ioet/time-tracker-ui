@@ -131,15 +131,15 @@ describe('TimeRangeCustomComponent', () => {
   });
 
   it('When the ngOnChanges method is the first change, the onSubmit method is not called', () => {
-    const userIdNotCalled = 'user-2';
-    const projectIdNotCalled = 'project_id';
-    const activityIdNotCalled = 'activity_id';
+    const userId = 'user-2';
+    const projectId = 'project_id';
+    const activityId = 'activity_id';
     spyOn(component, 'onSubmit');
 
     component.ngOnChanges({
-      userId: new SimpleChange(null, userIdNotCalled, true),
-      projectId: new SimpleChange(null, projectIdNotCalled, true),
-      activityId: new SimpleChange(null, activityIdNotCalled, true),
+      userId: new SimpleChange(null, userId, true),
+      projectId: new SimpleChange(null, projectId, true),
+      activityId: new SimpleChange(null, activityId, true),
     });
 
     expect(component.onSubmit).not.toHaveBeenCalled();
