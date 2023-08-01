@@ -131,11 +131,8 @@ describe('TimeRangeCustomComponent', () => {
   });
 
   it('When the ngOnChanges method is the first change, the onSubmit method is not called', () => {
+    const [userId, projectId, activityId] = ['user-2', 'project_id', 'activity_id'];
     spyOn(component, 'onSubmit');
-
-    const userId = 'user-2';
-    const projectId = 'project_id';
-    const activityId = 'activity_id';
 
     component.ngOnChanges({
       userId: new SimpleChange(null, userId, true),
