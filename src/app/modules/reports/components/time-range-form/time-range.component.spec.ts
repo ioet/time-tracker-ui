@@ -42,6 +42,10 @@ describe('Reports Page', () => {
       entriesForReport: [timeEntry],
     };
 
+    const userId = 'test-userId';
+    const projectId = 'test-projectId';
+    const activityId = 'test-activityId';
+
     beforeEach(
       waitForAsync(() => {
         TestBed.configureTestingModule({
@@ -131,23 +135,22 @@ describe('Reports Page', () => {
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
+    const userIdCalled = 'test-user-2';
+    const projectIdCalled = 'test-project';
+    const activityIdCalled = 'test-activity';
     it('When the ngOnChanges method is called, the onSubmit method is called', () => {
-      const userIdCalled = 'test-user-2';
-      const projectIdCalled = 'test-project';
-      const activityIdCalled = 'test-activity';
       spyOn(component, 'onSubmit');
 
       component.ngOnChanges({
-        userId: new SimpleChange(null, userIdCalled, false),
-        projectId: new SimpleChange(null, projectIdCalled, false),
-        activityId: new SimpleChange(null, activityIdCalled, false),
+        userId: new SimpleChange(null, userId, false),
+        projectId: new SimpleChange(null, projectId, false),
+        activityId: new SimpleChange(null, activityId, false),
       });
 
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
     it('When the ngOnChanges method is the first change, the onSubmit method is not called', () => {
-      const [userId, projectId, activityId] = ['user_id', 'project_id', 'activity_id'];
       spyOn(component, 'onSubmit');
 
       component.ngOnChanges({
