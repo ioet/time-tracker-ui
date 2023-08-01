@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { DataTablesModule } from 'angular-datatables';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { Entry } from 'src/app/modules/shared/models';
+import { Activity, Entry } from 'src/app/modules/shared/models';
 import { SubstractDatePipe } from 'src/app/modules/shared/pipes/substract-date/substract-date.pipe';
 import { SubstractDatePipeDisplayAsFloat } from 'src/app/modules/shared/pipes/substract-date-return-float/substract-date-return-float.pipe';
 import { getReportDataSource, getResultSumEntriesSelected } from 'src/app/modules/time-clock/store/entry.selectors';
@@ -11,6 +11,16 @@ import { TimeEntriesTableComponent } from './time-entries-table.component';
 import { TotalHours } from '../../models/total-hours-report';
 import { ActionsSubject } from '@ngrx/store';
 import { UserActionTypes } from 'src/app/modules/users/store';
+import { ProjectActionTypes } from 'src/app/modules/customer-management/components/projects/components/store/project.actions';
+import { Project } from 'src/app/modules/shared/models';
+import { Customer } from 'src/app/modules/shared/models';
+import { SearchUserComponent } from 'src/app/modules/shared/components/search-user/search-user.component';
+import { SearchProjectComponent } from 'src/app/modules/shared/components/search-project/search-project.component';
+import { SearchActivityComponent } from 'src/app/modules/shared/components/search-activity/search-activity.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ActivityManagementActionTypes } from 'src/app/modules/activities-management/store';
 
 describe('Reports Page', () => {
   describe('TimeEntriesTableComponent', () => {
@@ -55,13 +65,13 @@ describe('Reports Page', () => {
         uri: 'custom uri',
         project_id: '123',
         project_name: 'Time-Tracker',
-      }
+      },
     ];
 
     const state: EntryState = {
       active: timeEntry,
       isLoading: false,
-      resultSumEntriesSelected:  new TotalHours(),
+      resultSumEntriesSelected: new TotalHours(),
       message: '',
       createError: false,
       updateError: false,
@@ -81,25 +91,37 @@ describe('Reports Page', () => {
     beforeEach(
       waitForAsync(() => {
         TestBed.configureTestingModule({
-          imports: [NgxPaginationModule, DataTablesModule],
-          declarations: [TimeEntriesTableComponent, SubstractDatePipe, SubstractDatePipeDisplayAsFloat],
+          imports: [
+            NgxPaginationModule,
+            DataTablesModule,
+            MatCheckboxModule,
+            NgSelectModule,
+            FormsModule,
+            ReactiveFormsModule,
+          ],
+          declarations: [
+            TimeEntriesTableComponent,
+            SubstractDatePipe,
+            SubstractDatePipeDisplayAsFloat,
+            SearchUserComponent,
+            SearchProjectComponent,
+            SearchActivityComponent,
+          ],
           providers: [provideMockStore({ initialState: state }), { provide: ActionsSubject, useValue: actionSub }],
         }).compileComponents();
-
       })
     );
 
-    beforeEach(
-      () => {
-        fixture = TestBed.createComponent(TimeEntriesTableComponent);
-        component = fixture.componentInstance;
-        store = TestBed.inject(MockStore);
-        store.setState(state);
-        getReportDataSourceSelectorMock = (store.overrideSelector(getReportDataSource, state.reportDataSource),
+    beforeEach(() => {
+      fixture = TestBed.createComponent(TimeEntriesTableComponent);
+      component = fixture.componentInstance;
+      store = TestBed.inject(MockStore);
+      store.setState(state);
+      getReportDataSourceSelectorMock =
+        (store.overrideSelector(getReportDataSource, state.reportDataSource),
         store.overrideSelector(getResultSumEntriesSelected, state.resultSumEntriesSelected));
-        fixture.detectChanges();
-      }
-    );
+      fixture.detectChanges();
+    });
 
     beforeEach(() => {
       row = 0;
@@ -144,11 +166,10 @@ describe('Reports Page', () => {
     const params = [
       { url: 'http://example.com', expected_value: true },
       { url: 'https://example.com', expected_value: true },
-      { url: 'no-url-example', expected_value: false }
+      { url: 'no-url-example', expected_value: false },
     ];
     params.map((param) => {
       it(`Given the url ${param.url}, the method isURL should return ${param.expected_value}`, () => {
-
         expect(component.isURL(param.url)).toEqual(param.expected_value);
       });
     });
@@ -160,22 +181,21 @@ describe('Reports Page', () => {
     });
 
     it('when the rerenderDataTable method is called and dtElement and dtInstance are defined, the destroy and next methods are called ',
-      () => {
-        spyOn(component.dtTrigger, 'next');
+    () => {
+      spyOn(component.dtTrigger, 'next');
 
-        component.ngAfterViewInit();
+      component.ngAfterViewInit();
 
-        component.dtElement.dtInstance.then((dtInstance) => {
-          expect(component.dtTrigger.next).toHaveBeenCalled();
-        });
+      component.dtElement.dtInstance.then((dtInstance) => {
+        expect(component.dtTrigger.next).toHaveBeenCalled();
       });
+    });
 
     it(`When the user method is called, the emit method is called`, () => {
       const userId = 'abc123';
       spyOn(component.selectedUserId, 'emit');
       component.user(userId);
       expect(component.selectedUserId.emit).toHaveBeenCalled();
-
     });
 
     it('Should populate the users with the payload from the action executed', () => {
@@ -183,11 +203,10 @@ describe('Reports Page', () => {
       const usersArray = [];
       const action = {
         type: UserActionTypes.LOAD_USERS_SUCCESS,
-        payload: usersArray
+        payload: usersArray,
       };
 
       actionSubject.next(action);
-
 
       expect(component.users).toEqual(usersArray);
     });
@@ -195,15 +214,14 @@ describe('Reports Page', () => {
     it('The sum of the data dates is equal to {"hours": 3, "minutes":20,"seconds":0}', () => {
       const { hours, minutes, seconds }: TotalHours = component.sumDates(timeEntryList);
       expect({ hours, minutes, seconds }).toEqual({ hours: 3, minutes: 20, seconds: 0 });
-
     });
 
     it('the sume of hours of entries selected is equal to {hours:0, minutes:0, seconds:0}', () => {
       let checked = true;
-      let {hours, minutes, seconds}: TotalHours = component.sumHoursEntriesSelected(timeEntryList[0], checked);
+      let { hours, minutes, seconds }: TotalHours = component.sumHoursEntriesSelected(timeEntryList[0], checked);
       checked = false;
-      ({hours, minutes, seconds} = component.sumHoursEntriesSelected(timeEntryList[0], checked));
-      expect({hours, minutes, seconds}).toEqual({hours: 0, minutes: 0, seconds: 0});
+      ({ hours, minutes, seconds } = component.sumHoursEntriesSelected(timeEntryList[0], checked));
+      expect({ hours, minutes, seconds }).toEqual({ hours: 0, minutes: 0, seconds: 0 });
     });
 
     it('should export data with the correct format', () => {
@@ -228,7 +246,7 @@ describe('Reports Page', () => {
           "ng-reflect-ng-for-of": "git"
         }--><!--ng-container--><!--bindings={
           "ng-reflect-ng-if": "true"
-        }-->`
+        }-->`,
       ];
       const dataFormat = [
         '<span matripple="" class="mat-ripple mat-checkbox-ripple mat-focus-indicator" ng-reflect-trigger="[object HTMLLabelElement]" ng-reflect-disabled="false" ng-reflect-radius="20" ng-reflect-centered="true" ng-reflect-animation="[object Object]">&nbsp;',
@@ -245,7 +263,7 @@ describe('Reports Page', () => {
         'Activity_Name',
         ' https://ioetec.atlassian.net/browse/CB-115 ',
         '',
-        ' git '
+        ' git ',
       ];
 
       data.forEach((value: any, index) => {
@@ -257,7 +275,7 @@ describe('Reports Page', () => {
     it('Should render column header called Time Zone', () => {
       const table = document.querySelector('table#time-entries-table');
       const tableHeaderElements = Array.from(table.getElementsByTagName('th'));
-      const tableHeaderTitles = tableHeaderElements.map(element => (element.textContent));
+      const tableHeaderTitles = tableHeaderElements.map((element) => element.textContent);
       expect(tableHeaderTitles).toContain('Time zone');
     });
 
@@ -272,6 +290,45 @@ describe('Reports Page', () => {
       expect(cell).toContain('UTC-5');
     });
 
+    it('Should populate the projects with the payload from the action executed', () => {
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+      const customerObj: Customer = { name: 'name' };
+      const projectsArray: Project[] = [
+        {
+          id: 'test_id',
+          customer_id: 'customer_id',
+          customer: customerObj,
+          name: 'name',
+          description: 'description',
+          project_type_id: 'project_type_id',
+          status: 'active',
+        },
+      ];
+      const action = {
+        type: ProjectActionTypes.LOAD_PROJECTS_SUCCESS,
+        payload: projectsArray,
+      };
+      actionSubject.next(action);
+      expect(component.projects).toEqual(projectsArray);
+    });
+
+    it('Should populate the activities with the payload from the action executed', () => {
+      const actionSubject = TestBed.inject(ActionsSubject) as ActionsSubject;
+      const activitiesArray: Activity[] = [
+        {
+          id: 'test_id',
+          name: 'name',
+          description: 'description',
+          status: 'string'
+        },
+      ];
+      const action = {
+        type: ActivityManagementActionTypes.LOAD_ACTIVITIES_SUCCESS,
+        payload: activitiesArray,
+      };
+      actionSubject.next(action);
+      expect(component.activities).toEqual(activitiesArray);
+    });
 
     afterEach(() => {
       fixture.destroy();
