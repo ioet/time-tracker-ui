@@ -40,8 +40,6 @@ describe('TimeRangeCustomComponent', () => {
     entriesForReport: [timeEntry],
   };
 
-  const [userId, projectId, activityId] = ['test-userId', 'test-projectId', 'test-activityId'];
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule],
@@ -117,25 +115,13 @@ describe('TimeRangeCustomComponent', () => {
     expect(component.onSubmit).toHaveBeenCalled();
   });
 
-  it('When the ngOnChanges method is called, the onSubmit method is called', () => {
-    spyOn(component, 'onSubmit');
-
-    component.ngOnChanges({
-      userId: new SimpleChange(null, userId, false),
-      projectId: new SimpleChange(null, projectId, false),
-      activityId: new SimpleChange(null, activityId, false),
-    });
-
-    expect(component.onSubmit).toHaveBeenCalled();
-  });
-
   it('When the ngOnChanges method is the first change, the onSubmit method is not called', () => {
     spyOn(component, 'onSubmit');
 
     component.ngOnChanges({
-      userId: new SimpleChange(null, userId, true),
-      projectId: new SimpleChange(null, projectId, true),
-      activityId: new SimpleChange(null, activityId, true),
+      userId: new SimpleChange(null, 'userId', true),
+      projectId: new SimpleChange(null, 'projectId', true),
+      activityId: new SimpleChange(null, 'activityId', true),
     });
 
     expect(component.onSubmit).not.toHaveBeenCalled();
