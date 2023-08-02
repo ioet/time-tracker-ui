@@ -1,0 +1,42 @@
+name: time-tracker-ui-ci
+
+on:
+  push:
+    branches:
+    - "*"
+
+  pull_request:
+    branches:
+    - "master"
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      WORKING_DIR: infrastructure/aws/
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: us-east-1
+    steps:
+      - name: Checkout to my branch
+        uses: actions/checkout@v3
+      
+      - name: Authenticate with the TF modules repository
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.INFRA_TERRAFORM_MODULES_SSH_PRIV_KEY }}
+
+      - name: Terraform init
+        run: |
+          echo "** Running Terraform Init**"
+          terraform init
+        working-directory: ./${{ env.WORKING_DIR }}
+
+      - name: Terraform validate, plan
+        run: |
+          echo "** Running Terraform Validate**"
+          terraform validate
+          echo "** Running Terraform Plan**"
+          terraform plan
+
+        working-directory: ./${{ env.WORKING_DIR }}
