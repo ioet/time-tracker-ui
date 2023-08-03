@@ -32,20 +32,9 @@ export class TimeRangeCustomComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.userId) {
-      if (!changes.userId.firstChange) {
-        this.onSubmit();
-      }
-    }
-    if (changes.projectId) {
-      if (!changes.projectId.firstChange) {
-        this.onSubmit();
-      }
-    }
-    if (changes.activityId) {
-      if (!changes.activityId.firstChange) {
-        this.onSubmit();
-      }
+    const firstChange = Object.values(changes)[0].firstChange;
+    if (!firstChange) {
+      this.onSubmit();
     }
   }
 
