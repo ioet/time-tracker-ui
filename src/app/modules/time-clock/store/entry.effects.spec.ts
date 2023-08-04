@@ -13,8 +13,7 @@ import { EntryService, MAX_NUMBER_OF_ENTRIES_FOR_REPORTS } from '../services/ent
 import { INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
 import { EntryActionTypes, SwitchTimeEntry, DeleteEntry, CreateEntry } from './entry.actions';
 import { EntryEffects } from './entry.effects';
-import { stringify } from 'querystring';
-import { isString } from 'util';
+
 
 describe('TimeEntryActionEffects', () => {
 
