@@ -10,6 +10,9 @@ import { DatePipe } from '@angular/common';
 import { Entry } from '../../shared/models';
 import * as moment from 'moment';
 
+
+export const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -69,7 +72,6 @@ export class EntryService {
   }
 
   loadEntriesByTimeRange(range: TimeEntriesTimeRange, userId: string[] | string ): Observable<any> {
-    const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
     const loadEntriesByTimeRangeURL = this.urlInProductionLegacy ? this.baseUrl : this.baseUrl + '/report/';
     return this.http.get(loadEntriesByTimeRangeURL,
       {

@@ -9,10 +9,11 @@ import * as moment from 'moment';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { Observable, of, throwError } from 'rxjs';
 import { TimeEntriesTimeRange } from '../models/time-entries-time-range';
-import { EntryService } from '../services/entry.service';
+import { EntryService, MAX_NUMBER_OF_ENTRIES_FOR_REPORTS } from '../services/entry.service';
 import { INFO_SAVED_SUCCESSFULLY } from './../../shared/messages';
 import { EntryActionTypes, SwitchTimeEntry, DeleteEntry, CreateEntry } from './entry.actions';
 import { EntryEffects } from './entry.effects';
+
 
 describe('TimeEntryActionEffects', () => {
 
@@ -385,7 +386,7 @@ describe('TimeEntryActionEffects', () => {
     spyOn(toastrService, 'success');
 
     effects.updateCurrentOrLastEntry$.subscribe(action => {
-      expect(toastrService.success).toHaveBeenCalledWith('You change the time-in successfully');
+      expect(toastrService.success).toHaveBeenCalledWith('You changed the time-in successfully');
       expect(action.type).toEqual(EntryActionTypes.UPDATE_ENTRY_RUNNING);
     });
   });
@@ -399,4 +400,26 @@ describe('TimeEntryActionEffects', () => {
     });
   });
 
+  it('should show a warning when maximum number of entries is received', async () => {
+    const timeRange: TimeEntriesTimeRange = { start_date: moment(new Date()), end_date: moment(new Date()) };
+    const userId = '*';
+    const entries = [];
+    for (let i = 0; i < MAX_NUMBER_OF_ENTRIES_FOR_REPORTS; i++){
+      entries.push({...entry, id: i.toString() });
+    }
+
+    const serviceSpy = spyOn(service, 'loadEntriesByTimeRange');
+    serviceSpy.and.returnValue(of(entries));
+    spyOn(toastrService, 'warning');
+
+    actions$ = of({ type: EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE, timeRange, userId });
+
+    effects.loadEntriesByTimeRange$.subscribe(action => {
+      expect(toastrService.warning).toHaveBeenCalledWith(
+        'Still loading. Limit of ' + MAX_NUMBER_OF_ENTRIES_FOR_REPORTS +
+        ' entries reached, try filtering the request by users or date.' +
+        ' Some information may be missing.'
+      );
+    });
+  });
 });
