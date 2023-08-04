@@ -146,7 +146,7 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
       this.checkIfActiveEntryOverlapping(isEditingEntryEqualToActiveEntry, startDateAsLocalDate);
       if (!isEditingEntryEqualToActiveEntry && isTimeEntryOverlapping || this.isActiveEntryOverlapping ) {
         const message = this.isActiveEntryOverlapping ? 'try another "Time in"' : 'try with earlier times';
-        this.toastrService.error(`You are on the clock and this entry overlaps it, ${message}.`);
+        this.toastrService.error(`There is an overlap with another time entry, please modify the time.`);
         this.isActiveEntryOverlapping = false;
       } else {
         this.doSave(event);
