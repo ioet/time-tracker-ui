@@ -263,7 +263,7 @@ export class EntryEffects {
           if (response.length >= MAX_NUMBER_OF_ENTRIES_FOR_REPORTS){
             this.toastrService.warning(
               'Still loading. Limit of ' + MAX_NUMBER_OF_ENTRIES_FOR_REPORTS +
-              ' entries reached, try filtering the request by users or date.' +
+              ' entries reached, try filtering the request.' +
               ' Some information may be missing.'
             );
           }
