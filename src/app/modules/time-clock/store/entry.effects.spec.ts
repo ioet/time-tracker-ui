@@ -417,7 +417,7 @@ describe('TimeEntryActionEffects', () => {
     effects.loadEntriesByTimeRange$.subscribe(action => {
       expect(toastrService.warning).toHaveBeenCalledWith(
         'Still loading. Limit of ' + MAX_NUMBER_OF_ENTRIES_FOR_REPORTS +
-        ' entries reached, try filtering the request by users or date.' +
+        ' entries reached, try filtering the request.' +
         ' Some information may be missing.'
       );
     });
