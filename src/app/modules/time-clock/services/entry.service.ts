@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { Entry } from '../../shared/models';
 import * as moment from 'moment';
 
+
 interface QueryParams {
   start_date: string;
   end_date: string;
@@ -19,6 +20,9 @@ interface QueryParams {
   project_id?: string;
   activity_id?: string;
 }
+
+export const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
+
 
 @Injectable({
   providedIn: 'root',
@@ -77,13 +81,14 @@ export class EntryService {
     return this.http.get<Entry[]>(findEntriesByProjectURL);
   }
 
+
   loadEntriesByTimeRange(
     range: TimeEntriesTimeRange,
     userId: string[] | string,
     projectId?: string,
     activityId?: string
   ): Observable<any> {
-    const MAX_NUMBER_OF_ENTRIES_FOR_REPORTS = 9999;
+
     const loadEntriesByTimeRangeURL = this.urlInProductionLegacy ? this.baseUrl : this.baseUrl + '/report/';
     const queryParams: QueryParams = {
       start_date: this.datePipe.transform(range.start_date, EntryService.TIME_ENTRIES_DATE_TIME_FORMAT),
