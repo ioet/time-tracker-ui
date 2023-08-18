@@ -13,7 +13,7 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 export class TechnologiesComponent implements OnInit, OnDestroy {
   readonly MAX_NUM_TECHNOLOGIES = 10;
   readonly NO_RESULTS_MESSAGE = 'No technologies found';
-  readonly TECHNOLOGIES_PLACEHOLDER = 'Time Entry Technologies';
+  readonly TECHNOLOGIES_PLACEHOLDER = 'Select Technologies';
   readonly ALLOW_SELECT_MULTIPLE = true;
   readonly ALLOW_SEARCH = true;
   readonly MIN_SEARCH_TERM_LENGTH = 2;
