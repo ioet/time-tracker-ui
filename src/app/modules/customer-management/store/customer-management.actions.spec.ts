@@ -2,14 +2,12 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import * as actions from './customer-management.actions';
 import { TimeRangeFormComponent } from '../../reports/components/time-range-form/time-range-form.component';
-import { TechnologyReportTableComponent } from '../../technology-report/components/technology-report-table/technology-report-table.component';
-
 
 describe('CustomerManagmentActions', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TimeRangeFormComponent, TechnologyReportTableComponent],
+      declarations: [TimeRangeFormComponent],
       imports: [],
     }).compileComponents();
   }));
