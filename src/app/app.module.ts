@@ -88,8 +88,6 @@ import { UsersListComponent } from './modules/users/components/users-list/users-
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 // tslint:disable-next-line: max-line-length
-import { TechnologyReportTableComponent } from './modules/technology-report/components/technology-report-table/technology-report-table.component';
-import { TechnologyReportComponent } from './modules/technology-report/pages/technology-report.component';
 import { CalendarComponent } from './modules/time-entries/components/calendar/calendar.component';
 import { DropdownComponent } from './modules/shared/components/dropdown/dropdown.component';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -153,8 +151,6 @@ const maskConfig: Partial<IConfig> = {
     LoadingBarComponent,
     UsersComponent,
     UsersListComponent,
-    TechnologyReportComponent,
-    TechnologyReportTableComponent,
     CalendarComponent,
     DropdownComponent,
     DarkModeComponent,
