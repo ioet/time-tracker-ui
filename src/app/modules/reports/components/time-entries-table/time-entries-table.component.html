@@ -62,9 +62,9 @@
         </td>
         <td class="col lg-scroll">{{ entry.description }}</td>
         <td class="col lg-scroll">
-          <ng-container *ngIf="entry.technologies.length > 0">
+          <ng-container *ngIf="entry.technologies">
             <div *ngFor="let technology of entry.technologies" class="badge bg-secondary text-wrap">
-              {{ technology }}
+                {{ technology }}
             </div>
           </ng-container>
         </td>
