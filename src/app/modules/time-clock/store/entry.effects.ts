@@ -258,7 +258,7 @@ export class EntryEffects {
     ofType(actions.EntryActionTypes.LOAD_ENTRIES_BY_TIME_RANGE),
     map((action: actions.LoadEntriesByTimeRange) => action),
     mergeMap((action) =>
-      this.entryService.loadEntriesByTimeRange(action.timeRange, action.userId).pipe(
+      this.entryService.loadEntriesByTimeRange(action.timeRange, action.userId, action.projectId, action.activityId).pipe(
         map((response) => {
           if (response.length >= MAX_NUMBER_OF_ENTRIES_FOR_REPORTS){
             this.toastrService.warning(

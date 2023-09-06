@@ -1,6 +1,12 @@
-<div class="row scroll-table mt-5 ml-0">
+<div class="flex flex-row justify-center mt-14">
   <app-search-user [users]="users" (selectedUserId)="user($event)"></app-search-user>
-
+  <app-search-activity [activities]="activities" (selectedActivityId)="activity($event)"></app-search-activity>
+</div>
+<div class="flex justify-center">
+  <app-search-project class="" [projects]="listProjects" (selectedProjectId)="project($event)"></app-search-project>
+</div>
+<div class="row scroll-table mt-5 ml-0">
+  
   <table
     class="table table-striped mb-0"
     datatable

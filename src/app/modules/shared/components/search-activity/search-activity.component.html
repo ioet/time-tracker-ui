@@ -1,0 +1,7 @@
+<div class="form-group" >
+
+  <ng-select [(ngModel)]="selectedActivity" [multiple]="false"  placeholder="Select activity" (change)="updateActivity()" class="selectActivity">
+    <ng-option  *ngFor="let activity of activities" value={{activity.id}}>{{activity.name}}</ng-option >
+  </ng-select>
+
+</div>

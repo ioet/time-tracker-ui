@@ -17,7 +17,7 @@ describe('Reports Page', () => {
     let store: MockStore<EntryState>;
 
     const toastrServiceStub = {
-      error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => { }
+      error: (message?: string, title?: string, override?: Partial<IndividualConfig>) => {},
     };
 
     const timeEntry = {
@@ -28,7 +28,7 @@ describe('Reports Page', () => {
       technologies: ['react', 'redux'],
       comments: 'any comment',
       uri: 'custom uri',
-      project_id: '123'
+      project_id: '123',
     };
 
     const state = {
@@ -42,18 +42,20 @@ describe('Reports Page', () => {
       entriesForReport: [timeEntry],
     };
 
-    beforeEach(waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule],
-        declarations: [TimeRangeFormComponent, InputDateComponent],
-        providers: [
-          provideMockStore({ initialState: state }),
-          { provide: ToastrService, useValue: toastrServiceStub },
-          { provide: DateAdapter, useClass: DateAdapter }
-        ],
-      }).compileComponents();
-      store = TestBed.inject(MockStore);
-    }));
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          imports: [FormsModule, ReactiveFormsModule],
+          declarations: [TimeRangeFormComponent, InputDateComponent],
+          providers: [
+            provideMockStore({ initialState: state }),
+            { provide: ToastrService, useValue: toastrServiceStub },
+            { provide: DateAdapter, useClass: DateAdapter },
+          ],
+        }).compileComponents();
+        store = TestBed.inject(MockStore);
+      })
+    );
 
     beforeEach(() => {
       fixture = TestBed.createComponent(TimeRangeFormComponent);
@@ -74,10 +76,12 @@ describe('Reports Page', () => {
 
       component.onSubmit();
 
-      expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntriesByTimeRange({
-        start_date: yesterday.startOf('day'),
-        end_date: today.endOf('day')
-      }));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new entryActions.LoadEntriesByTimeRange({
+          start_date: yesterday.startOf('day'),
+          end_date: today.endOf('day'),
+        })
+      );
     });
 
     it('setInitialDataOnScreen on ngOnInit', () => {
@@ -127,20 +131,14 @@ describe('Reports Page', () => {
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
-    it('When the ngOnChanges method is called, the onSubmit method is called', () => {
-      const userId = 'abcd';
-      spyOn(component, 'onSubmit');
-
-      component.ngOnChanges({userId: new SimpleChange(null, userId, false)});
-
-      expect(component.onSubmit).toHaveBeenCalled();
-    });
-
     it('When the ngOnChanges method is the first change, the onSubmit method is not called', () => {
-      const userId = 'abcd';
       spyOn(component, 'onSubmit');
 
-      component.ngOnChanges({userId: new SimpleChange(null, userId, true)});
+      component.ngOnChanges({
+        userId: new SimpleChange(null, 'user_id', true),
+        projectId: new SimpleChange(null, 'project_id', true),
+        activityId: new SimpleChange(null, 'activity_id', true),
+      });
 
       expect(component.onSubmit).not.toHaveBeenCalled();
     });

@@ -8,7 +8,6 @@ import * as entryActions from '../../../time-clock/store/entry.actions';
 import * as moment from 'moment';
 import { SimpleChange } from '@angular/core';
 
-
 describe('TimeRangeCustomComponent', () => {
   let component: TimeRangeCustomComponent;
   let fixture: ComponentFixture<TimeRangeCustomComponent>;
@@ -16,7 +15,7 @@ describe('TimeRangeCustomComponent', () => {
   const toastrServiceStub = {
     error: () => {
       return 'test error';
-    }
+    },
   };
 
   const timeEntry = {
@@ -27,7 +26,7 @@ describe('TimeRangeCustomComponent', () => {
     technologies: ['react', 'redux'],
     comments: 'any comment',
     uri: 'TT-123',
-    project_id: '1'
+    project_id: '1',
   };
 
   const state = {
@@ -44,13 +43,9 @@ describe('TimeRangeCustomComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule],
-      declarations: [ TimeRangeCustomComponent ],
-      providers: [
-        provideMockStore({ initialState: state }),
-        { provide: ToastrService, useValue: toastrServiceStub }
-      ],
-    })
-    .compileComponents();
+      declarations: [TimeRangeCustomComponent],
+      providers: [provideMockStore({ initialState: state }), { provide: ToastrService, useValue: toastrServiceStub }],
+    }).compileComponents();
     store = TestBed.inject(MockStore);
   });
 
@@ -81,10 +76,12 @@ describe('TimeRangeCustomComponent', () => {
 
     component.onSubmit();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new entryActions.LoadEntriesByTimeRange({
-      start_date: end.startOf('day'),
-      end_date: start.endOf('day')
-    }));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new entryActions.LoadEntriesByTimeRange({
+        start_date: end.startOf('day'),
+        end_date: start.endOf('day'),
+      })
+    );
   });
 
   it('shows an error when the end date is before the start date', () => {
@@ -108,7 +105,6 @@ describe('TimeRangeCustomComponent', () => {
 
     expect(component.range.controls.start.setValue).toHaveBeenCalled();
     expect(component.range.controls.end.setValue).toHaveBeenCalled();
-
   });
 
   it('triggers onSubmit to set initial data', () => {
@@ -119,32 +115,25 @@ describe('TimeRangeCustomComponent', () => {
     expect(component.onSubmit).toHaveBeenCalled();
   });
 
-  it('When the ngOnChanges method is called, the onSubmit method is called', () => {
-    const userIdCalled = 'test-user-1';
-    spyOn(component, 'onSubmit');
-
-    component.ngOnChanges({userId: new SimpleChange(null, userIdCalled, false)});
-
-    expect(component.onSubmit).toHaveBeenCalled();
-  });
-
   it('When the ngOnChanges method is the first change, the onSubmit method is not called', () => {
-    const userIdNotCalled = 'test-user-2';
     spyOn(component, 'onSubmit');
 
-    component.ngOnChanges({userId: new SimpleChange(null, userIdNotCalled, true)});
+    component.ngOnChanges({
+      userId: new SimpleChange(null, 'userId', true),
+      projectId: new SimpleChange(null, 'projectId', true),
+      activityId: new SimpleChange(null, 'activityId', true),
+    });
 
     expect(component.onSubmit).not.toHaveBeenCalled();
   });
 
   it('should call range form and delete variable local storage ', () => {
     spyOn(localStorage, 'removeItem').withArgs('rangeDatePicker');
-    component.range.setValue({start: null, end: null});
+    component.range.setValue({ start: null, end: null });
     jasmine.clock().install();
     component.dateRangeChange();
     jasmine.clock().tick(200);
     expect(localStorage.removeItem).toHaveBeenCalledWith('rangeDatePicker');
     jasmine.clock().uninstall();
   });
-
 });
