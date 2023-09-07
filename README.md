@@ -35,7 +35,7 @@ We strongly recommend that you install it using Node Version Management [https:/
 
 Angular CLI is a Command Line Interface (CLI) to speed up your development with Angular.
 
-Run `npm install -g @angular/cli` to install Angular CLI.
+Run `npm install -g @angular/cli` to install Angular CLI
 
 ### Docker
 
