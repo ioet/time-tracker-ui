@@ -333,6 +333,14 @@ export class DetailsFieldsComponent implements OnChanges, OnInit {
   }
 
   onSubmit() {
+
+    // Debounce submit (Save) button
+    const button = document.querySelector('#submitButton');
+    button.setAttribute('disabled', 'true');
+    setTimeout(() => {
+      button.removeAttribute('disabled');
+      }, 3000);
+
     const emptyValue = '';
     const { project_name, uri, description } = this.entryForm.value;
     const areEmptyValues = [uri, description].every(item => item === emptyValue);

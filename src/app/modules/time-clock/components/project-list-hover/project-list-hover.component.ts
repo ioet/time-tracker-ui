@@ -106,6 +106,18 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
   }
 
   clockIn(selectedProject, customerName, name) {
+
+    // Debounce 'Clock In' buttons
+    const buttons = document.getElementsByClassName('btn btn-sm btn-primary btn-select');
+    for (const button of buttons) {
+      button.setAttribute('disabled', 'true');
+    }
+    setTimeout(() => {
+      for (const button of buttons) {
+        button.removeAttribute('disabled');
+      }
+    }, 3000);
+
     const entry = {
       project_id: selectedProject,
       start_date: new Date().toISOString(),
@@ -113,6 +125,7 @@ export class ProjectListHoverComponent implements OnInit, OnDestroy {
       technologies: [],
       activity_id: head(this.activities).id,
     };
+
     this.store.dispatch(new entryActions.ClockIn(entry));
     this.projectsForm.setValue({ project_id: `${customerName} - ${name}` });
     setTimeout(() => {
