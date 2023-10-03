@@ -99,7 +99,7 @@
     "karma-json-fixtures-preprocessor": "0.0.6",
     "karma-spec-reporter": "0.0.32",
     "popper.js": "1.16.0",
-    "postcss": "8.3.6",
+    "postcss": "8.4.31",
     "prettier": "2.0.2",
     "protractor": "7.0.0",
     "semantic-release": "17.4.2",
