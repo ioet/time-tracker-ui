@@ -177,12 +177,17 @@ export class TimeEntriesComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
   }
-  doSave(event: SaveEntryEvent) {
+
+  async doSave(event: SaveEntryEvent) {
     if (this.entryId) {
       event.entry.id = this.entryId;
+
       this.store.dispatch(new entryActions.UpdateEntry(event.entry));
+
       if (event.shouldRestartEntry) {
-        this.store.dispatch(new entryActions.RestartEntry(event.entry));
+        setTimeout(
+          () => (this.store.dispatch(new entryActions.RestartEntry(event.entry))), 300
+          );
       }
     } else {
       this.store.dispatch(new entryActions.CreateEntry(event.entry));
